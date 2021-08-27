@@ -12,6 +12,7 @@ public:
 	void ClearProperties();
 	IC void SetReadOnly(bool enable) { m_Flags.set(plReadOnly, enable); }
 	IC bool IsModified() { return m_bModified;}
+	IC void setModified(bool val) { m_bModified = val; }
 	IC bool Empty() { return m_Items.size() == 0; }
 	void SetModifiedEvent(TOnModifiedEvent modif = 0) { OnModifiedEvent = modif; }
 public:
