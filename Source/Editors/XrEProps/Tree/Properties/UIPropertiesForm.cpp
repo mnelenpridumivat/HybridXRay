@@ -323,39 +323,12 @@ void UIPropertiesForm::DrawEditGameType()
 		{
 			ImGui::BeginGroup();
 			{
-				bool cheked = m_EditGameTypeChooser.MatchType(eGameIDSingle);
-				if (ImGui::Checkbox("Single", &cheked))
-				{
-					m_EditGameTypeChooser.m_GameType.set(eGameIDSingle, cheked);
-				}
-			}
-			{
-				bool cheked = m_EditGameTypeChooser.MatchType(eGameIDDeathmatch);
-				if (ImGui::Checkbox("DM", &cheked))
-				{
-					m_EditGameTypeChooser.m_GameType.set(eGameIDDeathmatch, cheked);
-				}
-			}
-			{
-				bool cheked = m_EditGameTypeChooser.MatchType(eGameIDTeamDeathmatch);
-				if (ImGui::Checkbox("TDM", &cheked))
-				{
-					m_EditGameTypeChooser.m_GameType.set(eGameIDTeamDeathmatch, cheked);
-				}
-			}
-			{
-				bool cheked = m_EditGameTypeChooser.MatchType(eGameIDArtefactHunt);
-				if (ImGui::Checkbox("ArtefactHunt", &cheked))
-				{
-					m_EditGameTypeChooser.m_GameType.set(eGameIDArtefactHunt, cheked);
-				}
-			}
-			{
-				bool cheked = m_EditGameTypeChooser.MatchType(eGameIDCaptureTheArtefact);
-				if (ImGui::Checkbox("CTA", &cheked))
-				{
-					m_EditGameTypeChooser.m_GameType.set(eGameIDCaptureTheArtefact, cheked);
-				}
+				ImGui::Checkbox("Single", &m_bSingle);
+				ImGui::Checkbox("DM", &m_bDM);
+				ImGui::Checkbox("TDM", &m_bTDM);
+				ImGui::Checkbox("AH", &m_bAH);
+				ImGui::Checkbox("CTA", &m_bCTA);
+
 			}
 			ImGui::EndGroup(); ImGui::SameLine();
 		}
@@ -363,6 +336,11 @@ void UIPropertiesForm::DrawEditGameType()
 			ImGui::BeginGroup();
 			if (ImGui::Button("Ok", ImVec2(ImGui::GetFrameHeight() * 6, 0)))
 			{
+				m_EditGameTypeChooser.m_GameType.set(eGameIDSingle, m_bSingle);
+				m_EditGameTypeChooser.m_GameType.set(eGameIDDeathmatch, m_bDM);
+				m_EditGameTypeChooser.m_GameType.set(eGameIDTeamDeathmatch, m_bTDM);
+				m_EditGameTypeChooser.m_GameType.set(eGameIDArtefactHunt, m_bAH);
+				m_EditGameTypeChooser.m_GameType.set(eGameIDCaptureTheArtefact, m_bCTA);
 				if (m_EditGameTypeValue->AfterEdit<GameTypeValue, GameTypeChooser>(m_EditGameTypeChooser))
 					if (m_EditGameTypeValue->ApplyValue<GameTypeValue, GameTypeChooser>(m_EditGameTypeChooser))
 					{

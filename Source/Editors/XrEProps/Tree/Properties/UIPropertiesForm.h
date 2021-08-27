@@ -37,6 +37,12 @@ private:
 private:
 	GameTypeChooser m_EditGameTypeChooser;
 	PropItem* m_EditGameTypeValue;
+	bool m_bSingle;
+	bool m_bDM;
+	bool m_bTDM;
+	bool m_bAH;
+	bool m_bCTA;
+
 	void DrawEditGameType();
 	bool m_bModified;
 	void Modified() { m_bModified = true; if (!OnModifiedEvent.empty()) OnModifiedEvent(); }
