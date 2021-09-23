@@ -63,7 +63,7 @@ void EScene::GenObjectName(ObjClassID cls_id, char* buffer, const char* pref)
     {
         bool result;
         xr_string temp;
-        if (pref)
+        if (pref&&pref[0])
         {
             if (i == 0)
             {
@@ -76,9 +76,10 @@ void EScene::GenObjectName(ObjClassID cls_id, char* buffer, const char* pref)
         }
         else
         {
-            temp.sprintf("%02d", i );
+            ESceneCustomOTool* ot = GetOTool(cls_id); VERIFY(ot);
+            temp.sprintf("%s_%02d", ot->ClassName(), i );
         }
-       
+
         FindObjectByNameCB(temp.c_str(), result);
         if (!result)
         {
