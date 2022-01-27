@@ -248,11 +248,11 @@ void CActorTools::OnFrame()
     {
         // update matrix
         Fmatrix mTranslate, mRotate, mScale;
-        mRotate.setHPB(m_pEditObject->a_vRotate.y, m_pEditObject->a_vRotate.x, m_pEditObject->a_vRotate.z);
+        mRotate.setXYZ(m_pEditObject->a_vRotate);
         mTranslate.translate(m_pEditObject->a_vPosition);
-        mScale.scale(m_pEditObject->t_vScale);
+        mScale.scale(m_pEditObject->a_vScale, m_pEditObject->a_vScale, m_pEditObject->a_vScale);
         m_AVTransform.mul(mTranslate, mRotate);
-        m_AVTransform.mulB_43(mScale);
+        m_AVTransform.mulA_43(mScale);
 
         if (!MainForm->GetLeftBarForm()->GetRenderMode() == UILeftBarForm::Render_Engine)
             m_pEditObject->OnFrame();
@@ -280,7 +280,7 @@ void CActorTools::OnFrame()
 
             IKinematics* K = m_RenderObject.m_pVisual->dcast_PKinematics();
             VERIFY(K);
-            // K->Bone_Calculate			(&K->LL_GetData(K->LL_GetBoneRoot()),&Fidentity);
+            // K->Bone_Calculate(&K->LL_GetData(K->LL_GetBoneRoot()),&Fidentity);
             if (!MainForm->GetKeyForm()->AutoChange())
                 K->Bone_Calculate(&K->LL_GetData(K->LL_GetBoneRoot()), &Fidentity);
             else

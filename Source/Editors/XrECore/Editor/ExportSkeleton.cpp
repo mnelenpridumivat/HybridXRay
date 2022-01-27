@@ -673,6 +673,9 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
                         st_SVert& sv = MESH->m_SVertices[f_idx * 3 + k];
                         VERIFY(sv.bones.size() > 0 && (u8)sv.bones.size() <= influence);
 
+                        Fvector offs = sv.offs;
+                        offs.mul(m_Source->a_vScale);
+
                         if (link_type == 1)
                         {
                             st_SVert::bone b[2];
@@ -680,13 +683,13 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
                             b[1].id = sv.bones[0].id;
                             b[0].w  = 1.f;
                             b[1].w  = 0.f;
-                            v[k].set(sv.offs, sv.norm, sv.uv, 2, b);
+                            v[k].set(offs, sv.norm, sv.uv, 2, b);
                             tmp_bone_lst.push_back(sv.bones[0].id);
                         }
                         else if (link_type == 2)
                         {
                             {
-                                v[k].set(sv.offs, sv.norm, sv.uv, (u8)sv.bones.size(), sv.bones.begin());
+                                v[k].set(offs, sv.norm, sv.uv, (u8)sv.bones.size(), sv.bones.begin());
 
                                 for (u32 i = 0; i < sv.bones.size(); ++i)
                                 {
@@ -696,7 +699,7 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
                         }
                         else if (link_type == 4 || link_type == 3)
                         {
-                            v[k].set(sv.offs, sv.norm, sv.uv, (u8)sv.bones.size(), sv.bones.begin());
+                            v[k].set(offs, sv.norm, sv.uv, (u8)sv.bones.size(), sv.bones.begin());
 
                             for (u32 i = 0; i < sv.bones.size(); ++i)
                                 tmp_bone_lst.push_back(sv.bones[i].id);
@@ -723,7 +726,13 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
                     int mtl_idx = FindSplit(surf->m_ShaderName, surf->m_Texture, bone_brk_part, surf->m_id);
                     if (mtl_idx < 0)
                     {
-                        m_Splits.push_back(SSplit(surf, m_Source->GetBox(), bone_brk_part));
+                        Fmatrix mScale;
+                        mScale.scale(m_Source->a_vScale, m_Source->a_vScale, m_Source->a_vScale);
+
+                        Fbox box;
+                        box.xform(m_Source->GetBox(), mScale);
+
+                        m_Splits.push_back(SSplit(surf, box, bone_brk_part));
                         mtl_idx                              = m_Splits.size() - 1;
                         m_Splits[mtl_idx].m_SkeletonLinkType = 0;
                     }
@@ -850,7 +859,14 @@ bool CExportSkeleton::ExportGeometry(IWriter& F, u8 infl)
         for (SkelVertIt sv_it = lst.begin(); sv_it != lst.end(); sv_it++)
         {
             bone_points[sv_it->bones[0].id].push_back(sv_it->offs);
-            bones[sv_it->bones[0].id]->_RITransform().transform_tiny(bone_points[sv_it->bones[0].id].back());
+
+            Fmatrix xform = bones[sv_it->bones[0].id]->_RTransform();
+            xform.c.mul(m_Source->a_vScale);
+
+            Fmatrix i_xform;
+            i_xform.invert(xform);
+
+            i_xform.transform_tiny(bone_points[sv_it->bones[0].id].back());
         }
 #if 1
         pb->Inc();
@@ -908,7 +924,7 @@ bool CExportSkeleton::ExportGeometry(IWriter& F, u8 infl)
 
     F.open_chunk(OGF_S_IKDATA);
     for (auto bone_it = m_Source->FirstBone(); bone_it != m_Source->LastBone(); ++bone_it, ++bone_idx)
-        if (!(*bone_it)->ExportOGF(F))
+        if (!(*bone_it)->ExportOGF(F, m_Source->a_vScale, m_Source->a_vAdjustMass))
             bRes = false;
 
     F.close_chunk();
@@ -1099,6 +1115,7 @@ bool CExportSkeleton::ExportMotionKeys(IWriter& F)
                 }   // clang-format on
 
                 Kt.set(mat.c);   // B->_Offset());
+                Kt.mul(m_Source->a_vScale);
             }
         }
         // free temp storage
@@ -1427,7 +1444,7 @@ bool CExportSkeleton::Export(IWriter& F, u8 infl)
 
 #if 1
 
-bool CBone::ExportOGF(IWriter& F)
+bool CBone::ExportOGF(IWriter& F, float scale, BOOL adjust_mass)
 {
     // check valid
     if (!shape.Valid())
@@ -1450,9 +1467,17 @@ bool CBone::ExportOGF(IWriter& F)
 #endif
 
     F.w_u32(OGF_IKDATA_VERSION);
-
     F.w_stringZ(game_mtl);
-    F.w(&shape, sizeof(SBoneShape));
+
+    SBoneShape scaled_shape = shape;
+    scaled_shape.box.m_translate.mul(scale);
+    scaled_shape.box.m_halfsize.mul(scale);
+    scaled_shape.sphere.P.mul(scale);
+    scaled_shape.sphere.R *= scale;
+    scaled_shape.cylinder.m_center.mul(scale);
+    scaled_shape.cylinder.m_height *= scale;
+    scaled_shape.cylinder.m_radius *= scale;
+    F.w(&scaled_shape, sizeof(SBoneShape));
 
     IK_data.Export(F);
 
@@ -1460,10 +1485,18 @@ bool CBone::ExportOGF(IWriter& F)
     //	Fmatrix& R	= _RTransform();
     //	R.getXYZi	(xyz);
 
+    Fvector scaled_offset = rest_offset;
+    scaled_offset.mul(scale);
+
+    Fvector scaled_center_of_mass = center_of_mass;
+    scaled_center_of_mass.mul(scale);
+
+    float scaled_mass = mass * (scale * scale * scale);
+
     F.w_fvector3(rest_rotate);
-    F.w_fvector3(rest_offset);
-    F.w_float(mass);
-    F.w_fvector3(center_of_mass);
+    F.w_fvector3(scaled_offset);
+    F.w_float(adjust_mass ? scaled_mass : mass);
+    F.w_fvector3(scaled_center_of_mass);
     return true;
 }
 

@@ -15,7 +15,7 @@ void CActorTools::OnObjectItemsFocused(xr_vector<ListItem*>& items)
     if (m_pEditObject)
     {
         m_pEditObject->ResetSAnimation(false);
-        //.	    StopMotion					();     // ����� ��-�� ���� ��� �� �������� �������� � ������ ������
+        // .StopMotion();   // убрал из-за того что не миксятся анимации в режиме енжине
         m_pEditObject->SelectBones(false);
     }
     for (ListItem* prop : items)
@@ -414,7 +414,7 @@ void    CActorTools::FillMotionProperties(PropItemVec& items, LPCSTR pref, ListI
         PHelper().CreateFloat     (items, PrepareKey(pref, "Motion\\Accrue"), &SM->fAccrue, 0.f, 10.f, 0.01f, 2);
         PHelper().CreateFloat     (items, PrepareKey(pref, "Motion\\Falloff"), &SM->fFalloff, 0.f, 10.f, 0.01f, 2);
 
-        PropValue /**C=0,*/* TV = 0;
+        PropValue* TV = 0;
         TV = PHelper().CreateFlag8(items, PrepareKey(pref, "Motion\\Type FX"), &SM->m_Flags, esmFX);
         TV->OnChangeEvent.bind(this, &CActorTools::OnMotionTypeChange);
         m_BoneParts.clear();
@@ -805,10 +805,9 @@ void CActorTools::FillBoneProperties(PropItemVec& items, LPCSTR pref, ListItem* 
         PropValue* V;
         PHelper().CreateCaption(items, PrepareKey(pref, "Bone\\Name"), BONE->Name());
 
-        PHelper()
-            .CreateNameCB(
-                items, PrepareKey(pref, "Bone\\NameEditable"), &BONE->NameRef(), 0, 0,
-                RTextValue::TOnAfterEditEvent(this, &CActorTools::OnBoneNameAfterEdit))
+        PHelper().CreateNameCB(
+            items, PrepareKey(pref, "Bone\\NameEditable"), &BONE->NameRef(), 0, 0,
+            RTextValue::TOnAfterEditEvent(this, &CActorTools::OnBoneNameAfterEdit))
             ->OnChangeEvent.bind(this, &CActorTools::OnBoneNameChangeEvent);
 
         //.		PHelper().CreateCaption		(items, PrepareKey(pref,"Bone\\Influence"),					shared_str().sprintf("%d
@@ -1054,22 +1053,17 @@ void CActorTools::FillObjectProperties(PropItemVec& items, LPCSTR pref, ListItem
             ->OnChangeEvent.bind(this, &CActorTools::OnUsingLodFlagChange);
     }
 
-    V = PHelper().CreateVector(
-        items, "Object\\Transform\\Position", &m_pEditObject->a_vPosition, -10000, 10000, 0.01, 2);
+    V = PHelper().CreateVector(items, "Object\\Transform\\Position", &m_pEditObject->a_vPosition, -10000, 10000, 0.01, 2);
     V->OnChangeEvent.bind(this, &CActorTools::OnChangeTransform);
     V = PHelper().CreateAngle3(items, "Object\\Transform\\Rotation", &m_pEditObject->a_vRotate, -10000, 10000, 0.1, 1);
     V->OnChangeEvent.bind(this, &CActorTools::OnChangeTransform);
-    V = PHelper().CreateVector(items, "Object\\Transform\\Scale", &m_pEditObject->t_vScale, -10000, 10000, 0.1, 1);
+    V = PHelper().CreateFloat(items, "Object\\Transform\\Scale", &m_pEditObject->a_vScale, -10000, 10000, 0.01, 2);
     V->OnChangeEvent.bind(this, &CActorTools::OnChangeTransform);
-    V = PHelper().CreateCaption(
-        items, "Object\\Transform\\BBox Min",
-        shared_str().printf("{%3.2f, %3.2f, %3.2f}", VPUSH(m_pEditObject->GetBox().min)));
-    V = PHelper().CreateCaption(
-        items, "Object\\Transform\\BBox Max",
-        shared_str().printf("{%3.2f, %3.2f, %3.2f}", VPUSH(m_pEditObject->GetBox().max)));
+    PHelper().CreateBOOL(items, "Object\\Transform\\Adjust Mass By Scale", &m_pEditObject->a_vAdjustMass);
+    V = PHelper().CreateCaption( items, "Object\\Transform\\BBox Min", shared_str().printf("{%3.2f, %3.2f, %3.2f}", VPUSH(m_pEditObject->GetBox().min)));
+    V = PHelper().CreateCaption(items, "Object\\Transform\\BBox Max", shared_str().printf("{%3.2f, %3.2f, %3.2f}", VPUSH(m_pEditObject->GetBox().max)));
 
-    //.    PHelper().CreateChoose		 (items, "Object\\LOD\\Reference",  			&m_pEditObject->m_LODs,
-    //smObject);
+    // .PHelper().CreateChoose(items, "Object\\LOD\\Reference", &m_pEditObject->m_LODs, smObject);
     PHelper().CreateChoose(items, "Object\\LOD\\Reference", &m_pEditObject->m_LODs, smVisual);
     if (m_pEditObject->m_objectFlags.flags & CEditableObject::eoUsingLOD)
     {

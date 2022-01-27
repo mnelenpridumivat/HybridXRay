@@ -58,6 +58,8 @@ CEditableObject::CEditableObject(LPCSTR name): m_physics_shell(0), m_object_xfor
 
     a_vPosition.set(0.f, 0.f, 0.f);
     a_vRotate.set(0.f, 0.f, 0.f);
+    a_vScale      = 1.f;
+    a_vAdjustMass = TRUE;
 
     bOnModified = false;
 

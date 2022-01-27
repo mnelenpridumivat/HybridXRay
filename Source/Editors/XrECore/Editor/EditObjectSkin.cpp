@@ -128,8 +128,15 @@ void CEditableObject::RenderSkeletonSingle(const Fmatrix& parent)
     RenderBones(parent);
 }
 
-void CEditableObject::RenderBones(const Fmatrix& parent)
+void CEditableObject::RenderBones(const Fmatrix& _parent)
 {
+    Fvector scale;
+    Fmatrix parent = _parent;
+
+    scale.x = parent.i.normalize_magn();
+    scale.y = parent.j.normalize_magn();
+    scale.z = parent.k.normalize_magn();
+
     if (IsSkeleton())
     {
         // render
@@ -138,9 +145,10 @@ void CEditableObject::RenderBones(const Fmatrix& parent)
         {
             EDevice->SetShader(EDevice->m_WireShader);
             RCache.set_xform_world(parent);
-            Fmatrix& M       = (*b_it)->_LTransform();
-            Fvector  p1      = M.c;
-            u32      c_joint = (*b_it)->flags.is(CBone::flSelected) ? color_bone_sel_color : color_bone_norm_color;
+            Fmatrix& M  = (*b_it)->_LTransform();
+            Fvector  p1 = M.c;
+            p1.mul(scale);
+            u32 c_joint = (*b_it)->flags.is(CBone::flSelected) ? color_bone_sel_color : color_bone_norm_color;
             if (EPrefs->object_flags.is(epoDrawJoints))
                 DU_impl.DrawJoint(p1, joint_size, c_joint);
             // center of mass
@@ -148,6 +156,7 @@ void CEditableObject::RenderBones(const Fmatrix& parent)
             {
                 Fvector cm;
                 M.transform_tiny(cm, (*b_it)->center_of_mass);
+                cm.mul(scale);
                 if ((*b_it)->flags.is(CBone::flSelected))
                 {
                     float sz = joint_size * 2.f;
@@ -169,13 +178,15 @@ void CEditableObject::RenderBones(const Fmatrix& parent)
             if ((*b_it)->Parent())
             {
                 EDevice->SetShader(EDevice->m_SelectionShader);
-                Fvector& p2 = (*b_it)->Parent()->_LTransform().c;
+                Fvector p2 = (*b_it)->Parent()->_LTransform().c;
+                p2.mul(scale);
                 DU_impl.DrawLine(p1, p2, color_bone_link_color);
             }
             if (EPrefs->object_flags.is(epoDrawBoneAxis))
             {
                 Fmatrix mat;
                 mat.mul(parent, M);
+                mat.c.mul(scale);
                 DU_impl.DrawObjectAxis(mat, 0.03f, (*b_it)->flags.is(CBone::flSelected));
             }
             if (EPrefs->object_flags.is(epoDrawBoneNames))
@@ -189,7 +200,14 @@ void CEditableObject::RenderBones(const Fmatrix& parent)
             {
                 EDevice->SetShader(EDevice->m_SelectionShader);
                 Fmatrix mat = M;
-                mat.mulA_43(parent);
+
+                // масштаб модели не влияет на шейпы
+                // mat.mulA_43	(parent);
+                // mat.c.mul	(scale);
+
+                // Шейпы масштабируются вместе с моделью
+                mat.mulA_43(_parent);
+
                 u32 c = (*b_it)->flags.is(CBone::flSelected) ? 0x80ffffff : 0x300000ff;
                 if ((*b_it)->shape.Valid())
                 {

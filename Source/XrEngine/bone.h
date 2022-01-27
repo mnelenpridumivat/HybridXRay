@@ -568,7 +568,7 @@ public:
 
     void ClampByLimits();
 
-    bool ExportOGF(IWriter& F);
+    bool ExportOGF(IWriter& F, float scale, BOOL adjust_mass);
 #endif
 private:
     IBoneData& _BCL GetChild(u16 id)
