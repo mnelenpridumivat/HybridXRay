@@ -1150,6 +1150,42 @@ void EScene::CutSelection( ObjClassID classfilter )
 	RemoveSelection( classfilter );
 }
 
+#include <fstream>
+void EScene::LoadXrAICompilerError(LPCSTR fn)
+{
+    Tools->ClearDebugDraw();
+
+    std::ifstream file(fn);
+    if (file.is_open())
+    {
+        std::string line;
+        while (std::getline(file, line))
+        {
+            if (line.find("Vertex") != line.npos)
+            {
+                size_t start_pos;
+                size_t end_pos;
+                Fvector3 vector;
+                std::string buff = line;
+                for (size_t i = 0; i < 3; i++)
+                {
+                    start_pos = buff.find_first_of('[');
+                    end_pos = buff.find_first_of(']');
+                    float val = atof(buff.substr(start_pos + 1, end_pos - start_pos - 1).c_str());
+                    buff = buff.substr(end_pos+1, buff.length() - end_pos - 1);
+                    if (i == 0)
+                        vector.x = val;
+                    if (i == 1)
+                        vector.y = val;
+                    if (i == 2)
+                        vector.z = val;
+                }
+                Tools->m_DebugDraw.AppendPoint(vector, 0xff00ff00, true, true, "single linked node");
+            }
+        }
+        file.close();
+    }
+}
 
 void EScene::LoadCompilerError(LPCSTR fn)
 {

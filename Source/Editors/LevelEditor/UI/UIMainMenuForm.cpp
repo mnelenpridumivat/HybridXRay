@@ -151,6 +151,10 @@ void UIMainMenuForm::Draw()
 			{
 				ExecCommand(COMMAND_IMPORT_COMPILER_ERROR);
 			}
+            if (ImGui::MenuItem("Import xrAI Error List", ""))
+            {
+                ExecCommand(COMMAND_IMPORT_AICOMPILER_ERROR);
+            }
 			if (ImGui::MenuItem("Export Error List", ""))
 			{
 				ExecCommand(COMMAND_EXPORT_COMPILER_ERROR);
