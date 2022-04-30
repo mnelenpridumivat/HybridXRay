@@ -1267,6 +1267,8 @@
     <ClInclude Include="PDA.h" />
     <ClInclude Include="PdaMsg.h" />
     <ClInclude Include="pda_space.h" />
+    <ClInclude Include="PermanentBox.h" />
+    <ClInclude Include="PersonalBox.h" />
     <ClInclude Include="PHCollisionDamageReceiver.h" />
     <ClInclude Include="PHCommander.h" />
     <ClInclude Include="PHDebug.h" />
@@ -4780,6 +4782,8 @@
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
+    <ClCompile Include="PermanentBox.cpp" />
+    <ClCompile Include="PersonalBox.cpp" />
     <ClCompile Include="PHCollisionDamageReceiver.cpp" />
     <ClCompile Include="PHCommander.cpp" />
     <ClCompile Include="PHDebug.cpp">

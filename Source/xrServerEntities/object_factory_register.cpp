@@ -175,6 +175,8 @@
 #	include "space_restrictor.h"
 #	include "smart_zone.h"
 #	include "InventoryBox.h"
+#	include "PermanentBox.h"
+#	include "PersonalBox.h"
 
 #	include "actor_mp_server.h"
 #	include "actor_mp_client.h"
@@ -414,6 +416,9 @@ void CObjectFactory::register_classes	()
 	ADD(CDestroyablePhysicsObject,CSE_ALifeObjectPhysic			,CLSID_PHYSICS_DESTROYABLE		,"obj_phys_destroyable");
 
 	ADD(CInventoryBox			,CSE_ALifeInventoryBox			,CLSID_INVENTORY_BOX			,"inventory_box");
+	ADD(CPersonalBox			,CSE_ALifeInventoryBox			,CLSID_PERSONAL_BOX				,"personal_box");
+	ADD(CPermanentBox			,CSE_ALifeInventoryBox			,CLSID_PERMANENT_BOX			,"permanent_box");
+
 #ifndef NO_SINGLE
 	ADD(smart_cover::object		,CSE_SmartCover					,TEXT2CLSID("SMRTCOVR")			,"smart_cover");
 #endif // #ifndef NO_SINGLE
