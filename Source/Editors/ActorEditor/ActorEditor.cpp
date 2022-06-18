@@ -23,16 +23,21 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 
     Tools = xr_new<CActorTools>();
     ATools = (CActorTools*)Tools;
-    UI = xr_new<CActorMain>();
-    UI->RegisterCommands();
-
-    UIMainForm* MainForm = xr_new< UIMainForm>();
-    ::MainForm = MainForm;
-    UI->Push(MainForm, false);
-    while (MainForm->Frame())
+    if (strstr(GetCommandLine(), "-export"))
+        ATools->Load2("H:\\jmir.object");
+    else
     {
+        UI = xr_new<CActorMain>();
+        UI->RegisterCommands();
+
+        UIMainForm* MainForm = xr_new< UIMainForm>();
+        ::MainForm = MainForm;
+        UI->Push(MainForm, false);
+        while (MainForm->Frame())
+        {
+        }
+        xr_delete(MainForm);
     }
-    xr_delete(MainForm);
     Core._destroy();
     return 0;
 }

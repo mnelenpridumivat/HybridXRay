@@ -566,8 +566,12 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
     R_ASSERT(m_Source->IsDynamic()&&m_Source->IsSkeleton());
 
 #if 1
-    SPBItem* pb = UI->ProgressStart(5+m_Source->MeshCount()*2+m_Source->SurfaceCount(),"..Prepare skeleton geometry");
-    pb->Inc		();
+    SPBItem* pb = nullptr;
+    if (!strstr(GetCommandLine(), "-export"))
+    {
+        pb = UI->ProgressStart(5 + m_Source->MeshCount() * 2 + m_Source->SurfaceCount(), "..Prepare skeleton geometry");
+        pb->Inc();
+    }
 #endif
 
     bool bBreakable		= false;
@@ -591,7 +595,8 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
     bool bRes			= true;
 
 #if 1
-	UI->SetStatus		("..Split meshes");
+    if (pb)
+	    UI->SetStatus		("..Split meshes");
 #endif
 
     U16Vec				tmp_bone_lst;
@@ -606,7 +611,8 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
         MESH->GenerateFNormals							();
         MESH->GenerateSVertices							(influence);
 #if 1
-        pb->Inc											();
+        if (pb)
+            pb->Inc											();
 #endif
 		// fill faces
         for (SurfFacesPairIt sp_it=MESH->m_SurfFaces.begin(); sp_it!=MESH->m_SurfFaces.end(); sp_it++)
@@ -713,11 +719,13 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
         MESH->UnloadVNormals();
         MESH->UnloadFNormals();
 #if 1
-        pb->Inc		();
+        if (pb)
+            pb->Inc		();
 #endif
 	}
 #if 1
-    UI->SetStatus	("..Calculate TB");
+    if (pb)
+        UI->SetStatus	("..Calculate TB");
 #endif
         Msg				("Split statistic:");
         for (int k=0; k<(int)m_Splits.size(); k++)
@@ -745,18 +753,21 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
             split_it->CalculateTB();
             
 #if 1
-            pb->Inc		();
+            if (pb)
+                pb->Inc		();
 #endif
         }
 
 #if 1
-        pb->Inc			();
+        if (pb)
+            pb->Inc			();
 #endif
         // compute bounding
         ComputeBounding	();
 
 #if 1
-    UI->ProgressEnd(pb);
+     if (pb)
+        UI->ProgressEnd(pb);
 #endif
     // restore active motion       6
     m_Source->SetActiveSMotion(active_motion);
@@ -787,8 +798,12 @@ bool CExportSkeleton::ExportGeometry(IWriter& F, u8 infl)
 	if (!PrepareGeometry(infl)) return false;
 
 #if 1
-    SPBItem* pb = UI->ProgressStart(3+m_Splits.size(),"..Export skeleton geometry");
-    pb->Inc		("Make Progressive...");
+    SPBItem* pb = nullptr;
+    if (!strstr(GetCommandLine(), "-export"))
+    {
+        pb = UI->ProgressStart(3 + m_Splits.size(), "..Export skeleton geometry");
+        pb->Inc("Make Progressive...");
+    }
 #endif
 	// fill per bone vertices
     BoneVec& bones 			= m_Source->Bones();
@@ -809,7 +824,8 @@ bool CExportSkeleton::ExportGeometry(IWriter& F, u8 infl)
             bones			[sv_it->bones[0].id]->_RITransform().transform_tiny(bone_points[sv_it->bones[0].id].back());
         }
 #if 1
-        pb->Inc		();
+        if (pb)
+            pb->Inc		();
 #endif
 	}
 
@@ -842,7 +858,8 @@ bool CExportSkeleton::ExportGeometry(IWriter& F, u8 infl)
     F.close_chunk();
 
 #if 1
-    pb->Inc		("Compute bone bounding volume...");
+    if (pb)
+        pb->Inc		("Compute bone bounding volume...");
 #endif
 
     // BoneNames
@@ -875,7 +892,8 @@ bool CExportSkeleton::ExportGeometry(IWriter& F, u8 infl)
     }
 
 #if 1
-    pb->Inc		();
+    if (pb)
+        pb->Inc		();
 #endif
     if (m_Source->GetLODs() && xr_strlen(m_Source->GetLODs())>0 && bRes)
     {
@@ -908,7 +926,8 @@ bool CExportSkeleton::ExportGeometry(IWriter& F, u8 infl)
     }
 
 #if 1
-    UI->ProgressEnd(pb);
+    if (pb)
+        UI->ProgressEnd(pb);
 #endif
     return bRes;
 }
@@ -1308,14 +1327,17 @@ bool CBone::ExportOGF(IWriter& F)
     	return false;
     }
 #if 1
-	SGameMtl* M			= GameMaterialLibraryEditors->GetMaterial(game_mtl.c_str());
-    if (!M){
-        ELog.Msg(mtError,"Bone '%s' has invalid game material.",*Name());
-    	return false;
-    }
-    if (!M->Flags.is(SGameMtl::flDynamic)){
-        ELog.Msg(mtError,"Bone '%s' has non-dynamic game material.",*Name());
-    	return false;
+    if (!strstr(GetCommandLine(), "-export"))
+    {
+        SGameMtl* M = GameMaterialLibraryEditors->GetMaterial(game_mtl.c_str());
+        if (!M) {
+            ELog.Msg(mtError, "Bone '%s' has invalid game material.", *Name());
+            return false;
+        }
+        if (!M->Flags.is(SGameMtl::flDynamic)) {
+            ELog.Msg(mtError, "Bone '%s' has non-dynamic game material.", *Name());
+            return false;
+        }
     }
 #endif
 
