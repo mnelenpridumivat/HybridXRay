@@ -64,6 +64,7 @@ public:
 	Flags32			m_RTFlags;
 	u32				tag;
     SSimpleImage*	m_ImageData;
+    u16             m_id;
 public:
 	CSurface		()
 	{
@@ -74,6 +75,7 @@ public:
 		m_Flags.zero	();
 		m_dwFVF		= 0;
 		tag			= 0;
+        m_id        = 0;
 	}
     IC bool			Validate		()
     {

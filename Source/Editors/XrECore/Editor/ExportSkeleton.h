@@ -135,6 +135,7 @@ protected:
         u16 			m_PartID;
         Fbox			m_Box;
         U16Vec			m_UsedBones;
+        u16             m_id;
 
         // Progressive
 		ArbitraryList<VIPM_SWR>	m_SWR;// The records of the collapses.
@@ -169,7 +170,7 @@ protected:
 	SplitVec			m_Splits;
     Fbox 				m_Box;
 //----------------------------------------------------
-    int     			FindSplit			(shared_str shader, shared_str texture, u16 part_id);
+    int     			FindSplit			(shared_str shader, shared_str texture, u16 part_id, u16 surf_id);
     void				ComputeBounding	()
     {
         m_Box.invalidate();
