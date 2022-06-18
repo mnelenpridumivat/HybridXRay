@@ -32,48 +32,10 @@ u16 CSkeletonCollectorPacked::VPack(SSkelVert& V)
 {
     u32 P 	= 0xffffffff;
 
-    u32 ix,iy,iz;
-    ix = iFloor(float(V.offs.x-m_VMmin.x)/m_VMscale.x*clpSMX);
-    iy = iFloor(float(V.offs.y-m_VMmin.y)/m_VMscale.y*clpSMY);
-    iz = iFloor(float(V.offs.z-m_VMmin.z)/m_VMscale.z*clpSMZ);
-    R_ASSERT(ix<=clpSMX && iy<=clpSMY && iz<=clpSMZ);
-
-	int similar_pos=-1;
-    {
-        U32Vec& vl=m_VM[ix][iy][iz];
-        for(U32It it=vl.begin();it!=vl.end(); it++){
-        	SSkelVert& src=m_Verts[*it];
-        	if(src.similar_pos(V)){
-	            if(src.similar(V)){
-                    P = *it;
-                    break;
-            	}
-                similar_pos=*it;
-            }
-        }
-    }
     if (0xffffffff==P)
     {
-    	if (similar_pos>=0) V.offs.set(m_Verts[similar_pos].offs);
         P = m_Verts.size();
         m_Verts.push_back(V);
-
-        m_VM[ix][iy][iz].push_back(P);
-
-        u32 ixE,iyE,izE;
-        ixE = iFloor(float(V.offs.x+m_VMeps.x-m_VMmin.x)/m_VMscale.x*clpSMX);
-        iyE = iFloor(float(V.offs.y+m_VMeps.y-m_VMmin.y)/m_VMscale.y*clpSMY);
-        izE = iFloor(float(V.offs.z+m_VMeps.z-m_VMmin.z)/m_VMscale.z*clpSMZ);
-
-        R_ASSERT(ixE<=clpSMX && iyE<=clpSMY && izE<=clpSMZ);
-
-        if (ixE!=ix)							m_VM[ixE][iy][iz].push_back	(P);
-        if (iyE!=iy)							m_VM[ix][iyE][iz].push_back	(P);
-        if (izE!=iz)							m_VM[ix][iy][izE].push_back	(P);
-        if ((ixE!=ix)&&(iyE!=iy))				m_VM[ixE][iyE][iz].push_back(P);
-        if ((ixE!=ix)&&(izE!=iz))				m_VM[ixE][iy][izE].push_back(P);
-        if ((iyE!=iy)&&(izE!=iz))				m_VM[ix][iyE][izE].push_back(P);
-        if ((ixE!=ix)&&(iyE!=iy)&&(izE!=iz))	m_VM[ixE][iyE][izE].push_back(P);
     }
     VERIFY	(P<u16(-1));
     return 	(u16)P;
@@ -81,27 +43,8 @@ u16 CSkeletonCollectorPacked::VPack(SSkelVert& V)
 
 CSkeletonCollectorPacked::CSkeletonCollectorPacked(const Fbox &_bb, int apx_vertices, int apx_faces)
 {
-	Fbox bb;		bb.set(_bb); bb.grow(EPS_L);
-    // Params
-    m_VMscale.set	(bb.max.x-bb.min.x+EPS, bb.max.y-bb.min.y+EPS, bb.max.z-bb.min.z+EPS);
-    m_VMmin.set		(bb.min).sub(EPS);
-    m_VMeps.set		(m_VMscale.x/clpSMX/2,m_VMscale.y/clpSMY/2,m_VMscale.z/clpSMZ/2);
-    m_VMeps.x		= (m_VMeps.x<EPS_L)?m_VMeps.x:EPS_L;
-    m_VMeps.y		= (m_VMeps.y<EPS_L)?m_VMeps.y:EPS_L;
-    m_VMeps.z		= (m_VMeps.z<EPS_L)?m_VMeps.z:EPS_L;
-
-    invalid_faces	= 0;
-
-    // Preallocate memory
     m_Verts.reserve	(apx_vertices);
     m_Faces.reserve	(apx_faces);
-
-    int		_size	= (clpSMX+1)*(clpSMY+1)*(clpSMZ+1);
-    int		_average= (apx_vertices/_size)/2;
-    for (int ix=0; ix<clpSMX+1; ix++)
-        for (int iy=0; iy<clpSMY+1; iy++)
-            for (int iz=0; iz<clpSMZ+1; iz++)
-                m_VM[ix][iy][iz].reserve	(_average);
 }
 //----------------------------------------------------
 
@@ -907,10 +850,6 @@ bool CExportSkeleton::ExportMotionKeys(IWriter& F)
      	return !!m_Source->m_SMotionRefs.size();
     }
 
-#if 1
-	SPBItem* pb = UI->ProgressStart(1+m_Source->SMotionCount(),"..Export skeleton motions keys");
-    pb->Inc		();
-#endif
     // mem active motion
     CSMotion* active_motion=m_Source->ResetSAnimation();
 
@@ -1031,12 +970,7 @@ bool CExportSkeleton::ExportMotionKeys(IWriter& F)
             St.mul			(0.5f);
             CKeyQR& R		= BM._keysQR[0];
 
-            bool bTransform16Bit = false;
-            if(g_force16BitTransformQuant || St.magnitude()>1.5f)
-            {
-            	bTransform16Bit = true;
-                Msg("animation [%s] is 16bit-transform (%f)m", cur_motion->Name(), St.magnitude());
-            }
+            bool bTransform16Bit = true;
             
             for (int t_idx=0; t_idx<dwLen; ++t_idx)
             {
@@ -1114,14 +1048,8 @@ bool CExportSkeleton::ExportMotionKeys(IWriter& F)
         xr_free						(items);
 
         F.close_chunk				();
-#if 1
-    	pb->Inc						();
-#endif
     }
     F.close_chunk					();
-#if 1
-	UI->ProgressEnd					(pb);
-#endif
     // restore active motion
     m_Source->SetActiveSMotion		(active_motion);
     return 							true;
@@ -1136,11 +1064,6 @@ bool CExportSkeleton::ExportMotionDefs(IWriter& F)
 
     bool bRes=true;
 
-#if 1
-	SPBItem* pb = UI->ProgressStart(3,"..Export skeleton motions defs");
-    pb->Inc		();
-#endif
-
     if (m_Source->m_SMotionRefs.size())
     {
 	    F.open_chunk	(OGF_S_MOTION_REFS2);
@@ -1149,9 +1072,6 @@ bool CExportSkeleton::ExportMotionDefs(IWriter& F)
         	F.w_stringZ	(m_Source->m_SMotionRefs[i].c_str());
 
 	    F.close_chunk	();
-#if 1
-	    pb->Inc		();
-#endif
     }else{
         // save smparams
         F.open_chunk	(OGF_S_SMPARAMS);
@@ -1191,9 +1111,6 @@ bool CExportSkeleton::ExportMotionDefs(IWriter& F)
             for (int i=0; i<m_Source->BoneCount(); i++) 
 				F.w_u32(i);
         }
-#if 1
-	    pb->Inc		();
-#endif
         // motion defs
         SMotionVec& sm_lst	= m_Source->SMotions();
         F.w_u16((u16)sm_lst.size());
@@ -1234,15 +1151,9 @@ bool CExportSkeleton::ExportMotionDefs(IWriter& F)
 #endif
             }
         }
-#if 1
-	    pb->Inc		();
-#endif
 		F.close_chunk();
     }
     
-#if 1
-	UI->ProgressEnd(pb);
-#endif
     return bRes;
 }
 

@@ -438,38 +438,10 @@ bool CActorTools::Load(LPCSTR obj_name)
     CEditableObject* O = xr_new<CEditableObject>(obj_name);
     if (FS.exist(full_name.c_str()) && O->Load(full_name.c_str())) 
     {
-        xr_delete(m_pEditObject);
-        m_pEditObject = O;
-        ///  m_pEditObject->Optimize ();
-          // delete visual
-        m_RenderObject.Clear();
-        
-        MainForm->GetLeftBarForm()->SetRenderMode(false);
-
-        UpdateProperties();
-        return true;
-    }
-    else 
-    {
-        ELog.DlgMsg(mtError, "Can't load object file '%s'.", obj_name);
-    }
-    xr_delete(O);
-    return false;
-}
-
-bool CActorTools::Load2(LPCSTR obj_name)
-{
-    xr_string 		full_name;
-    full_name = obj_name;
-
-    CEditableObject* O = xr_new<CEditableObject>(obj_name);
-    if (FS.exist(full_name.c_str()) && O->Load(full_name.c_str())) 
-    {
         full_name += ".ogf";
         xr_delete(m_pEditObject);
         m_pEditObject = O;
-        ExportOGF(full_name.c_str());
-        ///  m_pEditObject->Optimize ();
+      //  m_pEditObject->Optimize ();
         // delete visual
         return true;
     }
