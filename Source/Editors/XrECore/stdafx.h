@@ -152,11 +152,5 @@ inline u32 TColor(u32 r)
 #ifdef XRECORE_EXPORTS
 inline void not_implemented()
 {
-	if (IsDebuggerPresent())
-		DebugBreak();
-	else
-	{
-		R_ASSERT(0);
-	}
 }
 #endif

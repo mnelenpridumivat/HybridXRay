@@ -392,7 +392,6 @@ LPCSTR CActorTools::GetInfo()
 
 void CActorTools::ZoomObject(BOOL bSelOnly)
 {
-    VERIFY(m_bReady);
     if (m_pEditObject) {
         Fbox BB;
         switch (m_EditMode) {
@@ -436,7 +435,6 @@ bool CActorTools::Load(LPCSTR obj_name)
     xr_string 		full_name;
     full_name = obj_name;
 
-    VERIFY(m_bReady);
     CEditableObject* O = xr_new<CEditableObject>(obj_name);
     if (FS.exist(full_name.c_str()) && O->Load(full_name.c_str())) 
     {
@@ -464,7 +462,6 @@ bool CActorTools::Load2(LPCSTR obj_name)
     xr_string 		full_name;
     full_name = obj_name;
 
-    VERIFY(m_bReady);
     CEditableObject* O = xr_new<CEditableObject>(obj_name);
     if (FS.exist(full_name.c_str()) && O->Load(full_name.c_str())) 
     {
@@ -488,7 +485,6 @@ bool CActorTools::Save(LPCSTR obj_name, bool bInternal)
 {
     xr_string 		full_name;
     full_name = obj_name;
-    VERIFY(m_bReady);
     if (m_pEditObject) {
         EFS.MarkFile(full_name.c_str(), true);
         if (m_pEditObject->Save(full_name.c_str()))
@@ -503,7 +499,6 @@ bool CActorTools::Save(LPCSTR obj_name, bool bInternal)
 
 void CActorTools::Reload()
 {
-    VERIFY(m_bReady);
     // visual part
 }
 
@@ -856,7 +851,6 @@ bool CActorTools::Import(LPCSTR initial, LPCSTR obj_name)
     else
         strcpy(full_name, obj_name);
 
-    VERIFY(m_bReady);
     CEditableObject* O = xr_new<CEditableObject>(obj_name);
     if (O->Load(full_name))
     {
@@ -881,21 +875,18 @@ bool CActorTools::Import(LPCSTR initial, LPCSTR obj_name)
 
 bool CActorTools::ExportOGF(LPCSTR name)
 {
-    VERIFY(m_bReady);
     if (m_pEditObject && m_pEditObject->ExportOGF(name, 4)) return true;
     return false;
 }
 
 bool CActorTools::ExportOMF(LPCSTR name)
 {
-    VERIFY(m_bReady);
     if (m_pEditObject && m_pEditObject->ExportOMF(name)) return true;
     return false;
 }
 
 bool CActorTools::ExportOBJ(LPCSTR name)
 {
-    VERIFY(m_bReady);
     if (m_pEditObject && m_pEditObject->ExportOBJ(name)) return true;
     return false;
 }
@@ -945,7 +936,6 @@ bool CActorTools::ExportCPP(LPCSTR name)
 #include "../xrECore/Editor/EDetailModel.h"
 bool CActorTools::ExportDM(LPCSTR name)
 {
-    VERIFY(m_bReady);
     if (m_pEditObject) {
         EDetail DM;
         if (!DM.Update(m_pEditObject->GetName())) return false;

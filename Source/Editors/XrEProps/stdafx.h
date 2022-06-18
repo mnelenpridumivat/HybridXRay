@@ -11,9 +11,6 @@
 #ifdef XREPROPS_EXPORTS
 inline void not_implemented()
 {
-	if (IsDebuggerPresent())
-		DebugBreak();
-	else R_ASSERT(0);
 }
 #endif
 

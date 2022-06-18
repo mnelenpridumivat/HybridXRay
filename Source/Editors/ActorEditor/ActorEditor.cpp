@@ -3,7 +3,8 @@
 #include "stdafx.h"
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
 {
-    if (!IsDebuggerPresent()) Debug._initialize(false);
+   // if (!IsDebuggerPresent()) 
+        //Debug._initialize(false);
     const char* FSName = "fs.ltx";
     {
         if (strstr(GetCommandLine(), "-soc_14") || strstr(GetCommandLine(), "-soc_10004"))
@@ -23,21 +24,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 
     Tools = xr_new<CActorTools>();
     ATools = (CActorTools*)Tools;
-    if (strstr(GetCommandLine(), "-export"))
-        ATools->Load2("H:\\jmir.object");
-    else
-    {
-        UI = xr_new<CActorMain>();
-        UI->RegisterCommands();
 
-        UIMainForm* MainForm = xr_new< UIMainForm>();
-        ::MainForm = MainForm;
-        UI->Push(MainForm, false);
-        while (MainForm->Frame())
-        {
-        }
-        xr_delete(MainForm);
-    }
+    ATools->Load2("H:\\jmir.object");
+
     Core._destroy();
     return 0;
 }

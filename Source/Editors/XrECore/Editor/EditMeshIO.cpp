@@ -214,23 +214,8 @@ bool CEditableMesh::LoadMesh(IReader& F){
 	}
 
 #if 1
-    if (strstr(GetCommandLine(), "-export") || !EPrefs->object_flags.is(epoDeffLoadRB))
-    {
-     //   GenerateFNormals	();
-     //   GenerateAdjacency	();
-	    //GenerateVNormals	(0);
-		if (!strstr(GetCommandLine(), "-export"))
-			GenerateRenderBuffers();
-     //   UnloadFNormals		();
-     //   UnloadAdjacency		();
-	    //UnloadVNormals		();
-    }
-    
-   if (strstr(GetCommandLine(), "-export") || !EPrefs->object_flags.is(epoDeffLoadCF)) 
     	GenerateCFModel();       
 #endif
-	//OptimizeMesh	(false);
-    //RebuildVMaps	();
 
 	return 			true;
 }
