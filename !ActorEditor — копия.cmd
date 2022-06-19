@@ -1,1 +1,0 @@
-start bin\x64\debug\ActorEditor.exe "H:\\jmir.object" "H:\\te st\\jmir gada.ogf"
