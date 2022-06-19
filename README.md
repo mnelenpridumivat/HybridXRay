@@ -4,3 +4,4 @@
 Object Tool x64 Release, все остальное x64 Debug
 
 В паре с функционалами OGF Editor (https://github.com/VaIeroK/OGF-tool) и OMF Editor (https://github.com/VaIeroK/Omf-Editor) в 95% случаев сдк не нужен
+Для работы нужно назначить программу на формат .object
