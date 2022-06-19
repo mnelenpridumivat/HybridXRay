@@ -38,5 +38,6 @@ gamedata/shaders/shared/
 gamedata/sounds/
 gamedata/spawns/
 gamedata/textures/
+Source/App/obj/
 /*.ini
 *.vcxproj.user
