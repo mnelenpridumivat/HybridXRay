@@ -412,6 +412,61 @@ bool CEditableObject::GenerateBoneShape(bool bSelOnly)
     }
     return true;
 }
+
+bool CEditableObject::GenerateBoneShapeTest(bool bSelOnly)
+{
+    BoneVec& lst 	= m_Bones;    
+    for (BoneIt b_it = lst.begin(); b_it != lst.end(); b_it++)
+    {
+        (*b_it)->shape.type = SBoneShape::EShapeType::stCylinder;
+    }
+
+    R_ASSERT(IsSkeleton());
+    xr_vector<FvectorVec>	bone_points;
+    bone_points.resize		(m_Bones.size());
+    for(EditMeshIt mesh_it=FirstMesh();mesh_it!=LastMesh();mesh_it++)
+    {
+        CEditableMesh* MESH = *mesh_it;
+        // generate vertex offset
+        MESH->GenerateSVertices	(1);
+        for (u32 f_id=0; f_id!=MESH->GetFCount(); f_id++)
+        {
+            for (int k=0; k<3; k++)
+            {
+                st_SVert& 		sv = MESH->m_SVertices[f_id*3+k];
+                VERIFY			(sv.bones.size()==1);
+                u16 b_id 		= sv.bones[0].id;//(sv.bones.size()>1)?(sv.bones[0].w>sv.bones[1].w?sv.bones[0].id:sv.bones[1].id):sv.bones[0].id;
+                FvectorVec& P 	= bone_points[b_id];
+                bool bFound		= false;
+                Fvector p;
+                m_Bones[b_id]->_RITransform().transform_tiny(p,sv.offs);
+                for (FvectorIt p_it=P.begin(); p_it!=P.end(); p_it++)
+                    if (p_it->similar(p))
+                    { 
+                        bFound=true; 
+                        break; 
+                    }
+                if (!bFound)	P.push_back(p);       
+                //		        if (sv.bone1!=BI_NONE) bone_points[sv.bone1].push_back(sv.offs1);
+            }
+        }
+        MESH->UnloadSVertices();
+    }
+
+    lst 	= m_Bones;    
+    for(BoneIt b_it=lst.begin(); b_it!=lst.end(); b_it++)
+    {
+        if (bSelOnly&&!(*b_it)->flags.is(CBone::flSelected)) 
+            continue;
+
+        FvectorVec& positions = bone_points[b_it-lst.begin()];
+        ComputeOBB_WML	((*b_it)->shape.box,positions);
+        ComputeSphere	((*b_it)->shape.sphere,positions);
+        ComputeCylinder	((*b_it)->shape.cylinder,(*b_it)->shape.box,positions);
+        (*b_it)->center_of_mass.set((*b_it)->shape.sphere.P);
+    }
+    return true;
+}
  
 void CEditableObject::ClampByLimits(bool bSelOnly)
 {

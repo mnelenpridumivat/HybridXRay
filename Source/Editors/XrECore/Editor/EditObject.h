@@ -402,6 +402,7 @@ public:
     CSMotion* 		FindSMotionByName		(LPCSTR name, const CSMotion* Ignore=0);
     void			GenerateSMotionName		(char* buffer, LPCSTR start_name, const CSMotion* M);
     bool			GenerateBoneShape		(bool bSelOnly);
+    bool			GenerateBoneShapeTest	(bool bSelOnly);
 
     // device dependent routine
 	void 			OnDeviceCreate 			();

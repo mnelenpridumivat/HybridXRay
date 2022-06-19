@@ -3,6 +3,11 @@
 #include "stdafx.h"
 #include <iostream>
 
+// argv[1] - mode
+// argv[2] - object
+// argv[3] - ogf / omf
+// argv[4] - skls if exist
+
 int main(int argc, char** argv)
 {
     Core._initialize("Actor", ELogCallback,1, "",true);
@@ -10,19 +15,51 @@ int main(int argc, char** argv)
     Tools = xr_new<CActorTools>();
     ATools = (CActorTools*)Tools;
 
-    Msg("%s", argv[1]);
-    Msg("%s", argv[2]);
+    for (int i = 0; i < argc; i++)
+        std::cout << i << ". {" << argv[i] << "}" << std::endl;
 
-    std::cout << argv[0] << std::endl << argv[1] << std::endl << argv[2] << std::endl;
-    //system("pause");
+    std::cout << "argc " << argc << std::endl;
 
-    ATools->Load(argv[1]);
-    //   ATools->AppendMotion("H:\\jmir.skls");
-    ATools->ExportOGF(argv[2]);
-    // ATools->ExportOMF("H:\\jmir.omf");
+    std::cout << "Import object" << std::endl;
+    ATools->Load(argv[2]);
+
+    switch (atoi(argv[1]))
+    {
+        case 0: // OGF
+        {
+            std::cout << "Export OGF" << std::endl;
+            //ATools->CurrentObject()->GenerateBoneShapeTest(false);
+            ATools->ExportOGF(argv[3]);
+        }break;
+        case 1: // OMF
+        {
+            std::cout << "Export OMF" << std::endl;
+            ATools->ExportOMF(argv[3]);
+        }break;
+        case 2: // Has anims check
+        {
+            int cnt = ATools->CurrentObject()->SMotionCount();
+            Core._destroy();
+
+            return cnt;
+        }break;
+        case 3: // Delete motions
+        {
+            ATools->CurrentObject()->ClearSMotions();
+            ATools->Save(argv[2]);
+        }break;
+        case 4: // Load motions
+        {
+            ATools->AppendMotion(argv[3]);
+            ATools->Save(argv[2]);
+        }break;
+        case 5: // Save motions
+        {
+            ATools->SaveMotions(argv[3], false);
+        }break;
+    }
 
     Core._destroy();
-
-    system("pause");
+    //system("pause");
     return 0;
 }

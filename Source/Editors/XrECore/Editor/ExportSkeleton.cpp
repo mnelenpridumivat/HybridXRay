@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include <iostream>
 #pragma hdrstop
 
 #include "ExportSkeleton.h"
@@ -510,6 +511,8 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
 
     R_ASSERT(m_Source->IsDynamic()&&m_Source->IsSkeleton());
 
+    std::cout << "..Prepare skeleton geometry" << std::endl;
+
     bool bBreakable		= false;
     U16Vec   			bone_brk_parts(m_Source->BoneCount());
     CBone* root 		= 0;
@@ -529,6 +532,7 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
     }
     
     bool bRes			= true;
+    std::cout << "..Split meshes" << std::endl; 
 
     U16Vec				tmp_bone_lst;
 
@@ -655,6 +659,9 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
         MESH->UnloadVNormals();
         MESH->UnloadFNormals();
 	}
+
+    std::cout << "..Calculate TB" << std::endl; 
+
         Msg				("Split statistic:");
         for (int k=0; k<(int)m_Splits.size(); k++)
         {
@@ -712,6 +719,9 @@ bool CExportSkeleton::ExportGeometry(IWriter& F, u8 infl)
 {
 	if (!PrepareGeometry(infl)) return false;
 
+    std::cout << "..Export skeleton geometry" << std::endl;
+    std::cout << "..Make progressive" << std::endl;
+
 	// fill per bone vertices
     BoneVec& bones 			= m_Source->Bones();
     xr_vector<FvectorVec>	bone_points;
@@ -719,10 +729,10 @@ bool CExportSkeleton::ExportGeometry(IWriter& F, u8 infl)
 
     for (SplitIt split_it=m_Splits.begin(); split_it!=m_Splits.end(); ++split_it)
 	{
-		if (m_Source->m_objectFlags.is(CEditableObject::eoProgressive))
+		//if (m_Source->m_objectFlags.is(CEditableObject::eoProgressive))
         	split_it->MakeProgressive();
-        else
-        	split_it->MakeStripify();
+       // else
+        //	split_it->MakeStripify();
 
 		SkelVertVec& lst = split_it->getV_Verts();
 	    for (SkelVertIt sv_it=lst.begin(); sv_it!=lst.end(); sv_it++)
@@ -753,6 +763,7 @@ bool CExportSkeleton::ExportGeometry(IWriter& F, u8 infl)
     // OGF_CHILDREN
     F.open_chunk	(OGF_CHILDREN);
     int chield=0;
+    std::cout << "..Export children" << std::endl;
     for (auto split_it=m_Splits.begin(); split_it!=m_Splits.end(); split_it++){
 	    F.open_chunk(chield++);
         split_it->Save(F);
@@ -776,6 +787,7 @@ bool CExportSkeleton::ExportGeometry(IWriter& F, u8 infl)
     bool bRes = true;
                     
     F.open_chunk(OGF_S_IKDATA);
+    std::cout << "..Export bones" << std::endl;
     for (auto bone_it=m_Source->FirstBone(); bone_it!=m_Source->LastBone(); ++bone_it,++bone_idx)
         if (!(*bone_it)->ExportOGF(F)) 
 			bRes=false; 
@@ -850,6 +862,7 @@ bool CExportSkeleton::ExportMotionKeys(IWriter& F)
      	return !!m_Source->m_SMotionRefs.size();
     }
 
+	std::cout << "..Export skeleton motions keys" << std::endl;
     // mem active motion
     CSMotion* active_motion=m_Source->ResetSAnimation();
 
@@ -1061,7 +1074,7 @@ bool CExportSkeleton::ExportMotionDefs(IWriter& F)
     	ELog.Msg(mtError,"Object doesn't have any motion or motion refs.");
     	return false;
     }
-
+    std::cout << "..Export skeleton motions defs" << std::endl;
     bool bRes=true;
 
     if (m_Source->m_SMotionRefs.size())
