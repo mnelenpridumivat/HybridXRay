@@ -261,15 +261,6 @@ bool CExportObjectOGF::PrepareMESH(CEditableMesh* MESH)
         SSplit* split	= FindSplit(surf);
         if (0==split)
 		{
-#if 1
-            SGameMtl* M = GameMaterialLibrary->GetMaterialByID(surf->_GameMtl());
-            if (0==M)
-			{
-                ELog.DlgMsg		(mtError,"Surface: '%s' contains undefined game material.",surf->_Name());
-                bResult 		= false; 
-                break; 
-            }
-#endif
 			m_Splits.push_back	(xr_new<SSplit>(surf,m_Source->GetBox()));
             split				= m_Splits.back();
         }

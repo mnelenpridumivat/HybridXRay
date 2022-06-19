@@ -184,8 +184,6 @@ void ALDeviceList::Enumerate()
 			GetDeviceDesc(j).props.xram?"yes":"no"
 			);
 	}
-	if (!strstr(GetCommandLine(),"-editor"))
-		CoInitializeEx (NULL, COINIT_MULTITHREADED);
 }
 
 LPCSTR ALDeviceList::GetDeviceName(u32 index)

@@ -28,28 +28,13 @@ static u32	init_counter	= 0;
 XRAPI_API extern EGamePath GCurrentGame;
 //. extern xr_vector<shared_str>*	LogFile;
 
-void xrCore::_initialize	(LPCSTR _ApplicationName, LogCallback cb, BOOL init_fs, LPCSTR fs_fname, bool editor_fs )
+int xrCore::_initialize	(LPCSTR _ApplicationName, LogCallback cb, BOOL init_fs, LPCSTR fs_fname, bool editor_fs, bool init_log)
 {
-	
 	xr_strcpy					(ApplicationName,_ApplicationName);
 	if (0==init_counter) {
-
-		if (strstr(GetCommandLine(), "-soc_14") || strstr(GetCommandLine(), "-soc_10004"))
-		{
-			GCurrentGame = EGamePath::SHOC_10004;
-		} 
-		else if (strstr(GetCommandLine(), "-soc"))
-		{
-			GCurrentGame = EGamePath::SHOC_10006;
-		}
-		else if (strstr(GetCommandLine(), "-cs"))
-		{
-			GCurrentGame = EGamePath::CS_1510;
-		}
-		else
-		{
-			GCurrentGame = EGamePath::COP_1602;
-		}
+		HasLog = init_log;
+		if (!init_log)
+			cb = 0;
 		Editor = editor_fs;
 #ifdef XRCORE_STATIC	
 		_clear87	();
@@ -60,8 +45,6 @@ void xrCore::_initialize	(LPCSTR _ApplicationName, LogCallback cb, BOOL init_fs,
 #endif
 		// Init COM so we can use CoCreateInstance
 //		HRESULT co_res = 
-		if (!strstr(GetCommandLine(),"-editor"))
-			CoInitializeEx	(NULL, COINIT_MULTITHREADED);
 	
 		xr_strcpy			(Params,sizeof(Params),GetCommandLine());
 		_strlwr_s			(Params,sizeof(Params));
@@ -114,27 +97,16 @@ void xrCore::_initialize	(LPCSTR _ApplicationName, LogCallback cb, BOOL init_fs,
 		xr_EFS				= xr_new<EFS_Utils>		();
 //.		R_ASSERT			(co_res==S_OK);
 	}
-	if (init_fs){
+
+	if (init_fs)
+	{
 		u32 flags			= 0;
-		if (0!=strstr(Params,"-build"))	 flags |= CLocatorAPI::flBuildCopy;
-		if (0!=strstr(Params,"-ebuild")) flags |= CLocatorAPI::flBuildCopy|CLocatorAPI::flEBuildCopy;
-#ifdef DEBUG
-		if (strstr(Params,"-cache"))  flags |= CLocatorAPI::flCacheFiles;
-		else flags &= ~CLocatorAPI::flCacheFiles;
-#endif // DEBUG
-#if 0 // for EDITORS - no cache
-		flags 				&=~ CLocatorAPI::flCacheFiles;
-#endif // _EDITOR
 		flags |= CLocatorAPI::flScanAppRoot;
 
-#if 1
-	#ifndef ELocatorAPIH
-		if (0!=strstr(Params,"-file_activity"))	 flags |= CLocatorAPI::flDumpFileActivity;
-	#endif
-#endif
 		FS._initialize		(flags,0,fs_fname);
 		Msg					("'%s' build %d, %s\n","xrCore",build_id, build_date);
 		EFS._initialize		();
+
 #ifdef DEBUG
     #if 1
 		Msg					("CRT heap 0x%08x",_get_heap_handle());
@@ -142,8 +114,11 @@ void xrCore::_initialize	(LPCSTR _ApplicationName, LogCallback cb, BOOL init_fs,
     #endif
 #endif // DEBUG
 	}
-	SetLogCB				(cb);
+	if (cb != 0)
+		SetLogCB			(cb);
 	init_counter++;
+
+	return 0;
 }
 
 #if 1

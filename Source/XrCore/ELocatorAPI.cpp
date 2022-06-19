@@ -34,14 +34,13 @@ ELocatorAPI::~ELocatorAPI()
 {
 }
 
-void ELocatorAPI::_initialize	(u32 flags, LPCSTR target_folder, LPCSTR fs_fname)
+int ELocatorAPI::_initialize	(u32 flags, LPCSTR target_folder, LPCSTR fs_fname)
 {
 	char _delimiter = '|'; //','
-	if (m_Flags.is(flReady))return;
+	if (m_Flags.is(flReady))return 0;
 
 	Log				("Initializing File System...");
 	m_Flags.set		(flags,TRUE);
-
 
 	// append application path
 
@@ -65,12 +64,18 @@ void ELocatorAPI::_initialize	(u32 flags, LPCSTR target_folder, LPCSTR fs_fname)
     }
     else
     {
-
         append_path("$fs_root$", "", 0, FALSE);
     }
-	if (m_Flags.is(flTargetFolderOnly)){
-		append_path		("$target_folder$",target_folder,0,TRUE);
-	}else{
+	//if (m_Flags.is(flTargetFolderOnly))
+    {
+    //    return -4;
+        //return -9;
+		//append_path		("$target_folder$",target_folder,0,TRUE);
+	}
+   // else
+    if (false)
+    {
+     //   return -5;
 		IReader* F		= r_open((fs_fname&&fs_fname[0])?fs_fname:FSLTX); 
 		if (!F&&m_Flags.is(flScanAppRoot))
 			F			= r_open("$app_root$",(fs_fname&&fs_fname[0])?fs_fname:FSLTX); 
@@ -110,7 +115,10 @@ void ELocatorAPI::_initialize	(u32 flags, LPCSTR target_folder, LPCSTR fs_fname)
 
 	m_Flags.set		(flReady,TRUE);
 
-	CreateLog		(0!=strstr(Core.Params,"-nolog"));
+    if (Core.HasLog)
+	    CreateLog(FALSE);
+
+    return 0;
 }
 
 void ELocatorAPI::_destroy		()

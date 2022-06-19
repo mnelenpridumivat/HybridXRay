@@ -735,10 +735,10 @@ IReader* CLocatorAPI::setup_fs_ltx(LPCSTR fs_name)
 	return			(result);
 }
 
-void CLocatorAPI::_initialize	(u32 flags, LPCSTR target_folder, LPCSTR fs_name)
+int CLocatorAPI::_initialize	(u32 flags, LPCSTR target_folder, LPCSTR fs_name)
 {
 	char _delimiter = '|'; //','
-	if (m_Flags.is(flReady))return;
+	if (m_Flags.is(flReady))return 0;
 	CTimer t;
 	t.Start();
 	Log				("Initializing File System...");
@@ -895,6 +895,7 @@ void CLocatorAPI::_initialize	(u32 flags, LPCSTR target_folder, LPCSTR fs_name)
 
 	CreateLog		(0!=strstr(Core.Params,"-nolog"));
 
+	return 0;
 }
 
 void CLocatorAPI::_destroy		()

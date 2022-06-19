@@ -302,10 +302,11 @@ public:
 	string64	UserName;
 	string64	CompName;
 	string512	Params;
+	bool		HasLog;
 	bool		Editor;
 
 public:
-	void		_initialize	(LPCSTR ApplicationName, LogCallback cb=0, BOOL init_fs=TRUE, LPCSTR fs_fname=0,bool editor_fs=false);
+	int			_initialize	(LPCSTR ApplicationName, LogCallback cb=0, BOOL init_fs=TRUE, LPCSTR fs_fname=0,bool editor_fs=false, bool init_log = false);
 	void		_destroy	();
 };
 

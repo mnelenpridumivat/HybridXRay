@@ -110,7 +110,7 @@ public:
     IC void			SetTexture		(LPCSTR name){string512 buf; xr_strcpy(buf, sizeof(buf), name); if(strext(buf)) *strext(buf)=0; m_Texture=buf;}
     IC void			SetVMap			(LPCSTR name){m_VMap=name;}
 #if 1
-    IC u32			_GameMtl		()const	{return GameMaterialLibrary->GetMaterialID	(*m_GameMtlName);}
+    IC u32			_GameMtl		()const	{return 0;}
     IC void			OnDeviceCreate	()
     { 
         R_ASSERT(!m_RTFlags.is(rtValidShader));
