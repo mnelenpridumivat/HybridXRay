@@ -10,6 +10,7 @@
 // argv[4] - data
 
 extern ECORE_API BOOL g_force16BitTransformQuant;
+extern ECORE_API BOOL g_forceNoCompressTransformQuant;
 
 enum EExportFlags
 {
@@ -42,7 +43,7 @@ int main(int argc, char** argv)
     if (flags & exf16Bit)
         g_force16BitTransformQuant = true;
     else if (flags & exfNoCompress)
-        std::cout << "Export no compress" << std::endl;
+        g_forceNoCompressTransformQuant = true;
 
     if (flags & exfMakeProgressive)
         ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoProgressive, TRUE);
@@ -111,6 +112,27 @@ int main(int argc, char** argv)
         {
             if (!ATools->SaveMotions(argv[3], false))
                 ret_code = -1;
+        }break;
+        case 6: // Load bones
+        {
+            if (!ATools->LoadBoneData(argv[3]) || !ATools->Save(argv[2]))
+                ret_code = -1;
+
+            Core._destroy();
+            return ret_code;
+        }break;
+        case 7:  // Save bones
+        {
+            if (!ATools->SaveBoneData(argv[3]))
+                ret_code = -1;
+        }break;
+        case 8:  // Export obj
+        {
+            if (!ATools->ExportOBJ(argv[3]))
+                ret_code = -1;
+
+            Core._destroy();
+            return ret_code;
         }break;
     }
 

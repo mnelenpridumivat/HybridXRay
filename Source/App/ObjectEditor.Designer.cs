@@ -30,9 +30,9 @@ namespace Object_tool
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Object_Editor));
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
-            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.OpenObjectDialog = new System.Windows.Forms.OpenFileDialog();
+            this.OpenSklsDialog = new System.Windows.Forms.OpenFileDialog();
+            this.SaveSklsDialog = new System.Windows.Forms.SaveFileDialog();
             this.TabControl = new System.Windows.Forms.TabControl();
             this.FlagsPage = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -45,7 +45,7 @@ namespace Object_tool
             this.label2 = new System.Windows.Forms.Label();
             this.radioButton3 = new System.Windows.Forms.RadioButton();
             this.ShapesPage = new System.Windows.Forms.TabPage();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.MenuPanel = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.oGFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -60,29 +60,38 @@ namespace Object_tool
             this.DeletesklsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.shapeParamsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generateShapesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.FileLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.StatusFile = new System.Windows.Forms.ToolStripStatusLabel();
             this.typeHelperToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.allNoneToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.allBoxToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.allSphereToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.allCylinderToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.StatusPanel = new System.Windows.Forms.StatusStrip();
+            this.FileLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.StatusFile = new System.Windows.Forms.ToolStripStatusLabel();
+            this.bonesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.objToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bonesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.OpenBonesDialog = new System.Windows.Forms.OpenFileDialog();
+            this.SaveBonesDialog = new System.Windows.Forms.SaveFileDialog();
+            this.SaveObjDialog = new System.Windows.Forms.SaveFileDialog();
             this.TabControl.SuspendLayout();
             this.FlagsPage.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
+            this.MenuPanel.SuspendLayout();
+            this.StatusPanel.SuspendLayout();
             this.SuspendLayout();
             // 
-            // openFileDialog1
+            // OpenObjectDialog
             // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
+            this.OpenObjectDialog.Filter = "Object file|*.object";
             // 
-            // openFileDialog2
+            // OpenSklsDialog
             // 
-            this.openFileDialog2.FileName = "openFileDialog2";
+            this.OpenSklsDialog.Filter = "Skls file|*.skls";
+            // 
+            // SaveSklsDialog
+            // 
+            this.SaveSklsDialog.Filter = "Skls file|*.skls";
             // 
             // TabControl
             // 
@@ -216,23 +225,23 @@ namespace Object_tool
             this.ShapesPage.Text = "Shapes";
             this.ShapesPage.UseVisualStyleBackColor = true;
             // 
-            // menuStrip1
+            // MenuPanel
             // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuPanel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.shapeParamsToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(372, 24);
-            this.menuStrip1.TabIndex = 11;
-            this.menuStrip1.Text = "menuStrip1";
+            this.MenuPanel.Location = new System.Drawing.Point(0, 0);
+            this.MenuPanel.Name = "MenuPanel";
+            this.MenuPanel.Size = new System.Drawing.Size(372, 24);
+            this.MenuPanel.TabIndex = 11;
+            this.MenuPanel.Text = "menuStrip1";
             // 
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.exportToolStripMenuItem,
             this.loadToolStripMenuItem,
             this.saveToolStripMenuItem,
+            this.exportToolStripMenuItem,
             this.deleteToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -242,22 +251,23 @@ namespace Object_tool
             // 
             this.exportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.oGFToolStripMenuItem,
-            this.oMFToolStripMenuItem});
+            this.oMFToolStripMenuItem,
+            this.objToolStripMenuItem});
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exportToolStripMenuItem.Text = "Export";
             // 
             // oGFToolStripMenuItem
             // 
             this.oGFToolStripMenuItem.Name = "oGFToolStripMenuItem";
-            this.oGFToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.oGFToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.oGFToolStripMenuItem.Text = "OGF";
             this.oGFToolStripMenuItem.Click += new System.EventHandler(this.ExportOGF_Click);
             // 
             // oMFToolStripMenuItem
             // 
             this.oMFToolStripMenuItem.Name = "oMFToolStripMenuItem";
-            this.oMFToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.oMFToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.oMFToolStripMenuItem.Text = "OMF";
             this.oMFToolStripMenuItem.Click += new System.EventHandler(this.ExportOMF_Click);
             // 
@@ -265,22 +275,23 @@ namespace Object_tool
             // 
             this.loadToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.objectToolStripMenuItem,
-            this.sklSklsToolStripMenuItem});
+            this.sklSklsToolStripMenuItem,
+            this.bonesToolStripMenuItem});
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.loadToolStripMenuItem.Text = "Load";
             // 
             // objectToolStripMenuItem
             // 
             this.objectToolStripMenuItem.Name = "objectToolStripMenuItem";
-            this.objectToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.objectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.objectToolStripMenuItem.Text = "Object";
             this.objectToolStripMenuItem.Click += new System.EventHandler(this.objectToolStripMenuItem_Click);
             // 
             // sklSklsToolStripMenuItem
             // 
             this.sklSklsToolStripMenuItem.Name = "sklSklsToolStripMenuItem";
-            this.sklSklsToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.sklSklsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.sklSklsToolStripMenuItem.Text = "Skl\\Skls";
             this.sklSklsToolStripMenuItem.Click += new System.EventHandler(this.LoadSkls_Click);
             // 
@@ -288,21 +299,23 @@ namespace Object_tool
             // 
             this.saveToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.objectToolStripMenuItem1,
-            this.SaveSklsToolStripMenuItem});
+            this.SaveSklsToolStripMenuItem,
+            this.bonesToolStripMenuItem1});
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveToolStripMenuItem.Text = "Save";
             // 
             // objectToolStripMenuItem1
             // 
             this.objectToolStripMenuItem1.Name = "objectToolStripMenuItem1";
-            this.objectToolStripMenuItem1.Size = new System.Drawing.Size(109, 22);
+            this.objectToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.objectToolStripMenuItem1.Text = "Object";
+            this.objectToolStripMenuItem1.Click += new System.EventHandler(this.objectToolStripMenuItem1_Click);
             // 
             // SaveSklsToolStripMenuItem
             // 
             this.SaveSklsToolStripMenuItem.Name = "SaveSklsToolStripMenuItem";
-            this.SaveSklsToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.SaveSklsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.SaveSklsToolStripMenuItem.Text = "Skls";
             this.SaveSklsToolStripMenuItem.Click += new System.EventHandler(this.SaveMotionsButton_Click);
             // 
@@ -311,7 +324,7 @@ namespace Object_tool
             this.deleteToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.DeletesklsToolStripMenuItem});
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.deleteToolStripMenuItem.Text = "Delete";
             // 
             // DeletesklsToolStripMenuItem
@@ -337,29 +350,6 @@ namespace Object_tool
             this.generateShapesToolStripMenuItem.Text = "Generate shapes";
             this.generateShapesToolStripMenuItem.Click += new System.EventHandler(this.generateShapesToolStripMenuItem_Click);
             // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.FileLabel,
-            this.StatusFile});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 194);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(372, 22);
-            this.statusStrip1.TabIndex = 31;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // FileLabel
-            // 
-            this.FileLabel.Name = "FileLabel";
-            this.FileLabel.Size = new System.Drawing.Size(28, 17);
-            this.FileLabel.Text = "File:";
-            // 
-            // StatusFile
-            // 
-            this.StatusFile.Name = "StatusFile";
-            this.StatusFile.Size = new System.Drawing.Size(12, 17);
-            this.StatusFile.Text = "-";
-            // 
             // typeHelperToolStripMenuItem
             // 
             this.typeHelperToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -374,30 +364,86 @@ namespace Object_tool
             // allNoneToolStripMenuItem1
             // 
             this.allNoneToolStripMenuItem1.Name = "allNoneToolStripMenuItem1";
-            this.allNoneToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.allNoneToolStripMenuItem1.Size = new System.Drawing.Size(135, 22);
             this.allNoneToolStripMenuItem1.Text = "All None";
             this.allNoneToolStripMenuItem1.Click += new System.EventHandler(this.allNoneToolStripMenuItem_Click);
             // 
             // allBoxToolStripMenuItem1
             // 
             this.allBoxToolStripMenuItem1.Name = "allBoxToolStripMenuItem1";
-            this.allBoxToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.allBoxToolStripMenuItem1.Size = new System.Drawing.Size(135, 22);
             this.allBoxToolStripMenuItem1.Text = "All Box";
             this.allBoxToolStripMenuItem1.Click += new System.EventHandler(this.allBoxToolStripMenuItem_Click);
             // 
             // allSphereToolStripMenuItem1
             // 
             this.allSphereToolStripMenuItem1.Name = "allSphereToolStripMenuItem1";
-            this.allSphereToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.allSphereToolStripMenuItem1.Size = new System.Drawing.Size(135, 22);
             this.allSphereToolStripMenuItem1.Text = "All Sphere";
             this.allSphereToolStripMenuItem1.Click += new System.EventHandler(this.allSphereToolStripMenuItem_Click);
             // 
             // allCylinderToolStripMenuItem1
             // 
             this.allCylinderToolStripMenuItem1.Name = "allCylinderToolStripMenuItem1";
-            this.allCylinderToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.allCylinderToolStripMenuItem1.Size = new System.Drawing.Size(135, 22);
             this.allCylinderToolStripMenuItem1.Text = "All Cylinder";
             this.allCylinderToolStripMenuItem1.Click += new System.EventHandler(this.allCylinderToolStripMenuItem_Click);
+            // 
+            // StatusPanel
+            // 
+            this.StatusPanel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.FileLabel,
+            this.StatusFile});
+            this.StatusPanel.Location = new System.Drawing.Point(0, 194);
+            this.StatusPanel.Name = "StatusPanel";
+            this.StatusPanel.Size = new System.Drawing.Size(372, 22);
+            this.StatusPanel.TabIndex = 31;
+            this.StatusPanel.Text = "statusStrip1";
+            // 
+            // FileLabel
+            // 
+            this.FileLabel.Name = "FileLabel";
+            this.FileLabel.Size = new System.Drawing.Size(28, 17);
+            this.FileLabel.Text = "File:";
+            // 
+            // StatusFile
+            // 
+            this.StatusFile.Name = "StatusFile";
+            this.StatusFile.Size = new System.Drawing.Size(12, 17);
+            this.StatusFile.Text = "-";
+            // 
+            // bonesToolStripMenuItem
+            // 
+            this.bonesToolStripMenuItem.Name = "bonesToolStripMenuItem";
+            this.bonesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.bonesToolStripMenuItem.Text = "Bones";
+            this.bonesToolStripMenuItem.Click += new System.EventHandler(this.bonesToolStripMenuItem_Click);
+            // 
+            // objToolStripMenuItem
+            // 
+            this.objToolStripMenuItem.Name = "objToolStripMenuItem";
+            this.objToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.objToolStripMenuItem.Text = "Obj";
+            this.objToolStripMenuItem.Click += new System.EventHandler(this.objToolStripMenuItem_Click);
+            // 
+            // bonesToolStripMenuItem1
+            // 
+            this.bonesToolStripMenuItem1.Name = "bonesToolStripMenuItem1";
+            this.bonesToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.bonesToolStripMenuItem1.Text = "Bones";
+            this.bonesToolStripMenuItem1.Click += new System.EventHandler(this.bonesToolStripMenuItem1_Click);
+            // 
+            // OpenBonesDialog
+            // 
+            this.OpenBonesDialog.Filter = "Bones file|*.bones";
+            // 
+            // SaveBonesDialog
+            // 
+            this.SaveBonesDialog.Filter = "Bones file|*.bones";
+            // 
+            // SaveObjDialog
+            // 
+            this.SaveObjDialog.Filter = "Wavefront Obj file|*.obj";
             // 
             // Object_Editor
             // 
@@ -405,25 +451,26 @@ namespace Object_tool
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(372, 216);
-            this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.StatusPanel);
             this.Controls.Add(this.TabControl);
-            this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.MenuPanel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MainMenuStrip = this.menuStrip1;
+            this.MainMenuStrip = this.MenuPanel;
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(388, 540);
             this.MinimumSize = new System.Drawing.Size(388, 255);
             this.Name = "Object_Editor";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Object Editor";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ClosingForm);
             this.TabControl.ResumeLayout(false);
             this.FlagsPage.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
+            this.MenuPanel.ResumeLayout(false);
+            this.MenuPanel.PerformLayout();
+            this.StatusPanel.ResumeLayout(false);
+            this.StatusPanel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -431,13 +478,13 @@ namespace Object_tool
 
         #endregion
 
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.OpenFileDialog openFileDialog2;
-        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.OpenFileDialog OpenObjectDialog;
+        private System.Windows.Forms.OpenFileDialog OpenSklsDialog;
+        private System.Windows.Forms.SaveFileDialog SaveSklsDialog;
         private System.Windows.Forms.TabControl TabControl;
         private System.Windows.Forms.TabPage FlagsPage;
         private System.Windows.Forms.TabPage ShapesPage;
-        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.MenuStrip MenuPanel;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem oGFToolStripMenuItem;
@@ -453,7 +500,7 @@ namespace Object_tool
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.StatusStrip StatusPanel;
         private System.Windows.Forms.ToolStripStatusLabel FileLabel;
         private System.Windows.Forms.ToolStripStatusLabel StatusFile;
         private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
@@ -469,6 +516,12 @@ namespace Object_tool
         private System.Windows.Forms.ToolStripMenuItem allBoxToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem allSphereToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem allCylinderToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem bonesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem objToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem bonesToolStripMenuItem1;
+        private System.Windows.Forms.OpenFileDialog OpenBonesDialog;
+        private System.Windows.Forms.SaveFileDialog SaveBonesDialog;
+        private System.Windows.Forms.SaveFileDialog SaveObjDialog;
     }
 }
 

@@ -26,6 +26,7 @@ namespace Object_tool
 	{
 		// File sytem
 		public string FILE_NAME = "";
+		public string TEMP_FILE_NAME = "";
 		public bool dbg_window = true;
 		public List<ShapeEditType> model_shapes;
 
@@ -36,24 +37,42 @@ namespace Object_tool
 		{
 			InitializeComponent();
 			System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
-			openFileDialog1.Filter = "Object file|*.object";
-			openFileDialog2.Filter = "Skls file|*.skls";
-			saveFileDialog1.Filter = "Skls file|*.skls";
 			shapeParamsToolStripMenuItem.Enabled = false;
+
+			radioButton3.Visible = false;
 
 			if (Environment.GetCommandLineArgs().Length > 1)
 			{
-				FILE_NAME = Environment.GetCommandLineArgs()[1];
-				StatusFile.Text = FILE_NAME.Substring(FILE_NAME.LastIndexOf('\\') + 1);
-				bool has_motions = MotionCount() > 0;
-				DeletesklsToolStripMenuItem.Enabled = has_motions;
-				SaveSklsToolStripMenuItem.Enabled = has_motions;
-				LoadBoneData();
+				OpenFile(Environment.GetCommandLineArgs()[1]);
+			}
+		}
 
-				for (int i = 0; i < model_shapes.Count; i++)
-				{
-					CreateShapeGroupBox(i, model_shapes[i]);
-				}
+		public void OpenFile(string filename)
+        {
+			if (Directory.Exists(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp"))
+				Directory.Delete(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp", true);
+
+			ClearUI();
+			FILE_NAME = filename;
+			StatusFile.Text = FILE_NAME.Substring(FILE_NAME.LastIndexOf('\\') + 1);
+
+			if (!Directory.Exists(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp"))
+				Directory.CreateDirectory(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp");
+
+			string TempFile = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + $"\\temp\\{StatusFile.Text}";
+
+			File.Copy(FILE_NAME, TempFile, true);
+			TEMP_FILE_NAME = TempFile;
+
+			bool has_motions = MotionCount() > 0;
+			DeletesklsToolStripMenuItem.Enabled = has_motions;
+			SaveSklsToolStripMenuItem.Enabled = has_motions;
+			oMFToolStripMenuItem.Enabled = has_motions;
+			LoadBoneData();
+
+			for (int i = 0; i < model_shapes.Count; i++)
+			{
+				CreateShapeGroupBox(i, model_shapes[i]);
 			}
 		}
 
@@ -137,6 +156,7 @@ namespace Object_tool
 		{
 			return RunCompiller($"1 \"{object_path}\" \"{omf_path}\" {GetFlags()}");
 		}
+
 		private int GenerateShapes(string object_path, List<ShapeEditType> shapes)
 		{
 			CopyShapeParams();
@@ -161,6 +181,29 @@ namespace Object_tool
 		private int SaveMotions(string object_path, string skls_path)
 		{
 			return RunCompiller($"5 \"{object_path}\" \"{skls_path}\" {GetFlags()}", false);
+		}
+
+		private int LoadBones(string object_path, string bones_path)
+		{
+			int res = RunCompiller($"6 \"{object_path}\" \"{bones_path}\" {GetFlags()}", true);
+
+			ClearUI();
+			LoadBoneData();
+			for (int i = 0; i < model_shapes.Count; i++)
+			{
+				CreateShapeGroupBox(i, model_shapes[i]);
+			}
+			return res;
+		}
+
+		private int SaveBones(string object_path, string bones_path)
+		{
+			return RunCompiller($"7 \"{object_path}\" \"{bones_path}\" {GetFlags()}", true);
+		}
+
+		private int SaveObj(string object_path, string obj_path)
+		{
+			return RunCompiller($"8 \"{object_path}\" \"{obj_path}\" {GetFlags()}", true);
 		}
 
 		private int RunCompiller(string args, bool force_disable_window = false)
@@ -218,62 +261,92 @@ namespace Object_tool
 		{
 			string ogf = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('.')) + ".ogf";
 
-			if (ExportOGF(FILE_NAME, ogf) == 0)
-				MessageBox.Show("Done!");
+			if (ExportOGF(TEMP_FILE_NAME, ogf) == 0)
+				AutoClosingMessageBox.Show("Model succesfully exported.", "", 1000, MessageBoxIcon.Information);
 			else
-				MessageBox.Show("Error!");
+				AutoClosingMessageBox.Show("Can't export model.", "", 1000, MessageBoxIcon.Information);
 		}
 
 		private void ExportOMF_Click(object sender, EventArgs e)
 		{
 			string omf = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('.')) + ".omf";
 
-			if (ExportOMF(FILE_NAME, omf) == 0)
-				MessageBox.Show("Done!");
+			if (ExportOMF(TEMP_FILE_NAME, omf) == 0)
+				AutoClosingMessageBox.Show("Motions succesfully exported.", "", 1000, MessageBoxIcon.Information);
 			else
-				MessageBox.Show("Error!");
+				AutoClosingMessageBox.Show("Can't export motions.", "", 1000, MessageBoxIcon.Information);
 		}
 
 		private void LoadSkls_Click(object sender, EventArgs e)
 		{
-			if (openFileDialog2.ShowDialog() == DialogResult.OK)
+			if (OpenSklsDialog.ShowDialog() == DialogResult.OK)
 			{
-				if (LoadMotions(FILE_NAME, openFileDialog2.FileName) == 0)
+				if (LoadMotions(TEMP_FILE_NAME, OpenSklsDialog.FileName) == 0)
 				{
-					MessageBox.Show("Done!");
+					AutoClosingMessageBox.Show("Motions succesfully loaded.", "", 1000, MessageBoxIcon.Information);
 					DeletesklsToolStripMenuItem.Enabled = true;
 					SaveSklsToolStripMenuItem.Enabled = true;
+					oMFToolStripMenuItem.Enabled = true;
 				}
 				else
-					MessageBox.Show("Error!");
+					AutoClosingMessageBox.Show("Can't load motions.", "", 1000, MessageBoxIcon.Information);
 			}
-		}
-
-		private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
-		{
-			FILE_NAME = openFileDialog2.FileName;
 		}
 
 		private void DeleteMotionsButton_Click(object sender, EventArgs e)
 		{
-			if (DeleteMotions(FILE_NAME) == 0)
+			if (DeleteMotions(TEMP_FILE_NAME) == 0)
 			{
-				MessageBox.Show("Done!");
+				AutoClosingMessageBox.Show("Motions succesfully deleted.", "", 1000, MessageBoxIcon.Information);
 				DeletesklsToolStripMenuItem.Enabled = false;
 				SaveSklsToolStripMenuItem.Enabled = false;
+				oMFToolStripMenuItem.Enabled = false;
 			}
 			else
-				MessageBox.Show("Error!");
+				AutoClosingMessageBox.Show("Can't delete motions.", "", 1000, MessageBoxIcon.Information);
 		}
 
 		private void SaveMotionsButton_Click(object sender, EventArgs e)
 		{
-			if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+			if (SaveSklsDialog.ShowDialog() == DialogResult.OK)
 			{
-				if (SaveMotions(FILE_NAME, saveFileDialog1.FileName) == 0)
-					MessageBox.Show("Done!");
+				if (SaveMotions(TEMP_FILE_NAME, SaveSklsDialog.FileName) == 0)
+					AutoClosingMessageBox.Show("Motions succesfully saved.", "", 1000, MessageBoxIcon.Information);
 				else
-					MessageBox.Show("Error!");
+					AutoClosingMessageBox.Show("Can't save motions.", "", 1000, MessageBoxIcon.Information);
+			}
+		}
+
+		private void bonesToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (OpenBonesDialog.ShowDialog() == DialogResult.OK)
+			{
+				if (LoadBones(TEMP_FILE_NAME, OpenBonesDialog.FileName) == 0)
+					AutoClosingMessageBox.Show("Bone data succesfully loaded.", "", 1000, MessageBoxIcon.Information);
+				else
+					AutoClosingMessageBox.Show("Failed to load bone data.", "", 1000, MessageBoxIcon.Information);
+			}
+		}
+
+		private void bonesToolStripMenuItem1_Click(object sender, EventArgs e)
+		{
+			if (SaveBonesDialog.ShowDialog() == DialogResult.OK)
+			{
+				if (SaveBones(TEMP_FILE_NAME, SaveBonesDialog.FileName) == 0)
+					AutoClosingMessageBox.Show("Bone data succesfully saved.", "", 1000, MessageBoxIcon.Information);
+				else
+					AutoClosingMessageBox.Show("Failed to save bone data.", "", 1000, MessageBoxIcon.Information);
+			}
+		}
+
+		private void objToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (SaveObjDialog.ShowDialog() == DialogResult.OK)
+			{
+				if (SaveObj(TEMP_FILE_NAME, SaveObjDialog.FileName) == 0)
+					AutoClosingMessageBox.Show("Model succesfully saved.", "", 1000, MessageBoxIcon.Information);
+				else
+					AutoClosingMessageBox.Show("Failed to save Model.", "", 1000, MessageBoxIcon.Information);
 			}
 		}
 
@@ -282,7 +355,7 @@ namespace Object_tool
 			var xr_loader = new XRayLoader();
 			model_shapes = new List<ShapeEditType>();
 
-			using (var r = new BinaryReader(new FileStream(FILE_NAME, FileMode.Open)))
+			using (var r = new BinaryReader(new FileStream(TEMP_FILE_NAME, FileMode.Open)))
 			{
 				xr_loader.SetStream(r.BaseStream);
 
@@ -345,7 +418,7 @@ namespace Object_tool
 			uint count = 0;
 			var xr_loader = new XRayLoader();
 
-			using (var r = new BinaryReader(new FileStream(FILE_NAME, FileMode.Open)))
+			using (var r = new BinaryReader(new FileStream(TEMP_FILE_NAME, FileMode.Open)))
 			{
 				xr_loader.SetStream(r.BaseStream);
 
@@ -359,15 +432,23 @@ namespace Object_tool
 
 		private void FlagsHelpButton_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Motion export:\nДанные флаги влияют на компресиию анимаций при экспортировании в OMF.\n1. 8 bit - ТЧ Формат\n2. 16 bit - ЗП Формат\n3. Without compress - сохраняет без сжатия, кастомный формат из STCoP\n\n" +
+			MessageBox.Show("Motion export:\nДанные флаги влияют на компресиию анимаций при экспортировании в OMF.\n1. 8 bit - ТЧ Формат\n2. 16 bit - ЗП Формат\n\n" +
 				"Model export:\n" +
 				"1. Make progressive bones - Создает прогрессивные меши при экспорте OGF. Это динамическая детализация модели (lod'ы), чаще используется для мировых объектов.\n" +
 				"2. Optimize surfaces - при включении объединяет меши с одинаковыми названиями текстур и шейдеров как и любой SDK. В данном эдиторе появилась возможность отключить это для последующих изменений через OGF Editor", "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
+		private void ClearUI()
+        {
+			ShapesPage.Controls.Clear();
+		}
+
 		private void objectToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-
+			if (OpenObjectDialog.ShowDialog() == DialogResult.OK)
+            {
+				OpenFile(OpenObjectDialog.FileName);
+			}
 		}
 
 		private void IndexChanged(object sender, EventArgs e)
@@ -424,10 +505,10 @@ namespace Object_tool
 
 		private void generateShapesToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (GenerateShapes(FILE_NAME, model_shapes) == 0)
-				MessageBox.Show("Done!");
+			if (GenerateShapes(TEMP_FILE_NAME, model_shapes) == 0)
+				AutoClosingMessageBox.Show("Bone shapes succesfully generated.", "", 1000, MessageBoxIcon.Information);
 			else
-				MessageBox.Show("Error!");
+				AutoClosingMessageBox.Show("Can't generate bone shapes.", "", 1000, MessageBoxIcon.Information);
 		}
 
 		private void CopyShapeParams()
@@ -462,5 +543,17 @@ namespace Object_tool
 				model_shapes[i] = shape;
 			}
 		}
-	}
+
+        private void objectToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+			File.Copy(TEMP_FILE_NAME, FILE_NAME, true);
+			AutoClosingMessageBox.Show("Object succesfully saved.", "", 1000, MessageBoxIcon.Information);
+		}
+
+        private void ClosingForm(object sender, FormClosingEventArgs e)
+        {
+			if (Directory.Exists(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp"))
+				Directory.Delete(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp", true);
+		}
+    }
 }
