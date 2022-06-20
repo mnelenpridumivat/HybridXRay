@@ -69,6 +69,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="XRayLoader.cs" />
     <Compile Include="ObjectEditor.cs">
       <SubType>Form</SubType>
     </Compile>

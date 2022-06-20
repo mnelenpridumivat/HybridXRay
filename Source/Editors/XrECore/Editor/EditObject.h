@@ -199,6 +199,7 @@ public:
         eoMultipleUsage	= (1<<4),			
         eoSoundOccluder	= (1<<5),
         eoHQExport      = (1<<6),           
+        eoOptimizeSurf  = (1<<7),     
 		eoFORCE32		= u32(-1)           
     };
     IC BOOL			IsDynamic				(){return m_objectFlags.is(eoDynamic);}
@@ -389,6 +390,13 @@ public:
 	bool			CheckShaderCompatible	();
 #endif
 
+    struct ShapeEditType
+    {
+        u16 bone_id;
+        u8 bone_type;
+        Flags16 bone_flags;
+    };
+
     // contains methods
     CEditableMesh* 	FindMeshByName			(LPCSTR name, CEditableMesh* Ignore=0);
     void			VerifyMeshNames			();
@@ -402,7 +410,7 @@ public:
     CSMotion* 		FindSMotionByName		(LPCSTR name, const CSMotion* Ignore=0);
     void			GenerateSMotionName		(char* buffer, LPCSTR start_name, const CSMotion* M);
     bool			GenerateBoneShape		(bool bSelOnly);
-    bool			GenerateBoneShapeTest	(bool bSelOnly);
+    bool			ChangeBoneShapeTypes	(xr_vector<ShapeEditType> types);
 
     // device dependent routine
 	void 			OnDeviceCreate 			();

@@ -344,6 +344,7 @@ void CExportSkeleton::SSplit::Save(IWriter& F)
 
 void CExportSkeleton::SSplit::MakeProgressive()
 {
+    std::cout << "..Make progressive" << std::endl;
 	VIPM_Init	();
     for (SkelVertIt vert_it=m_Verts.begin(); vert_it!=m_Verts.end(); vert_it++)
     	VIPM_AppendVertex(vert_it->offs,vert_it->uv);
@@ -381,6 +382,7 @@ void CExportSkeleton::SSplit::MakeProgressive()
 
 void CExportSkeleton::SSplit::MakeStripify()
 {
+    std::cout << "..Make stripify" << std::endl;
 //	int ccc 	= xrSimulate	((u16*)&m_Faces.front(),m_Faces.size()*3,24);
 //	Log("SRC:",ccc);
 	// alternative stripification - faces
@@ -536,6 +538,9 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
 
     U16Vec				tmp_bone_lst;
 
+    if (m_Source->m_objectFlags.is(CEditableObject::eoOptimizeSurf))
+        std::cout << "..Optimize surfaces" << std::endl;
+
     for(EditMeshIt mesh_it=m_Source->FirstMesh();mesh_it!=m_Source->LastMesh();mesh_it++)
     {
     	if (!bRes)		break;
@@ -549,6 +554,8 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
         u16 surf_counter = 0;
         for (SurfFacesPairIt sp_it = MESH->m_SurfFaces.begin(); sp_it != MESH->m_SurfFaces.end(); sp_it++)
         {
+            if (m_Source->m_objectFlags.is(CEditableObject::eoOptimizeSurf))
+                surf_counter = 0;
             CSurface* surf = sp_it->first;
             surf->m_id = surf_counter;
             surf_counter++;
@@ -720,7 +727,6 @@ bool CExportSkeleton::ExportGeometry(IWriter& F, u8 infl)
 	if (!PrepareGeometry(infl)) return false;
 
     std::cout << "..Export skeleton geometry" << std::endl;
-    std::cout << "..Make progressive" << std::endl;
 
 	// fill per bone vertices
     BoneVec& bones 			= m_Source->Bones();
@@ -729,10 +735,10 @@ bool CExportSkeleton::ExportGeometry(IWriter& F, u8 infl)
 
     for (SplitIt split_it=m_Splits.begin(); split_it!=m_Splits.end(); ++split_it)
 	{
-		//if (m_Source->m_objectFlags.is(CEditableObject::eoProgressive))
+		if (m_Source->m_objectFlags.is(CEditableObject::eoProgressive))
         	split_it->MakeProgressive();
-       // else
-        //	split_it->MakeStripify();
+        else
+        	split_it->MakeStripify();
 
 		SkelVertVec& lst = split_it->getV_Verts();
 	    for (SkelVertIt sv_it=lst.begin(); sv_it!=lst.end(); sv_it++)
@@ -879,6 +885,9 @@ bool CExportSkeleton::ExportMotionKeys(IWriter& F)
     mTranslate.translate	(m_Source->a_vPosition);
     mGT.mul					(mTranslate,mRotate);
 
+    if (g_force16BitTransformQuant)
+        std::cout << "..Export 16 bit motions" << std::endl;
+
     for (SMotionIt motion_it=m_Source->FirstSMotion(); motion_it!=m_Source->LastSMotion(); motion_it++, smot++)
     {
         CSMotion* cur_motion = *motion_it;
@@ -983,7 +992,7 @@ bool CExportSkeleton::ExportMotionKeys(IWriter& F)
             St.mul			(0.5f);
             CKeyQR& R		= BM._keysQR[0];
 
-            bool bTransform16Bit = true;
+            bool bTransform16Bit = g_force16BitTransformQuant;
             
             for (int t_idx=0; t_idx<dwLen; ++t_idx)
             {
@@ -1193,10 +1202,8 @@ bool CExportSkeleton::Export(IWriter& F, u8 infl)
 bool CBone::ExportOGF(IWriter& F)
 {
 	// check valid
-	if (!shape.Valid()){
-        ELog.Msg(mtError,"Bone '%s' has invalid shape.",*Name());
-    	return false;
-    }
+    if (!shape.Valid())
+        shape.Reset();
 
     F.w_u32		(OGF_IKDATA_VERSION);
     
@@ -1204,10 +1211,6 @@ bool CBone::ExportOGF(IWriter& F)
     F.w			(&shape,sizeof(SBoneShape));
 
     IK_data.Export(F);
-
-//	Fvector xyz;
-//	Fmatrix& R	= _RTransform();
-//	R.getXYZi	(xyz);
 
     F.w_fvector3(rest_rotate);
     F.w_fvector3(rest_offset);
