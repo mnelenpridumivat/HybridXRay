@@ -233,6 +233,7 @@ public:
     virtual void		ZoomObject			(BOOL bSelOnly);
 
     virtual bool		Load				(LPCSTR name);
+    virtual bool		LoadScale			(LPCSTR name, float scale, bool scale_mass);
     virtual bool		Save				(LPCSTR name, bool bInternal=false);
     virtual void		Reload				();
     

@@ -441,6 +441,31 @@ bool CActorTools::Load(LPCSTR obj_name)
         full_name += ".ogf";
         xr_delete(m_pEditObject);
         m_pEditObject = O;
+        //  m_pEditObject->Optimize ();
+        // delete visual
+        return true;
+    }
+    else 
+    {
+        ELog.DlgMsg(mtError, "Can't load object file '%s'.", obj_name);
+    }
+    xr_delete(O);
+    return false;
+}
+
+bool CActorTools::LoadScale(LPCSTR obj_name, float scale, bool scale_mass)
+{
+    xr_string 		full_name;
+    full_name = obj_name;
+
+    CEditableObject* O = xr_new<CEditableObject>(obj_name);
+    if (FS.exist(full_name.c_str()) && O->Load(full_name.c_str())) 
+    {
+        full_name += ".ogf";
+        xr_delete(m_pEditObject);
+        m_pEditObject = O;
+        m_pEditObject->a_vScale = scale;
+        m_pEditObject->a_vAdjustMass = !!scale_mass;
       //  m_pEditObject->Optimize ();
         // delete visual
         return true;

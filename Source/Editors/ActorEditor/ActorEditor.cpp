@@ -6,8 +6,9 @@
 
 // argv[1] - mode
 // argv[2] - object
-// argv[3] - ogf / omf / skls
+// argv[3] - ogf / omf / skls || object scale
 // argv[4] - data
+// argv[5] - object scale
 
 extern ECORE_API BOOL g_force16BitTransformQuant;
 extern ECORE_API BOOL g_forceNoCompressTransformQuant;
@@ -19,11 +20,13 @@ enum EExportFlags
     exfMakeProgressive	= (1<<2),	
     exfOptimizeSurfaces	= (1<<3),	
     exfDbgWindow    	= (1<<4),	
+    exfScaleCenterMass 	= (1<<5),	
 };
 
 int main(int argc, char** argv)
 {
     int ret_code = 0;
+    int flags = atoi(argv[4]);
 
     Core._initialize("Actor", ELogCallback,1, "",true);
 
@@ -36,9 +39,7 @@ int main(int argc, char** argv)
     std::cout << "argc " << argc << std::endl;
 
     std::cout << "Import object" << std::endl;
-    ATools->Load(argv[2]);
-
-    int flags = atoi(argv[4]);
+    ATools->LoadScale(argv[2], atof((atoi(argv[1]) == 2) ? argv[3] : argv[5]), (flags & exfScaleCenterMass));
 
     if (flags & exf16Bit)
         g_force16BitTransformQuant = true;
@@ -137,6 +138,14 @@ int main(int argc, char** argv)
         case 9:  // Export DM
         {
             if (!ATools->ExportDM(argv[3]))
+                ret_code = -1;
+
+            Core._destroy();
+            return ret_code;
+        }break;
+        case 10:  // Save object
+        {
+            if (!ATools->Save(argv[2]))
                 ret_code = -1;
 
             Core._destroy();

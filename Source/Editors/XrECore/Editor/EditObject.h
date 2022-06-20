@@ -212,6 +212,8 @@ public:
     // temp variable for actor
 	Fvector 		a_vPosition;
     Fvector			a_vRotate;
+    float           a_vScale;
+    BOOL            a_vAdjustMass;
 
     // temp variables for transformation
 	Fvector 		t_vPosition;

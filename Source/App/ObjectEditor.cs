@@ -29,6 +29,7 @@ namespace Object_tool
 		public string TEMP_FILE_NAME = "";
 		public bool dbg_window = false;
 		public List<ShapeEditType> model_shapes;
+		public float model_scale = 1.0f;
 
 		// Input
 		public bool bKeyIsDown = false;
@@ -38,8 +39,6 @@ namespace Object_tool
 			InitializeComponent();
 			System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
 			shapeParamsToolStripMenuItem.Enabled = false;
-
-			radioButton3.Visible = false;
 
 			if (Environment.GetCommandLineArgs().Length > 1)
 			{
@@ -69,6 +68,7 @@ namespace Object_tool
 			SaveSklsToolStripMenuItem.Enabled = has_motions;
 			oMFToolStripMenuItem.Enabled = has_motions;
 			LoadBoneData();
+			LoadScale();
 
 			for (int i = 0; i < model_shapes.Count; i++)
 			{
@@ -149,18 +149,18 @@ namespace Object_tool
 
 		private int ExportOGF(string object_path, string ogf_path)
 		{
-			return RunCompiller($"0 \"{object_path}\" \"{ogf_path}\" {GetFlags()}");
+			return RunCompiller($"0 \"{object_path}\" \"{ogf_path}\" {GetFlags()} {model_scale}");
 		}
 
 		private int ExportOMF(string object_path, string omf_path)
 		{
-			return RunCompiller($"1 \"{object_path}\" \"{omf_path}\" {GetFlags()}");
+			return RunCompiller($"1 \"{object_path}\" \"{omf_path}\" {GetFlags()} {model_scale}");
 		}
 
 		private int GenerateShapes(string object_path, List<ShapeEditType> shapes)
 		{
 			CopyShapeParams();
-			string args = $"2 \"{object_path}\" temp {GetFlags()}";
+			string args = $"2 \"{object_path}\" {model_scale} {GetFlags()}";
 			for (int i = 0; i < shapes.Count; i++)
 			{
 				args += $" \"{shapes[i].bone_id}-{shapes[i].bone_type}-{shapes[i].bone_flags}\"";
@@ -180,7 +180,7 @@ namespace Object_tool
 
 		private int SaveMotions(string object_path, string skls_path)
 		{
-			return RunCompiller($"5 \"{object_path}\" \"{skls_path}\" {GetFlags()}", false);
+			return RunCompiller($"5 \"{object_path}\" \"{skls_path}\" {GetFlags()} {model_scale}", false);
 		}
 
 		private int LoadBones(string object_path, string bones_path)
@@ -198,17 +198,22 @@ namespace Object_tool
 
 		private int SaveBones(string object_path, string bones_path)
 		{
-			return RunCompiller($"7 \"{object_path}\" \"{bones_path}\" {GetFlags()}", true);
+			return RunCompiller($"7 \"{object_path}\" \"{bones_path}\" {GetFlags()} {model_scale}", true);
 		}
 
 		private int SaveObj(string object_path, string obj_path)
 		{
-			return RunCompiller($"8 \"{object_path}\" \"{obj_path}\" {GetFlags()}", true);
+			return RunCompiller($"8 \"{object_path}\" \"{obj_path}\" {GetFlags()} {model_scale}", true);
 		}
 
 		private int SaveDM(string object_path, string dm_path)
 		{
-			return RunCompiller($"9 \"{object_path}\" \"{dm_path}\" {GetFlags()}", true);
+			return RunCompiller($"9 \"{object_path}\" \"{dm_path}\" {GetFlags()} {model_scale}", true);
+		}
+
+		private int SaveObject(string object_path)
+		{
+			return RunCompiller($"10 \"{object_path}\" null {GetFlags()} {model_scale}", true);
 		}
 
 		private int RunCompiller(string args, bool force_disable_window = false)
@@ -247,8 +252,8 @@ namespace Object_tool
 
 			if (radioButton2.Checked)
 				flags |= (1 << 0);
-			else if (radioButton3.Checked)
-				flags |= (1 << 1);
+			//else if (radioButton3.Checked)
+			//	flags |= (1 << 1);
 
 			if (checkBox1.Checked)
 				flags |= (1 << 2);
@@ -258,6 +263,9 @@ namespace Object_tool
 
 			if (dbg_window)
 				flags |= (1 << 4);
+
+			if (ScaleCenterOfMassCheckBox.Checked)
+				flags |= (1 << 5);
 
 			return flags;
         }
@@ -445,6 +453,26 @@ namespace Object_tool
 			}
 		}
 
+		private void LoadScale()
+		{
+			var xr_loader = new XRayLoader();
+
+			using (var r = new BinaryReader(new FileStream(TEMP_FILE_NAME, FileMode.Open)))
+			{
+				xr_loader.SetStream(r.BaseStream);
+
+				if (xr_loader.find_chunkSize((int)OBJECT.EOBJ_CHUNK_ACTORTRANSFORM, false, true) > 24)
+				{
+					xr_loader.ReadBytes(12);
+					xr_loader.ReadBytes(12);
+					model_scale = xr_loader.ReadFloat();
+					ObjectScaleTextBox.Text = model_scale.ToString();
+					uint chk = xr_loader.ReadUInt32();
+					ScaleCenterOfMassCheckBox.Checked = Convert.ToBoolean(chk);
+				}
+			}
+		}
+
 		private uint MotionCount()
 		{
 			uint count = 0;
@@ -467,7 +495,8 @@ namespace Object_tool
 			MessageBox.Show("Motion export:\nДанные флаги влияют на компресиию анимаций при экспортировании в OMF.\n1. 8 bit - ТЧ Формат\n2. 16 bit - ЗП Формат\n\n" +
 				"Model export:\n" +
 				"1. Make progressive bones - Создает прогрессивные меши при экспорте OGF. Это динамическая детализация модели (lod'ы), чаще используется для мировых объектов.\n" +
-				"2. Optimize surfaces - при включении объединяет меши с одинаковыми названиями текстур и шейдеров как и любой SDK. В данном эдиторе появилась возможность отключить это для последующих изменений через OGF Editor", "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				"2. Optimize surfaces - при включении объединяет меши с одинаковыми названиями текстур и шейдеров как и любой SDK. В данном эдиторе появилась возможность отключить это для последующих изменений через OGF Editor.\n\n" +
+                "Object scale - изменяет размер объекта при экспорте, влияет на размер модели и размер анимаций.\nScale center of mass - при активации во время экспорта с измененным размером объекта будут пересчитаны центры массы коллизии под новый размер.", "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
 		private void ClearUI()
@@ -570,6 +599,7 @@ namespace Object_tool
 
         private void objectToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+			SaveObject(TEMP_FILE_NAME);
 			File.Copy(TEMP_FILE_NAME, FILE_NAME, true);
 			AutoClosingMessageBox.Show("Object succesfully saved.", "", 1000, MessageBoxIcon.Information);
 		}
@@ -578,6 +608,51 @@ namespace Object_tool
         {
 			if (Directory.Exists(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp"))
 				Directory.Delete(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp", true);
+		}
+
+        private void ScaleKeyPress(object sender, KeyPressEventArgs e)
+        {
+			if (!(Char.IsDigit(e.KeyChar)) && !((e.KeyChar == '.') && (ObjectScaleTextBox.Text.IndexOf(".") == -1) &&(ObjectScaleTextBox.Text.Length != 0)))
+			{
+				if (e.KeyChar != (char)Keys.Back) e.Handled = true;
+			}
+		}
+
+		private void ScaleTextChanged(object sender, EventArgs e)
+		{
+			if (bKeyIsDown)
+			{
+				TextBox curBox = sender as TextBox;
+
+				if (curBox.Text.Length == 0)
+					return;
+
+				string number_mask = @"^-[0-9.]*$";
+				int temp = curBox.SelectionStart;
+				string mask = number_mask;
+				Regex.Match(curBox.Text, mask);
+
+				try
+				{
+					Convert.ToSingle(curBox.Text);
+					model_scale = Convert.ToSingle(curBox.Text);
+				}
+				catch (Exception)
+				{
+					curBox.Text = model_scale.ToString();
+
+					if (curBox.SelectionStart < 1)
+						curBox.SelectionStart = curBox.Text.Length;
+
+					curBox.SelectionStart = temp - 1;
+				}
+				bKeyIsDown = false;
+			}
+		}
+
+        private void ScaleKeyDown(object sender, KeyEventArgs e)
+        {
+			bKeyIsDown = true;
 		}
     }
 }

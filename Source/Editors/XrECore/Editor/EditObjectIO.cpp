@@ -183,6 +183,8 @@ void CEditableObject::Save(IWriter& F)
 		F.open_chunk	(EOBJ_CHUNK_ACTORTRANSFORM);
         F.w_fvector3	(a_vPosition);
         F.w_fvector3	(a_vRotate);
+        F.w_float       (a_vScale);
+        F.w_u32         (a_vAdjustMass);
 		F.close_chunk	();
     }
 
@@ -417,8 +419,18 @@ bool CEditableObject::Load(IReader& F)
         {
             if (F.find_chunk	(EOBJ_CHUNK_ACTORTRANSFORM))
             {
-                F.r_fvector3	(a_vPosition);
-                F.r_fvector3	(a_vRotate);
+                IReader *r = F.open_chunk(EOBJ_CHUNK_ACTORTRANSFORM);
+                if (r)
+                {
+                    r->r_fvector3        (a_vPosition);
+                    r->r_fvector3        (a_vRotate);
+                    if(r->elapsed())
+                    {
+                        a_vScale         = r->r_float();
+                        a_vAdjustMass     = !!r->r_u32();
+                    }
+                    r->close();
+                }
             }
 
             if (F.find_chunk	(EOBJ_CHUNK_DESC))
