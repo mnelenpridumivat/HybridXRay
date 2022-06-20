@@ -332,6 +332,30 @@ bool CActorTools::SaveMotions(LPCSTR name, bool bSelOnly)
     return false;
 }
 
+bool CActorTools::LoadBoneData(shared_str file)
+{
+    xr_string full_name = file.c_str();
+
+    if (FS.exist(full_name.c_str()))
+    {
+        IReader* R = FS.r_open(full_name.c_str());
+        return m_pEditObject->LoadBoneData(*R);
+    }
+    return false;
+}
+
+bool CActorTools::SaveBoneData(shared_str file)
+{
+    IWriter* W = FS.w_open(file.c_str());
+    if (W)
+    {
+        m_pEditObject->SaveBoneData(*W);
+        FS.w_close(W);
+        return true;
+    }
+    return false;
+}
+
 void CActorTools::MakePreview()
 {
 	if (m_pEditObject){

@@ -275,6 +275,9 @@ public:
     void 				WorldMotionRotate	(const Fvector& R);
     void				MakePreview			();
 
+    bool        LoadBoneData            (shared_str file);
+    bool        SaveBoneData            (shared_str file);
+
 	bool   	OnBoneNameAfterEdit	(PropValue* sender, shared_str& edit_val);
     void   	OnBoneNameChangeEvent(PropValue* sender);
 
