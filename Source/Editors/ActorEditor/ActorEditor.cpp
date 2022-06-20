@@ -134,6 +134,14 @@ int main(int argc, char** argv)
             Core._destroy();
             return ret_code;
         }break;
+        case 9:  // Export DM
+        {
+            if (!ATools->ExportDM(argv[3]))
+                ret_code = -1;
+
+            Core._destroy();
+            return ret_code;
+        }break;
     }
 
     Core._destroy();

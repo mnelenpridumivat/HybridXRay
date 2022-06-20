@@ -74,6 +74,9 @@ namespace Object_tool
             this.OpenBonesDialog = new System.Windows.Forms.OpenFileDialog();
             this.SaveBonesDialog = new System.Windows.Forms.SaveFileDialog();
             this.SaveObjDialog = new System.Windows.Forms.SaveFileDialog();
+            this.SaveDmDialog = new System.Windows.Forms.SaveFileDialog();
+            this.SaveOgfDialog = new System.Windows.Forms.SaveFileDialog();
+            this.SaveOmfDialog = new System.Windows.Forms.SaveFileDialog();
             this.TabControl.SuspendLayout();
             this.FlagsPage.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -292,7 +295,7 @@ namespace Object_tool
             // 
             this.sklSklsToolStripMenuItem.Name = "sklSklsToolStripMenuItem";
             this.sklSklsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.sklSklsToolStripMenuItem.Text = "Skl\\Skls";
+            this.sklSklsToolStripMenuItem.Text = "Skls";
             this.sklSklsToolStripMenuItem.Click += new System.EventHandler(this.LoadSkls_Click);
             // 
             // saveToolStripMenuItem
@@ -330,7 +333,7 @@ namespace Object_tool
             // DeletesklsToolStripMenuItem
             // 
             this.DeletesklsToolStripMenuItem.Name = "DeletesklsToolStripMenuItem";
-            this.DeletesklsToolStripMenuItem.Size = new System.Drawing.Size(94, 22);
+            this.DeletesklsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.DeletesklsToolStripMenuItem.Text = "Skls";
             this.DeletesklsToolStripMenuItem.Click += new System.EventHandler(this.DeleteMotionsButton_Click);
             // 
@@ -443,7 +446,19 @@ namespace Object_tool
             // 
             // SaveObjDialog
             // 
-            this.SaveObjDialog.Filter = "Wavefront Obj file|*.obj";
+            this.SaveObjDialog.Filter = "Obj file|*.obj";
+            // 
+            // SaveDmDialog
+            // 
+            this.SaveDmDialog.Filter = "DM file|*.dm";
+            // 
+            // SaveOgfDialog
+            // 
+            this.SaveOgfDialog.Filter = "OGF file|*.ogf";
+            // 
+            // SaveOmfDialog
+            // 
+            this.SaveOmfDialog.Filter = "OMF file|*.omf";
             // 
             // Object_Editor
             // 
@@ -522,6 +537,9 @@ namespace Object_tool
         private System.Windows.Forms.OpenFileDialog OpenBonesDialog;
         private System.Windows.Forms.SaveFileDialog SaveBonesDialog;
         private System.Windows.Forms.SaveFileDialog SaveObjDialog;
+        private System.Windows.Forms.SaveFileDialog SaveDmDialog;
+        private System.Windows.Forms.SaveFileDialog SaveOgfDialog;
+        private System.Windows.Forms.SaveFileDialog SaveOmfDialog;
     }
 }
 
