@@ -30,6 +30,7 @@ namespace Object_tool
 		public bool dbg_window = false;
 		public List<ShapeEditType> model_shapes;
 		public float model_scale = 1.0f;
+		public int saves_count = 0;
 
 		// Input
 		public bool bKeyIsDown = false;
@@ -48,6 +49,7 @@ namespace Object_tool
 
 		public void OpenFile(string filename)
         {
+			saves_count = 0;
 			if (Directory.Exists(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp"))
 				Directory.Delete(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp", true);
 
@@ -252,8 +254,6 @@ namespace Object_tool
 
 			if (radioButton2.Checked)
 				flags |= (1 << 0);
-			//else if (radioButton3.Checked)
-			//	flags |= (1 << 1);
 
 			if (checkBox1.Checked)
 				flags |= (1 << 2);
@@ -403,6 +403,7 @@ namespace Object_tool
 		{
 			var xr_loader = new XRayLoader();
 			model_shapes = new List<ShapeEditType>();
+			bool bFind = false;
 
 			using (var r = new BinaryReader(new FileStream(TEMP_FILE_NAME, FileMode.Open)))
 			{
@@ -412,6 +413,7 @@ namespace Object_tool
 				if (B_CHUNK)
 				{
 					int chunk = 0;
+					bFind = true;
 
 					while (true)
 					{
@@ -441,6 +443,7 @@ namespace Object_tool
 				}
 				else if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_BONES, false, true))
 				{
+					bFind = true;
 					ShapeEditType shape = new ShapeEditType();
 					shape.bone_flags = 0;
 					shape.bone_type = 0;
@@ -459,6 +462,13 @@ namespace Object_tool
 						model_shapes.Add(shape);
 					}
 				}
+			}
+
+			if (!bFind && saves_count == 0)
+            {
+				saves_count++;
+				SaveObject(TEMP_FILE_NAME);
+				LoadBoneData();
 			}
 		}
 
