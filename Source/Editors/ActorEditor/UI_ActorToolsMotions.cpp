@@ -304,6 +304,8 @@ void CActorTools::OnGeometryModified()
 bool CActorTools::AppendMotion(LPCSTR fn)
 {
 	VERIFY(m_pEditObject);
+
+    m_pEditObject->m_SMotionRefs.clear();
     bool bRes = m_pEditObject->AppendSMotion(fn,&appended_motions);
     return bRes;
 }

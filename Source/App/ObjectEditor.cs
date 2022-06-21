@@ -170,12 +170,12 @@ namespace Object_tool
 
 		private int DeleteMotions(string object_path)
 		{
-			return RunCompiller($"3 \"{object_path}\" temp {GetFlags()}", true);
+			return RunCompiller($"3 \"{object_path}\" temp {GetFlags()} {model_scale}", true);
 		}
 
 		private int LoadMotions(string object_path, string skls_path)
 		{
-			return RunCompiller($"4 \"{object_path}\" \"{skls_path}\" {GetFlags()}", true);
+			return RunCompiller($"4 \"{object_path}\" \"{skls_path}\" {GetFlags()} {model_scale}", true);
 		}
 
 		private int SaveMotions(string object_path, string skls_path)
@@ -185,7 +185,7 @@ namespace Object_tool
 
 		private int LoadBones(string object_path, string bones_path)
 		{
-			int res = RunCompiller($"6 \"{object_path}\" \"{bones_path}\" {GetFlags()}", true);
+			int res = RunCompiller($"6 \"{object_path}\" \"{bones_path}\" {GetFlags()} {model_scale}", true);
 
 			ClearUI();
 			LoadBoneData();
