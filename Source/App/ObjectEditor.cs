@@ -40,6 +40,11 @@ namespace Object_tool
 			InitializeComponent();
 			System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
 			shapeParamsToolStripMenuItem.Enabled = false;
+			saveToolStripMenuItem.Enabled = false;
+			exportToolStripMenuItem.Enabled = false;
+			deleteToolStripMenuItem.Enabled = false;
+			sklSklsToolStripMenuItem.Enabled = false;
+			bonesToolStripMenuItem.Enabled = false;
 
 			if (Environment.GetCommandLineArgs().Length > 1)
 			{
@@ -84,6 +89,11 @@ namespace Object_tool
 			DeletesklsToolStripMenuItem.Enabled = has_motions;
 			SaveSklsToolStripMenuItem.Enabled = has_motions;
 			oMFToolStripMenuItem.Enabled = has_motions;
+			saveToolStripMenuItem.Enabled = true;
+			exportToolStripMenuItem.Enabled = true;
+			deleteToolStripMenuItem.Enabled = true;
+			sklSklsToolStripMenuItem.Enabled = true;
+			bonesToolStripMenuItem.Enabled = true;
 			LoadBoneData();
 			LoadScale();
 
