@@ -57,6 +57,21 @@ namespace Object_tool
 			FILE_NAME = filename;
 			StatusFile.Text = FILE_NAME.Substring(FILE_NAME.LastIndexOf('\\') + 1);
 
+			SaveOgfDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
+			SaveOgfDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + ".ogf";
+
+			SaveOmfDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
+			SaveOmfDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + ".omf";
+
+			SaveSklsDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
+			SaveSklsDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + ".skls";
+
+			SaveBonesDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
+			SaveBonesDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + ".bones";
+
+			SaveObjDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
+			SaveObjDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + ".obj";
+
 			if (!Directory.Exists(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp"))
 				Directory.CreateDirectory(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp");
 
@@ -275,11 +290,10 @@ namespace Object_tool
 
 		private void ExportOGF_Click(object sender, EventArgs e)
 		{
-			string ogf = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('.')) + ".ogf";
-
-			SaveOgfDialog.FileName = ogf;
 			if (SaveOgfDialog.ShowDialog() == DialogResult.OK)
 			{
+				SaveOgfDialog.InitialDirectory = "";
+
 				int code = ExportOGF(TEMP_FILE_NAME, SaveOgfDialog.FileName);
 				if (code == 0)
 					AutoClosingMessageBox.Show("Model succesfully exported.", "", 1000, MessageBoxIcon.Information);
@@ -295,11 +309,10 @@ namespace Object_tool
 
 		private void ExportOMF_Click(object sender, EventArgs e)
 		{
-			string omf = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('.')) + ".omf";
-
-			SaveOmfDialog.FileName = omf;
 			if (SaveOmfDialog.ShowDialog() == DialogResult.OK)
 			{
+				SaveOmfDialog.InitialDirectory = "";
+
 				if (ExportOMF(TEMP_FILE_NAME, SaveOmfDialog.FileName) == 0)
 					AutoClosingMessageBox.Show("Motions succesfully exported.", "", 1000, MessageBoxIcon.Information);
 				else
@@ -340,6 +353,8 @@ namespace Object_tool
 		{
 			if (SaveSklsDialog.ShowDialog() == DialogResult.OK)
 			{
+				SaveSklsDialog.InitialDirectory = "";
+
 				if (SaveMotions(TEMP_FILE_NAME, SaveSklsDialog.FileName) == 0)
 					AutoClosingMessageBox.Show("Motions succesfully saved.", "", 1000, MessageBoxIcon.Information);
 				else
@@ -362,6 +377,8 @@ namespace Object_tool
 		{
 			if (SaveBonesDialog.ShowDialog() == DialogResult.OK)
 			{
+				SaveBonesDialog.InitialDirectory = "";
+
 				if (SaveBones(TEMP_FILE_NAME, SaveBonesDialog.FileName) == 0)
 					AutoClosingMessageBox.Show("Bone data succesfully saved.", "", 1000, MessageBoxIcon.Information);
 				else
@@ -373,6 +390,8 @@ namespace Object_tool
 		{
 			if (SaveObjDialog.ShowDialog() == DialogResult.OK)
 			{
+				SaveObjDialog.InitialDirectory = "";
+          
 				if (SaveObj(TEMP_FILE_NAME, SaveObjDialog.FileName) == 0)
 					AutoClosingMessageBox.Show("Model succesfully saved.", "", 1000, MessageBoxIcon.Information);
 				else
