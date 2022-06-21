@@ -571,7 +571,7 @@ namespace Object_tool
 			{
 				case "ShapesPage":
 					{
-						shapeParamsToolStripMenuItem.Enabled = true;
+						shapeParamsToolStripMenuItem.Enabled = model_shapes.Count > 0;
 						break;
 					}
 			}
