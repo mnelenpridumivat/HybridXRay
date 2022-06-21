@@ -21,6 +21,7 @@ enum EExportFlags
     exfOptimizeSurfaces	= (1<<3),	
     exfDbgWindow    	= (1<<4),	
     exfScaleCenterMass 	= (1<<5),	
+    exfHQGeometryPlus   = (1<<6),	
 };
 
 int main(int argc, char** argv)
@@ -28,7 +29,7 @@ int main(int argc, char** argv)
     int ret_code = 0;
     int flags = atoi(argv[4]);
 
-    Core._initialize("Actor", ELogCallback,1, "",true);
+    Core._initialize("Actor", ELogCallback,1, "",true, (flags & exfDbgWindow));
 
     Tools = xr_new<CActorTools>();
     ATools = (CActorTools*)Tools;
@@ -51,6 +52,9 @@ int main(int argc, char** argv)
 
     if (flags & exfOptimizeSurfaces)
         ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoOptimizeSurf, TRUE);
+
+    if (flags & exfHQGeometryPlus)
+        ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoHQExportPlus, TRUE);
 
     switch (atoi(argv[1]))
     {

@@ -267,6 +267,9 @@ namespace Object_tool
 			if (ScaleCenterOfMassCheckBox.Checked)
 				flags |= (1 << 5);
 
+			if (HQGeometryPlus.Checked)
+				flags |= (1 << 6);
+
 			return flags;
         }
 
@@ -277,10 +280,16 @@ namespace Object_tool
 			SaveOgfDialog.FileName = ogf;
 			if (SaveOgfDialog.ShowDialog() == DialogResult.OK)
 			{
-				if (ExportOGF(TEMP_FILE_NAME, SaveOgfDialog.FileName) == 0)
+				int code = ExportOGF(TEMP_FILE_NAME, SaveOgfDialog.FileName);
+				if (code == 0)
 					AutoClosingMessageBox.Show("Model succesfully exported.", "", 1000, MessageBoxIcon.Information);
 				else
-					AutoClosingMessageBox.Show("Can't export model.", "", 1000, MessageBoxIcon.Error);
+                {
+					if (code == 1)
+						MessageBox.Show("Can't export model.\nPlease, disable HQ Geometry+ flag.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					else
+						AutoClosingMessageBox.Show("Can't export model.", "", 1000, MessageBoxIcon.Error);
+				}
 			}
 		}
 
@@ -494,8 +503,9 @@ namespace Object_tool
 		{
 			MessageBox.Show("Motion export:\nДанные флаги влияют на компресиию анимаций при экспортировании в OMF.\n1. 8 bit - ТЧ Формат\n2. 16 bit - ЗП Формат\n\n" +
 				"Model export:\n" +
-				"1. Make progressive bones - Создает прогрессивные меши при экспорте OGF. Это динамическая детализация модели (lod'ы), чаще используется для мировых объектов.\n" +
-				"2. Optimize surfaces - при включении объединяет меши с одинаковыми названиями текстур и шейдеров как и любой SDK. В данном эдиторе появилась возможность отключить это для последующих изменений через OGF Editor.\n\n" +
+				"1. Make progressive bones - создает прогрессивные меши при экспорте OGF. Это динамическая детализация модели (lod'ы), чаще используется для мировых объектов.\n" +
+				"2. Optimize surfaces - при включении объединяет меши с одинаковыми названиями текстур и шейдеров как и любой SDK. В данном эдиторе появилась возможность отключить это для последующих изменений через OGF Editor.\n" +
+                "3. HQ Geometry+ - при активации компилятор постарается экспортировать модель без оптимизаций вертексов, эксперементальная функция которая иногда не работает с тяжёлыми моделями. \n\n" +
                 "Object scale - изменяет размер объекта при экспорте, влияет на размер модели и размер анимаций.\nScale center of mass - при активации во время экспорта с измененным размером объекта будут пересчитаны центры массы коллизии под новый размер.", "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 

@@ -36,6 +36,9 @@ namespace Object_tool
             this.TabControl = new System.Windows.Forms.TabControl();
             this.FlagsPage = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.ScaleCenterOfMassCheckBox = new System.Windows.Forms.CheckBox();
+            this.ObjectScaleTextBox = new System.Windows.Forms.TextBox();
             this.FlagsHelpButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
@@ -46,15 +49,18 @@ namespace Object_tool
             this.ShapesPage = new System.Windows.Forms.TabPage();
             this.MenuPanel = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.oGFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.oMFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.objectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sklSklsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bonesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.objectToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveSklsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bonesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.oGFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.oMFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.objToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DeletesklsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.shapeParamsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -67,18 +73,14 @@ namespace Object_tool
             this.StatusPanel = new System.Windows.Forms.StatusStrip();
             this.FileLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.StatusFile = new System.Windows.Forms.ToolStripStatusLabel();
-            this.bonesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.objToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.bonesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenBonesDialog = new System.Windows.Forms.OpenFileDialog();
             this.SaveBonesDialog = new System.Windows.Forms.SaveFileDialog();
             this.SaveObjDialog = new System.Windows.Forms.SaveFileDialog();
             this.SaveDmDialog = new System.Windows.Forms.SaveFileDialog();
             this.SaveOgfDialog = new System.Windows.Forms.SaveFileDialog();
             this.SaveOmfDialog = new System.Windows.Forms.SaveFileDialog();
-            this.ObjectScaleTextBox = new System.Windows.Forms.TextBox();
-            this.ScaleCenterOfMassCheckBox = new System.Windows.Forms.CheckBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.HQGeometry = new System.Windows.Forms.RadioButton();
+            this.HQGeometryPlus = new System.Windows.Forms.RadioButton();
             this.TabControl.SuspendLayout();
             this.FlagsPage.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -107,7 +109,7 @@ namespace Object_tool
             this.TabControl.Location = new System.Drawing.Point(12, 27);
             this.TabControl.Name = "TabControl";
             this.TabControl.SelectedIndex = 0;
-            this.TabControl.Size = new System.Drawing.Size(347, 187);
+            this.TabControl.Size = new System.Drawing.Size(347, 195);
             this.TabControl.TabIndex = 10;
             this.TabControl.SelectedIndexChanged += new System.EventHandler(this.IndexChanged);
             // 
@@ -116,7 +118,7 @@ namespace Object_tool
             this.FlagsPage.Controls.Add(this.groupBox1);
             this.FlagsPage.Location = new System.Drawing.Point(4, 25);
             this.FlagsPage.Name = "FlagsPage";
-            this.FlagsPage.Size = new System.Drawing.Size(339, 158);
+            this.FlagsPage.Size = new System.Drawing.Size(339, 166);
             this.FlagsPage.TabIndex = 0;
             this.FlagsPage.Text = "Flags";
             this.FlagsPage.UseVisualStyleBackColor = true;
@@ -124,6 +126,8 @@ namespace Object_tool
             // groupBox1
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.groupBox1.Controls.Add(this.HQGeometryPlus);
+            this.groupBox1.Controls.Add(this.HQGeometry);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.ScaleCenterOfMassCheckBox);
             this.groupBox1.Controls.Add(this.ObjectScaleTextBox);
@@ -136,15 +140,50 @@ namespace Object_tool
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(333, 152);
+            this.groupBox1.Size = new System.Drawing.Size(333, 160);
             this.groupBox1.TabIndex = 16;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Edit export flags";
             // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(16, 108);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(69, 13);
+            this.label3.TabIndex = 18;
+            this.label3.Text = "Object scale:";
+            // 
+            // ScaleCenterOfMassCheckBox
+            // 
+            this.ScaleCenterOfMassCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.ScaleCenterOfMassCheckBox.AutoSize = true;
+            this.ScaleCenterOfMassCheckBox.Checked = true;
+            this.ScaleCenterOfMassCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ScaleCenterOfMassCheckBox.Location = new System.Drawing.Point(19, 131);
+            this.ScaleCenterOfMassCheckBox.Name = "ScaleCenterOfMassCheckBox";
+            this.ScaleCenterOfMassCheckBox.Size = new System.Drawing.Size(125, 17);
+            this.ScaleCenterOfMassCheckBox.TabIndex = 17;
+            this.ScaleCenterOfMassCheckBox.Text = "Scale center of mass";
+            this.ScaleCenterOfMassCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // ObjectScaleTextBox
+            // 
+            this.ObjectScaleTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.ObjectScaleTextBox.Location = new System.Drawing.Point(91, 105);
+            this.ObjectScaleTextBox.Name = "ObjectScaleTextBox";
+            this.ObjectScaleTextBox.Size = new System.Drawing.Size(67, 20);
+            this.ObjectScaleTextBox.TabIndex = 16;
+            this.ObjectScaleTextBox.Text = "1.0";
+            this.ObjectScaleTextBox.TextChanged += new System.EventHandler(this.ScaleTextChanged);
+            this.ObjectScaleTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ScaleKeyDown);
+            this.ObjectScaleTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ScaleKeyPress);
+            // 
             // FlagsHelpButton
             // 
             this.FlagsHelpButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.FlagsHelpButton.Location = new System.Drawing.Point(252, 123);
+            this.FlagsHelpButton.Location = new System.Drawing.Point(252, 131);
             this.FlagsHelpButton.Name = "FlagsHelpButton";
             this.FlagsHelpButton.Size = new System.Drawing.Size(75, 23);
             this.FlagsHelpButton.TabIndex = 15;
@@ -164,7 +203,7 @@ namespace Object_tool
             // checkBox2
             // 
             this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(167, 70);
+            this.checkBox2.Location = new System.Drawing.Point(167, 111);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(109, 17);
             this.checkBox2.TabIndex = 14;
@@ -184,7 +223,7 @@ namespace Object_tool
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(167, 47);
+            this.checkBox1.Location = new System.Drawing.Point(167, 88);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(142, 17);
             this.checkBox1.TabIndex = 13;
@@ -194,12 +233,10 @@ namespace Object_tool
             // radioButton2
             // 
             this.radioButton2.AutoSize = true;
-            this.radioButton2.Checked = true;
             this.radioButton2.Location = new System.Drawing.Point(19, 69);
             this.radioButton2.Name = "radioButton2";
             this.radioButton2.Size = new System.Drawing.Size(51, 17);
             this.radioButton2.TabIndex = 9;
-            this.radioButton2.TabStop = true;
             this.radioButton2.Text = "16 bit";
             this.radioButton2.UseVisualStyleBackColor = true;
             // 
@@ -244,30 +281,6 @@ namespace Object_tool
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
-            // exportToolStripMenuItem
-            // 
-            this.exportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.oGFToolStripMenuItem,
-            this.oMFToolStripMenuItem,
-            this.objToolStripMenuItem});
-            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.exportToolStripMenuItem.Text = "Export";
-            // 
-            // oGFToolStripMenuItem
-            // 
-            this.oGFToolStripMenuItem.Name = "oGFToolStripMenuItem";
-            this.oGFToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.oGFToolStripMenuItem.Text = "OGF";
-            this.oGFToolStripMenuItem.Click += new System.EventHandler(this.ExportOGF_Click);
-            // 
-            // oMFToolStripMenuItem
-            // 
-            this.oMFToolStripMenuItem.Name = "oMFToolStripMenuItem";
-            this.oMFToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.oMFToolStripMenuItem.Text = "OMF";
-            this.oMFToolStripMenuItem.Click += new System.EventHandler(this.ExportOMF_Click);
-            // 
             // loadToolStripMenuItem
             // 
             this.loadToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -275,22 +288,29 @@ namespace Object_tool
             this.sklSklsToolStripMenuItem,
             this.bonesToolStripMenuItem});
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
             this.loadToolStripMenuItem.Text = "Load";
             // 
             // objectToolStripMenuItem
             // 
             this.objectToolStripMenuItem.Name = "objectToolStripMenuItem";
-            this.objectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.objectToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
             this.objectToolStripMenuItem.Text = "Object";
             this.objectToolStripMenuItem.Click += new System.EventHandler(this.objectToolStripMenuItem_Click);
             // 
             // sklSklsToolStripMenuItem
             // 
             this.sklSklsToolStripMenuItem.Name = "sklSklsToolStripMenuItem";
-            this.sklSklsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.sklSklsToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
             this.sklSklsToolStripMenuItem.Text = "Skls";
             this.sklSklsToolStripMenuItem.Click += new System.EventHandler(this.LoadSkls_Click);
+            // 
+            // bonesToolStripMenuItem
+            // 
+            this.bonesToolStripMenuItem.Name = "bonesToolStripMenuItem";
+            this.bonesToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.bonesToolStripMenuItem.Text = "Bones";
+            this.bonesToolStripMenuItem.Click += new System.EventHandler(this.bonesToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
@@ -299,35 +319,73 @@ namespace Object_tool
             this.SaveSklsToolStripMenuItem,
             this.bonesToolStripMenuItem1});
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
             this.saveToolStripMenuItem.Text = "Save";
             // 
             // objectToolStripMenuItem1
             // 
             this.objectToolStripMenuItem1.Name = "objectToolStripMenuItem1";
-            this.objectToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.objectToolStripMenuItem1.Size = new System.Drawing.Size(109, 22);
             this.objectToolStripMenuItem1.Text = "Object";
             this.objectToolStripMenuItem1.Click += new System.EventHandler(this.objectToolStripMenuItem1_Click);
             // 
             // SaveSklsToolStripMenuItem
             // 
             this.SaveSklsToolStripMenuItem.Name = "SaveSklsToolStripMenuItem";
-            this.SaveSklsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.SaveSklsToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
             this.SaveSklsToolStripMenuItem.Text = "Skls";
             this.SaveSklsToolStripMenuItem.Click += new System.EventHandler(this.SaveMotionsButton_Click);
+            // 
+            // bonesToolStripMenuItem1
+            // 
+            this.bonesToolStripMenuItem1.Name = "bonesToolStripMenuItem1";
+            this.bonesToolStripMenuItem1.Size = new System.Drawing.Size(109, 22);
+            this.bonesToolStripMenuItem1.Text = "Bones";
+            this.bonesToolStripMenuItem1.Click += new System.EventHandler(this.bonesToolStripMenuItem1_Click);
+            // 
+            // exportToolStripMenuItem
+            // 
+            this.exportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.oGFToolStripMenuItem,
+            this.oMFToolStripMenuItem,
+            this.objToolStripMenuItem});
+            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
+            this.exportToolStripMenuItem.Text = "Export";
+            // 
+            // oGFToolStripMenuItem
+            // 
+            this.oGFToolStripMenuItem.Name = "oGFToolStripMenuItem";
+            this.oGFToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.oGFToolStripMenuItem.Text = "OGF";
+            this.oGFToolStripMenuItem.Click += new System.EventHandler(this.ExportOGF_Click);
+            // 
+            // oMFToolStripMenuItem
+            // 
+            this.oMFToolStripMenuItem.Name = "oMFToolStripMenuItem";
+            this.oMFToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.oMFToolStripMenuItem.Text = "OMF";
+            this.oMFToolStripMenuItem.Click += new System.EventHandler(this.ExportOMF_Click);
+            // 
+            // objToolStripMenuItem
+            // 
+            this.objToolStripMenuItem.Name = "objToolStripMenuItem";
+            this.objToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.objToolStripMenuItem.Text = "Obj";
+            this.objToolStripMenuItem.Click += new System.EventHandler(this.objToolStripMenuItem_Click);
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.DeletesklsToolStripMenuItem});
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
             this.deleteToolStripMenuItem.Text = "Delete";
             // 
             // DeletesklsToolStripMenuItem
             // 
             this.DeletesklsToolStripMenuItem.Name = "DeletesklsToolStripMenuItem";
-            this.DeletesklsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.DeletesklsToolStripMenuItem.Size = new System.Drawing.Size(94, 22);
             this.DeletesklsToolStripMenuItem.Text = "Skls";
             this.DeletesklsToolStripMenuItem.Click += new System.EventHandler(this.DeleteMotionsButton_Click);
             // 
@@ -343,7 +401,7 @@ namespace Object_tool
             // generateShapesToolStripMenuItem
             // 
             this.generateShapesToolStripMenuItem.Name = "generateShapesToolStripMenuItem";
-            this.generateShapesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.generateShapesToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.generateShapesToolStripMenuItem.Text = "Generate shapes";
             this.generateShapesToolStripMenuItem.Click += new System.EventHandler(this.generateShapesToolStripMenuItem_Click);
             // 
@@ -355,7 +413,7 @@ namespace Object_tool
             this.allSphereToolStripMenuItem1,
             this.allCylinderToolStripMenuItem1});
             this.typeHelperToolStripMenuItem.Name = "typeHelperToolStripMenuItem";
-            this.typeHelperToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.typeHelperToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.typeHelperToolStripMenuItem.Text = "Type helper";
             // 
             // allNoneToolStripMenuItem1
@@ -391,7 +449,7 @@ namespace Object_tool
             this.StatusPanel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileLabel,
             this.StatusFile});
-            this.StatusPanel.Location = new System.Drawing.Point(0, 215);
+            this.StatusPanel.Location = new System.Drawing.Point(0, 223);
             this.StatusPanel.Name = "StatusPanel";
             this.StatusPanel.Size = new System.Drawing.Size(372, 22);
             this.StatusPanel.TabIndex = 31;
@@ -408,27 +466,6 @@ namespace Object_tool
             this.StatusFile.Name = "StatusFile";
             this.StatusFile.Size = new System.Drawing.Size(12, 17);
             this.StatusFile.Text = "-";
-            // 
-            // bonesToolStripMenuItem
-            // 
-            this.bonesToolStripMenuItem.Name = "bonesToolStripMenuItem";
-            this.bonesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.bonesToolStripMenuItem.Text = "Bones";
-            this.bonesToolStripMenuItem.Click += new System.EventHandler(this.bonesToolStripMenuItem_Click);
-            // 
-            // objToolStripMenuItem
-            // 
-            this.objToolStripMenuItem.Name = "objToolStripMenuItem";
-            this.objToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.objToolStripMenuItem.Text = "Obj";
-            this.objToolStripMenuItem.Click += new System.EventHandler(this.objToolStripMenuItem_Click);
-            // 
-            // bonesToolStripMenuItem1
-            // 
-            this.bonesToolStripMenuItem1.Name = "bonesToolStripMenuItem1";
-            this.bonesToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.bonesToolStripMenuItem1.Text = "Bones";
-            this.bonesToolStripMenuItem1.Click += new System.EventHandler(this.bonesToolStripMenuItem1_Click);
             // 
             // OpenBonesDialog
             // 
@@ -454,47 +491,34 @@ namespace Object_tool
             // 
             this.SaveOmfDialog.Filter = "OMF file|*.omf";
             // 
-            // ObjectScaleTextBox
+            // HQGeometry
             // 
-            this.ObjectScaleTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.ObjectScaleTextBox.Location = new System.Drawing.Point(91, 97);
-            this.ObjectScaleTextBox.Name = "ObjectScaleTextBox";
-            this.ObjectScaleTextBox.Size = new System.Drawing.Size(67, 20);
-            this.ObjectScaleTextBox.TabIndex = 16;
-            this.ObjectScaleTextBox.Text = "1.0";
-            this.ObjectScaleTextBox.TextChanged += new System.EventHandler(this.ScaleTextChanged);
-            this.ObjectScaleTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ScaleKeyDown);
-            this.ObjectScaleTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ScaleKeyPress);
+            this.HQGeometry.AutoSize = true;
+            this.HQGeometry.Checked = true;
+            this.HQGeometry.Location = new System.Drawing.Point(167, 41);
+            this.HQGeometry.Name = "HQGeometry";
+            this.HQGeometry.Size = new System.Drawing.Size(89, 17);
+            this.HQGeometry.TabIndex = 19;
+            this.HQGeometry.TabStop = true;
+            this.HQGeometry.Text = "HQ Geometry";
+            this.HQGeometry.UseVisualStyleBackColor = true;
             // 
-            // ScaleCenterOfMassCheckBox
+            // HQGeometryPlus
             // 
-            this.ScaleCenterOfMassCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.ScaleCenterOfMassCheckBox.AutoSize = true;
-            this.ScaleCenterOfMassCheckBox.Checked = true;
-            this.ScaleCenterOfMassCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ScaleCenterOfMassCheckBox.Location = new System.Drawing.Point(19, 123);
-            this.ScaleCenterOfMassCheckBox.Name = "ScaleCenterOfMassCheckBox";
-            this.ScaleCenterOfMassCheckBox.Size = new System.Drawing.Size(125, 17);
-            this.ScaleCenterOfMassCheckBox.TabIndex = 17;
-            this.ScaleCenterOfMassCheckBox.Text = "Scale center of mass";
-            this.ScaleCenterOfMassCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // label3
-            // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(16, 100);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(69, 13);
-            this.label3.TabIndex = 18;
-            this.label3.Text = "Object scale:";
+            this.HQGeometryPlus.AutoSize = true;
+            this.HQGeometryPlus.Location = new System.Drawing.Point(167, 65);
+            this.HQGeometryPlus.Name = "HQGeometryPlus";
+            this.HQGeometryPlus.Size = new System.Drawing.Size(98, 17);
+            this.HQGeometryPlus.TabIndex = 20;
+            this.HQGeometryPlus.Text = "HQ Geometry+ ";
+            this.HQGeometryPlus.UseVisualStyleBackColor = true;
             // 
             // Object_Editor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(372, 237);
+            this.ClientSize = new System.Drawing.Size(372, 245);
             this.Controls.Add(this.StatusPanel);
             this.Controls.Add(this.TabControl);
             this.Controls.Add(this.MenuPanel);
@@ -502,7 +526,7 @@ namespace Object_tool
             this.MainMenuStrip = this.MenuPanel;
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(388, 540);
-            this.MinimumSize = new System.Drawing.Size(388, 276);
+            this.MinimumSize = new System.Drawing.Size(388, 284);
             this.Name = "Object_Editor";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Object Editor";
@@ -571,6 +595,8 @@ namespace Object_tool
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox ScaleCenterOfMassCheckBox;
         private System.Windows.Forms.TextBox ObjectScaleTextBox;
+        private System.Windows.Forms.RadioButton HQGeometryPlus;
+        private System.Windows.Forms.RadioButton HQGeometry;
     }
 }
 

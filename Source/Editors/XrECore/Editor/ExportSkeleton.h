@@ -38,6 +38,29 @@ struct ECORE_API SSkelVert: public st_SVert{
         }
         sort_by_bone(); // need to similar 
     }
+    BOOL    similar_pos(SSkelVert& V)
+    {
+        return offs.similar(V.offs,EPS);
+    }
+    BOOL    similar(SSkelVert& V)
+    {
+        if (bones.size()!=V.bones.size())    return FALSE;
+        for (u8 k=0; k<(u8)bones.size(); k++)
+        {
+            if (!bones[k].similar(V.bones[k]))
+                return FALSE;
+        }
+        if (!uv.similar    (V.uv,EPS_S))
+            return FALSE;
+
+        if (!offs.similar(V.offs,EPS))
+            return FALSE;
+
+        if (!norm.similar(V.norm,EPS))
+            return FALSE;
+
+        return TRUE;
+    }
 };
 
 struct ECORE_API SSkelFace{
@@ -53,11 +76,16 @@ protected:
     SkelVertVec		m_Verts;
     SkelFaceVec		m_Faces;
 
+    Fvector         m_VMmin, m_VMscale;
+    U32Vec          m_VM[clpSMX+1][clpSMY+1][clpSMZ+1];
+    Fvector         m_VMeps;
+
     u16				VPack(SSkelVert& V);
+    u16				VPackHQ(SSkelVert& V);
 public:
     u32 			invalid_faces;
 public:
-    CSkeletonCollectorPacked	(const Fbox &bb, int apx_vertices=5000, int apx_faces=5000);
+    CSkeletonCollectorPacked	(const Fbox &bb, bool hq, int apx_vertices=5000, int apx_faces=5000);
     bool 			check      	(SSkelFace& F){
 		if ((F.v[0]==F.v[1]) || (F.v[0]==F.v[2]) || (F.v[1]==F.v[2])) return false;
         for (SkelFaceIt f_it=m_Faces.begin(); f_it!=m_Faces.end(); f_it++){
@@ -71,7 +99,7 @@ public:
         }
         return true;
     }
-	bool add_face	(SSkelVert& v0, SSkelVert& v1, SSkelVert& v2)
+	bool add_face	(SSkelVert& v0, SSkelVert& v1, SSkelVert& v2, bool HQ)
     {
 		if (v0.offs.similar(v1.offs,EPS) || v0.offs.similar(v2.offs,EPS) || v1.offs.similar(v2.offs,EPS)){
 			ELog.Msg(mtError,"Degenerate face found. Removed.");
@@ -79,9 +107,19 @@ public:
             return false;
         }
         SSkelFace F;
-        F.v[0]	= VPack(v0);
-        F.v[1]	= VPack(v1);
-        F.v[2]	= VPack(v2);
+
+        if (!HQ)
+        {
+            F.v[0] = VPack(v0);
+            F.v[1] = VPack(v1);
+            F.v[2] = VPack(v2);
+        }
+        else
+        {
+            F.v[0] = VPackHQ(v0);
+            F.v[1] = VPackHQ(v1);
+            F.v[2] = VPackHQ(v2);
+        }
         if (check(F)){ 
         	m_Faces.push_back	(F);
 	        return 				true;
@@ -114,7 +152,7 @@ protected:
 		ArbitraryList<VIPM_SWR>	m_SWR;// The records of the collapses.
 	    u32				m_SkeletonLinkType;
     public:
-        SSplit			(CSurface* surf, const Fbox& bb, u16 part);
+        SSplit			(CSurface* surf, const Fbox& bb, u16 part, bool HQ);
 
         bool			valid()
         {

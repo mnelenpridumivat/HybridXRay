@@ -228,12 +228,16 @@ int CLog::DlgMsg (TMsgDlgType mt, LPCSTR _Format, ...)
     return res;
 }
 
+#include <iostream>
+
 void CLog::Msg(TMsgDlgType mt, LPCSTR _Format, ...)
 {
 	char buf[4096];
 	va_list l;
 	va_start( l, _Format );
 	vsprintf( buf, _Format, l );
+
+	std::cout << buf << std::endl;
 
 #if 1
     UILogForm::AddMessage(mt,xr_string(buf));
