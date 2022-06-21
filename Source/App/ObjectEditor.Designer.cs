@@ -40,12 +40,10 @@ namespace Object_tool
             this.ScaleCenterOfMassCheckBox = new System.Windows.Forms.CheckBox();
             this.ObjectScaleTextBox = new System.Windows.Forms.TextBox();
             this.FlagsHelpButton = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.label2 = new System.Windows.Forms.Label();
             this.ShapesPage = new System.Windows.Forms.TabPage();
             this.MenuPanel = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -81,11 +79,15 @@ namespace Object_tool
             this.SaveOmfDialog = new System.Windows.Forms.SaveFileDialog();
             this.HQGeometry = new System.Windows.Forms.RadioButton();
             this.HQGeometryPlus = new System.Windows.Forms.RadioButton();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.TabControl.SuspendLayout();
             this.FlagsPage.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.MenuPanel.SuspendLayout();
             this.StatusPanel.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // OpenObjectDialog
@@ -109,7 +111,7 @@ namespace Object_tool
             this.TabControl.Location = new System.Drawing.Point(12, 27);
             this.TabControl.Name = "TabControl";
             this.TabControl.SelectedIndex = 0;
-            this.TabControl.Size = new System.Drawing.Size(347, 195);
+            this.TabControl.Size = new System.Drawing.Size(347, 212);
             this.TabControl.TabIndex = 10;
             this.TabControl.SelectedIndexChanged += new System.EventHandler(this.IndexChanged);
             // 
@@ -118,7 +120,7 @@ namespace Object_tool
             this.FlagsPage.Controls.Add(this.groupBox1);
             this.FlagsPage.Location = new System.Drawing.Point(4, 25);
             this.FlagsPage.Name = "FlagsPage";
-            this.FlagsPage.Size = new System.Drawing.Size(339, 166);
+            this.FlagsPage.Size = new System.Drawing.Size(339, 183);
             this.FlagsPage.TabIndex = 0;
             this.FlagsPage.Text = "Flags";
             this.FlagsPage.UseVisualStyleBackColor = true;
@@ -126,18 +128,12 @@ namespace Object_tool
             // groupBox1
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.groupBox1.Controls.Add(this.HQGeometryPlus);
-            this.groupBox1.Controls.Add(this.HQGeometry);
+            this.groupBox1.Controls.Add(this.groupBox3);
+            this.groupBox1.Controls.Add(this.groupBox2);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.ScaleCenterOfMassCheckBox);
             this.groupBox1.Controls.Add(this.ObjectScaleTextBox);
             this.groupBox1.Controls.Add(this.FlagsHelpButton);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.checkBox2);
-            this.groupBox1.Controls.Add(this.radioButton1);
-            this.groupBox1.Controls.Add(this.checkBox1);
-            this.groupBox1.Controls.Add(this.radioButton2);
-            this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(333, 160);
@@ -173,7 +169,7 @@ namespace Object_tool
             this.ObjectScaleTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.ObjectScaleTextBox.Location = new System.Drawing.Point(91, 105);
             this.ObjectScaleTextBox.Name = "ObjectScaleTextBox";
-            this.ObjectScaleTextBox.Size = new System.Drawing.Size(67, 20);
+            this.ObjectScaleTextBox.Size = new System.Drawing.Size(80, 20);
             this.ObjectScaleTextBox.TabIndex = 16;
             this.ObjectScaleTextBox.Text = "1.0";
             this.ObjectScaleTextBox.TextChanged += new System.EventHandler(this.ScaleTextChanged);
@@ -191,19 +187,10 @@ namespace Object_tool
             this.FlagsHelpButton.UseVisualStyleBackColor = true;
             this.FlagsHelpButton.Click += new System.EventHandler(this.FlagsHelpButton_Click);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 24);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(74, 13);
-            this.label1.TabIndex = 11;
-            this.label1.Text = "Motion export:";
-            // 
             // checkBox2
             // 
             this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(167, 111);
+            this.checkBox2.Location = new System.Drawing.Point(6, 88);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(109, 17);
             this.checkBox2.TabIndex = 14;
@@ -213,7 +200,7 @@ namespace Object_tool
             // radioButton1
             // 
             this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(19, 46);
+            this.radioButton1.Location = new System.Drawing.Point(8, 19);
             this.radioButton1.Name = "radioButton1";
             this.radioButton1.Size = new System.Drawing.Size(45, 17);
             this.radioButton1.TabIndex = 8;
@@ -223,7 +210,7 @@ namespace Object_tool
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(167, 88);
+            this.checkBox1.Location = new System.Drawing.Point(6, 65);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(142, 17);
             this.checkBox1.TabIndex = 13;
@@ -233,21 +220,14 @@ namespace Object_tool
             // radioButton2
             // 
             this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(19, 69);
+            this.radioButton2.Checked = true;
+            this.radioButton2.Location = new System.Drawing.Point(8, 42);
             this.radioButton2.Name = "radioButton2";
             this.radioButton2.Size = new System.Drawing.Size(51, 17);
             this.radioButton2.TabIndex = 9;
+            this.radioButton2.TabStop = true;
             this.radioButton2.Text = "16 bit";
             this.radioButton2.UseVisualStyleBackColor = true;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(164, 24);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(71, 13);
-            this.label2.TabIndex = 12;
-            this.label2.Text = "Model export:";
             // 
             // ShapesPage
             // 
@@ -495,7 +475,7 @@ namespace Object_tool
             // 
             this.HQGeometry.AutoSize = true;
             this.HQGeometry.Checked = true;
-            this.HQGeometry.Location = new System.Drawing.Point(167, 41);
+            this.HQGeometry.Location = new System.Drawing.Point(6, 19);
             this.HQGeometry.Name = "HQGeometry";
             this.HQGeometry.Size = new System.Drawing.Size(89, 17);
             this.HQGeometry.TabIndex = 19;
@@ -506,12 +486,36 @@ namespace Object_tool
             // HQGeometryPlus
             // 
             this.HQGeometryPlus.AutoSize = true;
-            this.HQGeometryPlus.Location = new System.Drawing.Point(167, 65);
+            this.HQGeometryPlus.Location = new System.Drawing.Point(6, 42);
             this.HQGeometryPlus.Name = "HQGeometryPlus";
             this.HQGeometryPlus.Size = new System.Drawing.Size(98, 17);
             this.HQGeometryPlus.TabIndex = 20;
             this.HQGeometryPlus.Text = "HQ Geometry+ ";
             this.HQGeometryPlus.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.HQGeometry);
+            this.groupBox2.Controls.Add(this.HQGeometryPlus);
+            this.groupBox2.Controls.Add(this.checkBox1);
+            this.groupBox2.Controls.Add(this.checkBox2);
+            this.groupBox2.Location = new System.Drawing.Point(177, 15);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(150, 110);
+            this.groupBox2.TabIndex = 21;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Model export";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.radioButton1);
+            this.groupBox3.Controls.Add(this.radioButton2);
+            this.groupBox3.Location = new System.Drawing.Point(19, 15);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(152, 82);
+            this.groupBox3.TabIndex = 22;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Motion export";
             // 
             // Object_Editor
             // 
@@ -539,6 +543,10 @@ namespace Object_tool
             this.MenuPanel.PerformLayout();
             this.StatusPanel.ResumeLayout(false);
             this.StatusPanel.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -562,8 +570,6 @@ namespace Object_tool
         private System.Windows.Forms.Button FlagsHelpButton;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.GroupBox groupBox1;
@@ -597,6 +603,8 @@ namespace Object_tool
         private System.Windows.Forms.TextBox ObjectScaleTextBox;
         private System.Windows.Forms.RadioButton HQGeometryPlus;
         private System.Windows.Forms.RadioButton HQGeometry;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox groupBox2;
     }
 }
 
