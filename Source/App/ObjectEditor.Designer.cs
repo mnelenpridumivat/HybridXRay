@@ -36,14 +36,19 @@ namespace Object_tool
             this.TabControl = new System.Windows.Forms.TabControl();
             this.FlagsPage = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.radioButton3 = new System.Windows.Forms.RadioButton();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.HQGeometry = new System.Windows.Forms.RadioButton();
+            this.HQGeometryPlus = new System.Windows.Forms.RadioButton();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.ScaleCenterOfMassCheckBox = new System.Windows.Forms.CheckBox();
             this.ObjectScaleTextBox = new System.Windows.Forms.TextBox();
             this.FlagsHelpButton = new System.Windows.Forms.Button();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.ShapesPage = new System.Windows.Forms.TabPage();
             this.MenuPanel = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -77,17 +82,14 @@ namespace Object_tool
             this.SaveDmDialog = new System.Windows.Forms.SaveFileDialog();
             this.SaveOgfDialog = new System.Windows.Forms.SaveFileDialog();
             this.SaveOmfDialog = new System.Windows.Forms.SaveFileDialog();
-            this.HQGeometry = new System.Windows.Forms.RadioButton();
-            this.HQGeometryPlus = new System.Windows.Forms.RadioButton();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.OpenOgfDialog = new System.Windows.Forms.OpenFileDialog();
             this.TabControl.SuspendLayout();
             this.FlagsPage.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.MenuPanel.SuspendLayout();
             this.StatusPanel.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // OpenObjectDialog
@@ -141,11 +143,111 @@ namespace Object_tool
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Edit export flags";
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.radioButton3);
+            this.groupBox3.Controls.Add(this.radioButton1);
+            this.groupBox3.Controls.Add(this.radioButton2);
+            this.groupBox3.Location = new System.Drawing.Point(19, 15);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(152, 90);
+            this.groupBox3.TabIndex = 22;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Motion export";
+            // 
+            // radioButton3
+            // 
+            this.radioButton3.AutoSize = true;
+            this.radioButton3.Location = new System.Drawing.Point(8, 65);
+            this.radioButton3.Name = "radioButton3";
+            this.radioButton3.Size = new System.Drawing.Size(87, 17);
+            this.radioButton3.TabIndex = 10;
+            this.radioButton3.TabStop = true;
+            this.radioButton3.Text = "No compress";
+            this.radioButton3.UseVisualStyleBackColor = true;
+            // 
+            // radioButton1
+            // 
+            this.radioButton1.AutoSize = true;
+            this.radioButton1.Location = new System.Drawing.Point(8, 19);
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(45, 17);
+            this.radioButton1.TabIndex = 8;
+            this.radioButton1.Text = "8 bit";
+            this.radioButton1.UseVisualStyleBackColor = true;
+            // 
+            // radioButton2
+            // 
+            this.radioButton2.AutoSize = true;
+            this.radioButton2.Checked = true;
+            this.radioButton2.Location = new System.Drawing.Point(8, 42);
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(51, 17);
+            this.radioButton2.TabIndex = 9;
+            this.radioButton2.TabStop = true;
+            this.radioButton2.Text = "16 bit";
+            this.radioButton2.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.HQGeometry);
+            this.groupBox2.Controls.Add(this.HQGeometryPlus);
+            this.groupBox2.Controls.Add(this.checkBox1);
+            this.groupBox2.Controls.Add(this.checkBox2);
+            this.groupBox2.Location = new System.Drawing.Point(177, 15);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(150, 114);
+            this.groupBox2.TabIndex = 21;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Model export";
+            // 
+            // HQGeometry
+            // 
+            this.HQGeometry.AutoSize = true;
+            this.HQGeometry.Checked = true;
+            this.HQGeometry.Location = new System.Drawing.Point(6, 19);
+            this.HQGeometry.Name = "HQGeometry";
+            this.HQGeometry.Size = new System.Drawing.Size(89, 17);
+            this.HQGeometry.TabIndex = 19;
+            this.HQGeometry.TabStop = true;
+            this.HQGeometry.Text = "HQ Geometry";
+            this.HQGeometry.UseVisualStyleBackColor = true;
+            // 
+            // HQGeometryPlus
+            // 
+            this.HQGeometryPlus.AutoSize = true;
+            this.HQGeometryPlus.Location = new System.Drawing.Point(6, 42);
+            this.HQGeometryPlus.Name = "HQGeometryPlus";
+            this.HQGeometryPlus.Size = new System.Drawing.Size(98, 17);
+            this.HQGeometryPlus.TabIndex = 20;
+            this.HQGeometryPlus.Text = "HQ Geometry+ ";
+            this.HQGeometryPlus.UseVisualStyleBackColor = true;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(6, 65);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(142, 17);
+            this.checkBox1.TabIndex = 13;
+            this.checkBox1.Text = "Make progressive bones";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(6, 88);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(109, 17);
+            this.checkBox2.TabIndex = 14;
+            this.checkBox2.Text = "Optimize surfaces";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            // 
             // label3
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(16, 108);
+            this.label3.Location = new System.Drawing.Point(16, 112);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(69, 13);
             this.label3.TabIndex = 18;
@@ -157,7 +259,7 @@ namespace Object_tool
             this.ScaleCenterOfMassCheckBox.AutoSize = true;
             this.ScaleCenterOfMassCheckBox.Checked = true;
             this.ScaleCenterOfMassCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ScaleCenterOfMassCheckBox.Location = new System.Drawing.Point(19, 131);
+            this.ScaleCenterOfMassCheckBox.Location = new System.Drawing.Point(19, 135);
             this.ScaleCenterOfMassCheckBox.Name = "ScaleCenterOfMassCheckBox";
             this.ScaleCenterOfMassCheckBox.Size = new System.Drawing.Size(125, 17);
             this.ScaleCenterOfMassCheckBox.TabIndex = 17;
@@ -167,7 +269,7 @@ namespace Object_tool
             // ObjectScaleTextBox
             // 
             this.ObjectScaleTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.ObjectScaleTextBox.Location = new System.Drawing.Point(91, 105);
+            this.ObjectScaleTextBox.Location = new System.Drawing.Point(91, 109);
             this.ObjectScaleTextBox.Name = "ObjectScaleTextBox";
             this.ObjectScaleTextBox.Size = new System.Drawing.Size(80, 20);
             this.ObjectScaleTextBox.TabIndex = 16;
@@ -187,54 +289,12 @@ namespace Object_tool
             this.FlagsHelpButton.UseVisualStyleBackColor = true;
             this.FlagsHelpButton.Click += new System.EventHandler(this.FlagsHelpButton_Click);
             // 
-            // checkBox2
-            // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(6, 88);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(109, 17);
-            this.checkBox2.TabIndex = 14;
-            this.checkBox2.Text = "Optimize surfaces";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            // 
-            // radioButton1
-            // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(8, 19);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(45, 17);
-            this.radioButton1.TabIndex = 8;
-            this.radioButton1.Text = "8 bit";
-            this.radioButton1.UseVisualStyleBackColor = true;
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(6, 65);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(142, 17);
-            this.checkBox1.TabIndex = 13;
-            this.checkBox1.Text = "Make progressive bones";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // radioButton2
-            // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Checked = true;
-            this.radioButton2.Location = new System.Drawing.Point(8, 42);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(51, 17);
-            this.radioButton2.TabIndex = 9;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "16 bit";
-            this.radioButton2.UseVisualStyleBackColor = true;
-            // 
             // ShapesPage
             // 
             this.ShapesPage.AutoScroll = true;
             this.ShapesPage.Location = new System.Drawing.Point(4, 25);
             this.ShapesPage.Name = "ShapesPage";
-            this.ShapesPage.Size = new System.Drawing.Size(339, 158);
+            this.ShapesPage.Size = new System.Drawing.Size(339, 183);
             this.ShapesPage.TabIndex = 2;
             this.ShapesPage.Text = "Shapes";
             this.ShapesPage.UseVisualStyleBackColor = true;
@@ -268,27 +328,27 @@ namespace Object_tool
             this.sklSklsToolStripMenuItem,
             this.bonesToolStripMenuItem});
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.loadToolStripMenuItem.Text = "Load";
             // 
             // objectToolStripMenuItem
             // 
             this.objectToolStripMenuItem.Name = "objectToolStripMenuItem";
-            this.objectToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.objectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.objectToolStripMenuItem.Text = "Object";
             this.objectToolStripMenuItem.Click += new System.EventHandler(this.objectToolStripMenuItem_Click);
             // 
             // sklSklsToolStripMenuItem
             // 
             this.sklSklsToolStripMenuItem.Name = "sklSklsToolStripMenuItem";
-            this.sklSklsToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.sklSklsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.sklSklsToolStripMenuItem.Text = "Skls";
             this.sklSklsToolStripMenuItem.Click += new System.EventHandler(this.LoadSkls_Click);
             // 
             // bonesToolStripMenuItem
             // 
             this.bonesToolStripMenuItem.Name = "bonesToolStripMenuItem";
-            this.bonesToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.bonesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.bonesToolStripMenuItem.Text = "Bones";
             this.bonesToolStripMenuItem.Click += new System.EventHandler(this.bonesToolStripMenuItem_Click);
             // 
@@ -299,7 +359,7 @@ namespace Object_tool
             this.SaveSklsToolStripMenuItem,
             this.bonesToolStripMenuItem1});
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveToolStripMenuItem.Text = "Save";
             // 
             // objectToolStripMenuItem1
@@ -330,7 +390,7 @@ namespace Object_tool
             this.oMFToolStripMenuItem,
             this.objToolStripMenuItem});
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exportToolStripMenuItem.Text = "Export";
             // 
             // oGFToolStripMenuItem
@@ -359,7 +419,7 @@ namespace Object_tool
             this.deleteToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.DeletesklsToolStripMenuItem});
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.deleteToolStripMenuItem.Text = "Delete";
             // 
             // DeletesklsToolStripMenuItem
@@ -471,51 +531,9 @@ namespace Object_tool
             // 
             this.SaveOmfDialog.Filter = "OMF file|*.omf";
             // 
-            // HQGeometry
+            // OpenOgfDialog
             // 
-            this.HQGeometry.AutoSize = true;
-            this.HQGeometry.Checked = true;
-            this.HQGeometry.Location = new System.Drawing.Point(6, 19);
-            this.HQGeometry.Name = "HQGeometry";
-            this.HQGeometry.Size = new System.Drawing.Size(89, 17);
-            this.HQGeometry.TabIndex = 19;
-            this.HQGeometry.TabStop = true;
-            this.HQGeometry.Text = "HQ Geometry";
-            this.HQGeometry.UseVisualStyleBackColor = true;
-            // 
-            // HQGeometryPlus
-            // 
-            this.HQGeometryPlus.AutoSize = true;
-            this.HQGeometryPlus.Location = new System.Drawing.Point(6, 42);
-            this.HQGeometryPlus.Name = "HQGeometryPlus";
-            this.HQGeometryPlus.Size = new System.Drawing.Size(98, 17);
-            this.HQGeometryPlus.TabIndex = 20;
-            this.HQGeometryPlus.Text = "HQ Geometry+ ";
-            this.HQGeometryPlus.UseVisualStyleBackColor = true;
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.HQGeometry);
-            this.groupBox2.Controls.Add(this.HQGeometryPlus);
-            this.groupBox2.Controls.Add(this.checkBox1);
-            this.groupBox2.Controls.Add(this.checkBox2);
-            this.groupBox2.Location = new System.Drawing.Point(177, 15);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(150, 110);
-            this.groupBox2.TabIndex = 21;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Model export";
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.radioButton1);
-            this.groupBox3.Controls.Add(this.radioButton2);
-            this.groupBox3.Location = new System.Drawing.Point(19, 15);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(152, 82);
-            this.groupBox3.TabIndex = 22;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Motion export";
+            this.OpenOgfDialog.Filter = "OGF file|*.ogf";
             // 
             // Object_Editor
             // 
@@ -539,14 +557,14 @@ namespace Object_tool
             this.FlagsPage.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.MenuPanel.ResumeLayout(false);
             this.MenuPanel.PerformLayout();
             this.StatusPanel.ResumeLayout(false);
             this.StatusPanel.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -605,6 +623,8 @@ namespace Object_tool
         private System.Windows.Forms.RadioButton HQGeometry;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.RadioButton radioButton3;
+        private System.Windows.Forms.OpenFileDialog OpenOgfDialog;
     }
 }
 

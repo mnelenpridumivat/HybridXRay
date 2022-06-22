@@ -1057,27 +1057,34 @@ bool CExportSkeleton::ExportMotionKeys(IWriter& F)
 	         	if (B->IsRoot()) mat.mulA_43(mGT);
 				Fquaternion			q;
                 q.set				(mat);
-                CKeyQR&	Kr 			= items[bone_id]._keysQR[frame-cur_motion->FrameStart()];
-                Fvector&Kt 			= items[bone_id]._keysT [frame-cur_motion->FrameStart()];
-                CKeyQR_FFT&	KrFFT 		= items[bone_id]._keysQR_FFT[frame-cur_motion->FrameStart()];
-                // Quantize quaternion
 
                 if (g_forceNoCompressTransformQuant)
                 {
-                    KrFFT.x = q.x;
-                    KrFFT.y = q.y;
-                    KrFFT.z = q.z;
-                    KrFFT.z = q.w;
+                    CKeyQR_FFT&    Kr          = items[bone_id]._keysQR_FFT[frame-cur_motion->FrameStart()];
+                    Fvector&Kt                 = items[bone_id]._keysT [frame-cur_motion->FrameStart()];
+                    // Quantize quaternion
+
+                    Kr.x = q.x;
+                    Kr.y = q.y;
+                    Kr.z = q.z;
+                    Kr.z = q.w;
+
+                    Kt.set				(mat.c);//B->_Offset());
+                    Kt.mul                (m_Source->a_vScale);
                 }
                 else
                 {
+                    CKeyQR& Kr = items[bone_id]._keysQR[frame - cur_motion->FrameStart()];
+                    Fvector& Kt = items[bone_id]._keysT[frame - cur_motion->FrameStart()];
+                    // Quantize quaternion
+
                     int	_x = int(q.x * KEY_Quant); clamp(_x, -32767, 32767); Kr.x = (s16)_x;
                     int	_y = int(q.y * KEY_Quant); clamp(_y, -32767, 32767); Kr.y = (s16)_y;
                     int	_z = int(q.z * KEY_Quant); clamp(_z, -32767, 32767); Kr.z = (s16)_z;
                     int	_w = int(q.w * KEY_Quant); clamp(_w, -32767, 32767); Kr.w = (s16)_w;
+                    Kt.set				(mat.c);//B->_Offset());
+                    Kt.mul                (m_Source->a_vScale);
                 }
-                Kt.set				(mat.c);//B->_Offset());
-                Kt.mul                (m_Source->a_vScale);
             }
         }
         // free temp storage
@@ -1110,23 +1117,24 @@ bool CExportSkeleton::ExportMotionKeys(IWriter& F)
             St.sub			(Bt,At);
             St.mul			(0.5f);
             CKeyQR& R		= BM._keysQR[0];
+            CKeyQR_FFT& RFF   = BM._keysQR_FFT[0];
 
             bool bTransform16Bit = g_force16BitTransformQuant;
             bool bTransformWithoutCompress = g_forceNoCompressTransformQuant;
             
             for (int t_idx=0; t_idx<dwLen; ++t_idx)
             {
-                Fvector& t	= BM._keysT[t_idx];
+                Fvector& t	    = BM._keysT[t_idx];
 
                 if (bTransformWithoutCompress)
                 {
-                    CKeyQR& r = BM._keysQR[t_idx];
+                    CKeyQR_FFT& r = BM._keysQR_FFT[t_idx];
                     if (!Mt.similar(t, EPS_L))							                t_present = TRUE;
-                    if ((R.x != r.x) || (R.y != r.y) || (R.z != r.z) || (R.w != r.w))	r_present = TRUE;
+                    if ((RFF.x != r.x) || (RFF.y != r.y) || (RFF.z != r.z) || (RFF.w != r.w))	r_present = TRUE;
                 }
                 else
                 {
-                    CKeyQR_FFT& r = BM._keysQR_FFT[t_idx];
+                    CKeyQR& r    = BM._keysQR[t_idx];
                     if (!Mt.similar(t, EPS_L))							                t_present = TRUE;
                     if ((R.x != r.x) || (R.y != r.y) || (R.z != r.z) || (R.w != r.w))	r_present = TRUE;
                 }
