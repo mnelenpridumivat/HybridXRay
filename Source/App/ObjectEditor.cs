@@ -63,11 +63,16 @@ namespace Object_tool
 
 			if (Environment.GetCommandLineArgs().Length > 1)
 			{
-				OpenFile(Environment.GetCommandLineArgs()[1]);
+				bool skeleton = false;
+				if (Environment.GetCommandLineArgs().Length > 2)
+					skeleton = Environment.GetCommandLineArgs()[2] == "skeleton_only";
+
+				MessageBox.Show(skeleton.ToString());
+				OpenFile(Environment.GetCommandLineArgs()[1], skeleton);
 			}
 		}
 
-		public void OpenFile(string filename)
+		public void OpenFile(string filename, bool skeleton = false)
         {
 			saves_count = 0;
 			if (Directory.Exists(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp"))
@@ -75,6 +80,7 @@ namespace Object_tool
 
 			ClearUI();
 			FILE_NAME = filename;
+
 			StatusFile.Text = FILE_NAME.Substring(FILE_NAME.LastIndexOf('\\') + 1);
 
 			SaveOgfDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
@@ -104,11 +110,22 @@ namespace Object_tool
 			DeletesklsToolStripMenuItem.Enabled = has_motions;
 			SaveSklsToolStripMenuItem.Enabled = has_motions;
 			oMFToolStripMenuItem.Enabled = has_motions;
-			saveToolStripMenuItem.Enabled = true;
+			saveToolStripMenuItem.Enabled = !skeleton;
 			exportToolStripMenuItem.Enabled = true;
 			deleteToolStripMenuItem.Enabled = true;
 			sklSklsToolStripMenuItem.Enabled = true;
-			bonesToolStripMenuItem.Enabled = true;
+			bonesToolStripMenuItem.Enabled = !skeleton;
+			oGFToolStripMenuItem.Enabled = !skeleton;
+			objToolStripMenuItem.Enabled = !skeleton;
+			objectToolStripMenuItem.Enabled = !skeleton;
+			groupBox2.Enabled = !skeleton;
+
+			if (skeleton)
+			{
+				TabControl.Controls.Clear();
+				TabControl.Controls.Add(FlagsPage);
+			}
+
 			LoadBoneData();
 			LoadScale();
 
