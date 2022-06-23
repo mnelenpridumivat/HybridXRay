@@ -31,6 +31,7 @@ namespace Object_tool
 		public List<ShapeEditType> model_shapes;
 		public float model_scale = 1.0f;
 		public int saves_count = 0;
+		public bool DEVELOPER_MODE = false;
 
 		// Input
 		public bool bKeyIsDown = false;
@@ -45,6 +46,11 @@ namespace Object_tool
 			deleteToolStripMenuItem.Enabled = false;
 			sklSklsToolStripMenuItem.Enabled = false;
 			bonesToolStripMenuItem.Enabled = false;
+
+			DEVELOPER_MODE = File.Exists(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\developer.txt");
+
+			radioButton3.Visible = DEVELOPER_MODE;
+			radioButton3.Checked = DEVELOPER_MODE;
 
 			if (Environment.GetCommandLineArgs().Length > 1)
 			{
