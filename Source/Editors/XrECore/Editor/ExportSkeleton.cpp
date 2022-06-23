@@ -84,15 +84,10 @@ u16 CSkeletonCollectorPacked::VPack(SSkelVert& V)
 
 u16 CSkeletonCollectorPacked::VPackHQ(SSkelVert& V)
 {
-    u32 P 	= 0xffffffff;
+    u32 P = m_Verts.size();
+    m_Verts.push_back(V);
 
-    if (0xffffffff==P)
-    {
-        P = m_Verts.size();
-        m_Verts.push_back(V);
-    }
-
-    if (P < u16(-1))
+    if (P > u16(-1))
     {
         Core._destroy();
         exit(1);
@@ -563,7 +558,7 @@ int CExportSkeletonCustom::FindSplit(shared_str shader, shared_str texture, u16 
 		if (	it->m_Shader.equal(shader) 		&&
         		it->m_Texture.equal(texture) 	&&
                 (it->m_PartID==part_id) 	        &&
-                (it->m_id==surf_id)    )
+                (it->m_id==surf_id) && it->GetVertexBound())
 
         return it-m_Splits.begin();
     return -1;

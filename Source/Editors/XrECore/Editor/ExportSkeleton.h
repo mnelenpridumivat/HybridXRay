@@ -176,6 +176,8 @@ protected:
                 m_Box.modify(pV.offs);
             }
         }
+
+        bool GetVertexBound         () { return m_Verts.size() < u16(-1); }
     };
 	DEFINE_VECTOR		(SSplit,SplitVec,SplitIt);
 	SplitVec			m_Splits;
