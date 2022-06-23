@@ -570,7 +570,7 @@ namespace Object_tool
 
 		private void FlagsHelpButton_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Motion export:\nДанные флаги влияют на компресиию анимаций при экспортировании в OMF.\n1. 8 bit - ТЧ Формат\n2. 16 bit - ЗП Формат\n\n" +
+			MessageBox.Show("Motion export:\nДанные флаги влияют на компресиию анимаций при экспортировании в OMF.\n1. 8 bit - ТЧ Формат\n2. 16 bit - ЗП Формат\n" + (DEVELOPER_MODE ? "3. No compress - экспортирует анимации без сжатия\n\n" : "\n") +
 				"Model export:\n" +
 				"1. Make progressive bones - создает прогрессивные меши при экспорте OGF. Это динамическая детализация модели (lod'ы), чаще используется для мировых объектов.\n" +
 				"2. Optimize surfaces - при включении объединяет меши с одинаковыми названиями текстур и шейдеров как и любой SDK. В данном эдиторе появилась возможность отключить это для последующих изменений через OGF Editor.\n" +
