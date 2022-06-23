@@ -67,7 +67,6 @@ namespace Object_tool
 				if (Environment.GetCommandLineArgs().Length > 2)
 					skeleton = Environment.GetCommandLineArgs()[2] == "skeleton_only";
 
-				MessageBox.Show(skeleton.ToString());
 				OpenFile(Environment.GetCommandLineArgs()[1], skeleton);
 			}
 		}
@@ -83,6 +82,9 @@ namespace Object_tool
 
 			StatusFile.Text = FILE_NAME.Substring(FILE_NAME.LastIndexOf('\\') + 1);
 
+			if (skeleton)
+				FILE_NAME = Environment.GetCommandLineArgs()[3];
+
 			SaveOgfDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
 			SaveOgfDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + ".ogf";
 
@@ -97,6 +99,8 @@ namespace Object_tool
 
 			SaveObjDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
 			SaveObjDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + ".obj";
+
+			FILE_NAME = filename;
 
 			if (!Directory.Exists(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp"))
 				Directory.CreateDirectory(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp");
