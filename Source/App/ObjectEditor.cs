@@ -115,7 +115,7 @@ namespace Object_tool
 			exportToolStripMenuItem.Enabled = true;
 			deleteToolStripMenuItem.Enabled = true;
 			sklSklsToolStripMenuItem.Enabled = true;
-			bonesToolStripMenuItem.Enabled = !skeleton;
+			bonesToolStripMenuItem.Enabled = true;
 			oGFToolStripMenuItem.Enabled = !skeleton;
 			objToolStripMenuItem.Enabled = !skeleton;
 			objectToolStripMenuItem.Enabled = !skeleton;
