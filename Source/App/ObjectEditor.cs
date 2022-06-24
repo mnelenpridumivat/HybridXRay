@@ -32,6 +32,7 @@ namespace Object_tool
 		public float model_scale = 1.0f;
 		public bool DEVELOPER_MODE = false;
 		public bool DEBUG_MODE = false;
+		IniFile Settings = null;
 
 		// Input
 		public bool bKeyIsDown = false;
@@ -47,10 +48,13 @@ namespace Object_tool
 			sklSklsToolStripMenuItem.Enabled = false;
 			bonesToolStripMenuItem.Enabled = false;
 
-			DEVELOPER_MODE = File.Exists(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\developer.txt");
-			DEBUG_MODE = File.Exists(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\debug.txt");
-			debugToolStripMenuItem.Visible = DEBUG_MODE;
+			string file_path = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\Settings.ini";
+			Settings = new IniFile(file_path, "[settings]\ndeveloper=0\ndebug=0");
 
+			DEVELOPER_MODE = Convert.ToBoolean(Convert.ToUInt16(Settings.ReadDef("developer", "settings", "0")));
+			DEBUG_MODE = Convert.ToBoolean(Convert.ToUInt16(Settings.ReadDef("debug", "settings", "0")));
+
+			debugToolStripMenuItem.Visible = DEBUG_MODE;
 			radioButton3.Visible = DEVELOPER_MODE;
 			radioButton3.Checked = DEVELOPER_MODE;
 
