@@ -178,12 +178,11 @@ public CPhysicsShellHolderEditorBase
 	// skeleton
 	BoneVec			m_Bones;
 	SMotionVec		m_SMotions;
-    BPVec			m_BoneParts;
     CSMotion*		m_ActiveSMotion;
     CPhysicsShell*	m_physics_shell;
     Fmatrix*		m_object_xform;
 public:
-
+    BPVec			m_BoneParts;
     SurfaceVec		m_Surfaces;
     SAnimParams				m_SMParam;
     xr_vector<shared_str>	m_SMotionRefs;

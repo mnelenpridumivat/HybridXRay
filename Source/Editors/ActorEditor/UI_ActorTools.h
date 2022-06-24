@@ -320,6 +320,24 @@ public:
 
     virtual bool		GetSelectionPosition	(Fmatrix& result);
 
+    bool                LoadBoneParts           (LPCSTR full_name);
+    bool                SaveBoneParts           (LPCSTR full_name);
+    bool                ToDefaultBoneParts      ();
+    bool                UpdateBoneParts         ();
+    bool                PrepareBoneParts        ();
+    bool                BonePartsExist          ();
+
+    struct ItemList
+    {
+        ItemList(shared_str Name) :name(Name),  select(false) {}
+        ItemList() :select(false) {}
+        shared_str name;
+        bool select;
+    };
+
+    xr_vector<ItemList> m_List[4];
+    string_path         m_Name[4];
+
 
 
 

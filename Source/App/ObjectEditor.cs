@@ -32,6 +32,7 @@ namespace Object_tool
 		public float model_scale = 1.0f;
 		public int saves_count = 0;
 		public bool DEVELOPER_MODE = false;
+		public bool DEBUG_MODE = false;
 
 		// Input
 		public bool bKeyIsDown = false;
@@ -48,6 +49,8 @@ namespace Object_tool
 			bonesToolStripMenuItem.Enabled = false;
 
 			DEVELOPER_MODE = File.Exists(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\developer.txt");
+			DEBUG_MODE = File.Exists(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\debug.txt");
+			debugToolStripMenuItem.Visible = DEBUG_MODE;
 
 			radioButton3.Visible = DEVELOPER_MODE;
 			radioButton3.Checked = DEVELOPER_MODE;
@@ -90,6 +93,9 @@ namespace Object_tool
 
 			SaveObjDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
 			SaveObjDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + ".obj";
+
+			SaveLtxDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
+			SaveLtxDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + ".ltx";
 
 			FILE_NAME = filename;
 
@@ -270,6 +276,21 @@ namespace Object_tool
 			return RunCompiller($"10 \"{object_path}\" null {GetFlags()} {model_scale}", true);
 		}
 
+		private int LoadBoneParts(string object_path, string ltx_path)
+		{
+			return RunCompiller($"11 \"{object_path}\" \"{ltx_path}\" {GetFlags()} {model_scale}", true);
+		}
+
+		private int SaveBoneParts(string object_path, string ltx_path)
+		{
+			return RunCompiller($"12 \"{object_path}\" \"{ltx_path}\" {GetFlags()} {model_scale}", true);
+		}
+
+		private int ToDefaultBoneParts(string object_path)
+		{
+			return RunCompiller($"13 \"{object_path}\" temp {GetFlags()} {model_scale}", true);
+		}
+
 		private int RunCompiller(string args, bool force_disable_window = false)
 		{
 			string exe_path = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\ActorEditor.exe";
@@ -342,7 +363,7 @@ namespace Object_tool
 					if (code == 1)
 						MessageBox.Show("Can't export model.\nPlease, disable HQ Geometry+ flag.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					else
-						AutoClosingMessageBox.Show("Can't export model.", "", 1000, MessageBoxIcon.Error);
+						AutoClosingMessageBox.Show("Can't export model.", "", GetErrorTime(), MessageBoxIcon.Error);
 				}
 			}
 		}
@@ -353,10 +374,11 @@ namespace Object_tool
 			{
 				SaveOmfDialog.InitialDirectory = "";
 
-				if (ExportOMF(TEMP_FILE_NAME, SaveOmfDialog.FileName) == 0)
+				int code = ExportOMF(TEMP_FILE_NAME, SaveOmfDialog.FileName);
+				if (code == 0)
 					AutoClosingMessageBox.Show("Motions succesfully exported.", "", 1000, MessageBoxIcon.Information);
 				else
-					AutoClosingMessageBox.Show("Can't export motions.", "", 1000, MessageBoxIcon.Error);
+					AutoClosingMessageBox.Show($"Can't export motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 			}
 		}
 
@@ -364,7 +386,8 @@ namespace Object_tool
 		{
 			if (OpenSklsDialog.ShowDialog() == DialogResult.OK)
 			{
-				if (LoadMotions(TEMP_FILE_NAME, OpenSklsDialog.FileName) == 0)
+				int code = LoadMotions(TEMP_FILE_NAME, OpenSklsDialog.FileName);
+				if (code == 0)
 				{
 					AutoClosingMessageBox.Show("Motions succesfully loaded.", "", 1000, MessageBoxIcon.Information);
 					DeletesklsToolStripMenuItem.Enabled = true;
@@ -372,13 +395,14 @@ namespace Object_tool
 					oMFToolStripMenuItem.Enabled = true;
 				}
 				else
-					AutoClosingMessageBox.Show("Can't load motions.", "", 1000, MessageBoxIcon.Error);
+					AutoClosingMessageBox.Show($"Can't load motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 			}
 		}
 
 		private void DeleteMotionsButton_Click(object sender, EventArgs e)
 		{
-			if (DeleteMotions(TEMP_FILE_NAME) == 0)
+			int code = DeleteMotions(TEMP_FILE_NAME);
+			if (code == 0)
 			{
 				AutoClosingMessageBox.Show("Motions succesfully deleted.", "", 1000, MessageBoxIcon.Information);
 				DeletesklsToolStripMenuItem.Enabled = false;
@@ -386,7 +410,7 @@ namespace Object_tool
 				oMFToolStripMenuItem.Enabled = false;
 			}
 			else
-				AutoClosingMessageBox.Show("Can't delete motions.", "", 1000, MessageBoxIcon.Error);
+				AutoClosingMessageBox.Show($"Can't delete motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 		}
 
 		private void SaveMotionsButton_Click(object sender, EventArgs e)
@@ -395,10 +419,11 @@ namespace Object_tool
 			{
 				SaveSklsDialog.InitialDirectory = "";
 
-				if (SaveMotions(TEMP_FILE_NAME, SaveSklsDialog.FileName) == 0)
+				int code = SaveMotions(TEMP_FILE_NAME, SaveSklsDialog.FileName);
+				if (code == 0)
 					AutoClosingMessageBox.Show("Motions succesfully saved.", "", 1000, MessageBoxIcon.Information);
 				else
-					AutoClosingMessageBox.Show("Can't save motions.", "", 1000, MessageBoxIcon.Error);
+					AutoClosingMessageBox.Show($"Can't save motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 			}
 		}
 
@@ -406,10 +431,11 @@ namespace Object_tool
 		{
 			if (OpenBonesDialog.ShowDialog() == DialogResult.OK)
 			{
-				if (LoadBones(TEMP_FILE_NAME, OpenBonesDialog.FileName) == 0)
+				int code = LoadBones(TEMP_FILE_NAME, OpenBonesDialog.FileName);
+				if (code == 0)
 					AutoClosingMessageBox.Show("Bone data succesfully loaded.", "", 1000, MessageBoxIcon.Information);
 				else
-					AutoClosingMessageBox.Show("Failed to load bone data.", "", 1000, MessageBoxIcon.Error);
+					AutoClosingMessageBox.Show($"Failed to load bone data.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 			}
 		}
 
@@ -419,10 +445,11 @@ namespace Object_tool
 			{
 				SaveBonesDialog.InitialDirectory = "";
 
-				if (SaveBones(TEMP_FILE_NAME, SaveBonesDialog.FileName) == 0)
+				int code = SaveBones(TEMP_FILE_NAME, SaveBonesDialog.FileName);
+				if (code == 0)
 					AutoClosingMessageBox.Show("Bone data succesfully saved.", "", 1000, MessageBoxIcon.Information);
 				else
-					AutoClosingMessageBox.Show("Failed to save bone data.", "", 1000, MessageBoxIcon.Error);
+					AutoClosingMessageBox.Show($"Failed to save bone data.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 			}
 		}
 
@@ -431,11 +458,12 @@ namespace Object_tool
 			if (SaveObjDialog.ShowDialog() == DialogResult.OK)
 			{
 				SaveObjDialog.InitialDirectory = "";
-          
-				if (SaveObj(TEMP_FILE_NAME, SaveObjDialog.FileName) == 0)
+
+				int code = SaveObj(TEMP_FILE_NAME, SaveObjDialog.FileName);
+				if (code == 0)
 					AutoClosingMessageBox.Show("Model succesfully saved.", "", 1000, MessageBoxIcon.Information);
 				else
-					AutoClosingMessageBox.Show("Failed to save Model.", "", 1000, MessageBoxIcon.Error);
+					AutoClosingMessageBox.Show($"Failed to save Model.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 			}
 		}
 
@@ -443,19 +471,54 @@ namespace Object_tool
 		{
 			if (SaveDmDialog.ShowDialog() == DialogResult.OK)
 			{
-				if (SaveDM(TEMP_FILE_NAME, SaveDmDialog.FileName) == 0)
+				int code = SaveDM(TEMP_FILE_NAME, SaveDmDialog.FileName);
+				if (code == 0)
 					AutoClosingMessageBox.Show("Model succesfully saved.", "", 1000, MessageBoxIcon.Information);
 				else
-					AutoClosingMessageBox.Show("Failed to save Model.", "", 1000, MessageBoxIcon.Error);
+					AutoClosingMessageBox.Show($"Failed to save Model.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 			}
 		}
 
 		private void generateShapesToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (GenerateShapes(TEMP_FILE_NAME, model_shapes) == 0)
+			int code = GenerateShapes(TEMP_FILE_NAME, model_shapes);
+			if (code == 0)
 				AutoClosingMessageBox.Show("Bone shapes succesfully generated.", "", 1000, MessageBoxIcon.Information);
 			else
-				AutoClosingMessageBox.Show("Can't generate bone shapes.", "", 1000, MessageBoxIcon.Error);
+				AutoClosingMessageBox.Show($"Can't generate bone shapes.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+		}
+
+		private void bonesPartsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (OpenLtxDialog.ShowDialog() == DialogResult.OK)
+			{
+				int code = LoadBoneParts(TEMP_FILE_NAME, OpenLtxDialog.FileName);
+				if (code == 0)
+					AutoClosingMessageBox.Show("Bone parts succesfully loaded.", "", 1000, MessageBoxIcon.Information);
+				else
+					AutoClosingMessageBox.Show($"Failed to load bone parts.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+			}
+		}
+
+		private void bonesPartsToolStripMenuItem1_Click(object sender, EventArgs e)
+		{
+			if (SaveLtxDialog.ShowDialog() == DialogResult.OK)
+			{
+				int code = SaveBoneParts(TEMP_FILE_NAME, SaveLtxDialog.FileName);
+				if (code == 0)
+					AutoClosingMessageBox.Show("Bone parts succesfully saved.", "", 1000, MessageBoxIcon.Information);
+				else
+					AutoClosingMessageBox.Show($"Failed to saved bone parts.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+			}
+		}
+
+		private void bonesPartsToDefaultToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			int code = ToDefaultBoneParts(TEMP_FILE_NAME);
+			if (code == 0)
+				AutoClosingMessageBox.Show("Bone parts succesfully reseted to default.", "", 1000, MessageBoxIcon.Information);
+			else
+				AutoClosingMessageBox.Show($"Failed to reset bone parts to default.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 		}
 
 		private void LoadBoneData()
@@ -732,6 +795,43 @@ namespace Object_tool
         private void ScaleKeyDown(object sender, KeyEventArgs e)
         {
 			bKeyIsDown = true;
+		}
+
+        private void openLogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			string log = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\engine.log";
+			if (File.Exists(log))
+			{
+				System.Diagnostics.Process proc = System.Diagnostics.Process.Start("notepad.exe", log);
+				proc.WaitForExit();
+				proc.Close();
+			}
+			else
+				AutoClosingMessageBox.Show("Can't find log.", "", 1000, MessageBoxIcon.Error);
+		}
+
+        private void showWindowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			dbg_window = !dbg_window;
+			if (dbg_window)
+				showWindowToolStripMenuItem.Text = "Hide debug window";
+			else
+				showWindowToolStripMenuItem.Text = "Show debug window";
+		}
+
+		private string GetRetCode(int code)
+		{
+			string ret = "";
+			if (DEBUG_MODE)
+				ret += "\nExit code: " + code.ToString();
+			return ret;
+		}
+
+		private int GetErrorTime()
+		{
+			if (DEBUG_MODE)
+				return 15000;
+			return 1000;
 		}
     }
 }

@@ -42,6 +42,12 @@ int main(int argc, char** argv)
     std::cout << "Import object" << std::endl;
     ATools->LoadScale(argv[2], atof((atoi(argv[1]) == 2) ? argv[3] : argv[5]), (flags & exfScaleCenterMass));
 
+    if (!ATools->BonePartsExist())
+    {
+        ATools->ToDefaultBoneParts();
+        std::cout << "Can't find bone parts, reset to default." << std::endl;
+    }
+
     if (flags & exf16Bit)
         g_force16BitTransformQuant = true;
     else if (flags & exfNoCompress)
@@ -150,6 +156,30 @@ int main(int argc, char** argv)
         case 10:  // Save object
         {
             if (!ATools->Save(argv[2]))
+                ret_code = -1;
+
+            Core._destroy();
+            return ret_code;
+        }break;
+        case 11:  // Load bone parts
+        {
+            if (!ATools->LoadBoneParts(argv[3]) || !ATools->Save(argv[2]))
+                ret_code = -1;
+
+            Core._destroy();
+            return ret_code;
+        }break;
+        case 12:  // Save bone parts
+        {
+            if (!ATools->SaveBoneParts(argv[3]))
+                ret_code = -1;
+
+            Core._destroy();
+            return ret_code;
+        }break;
+        case 13:  // To default bone parts
+        {
+            if (!ATools->ToDefaultBoneParts() || !ATools->Save(argv[2]))
                 ret_code = -1;
 
             Core._destroy();
