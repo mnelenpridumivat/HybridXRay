@@ -30,7 +30,6 @@ namespace Object_tool
 		public bool dbg_window = false;
 		public List<ShapeEditType> model_shapes;
 		public float model_scale = 1.0f;
-		public int saves_count = 0;
 		public bool DEVELOPER_MODE = false;
 		public bool DEBUG_MODE = false;
 
@@ -67,7 +66,6 @@ namespace Object_tool
 
 		public void OpenFile(string filename, bool skeleton = false)
         {
-			saves_count = 0;
 			if (Directory.Exists(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp"))
 				Directory.Delete(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp", true);
 
@@ -525,17 +523,17 @@ namespace Object_tool
 		{
 			var xr_loader = new XRayLoader();
 			model_shapes = new List<ShapeEditType>();
-			bool bFind = false;
 
 			using (var r = new BinaryReader(new FileStream(TEMP_FILE_NAME, FileMode.Open)))
 			{
 				xr_loader.SetStream(r.BaseStream);
 
-				bool B_CHUNK = xr_loader.SetData(xr_loader.find_and_return_chunk_in_chunk((int)OBJECT.EOBJ_CHUNK_BONES2, false, true));
+				xr_loader.ReadInt64();
+
+				bool B_CHUNK = xr_loader.SetData(xr_loader.find_and_return_chunk_in_chunk((int)OBJECT.EOBJ_CHUNK_BONES2));
 				if (B_CHUNK)
 				{
 					int chunk = 0;
-					bFind = true;
 
 					while (true)
 					{
@@ -565,7 +563,6 @@ namespace Object_tool
 				}
 				else if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_BONES, false, true))
 				{
-					bFind = true;
 					ShapeEditType shape = new ShapeEditType();
 					shape.bone_flags = 0;
 					shape.bone_type = 0;
@@ -585,13 +582,6 @@ namespace Object_tool
 					}
 				}
 			}
-
-			if (!bFind && saves_count == 0)
-            {
-				saves_count++;
-				SaveObject(TEMP_FILE_NAME);
-				LoadBoneData();
-			}
 		}
 
 		private void LoadScale()
@@ -602,7 +592,9 @@ namespace Object_tool
 			{
 				xr_loader.SetStream(r.BaseStream);
 
-				if (xr_loader.find_chunkSize((int)OBJECT.EOBJ_CHUNK_ACTORTRANSFORM, false, true) > 24)
+				xr_loader.ReadInt64();
+
+				if (xr_loader.find_chunkSize((int)OBJECT.EOBJ_CHUNK_ACTORTRANSFORM) > 24)
 				{
 					xr_loader.ReadBytes(12);
 					xr_loader.ReadBytes(12);
