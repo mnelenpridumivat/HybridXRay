@@ -29,6 +29,26 @@ namespace Object_tool
         EOBJ_CHUNK_SMOTIONS3	    =	0x0926
     };
 
+    public enum MESH
+    {
+        EMESH_CURRENT_VERSION	    =  	0x0011,
+        EMESH_CHUNK_VERSION	        =	0x1000,
+        EMESH_CHUNK_MESHNAME        =	0x1001,
+        EMESH_CHUNK_FLAGS	        =	0x1002,
+        EMESH_CHUNK_NOT_USED_0      =  	0x1003,
+        EMESH_CHUNK_BBOX	        =	0x1004,
+        EMESH_CHUNK_VERTS	        =	0x1005,
+        EMESH_CHUNK_FACES	        =	0x1006,
+        EMESH_CHUNK_VMAPS_0	        =	0x1007,
+        EMESH_CHUNK_VMREFS	        =	0x1008,
+        EMESH_CHUNK_SFACE			=	0x1009,
+        EMESH_CHUNK_BOP				=	0x1010,
+        EMESH_CHUNK_VMAPS_1		    =   0x1011,
+        EMESH_CHUNK_VMAPS_2		    =  	0x1012,
+        EMESH_CHUNK_SG			    =  	0x1013
+    };
+
+
     public enum BONE
     {
         BONE_VERSION				=	0x0002,
