@@ -615,7 +615,9 @@ namespace Object_tool
 			{
 				xr_loader.SetStream(r.BaseStream);
 
-				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SMOTIONS, false, true))
+				xr_loader.ReadInt64();
+
+				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SMOTIONS))
 				{
 					count = xr_loader.ReadUInt32();
 				}
