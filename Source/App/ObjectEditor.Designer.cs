@@ -92,7 +92,6 @@ namespace Object_tool
             this.ObjectScaleTextBox = new System.Windows.Forms.TextBox();
             this.FlagsHelpButton = new System.Windows.Forms.Button();
             this.TabControl = new System.Windows.Forms.TabControl();
-            this.SklFolderDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.MenuPanel.SuspendLayout();
             this.StatusPanel.SuspendLayout();
             this.FlagsPage.SuspendLayout();
@@ -709,7 +708,6 @@ namespace Object_tool
         private System.Windows.Forms.Button FlagsHelpButton;
         private System.Windows.Forms.TabControl TabControl;
         private System.Windows.Forms.ToolStripMenuItem sklToolStripMenuItem;
-        private System.Windows.Forms.FolderBrowserDialog SklFolderDialog;
     }
 }
 

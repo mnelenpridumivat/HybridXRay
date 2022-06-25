@@ -33,6 +33,7 @@ namespace Object_tool
 		public bool DEVELOPER_MODE = false;
 		public bool DEBUG_MODE = false;
 		IniFile Settings = null;
+		FolderSelectDialog SaveSklDialog = null;
 
 		// Input
 		public bool bKeyIsDown = false;
@@ -47,6 +48,8 @@ namespace Object_tool
 			deleteToolStripMenuItem.Enabled = false;
 			sklSklsToolStripMenuItem.Enabled = false;
 			bonesToolStripMenuItem.Enabled = false;
+
+			SaveSklDialog = new FolderSelectDialog();
 
 			string file_path = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\Settings.ini";
 			Settings = new IniFile(file_path, "[settings]\ndeveloper=0\ndebug=0");
@@ -98,6 +101,8 @@ namespace Object_tool
 
 			SaveLtxDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
 			SaveLtxDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + ".ltx";
+
+			SaveSklDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
 
 			FILE_NAME = filename;
 
@@ -438,10 +443,11 @@ namespace Object_tool
 
 		private void sklToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			SklFolderDialog.SelectedPath = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
-			if (SklFolderDialog.ShowDialog() == DialogResult.OK)
+			if (SaveSklDialog.ShowDialog(this.Handle))
 			{
-				int code = SaveMotion(TEMP_FILE_NAME, SklFolderDialog.SelectedPath);
+				SaveSklDialog.InitialDirectory = "";
+
+				int code = SaveMotion(TEMP_FILE_NAME, SaveSklDialog.FileName);
 				if (code == 0)
 					AutoClosingMessageBox.Show("Motions succesfully saved.", "", 1000, MessageBoxIcon.Information);
 				else
@@ -642,9 +648,7 @@ namespace Object_tool
 				xr_loader.ReadInt64();
 
 				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SMOTIONS))
-				{
 					count = xr_loader.ReadUInt32();
-				}
 			}
 			return count;
 		}
