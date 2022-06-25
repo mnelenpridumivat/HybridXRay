@@ -653,6 +653,119 @@ namespace Object_tool
 			return count;
 		}
 
+		private void ParseMotions()
+		{
+			var xr_loader = new XRayLoader();
+
+			using (var r = new BinaryReader(new FileStream(TEMP_FILE_NAME, FileMode.Open)))
+			{
+				xr_loader.SetStream(r.BaseStream);
+
+				xr_loader.ReadInt64();
+
+				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SMOTIONS))
+				{
+					uint count = xr_loader.ReadUInt32();
+					//MessageBox.Show($"count {count}");
+
+					for (int i = 0; i < count; i++)
+					{
+						string name = xr_loader.read_stringZ();
+						xr_loader.ReadBytes(12);
+						uint vers = xr_loader.ReadUInt16();
+
+						//MessageBox.Show($"name {name}, vers {vers}");
+
+						switch (vers)
+						{
+							case 4:
+								{
+									xr_loader.ReadBytes(22);
+									uint sz = xr_loader.ReadUInt32();
+									for (int j = 0; j < sz; j++)
+									{
+										xr_loader.ReadBytes(4);
+										for (int m = 0; m < 6; m++)
+										{
+											xr_loader.ReadBytes(8);
+											uint sz1 = xr_loader.ReadUInt32();
+											for (int p = 0; p < sz1; p++)
+											{
+												xr_loader.ReadBytes(40);
+											}
+										}
+									}
+								}
+								break;
+							case 5:
+								{
+									xr_loader.ReadBytes(24);
+									uint sz = xr_loader.ReadUInt32();
+									for (int j = 0; j < sz; j++)
+									{
+										xr_loader.read_stringZ();
+										xr_loader.ReadBytes(4);
+										for (int m = 0; m < 6; m++)
+										{
+											xr_loader.ReadBytes(8);
+											uint sz1 = xr_loader.ReadUInt32();
+											for (int p = 0; p < sz1; p++)
+											{
+												xr_loader.ReadBytes(40);
+											}
+										}
+									}
+								}
+								break;
+							default:
+								{
+									if (vers >= 6)
+									{
+										xr_loader.ReadBytes(19);
+										uint sz = xr_loader.ReadUInt16();
+										for (int j = 0; j < sz; j++)
+										{
+											xr_loader.read_stringZ();
+											xr_loader.ReadBytes(1);
+											for (int m = 0; m < 6; m++)
+											{
+												xr_loader.ReadBytes(2);
+												uint sz1 = xr_loader.ReadUInt16();
+												for (int p = 0; p < sz1; p++)
+												{
+													xr_loader.ReadBytes(8);
+													byte shape = xr_loader.ReadByte();
+													if (shape != 4)
+													{
+														xr_loader.ReadBytes(14);
+													}
+												}
+											}
+										}
+									}
+								}
+								break;
+						}
+
+						if (vers >= 7)
+						{
+							uint sz = xr_loader.ReadUInt32();
+							for (int j = 0; j < sz; j++)
+							{
+								xr_loader.read_stringZ();
+								uint sz1 = xr_loader.ReadUInt32();
+
+								for (int p = 0; p < sz1; p++)
+								{
+									xr_loader.ReadBytes(8);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
 		private void FlagsHelpButton_Click(object sender, EventArgs e)
 		{
 			MessageBox.Show("Motion export:\nДанные флаги влияют на компресиию анимаций при экспортировании в OMF.\n1. 8 bit - ТЧ Формат\n2. 16 bit - ЗП Формат\n" + (DEVELOPER_MODE ? "3. No compress - экспортирует анимации без сжатия\n\n" : "\n") +
