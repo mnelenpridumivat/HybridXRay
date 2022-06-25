@@ -591,16 +591,4 @@ bool CEditableObject::CheckBoneCompliance(CSMotion* M)
 
 void CEditableObject::OptimizeSMotions()
 {
-#if 1
-	SPBItem* pb				= UI->ProgressStart(m_SMotions.size(),"Motions optimizing...");
-#endif
-	for (SMotionIt s_it=m_SMotions.begin(); s_it!=m_SMotions.end(); s_it++){
-        (*s_it)->Optimize	();
-#if 1
-		pb->Inc				();
-#endif
-	}
-#if 1
-    UI->ProgressEnd				(pb);
-#endif
 }

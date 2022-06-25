@@ -474,10 +474,7 @@ bool CSMotion::Load(IReader& F)
 
 void CSMotion::Optimize()
 {
-    for(BoneMotionIt bm_it=bone_mots.begin(); bm_it!=bone_mots.end(); bm_it++){
-        for (int ch=0; ch<ctMaxChannel; ch++)
-            bm_it->envs[ch]->Optimize();
-    }
+
 }
 
 void CSMotion::SortBonesBySkeleton(BoneVec& bones)
