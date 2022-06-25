@@ -13,27 +13,6 @@
 extern ECORE_API BOOL g_force16BitTransformQuant;
 extern ECORE_API BOOL g_forceNoCompressTransformQuant;
 
-std::string GetClipboardText()
-{
-    if (!OpenClipboard(nullptr)) 
-        return "";
-
-    HANDLE hData = GetClipboardData(CF_TEXT);
-    if (hData == nullptr)
-        return "";
-
-    char * pszText = static_cast<char*>(GlobalLock(hData));
-    if (pszText == nullptr)
-        return "";
-
-    std::string text(pszText);
-
-    GlobalUnlock(hData);
-    CloseClipboard();
-
-    return text;
-}
-
 enum EExportFlags
 {
     exf16Bit            = (1<<0),	
