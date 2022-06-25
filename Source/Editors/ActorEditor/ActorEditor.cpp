@@ -13,6 +13,27 @@
 extern ECORE_API BOOL g_force16BitTransformQuant;
 extern ECORE_API BOOL g_forceNoCompressTransformQuant;
 
+std::string GetClipboardText()
+{
+    if (!OpenClipboard(nullptr)) 
+        return "";
+
+    HANDLE hData = GetClipboardData(CF_TEXT);
+    if (hData == nullptr)
+        return "";
+
+    char * pszText = static_cast<char*>(GlobalLock(hData));
+    if (pszText == nullptr)
+        return "";
+
+    std::string text(pszText);
+
+    GlobalUnlock(hData);
+    CloseClipboard();
+
+    return text;
+}
+
 enum EExportFlags
 {
     exf16Bit            = (1<<0),	
@@ -34,10 +55,20 @@ int main(int argc, char** argv)
     Tools = xr_new<CActorTools>();
     ATools = (CActorTools*)Tools;
 
+    std::cout << "[Arg debugger]" << std::endl;
+    std::cout << "Arg count: " << argc << std::endl;
+    int size = 0;
+    for (int i = 0; i < argc; i++)
+    {
+        shared_str arg = argv[i];
+        size += arg.size();
+    }
+
+    std::cout << "Arg size: " << size << std::endl;
+    std::cout << "Args: " << std::endl;
+
     for (int i = 0; i < argc; i++)
         std::cout << i << ". {" << argv[i] << "}" << std::endl;
-
-    std::cout << "argc " << argc << std::endl;
 
     std::cout << "Import object" << std::endl;
     ATools->LoadScale(argv[2], atof((atoi(argv[1]) == 2) ? argv[3] : argv[5]), (flags & exfScaleCenterMass));
@@ -107,17 +138,20 @@ int main(int argc, char** argv)
             ATools->CurrentObject()->ClearSMotions();
             if (!ATools->Save(argv[2]))
                 ret_code = -1;
-
-            Core._destroy();
-            return ret_code;
         }break;
         case 4: // Load motions
         {
-            if (!ATools->AppendMotion(argv[3]) || !ATools->Save(argv[2]))
-                ret_code = -1;
+            bool res = true;
+            for (int i = 6; i < argc; i++)
+            {
+                if (!ATools->AppendMotion(argv[i]))
+                    res = false;
+            }
+            if (res)
+                res = ATools->Save(argv[2]);
 
-            Core._destroy();
-            return ret_code;
+            if (!res)
+                ret_code = -1;
         }break;
         case 5: // Save motions
         {
@@ -128,9 +162,6 @@ int main(int argc, char** argv)
         {
             if (!ATools->LoadBoneData(argv[3]) || !ATools->Save(argv[2]))
                 ret_code = -1;
-
-            Core._destroy();
-            return ret_code;
         }break;
         case 7:  // Save bones
         {
@@ -141,49 +172,36 @@ int main(int argc, char** argv)
         {
             if (!ATools->ExportOBJ(argv[3]))
                 ret_code = -1;
-
-            Core._destroy();
-            return ret_code;
         }break;
         case 9:  // Export DM
         {
             if (!ATools->ExportDM(argv[3]))
                 ret_code = -1;
-
-            Core._destroy();
-            return ret_code;
         }break;
         case 10:  // Save object
         {
             if (!ATools->Save(argv[2]))
                 ret_code = -1;
-
-            Core._destroy();
-            return ret_code;
         }break;
         case 11:  // Load bone parts
         {
             if (!ATools->LoadBoneParts(argv[3]) || !ATools->Save(argv[2]))
                 ret_code = -1;
-
-            Core._destroy();
-            return ret_code;
         }break;
         case 12:  // Save bone parts
         {
             if (!ATools->SaveBoneParts(argv[3]))
                 ret_code = -1;
-
-            Core._destroy();
-            return ret_code;
         }break;
         case 13:  // To default bone parts
         {
             if (!ATools->ToDefaultBoneParts() || !ATools->Save(argv[2]))
                 ret_code = -1;
-
-            Core._destroy();
-            return ret_code;
+        }break;
+        case 14: // Save motions
+        {
+            if (!ATools->SaveMotions(argv[3], true))
+                ret_code = -1;
         }break;
     }
 

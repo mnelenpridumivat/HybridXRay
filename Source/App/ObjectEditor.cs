@@ -112,6 +112,7 @@ namespace Object_tool
 			bool has_motions = MotionCount() > 0;
 			DeletesklsToolStripMenuItem.Enabled = has_motions;
 			SaveSklsToolStripMenuItem.Enabled = has_motions;
+			sklToolStripMenuItem.Enabled = has_motions;
 			oMFToolStripMenuItem.Enabled = has_motions;
 			saveToolStripMenuItem.Enabled = !skeleton;
 			exportToolStripMenuItem.Enabled = true;
@@ -227,27 +228,39 @@ namespace Object_tool
 			{
 				args += $" \"{shapes[i].bone_id}-{shapes[i].bone_type}-{shapes[i].bone_flags}\"";
 			}
-			return RunCompiller(args, false);
+			return RunCompiller(args);
 		}
 
 		private int DeleteMotions(string object_path)
 		{
-			return RunCompiller($"3 \"{object_path}\" temp {GetFlags()} {model_scale}", true);
+			return RunCompiller($"3 \"{object_path}\" temp {GetFlags()} {model_scale}");
 		}
 
-		private int LoadMotions(string object_path, string skls_path)
+		private int LoadMotions(string object_path, string[] skls_path)
 		{
-			return RunCompiller($"4 \"{object_path}\" \"{skls_path}\" {GetFlags()} {model_scale}", true);
+			string args = $"4 \"{object_path}\" temp {GetFlags()} {model_scale}";
+
+			for (int i = 0; i < skls_path.Count(); i++)
+			{
+				args += $" \"{skls_path[i]}\"";
+			}
+			int code = RunCompiller(args);
+			return code;
 		}
 
 		private int SaveMotions(string object_path, string skls_path)
 		{
-			return RunCompiller($"5 \"{object_path}\" \"{skls_path}\" {GetFlags()} {model_scale}", false);
+			return RunCompiller($"5 \"{object_path}\" \"{skls_path}\" {GetFlags()} {model_scale}");
+		}
+
+		private int SaveMotion(string object_path, string folder_path)
+		{
+			return RunCompiller($"14 \"{object_path}\" \"{folder_path}\" {GetFlags()} {model_scale}");
 		}
 
 		private int LoadBones(string object_path, string bones_path)
 		{
-			int res = RunCompiller($"6 \"{object_path}\" \"{bones_path}\" {GetFlags()} {model_scale}", true);
+			int res = RunCompiller($"6 \"{object_path}\" \"{bones_path}\" {GetFlags()} {model_scale}");
 
 			ClearUI();
 			LoadBoneData();
@@ -260,40 +273,40 @@ namespace Object_tool
 
 		private int SaveBones(string object_path, string bones_path)
 		{
-			return RunCompiller($"7 \"{object_path}\" \"{bones_path}\" {GetFlags()} {model_scale}", true);
+			return RunCompiller($"7 \"{object_path}\" \"{bones_path}\" {GetFlags()} {model_scale}");
 		}
 
 		private int SaveObj(string object_path, string obj_path)
 		{
-			return RunCompiller($"8 \"{object_path}\" \"{obj_path}\" {GetFlags()} {model_scale}", true);
+			return RunCompiller($"8 \"{object_path}\" \"{obj_path}\" {GetFlags()} {model_scale}");
 		}
 
 		private int SaveDM(string object_path, string dm_path)
 		{
-			return RunCompiller($"9 \"{object_path}\" \"{dm_path}\" {GetFlags()} {model_scale}", true);
+			return RunCompiller($"9 \"{object_path}\" \"{dm_path}\" {GetFlags()} {model_scale}");
 		}
 
 		private int SaveObject(string object_path)
 		{
-			return RunCompiller($"10 \"{object_path}\" null {GetFlags()} {model_scale}", true);
+			return RunCompiller($"10 \"{object_path}\" null {GetFlags()} {model_scale}");
 		}
 
 		private int LoadBoneParts(string object_path, string ltx_path)
 		{
-			return RunCompiller($"11 \"{object_path}\" \"{ltx_path}\" {GetFlags()} {model_scale}", true);
+			return RunCompiller($"11 \"{object_path}\" \"{ltx_path}\" {GetFlags()} {model_scale}");
 		}
 
 		private int SaveBoneParts(string object_path, string ltx_path)
 		{
-			return RunCompiller($"12 \"{object_path}\" \"{ltx_path}\" {GetFlags()} {model_scale}", true);
+			return RunCompiller($"12 \"{object_path}\" \"{ltx_path}\" {GetFlags()} {model_scale}");
 		}
 
 		private int ToDefaultBoneParts(string object_path)
 		{
-			return RunCompiller($"13 \"{object_path}\" temp {GetFlags()} {model_scale}", true);
+			return RunCompiller($"13 \"{object_path}\" temp {GetFlags()} {model_scale}");
 		}
 
-		private int RunCompiller(string args, bool force_disable_window = false)
+		private int RunCompiller(string args)
 		{
 			string exe_path = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\ActorEditor.exe";
 			if (File.Exists(exe_path))
@@ -302,16 +315,8 @@ namespace Object_tool
 				proc.StartInfo.FileName = exe_path;
 				proc.StartInfo.WorkingDirectory = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\'));
 				proc.StartInfo.Arguments = args;
-				if (!force_disable_window)
-				{
-					proc.StartInfo.CreateNoWindow = !dbg_window;
-					proc.StartInfo.UseShellExecute = dbg_window;
-				}
-				else
-				{
-					proc.StartInfo.CreateNoWindow = true;
-					proc.StartInfo.UseShellExecute = false;
-				}
+				proc.StartInfo.CreateNoWindow = !dbg_window;
+				proc.StartInfo.UseShellExecute = dbg_window;
 				proc.Start();
 				proc.WaitForExit();
 				return proc.ExitCode;
@@ -388,12 +393,13 @@ namespace Object_tool
 		{
 			if (OpenSklsDialog.ShowDialog() == DialogResult.OK)
 			{
-				int code = LoadMotions(TEMP_FILE_NAME, OpenSklsDialog.FileName);
+				int code = LoadMotions(TEMP_FILE_NAME, OpenSklsDialog.FileNames);
 				if (code == 0)
 				{
 					AutoClosingMessageBox.Show("Motions succesfully loaded.", "", 1000, MessageBoxIcon.Information);
 					DeletesklsToolStripMenuItem.Enabled = true;
 					SaveSklsToolStripMenuItem.Enabled = true;
+					sklToolStripMenuItem.Enabled = true;
 					oMFToolStripMenuItem.Enabled = true;
 				}
 				else
@@ -409,6 +415,7 @@ namespace Object_tool
 				AutoClosingMessageBox.Show("Motions succesfully deleted.", "", 1000, MessageBoxIcon.Information);
 				DeletesklsToolStripMenuItem.Enabled = false;
 				SaveSklsToolStripMenuItem.Enabled = false;
+				sklToolStripMenuItem.Enabled = false;
 				oMFToolStripMenuItem.Enabled = false;
 			}
 			else
@@ -422,6 +429,19 @@ namespace Object_tool
 				SaveSklsDialog.InitialDirectory = "";
 
 				int code = SaveMotions(TEMP_FILE_NAME, SaveSklsDialog.FileName);
+				if (code == 0)
+					AutoClosingMessageBox.Show("Motions succesfully saved.", "", 1000, MessageBoxIcon.Information);
+				else
+					AutoClosingMessageBox.Show($"Can't save motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+			}
+		}
+
+		private void sklToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			SklFolderDialog.SelectedPath = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
+			if (SklFolderDialog.ShowDialog() == DialogResult.OK)
+			{
+				int code = SaveMotion(TEMP_FILE_NAME, SklFolderDialog.SelectedPath);
 				if (code == 0)
 					AutoClosingMessageBox.Show("Motions succesfully saved.", "", 1000, MessageBoxIcon.Information);
 				else

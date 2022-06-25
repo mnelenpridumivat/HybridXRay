@@ -319,16 +319,12 @@ bool CActorTools::RemoveMotion(LPCSTR name)
 bool CActorTools::SaveMotions(LPCSTR name, bool bSelOnly)
 {
 	VERIFY(m_pEditObject);
-    ListItemsVec items;
-    if (bSelOnly){
-        if (m_ObjectItems->GetSelected(MOTIONS_PREFIX, items, true)) {
-            CMemoryWriter 	F;
-            F.w_u32(items.size());
-            for (ListItemsIt it = items.begin(); it != items.end(); it++)
-                ((CSMotion*)(*it)->m_Object)->Save(F);
-            return F.save_to(name);
-        }
-    }else{
+    if (bSelOnly)
+    {
+        return m_pEditObject->SaveSMotion(name);
+    }
+    else
+    {
     	return m_pEditObject->SaveSMotions(name);
     }
     return false;

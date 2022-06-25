@@ -353,8 +353,11 @@ void CSMotion::SaveMotion(const char* buf){
 	F.open_chunk	(EOBJ_SMOTION);
 	Save			(F);
 	F.close_chunk	();
-	if (!F.save_to(buf)) 
-        Log			("!Can't save skeleton motion:",buf);
+    string_path filename = "";
+    xr_sprintf(filename, "%s\\%s.skl", buf, name.c_str());
+    Msg("saving motion %s", filename);
+    if (!F.save_to(filename))
+        Log("!Can't save skeleton motion:", filename);
 }
 
 bool CSMotion::LoadMotion(const char* buf)

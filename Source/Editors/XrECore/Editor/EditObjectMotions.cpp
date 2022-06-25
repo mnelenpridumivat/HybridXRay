@@ -397,6 +397,13 @@ bool CEditableObject::SaveSMotions(const char* fname)
     return 		F.save_to(fname);
 }
 
+bool CEditableObject::SaveSMotion(const char* fname)
+{
+    for (SMotionIt m_it=m_SMotions.begin(); m_it!=m_SMotions.end(); m_it++) 
+        (*m_it)->SaveMotion(fname);
+    return true;
+}
+
 bool CEditableObject::RenameSMotion(const char* old_name, const char* new_name)
 {
 	if (stricmp(old_name,new_name)==0) return true;

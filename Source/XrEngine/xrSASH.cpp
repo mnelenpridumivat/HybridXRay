@@ -117,39 +117,6 @@ void xrSASH::LoopOA()
 
 void xrSASH::LoopNative()
 {
-	string_path in_file;
-	FS.update_path(in_file,"$app_data_root$", m_strBenchCfgName);
-
-	CInifile ini(in_file);
-
-	IReader* R 	= FS.r_open(in_file);
-	if (R)
-	{
-		FS.r_close(R);
-
-		int test_count = ini.line_count("benchmark");
-		LPCSTR test_name,t;
-		shared_str test_command;
-
-		for(int i=0;i<test_count;++i)
-		{
-			ini.r_line( "benchmark", i, &test_name, &t);
-			//xr_strcpy(g_sBenchmarkName, test_name);
-
-			test_command = ini.r_string_wb("benchmark",test_name);
-			xr_strcpy( Core.Params, *test_command );
-			_strlwr_s( Core.Params );
-
-			RunBenchmark(test_name);
-
-			//	Output results
-			ReportNative(test_name);
-		}
-	}
-	else
-		Msg("oa:: Native path can't find \"%s\" config file.", in_file);
-
-	FlushLog();
 }
 
 void xrSASH::ReportNative( LPCSTR pszTestName )

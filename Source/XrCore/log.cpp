@@ -4,6 +4,7 @@
 #include <time.h>
 #include "resource.h"
 #include "log.h"
+#include <iostream>
 #if 0
 	#include "malloc.h"
 #endif
@@ -82,6 +83,7 @@ void Log				(const char *s)
 		}
 	}
 	split[j]=0;
+	std::cout << split << std::endl;
 	AddOne(split);
 }
 

@@ -301,7 +301,7 @@ public:
 	string_path	WorkingPath;
 	string64	UserName;
 	string64	CompName;
-	string512	Params;
+	LPCSTR		Params;
 	bool		HasLog;
 	bool		Editor;
 

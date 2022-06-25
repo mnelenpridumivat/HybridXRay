@@ -15,7 +15,7 @@ extern XRCDB_API BOOL *cdb_bDebug;
 void	SetupGPU(IRenderDeviceRender *pRender)
 {
 	// Command line
-	char *lpCmdLine		= Core.Params;
+	LPCSTR lpCmdLine		= Core.Params;
 
 	BOOL bForceGPU_SW;
 	BOOL bForceGPU_NonPure;

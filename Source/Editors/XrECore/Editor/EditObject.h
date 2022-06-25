@@ -374,6 +374,7 @@ public:
     bool			AppendSMotion			(LPCSTR fname, SMotionVec* inserted=0);
     void			ClearSMotions			();
     bool			SaveSMotions			(LPCSTR fname);
+    bool			SaveSMotion			    (LPCSTR fname);
 
     // load/save methods
 	bool 			Reload					();

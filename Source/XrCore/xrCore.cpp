@@ -46,8 +46,7 @@ int xrCore::_initialize	(LPCSTR _ApplicationName, LogCallback cb, BOOL init_fs, 
 		// Init COM so we can use CoCreateInstance
 //		HRESULT co_res = 
 	
-		xr_strcpy			(Params,sizeof(Params),GetCommandLine());
-		_strlwr_s			(Params,sizeof(Params));
+		Params = GetCommandLine();
 
 		string_path		fn,dr,di;
 
