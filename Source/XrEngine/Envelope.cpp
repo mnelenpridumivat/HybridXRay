@@ -222,27 +222,6 @@ void CEnvelope::LoadA(IReader& F)
 
 void CEnvelope::Optimize()
 {
-	if (keys.empty())
-		return;
-
-	KeyIt it 		= keys.begin();
-    st_Key K 		= **it;	it++;
-    bool equal		= true;
-	for (;it!=keys.end();it++){
-    	if (!(*it)->equal(K)){
-        	equal	= false;
-            break;
-        }
-    }
-    if (equal&&(keys.size()>2)){
-        KeyVec		new_keys;
-		new_keys.push_back(xr_new<st_Key>(*keys.front()));
-		new_keys.push_back(xr_new<st_Key>(*keys.back()));
-        for (KeyIt k_it=keys.begin(); k_it!=keys.end(); k_it++)
-            xr_delete(*k_it);
-		keys.clear_and_free	();
-        keys				= new_keys;
-    }
 }
 
 
