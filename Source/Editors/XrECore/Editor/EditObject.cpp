@@ -319,3 +319,11 @@ Fobb&	CEditableObject::LL_GetBox(u16 bone_id)
     static  Fobb  dummy_box;
     return dummy_box;
 }
+
+void CEditableObject::ChangeSurfaceFlags(xr_vector<int> flags)
+{
+    for (int i = 0; i < flags.size(); i++)
+    {
+        m_Surfaces[i]->m_Flags.assign(flags[i]);
+    }
+}

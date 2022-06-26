@@ -29,6 +29,7 @@ namespace Object_tool
 		public string TEMP_FILE_NAME = "";
 		public bool dbg_window = false;
 		public List<ShapeEditType> model_shapes;
+		public List<uint> material_flags;
 		public float model_scale = 1.0f;
 		public bool DEVELOPER_MODE = false;
 		public bool DEBUG_MODE = false;
@@ -137,6 +138,7 @@ namespace Object_tool
 
 			LoadBoneData();
 			LoadScale();
+			LoadSurfaceData();
 
 			for (int i = 0; i < model_shapes.Count; i++)
 			{
@@ -215,6 +217,31 @@ namespace Object_tool
 			box.Controls.Add(TypeLabel);
 		}
 
+		private void CreateMaterialGroupBox(int idx, string name)
+		{
+			var GroupBox = new GroupBox();
+			GroupBox.Location = new System.Drawing.Point(3, 3 + 48 * idx);
+			GroupBox.Size = new System.Drawing.Size(333, 42);
+			GroupBox.Text = name;
+			GroupBox.Name = "MaterialGrpBox_" + idx;
+			GroupBox.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
+			CreateMaterialFlags(idx, GroupBox);
+			SurfaceFlagsPanel.Controls.Add(GroupBox);
+		}
+
+		private void CreateMaterialFlags(int idx, GroupBox box)
+		{
+			var TwoSidedCheckBoxBox = new CheckBox();
+			TwoSidedCheckBoxBox.Name = "chbx_2sided_" + idx;
+			TwoSidedCheckBoxBox.Text = "2 Sided";
+			TwoSidedCheckBoxBox.Size = new System.Drawing.Size(130, 23);
+			TwoSidedCheckBoxBox.Location = new System.Drawing.Point(6, 15);
+			TwoSidedCheckBoxBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+			TwoSidedCheckBoxBox.Checked = (material_flags[idx] & (1 << 0)) == (1 << 0);
+
+			box.Controls.Add(TwoSidedCheckBoxBox);
+		}
+
 		private int ExportOGF(string object_path, string ogf_path)
 		{
 			return RunCompiller($"0 \"{object_path}\" \"{ogf_path}\" {GetFlags()} {model_scale}");
@@ -225,13 +252,13 @@ namespace Object_tool
 			return RunCompiller($"1 \"{object_path}\" \"{omf_path}\" {GetFlags()} {model_scale}");
 		}
 
-		private int GenerateShapes(string object_path, List<ShapeEditType> shapes)
+		private int GenerateShapes(string object_path)
 		{
 			CopyShapeParams();
 			string args = $"2 \"{object_path}\" {model_scale} {GetFlags()}";
-			for (int i = 0; i < shapes.Count; i++)
+			for (int i = 0; i < model_shapes.Count; i++)
 			{
-				args += $" \"{shapes[i].bone_id}-{shapes[i].bone_type}-{shapes[i].bone_flags}\"";
+				args += $" \"{model_shapes[i].bone_id}-{model_shapes[i].bone_type}-{model_shapes[i].bone_flags}\"";
 			}
 			return RunCompiller(args);
 		}
@@ -309,6 +336,17 @@ namespace Object_tool
 		private int ToDefaultBoneParts(string object_path)
 		{
 			return RunCompiller($"13 \"{object_path}\" temp {GetFlags()} {model_scale}");
+		}
+
+		private int ChangeSurfaceFlags(string object_path)
+		{
+			CopyMaterialFlags();
+			string args = $"15 \"{object_path}\" {model_scale} {GetFlags()}";
+			for (int i = 0; i < material_flags.Count; i++)
+			{
+				args += $" {material_flags[i]}";
+			}
+			return RunCompiller(args);
 		}
 
 		private int RunCompiller(string args)
@@ -491,25 +529,13 @@ namespace Object_tool
 				if (code == 0)
 					AutoClosingMessageBox.Show("Model succesfully saved.", "", 1000, MessageBoxIcon.Information);
 				else
-					AutoClosingMessageBox.Show($"Failed to save Model.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
-			}
-		}
-
-		private void dMToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			if (SaveDmDialog.ShowDialog() == DialogResult.OK)
-			{
-				int code = SaveDM(TEMP_FILE_NAME, SaveDmDialog.FileName);
-				if (code == 0)
-					AutoClosingMessageBox.Show("Model succesfully saved.", "", 1000, MessageBoxIcon.Information);
-				else
-					AutoClosingMessageBox.Show($"Failed to save Model.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+					AutoClosingMessageBox.Show($"Failed to save model.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 			}
 		}
 
 		private void generateShapesToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			int code = GenerateShapes(TEMP_FILE_NAME, model_shapes);
+			int code = GenerateShapes(TEMP_FILE_NAME);
 			if (code == 0)
 				AutoClosingMessageBox.Show("Bone shapes succesfully generated.", "", 1000, MessageBoxIcon.Information);
 			else
@@ -547,6 +573,40 @@ namespace Object_tool
 				AutoClosingMessageBox.Show("Bone parts succesfully reseted to default.", "", 1000, MessageBoxIcon.Information);
 			else
 				AutoClosingMessageBox.Show($"Failed to reset bone parts to default.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+		}
+
+		private void dMToolStripMenuItem_Click_1(object sender, EventArgs e)
+		{
+			if (SaveDmDialog.ShowDialog() == DialogResult.OK)
+			{
+				int code = SaveDM(TEMP_FILE_NAME, SaveDmDialog.FileName);
+				if (code == 0)
+                    AutoClosingMessageBox.Show("Model succesfully saved.", "", 1000, MessageBoxIcon.Information);
+                else
+                {
+                    switch (code)
+                    {
+						case 1:
+							AutoClosingMessageBox.Show($"Failed to save detail model. Object must contain 1 material.", "", GetErrorTime(), MessageBoxIcon.Error);
+							break;
+						case 2:
+							AutoClosingMessageBox.Show($"Failed to save detail model. Object must contain 1 mesh.", "", GetErrorTime(), MessageBoxIcon.Error);
+							break;
+						default:
+							AutoClosingMessageBox.Show($"Failed to save detail model.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+							break;
+					}
+                }
+			}
+		}
+
+		private void SaveMaterialFlagsButton_Click(object sender, EventArgs e)
+		{
+			int code = ChangeSurfaceFlags(TEMP_FILE_NAME);
+			if (code == 0)
+				AutoClosingMessageBox.Show("Surface flags succesfully saved.", "", 1000, MessageBoxIcon.Information);
+			else
+				AutoClosingMessageBox.Show($"Failed to save surface flags.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 		}
 
 		private void LoadBoneData()
@@ -651,6 +711,74 @@ namespace Object_tool
 					count = xr_loader.ReadUInt32();
 			}
 			return count;
+		}
+
+		private void LoadSurfaceData()
+		{
+			var xr_loader = new XRayLoader();
+			material_flags = new List<uint>();
+
+			using (var r = new BinaryReader(new FileStream(TEMP_FILE_NAME, FileMode.Open)))
+			{
+				xr_loader.SetStream(r.BaseStream);
+
+				xr_loader.ReadInt64();
+
+				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SURFACES3))
+				{
+					uint cnt = xr_loader.ReadUInt32();
+					for (int i = 0; i < cnt; i++)
+					{
+						string name = xr_loader.read_stringZ(); // Name
+						xr_loader.read_stringZ(); // Shader
+						xr_loader.read_stringZ(); // Shader XRLC
+						xr_loader.read_stringZ(); // GameMtl
+						xr_loader.read_stringZ(); // Texture
+						xr_loader.read_stringZ(); // VMap
+						uint flags = xr_loader.ReadUInt32();   // Flags
+						xr_loader.ReadUInt32();   // FVF
+						xr_loader.ReadUInt32();   // TC count
+
+						material_flags.Add(flags);
+						CreateMaterialGroupBox(i, name);
+					}
+				}
+				else if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SURFACES2))
+				{
+					uint cnt = xr_loader.ReadUInt32();
+					for (int i = 0; i < cnt; i++)
+					{
+						string name = xr_loader.read_stringZ(); // Name
+						xr_loader.read_stringZ(); // Shader
+						xr_loader.read_stringZ(); // Shader XRLC
+						xr_loader.read_stringZ(); // Texture
+						xr_loader.read_stringZ(); // VMap
+						uint flags = xr_loader.ReadUInt32();   // Flags
+						xr_loader.ReadUInt32();   // FVF
+						xr_loader.ReadUInt32();   // TC count
+
+						material_flags.Add(flags);
+						CreateMaterialGroupBox(i, name);
+					}
+				}
+				else if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SURFACES))
+				{
+					uint cnt = xr_loader.ReadUInt32();
+					for (int i = 0; i < cnt; i++)
+					{
+						string name = xr_loader.read_stringZ(); // Name
+						xr_loader.read_stringZ(); // Shader
+						uint flags = xr_loader.ReadByte();     // Flags
+						xr_loader.ReadUInt32();	  // FVF
+						xr_loader.ReadUInt32();   // TC count
+						xr_loader.read_stringZ(); // Texture
+						xr_loader.read_stringZ(); // VMap
+
+						material_flags.Add(flags);
+						CreateMaterialGroupBox(i, name);
+					}
+				}
+			}
 		}
 
 		private void ParseMotions()
@@ -876,7 +1004,21 @@ namespace Object_tool
 			}
 		}
 
-        private void objectToolStripMenuItem1_Click(object sender, EventArgs e)
+		private void CopyMaterialFlags()
+		{
+			for (int i = 0; i < material_flags.Count; i++)
+			{
+				ushort flags = 0;
+				CheckBox TwoSided = SurfaceFlagsPanel.Controls[i].Controls[0] as CheckBox;
+
+				if (TwoSided.Checked)
+					flags |= (1 << 0);
+
+				material_flags[i] = flags;
+			}
+		}
+
+		private void objectToolStripMenuItem1_Click(object sender, EventArgs e)
         {
 			SaveObject(TEMP_FILE_NAME);
 			File.Copy(TEMP_FILE_NAME, FILE_NAME, true);
@@ -969,6 +1111,37 @@ namespace Object_tool
 			if (DEBUG_MODE)
 				return 15000;
 			return 1000;
+		}
+
+		private void ChangeAllMaterialFlagsButton_Click(object sender, EventArgs e)
+		{
+			Button CurButton = sender as Button;
+			if (CurButton.Tag.ToString() == "Enable")
+			{
+				for (int i = 0; i < material_flags.Count; i++)
+				{
+					uint flags = 0;
+					flags |= (1 << 0);
+					material_flags[i] = flags;
+
+					CheckBox TwoSided = SurfaceFlagsPanel.Controls[i].Controls[0] as CheckBox;
+					TwoSided.Checked = (material_flags[i] & (1 << 0)) == (1 << 0);
+				}
+				CurButton.Tag = "Disable";
+				CurButton.Text = "Disable all";
+			}
+			else
+            {
+				for (int i = 0; i < material_flags.Count; i++)
+				{
+					material_flags[i] = 0;
+
+					CheckBox TwoSided = SurfaceFlagsPanel.Controls[i].Controls[0] as CheckBox;
+					TwoSided.Checked = (material_flags[i] & (1 << 0)) == (1 << 0);
+				}
+				CurButton.Tag = "Enable";
+				CurButton.Text = "Enable all";
+			}
 		}
     }
 }

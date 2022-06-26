@@ -275,6 +275,7 @@ public:
     bool				RemoveMotion		(LPCSTR name);
     void 				WorldMotionRotate	(const Fvector& R);
     void				MakePreview			();
+    void				ChangeSurfaceFlags	(xr_vector<int> flags);
 
     bool        LoadBoneData            (shared_str file);
     bool        SaveBoneData            (shared_str file);

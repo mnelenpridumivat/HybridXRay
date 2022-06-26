@@ -328,6 +328,8 @@ public:
 	int 			GetVertexCount			();
     int 			GetSurfFaceCount		(LPCSTR surf_name);
 
+    void			ChangeSurfaceFlags	    (xr_vector<int> flags);
+
     // render methods
 	void 			Render					(const Fmatrix& parent, int priority, bool strictB2F,SurfaceVec * surfaces=nullptr);
 	void 			RenderSelection			(const Fmatrix& parent, CEditableMesh* m=0, CSurface* s=0, u32 c=0x40E64646);

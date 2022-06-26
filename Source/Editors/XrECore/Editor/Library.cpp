@@ -33,7 +33,6 @@ void ELibrary::OnCreate()
 
 void ELibrary::OnDestroy()
 {
-	VERIFY(m_bReady);
     m_bReady = false;
 //	EDevice->seqDevCreate.Remove(this);
 //	EDevice->seqDevDestroy.Remove(this);
@@ -54,7 +53,6 @@ void ELibrary::OnDestroy()
 
 void ELibrary::CleanLibrary()
 {
-	VERIFY(m_bReady);
     // remove all unused instance CEditableObject
     for(EditObjPairIt O = m_EditObjects.begin(); O!=m_EditObjects.end(); ){
     	if (0==O->second->m_RefCount){ 
@@ -67,7 +65,6 @@ void ELibrary::CleanLibrary()
 //----------------------------------------------------
 void ELibrary::ReloadObject(LPCSTR nm)
 {
-	VERIFY(m_bReady);
 	R_ASSERT(nm&&nm[0]);
     string512 name; strcpy(name,nm); strlwr(name);
 	EditObjPairIt it = m_EditObjects.find(name);
@@ -76,7 +73,6 @@ void ELibrary::ReloadObject(LPCSTR nm)
 }
 //---------------------------------------------------------------------------
 void ELibrary::ReloadObjects(){
-	VERIFY(m_bReady);
 	EditObjPairIt O = m_EditObjects.begin();
 	EditObjPairIt E = m_EditObjects.end();
     for(; O!=E; O++)
@@ -85,7 +81,6 @@ void ELibrary::ReloadObjects(){
 //----------------------------------------------------
 
 void ELibrary::OnDeviceCreate(){
-	VERIFY(m_bReady);
 	EditObjPairIt O = m_EditObjects.begin();
 	EditObjPairIt E = m_EditObjects.end();
     for(; O!=E; O++)
@@ -94,7 +89,6 @@ void ELibrary::OnDeviceCreate(){
 //---------------------------------------------------------------------------
 
 void ELibrary::OnDeviceDestroy(){
-	VERIFY(m_bReady);
 	EditObjPairIt O = m_EditObjects.begin();
 	EditObjPairIt E = m_EditObjects.end();
     for(; O!=E; O++)
@@ -113,15 +107,13 @@ void ELibrary::EvictObjects()
 
 CEditableObject* ELibrary::LoadEditObject(LPCSTR name)
 {
-	VERIFY(m_bReady);
     CEditableObject* m_EditObject = xr_new<CEditableObject>(name);
-    string_path fn;
-    FS.update_path(fn,_objects_,EFS.ChangeFileExt(name,".object").c_str());
-    if (FS.exist(fn))
+    //FS.update_path(fn,_objects_,EFS.ChangeFileExt(name,".object").c_str());
+    if (FS.exist(name))
     {
-        if (m_EditObject->Load(fn))	return m_EditObject;
+        if (m_EditObject->Load(name))	return m_EditObject;
     }else{
-		ELog.Msg(mtError,"Can't find file '%s'",fn);
+		ELog.Msg(mtError,"Can't find file '%s'",name);
     }
     xr_delete(m_EditObject);
 	return 0;
@@ -130,7 +122,6 @@ CEditableObject* ELibrary::LoadEditObject(LPCSTR name)
 
 CEditableObject* ELibrary::CreateEditObject(LPCSTR nm)
 {
-	VERIFY(m_bReady);
     R_ASSERT(nm&&nm[0]);
 //.    UI->ProgressInfo		(nm);
     xr_string name		= xr_string(nm);
@@ -151,7 +142,7 @@ void ELibrary::RemoveEditObject(CEditableObject*& object)
 	if (object){
 	    object->m_RefCount--;
     	R_ASSERT(object->m_RefCount>=0);
-		if ((object->m_RefCount==0)&&EPrefs->object_flags.is(epoDiscardInstance))
+		if ((object->m_RefCount==0))
 			if (!object->IsModified()) UnloadEditObject(object->GetName());
         object=0;
 	}
@@ -160,7 +151,6 @@ void ELibrary::RemoveEditObject(CEditableObject*& object)
 
 void ELibrary::Save(FS_FileSet* modif_map)
 {
-	VERIFY(m_bReady);
 	EditObjPairIt O = m_EditObjects.begin();
 	EditObjPairIt E = m_EditObjects.end();
     if (modif_map)

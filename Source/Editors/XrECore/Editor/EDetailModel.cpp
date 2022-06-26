@@ -114,18 +114,27 @@ bool EDetail::Update	(LPCSTR name)
 	m_sRefs				= name;
     // update link
     CEditableObject* R	= Lib.CreateEditObject(name);
-    if (!R){
+    if (!R)
+    {
  		ELog.Msg		(mtError,"Can't load detail object '%s'.", name);
         return false;
     }
-    if(R->SurfaceCount()!=1){
+    if(R->SurfaceCount()!=1)
+    {
     	ELog.Msg		(mtError,"Object must contain 1 material.");
 	    Lib.RemoveEditObject(R);
+
+        Core._destroy();
+        exit(1);
     	return false;
     }
-	if(R->MeshCount()==0){
+	if(R->MeshCount()==0)
+    {
     	ELog.Msg		(mtError,"Object must contain 1 mesh.");
 	    Lib.RemoveEditObject(R);
+
+        Core._destroy();
+        exit(2);
     	return false;
     }
 
@@ -162,7 +171,7 @@ bool EDetail::Update	(LPCSTR name)
 
 	bv_bb.getsphere		(bv_sphere.P,bv_sphere.R);
 
-    OnDeviceCreate		();
+   // OnDeviceCreate		();
 
     return true;
 }

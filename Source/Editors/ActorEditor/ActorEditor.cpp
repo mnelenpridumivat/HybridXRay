@@ -52,7 +52,7 @@ int main(int argc, char** argv)
     std::cout << "Import object" << std::endl;
     ATools->LoadScale(argv[2], atof((atoi(argv[1]) == 2) ? argv[3] : argv[5]), (flags & exfScaleCenterMass));
 
-    if (!ATools->BonePartsExist())
+    if (!ATools->BonePartsExist() && atoi(argv[1]) != 9)
     {
         ATools->ToDefaultBoneParts();
         std::cout << "Can't find bone parts, reset to default." << std::endl;
@@ -180,6 +180,20 @@ int main(int argc, char** argv)
         case 14: // Save motions
         {
             if (!ATools->SaveMotions(argv[3], true))
+                ret_code = -1;
+        }break;
+        case 15: // Save surface flags
+        {
+            xr_vector<int> vec;
+
+            for (int i = 5; i < argc; i++)
+            {
+                vec.push_back(atoi(argv[i]));
+            }
+
+            ATools->CurrentObject()->ChangeSurfaceFlags(vec);
+
+            if (!ATools->Save(argv[2]))
                 ret_code = -1;
         }break;
     }
