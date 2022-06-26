@@ -31,20 +31,12 @@ XRAPI_API extern EGamePath GCurrentGame;
 int xrCore::_initialize	(LPCSTR _ApplicationName, LogCallback cb, BOOL init_fs, LPCSTR fs_fname, bool editor_fs, bool init_log)
 {
 	xr_strcpy					(ApplicationName,_ApplicationName);
-	if (0==init_counter) {
+	if (0==init_counter) 
+	{
 		HasLog = init_log;
 		if (!init_log)
 			cb = 0;
-		Editor = editor_fs;
-#ifdef XRCORE_STATIC	
-		_clear87	();
-		_control87	( _PC_53,   MCW_PC );
-		_control87	( _RC_CHOP, MCW_RC );
-		_control87	( _RC_NEAR, MCW_RC );
-		_control87	( _MCW_EM,  MCW_EM );
-#endif
-		// Init COM so we can use CoCreateInstance
-//		HRESULT co_res = 
+		Editor = editor_fs; 
 	
 		Params = GetCommandLine();
 
@@ -54,16 +46,6 @@ int xrCore::_initialize	(LPCSTR _ApplicationName, LogCallback cb, BOOL init_fs, 
         GetModuleFileName(GetModuleHandle(MODULE_NAME),fn,sizeof(fn));
         _splitpath		(fn,dr,di,0,0);
         strconcat		(sizeof(ApplicationPath),ApplicationPath,dr,di);
-
-#if 0
-		// working path
-        if( strstr(Params,"-wf") )
-        {
-            string_path				c_name;
-            sscanf					(strstr(Core.Params,"-wf ")+4,"%[^ ] ",c_name);
-            SetCurrentDirectory     (c_name);
-        }
-#endif
 
 		GetCurrentDirectory(sizeof(WorkingPath),WorkingPath);
 
@@ -83,10 +65,6 @@ int xrCore::_initialize	(LPCSTR _ApplicationName, LogCallback cb, BOOL init_fs, 
 
 		InitLog				();
 		_initialize_cpu		();
-
-//		Debug._initialize	();
-
-		rtc_initialize		();
 
 		if(editor_fs)
 			xr_FS	= xr_new<ELocatorAPI>();
