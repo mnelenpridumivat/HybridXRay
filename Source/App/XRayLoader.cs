@@ -224,6 +224,27 @@ namespace Object_tool
             return new string(str.ToArray());
         }
 
+        public string read_motion_mark_string()
+        {
+            List<char> str = new List<char>();
+
+            while (reader.BaseStream.Position < reader.BaseStream.Length)
+            {
+                byte one = reader.ReadByte();
+                if (one != 0xA)
+                {
+                    str.Add((char)one);
+                }
+                else
+                {
+                    str.Add((char)one);
+                    break;
+                }
+            }
+
+            return new string(str.ToArray());
+        }
+
         public void write_stringZ(BinaryWriter w, string str)
         {
             foreach (char c in str)

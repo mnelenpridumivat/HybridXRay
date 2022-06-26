@@ -880,14 +880,17 @@ namespace Object_tool
 						if (vers >= 7)
 						{
 							uint sz = xr_loader.ReadUInt32();
-							for (int j = 0; j < sz; j++)
+							if (sz > 0)
 							{
-								xr_loader.read_stringZ();
-								uint sz1 = xr_loader.ReadUInt32();
-
-								for (int p = 0; p < sz1; p++)
+								for (int j = 0; j < sz; ++j)
 								{
-									xr_loader.ReadBytes(8);
+									xr_loader.read_motion_mark_string();
+									uint sz1 = xr_loader.ReadUInt32();
+
+									for (int p = 0; p < sz1; ++p)
+									{
+										xr_loader.ReadBytes(8);
+									}
 								}
 							}
 						}
