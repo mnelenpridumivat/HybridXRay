@@ -139,6 +139,7 @@ namespace Object_tool
 			LoadBoneData();
 			LoadScale();
 			LoadSurfaceData();
+			ParseMotions();
 
 			for (int i = 0; i < model_shapes.Count; i++)
 			{
@@ -447,6 +448,8 @@ namespace Object_tool
 				}
 				else
 					AutoClosingMessageBox.Show($"Can't load motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+
+				ParseMotions();
 			}
 		}
 
@@ -460,6 +463,8 @@ namespace Object_tool
 				SaveSklsToolStripMenuItem.Enabled = false;
 				sklToolStripMenuItem.Enabled = false;
 				oMFToolStripMenuItem.Enabled = false;
+
+				MotionTextBox.Clear();
 			}
 			else
 				AutoClosingMessageBox.Show($"Can't delete motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
@@ -784,6 +789,7 @@ namespace Object_tool
 		private void ParseMotions()
 		{
 			var xr_loader = new XRayLoader();
+			MotionTextBox.Clear();
 
 			using (var r = new BinaryReader(new FileStream(TEMP_FILE_NAME, FileMode.Open)))
 			{
@@ -794,7 +800,7 @@ namespace Object_tool
 				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SMOTIONS))
 				{
 					uint count = xr_loader.ReadUInt32();
-					MessageBox.Show($"count {count}");
+					MotionTextBox.Text = $"Motions count: {count}\n";
 
 					for (int i = 0; i < count; i++)
 					{
@@ -802,7 +808,7 @@ namespace Object_tool
 						xr_loader.ReadBytes(12);
 						uint vers = xr_loader.ReadUInt16();
 
-						MessageBox.Show($"name {name}, vers {vers}");
+						MotionTextBox.Text += $"\n{i + 1}. {name}";
 
 						switch (vers)
 						{

@@ -97,6 +97,8 @@ namespace Object_tool
             this.SaveMaterialFlagsButton = new System.Windows.Forms.Button();
             this.SurfaceFlagsPanel = new System.Windows.Forms.Panel();
             this.ChangeAllMaterialFlagsButton = new System.Windows.Forms.Button();
+            this.MotionPage = new System.Windows.Forms.TabPage();
+            this.MotionTextBox = new System.Windows.Forms.RichTextBox();
             this.MenuPanel.SuspendLayout();
             this.StatusPanel.SuspendLayout();
             this.FlagsPage.SuspendLayout();
@@ -105,6 +107,7 @@ namespace Object_tool
             this.groupBox2.SuspendLayout();
             this.TabControl.SuspendLayout();
             this.MaterialsPage.SuspendLayout();
+            this.MotionPage.SuspendLayout();
             this.SuspendLayout();
             // 
             // OpenObjectDialog
@@ -157,28 +160,28 @@ namespace Object_tool
             // objectToolStripMenuItem
             // 
             this.objectToolStripMenuItem.Name = "objectToolStripMenuItem";
-            this.objectToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.objectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.objectToolStripMenuItem.Text = "Object";
             this.objectToolStripMenuItem.Click += new System.EventHandler(this.objectToolStripMenuItem_Click);
             // 
             // sklSklsToolStripMenuItem
             // 
             this.sklSklsToolStripMenuItem.Name = "sklSklsToolStripMenuItem";
-            this.sklSklsToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.sklSklsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.sklSklsToolStripMenuItem.Text = "Skl\\Skls";
             this.sklSklsToolStripMenuItem.Click += new System.EventHandler(this.LoadSkls_Click);
             // 
             // bonesToolStripMenuItem
             // 
             this.bonesToolStripMenuItem.Name = "bonesToolStripMenuItem";
-            this.bonesToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.bonesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.bonesToolStripMenuItem.Text = "Bones";
             this.bonesToolStripMenuItem.Click += new System.EventHandler(this.bonesToolStripMenuItem_Click);
             // 
             // bonesPartsToolStripMenuItem
             // 
             this.bonesPartsToolStripMenuItem.Name = "bonesPartsToolStripMenuItem";
-            this.bonesPartsToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.bonesPartsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.bonesPartsToolStripMenuItem.Text = "Bone parts";
             this.bonesPartsToolStripMenuItem.Click += new System.EventHandler(this.bonesPartsToolStripMenuItem_Click);
             // 
@@ -614,6 +617,7 @@ namespace Object_tool
             this.TabControl.Controls.Add(this.FlagsPage);
             this.TabControl.Controls.Add(this.ShapesPage);
             this.TabControl.Controls.Add(this.MaterialsPage);
+            this.TabControl.Controls.Add(this.MotionPage);
             this.TabControl.Location = new System.Drawing.Point(12, 27);
             this.TabControl.Name = "TabControl";
             this.TabControl.SelectedIndex = 0;
@@ -667,6 +671,27 @@ namespace Object_tool
             this.ChangeAllMaterialFlagsButton.UseVisualStyleBackColor = true;
             this.ChangeAllMaterialFlagsButton.Click += new System.EventHandler(this.ChangeAllMaterialFlagsButton_Click);
             // 
+            // MotionPage
+            // 
+            this.MotionPage.Controls.Add(this.MotionTextBox);
+            this.MotionPage.Location = new System.Drawing.Point(4, 25);
+            this.MotionPage.Name = "MotionPage";
+            this.MotionPage.Size = new System.Drawing.Size(339, 164);
+            this.MotionPage.TabIndex = 4;
+            this.MotionPage.Text = "Motions";
+            this.MotionPage.UseVisualStyleBackColor = true;
+            // 
+            // MotionTextBox
+            // 
+            this.MotionTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.MotionTextBox.Location = new System.Drawing.Point(4, 4);
+            this.MotionTextBox.Name = "MotionTextBox";
+            this.MotionTextBox.ReadOnly = true;
+            this.MotionTextBox.Size = new System.Drawing.Size(332, 157);
+            this.MotionTextBox.TabIndex = 0;
+            this.MotionTextBox.Text = "";
+            // 
             // Object_Editor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -698,6 +723,7 @@ namespace Object_tool
             this.groupBox2.PerformLayout();
             this.TabControl.ResumeLayout(false);
             this.MaterialsPage.ResumeLayout(false);
+            this.MotionPage.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -772,6 +798,8 @@ namespace Object_tool
         private System.Windows.Forms.Button SaveMaterialFlagsButton;
         private System.Windows.Forms.Panel SurfaceFlagsPanel;
         private System.Windows.Forms.Button ChangeAllMaterialFlagsButton;
+        private System.Windows.Forms.TabPage MotionPage;
+        private System.Windows.Forms.RichTextBox MotionTextBox;
     }
 }
 
