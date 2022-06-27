@@ -320,10 +320,12 @@ Fobb&	CEditableObject::LL_GetBox(u16 bone_id)
     return dummy_box;
 }
 
-void CEditableObject::ChangeSurfaceFlags(xr_vector<int> flags)
+void CEditableObject::ChangeSurfaceFlags(xr_vector<SurfaceParams> params)
 {
-    for (int i = 0; i < flags.size(); i++)
+    for (int i = 0; i < params.size(); i++)
     {
-        m_Surfaces[i]->m_Flags.assign(flags[i]);
+        m_Surfaces[i]->m_Flags.assign(params[i].flags);
+        m_Surfaces[i]->m_Texture = params[i].texture;
+        m_Surfaces[i]->m_ShaderName = params[i].shader;
     }
 }

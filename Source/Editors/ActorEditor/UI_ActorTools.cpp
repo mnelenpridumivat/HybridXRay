@@ -942,9 +942,9 @@ bool CActorTools::ExportDM(LPCSTR name)
     return false;
 }
 
-void CActorTools::ChangeSurfaceFlags(xr_vector<int> flags)
+void CActorTools::ChangeSurfaceFlags(xr_vector<CEditableObject::SurfaceParams> params)
 {
-    m_pEditObject->ChangeSurfaceFlags(flags);
+    m_pEditObject->ChangeSurfaceFlags(params);
 }
 
 void CActorTools::WorldMotionRotate(const Fvector& R)

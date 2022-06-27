@@ -328,7 +328,14 @@ public:
 	int 			GetVertexCount			();
     int 			GetSurfFaceCount		(LPCSTR surf_name);
 
-    void			ChangeSurfaceFlags	    (xr_vector<int> flags);
+    struct SurfaceParams
+    {
+        u8 flags;
+        shared_str texture;
+        shared_str shader;
+    };
+
+    void			ChangeSurfaceFlags	    (xr_vector<SurfaceParams> params);
 
     // render methods
 	void 			Render					(const Fmatrix& parent, int priority, bool strictB2F,SurfaceVec * surfaces=nullptr);

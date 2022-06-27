@@ -54,13 +54,17 @@ namespace Object_tool
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DeletesklsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bonesPartsToDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.shapeParamsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.generateShapesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.typeHelperToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.allNoneToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.allBoxToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.allSphereToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.allCylinderToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.generateShapesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.typeHelperToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.allNoneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.allBoxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.allSphereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.allCylinderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.surfaceParamsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.enableAll2SidedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.disableAll2SidedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.debugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -94,9 +98,6 @@ namespace Object_tool
             this.FlagsHelpButton = new System.Windows.Forms.Button();
             this.TabControl = new System.Windows.Forms.TabControl();
             this.MaterialsPage = new System.Windows.Forms.TabPage();
-            this.SaveMaterialFlagsButton = new System.Windows.Forms.Button();
-            this.SurfaceFlagsPanel = new System.Windows.Forms.Panel();
-            this.ChangeAllMaterialFlagsButton = new System.Windows.Forms.Button();
             this.MotionPage = new System.Windows.Forms.TabPage();
             this.MotionTextBox = new System.Windows.Forms.RichTextBox();
             this.MenuPanel.SuspendLayout();
@@ -106,7 +107,6 @@ namespace Object_tool
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.TabControl.SuspendLayout();
-            this.MaterialsPage.SuspendLayout();
             this.MotionPage.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -127,11 +127,11 @@ namespace Object_tool
             // 
             this.MenuPanel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.shapeParamsToolStripMenuItem,
+            this.toolsToolStripMenuItem,
             this.debugToolStripMenuItem});
             this.MenuPanel.Location = new System.Drawing.Point(0, 0);
             this.MenuPanel.Name = "MenuPanel";
-            this.MenuPanel.Size = new System.Drawing.Size(372, 24);
+            this.MenuPanel.Size = new System.Drawing.Size(384, 24);
             this.MenuPanel.TabIndex = 11;
             this.MenuPanel.Text = "menuStrip1";
             // 
@@ -154,34 +154,34 @@ namespace Object_tool
             this.bonesToolStripMenuItem,
             this.bonesPartsToolStripMenuItem});
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
             this.loadToolStripMenuItem.Text = "Load";
             // 
             // objectToolStripMenuItem
             // 
             this.objectToolStripMenuItem.Name = "objectToolStripMenuItem";
-            this.objectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.objectToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.objectToolStripMenuItem.Text = "Object";
             this.objectToolStripMenuItem.Click += new System.EventHandler(this.objectToolStripMenuItem_Click);
             // 
             // sklSklsToolStripMenuItem
             // 
             this.sklSklsToolStripMenuItem.Name = "sklSklsToolStripMenuItem";
-            this.sklSklsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.sklSklsToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.sklSklsToolStripMenuItem.Text = "Skl\\Skls";
             this.sklSklsToolStripMenuItem.Click += new System.EventHandler(this.LoadSkls_Click);
             // 
             // bonesToolStripMenuItem
             // 
             this.bonesToolStripMenuItem.Name = "bonesToolStripMenuItem";
-            this.bonesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.bonesToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.bonesToolStripMenuItem.Text = "Bones";
             this.bonesToolStripMenuItem.Click += new System.EventHandler(this.bonesToolStripMenuItem_Click);
             // 
             // bonesPartsToolStripMenuItem
             // 
             this.bonesPartsToolStripMenuItem.Name = "bonesPartsToolStripMenuItem";
-            this.bonesPartsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.bonesPartsToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.bonesPartsToolStripMenuItem.Text = "Bone parts";
             this.bonesPartsToolStripMenuItem.Click += new System.EventHandler(this.bonesPartsToolStripMenuItem_Click);
             // 
@@ -194,7 +194,7 @@ namespace Object_tool
             this.bonesToolStripMenuItem1,
             this.bonesPartsToolStripMenuItem1});
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
             this.saveToolStripMenuItem.Text = "Save";
             // 
             // objectToolStripMenuItem1
@@ -240,34 +240,34 @@ namespace Object_tool
             this.objToolStripMenuItem,
             this.dMToolStripMenuItem});
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
             this.exportToolStripMenuItem.Text = "Export";
             // 
             // oGFToolStripMenuItem
             // 
             this.oGFToolStripMenuItem.Name = "oGFToolStripMenuItem";
-            this.oGFToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.oGFToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.oGFToolStripMenuItem.Text = "OGF";
             this.oGFToolStripMenuItem.Click += new System.EventHandler(this.ExportOGF_Click);
             // 
             // oMFToolStripMenuItem
             // 
             this.oMFToolStripMenuItem.Name = "oMFToolStripMenuItem";
-            this.oMFToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.oMFToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.oMFToolStripMenuItem.Text = "OMF";
             this.oMFToolStripMenuItem.Click += new System.EventHandler(this.ExportOMF_Click);
             // 
             // objToolStripMenuItem
             // 
             this.objToolStripMenuItem.Name = "objToolStripMenuItem";
-            this.objToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.objToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.objToolStripMenuItem.Text = "Obj";
             this.objToolStripMenuItem.Click += new System.EventHandler(this.objToolStripMenuItem_Click);
             // 
             // dMToolStripMenuItem
             // 
             this.dMToolStripMenuItem.Name = "dMToolStripMenuItem";
-            this.dMToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.dMToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.dMToolStripMenuItem.Text = "DM";
             this.dMToolStripMenuItem.Click += new System.EventHandler(this.dMToolStripMenuItem_Click_1);
             // 
@@ -277,7 +277,7 @@ namespace Object_tool
             this.DeletesklsToolStripMenuItem,
             this.bonesPartsToDefaultToolStripMenuItem});
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
             this.deleteToolStripMenuItem.Text = "Delete";
             // 
             // DeletesklsToolStripMenuItem
@@ -294,60 +294,92 @@ namespace Object_tool
             this.bonesPartsToDefaultToolStripMenuItem.Text = "Bone parts to default";
             this.bonesPartsToDefaultToolStripMenuItem.Click += new System.EventHandler(this.bonesPartsToDefaultToolStripMenuItem_Click);
             // 
+            // toolsToolStripMenuItem
+            // 
+            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.shapeParamsToolStripMenuItem,
+            this.surfaceParamsToolStripMenuItem});
+            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
+            this.toolsToolStripMenuItem.Text = "Tools";
+            // 
             // shapeParamsToolStripMenuItem
             // 
             this.shapeParamsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.generateShapesToolStripMenuItem,
-            this.typeHelperToolStripMenuItem});
+            this.generateShapesToolStripMenuItem1,
+            this.typeHelperToolStripMenuItem1});
             this.shapeParamsToolStripMenuItem.Name = "shapeParamsToolStripMenuItem";
-            this.shapeParamsToolStripMenuItem.Size = new System.Drawing.Size(93, 20);
+            this.shapeParamsToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.shapeParamsToolStripMenuItem.Text = "Shape Params";
             // 
-            // generateShapesToolStripMenuItem
+            // generateShapesToolStripMenuItem1
             // 
-            this.generateShapesToolStripMenuItem.Name = "generateShapesToolStripMenuItem";
-            this.generateShapesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.generateShapesToolStripMenuItem.Text = "Generate shapes";
-            this.generateShapesToolStripMenuItem.Click += new System.EventHandler(this.generateShapesToolStripMenuItem_Click);
+            this.generateShapesToolStripMenuItem1.Name = "generateShapesToolStripMenuItem1";
+            this.generateShapesToolStripMenuItem1.Size = new System.Drawing.Size(161, 22);
+            this.generateShapesToolStripMenuItem1.Text = "Generate Shapes";
+            this.generateShapesToolStripMenuItem1.Click += new System.EventHandler(this.generateShapesToolStripMenuItem_Click);
             // 
-            // typeHelperToolStripMenuItem
+            // typeHelperToolStripMenuItem1
             // 
-            this.typeHelperToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.allNoneToolStripMenuItem1,
-            this.allBoxToolStripMenuItem1,
-            this.allSphereToolStripMenuItem1,
-            this.allCylinderToolStripMenuItem1});
-            this.typeHelperToolStripMenuItem.Name = "typeHelperToolStripMenuItem";
-            this.typeHelperToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.typeHelperToolStripMenuItem.Text = "Type helper";
+            this.typeHelperToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.allNoneToolStripMenuItem,
+            this.allBoxToolStripMenuItem,
+            this.allSphereToolStripMenuItem,
+            this.allCylinderToolStripMenuItem});
+            this.typeHelperToolStripMenuItem1.Name = "typeHelperToolStripMenuItem1";
+            this.typeHelperToolStripMenuItem1.Size = new System.Drawing.Size(161, 22);
+            this.typeHelperToolStripMenuItem1.Text = "Type helper";
             // 
-            // allNoneToolStripMenuItem1
+            // allNoneToolStripMenuItem
             // 
-            this.allNoneToolStripMenuItem1.Name = "allNoneToolStripMenuItem1";
-            this.allNoneToolStripMenuItem1.Size = new System.Drawing.Size(135, 22);
-            this.allNoneToolStripMenuItem1.Text = "All None";
-            this.allNoneToolStripMenuItem1.Click += new System.EventHandler(this.allNoneToolStripMenuItem_Click);
+            this.allNoneToolStripMenuItem.Name = "allNoneToolStripMenuItem";
+            this.allNoneToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.allNoneToolStripMenuItem.Text = "All None";
+            this.allNoneToolStripMenuItem.Click += new System.EventHandler(this.allNoneToolStripMenuItem_Click);
             // 
-            // allBoxToolStripMenuItem1
+            // allBoxToolStripMenuItem
             // 
-            this.allBoxToolStripMenuItem1.Name = "allBoxToolStripMenuItem1";
-            this.allBoxToolStripMenuItem1.Size = new System.Drawing.Size(135, 22);
-            this.allBoxToolStripMenuItem1.Text = "All Box";
-            this.allBoxToolStripMenuItem1.Click += new System.EventHandler(this.allBoxToolStripMenuItem_Click);
+            this.allBoxToolStripMenuItem.Name = "allBoxToolStripMenuItem";
+            this.allBoxToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.allBoxToolStripMenuItem.Text = "All Box";
+            this.allBoxToolStripMenuItem.Click += new System.EventHandler(this.allBoxToolStripMenuItem_Click);
             // 
-            // allSphereToolStripMenuItem1
+            // allSphereToolStripMenuItem
             // 
-            this.allSphereToolStripMenuItem1.Name = "allSphereToolStripMenuItem1";
-            this.allSphereToolStripMenuItem1.Size = new System.Drawing.Size(135, 22);
-            this.allSphereToolStripMenuItem1.Text = "All Sphere";
-            this.allSphereToolStripMenuItem1.Click += new System.EventHandler(this.allSphereToolStripMenuItem_Click);
+            this.allSphereToolStripMenuItem.Name = "allSphereToolStripMenuItem";
+            this.allSphereToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.allSphereToolStripMenuItem.Text = "All Sphere";
+            this.allSphereToolStripMenuItem.Click += new System.EventHandler(this.allSphereToolStripMenuItem_Click);
             // 
-            // allCylinderToolStripMenuItem1
+            // allCylinderToolStripMenuItem
             // 
-            this.allCylinderToolStripMenuItem1.Name = "allCylinderToolStripMenuItem1";
-            this.allCylinderToolStripMenuItem1.Size = new System.Drawing.Size(135, 22);
-            this.allCylinderToolStripMenuItem1.Text = "All Cylinder";
-            this.allCylinderToolStripMenuItem1.Click += new System.EventHandler(this.allCylinderToolStripMenuItem_Click);
+            this.allCylinderToolStripMenuItem.Name = "allCylinderToolStripMenuItem";
+            this.allCylinderToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.allCylinderToolStripMenuItem.Text = "All Cylinder";
+            this.allCylinderToolStripMenuItem.Click += new System.EventHandler(this.allCylinderToolStripMenuItem_Click);
+            // 
+            // surfaceParamsToolStripMenuItem
+            // 
+            this.surfaceParamsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.enableAll2SidedToolStripMenuItem,
+            this.disableAll2SidedToolStripMenuItem});
+            this.surfaceParamsToolStripMenuItem.Name = "surfaceParamsToolStripMenuItem";
+            this.surfaceParamsToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.surfaceParamsToolStripMenuItem.Text = "Surface Params";
+            // 
+            // enableAll2SidedToolStripMenuItem
+            // 
+            this.enableAll2SidedToolStripMenuItem.Name = "enableAll2SidedToolStripMenuItem";
+            this.enableAll2SidedToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.enableAll2SidedToolStripMenuItem.Text = "Enable all 2 sided";
+            this.enableAll2SidedToolStripMenuItem.Click += new System.EventHandler(this.enableAll2SidedToolStripMenuItem_Click);
+            // 
+            // disableAll2SidedToolStripMenuItem
+            // 
+            this.disableAll2SidedToolStripMenuItem.Name = "disableAll2SidedToolStripMenuItem";
+            this.disableAll2SidedToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.disableAll2SidedToolStripMenuItem.Text = "Disable all 2 sided";
+            this.disableAll2SidedToolStripMenuItem.Click += new System.EventHandler(this.disableAll2SidedToolStripMenuItem_Click);
             // 
             // debugToolStripMenuItem
             // 
@@ -379,7 +411,7 @@ namespace Object_tool
             this.StatusFile});
             this.StatusPanel.Location = new System.Drawing.Point(0, 223);
             this.StatusPanel.Name = "StatusPanel";
-            this.StatusPanel.Size = new System.Drawing.Size(372, 22);
+            this.StatusPanel.Size = new System.Drawing.Size(384, 22);
             this.StatusPanel.TabIndex = 31;
             this.StatusPanel.Text = "statusStrip1";
             // 
@@ -436,7 +468,7 @@ namespace Object_tool
             this.ShapesPage.AutoScroll = true;
             this.ShapesPage.Location = new System.Drawing.Point(4, 25);
             this.ShapesPage.Name = "ShapesPage";
-            this.ShapesPage.Size = new System.Drawing.Size(339, 164);
+            this.ShapesPage.Size = new System.Drawing.Size(352, 164);
             this.ShapesPage.TabIndex = 2;
             this.ShapesPage.Text = "Shapes";
             this.ShapesPage.UseVisualStyleBackColor = true;
@@ -446,7 +478,7 @@ namespace Object_tool
             this.FlagsPage.Controls.Add(this.groupBox1);
             this.FlagsPage.Location = new System.Drawing.Point(4, 25);
             this.FlagsPage.Name = "FlagsPage";
-            this.FlagsPage.Size = new System.Drawing.Size(339, 164);
+            this.FlagsPage.Size = new System.Drawing.Size(352, 164);
             this.FlagsPage.TabIndex = 0;
             this.FlagsPage.Text = "Flags";
             this.FlagsPage.UseVisualStyleBackColor = true;
@@ -460,9 +492,9 @@ namespace Object_tool
             this.groupBox1.Controls.Add(this.ScaleCenterOfMassCheckBox);
             this.groupBox1.Controls.Add(this.ObjectScaleTextBox);
             this.groupBox1.Controls.Add(this.FlagsHelpButton);
-            this.groupBox1.Location = new System.Drawing.Point(3, 3);
+            this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(333, 158);
+            this.groupBox1.Size = new System.Drawing.Size(352, 164);
             this.groupBox1.TabIndex = 16;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Edit export flags";
@@ -520,7 +552,7 @@ namespace Object_tool
             this.groupBox2.Controls.Add(this.checkBox2);
             this.groupBox2.Location = new System.Drawing.Point(177, 15);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(150, 114);
+            this.groupBox2.Size = new System.Drawing.Size(169, 114);
             this.groupBox2.TabIndex = 21;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Model export";
@@ -602,7 +634,7 @@ namespace Object_tool
             // FlagsHelpButton
             // 
             this.FlagsHelpButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.FlagsHelpButton.Location = new System.Drawing.Point(252, 130);
+            this.FlagsHelpButton.Location = new System.Drawing.Point(273, 135);
             this.FlagsHelpButton.Name = "FlagsHelpButton";
             this.FlagsHelpButton.Size = new System.Drawing.Size(73, 23);
             this.FlagsHelpButton.TabIndex = 15;
@@ -621,62 +653,26 @@ namespace Object_tool
             this.TabControl.Location = new System.Drawing.Point(12, 27);
             this.TabControl.Name = "TabControl";
             this.TabControl.SelectedIndex = 0;
-            this.TabControl.Size = new System.Drawing.Size(347, 193);
+            this.TabControl.Size = new System.Drawing.Size(360, 193);
             this.TabControl.TabIndex = 10;
             this.TabControl.SelectedIndexChanged += new System.EventHandler(this.IndexChanged);
             // 
             // MaterialsPage
             // 
             this.MaterialsPage.AutoScroll = true;
-            this.MaterialsPage.Controls.Add(this.ChangeAllMaterialFlagsButton);
-            this.MaterialsPage.Controls.Add(this.SurfaceFlagsPanel);
-            this.MaterialsPage.Controls.Add(this.SaveMaterialFlagsButton);
             this.MaterialsPage.Location = new System.Drawing.Point(4, 25);
             this.MaterialsPage.Name = "MaterialsPage";
-            this.MaterialsPage.Size = new System.Drawing.Size(339, 164);
+            this.MaterialsPage.Size = new System.Drawing.Size(352, 164);
             this.MaterialsPage.TabIndex = 3;
             this.MaterialsPage.Text = "Materials";
             this.MaterialsPage.UseVisualStyleBackColor = true;
-            // 
-            // SaveMaterialFlagsButton
-            // 
-            this.SaveMaterialFlagsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.SaveMaterialFlagsButton.Location = new System.Drawing.Point(174, 138);
-            this.SaveMaterialFlagsButton.Name = "SaveMaterialFlagsButton";
-            this.SaveMaterialFlagsButton.Size = new System.Drawing.Size(165, 23);
-            this.SaveMaterialFlagsButton.TabIndex = 1;
-            this.SaveMaterialFlagsButton.Text = "Save";
-            this.SaveMaterialFlagsButton.UseVisualStyleBackColor = true;
-            this.SaveMaterialFlagsButton.Click += new System.EventHandler(this.SaveMaterialFlagsButton_Click);
-            // 
-            // SurfaceFlagsPanel
-            // 
-            this.SurfaceFlagsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.SurfaceFlagsPanel.AutoScroll = true;
-            this.SurfaceFlagsPanel.Location = new System.Drawing.Point(0, 0);
-            this.SurfaceFlagsPanel.Name = "SurfaceFlagsPanel";
-            this.SurfaceFlagsPanel.Size = new System.Drawing.Size(339, 132);
-            this.SurfaceFlagsPanel.TabIndex = 2;
-            // 
-            // ChangeAllMaterialFlagsButton
-            // 
-            this.ChangeAllMaterialFlagsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.ChangeAllMaterialFlagsButton.Location = new System.Drawing.Point(0, 138);
-            this.ChangeAllMaterialFlagsButton.Name = "ChangeAllMaterialFlagsButton";
-            this.ChangeAllMaterialFlagsButton.Size = new System.Drawing.Size(165, 23);
-            this.ChangeAllMaterialFlagsButton.TabIndex = 3;
-            this.ChangeAllMaterialFlagsButton.Tag = "Enable";
-            this.ChangeAllMaterialFlagsButton.Text = "Enable all";
-            this.ChangeAllMaterialFlagsButton.UseVisualStyleBackColor = true;
-            this.ChangeAllMaterialFlagsButton.Click += new System.EventHandler(this.ChangeAllMaterialFlagsButton_Click);
             // 
             // MotionPage
             // 
             this.MotionPage.Controls.Add(this.MotionTextBox);
             this.MotionPage.Location = new System.Drawing.Point(4, 25);
             this.MotionPage.Name = "MotionPage";
-            this.MotionPage.Size = new System.Drawing.Size(339, 164);
+            this.MotionPage.Size = new System.Drawing.Size(352, 164);
             this.MotionPage.TabIndex = 4;
             this.MotionPage.Text = "Motions";
             this.MotionPage.UseVisualStyleBackColor = true;
@@ -685,10 +681,10 @@ namespace Object_tool
             // 
             this.MotionTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.MotionTextBox.Location = new System.Drawing.Point(4, 4);
+            this.MotionTextBox.Location = new System.Drawing.Point(0, 0);
             this.MotionTextBox.Name = "MotionTextBox";
             this.MotionTextBox.ReadOnly = true;
-            this.MotionTextBox.Size = new System.Drawing.Size(332, 157);
+            this.MotionTextBox.Size = new System.Drawing.Size(352, 164);
             this.MotionTextBox.TabIndex = 0;
             this.MotionTextBox.Text = "";
             // 
@@ -697,15 +693,15 @@ namespace Object_tool
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(372, 245);
+            this.ClientSize = new System.Drawing.Size(384, 245);
             this.Controls.Add(this.StatusPanel);
             this.Controls.Add(this.TabControl);
             this.Controls.Add(this.MenuPanel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.MenuPanel;
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(388, 540);
-            this.MinimumSize = new System.Drawing.Size(388, 284);
+            this.MaximumSize = new System.Drawing.Size(400, 680);
+            this.MinimumSize = new System.Drawing.Size(400, 284);
             this.Name = "Object_Editor";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Object Editor";
@@ -722,7 +718,6 @@ namespace Object_tool
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.TabControl.ResumeLayout(false);
-            this.MaterialsPage.ResumeLayout(false);
             this.MotionPage.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -750,13 +745,6 @@ namespace Object_tool
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem DeletesklsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem objectToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem shapeParamsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem generateShapesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem typeHelperToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem allNoneToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem allBoxToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem allSphereToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem allCylinderToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem bonesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem objToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem bonesToolStripMenuItem1;
@@ -795,11 +783,19 @@ namespace Object_tool
         private System.Windows.Forms.ToolStripMenuItem sklToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dMToolStripMenuItem;
         private System.Windows.Forms.TabPage MaterialsPage;
-        private System.Windows.Forms.Button SaveMaterialFlagsButton;
-        private System.Windows.Forms.Panel SurfaceFlagsPanel;
-        private System.Windows.Forms.Button ChangeAllMaterialFlagsButton;
         private System.Windows.Forms.TabPage MotionPage;
         private System.Windows.Forms.RichTextBox MotionTextBox;
+        private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem shapeParamsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem generateShapesToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem typeHelperToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem allNoneToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem allBoxToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem allSphereToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem allCylinderToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem surfaceParamsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem enableAll2SidedToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem disableAll2SidedToolStripMenuItem;
     }
 }
 
