@@ -80,7 +80,7 @@ namespace Object_tool
             this.OpenOgfDialog = new System.Windows.Forms.OpenFileDialog();
             this.OpenLtxDialog = new System.Windows.Forms.OpenFileDialog();
             this.SaveLtxDialog = new System.Windows.Forms.SaveFileDialog();
-            this.ShapesPage = new System.Windows.Forms.TabPage();
+            this.BonesPage = new System.Windows.Forms.TabPage();
             this.FlagsPage = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -97,7 +97,7 @@ namespace Object_tool
             this.ObjectScaleTextBox = new System.Windows.Forms.TextBox();
             this.FlagsHelpButton = new System.Windows.Forms.Button();
             this.TabControl = new System.Windows.Forms.TabControl();
-            this.MaterialsPage = new System.Windows.Forms.TabPage();
+            this.SurfacesPage = new System.Windows.Forms.TabPage();
             this.MotionPage = new System.Windows.Forms.TabPage();
             this.MotionTextBox = new System.Windows.Forms.RichTextBox();
             this.MenuPanel.SuspendLayout();
@@ -297,8 +297,8 @@ namespace Object_tool
             // toolsToolStripMenuItem
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.shapeParamsToolStripMenuItem,
-            this.surfaceParamsToolStripMenuItem});
+            this.surfaceParamsToolStripMenuItem,
+            this.shapeParamsToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
@@ -309,13 +309,13 @@ namespace Object_tool
             this.generateShapesToolStripMenuItem1,
             this.typeHelperToolStripMenuItem1});
             this.shapeParamsToolStripMenuItem.Name = "shapeParamsToolStripMenuItem";
-            this.shapeParamsToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.shapeParamsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.shapeParamsToolStripMenuItem.Text = "Shape Params";
             // 
             // generateShapesToolStripMenuItem1
             // 
             this.generateShapesToolStripMenuItem1.Name = "generateShapesToolStripMenuItem1";
-            this.generateShapesToolStripMenuItem1.Size = new System.Drawing.Size(161, 22);
+            this.generateShapesToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.generateShapesToolStripMenuItem1.Text = "Generate Shapes";
             this.generateShapesToolStripMenuItem1.Click += new System.EventHandler(this.generateShapesToolStripMenuItem_Click);
             // 
@@ -327,34 +327,34 @@ namespace Object_tool
             this.allSphereToolStripMenuItem,
             this.allCylinderToolStripMenuItem});
             this.typeHelperToolStripMenuItem1.Name = "typeHelperToolStripMenuItem1";
-            this.typeHelperToolStripMenuItem1.Size = new System.Drawing.Size(161, 22);
+            this.typeHelperToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.typeHelperToolStripMenuItem1.Text = "Type helper";
             // 
             // allNoneToolStripMenuItem
             // 
             this.allNoneToolStripMenuItem.Name = "allNoneToolStripMenuItem";
-            this.allNoneToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.allNoneToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.allNoneToolStripMenuItem.Text = "All None";
             this.allNoneToolStripMenuItem.Click += new System.EventHandler(this.allNoneToolStripMenuItem_Click);
             // 
             // allBoxToolStripMenuItem
             // 
             this.allBoxToolStripMenuItem.Name = "allBoxToolStripMenuItem";
-            this.allBoxToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.allBoxToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.allBoxToolStripMenuItem.Text = "All Box";
             this.allBoxToolStripMenuItem.Click += new System.EventHandler(this.allBoxToolStripMenuItem_Click);
             // 
             // allSphereToolStripMenuItem
             // 
             this.allSphereToolStripMenuItem.Name = "allSphereToolStripMenuItem";
-            this.allSphereToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.allSphereToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.allSphereToolStripMenuItem.Text = "All Sphere";
             this.allSphereToolStripMenuItem.Click += new System.EventHandler(this.allSphereToolStripMenuItem_Click);
             // 
             // allCylinderToolStripMenuItem
             // 
             this.allCylinderToolStripMenuItem.Name = "allCylinderToolStripMenuItem";
-            this.allCylinderToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.allCylinderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.allCylinderToolStripMenuItem.Text = "All Cylinder";
             this.allCylinderToolStripMenuItem.Click += new System.EventHandler(this.allCylinderToolStripMenuItem_Click);
             // 
@@ -364,20 +364,20 @@ namespace Object_tool
             this.enableAll2SidedToolStripMenuItem,
             this.disableAll2SidedToolStripMenuItem});
             this.surfaceParamsToolStripMenuItem.Name = "surfaceParamsToolStripMenuItem";
-            this.surfaceParamsToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.surfaceParamsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.surfaceParamsToolStripMenuItem.Text = "Surface Params";
             // 
             // enableAll2SidedToolStripMenuItem
             // 
             this.enableAll2SidedToolStripMenuItem.Name = "enableAll2SidedToolStripMenuItem";
-            this.enableAll2SidedToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.enableAll2SidedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.enableAll2SidedToolStripMenuItem.Text = "Enable all 2 sided";
             this.enableAll2SidedToolStripMenuItem.Click += new System.EventHandler(this.enableAll2SidedToolStripMenuItem_Click);
             // 
             // disableAll2SidedToolStripMenuItem
             // 
             this.disableAll2SidedToolStripMenuItem.Name = "disableAll2SidedToolStripMenuItem";
-            this.disableAll2SidedToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.disableAll2SidedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.disableAll2SidedToolStripMenuItem.Text = "Disable all 2 sided";
             this.disableAll2SidedToolStripMenuItem.Click += new System.EventHandler(this.disableAll2SidedToolStripMenuItem_Click);
             // 
@@ -463,15 +463,15 @@ namespace Object_tool
             // 
             this.SaveLtxDialog.Filter = "LTX file|*.ltx";
             // 
-            // ShapesPage
+            // BonesPage
             // 
-            this.ShapesPage.AutoScroll = true;
-            this.ShapesPage.Location = new System.Drawing.Point(4, 25);
-            this.ShapesPage.Name = "ShapesPage";
-            this.ShapesPage.Size = new System.Drawing.Size(352, 164);
-            this.ShapesPage.TabIndex = 2;
-            this.ShapesPage.Text = "Shapes";
-            this.ShapesPage.UseVisualStyleBackColor = true;
+            this.BonesPage.AutoScroll = true;
+            this.BonesPage.Location = new System.Drawing.Point(4, 25);
+            this.BonesPage.Name = "BonesPage";
+            this.BonesPage.Size = new System.Drawing.Size(352, 164);
+            this.BonesPage.TabIndex = 2;
+            this.BonesPage.Text = "Bones";
+            this.BonesPage.UseVisualStyleBackColor = true;
             // 
             // FlagsPage
             // 
@@ -647,8 +647,8 @@ namespace Object_tool
             this.TabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.TabControl.Appearance = System.Windows.Forms.TabAppearance.Buttons;
             this.TabControl.Controls.Add(this.FlagsPage);
-            this.TabControl.Controls.Add(this.ShapesPage);
-            this.TabControl.Controls.Add(this.MaterialsPage);
+            this.TabControl.Controls.Add(this.SurfacesPage);
+            this.TabControl.Controls.Add(this.BonesPage);
             this.TabControl.Controls.Add(this.MotionPage);
             this.TabControl.Location = new System.Drawing.Point(12, 27);
             this.TabControl.Name = "TabControl";
@@ -657,15 +657,15 @@ namespace Object_tool
             this.TabControl.TabIndex = 10;
             this.TabControl.SelectedIndexChanged += new System.EventHandler(this.IndexChanged);
             // 
-            // MaterialsPage
+            // SurfacesPage
             // 
-            this.MaterialsPage.AutoScroll = true;
-            this.MaterialsPage.Location = new System.Drawing.Point(4, 25);
-            this.MaterialsPage.Name = "MaterialsPage";
-            this.MaterialsPage.Size = new System.Drawing.Size(352, 164);
-            this.MaterialsPage.TabIndex = 3;
-            this.MaterialsPage.Text = "Materials";
-            this.MaterialsPage.UseVisualStyleBackColor = true;
+            this.SurfacesPage.AutoScroll = true;
+            this.SurfacesPage.Location = new System.Drawing.Point(4, 25);
+            this.SurfacesPage.Name = "SurfacesPage";
+            this.SurfacesPage.Size = new System.Drawing.Size(352, 164);
+            this.SurfacesPage.TabIndex = 3;
+            this.SurfacesPage.Text = "Surfaces";
+            this.SurfacesPage.UseVisualStyleBackColor = true;
             // 
             // MotionPage
             // 
@@ -763,7 +763,7 @@ namespace Object_tool
         private System.Windows.Forms.ToolStripMenuItem debugToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openLogToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showWindowToolStripMenuItem;
-        private System.Windows.Forms.TabPage ShapesPage;
+        private System.Windows.Forms.TabPage BonesPage;
         private System.Windows.Forms.TabPage FlagsPage;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox3;
@@ -782,7 +782,7 @@ namespace Object_tool
         private System.Windows.Forms.TabControl TabControl;
         private System.Windows.Forms.ToolStripMenuItem sklToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dMToolStripMenuItem;
-        private System.Windows.Forms.TabPage MaterialsPage;
+        private System.Windows.Forms.TabPage SurfacesPage;
         private System.Windows.Forms.TabPage MotionPage;
         private System.Windows.Forms.RichTextBox MotionTextBox;
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;

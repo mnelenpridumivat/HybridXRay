@@ -174,143 +174,11 @@ namespace Object_tool
 			}
 		}
 
-		private void CreateShapeGroupBox(int idx, ShapeEditType shape)
-		{
-			var GroupBox = new GroupBox();
-			GroupBox.Location = new System.Drawing.Point(3, 3 + 106 * idx);
-			GroupBox.Size = new System.Drawing.Size(345, 100);
-			GroupBox.Text = "Bone name: " + shape.bone_name;
-			GroupBox.Name = "ShapeGrpBox_" + idx;
-			GroupBox.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
-			CreateShapeFlags(idx, GroupBox, shape);
-			ShapesPage.Controls.Add(GroupBox);
-		}
-
-		private void CreateShapeFlags(int idx, GroupBox box, ShapeEditType shape)
-		{
-			var NoPickableCheckBoxBox = new CheckBox();
-			NoPickableCheckBoxBox.Name = "chbx_nopickable_" + idx;
-			NoPickableCheckBoxBox.Text = "No Pickable";
-			NoPickableCheckBoxBox.Size = new System.Drawing.Size(130, 23);
-			NoPickableCheckBoxBox.Location = new System.Drawing.Point(6, 15);
-			NoPickableCheckBoxBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-			NoPickableCheckBoxBox.Checked = (shape.bone_flags & (1 << 0)) == (1 << 0);
-
-			var NoPhysicsCheckBoxBox = new CheckBox();
-			NoPhysicsCheckBoxBox.Name = "chbx_nophysics_" + idx;
-			NoPhysicsCheckBoxBox.Text = "No Physics";
-			NoPhysicsCheckBoxBox.Size = new System.Drawing.Size(100, 23);
-			NoPhysicsCheckBoxBox.Location = new System.Drawing.Point(6, 35);
-			NoPhysicsCheckBoxBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-			NoPhysicsCheckBoxBox.Checked = (shape.bone_flags & (1 << 1)) == (1 << 1);
-
-			var RemoveAfterBreakCheckBoxBox = new CheckBox();
-			RemoveAfterBreakCheckBoxBox.Name = "chbx_RemoveAfterBreakCheckBoxBox_" + idx;
-			RemoveAfterBreakCheckBoxBox.Text = "Remove After Break";
-			RemoveAfterBreakCheckBoxBox.Size = new System.Drawing.Size(160, 23);
-			RemoveAfterBreakCheckBoxBox.Location = new System.Drawing.Point(6, 55);
-			RemoveAfterBreakCheckBoxBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-			RemoveAfterBreakCheckBoxBox.Checked = (shape.bone_flags & (1 << 2)) == (1 << 2);
-
-			var NoFogColliderCheckBoxBox = new CheckBox();
-			NoFogColliderCheckBoxBox.Name = "chbx_NoFogColliderCheckBox_" + idx;
-			NoFogColliderCheckBoxBox.Text = "No Fog Collider ";
-			NoFogColliderCheckBoxBox.Size = new System.Drawing.Size(140, 23);
-			NoFogColliderCheckBoxBox.Location = new System.Drawing.Point(6, 75);
-			NoFogColliderCheckBoxBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-			NoFogColliderCheckBoxBox.Checked = (shape.bone_flags & (1 << 3)) == (1 << 3);
-
-			var TypeLabel = new Label();
-			TypeLabel.Name = "TypeLbl_" + idx;
-			TypeLabel.Text = "Shape type: ";
-			TypeLabel.Location = new System.Drawing.Point(177, 18);
-
-			var TypeComboBox = new ComboBox();
-			TypeComboBox.Name = "cbx_type_" + idx;
-			TypeComboBox.Size = new System.Drawing.Size(90, 23);
-			TypeComboBox.Location = new System.Drawing.Point(245, 15);
-			TypeComboBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-			TypeComboBox.Items.Add("None");
-			TypeComboBox.Items.Add("Box");
-			TypeComboBox.Items.Add("Sphere");
-			TypeComboBox.Items.Add("Cylinder");
-			TypeComboBox.SelectedIndex = shape.bone_type;
-			TypeComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
-
-			box.Controls.Add(NoPickableCheckBoxBox);
-			box.Controls.Add(NoPhysicsCheckBoxBox);
-			box.Controls.Add(RemoveAfterBreakCheckBoxBox);
-			box.Controls.Add(NoFogColliderCheckBoxBox);
-			box.Controls.Add(TypeComboBox);
-			box.Controls.Add(TypeLabel);
-		}
-
-		private void CreateMaterialGroupBox(int idx, string name)
-		{
-			var GroupBox = new GroupBox();
-			GroupBox.Location = new System.Drawing.Point(3, 3 + 114 * idx);
-			GroupBox.Size = new System.Drawing.Size(345, 108);
-			GroupBox.Text = name;
-			GroupBox.Name = "MaterialGrpBox_" + idx;
-			GroupBox.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
-			CreateMaterialFlags(idx, GroupBox);
-			MaterialsPage.Controls.Add(GroupBox);
-		}
-
-		private void CreateMaterialFlags(int idx, GroupBox box)
-		{
-			var TwoSidedCheckBoxBox = new CheckBox();
-			TwoSidedCheckBoxBox.Name = "chbx2sided_" + idx;
-			TwoSidedCheckBoxBox.Text = "2 Sided";
-			TwoSidedCheckBoxBox.Size = new System.Drawing.Size(130, 23);
-			TwoSidedCheckBoxBox.Location = new System.Drawing.Point(8, 82);
-			TwoSidedCheckBoxBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-			TwoSidedCheckBoxBox.Checked = (surfaces[idx].flags == 1);
-			TwoSidedCheckBoxBox.CheckedChanged += new System.EventHandler(this.CheckBoxCheckedChanged);
-
-			var TextureLabel = new Label();
-			TextureLabel.Text = "Texture:";
-			TextureLabel.Name = "TextureLabel_" + idx;
-			TextureLabel.Size = new System.Drawing.Size(46, 23);
-			TextureLabel.Location = new System.Drawing.Point(5, 32);
-			TextureLabel.Anchor = AnchorStyles.Left | AnchorStyles.Top;
-
-			var TextureTextBox = new TextBox();
-			TextureTextBox.Name = "TextureTextBox_" + idx;
-			TextureTextBox.Size = new System.Drawing.Size(282, 23);
-			TextureTextBox.Location = new System.Drawing.Point(55, 30);
-			TextureTextBox.Text = surfaces[idx].texture;
-			TextureTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-			TextureTextBox.TextChanged += new System.EventHandler(this.TextBoxFilter);
-
-			var ShaderLabel = new Label();
-			ShaderLabel.Text = "Shader:";
-			ShaderLabel.Name = "ShaderLabel_" + idx;
-			ShaderLabel.Size = new System.Drawing.Size(46, 23);
-			ShaderLabel.Location = new System.Drawing.Point(5, 60);
-			ShaderLabel.Anchor = AnchorStyles.Left | AnchorStyles.Top;
-
-			var ShaderTextBox = new TextBox();
-			ShaderTextBox.Name = "ShaderTextBox_" + idx;
-			ShaderTextBox.Size = new System.Drawing.Size(282, 23);
-			ShaderTextBox.Location = new System.Drawing.Point(55, 58);
-			ShaderTextBox.Text = surfaces[idx].shader;
-			ShaderTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-			ShaderTextBox.TextChanged += new System.EventHandler(this.TextBoxFilter);
-
-			box.Controls.Add(TwoSidedCheckBoxBox);
-			box.Controls.Add(TextureLabel);
-			box.Controls.Add(TextureTextBox);
-			box.Controls.Add(ShaderLabel);
-			box.Controls.Add(ShaderTextBox);
-		}
-
 		private int StartEditor(EditorMode mode, string object_path, string second_path = "null")
 		{
 			string args = $"{(int)mode} \"{object_path}\" \"{second_path}\" {GetFlags()} {model_scale} {shapes.Count} {surfaces.Count} {OpenSklsDialog.FileNames.Count()}";
 
 			// Ёкспортируем шейпы
-			CopyShapeParams();
 			for (int i = 0; i < shapes.Count; i++)
 			{
 				args += $" \"{shapes[i].bone_id}-{shapes[i].bone_type}-{shapes[i].bone_flags}\"";
@@ -895,7 +763,7 @@ namespace Object_tool
 
 		private void ClearUI()
         {
-			ShapesPage.Controls.Clear();
+			BonesPage.Controls.Clear();
 		}
 
 		private void objectToolStripMenuItem_Click(object sender, EventArgs e)
@@ -915,10 +783,10 @@ namespace Object_tool
 
 			switch (TabControl.Controls[TabControl.SelectedIndex].Name)
 			{
-				case "ShapesPage":
+				case "BonesPage":
 					shapeParamsToolStripMenuItem.Enabled = shapes.Count > 0;
 					break;
-				case "MaterialPage":
+				case "SurfacesPage":
 					surfaceParamsToolStripMenuItem.Enabled = true;
 					break;
 			}
@@ -955,41 +823,8 @@ namespace Object_tool
 				shape.bone_type = type;
 				shapes[i] = shape;
 
-				ComboBox ShapeType = ShapesPage.Controls[i].Controls[4] as ComboBox;
+				ComboBox ShapeType = BonesPage.Controls[i].Controls[4] as ComboBox;
 				ShapeType.SelectedIndex = type;
-			}
-		}
-
-		private void CopyShapeParams()
-        {
-			for (int i = 0; i < shapes.Count; i++)
-			{
-				ShapeEditType shape = new ShapeEditType();
-
-				ushort flags = 0;
-				CheckBox NoPickable = ShapesPage.Controls[i].Controls[0] as CheckBox;
-				CheckBox NoPhysics = ShapesPage.Controls[i].Controls[1] as CheckBox;
-				CheckBox RemoveAfterBreak = ShapesPage.Controls[i].Controls[2] as CheckBox;
-				CheckBox NoFogCollider = ShapesPage.Controls[i].Controls[3] as CheckBox;
-				ComboBox ShapeType = ShapesPage.Controls[i].Controls[4] as ComboBox;
-
-				if (NoPickable.Checked)
-					flags |= (1 << 0);
-
-				if (NoPhysics.Checked)
-					flags |= (1 << 1);
-
-				if (RemoveAfterBreak.Checked)
-					flags |= (1 << 2);
-
-				if (NoFogCollider.Checked)
-					flags |= (1 << 3);
-
-				shape.bone_id = shapes[i].bone_id;
-				shape.bone_flags = flags;
-				shape.bone_name = shapes[i].bone_name;
-				shape.bone_type = (ushort)ShapeType.SelectedIndex;
-				shapes[i] = shape;
 			}
 		}
 
@@ -1073,6 +908,38 @@ namespace Object_tool
 				showWindowToolStripMenuItem.Text = "Show debug window";
 		}
 
+		private void enableAll2SidedToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Button CurButton = sender as Button;
+			for (int i = 0; i < surfaces.Count; i++)
+			{
+				Surface surface = new Surface();
+				surface.flags = 1;
+				surface.texture = surfaces[i].texture;
+				surface.shader = surfaces[i].shader;
+				surfaces[i] = surface;
+
+				CheckBox TwoSided = SurfacesPage.Controls[i].Controls[0] as CheckBox;
+				TwoSided.Checked = (surfaces[i].flags == 1);
+			}
+		}
+
+		private void disableAll2SidedToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Button CurButton = sender as Button;
+			for (int i = 0; i < surfaces.Count; i++)
+			{
+				Surface surface = new Surface();
+				surface.flags = 0;
+				surface.texture = surfaces[i].texture;
+				surface.shader = surfaces[i].shader;
+				surfaces[i] = surface;
+
+				CheckBox TwoSided = SurfacesPage.Controls[i].Controls[0] as CheckBox;
+				TwoSided.Checked = (surfaces[i].flags == 1);
+			}
+		}
+
 		private string GetRetCode(int code)
 		{
 			string ret = "";
@@ -1116,45 +983,215 @@ namespace Object_tool
 		private void CheckBoxCheckedChanged(object sender, EventArgs e)
 		{
 			CheckBox curBox = sender as CheckBox;
+
+			string currentField = curBox.Name.ToString().Split('_')[0];
 			int idx = Convert.ToInt32(curBox.Name.ToString().Split('_')[1]);
 
 			Surface surface = new Surface();
-			surface.flags = (uint)(curBox.Checked ? 1 : 0);
-			surface.texture = surfaces[idx].texture;
-			surface.shader = surfaces[idx].shader;
-			surfaces[idx] = surface;
+			ShapeEditType shape = new ShapeEditType();
+
+			switch (currentField)
+			{
+				case "chbx2sided":
+					surface.flags = (uint)(curBox.Checked ? 1 : 0);
+					surface.texture = surfaces[idx].texture;
+					surface.shader = surfaces[idx].shader;
+					surfaces[idx] = surface;
+					break;
+				case "chbxNoPickable":
+					shape.bone_id = shapes[idx].bone_id;
+					shape.bone_type = shapes[idx].bone_type;
+					shape.bone_name = shapes[idx].bone_name;
+					shape.bone_flags = (ushort)BitSet(shapes[idx].bone_flags, (1 << 0), curBox.Checked);
+					shapes[idx] = shape;
+					break;
+				case "chbxNoPhysics":
+					shape.bone_id = shapes[idx].bone_id;
+					shape.bone_type = shapes[idx].bone_type;
+					shape.bone_name = shapes[idx].bone_name;
+					shape.bone_flags = (ushort)BitSet(shapes[idx].bone_flags, (1 << 1), curBox.Checked);
+					shapes[idx] = shape;
+					break;
+				case "chbxRemoveAfterBreakCheckBoxBox":
+					shape.bone_id = shapes[idx].bone_id;
+					shape.bone_type = shapes[idx].bone_type;
+					shape.bone_name = shapes[idx].bone_name;
+					shape.bone_flags = (ushort)BitSet(shapes[idx].bone_flags, (1 << 2), curBox.Checked);
+					shapes[idx] = shape;
+					break;
+				case "chbxNoFogColliderCheckBox":
+					shape.bone_id = shapes[idx].bone_id;
+					shape.bone_type = shapes[idx].bone_type;
+					shape.bone_name = shapes[idx].bone_name;
+					shape.bone_flags = (ushort)BitSet(shapes[idx].bone_flags, (1 << 3), curBox.Checked);
+					shapes[idx] = shape;
+					break;
+			}
 		}
 
-        private void enableAll2SidedToolStripMenuItem_Click(object sender, EventArgs e)
+		private void ComboBoxIndexChanged(object sender, EventArgs e)
 		{
-			Button CurButton = sender as Button;
-			for (int i = 0; i < surfaces.Count; i++)
-			{
-				Surface surface = new Surface();
-				surface.flags = 1;
-				surface.texture = surfaces[i].texture;
-				surface.shader = surfaces[i].shader;
-				surfaces[i] = surface;
+			ComboBox curBox = sender as ComboBox;
 
-				CheckBox TwoSided = MaterialsPage.Controls[i].Controls[0] as CheckBox;
-				TwoSided.Checked = (surfaces[i].flags == 1);
+			string currentField = curBox.Name.ToString().Split('_')[0];
+			int idx = Convert.ToInt32(curBox.Name.ToString().Split('_')[1]);
+
+			ShapeEditType shape = new ShapeEditType();
+
+			switch (currentField)
+			{
+				case "cbxType":
+					shape.bone_id = shapes[idx].bone_id;
+					shape.bone_type = (ushort)curBox.SelectedIndex;
+					shape.bone_name = shapes[idx].bone_name;
+					shape.bone_flags = shapes[idx].bone_flags;
+					shapes[idx] = shape;
+					break;
 			}
 		}
 
-        private void disableAll2SidedToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-			Button CurButton = sender as Button;
-			for (int i = 0; i < surfaces.Count; i++)
-			{
-				Surface surface = new Surface();
-				surface.flags = 0;
-				surface.texture = surfaces[i].texture;
-				surface.shader = surfaces[i].shader;
-				surfaces[i] = surface;
-
-				CheckBox TwoSided = MaterialsPage.Controls[i].Controls[0] as CheckBox;
-				TwoSided.Checked = (surfaces[i].flags == 1);
-			}
+		private void CreateShapeGroupBox(int idx, ShapeEditType shape)
+		{
+			var GroupBox = new GroupBox();
+			GroupBox.Location = new System.Drawing.Point(3, 3 + 106 * idx);
+			GroupBox.Size = new System.Drawing.Size(345, 100);
+			GroupBox.Text = "Bone name: " + shape.bone_name;
+			GroupBox.Name = "ShapeGrpBox_" + idx;
+			GroupBox.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
+			CreateShapeFlags(idx, GroupBox, shape);
+			BonesPage.Controls.Add(GroupBox);
 		}
-    }
+
+		private void CreateShapeFlags(int idx, GroupBox box, ShapeEditType shape)
+		{
+			var NoPickableCheckBoxBox = new CheckBox();
+			NoPickableCheckBoxBox.Name = "chbxNoPickable_" + idx;
+			NoPickableCheckBoxBox.Text = "No Pickable";
+			NoPickableCheckBoxBox.Size = new System.Drawing.Size(130, 23);
+			NoPickableCheckBoxBox.Location = new System.Drawing.Point(6, 15);
+			NoPickableCheckBoxBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+			NoPickableCheckBoxBox.Checked = (shape.bone_flags & (1 << 0)) == (1 << 0);
+			NoPickableCheckBoxBox.CheckedChanged += new System.EventHandler(this.CheckBoxCheckedChanged);
+
+			var NoPhysicsCheckBoxBox = new CheckBox();
+			NoPhysicsCheckBoxBox.Name = "chbxNoPhysics_" + idx;
+			NoPhysicsCheckBoxBox.Text = "No Physics";
+			NoPhysicsCheckBoxBox.Size = new System.Drawing.Size(100, 23);
+			NoPhysicsCheckBoxBox.Location = new System.Drawing.Point(6, 35);
+			NoPhysicsCheckBoxBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+			NoPhysicsCheckBoxBox.Checked = (shape.bone_flags & (1 << 1)) == (1 << 1);
+			NoPhysicsCheckBoxBox.CheckedChanged += new System.EventHandler(this.CheckBoxCheckedChanged);
+
+			var RemoveAfterBreakCheckBoxBox = new CheckBox();
+			RemoveAfterBreakCheckBoxBox.Name = "chbxRemoveAfterBreakCheckBoxBox_" + idx;
+			RemoveAfterBreakCheckBoxBox.Text = "Remove After Break";
+			RemoveAfterBreakCheckBoxBox.Size = new System.Drawing.Size(160, 23);
+			RemoveAfterBreakCheckBoxBox.Location = new System.Drawing.Point(6, 55);
+			RemoveAfterBreakCheckBoxBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+			RemoveAfterBreakCheckBoxBox.Checked = (shape.bone_flags & (1 << 2)) == (1 << 2);
+			RemoveAfterBreakCheckBoxBox.CheckedChanged += new System.EventHandler(this.CheckBoxCheckedChanged);
+
+			var NoFogColliderCheckBoxBox = new CheckBox();
+			NoFogColliderCheckBoxBox.Name = "chbxNoFogColliderCheckBox_" + idx;
+			NoFogColliderCheckBoxBox.Text = "No Fog Collider ";
+			NoFogColliderCheckBoxBox.Size = new System.Drawing.Size(140, 23);
+			NoFogColliderCheckBoxBox.Location = new System.Drawing.Point(6, 75);
+			NoFogColliderCheckBoxBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+			NoFogColliderCheckBoxBox.Checked = (shape.bone_flags & (1 << 3)) == (1 << 3);
+			NoFogColliderCheckBoxBox.CheckedChanged += new System.EventHandler(this.CheckBoxCheckedChanged);
+
+			var TypeLabel = new Label();
+			TypeLabel.Name = "TypeLbl_" + idx;
+			TypeLabel.Text = "Shape type: ";
+			TypeLabel.Location = new System.Drawing.Point(177, 18);
+
+			var TypeComboBox = new ComboBox();
+			TypeComboBox.Name = "cbxType_" + idx;
+			TypeComboBox.Size = new System.Drawing.Size(90, 23);
+			TypeComboBox.Location = new System.Drawing.Point(245, 15);
+			TypeComboBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+			TypeComboBox.Items.Add("None");
+			TypeComboBox.Items.Add("Box");
+			TypeComboBox.Items.Add("Sphere");
+			TypeComboBox.Items.Add("Cylinder");
+			TypeComboBox.SelectedIndex = shape.bone_type;
+			TypeComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+			TypeComboBox.SelectedIndexChanged += new System.EventHandler(this.ComboBoxIndexChanged);
+
+			box.Controls.Add(NoPickableCheckBoxBox);
+			box.Controls.Add(NoPhysicsCheckBoxBox);
+			box.Controls.Add(RemoveAfterBreakCheckBoxBox);
+			box.Controls.Add(NoFogColliderCheckBoxBox);
+			box.Controls.Add(TypeComboBox);
+			box.Controls.Add(TypeLabel);
+		}
+
+		private void CreateMaterialGroupBox(int idx, string name)
+		{
+			var GroupBox = new GroupBox();
+			GroupBox.Location = new System.Drawing.Point(3, 3 + 114 * idx);
+			GroupBox.Size = new System.Drawing.Size(345, 108);
+			GroupBox.Text = name;
+			GroupBox.Name = "MaterialGrpBox_" + idx;
+			GroupBox.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
+			CreateMaterialFlags(idx, GroupBox);
+			SurfacesPage.Controls.Add(GroupBox);
+		}
+
+		private void CreateMaterialFlags(int idx, GroupBox box)
+		{
+			var TwoSidedCheckBoxBox = new CheckBox();
+			TwoSidedCheckBoxBox.Name = "chbx2sided_" + idx;
+			TwoSidedCheckBoxBox.Text = "2 Sided";
+			TwoSidedCheckBoxBox.Size = new System.Drawing.Size(130, 23);
+			TwoSidedCheckBoxBox.Location = new System.Drawing.Point(8, 82);
+			TwoSidedCheckBoxBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+			TwoSidedCheckBoxBox.Checked = (surfaces[idx].flags == 1);
+			TwoSidedCheckBoxBox.CheckedChanged += new System.EventHandler(this.CheckBoxCheckedChanged);
+
+			var TextureLabel = new Label();
+			TextureLabel.Text = "Texture:";
+			TextureLabel.Name = "TextureLabel_" + idx;
+			TextureLabel.Size = new System.Drawing.Size(46, 23);
+			TextureLabel.Location = new System.Drawing.Point(5, 32);
+			TextureLabel.Anchor = AnchorStyles.Left | AnchorStyles.Top;
+
+			var TextureTextBox = new TextBox();
+			TextureTextBox.Name = "TextureTextBox_" + idx;
+			TextureTextBox.Size = new System.Drawing.Size(282, 23);
+			TextureTextBox.Location = new System.Drawing.Point(55, 30);
+			TextureTextBox.Text = surfaces[idx].texture;
+			TextureTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+			TextureTextBox.TextChanged += new System.EventHandler(this.TextBoxFilter);
+
+			var ShaderLabel = new Label();
+			ShaderLabel.Text = "Shader:";
+			ShaderLabel.Name = "ShaderLabel_" + idx;
+			ShaderLabel.Size = new System.Drawing.Size(46, 23);
+			ShaderLabel.Location = new System.Drawing.Point(5, 60);
+			ShaderLabel.Anchor = AnchorStyles.Left | AnchorStyles.Top;
+
+			var ShaderTextBox = new TextBox();
+			ShaderTextBox.Name = "ShaderTextBox_" + idx;
+			ShaderTextBox.Size = new System.Drawing.Size(282, 23);
+			ShaderTextBox.Location = new System.Drawing.Point(55, 58);
+			ShaderTextBox.Text = surfaces[idx].shader;
+			ShaderTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+			ShaderTextBox.TextChanged += new System.EventHandler(this.TextBoxFilter);
+
+			box.Controls.Add(TwoSidedCheckBoxBox);
+			box.Controls.Add(TextureLabel);
+			box.Controls.Add(TextureTextBox);
+			box.Controls.Add(ShaderLabel);
+			box.Controls.Add(ShaderTextBox);
+		}
+
+		private int BitSet(int flags, int mask, bool bvalue)
+		{
+			if (bvalue)
+				return flags |= mask;
+			else
+				return flags &= ~mask;
+		}
+	}
 }
