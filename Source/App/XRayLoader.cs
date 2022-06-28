@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace Object_tool
 {
@@ -206,54 +207,51 @@ namespace Object_tool
 
         public string read_stringZ()
         {
-            List<char> str = new List<char>();
+            string str = "";
 
             while (reader.BaseStream.Position < reader.BaseStream.Length)
             {
-                byte one = reader.ReadByte();
-                if (one != 0)
+                byte[] one = { reader.ReadByte() };
+                if (one[0] != 0)
                 {
-                    str.Add((char)one);
+                    str += Encoding.Default.GetString(one);
                 }
                 else
                 {
                     break;
                 }
             }
-
-            return new string(str.ToArray());
+            return str;
         }
 
         public string read_motion_mark_string()
         {
-            List<char> str = new List<char>();
+            string str = "";
 
             while (reader.BaseStream.Position < reader.BaseStream.Length)
             {
-                byte one = reader.ReadByte();
-                if (one != 0xA)
+                byte[] one = { reader.ReadByte() };
+                if (one[0] != 0xA)
                 {
-                    str.Add((char)one);
+                    str += Encoding.Default.GetString(one);
                 }
                 else
                 {
-                    str.Add((char)one);
+                    str += Encoding.Default.GetString(one);
                     break;
                 }
             }
-
-            return new string(str.ToArray());
+            return str;
         }
 
         public void write_stringZ(BinaryWriter w, string str)
         {
-            foreach (char c in str)
-            {
-                byte b = (byte)c;
-                w.Write(b);
-            }
+            List<byte> temp = new List<byte>();
 
-            w.Write((byte)0);
+            temp.AddRange(Encoding.Default.GetBytes(str));
+            temp.Add(0);
+
+            w.Write(temp.ToArray());
         }
 
         public void write_u32(BinaryWriter w, uint num)
