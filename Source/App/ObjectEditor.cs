@@ -276,7 +276,7 @@ namespace Object_tool
 			{
 				SaveOmfDialog.InitialDirectory = "";
 
-				int code = StartEditor(EditorMode.ExportOGF, TEMP_FILE_NAME, SaveOmfDialog.FileName);
+				int code = StartEditor(EditorMode.ExportOMF, TEMP_FILE_NAME, SaveOmfDialog.FileName);
 				if (code == 0)
 					AutoClosingMessageBox.Show("Motions succesfully exported.", "", 1000, MessageBoxIcon.Information);
 				else
