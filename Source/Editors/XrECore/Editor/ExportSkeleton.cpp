@@ -1310,9 +1310,8 @@ bool CExportSkeleton::ExportMotionDefs(IWriter& F)
 			{
                 if (!((motion->m_BoneOrPart==BI_NONE)||(motion->m_BoneOrPart<(int)bp_lst.size())))
 				{
-                    ELog.Msg(mtError,"Invalid Bone Part of motion: '%s'.",motion->Name());
-                    bRes=false;
-                    continue;
+                    motion->m_BoneOrPart = BI_NONE;
+                    ELog.Msg(mtError,"Invalid Bone Part of motion: '%s'. Reset to all bones.",motion->Name());
                 }
             }
             if (bRes)

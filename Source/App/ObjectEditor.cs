@@ -265,7 +265,7 @@ namespace Object_tool
 					if (code == 1)
 						MessageBox.Show("Can't export model.\nPlease, disable HQ Geometry+ flag.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					else
-						AutoClosingMessageBox.Show("Can't export model.", "", GetErrorTime(), MessageBoxIcon.Error);
+						AutoClosingMessageBox.Show($"Can't export model.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 				}
 			}
 		}
