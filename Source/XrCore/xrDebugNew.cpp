@@ -147,10 +147,9 @@ void xrDebug::do_exit	(const std::string &message)
 
 void xrDebug::backend	(const char *expression, const char *description, const char *argument0, const char *argument1, const char *file, int line, const char *function, bool &ignore_always)
 {
-	if (IsDebuggerPresent() || (strstr(GetCommandLine(), "-export")))
+	if (IsDebuggerPresent())
 	{
-		if (!(strstr(GetCommandLine(), "-export")))
-			DebugBreak();
+		DebugBreak();
 		return;
 	}
 		static xrCriticalSection CS
