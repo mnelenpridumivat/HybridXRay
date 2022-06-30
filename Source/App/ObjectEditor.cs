@@ -168,6 +168,7 @@ namespace Object_tool
 			{
 				TabControl.Controls.Clear();
 				TabControl.Controls.Add(FlagsPage);
+				TabControl.Controls.Add(MotionPage);
 			}
 
 			LoadBoneData();
