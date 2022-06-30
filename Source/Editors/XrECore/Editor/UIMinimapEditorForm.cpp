@@ -62,55 +62,7 @@ void UIMinimapEditorForm::Show()
 	Form = xr_new< UIMinimapEditorForm>();
     bOpen = true;
 }
-extern bool Stbi_Load(LPCSTR full_name, U32Vec& data, u32& w, u32& h, u32& a);
+
 void UIMinimapEditorForm::LoadClick()
 {
-    xr_string                   fn;
-    m_ImageData.clear();
-
-    if (EFS.GetOpenName(EDevice->m_hWnd,"$app_root$", fn, false, NULL, 0))
-    {
-        if (Stbi_Load(fn.c_str(), m_ImageData, m_ImageW, m_ImageH, m_ImageA))
-        {
-            m_TextureRemove = m_Texture;
-            ID3DTexture2D* pTexture = nullptr;
-            {
-                R_CHK(HW.pDevice->CreateTexture(m_ImageW, m_ImageH, 1, 0, D3DFMT_X8R8G8B8, D3DPOOL_MANAGED, &pTexture, 0));
-                m_Texture = pTexture;
-
-                {
-                    D3DLOCKED_RECT rect;
-                    R_CHK(pTexture->LockRect(0, &rect, 0, D3DLOCK_DISCARD));
-                    for (int i = 0; i < m_ImageH; i++)
-                    {
-
-                        unsigned char* dest = static_cast<unsigned char*>(rect.pBits) + (rect.Pitch * i);
-                        memcpy(dest, m_ImageData.data() + (m_ImageW * i), sizeof(unsigned char) * m_ImageW * 4);
-                    }
-                    R_CHK(pTexture->UnlockRect(0));
-                }
-            }
-            /*LPCSTR _mark = "_[";
-            if (fn.find(_mark) != fn.npos)
-            {
-                LPCSTR _str = fn.c_str() + fn.find(_mark);
-                int cnt = sscanf(_str, "_[%f, %f]-[%f, %f]", &map_bb.min.x, &map_bb.min.y, &map_bb.max.x, &map_bb.max.y);
-                //                "ss_andy_05-08-07_15-24-11_#ai_test_[-150.000, -100.000]-[52.927, 50.000].tga"
-                if (cnt != 4) {
-                    map_bb.min.x = 0.0f;
-                    map_bb.min.y = 0.0f;
-                    map_bb.max.x = 100.0f;
-                    map_bb.max.y = 100.0f;
-                    map_bb_loaded = map_bb;
-
-                    ApplyPoints(true);
-                    return;
-                }
-                map_bb_loaded = map_bb;
-
-                ApplyPoints(true);
-                imgPanelResize(NULL);
-            }*/
-        }
-    }
 }

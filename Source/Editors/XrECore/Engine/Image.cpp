@@ -182,12 +182,8 @@ struct TGAHeader
 };
 #pragma pack(pop)
 
-extern u32 * Stbi_Load(const char*,u32&,u32&);
-
 void CImage::Load	(LPCSTR name)
 {
-	VERIFY		(!pData);
-	pData		= Stbi_Load((LPSTR)name,dwWidth,dwHeight);
 }
 
 bool CImage::LoadTGA(LPCSTR name)

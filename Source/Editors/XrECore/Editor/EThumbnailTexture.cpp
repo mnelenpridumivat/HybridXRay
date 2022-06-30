@@ -79,9 +79,6 @@ void ETextureThumbnail::CreateFromData(u32* p, u32 w, u32 h)
     m_TexParams.height= h;
     m_TexParams.flags.set(STextureParams::flHasAlpha,FALSE);
 }
-//------------------------------------------------------------------------------
-
-bool Stbi_Load(LPCSTR full_name, U32Vec& data, u32& w, u32& h, u32& a);
 
 bool ETextureThumbnail::Load(LPCSTR src_name, LPCSTR path)
 {
@@ -199,17 +196,6 @@ void ETextureThumbnail::Update(ImTextureID& Texture)
 
         U32Vec data;
         u32 w, h, a;
-        if (!Stbi_Load(fn, data, image_w, image_h, image_a))
-        {
-
-            fn_img = EFS.ChangeFileExt(m_Name.c_str(), ".dds");
-            u32	mem = 0;
-            Texture = ::RImplementation.texture_load(fn_img.c_str(), mem);
-            if (!Texture)
-                ELog.Msg(mtError, "Can't make preview for texture '%s'.", m_Name.c_str());
-
-            return;
-        }
         ImageLib.MakeThumbnailImage(this, data.data(), image_w, image_h, image_a);
     }
 

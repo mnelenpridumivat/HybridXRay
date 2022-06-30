@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #pragma hdrstop
 
-#include "RedImageTool/RedImage.hpp"
-
 #include "ImageManager.h"
 #include "xrImage_Resampler.h"
 #include "..\Engine\Image.h"
@@ -13,9 +11,6 @@
 #include "../XrETools/ETools.h"
 CImageManager ImageLib;
 //---------------------------------------------------------------------------
-/*
-extern bool IsFormatRegister(LPCSTR ext);
-extern FIBITMAP* Stbi_Load(char* full_name);*/
 
 extern "C" __declspec(dllimport)
 int DXTCompress	(LPCSTR out_name, u8* raw_data, u8* ext_data, u32 w, u32 h, u32 pitch,
@@ -28,75 +23,8 @@ bool IsValidSize(u32 w, u32 h){
     return true;
 }
 
-bool Stbi_Load(LPCSTR full_name, U32Vec& data, u32& w, u32& h, u32& a)
-{
-    if (!FS.exist(full_name))
-    { 
-    	ELog.Msg(mtError,"Can't find file: '%s'",full_name);
-    	return false;
-    }
-	if (strstr(full_name,".tga")){
-    	CImage img;
-        if (!img.LoadTGA	(full_name)) return false;
-		w 					= img.dwWidth;
-        h 					= img.dwHeight;
-        a					= img.bAlpha;
-        data.resize			(w*h);
-		for(int y=0;y<h;y++) CopyMemory			(data.data()+y*w,img.pData+(y * w),sizeof(u32)*w);
-		if (!IsValidSize(w,h))	ELog.Msg(mtError,"Texture (%s) - invalid size: [%d, %d]",full_name,w,h);
-        return true;
-    }else{
-        int wi, hi, c;
-        stbi_uc* raw_data = stbi_load((LPSTR)full_name, &wi, &hi, &c, 4);
-        if(raw_data)
-        {
-            w = wi;
-            h = hi;
-		    u32 w4			= w*4;
-            data.resize		(w*h);
-            CopyMemory(data.data(), raw_data,w4*h);
-            a = c == 4;
-            stbi_image_free(raw_data);
-			if (!IsValidSize(w,h))	ELog.Msg(mtError,"Texture (%s) - invalid size: [%d, %d]",full_name,w,h);
-            return true;
-        }
-        else
-        {
-            RedImageTool::RedImage img;
-            if (img.LoadFromFile(full_name))
-            {
-                img.ClearMipLevels();
-                img.Convert(RedImageTool::RedTexturePixelFormat::R8G8B8A8);
-                img.SwapRB();
-                w = img.GetWidth();
-                h = img.GetHeight();
-                data.resize(w * h);
-                a = true;
-                CopyMemory(data.data(), *img, w * h*4);
-                return true;
-            }
-        }
-
-    }
-	return false;
-}
 //------------------------------------------------------------------------------
 
-u32* Stbi_Load(LPCSTR full_name,  u32& w, u32& h)
-{
-    u32 a;
-    xr_vector<u32> data;
-    if (Stbi_Load(full_name, data, w, h, a))
-    {
-        u32* raw_data = xr_alloc<u32>(w * h );
-        memcpy(raw_data, data.data(), w * h * 4);
-        return raw_data;
-   }
-    else
-    {
-        return nullptr;
-    }
-}
 //------------------------------------------------------------------------------
 xr_string CImageManager::UpdateFileName(xr_string& fn)
 {
@@ -133,14 +61,6 @@ void CImageManager::CreateTextureThumbnail(ETextureThumbnail* THM, const xr_stri
     U32Vec data;
     u32 w, h, a;
     xr_string fn 	= EFS.ChangeFileExt(base_name,".tga");
-    if (!Stbi_Load(fn.c_str(),data,w,h,a))
-    {
-        if (!Stbi_Load(base_name, data, w, h, a))
-        {
-            ELog.Msg(mtError, "Can't load texture '%s'.\nCheck file existence", fn.c_str());
-            return;
-        }
-    }
     MakeThumbnailImage(THM,data.data(),w,h,a);
 
 
@@ -173,7 +93,6 @@ void CImageManager::CreateGameTexture(LPCSTR src_name, ETextureThumbnail* thumb)
 
     U32Vec data;
     u32 w, h, a;
-    if (!Stbi_Load(base_name,data,w,h,a)) return;
     MakeGameTexture(THM,game_name,data.data());
 
     FS.set_file_age(game_name, base_age);
@@ -270,7 +189,6 @@ bool CImageManager::LoadTextureData(LPCSTR src_name, U32Vec& data, u32& w, u32& 
 //.	FS.update_path			(fn,_textures_,ChangeFileExt(src_name,".tga").c_str());
 	FS.update_path			(fn,_game_textures_,ChangeFileExt(src_name,".dds").c_str());
     u32 a;
-    if (!Stbi_Load(fn,data,w,h,a)) return false;
     if (age) *age			= FS.get_file_age(fn);
     return true;
 }
@@ -304,7 +222,6 @@ void CImageManager::SafeCopyLocalToServer(FS_FileSet& files)
         	// convert to TGA
             U32Vec data;
             u32 w,h,a;
-		    R_ASSERT	(Stbi_Load(src_name,data,w,h,a));
             CImage* I 	= xr_new<CImage>();
             I->Create	(w,h,data.data());
             I->Vflip	();
@@ -363,7 +280,7 @@ void CImageManager::SynchronizeTextures(bool sync_thm, bool sync_game, bool bFor
     	// check thumbnail
     	if (sync_thm&&bThm){
         	THM = xr_new<ETextureThumbnail>(it->name.c_str());
-		bool bRes = Stbi_Load(fn,data,w,h,a); R_ASSERT(bRes);
+            bool bRes = false;
 //.             MakeThumbnailImage(THM,data.begin(),w,h,a);
             THM->Save	(it->time_write);
             bUpdated = TRUE;
@@ -372,7 +289,6 @@ void CImageManager::SynchronizeTextures(bool sync_thm, bool sync_game, bool bFor
     	if (bForceGame||(sync_game&&bGame)){
         	if (!THM) THM = xr_new<ETextureThumbnail>(it->name.c_str());
             R_ASSERT(THM);
-            if (data.empty()){ bool bRes = Stbi_Load(fn,data,w,h,a); R_ASSERT(bRes);}
 			if (IsValidSize(w,h)){
                 string_path 			game_name;
                 strconcat				(sizeof(game_name), game_name, base_name.c_str(), ".dds");
@@ -488,7 +404,6 @@ BOOL CImageManager::CheckCompliance(LPCSTR fname, int& compl)
 	compl 			= 0;
     U32Vec data;
     u32 w, h, a;
-    if (!Stbi_Load(fname,data,w,h,a)) return FALSE;
     if ((1==w) || (1==h))				 return TRUE;
 
     u32 w_2 	= (1==w)?w:w/2;
@@ -719,39 +634,6 @@ BOOL CImageManager::CreateSmallerCubeMap(LPCSTR src_name, LPCSTR dst_name)
     string_path 	full_name;
     FS.update_path	(full_name,_textures_,src_name);
     strcat			(full_name,".tga");
-
-    if (Stbi_Load(full_name,data,wf,h,a)){
-    	w				= wf/6;
-	    u32 sm_w=32, sm_wf=6*sm_w, sm_h=32;
-        if (!btwIsPow2(h)||(h*6!=wf)||(wf<sm_wf)||(h<sm_h)){	
-        	ELog.Msg(mtError,"Texture '%s' - invalid size: [%d, %d]",src_name,wf,h);
-            return 		FALSE;
-        }
-        // generate smaller
-	    U32Vec sm_data	(sm_wf*sm_h,0);
-		SPBItem* PB		= UI->ProgressStart(1.f,"Cube Map: scale image...");
-        CTimer T; T.Start();
-        ETOOLS::SimplifyCubeMap	(data.data(),w,h,sm_data.data(),sm_w,sm_h,16.f,pb_callback,PB);
-        float tm_scm	= T.GetElapsed_sec();
-		UI->ProgressEnd	(PB);
-        // write texture
-        string_path out_name;
-        FS.update_path	(out_name,_game_textures_,dst_name);
-        strcat(out_name, ".dds");
-
-        STextureParams 	tp;
-        tp.width		= sm_wf;
-        tp.height		= sm_h;
-        tp.fmt			= STextureParams::tfRGBA;
-        tp.type			= STextureParams::ttCubeMap;
-        tp.flags.zero	();
-		if (!MakeGameTexture(out_name,&*sm_data.begin(),tp))
-        	return FALSE;
-        ELog.DlgMsg(mtInformation,"Smaller cubemap successfylly created [%3.2f sec].",tm_scm);
-        return TRUE;
-    }else{
-        ELog.Msg(mtError,"Can't load texture '%s'.",src_name);
-    }
     return FALSE;
 }
 
