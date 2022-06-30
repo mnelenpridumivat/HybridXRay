@@ -336,7 +336,6 @@
     <ClInclude Include="XrISEALifeObject.h" />
     <ClInclude Include="XrISEALifeSpaceRestrictor.h" />
     <ClInclude Include="xrLevel.h" />
-    <ClInclude Include="xrSASH.h" />
     <ClInclude Include="xrSheduler.h" />
     <ClInclude Include="xr_collide_form.h" />
     <ClInclude Include="xr_efflensflare.h" />
@@ -480,7 +479,6 @@
     <ClCompile Include="xrHemisphere.cpp" />
     <ClCompile Include="xrImage_Resampler.cpp" />
     <ClCompile Include="XrISEAbstract.cpp" />
-    <ClCompile Include="xrSASH.cpp" />
     <ClCompile Include="xrSheduler.cpp" />
     <ClCompile Include="xr_collide_form.cpp" />
     <ClCompile Include="xr_efflensflare.cpp" />
@@ -517,9 +515,6 @@
   <ItemGroup>
     <ProjectReference Include="..\External\Luabind\Luabind.vcxproj">
       <Project>{18c37994-f2f2-46c0-bd55-bc738e8b9d89}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\External\OpenAutomate\OpenAutomate.vcxproj">
-      <Project>{200accb3-758b-4118-a10a-32eff361ae64}</Project>
     </ProjectReference>
     <ProjectReference Include="..\External\Theora\Theora.vcxproj">
       <Project>{0cbe8406-ae28-414b-b353-cb2d3c4003c8}</Project>

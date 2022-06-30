@@ -26,8 +26,6 @@
 #include <process.h>
 #include <locale.h>
 
-#include "xrSash.h"
-
 #include "securom_api.h"
 #include "..\XrAPI\xrGameManager.h"
 #include "GameMtlLib.h"
@@ -399,17 +397,8 @@ Memory.mem_usage();
 	// Destroying
 //.	destroySound();
 	destroyInput();
-
-	if( !g_bBenchmark && !g_SASH.IsRunning())
-		destroySettings();
-
 	LALib.OnDestroy				( );
 	
-	if( !g_bBenchmark && !g_SASH.IsRunning())
-		destroyConsole();
-	else
-		Console->Destroy();
-
 	destroySound();
 
 	destroyEngine();
@@ -851,8 +840,6 @@ ENGINE_API	bool g_dedicated_server	= false;
 			string512				sash_arg;
 			sscanf					(strstr(Core.Params,sashName)+sz,"%[^ ] ",sash_arg);
 			//doBenchmark				(sash_arg);
-			g_SASH.Init(sash_arg);
-			g_SASH.MainLoop();
 			return 0;
 		}
 
@@ -1041,8 +1028,6 @@ void CApplication::OnEvent(EVENT E, u64 P1, u64 P2)
 {
 	if (E==eQuit)
 	{
-		g_SASH.EndBenchmark();
-
 		PostQuitMessage	(0);
 		
 		for (u32 i=0; i<Levels.size(); i++)

@@ -717,9 +717,6 @@
     <ClInclude Include="ide.hpp">
       <Filter>editor\ide</Filter>
     </ClInclude>
-    <ClInclude Include="xrSASH.h">
-      <Filter>OpenAutomate</Filter>
-    </ClInclude>
     <ClInclude Include="EnvironmentSOC.h">
       <Filter>Game API\Environment</Filter>
     </ClInclude>
@@ -1270,9 +1267,6 @@
     </ClCompile>
     <ClCompile Include="editor_environment_detail.cpp">
       <Filter>editor\environment\detail</Filter>
-    </ClCompile>
-    <ClCompile Include="xrSASH.cpp">
-      <Filter>OpenAutomate</Filter>
     </ClCompile>
     <ClCompile Include="EnvironmentSOC_misc.cpp">
       <Filter>Game API\Environment</Filter>
