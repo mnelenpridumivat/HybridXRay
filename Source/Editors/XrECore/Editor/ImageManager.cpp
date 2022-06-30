@@ -11,10 +11,6 @@
 CImageManager ImageLib;
 //---------------------------------------------------------------------------
 
-extern "C" __declspec(dllimport)
-int DXTCompress	(LPCSTR out_name, u8* raw_data, u8* ext_data, u32 w, u32 h, u32 pitch,
-					STextureParams* options, u32 depth);
-
 bool IsValidSize(u32 w, u32 h){
 	if (!btwIsPow2(h)) return false;
     if (h*6==w) return true;
@@ -107,7 +103,7 @@ bool CImageManager::MakeGameTexture(LPCSTR game_name, u32* data, const STextureP
     // fill texture params
 	// compress
     u32 w4= tp.width*4;
-    int res			= DXTCompress(game_name, (u8*)data, 0, tp.width, tp.height, w4, (STextureParams*)&tp, 4);
+    int res = 0;
     if (1!=res){
     	FS.file_delete(game_name);
         switch(res){
@@ -163,7 +159,7 @@ bool CImageManager::MakeGameTexture(ETextureThumbnail* THM, LPCSTR game_name, u3
         if (false==e_res)	return false;
     }
     // compress
-    int res 	= DXTCompress(game_name, (u8*)load_data, (u8*)(ext_data.empty()?0:ext_data.data()), w, h, w4, &THM->m_TexParams, 4);
+    int res = 0;
    if (1!=res){
     	if (-1000!=res){ //. Special for Oles (glos<10%) 
             FS.file_delete	(game_name);
