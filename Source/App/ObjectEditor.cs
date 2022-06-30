@@ -77,6 +77,7 @@ namespace Object_tool
 			sklSklsToolStripMenuItem.Enabled = false;
 			bonesToolStripMenuItem.Enabled = false;
 			dMToolStripMenuItem.Enabled = false;
+			bonesPartsToolStripMenuItem.Enabled = false;
 
 			SaveSklDialog = new FolderSelectDialog();
 
@@ -160,6 +161,7 @@ namespace Object_tool
 			objToolStripMenuItem.Enabled = !skeleton;
 			objectToolStripMenuItem.Enabled = !skeleton;
 			dMToolStripMenuItem.Enabled = !skeleton;
+			bonesPartsToolStripMenuItem.Enabled = !skeleton;
 			groupBox2.Enabled = !skeleton;
 
 			if (skeleton)
