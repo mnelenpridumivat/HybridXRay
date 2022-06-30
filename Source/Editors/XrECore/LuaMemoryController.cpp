@@ -17,7 +17,6 @@ static struct SetupLuabindAllocator
 {
 	SetupLuabindAllocator()
 	{
-		luabind::allocator = &luabind_allocator;
 	}
 }
 LSetupLuabindAllocator;

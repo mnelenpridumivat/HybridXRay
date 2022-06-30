@@ -534,9 +534,6 @@
     <ClCompile Include="..\..\XrRender\Private\ResourceManager_Scripting.cpp">
       <Filter>Render</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\XrEngine\ai_script_lua_debug.cpp">
-      <Filter>Render</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\XrEngine\ai_script_lua_extension.cpp">
       <Filter>Render</Filter>
     </ClCompile>
