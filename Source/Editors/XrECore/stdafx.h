@@ -13,7 +13,6 @@
 #include "..\XrEngine\stdafx.h"
 #include "..\XrEngine\XrDeviceInterface.h"
 #include "..\XrEProps\stdafx.h"
-#include "..\..\xrCDB\xrCDB.h"
 #include "..\..\XrEngine\psystem.h"
 
 #include "..\..\XrEngine\fmesh.h"
@@ -60,7 +59,6 @@ DEFINE_VECTOR		(xr_string*,LPAStringVec,LPAStringIt);
 #include "editor\ELog.h"
 #include "..\..\XrEngine\defines.h"
 
-#include "../../xrphysics/xrphysics.h"
 #include "..\..\XrRender\Private\FVF.h"
 
 struct str_pred 

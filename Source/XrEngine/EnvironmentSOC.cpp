@@ -6,7 +6,6 @@
 #endif
 
 #include "EnvironmentSOC.h"
-#include "xr_efflensflare.h"
 #include "rain.h"
 #include "thunderbolt.h"
 #include "xrHemisphere.h"
@@ -41,7 +40,6 @@ CEnvironmentSOC::CEnvironmentSOC	()
     CurrentWeather			= 0;
     CurrentWeatherName		= 0;
 	eff_Rain				= 0;
-    eff_LensFlare 			= 0;
     eff_Thunderbolt			= 0;
 	OnDeviceCreate			();
 #ifdef _EDITOR
@@ -79,7 +77,6 @@ void CEnvironmentSOC::Invalidate()
 	bWFX					= false;
 	Current[0]				= 0;
 	Current[1]				= 0;
-	if (eff_LensFlare)		eff_LensFlare->Invalidate();
 }
 
 float CEnvironmentSOC::TimeDiff(float prev, float cur)
@@ -329,7 +326,6 @@ void CEnvironmentSOC::OnFrame()
 	PerlinNoise1D->SetFrequency(wind_gust_factor * MAX_NOISE_FREQ);
 	wind_strength_factor = clampr(PerlinNoise1D->GetContinious(Device->fTimeGlobal) + 0.5f, 0.f, 1.f);
 	shared_str l_id = (current_weight < 0.5f) ? Current[0]->lens_flare_id : Current[1]->lens_flare_id;
-	eff_LensFlare->OnFrame(l_id);
 	shared_str t_id = (current_weight < 0.5f) ? Current[0]->tb_id : Current[1]->tb_id;
 	eff_Thunderbolt->OnFrame(t_id, CurrentEnv->bolt_period, CurrentEnv->bolt_duration);
 	eff_Rain->OnFrame();

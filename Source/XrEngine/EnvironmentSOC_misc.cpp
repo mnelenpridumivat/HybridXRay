@@ -2,7 +2,6 @@
 #pragma hdrstop
 
 #include "EnvironmentSOC.h"
-#include "xr_efflensflare.h"
 #include "thunderbolt.h"
 #include "rain.h"
 
@@ -116,7 +115,6 @@ void CEnvSOCDescriptor::load	(LPCSTR exec_tm, LPCSTR S, IEnvironment* parent)
 	Fvector2 sund			= pSettings->r_fvector2	(S,"sun_dir");	sun_dir.setHP	(deg2rad(sund.y),deg2rad(sund.x));
 	VERIFY2					(sun_dir.y<0,"Invalid sun direction settings while loading");
 
-	lens_flare_id			 =parent->eff_LensFlare->AppendDef(*parent,pSettings,pSettings->r_string(S,"flares"));
 	tb_id					= parent->eff_Thunderbolt->AppendDef(*parent, pSettings,nullptr,pSettings->r_string(S,"thunderbolt"));
 	bolt_period				= (tb_id.size()) ? pSettings->r_float	(S,"bolt_period"):0.f;
 	bolt_duration			= (tb_id.size()) ? pSettings->r_float	(S,"bolt_duration"):0.f;
@@ -240,7 +238,6 @@ void	CEnvironmentSOC::mods_unload		()
 void CEnvironmentSOC::load		()
 {
 	if (!eff_Rain)    		eff_Rain 		= xr_new<CEffect_Rain>();
-	if (!eff_LensFlare)		eff_LensFlare 	= xr_new<CLensFlare>();
 	if (!eff_Thunderbolt)	eff_Thunderbolt	= xr_new<CEffect_Thunderbolt>();
 	// load weathers
 	if (WeatherCycles.empty()){
@@ -334,7 +331,6 @@ void CEnvironmentSOC::unload	()
 	Ambients.clear		();
 	// misc
 	xr_delete			(eff_Rain);
-	xr_delete			(eff_LensFlare);
 	xr_delete			(eff_Thunderbolt);
 	CurrentWeather		= 0;
 	CurrentWeatherName	= 0;

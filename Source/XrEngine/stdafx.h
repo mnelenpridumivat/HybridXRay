@@ -35,8 +35,6 @@
 #include "XrDeviceInterface.h"
 #include "../xrcore/fs.h"
 
-#include "../xrcdb/xrXRC.h"
-
 #include "XrISEAbstract.h"
 extern ENGINE_API CInifile *pGameIni;
 

@@ -5,12 +5,10 @@
 //#include "xr_effgamma.h"
 #include "render.h"
 #include "dedicated_server_only.h"
-#include "../xrcdb/xrxrc.h"
 
 #include "securom_api.h"
 
 #include "device.h"
-extern XRCDB_API BOOL *cdb_bDebug;
 
 void	SetupGPU(IRenderDeviceRender *pRender)
 {
@@ -167,13 +165,6 @@ PROTECT_API void CRenderDevice::Create	()
 
 	if (b_is_Ready)		return;		// prevent double call
 	Statistic			= xr_new<CStats>();
-
-#ifdef	DEBUG
-cdb_clRAY		= &Statistic->clRAY;				// total: ray-testing
-cdb_clBOX		= &Statistic->clBOX;				// total: box query
-cdb_clFRUSTUM	= &Statistic->clFRUSTUM;			// total: frustum query
-cdb_bDebug		= &bDebug;
-#endif
 
 	if (!m_pRender)
 		m_pRender			= RenderFactory->CreateRenderDeviceRender();

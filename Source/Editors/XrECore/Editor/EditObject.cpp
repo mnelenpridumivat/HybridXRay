@@ -35,7 +35,6 @@ void CSurface::RemoveImageData()
 #endif
 
 CEditableObject::CEditableObject(LPCSTR name):
-	m_physics_shell(0),
     m_object_xform(0)
 {
     m_FaceCount = -1;

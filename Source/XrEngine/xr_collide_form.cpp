@@ -2,11 +2,9 @@
 #include "igame_level.h"
 #include "xr_collide_form.h"
 #include "xr_object.h"
-#include "../xrcdb/xr_area.h"
 #include "x_ray.h"
 #include "xrLevel.h"
 #include "fmesh.h"
-#include "../xrCDB/frustum.h"
 
 //#include "skeletoncustom.h"
 #include "Kinematics.h"
@@ -20,7 +18,6 @@ IC float DET(const Fmatrix &a){
 }
 #include "objectdump.h"
 #endif
-using namespace	collide;
 //----------------------------------------------------------------------
 // Class	: CXR_CFObject
 // Purpose	: stores collision form
@@ -202,57 +199,6 @@ void CCF_Skeleton::BuildTopLevel()
 	VERIFY(_valid(bv_sphere));
 }
 
-BOOL CCF_Skeleton::_RayQuery( const collide::ray_defs& Q, collide::rq_results& R)
-{
-	if (dwFrameTL!=Device->dwFrame)			BuildTopLevel();
-
-
-	Fsphere w_bv_sphere;
-	owner->XFORM().transform_tiny		(w_bv_sphere.P,bv_sphere.P);
-	w_bv_sphere.R						= bv_sphere.R;
-
-	// 
-	float tgt_dist						= Q.range;
-	float aft[2];
-	int quant;
-	Fsphere::ERP_Result res				= w_bv_sphere.intersect(Q.start,Q.dir,tgt_dist,quant,aft);
-	if ((Fsphere::rpNone==res)||((Fsphere::rpOriginOutside==res)&&(aft[0]>tgt_dist)) ) return FALSE;
-
-	if (dwFrame != Device->dwFrame)		BuildState	();
-	else{
-		IKinematics* K	= PKinematics	(owner->Visual());
-		if (K->LL_GetBonesVisible()!=vis_mask)	{
-			// Model changed between ray-picks
-			dwFrame		= Device->dwFrame-1	;
-			BuildState	();
-		}
-	}
-
-	BOOL bHIT			= FALSE;
-	for (ElementVecIt I=elements.begin(); I!=elements.end(); I++){
-		if (!I->valid())continue;
-		bool res		= false;
-		float range		= Q.range;
-		switch (I->type){
-		case SBoneShape::stBox:
-			res			= RAYvsOBB		(I->b_IM,I->b_hsize,Q.start,Q.dir,range,Q.flags&CDB::OPT_CULL);
-		break;
-		case SBoneShape::stSphere: 
-			res			= RAYvsSPHERE	(I->s_sphere,Q.start,Q.dir,range,Q.flags&CDB::OPT_CULL);
-
-		break;
-		case SBoneShape::stCylinder: 
-			res			= RAYvsCYLINDER	(I->c_cylinder,Q.start,Q.dir,range,Q.flags&CDB::OPT_CULL);
-		break;
-		}
-		if (res){
-			bHIT		= TRUE;
-			R.append_result				(owner,range,I->elem_id,Q.flags&CDB::OPT_ONLYNEAREST);
-			if (Q.flags&CDB::OPT_ONLYFIRST) break;
-		}
-	}
-	return bHIT;
-}
 
 //----------------------------------------------------------------------------------
 CCF_EventBox::CCF_EventBox( CObject* O ) : ICollisionForm(O,cftShape)
@@ -300,8 +246,6 @@ BOOL CCF_EventBox::Contact(CObject* O)
 	}
 	return TRUE;
 }
-BOOL CCF_EventBox::_RayQuery(const collide::ray_defs& Q, collide::rq_results& R)
-{	return FALSE; }
 /*
 void CCF_EventBox::_BoxQuery(const Fbox& B, const Fmatrix& M, u32 flags)
 {   return; }
@@ -312,59 +256,6 @@ void CCF_EventBox::_BoxQuery(const Fbox& B, const Fmatrix& M, u32 flags)
 //----------------------------------------------------------------------------------
 CCF_Shape::CCF_Shape(CObject* _owner) : ICollisionForm(_owner,cftShape)
 {
-}
-BOOL CCF_Shape::_RayQuery(const collide::ray_defs& Q, collide::rq_results& R)
-{	
-	// Convert ray into local model space
-	Fvector dS, dD;
-	Fmatrix temp; 
-	temp.invert			(owner->XFORM());
-	temp.transform_tiny	(dS,Q.start);
-	temp.transform_dir	(dD,Q.dir);
-
-	// 
-	if (!bv_sphere.intersect(dS,dD))	return FALSE;
-
-	BOOL bHIT = FALSE;
-	for (u32 el=0; el<shapes.size(); el++)
-	{
-		shape_def& shape= shapes[el];
-		float range		= Q.range;
-		switch (shape.type)
-		{
-		case 0:
-			{ // sphere
-				Fsphere::ERP_Result	rp_res 	= shape.data.sphere.intersect(dS,dD,range);
-				if ((rp_res==Fsphere::rpOriginOutside)||(!(Q.flags&CDB::OPT_CULL)&&(rp_res==Fsphere::rpOriginInside))){
-					bHIT	= TRUE;
-					R.append_result(owner,range,el,Q.flags&CDB::OPT_ONLYNEAREST);
-					if (Q.flags&CDB::OPT_ONLYFIRST) return TRUE;
-				}
-			}
-			break;
-		case 1: // box
-			{
-				Fbox				box;
-				box.identity		();
-				Fmatrix& B			= shape.data.ibox;
-				Fvector				S1,D1,P;
-				B.transform_tiny	(S1,dS);
-				B.transform_dir		(D1,dD);
-				Fbox::ERP_Result	rp_res 	= box.Pick2(S1,D1,P);
-				if ((rp_res==Fbox::rpOriginOutside)||(!(Q.flags&CDB::OPT_CULL)&&(rp_res==Fbox::rpOriginInside))){
-					float d			= P.distance_to_sqr(dS);
-					if (d<range*range) {
-						range		= _sqrt(d);
-						bHIT		= TRUE;
-						R.append_result(owner,range,el,Q.flags&CDB::OPT_ONLYNEAREST);
-						if (Q.flags&CDB::OPT_ONLYFIRST) return TRUE;
-					}
-				}
-			}
-			break;
-		}
-	}
-	return bHIT;
 }
 /*
 void CCF_Shape::_BoxQuery(const Fbox& B, const Fmatrix& M, u32 flags)

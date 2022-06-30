@@ -4,7 +4,6 @@
 #pragma hdrstop
 #define dSINGLE
 #include "animation_blend.h"
-#include "..\..\XrPhysics\Physics.h"
 #include "..\XrECore\Editor\EditMesh.h"
 #include "KinematicAnimatedDefs.h"
 #include "SkeletonAnimated.h"
@@ -564,9 +563,6 @@ bool  CActorTools::MouseStart(TShiftState Shift)
                 iTransform.invert(m_AVTransform);
                 if (m_pEditObject->RayPick(dis, UI->m_CurrentRStart, UI->m_CurrentRDir, iTransform, &pinf))
                 {
-                    CSurface* surf = pinf.e_mesh->GetSurfaceByFaceID(pinf.inf.id);
-                    xr_string s_name = xr_string("Surfaces\\") + xr_string(surf->_Name());
-                    m_ObjectItems->SelectItem(s_name.c_str());
                 }
             }
             break;
@@ -757,12 +753,6 @@ bool CActorTools::RayPick(const Fvector& start, const Fvector& dir, float& dist,
         if (m_PreviewObject.m_pObject->RayPick(dist, start, dir, Fidentity, &pinf))
         {
             if (pt) pt->set(pinf.pt);
-            if (n)
-            {
-                const Fvector* PT[3];
-                pinf.e_mesh->GetFacePT(pinf.inf.id, PT);
-                n->mknormal(*PT[0], *PT[1], *PT[2]);
-            }
             return true;
         }
         else
@@ -1193,20 +1183,12 @@ void CActorTools::PhysicsStopSimulate()
     }
 }
 
-CObjectSpace* os = 0;
 void CActorTools::CreatePhysicsWorld()
 {
-    VERIFY(!os);
-    VERIFY(!physics_world());
-    os = create_object_space();
-    create_physics_world(false, os, 0, Device);
 }
 
 void CActorTools::DestroyPhysicsWorld()
 {
-    if (physics_world())
-        destroy_physics_world();
-    destroy_object_space(os);
 }
 
 bool CActorTools::GetSelectionPosition(Fmatrix& result)

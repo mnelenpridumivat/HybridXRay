@@ -52,13 +52,9 @@ ref_shader	CRender::getShader	(int id){ return 0; }//VERIFY(id<int(Shaders.size(
 BOOL CRender::occ_visible(Fbox&	B)
 {
 	u32 mask		= 0xff;
-	return ViewBase.testAABB(B.data(),mask);
+	return FALSE;
 }
 
-BOOL CRender::occ_visible(sPoly& P)
-{
-	return ViewBase.testPolyInside(P);
-}
 
 BOOL CRender::occ_visible(vis_data& P)
 {
@@ -67,57 +63,6 @@ BOOL CRender::occ_visible(vis_data& P)
 
 void CRender::Calculate()
 {
-	// Transfer to global space to avoid deep pointer access
-	g_fSCREEN						=	float(EDevice->dwWidth*EDevice->dwHeight);
-	r_ssaDISCARD					=	(ssaDISCARD*ssaDISCARD)/g_fSCREEN;
-//	r_ssaLOD_A						=	(ssaLOD_A*ssaLOD_A)/g_fSCREEN;
-//	r_ssaLOD_B						=	(ssaLOD_B*ssaLOD_B)/g_fSCREEN;
-	lstRenderables.clear_not_free();
-	ViewBase.CreateFromMatrix		(EDevice->mFullTransform,FRUSTUM_P_LRTB|FRUSTUM_P_FAR);
-	{
-		g_SpatialSpace->q_frustum
-		(
-			lstRenderables,
-			ISpatial_DB::O_ORDERED,
-			STYPE_RENDERABLE + STYPE_LIGHTSOURCE,
-			ViewBase
-		);
-
-		// Exact sorting order (front-to-back)
-	
-
-		// Determine visibility for dynamic part of scene
-		set_Object(0);
-		if (g_hud)
-		{
-			g_hud->Render_First();	// R1 shadows
-			g_hud->Render_Last();
-		}
-		u32 uID_LTRACK = 0xffffffff;
-		/*if (phase == PHASE_NORMAL)*/
-	/*	{
-			uLastLTRACK++;
-			if (lstRenderables.size())		uID_LTRACK = uLastLTRACK % lstRenderables.size();
-
-			// update light-vis for current entity / actor
-			CObject* O = g_pGameLevel->CurrentViewEntity();
-			if (O) {
-				CROS_impl* R = (CROS_impl*)O->ROS();
-				if (R)		R->update(O);
-			}
-		}*/
-		for (ISpatial* pSpatial : lstRenderables)
-		{
-			IRenderable* renderable = pSpatial->dcast_Renderable();
-			if (!renderable)
-				continue; 
-			if (!(pSpatial->spatial.type & STYPE_RENDERABLE)) 	continue;
-
-			set_Object(renderable);
-			renderable->renderable_Render();
-			set_Object(nullptr);
-		}
-	}
 }
 
 #include "igame_persistent.h"

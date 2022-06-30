@@ -5,7 +5,6 @@
 
 #include "iinputreceiver.h"
 #include "xr_object_list.h"
-#include "../xrcdb/xr_area.h"
 
 // refs
 class ENGINE_API CCameraManager;
@@ -60,7 +59,6 @@ protected:
 	xr_vector<ISpatial*>		snd_ER;
 public:
 	CObjectList					Objects; 
-	CObjectSpace				ObjectSpace;
 	CCameraManager&				Cameras			()				{return *m_pCameras;};
 
 	BOOL						bReady;
@@ -89,7 +87,6 @@ public:
 	virtual BOOL				Load					( u32 dwNum );
 	virtual BOOL				Load_GameSpecific_Before( )										{ return TRUE; };		// before object loading
 	virtual BOOL				Load_GameSpecific_After	( )										{ return TRUE; };		// after object loading
-	virtual void				Load_GameSpecific_CFORM	( CDB::TRI* T, u32 count )				= 0;
 
 	virtual void	_BCL		OnFrame					( void );
 	virtual void				OnRender				( void );

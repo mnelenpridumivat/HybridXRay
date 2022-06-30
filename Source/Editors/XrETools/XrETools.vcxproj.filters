@@ -42,9 +42,6 @@
     <ClCompile Include="StdAfx.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="xrXRC.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="CreateDX.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
@@ -78,9 +75,6 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="StdAfx.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="xrXRC.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="ArbitraryList.h">

@@ -6,8 +6,6 @@
 #define RainH
 #pragma once
 
-#include "../xrcdb/xr_collide_defs.h"
-
 //refs
 class ENGINE_API IRender_DetailModel;
 
@@ -79,7 +77,6 @@ private:
 	// Some methods
 	void							Born			(Item& dest, float radius);
 	void							Hit				(Fvector& pos);
-	BOOL							RayPick			(const Fvector& s, const Fvector& d, float& range, collide::rq_target tgt);
 	void							RenewItem		(Item& dest, float height, BOOL bHit);
 public:
 									CEffect_Rain	();

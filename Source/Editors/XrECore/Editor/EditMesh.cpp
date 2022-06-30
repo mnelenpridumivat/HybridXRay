@@ -24,8 +24,7 @@ void CEditableMesh::Construct()
 {
 	m_Box.set		(0,0,0,0,0,0);
 	m_Flags.assign	(flVisible);
-    m_Name			= "";
-    m_CFModel		= 0;     
+    m_Name			= ""; 
 	m_Vertices		= 0;
     m_SmoothGroups	= 0;
     m_Adjs			= 0;
@@ -66,7 +65,6 @@ void CEditableMesh::Clear()
 
 void CEditableMesh::UnloadCForm     ()
 {
-	ETOOLS::destroy_model			(m_CFModel);
 }
 
 void CEditableMesh::UnloadFNormals  (bool force)

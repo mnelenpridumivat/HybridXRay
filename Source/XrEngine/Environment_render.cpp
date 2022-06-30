@@ -5,7 +5,6 @@
 #ifndef _EDITOR
     #include "render.h"
 #endif
-#include "xr_efflensflare.h"
 #include "rain.h"
 #include "thunderbolt.h"
 
@@ -201,7 +200,6 @@ void CEnvironment::RenderFlares		()
 	if (0==g_pGameLevel)			return	;
 #endif
 	// 1
-	eff_LensFlare->Render			(FALSE,TRUE,TRUE);
 }
 
 void CEnvironment::RenderLast		()

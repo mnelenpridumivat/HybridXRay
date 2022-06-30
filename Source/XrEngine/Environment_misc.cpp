@@ -2,7 +2,6 @@
 #pragma hdrstop
 
 #include "Environment.h"
-#include "xr_efflensflare.h"
 #include "thunderbolt.h"
 #include "rain.h"
 
@@ -278,7 +277,6 @@ void CEnvDescriptor::load	(CEnvironment& environment, CInifile& config)
 //		);
 	VERIFY2					(sun_dir.y < 0, "Invalid sun direction settings while loading");
 
-	lens_flare_id			= environment.eff_LensFlare->AppendDef(environment, environment.m_suns_config, config.r_string(m_identifier.c_str(),"sun"));
 	tb_id					= environment.eff_Thunderbolt->AppendDef(environment, environment.m_thunderbolt_collections_config, environment.m_thunderbolts_config, config.r_string(m_identifier.c_str(),"thunderbolt_collection"));
 	bolt_period				= (tb_id.size())?config.r_float	(m_identifier.c_str(),"thunderbolt_period"):0.f;
 	bolt_duration			= (tb_id.size())?config.r_float	(m_identifier.c_str(),"thunderbolt_duration"):0.f;
@@ -720,7 +718,6 @@ void CEnvironment::load		()
 	m_pRender->OnLoad();
 	//tonemap					= Device->Resources->_CreateTexture("$user$tonemap");	//. hack
 	if (!eff_Rain)    		eff_Rain 		= xr_new<CEffect_Rain>();
-	if (!eff_LensFlare)		eff_LensFlare 	= xr_new<CLensFlare>();
 	if (!eff_Thunderbolt)	eff_Thunderbolt	= xr_new<CEffect_Thunderbolt>();
 	load_weathers			();
 	load_weather_effects	();
@@ -752,7 +749,6 @@ void CEnvironment::unload	()
 	Ambients.clear		();
 	// misc
 	xr_delete			(eff_Rain);
-	xr_delete			(eff_LensFlare);
 	xr_delete			(eff_Thunderbolt);
 	CurrentWeather		= 0;
 	CurrentWeatherName	= 0;

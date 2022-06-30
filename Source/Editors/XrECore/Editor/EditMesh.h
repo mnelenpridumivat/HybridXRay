@@ -266,7 +266,6 @@ protected:
     VMRefsVec	    m_VMRefs;
 
 #if 1
-    CDB::MODEL*		m_CFModel;
 	RBMap*			m_RenderBuffers;
 #endif
 
@@ -317,9 +316,6 @@ public:
 	void            RayQuery				(SPickQuery& pinf);
 	void            RayQuery				(const Fmatrix& parent, const Fmatrix& inv_parent, SPickQuery& pinf);
 	void            BoxQuery				(const Fmatrix& parent, const Fmatrix& inv_parent, SPickQuery& pinf);
-    bool 			BoxPick					(const Fbox& box, const Fmatrix& inv_parent, SBoxPickInfoVec& pinf);
-	bool            FrustumPick				(const CFrustum& frustum, const Fmatrix& parent);
-    void            FrustumPickFaces		(const CFrustum& frustum, const Fmatrix& parent, U32Vec& fl);
     bool			CHullPickMesh			(PlaneVec& pl, const Fmatrix& parent);
 	void 			GetTiesFaces			(int start_id, U32Vec& fl, float fSoftAngle, bool bRecursive);
 #endif

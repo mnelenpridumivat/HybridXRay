@@ -362,9 +362,6 @@
     <ProjectReference Include="..\..\XrAPI\XrAPI.vcxproj">
       <Project>{ff16ef0a-8a51-4c36-9213-4aa87cb4b317}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\XrCDB\XrCDB.vcxproj">
-      <Project>{7e263157-2fc0-42d7-a676-dd6049bb60f5}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\XrCore\XrCore.vcxproj">
       <Project>{da642d7c-4fff-43dc-98f8-3f96caf1e4ba}</Project>
     </ProjectReference>
@@ -373,9 +370,6 @@
     </ProjectReference>
     <ProjectReference Include="..\..\XrParticles\XrParticles.vcxproj">
       <Project>{c50a948d-9175-4388-ae07-0cdab7fb69c8}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\XrPhysics\XrPhysics.vcxproj">
-      <Project>{3d3cc439-aabc-4565-99c8-9c53f425380c}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\XrSound\XrSound.vcxproj">
       <Project>{57601b62-902a-4ec8-bcc7-b6a2e30b0676}</Project>

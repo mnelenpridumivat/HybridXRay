@@ -659,27 +659,7 @@ struct zero_wm_pred
 
 void CKinematics::CalculateWallmarks()
 {
-	if (!wallmarks.empty()&&(wm_frame!=Device->dwFrame)){
-		wm_frame			= Device->dwFrame;
-		bool need_remove	= false; 
-		for (SkeletonWMVecIt it=wallmarks.begin(); it!=wallmarks.end(); it++){
-			intrusive_ptr<CSkeletonWallmark>& wm = *it;
-			float w	= (Device->fTimeGlobal-wm->TimeStart())/LIFE_TIME;
-			if (w<1.f){
-				// append wm to WallmarkEngine
-				if (::Render->ViewBase.testSphere_dirty(wm->m_Bounds.P,wm->m_Bounds.R))
-					//::Render->add_SkeletonWallmark	(wm);
-					::RImplementation.add_SkeletonWallmark	(wm);
-			}else{
-				// remove wallmark				
-				need_remove							= true;
-			}
-		}
-		if (need_remove){
-			SkeletonWMVecIt new_end= std::remove_if(wallmarks.begin(),wallmarks.end(),zero_wm_pred());
-			wallmarks.erase	(new_end,wallmarks.end());
-		}
-	}
+
 }
 
 void CKinematics::RenderWallmark(intrusive_ptr<CSkeletonWallmark> wm, FVF::LIT* &V)

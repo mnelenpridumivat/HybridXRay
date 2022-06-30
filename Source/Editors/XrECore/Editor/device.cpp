@@ -392,9 +392,6 @@ void CEditorRenderDevice::UpdateView()
 	}
     RCache.set_xform_view(mView);
     mFullTransform.mul(mProject,mView);
-
-// frustum culling sets
-    ::Render->ViewBase.CreateFromMatrix(mFullTransform,FRUSTUM_P_ALL);
 }
 
 void CEditorRenderDevice::FrameMove()

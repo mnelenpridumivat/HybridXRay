@@ -36,7 +36,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="xrXRC.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArbitraryList.h" />
@@ -53,7 +52,6 @@
     <ClInclude Include="quad.h" />
     <ClInclude Include="resample.h" />
     <ClInclude Include="StdAfx.h" />
-    <ClInclude Include="xrXRC.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\External\Ogg\Ogg.vcxproj">

@@ -584,7 +584,6 @@ bool TUI::OnCreate()
   //  m_D3DPanel		= p;
     EDevice->Initialize();
 	// Creation
-	ETOOLS::ray_options	(CDB::OPT_ONLYNEAREST | CDB::OPT_CULL);
 
     pInput			= xr_new<CInput>(FALSE, all_device_key);
 

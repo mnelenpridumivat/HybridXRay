@@ -11,7 +11,6 @@
 #include "SkeletonAnimated.h"
 #include "fmesh.h"
 #include "../xrEProps/folderlib.h"
-#include "../../xrphysics/physicsshell.h"
 //---------------------------------------------------------------------------
 MotionID EngineModel::FindMotionID(LPCSTR name, u16 slot)
 {
@@ -116,34 +115,6 @@ bool EngineModel::UpdateMotionKeysStream(CEditableObject* source)
 bool EngineModel::UpdateVisual(CEditableObject* source, bool bUpdGeom, bool bUpdKeys, bool bUpdDefs)
 {
 	bool bRes = true;
-	CMemoryWriter F;
-    destroy_physics_shell( m_physics_shell );
-	if (source->IsSkeleton()){
-        if (bUpdGeom)	bRes = UpdateGeometryStream(source);
-        if (!bRes||!m_GeometryStream.size()){
-        	ELog.Msg(mtError,"Can't create preview geometry.");
-        	return false;
-        }
-        F.w(m_GeometryStream.pointer(),m_GeometryStream.size());
-        if (bUpdKeys) UpdateMotionKeysStream(source);
-        if (bUpdDefs) UpdateMotionDefsStream(source);
-        if (m_MotionKeysStream.size())	F.w(m_MotionKeysStream.pointer(),m_MotionKeysStream.size());
-        if (m_MotionDefsStream.size())	F.w(m_MotionDefsStream.pointer(),m_MotionDefsStream.size());
-    }else{
-        bool bRes = true;
-        if (bUpdGeom) 	bRes = UpdateGeometryStream(source);
-        if (!bRes){
-        	ELog.Msg(mtError,"Can't create preview geometry.");
-        	return false;
-        }
-        if (!m_GeometryStream.size()) return false;
-        F.w(m_GeometryStream.pointer(),m_GeometryStream.size());
-    }
-    IReader R							(F.pointer(), F.size());
-    ::Render->model_Delete				(m_pVisual,TRUE);
-    g_pMotionsContainer->clean			(false);
-    m_pVisual = ::Render->model_Create	(ChangeFileExt(source->GetName(),"").c_str(),&R);
-    m_pBlend = 0;
     return bRes;
 }
 

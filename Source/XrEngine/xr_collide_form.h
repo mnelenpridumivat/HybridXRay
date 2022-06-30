@@ -1,8 +1,6 @@
 #ifndef __XR_COLLIDE_FORM_H__
 #define __XR_COLLIDE_FORM_H__
 
-#include "../xrcdb/xr_collide_defs.h"
-
 // refs
 class ENGINE_API	CObject;
 class ENGINE_API	CInifile;
@@ -17,44 +15,12 @@ const u32	clQUERY_STATIC		= (1<<5);	// static
 const u32	clQUERY_DYNAMIC		= (1<<6);	// dynamic
 const u32	clCOARSE			= (1<<7);	// coarse test (triangles vs obb)
 
-struct clQueryTri
-{
-	Fvector				p[3];
-	const CDB::TRI		*T;
-};
-
 struct clQueryCollision
 {
 	xr_vector<CObject*>		objects;		// affected objects
-	xr_vector<clQueryTri>	tris;			// triangles		(if queried)
 	xr_vector<Fobb>			boxes;			// boxes/ellipsoids	(if queried)
 	xr_vector<Fvector4>		spheres;		// spheres			(if queried)
 	
-	IC void				Clear	()
-	{
-		objects.clear	();
-		tris.clear		();
-		boxes.clear		();
-		spheres.clear	();
-	}
-	IC void				AddTri( const Fmatrix& m, const CDB::TRI* one, const Fvector* verts ) 
-	{
-		clQueryTri	T;
-		m.transform_tiny	(T.p[0],verts[one->verts[0]]);
-		m.transform_tiny	(T.p[1],verts[one->verts[1]]);
-		m.transform_tiny	(T.p[2],verts[one->verts[2]]);
-		T.T					= one;
-		tris.push_back		(T);
-	}
-	IC void				AddTri(const CDB::TRI* one, const Fvector* verts ) 
-	{
-		clQueryTri			T;
-		T.p[0]				= verts[one->verts[0]];
-		T.p[1]				= verts[one->verts[1]];
-		T.p[2]				= verts[one->verts[2]];
-		T.T					= one;
-		tris.push_back		(T);
-	}
 	IC void				AddBox(const Fmatrix& M, const Fbox& B)
 	{
 		Fobb			box;
@@ -95,7 +61,6 @@ public:
 					ICollisionForm	( CObject* _owner, ECollisionFormType tp );
 	virtual			~ICollisionForm	( );
 
-	virtual BOOL	_RayQuery		( const collide::ray_defs& Q, collide::rq_results& R) = 0;
 	//virtual void	_BoxQuery		( const Fbox& B, const Fmatrix& M, u32 flags)	= 0;
 
 	IC CObject*		Owner			( )	const				{ return owner;			}
@@ -142,7 +107,6 @@ private:
 public:
 						CCF_Skeleton	( CObject* _owner );
 
-	virtual BOOL		_RayQuery		( const collide::ray_defs& Q, collide::rq_results& R);
 	bool				_ElementCenter	(u16 elem_id, Fvector& e_center);
 	const ElementVec&	_GetElements	() {return elements;}
 #ifdef DEBUG
@@ -157,7 +121,6 @@ private:
 public:
 					CCF_EventBox	( CObject* _owner );
 
-	virtual BOOL	_RayQuery		( const collide::ray_defs& Q, collide::rq_results& R);
 	//virtual void	_BoxQuery		( const Fbox& B, const Fmatrix& M, u32 flags);
 
 	BOOL			Contact			( CObject* O );
@@ -183,7 +146,6 @@ public:
 public:
 					CCF_Shape		( CObject* _owner );
 
-	virtual BOOL	_RayQuery		( const collide::ray_defs& Q, collide::rq_results& R);
 	//virtual void	_BoxQuery		( const Fbox& B, const Fmatrix& M, u32 flags);
 
 	void			add_sphere		( Fsphere& S	);

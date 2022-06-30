@@ -221,7 +221,6 @@
     <ClInclude Include="FDemoPlay.h" />
     <ClInclude Include="FDemoRecord.h" />
     <ClInclude Include="Feel_Touch.h" />
-    <ClInclude Include="Feel_Vision.h" />
     <ClInclude Include="Fmesh.h" />
     <ClInclude Include="GameFont.h" />
     <ClInclude Include="GameMtlLib.h" />
@@ -326,7 +325,6 @@
     <ClInclude Include="xrLevel.h" />
     <ClInclude Include="xrSheduler.h" />
     <ClInclude Include="xr_collide_form.h" />
-    <ClInclude Include="xr_efflensflare.h" />
     <ClInclude Include="xr_input.h" />
     <ClInclude Include="xr_input_xinput.h" />
     <ClInclude Include="XR_IOConsole.h" />
@@ -412,7 +410,6 @@
     <ClCompile Include="FDemoPlay.cpp" />
     <ClCompile Include="FDemoRecord.cpp" />
     <ClCompile Include="Feel_Touch.cpp" />
-    <ClCompile Include="Feel_Vision.cpp" />
     <ClCompile Include="fmesh.cpp" />
     <ClCompile Include="GameFont.cpp" />
     <ClCompile Include="GameMtlLib.cpp" />
@@ -468,7 +465,6 @@
     <ClCompile Include="XrISEAbstract.cpp" />
     <ClCompile Include="xrSheduler.cpp" />
     <ClCompile Include="xr_collide_form.cpp" />
-    <ClCompile Include="xr_efflensflare.cpp" />
     <ClCompile Include="Xr_input.cpp" />
     <ClCompile Include="xr_input_xinput.cpp" />
     <ClCompile Include="XR_IOConsole.cpp" />
@@ -508,9 +504,6 @@
     </ProjectReference>
     <ProjectReference Include="..\XrAPI\XrAPI.vcxproj">
       <Project>{ff16ef0a-8a51-4c36-9213-4aa87cb4b317}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\XrCDB\XrCDB.vcxproj">
-      <Project>{7e263157-2fc0-42d7-a676-dd6049bb60f5}</Project>
     </ProjectReference>
     <ProjectReference Include="..\XrCore\XrCore.vcxproj">
       <Project>{da642d7c-4fff-43dc-98f8-3f96caf1e4ba}</Project>

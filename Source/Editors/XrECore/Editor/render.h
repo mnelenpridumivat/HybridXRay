@@ -1,7 +1,6 @@
 //---------------------------------------------------------------------------
 #pragma once
 
-#include "..\..\..\xrCDB\frustum.h"
 #include "..\..\..\XrEngine\vis_common.h"
 #include "..\..\..\XrEngine\Render.h"
 
@@ -50,14 +49,11 @@ class	ECORE_API CRender : public IRender_interface
 public:
 	// options
 
-	// Data
-	CFrustum				ViewBase;
 
 	CModelPool* Models;
 public:
 	// Occlusion culling
 	virtual BOOL			occ_visible(Fbox& B);
-	virtual BOOL			occ_visible(sPoly& P);
 	virtual BOOL			occ_visible(vis_data& P);
 
 	// Constructor/destructor
@@ -170,7 +166,6 @@ public:
 	virtual IRender_Sector* detectSector(const Fvector& P);
 
 	// Main 
-	IC		void					set_Frustum(CFrustum* O) { VERIFY(O);	View = O; }
 	virtual void					set_HUD(BOOL 		V);
 	virtual BOOL					get_HUD();
 	virtual void					set_Invisible(BOOL 		V);
@@ -179,9 +174,6 @@ public:
 	virtual	void					add_Occluder(Fbox2& bb_screenspace);	// mask screen region as oclluded (-1..1, -1..1)
 	virtual void					add_Geometry(IRenderVisual* V);	// add visual(s)	(all culling performed)
 //	virtual void					add_StaticWallmark		(ref_shader& S, const Fvector& P, float s, CDB::TRI* T, Fvector* V)=0;
-	virtual void					add_StaticWallmark(const wm_shader& S, const Fvector& P, float s, CDB::TRI* T, Fvector* V) {}
-	//	Prefer this function when possible
-	virtual void					add_StaticWallmark(IWallMarkArray* pArray, const Fvector& P, float s, CDB::TRI* T, Fvector* V) {}
 	virtual void					clear_static_wallmarks() {}
 	//virtual void					add_SkeletonWallmark	(intrusive_ptr<CSkeletonWallmark> wm)						= 0;
 	//virtual void					add_SkeletonWallmark	(const Fmatrix* xf, CKinematics* obj, ref_shader& sh, const Fvector& start, const Fvector& dir, float size)=0;

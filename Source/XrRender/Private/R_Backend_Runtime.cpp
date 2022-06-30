@@ -6,8 +6,6 @@
 #include "directx\d3dx9.h"
 #pragma warning(pop)
 
-#include "../../xrCDB/frustum.h"
-
 #if defined(USE_DX10) || defined(USE_DX11)
 #include "../DX10/StateManager/dx10StateManager.h"
 #include "../DX10/StateManager/dx10ShaderResourceStateCache.h"
@@ -194,9 +192,6 @@ void	CBackend::set_ClipPlanes	(u32 _enable, Fmatrix*	_xform  /*=NULL */, u32 fma
 		return;
 	}
 	VERIFY		(_xform && fmask);
-	CFrustum	F;
-	F.CreateFromMatrix	(*_xform,fmask);
-	set_ClipPlanes		(_enable,F.planes,F.p_count);
 }
 
 void CBackend::set_Textures			(STextureList* _T)

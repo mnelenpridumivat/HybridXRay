@@ -4,7 +4,6 @@
 
 #include "stdafx.h"
 #include "EngineAPI.h"
-#include "../xrcdb/xrXRC.h"
 #include "../XrAPI/xrGameManager.h"
 #include "securom_api.h"
 #include "..\XrAPI\xrGameManager.h"
@@ -200,7 +199,6 @@ void CEngineAPI::Destroy	(void)
 	pCreate					= 0;
 	pDestroy				= 0;
 	Engine.Event._destroy	();
-	XRC.r_clear_compact		();
 }
 
 extern "C" {

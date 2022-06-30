@@ -468,9 +468,6 @@
     <ClInclude Include="thunderbolt.h">
       <Filter>Game API\Environment\Effects</Filter>
     </ClInclude>
-    <ClInclude Include="xr_efflensflare.h">
-      <Filter>Game API\Environment\Effects</Filter>
-    </ClInclude>
     <ClInclude Include="CameraBase.h">
       <Filter>Game API\Cameras</Filter>
     </ClInclude>
@@ -505,9 +502,6 @@
       <Filter>Game API\Animator</Filter>
     </ClInclude>
     <ClInclude Include="Feel_Touch.h">
-      <Filter>Game API\Feelers</Filter>
-    </ClInclude>
-    <ClInclude Include="Feel_Vision.h">
       <Filter>Game API\Feelers</Filter>
     </ClInclude>
     <ClInclude Include="FDemoPlay.h">
@@ -1019,9 +1013,6 @@
     <ClCompile Include="thunderbolt.cpp">
       <Filter>Game API\Environment\Effects</Filter>
     </ClCompile>
-    <ClCompile Include="xr_efflensflare.cpp">
-      <Filter>Game API\Environment\Effects</Filter>
-    </ClCompile>
     <ClCompile Include="CameraBase.cpp">
       <Filter>Game API\Cameras</Filter>
     </ClCompile>
@@ -1056,9 +1047,6 @@
       <Filter>Game API\Animator</Filter>
     </ClCompile>
     <ClCompile Include="Feel_Touch.cpp">
-      <Filter>Game API\Feelers</Filter>
-    </ClCompile>
-    <ClCompile Include="Feel_Vision.cpp">
       <Filter>Game API\Feelers</Filter>
     </ClCompile>
     <ClCompile Include="FDemoPlay.cpp">
@@ -1128,9 +1116,6 @@
       <Filter>Engine\Core</Filter>
     </ClCompile>
     <ClCompile Include="_scripting.cpp">
-      <Filter>Engine\Core\Scripting</Filter>
-    </ClCompile>
-    <ClCompile Include="ai_script_lua_debug.cpp">
       <Filter>Engine\Core\Scripting</Filter>
     </ClCompile>
     <ClCompile Include="ai_script_lua_extension.cpp">

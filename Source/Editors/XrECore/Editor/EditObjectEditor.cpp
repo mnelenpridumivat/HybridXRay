@@ -69,20 +69,9 @@ void CEditableObject::BoxQuery(const Fmatrix& parent, const Fmatrix& inv_parent,
 
 #if 1
 bool CEditableObject::FrustumPick(const CFrustum& frustum, const Fmatrix& parent){
-	for(EditMeshIt m = m_Meshes.begin();m!=m_Meshes.end();m++)
-		if((*m)->FrustumPick(frustum, parent))	return true;
 	return false;
 }
 
-bool CEditableObject::BoxPick(CCustomObject* obj, const Fbox& box, const Fmatrix& inv_parent, SBoxPickInfoVec& pinf){
-	bool picked = false;
-    for(EditMeshIt m = m_Meshes.begin();m!=m_Meshes.end();m++)
-        if ((*m)->BoxPick(box, inv_parent, pinf)){
-        	pinf.back().s_obj = obj;
-            picked = true;
-        }
-	return picked;
-}
 #endif
 
 extern float 	ssaLIMIT;

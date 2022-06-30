@@ -11,7 +11,6 @@
 #else
     #include "render.h"
 	#include "igame_level.h"
-	#include "../xrcdb/xr_area.h"
 	#include "xr_object.h"
 #endif
 
@@ -86,23 +85,8 @@ void	CEffect_Rain::Born		(Item& dest, float radius)
 	dest.fSpeed			= ::Random.randF	(drop_speed_min,drop_speed_max);
 
 	float height		= max_distance;
-	RenewItem			(dest,height,RayPick(dest.P,dest.D,height,collide::rqtBoth));
 }
 
-BOOL CEffect_Rain::RayPick(const Fvector& s, const Fvector& d, float& range, collide::rq_target tgt)
-{
-	BOOL bRes 			= TRUE;
-	if (Device->IsEditorMode())
-	{
-		EditorScene->RayPick(s, d, range);
-			return true;
-	}
-	collide::rq_result	RQ;
-	CObject* E 			= g_pGameLevel->CurrentViewEntity();
-	bRes 				= g_pGameLevel->ObjectSpace.RayPick( s,d,range,tgt,RQ,E);	
-    if (bRes) range 	= RQ.range;
-    return bRes;
-}
 
 void CEffect_Rain::RenewItem(Item& dest, float height, BOOL bHit)
 {

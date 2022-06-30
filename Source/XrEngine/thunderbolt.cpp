@@ -12,7 +12,6 @@
     #include "ui_toolscustom.h"
 #else
 	#include "igame_level.h"
-	#include "../xrcdb/xr_area.h"
 	#include "xr_object.h"
 #endif
 
@@ -158,21 +157,7 @@ shared_str CEffect_Thunderbolt::AppendDef(IEnvironment& environment, CInifile* p
 BOOL CEffect_Thunderbolt::RayPick(const Fvector& s, const Fvector& d, float& dist)
 {
 	BOOL bRes 	= TRUE;
-#ifdef _EDITOR
-    bRes 				= Tools->RayPick	(s,d,dist,0,0);
-#else
-	collide::rq_result	RQ;
-	CObject* E 			= g_pGameLevel->CurrentViewEntity();
-	bRes 				= g_pGameLevel->ObjectSpace.RayPick(s,d,dist,collide::rqtBoth,RQ,E);	
-    if (bRes) dist	 	= RQ.range;
-    else{
-        Fvector N	={0.f,-1.f,0.f};
-        Fvector P	={0.f,0.f,0.f};
-        Fplane PL; PL.build(P,N);
-        float dst	=dist;
-        if (PL.intersectRayDist(s,d,dst)&&(dst<=dist)){dist=dst; return true;}else return false;
-    }
-#endif
+
     return bRes;
 }
 #define FAR_DIST g_pGamePersistent->Environment().CurrentEnv->far_plane

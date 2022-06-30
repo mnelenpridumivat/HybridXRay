@@ -8,7 +8,6 @@
 #include "IGame_Persistent.h"
 
 CPS_Instance::CPS_Instance			(bool destroy_on_game_load)	:
-	ISpatial				(g_SpatialSpace),
 	m_destroy_on_game_load	(destroy_on_game_load)
 {
 	g_pGamePersistent->ps_active.insert		(this);
@@ -33,7 +32,6 @@ CPS_Instance::~CPS_Instance					()
 
 	VERIFY									(it2==g_pGamePersistent->ps_destroy.end());
 
-	spatial_unregister						();
 	shedule_unregister						();
 }
 //----------------------------------------------------

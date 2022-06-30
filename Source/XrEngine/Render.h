@@ -1,7 +1,6 @@
 #ifndef _RENDER_H_
 #define _RENDER_H_
 
-#include "../xrCDB/frustum.h"
 #include "vis_common.h"
 //#include "IRenderDetailModel.h"
 
@@ -172,10 +171,6 @@ public:
 	s32								m_MSAASample;
 
 	BENCH_SEC_SCRAMBLEMEMBER1
-
-	// data
-	CFrustum						ViewBase;
-	CFrustum*						View;
 public:
 	// feature level
 	virtual	GenerationLevel			get_generation			()											= 0;
@@ -218,7 +213,6 @@ public:
 	virtual IRender_Target*			getTarget				()											= 0;
 
 	// Main 
-	IC		void					set_Frustum				(CFrustum*	O	)							{ VERIFY(O);	View = O;			}
 	virtual void					set_Transform			(Fmatrix*	M	)							= 0;
 	virtual void					set_HUD					(BOOL 		V	)							= 0;
 	virtual BOOL					get_HUD					()											= 0;
@@ -229,9 +223,6 @@ public:
 	virtual void					add_Visual				(IRenderVisual*	V	)					= 0;	// add visual leaf	(no culling performed at all)
 	virtual void					add_Geometry			(IRenderVisual*	V	)					= 0;	// add visual(s)	(all culling performed)
 //	virtual void					add_StaticWallmark		(ref_shader& S, const Fvector& P, float s, CDB::TRI* T, Fvector* V)=0;
-	virtual void					add_StaticWallmark		(const wm_shader& S, const Fvector& P, float s, CDB::TRI* T, Fvector* V)=0;
-	//	Prefer this function when possible
-	virtual void					add_StaticWallmark		(IWallMarkArray *pArray, const Fvector& P, float s, CDB::TRI* T, Fvector* V)=0;
 	virtual void					clear_static_wallmarks	()=0;
 	//virtual void					add_SkeletonWallmark	(intrusive_ptr<CSkeletonWallmark> wm)						= 0;
 	//virtual void					add_SkeletonWallmark	(const Fmatrix* xf, CKinematics* obj, ref_shader& sh, const Fvector& start, const Fvector& dir, float size)=0;
@@ -268,7 +259,6 @@ public:
 	// Occlusion culling
 	virtual BOOL					occ_visible				(vis_data&	V)								= 0;
 	virtual BOOL					occ_visible				(Fbox&		B)								= 0;
-	virtual BOOL					occ_visible				(sPoly&		P)								= 0;
 
 	// Main
 	virtual void					Calculate				()											= 0;

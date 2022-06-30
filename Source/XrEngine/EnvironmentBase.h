@@ -160,7 +160,6 @@ public:
 	EnvAmbVec				Ambients;
 
 	CEffect_Rain* eff_Rain;
-	CLensFlare* eff_LensFlare;
 	CEffect_Thunderbolt* eff_Thunderbolt;
 
 	float					fTimeFactor;

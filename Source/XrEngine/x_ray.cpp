@@ -20,7 +20,6 @@
 #include "GameFont.h"
 #include "resource.h"
 #include "LightAnimLibrary.h"
-#include "../xrcdb/ispatial.h"
 #include "CopyProtection.h"
 #include "Text_Console.h"
 #include <process.h>
@@ -375,8 +374,6 @@ void Startup()
 	LALib.OnCreate				( );
 	pApp						= xr_new<CApplication>	();
 	g_pGamePersistent			= (IGame_Persistent*)	NEW_INSTANCE (CLSID_GAME_PERSISTANT);
-	g_SpatialSpace				= xr_new<ISpatial_DB>	();
-	g_SpatialSpacePhysic		= xr_new<ISpatial_DB>	();
 	
 	// Destroy LOGO
 	DestroyWindow				(logoWindow);
@@ -388,8 +385,6 @@ Memory.mem_usage();
 	EngineDevice->Run					( );
 
 	// Destroy APP
-	xr_delete					( g_SpatialSpacePhysic	);
-	xr_delete					( g_SpatialSpace		);
 	DEL_INSTANCE				( g_pGamePersistent		);
 	xr_delete					( pApp					);
 	Engine.Event.Dump			( );
@@ -1220,8 +1215,6 @@ void CApplication::LoadSwitch	()
 void CApplication::OnFrame	( )
 {
 	Engine.Event.OnFrame			();
-	g_SpatialSpace->update			();
-	g_SpatialSpacePhysic->update	();
 	if (g_pGameLevel)				g_pGameLevel->SoundEvent_Dispatch	( );
 }
 

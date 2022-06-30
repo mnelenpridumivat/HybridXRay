@@ -6,7 +6,6 @@
 #endif
 
 #include "Environment.h"
-#include "xr_efflensflare.h"
 #include "rain.h"
 #include "thunderbolt.h"
 #include "xrHemisphere.h"
@@ -54,7 +53,6 @@ CEnvironment::CEnvironment	() :
     CurrentWeather			= 0;
     CurrentWeatherName		= 0;
 	eff_Rain				= 0;
-    eff_LensFlare 			= 0;
     eff_Thunderbolt			= 0;
 	OnDeviceCreate			();
 #ifdef _EDITOR
@@ -224,7 +222,6 @@ void CEnvironment::Invalidate()
 	bWFX					= false;
 	Current[0]				= 0;
 	Current[1]				= 0;
-	if (eff_LensFlare)		eff_LensFlare->Invalidate();
 }
 
 float CEnvironment::TimeDiff(float prev, float cur)
@@ -501,7 +498,6 @@ void CEnvironment::OnFrame()
 	wind_strength_factor			= clampr(PerlinNoise1D->GetContinious(Device->fTimeGlobal)+0.5f,0.f,1.f); 
 
     shared_str l_id						=	(current_weight<0.5f)?Current[0]->lens_flare_id:Current[1]->lens_flare_id;
-	eff_LensFlare->OnFrame				(l_id);
 	shared_str t_id						=	(current_weight<0.5f)?Current[0]->tb_id:Current[1]->tb_id;
     eff_Thunderbolt->OnFrame			(t_id,CurrentEnv->bolt_period,CurrentEnv->bolt_duration);
 	eff_Rain->OnFrame					();
@@ -587,50 +583,4 @@ void CEnvironment::create_mixer ()
 void CEnvironment::destroy_mixer()
 {
 	xr_delete				(CurrentEnv);
-}
-
-SThunderboltDesc* CEnvironment::thunderbolt_description			(CInifile& config, shared_str const& section)
-{
-	SThunderboltDesc*		result = xr_new<SThunderboltDesc>();
-	result->load			(config, section);
-	return					(result);
-}
-
-SThunderboltCollection* CEnvironment::thunderbolt_collection	(CInifile* pIni, CInifile* thunderbolts, LPCSTR section)
-{
-	SThunderboltCollection*	result = xr_new<SThunderboltCollection>();
-	result->load			(pIni, thunderbolts, section);
-	return					(result);
-}
-
-SThunderboltCollection* CEnvironment::thunderbolt_collection	(xr_vector<SThunderboltCollection*>& collection,  shared_str const& id)
-{
-	typedef xr_vector<SThunderboltCollection*>	Container;
-	Container::iterator		i = collection.begin();
-	Container::iterator		e = collection.end();
-	for ( ; i != e; ++i)
-		if ((*i)->section == id)
-			return			(*i);
-
-	NODEFAULT;
-#ifdef DEBUG
-	return					(0);
-#endif // #ifdef DEBUG
-}
-
-CLensFlareDescriptor* CEnvironment::add_flare					(xr_vector<CLensFlareDescriptor*>& collection, shared_str const& id)
-{
-	typedef xr_vector<CLensFlareDescriptor*>	Flares;
-
-	Flares::const_iterator	i = collection.begin();
-	Flares::const_iterator	e = collection.end();
-	for ( ; i != e; ++i) {
-		if ((*i)->section == id)
-			return			(*i);
-	}
-
-	CLensFlareDescriptor*	result = xr_new<CLensFlareDescriptor>();
-	result->load			(m_suns_config, id.c_str());
-	collection.push_back	(result);	
-	return					(result);
 }

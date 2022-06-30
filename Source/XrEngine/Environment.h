@@ -8,7 +8,6 @@ class ENGINE_API 	CEnvironment;
 
 // refs - effects
 class ENGINE_API	CEnvironment;
-class ENGINE_API	CLensFlare;
 class ENGINE_API	CEffect_Rain;
 class ENGINE_API	CEffect_Thunderbolt;
 
@@ -16,7 +15,6 @@ class ENGINE_API	CPerlinNoise1D;
 
 struct SThunderboltDesc;
 struct SThunderboltCollection;
-class CLensFlareDescriptor;
 
 #define DAY_LENGTH		86400.f
 
@@ -231,11 +229,6 @@ protected:
 	void load_level_specific_ambients();
 
 public:
-	INGAME_EDITOR_VIRTUAL	SThunderboltDesc* thunderbolt_description(CInifile& config, shared_str const& section);
-	INGAME_EDITOR_VIRTUAL	SThunderboltCollection* thunderbolt_collection(CInifile* pIni, CInifile* thunderbolts, LPCSTR section);
-	INGAME_EDITOR_VIRTUAL	SThunderboltCollection* thunderbolt_collection(xr_vector<SThunderboltCollection*>& collection, shared_str const& id);
-	INGAME_EDITOR_VIRTUAL	CLensFlareDescriptor* add_flare(xr_vector<CLensFlareDescriptor*>& collection, shared_str const& id);
-
 public:
 	float						p_var_alt;
 	float						p_var_long;

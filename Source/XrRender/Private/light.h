@@ -1,15 +1,13 @@
 #ifndef LAYERS_XRRENDER_LIGHT_H_INCLUDED
 #define LAYERS_XRRENDER_LIGHT_H_INCLUDED
 
-#include "../../xrcdb/ispatial.h"
-
 #if (RENDER==R_R2) || (RENDER==R_R3) || (RENDER==R_R4)
 #	include "light_package.h"
 #	include "light_smapvis.h"
 #	include "light_GI.h"
 #endif //(RENDER==R_R2) || (RENDER==R_R3) || (RENDER==R_R4)
 
-class	light		:	public IRender_Light, public ISpatial
+class	light		:	public IRender_Light
 {
 public:
 	struct {

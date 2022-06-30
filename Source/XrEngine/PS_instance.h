@@ -1,12 +1,10 @@
 #ifndef _CPS_Instance_H_
 #define _CPS_Instance_H_
 
-#include "../xrcdb/ispatial.h"
 #include "isheduled.h"
 #include "irenderable.h"
 
 class ENGINE_API CPS_Instance	:
-	public ISpatial,
 	public ISheduled,
 	public IRenderable
 {

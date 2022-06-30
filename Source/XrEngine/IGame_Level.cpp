@@ -70,11 +70,6 @@ void IGame_Level::net_Stop			()
 //-------------------------------------------------------------------------------------------
 //extern CStatTimer				tscreate;
 
-static void 	build_callback	(Fvector* V, int Vcnt, CDB::TRI* T, int Tcnt, void* params)
-{
-	g_pGameLevel->Load_GameSpecific_CFORM( T, Tcnt );
-}
-
 BOOL IGame_Level::Load			(u32 dwNum) 
 {
 	SECUROM_MARKER_PERFORMANCE_ON(10)
@@ -100,7 +95,6 @@ BOOL IGame_Level::Load			(u32 dwNum)
 	// CForms
 //	g_pGamePersistent->LoadTitle	("st_loading_cform");
 	g_pGamePersistent->LoadTitle	();
-	ObjectSpace.Load			( build_callback );
 	//Sound->set_geometry_occ		( &Static );
 
 	pApp->LoadSwitch			();

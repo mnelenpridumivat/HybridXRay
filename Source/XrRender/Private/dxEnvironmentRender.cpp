@@ -6,8 +6,6 @@
 #include "../../xrEngine/environment.h"
 #include "../Private/ResourceManager.h"
 
-#include "../../xrEngine/xr_efflensflare.h"
-
 
 //////////////////////////////////////////////////////////////////////////
 // half box def
@@ -284,8 +282,6 @@ void dxEnvironmentRender::RenderSky(IEnvironment &env)
 	RCache.set_Z(TRUE);
  	env.eff_LensFlare->Render		(TRUE,FALSE,FALSE);
 	RCache.set_Z(FALSE);
-#else
-	env.eff_LensFlare->Render		(TRUE,FALSE,FALSE);
 #endif
 }
 

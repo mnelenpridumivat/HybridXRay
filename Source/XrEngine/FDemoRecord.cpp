@@ -46,16 +46,8 @@ void setup_lm_screenshot_matrices()
 
 Fbox get_level_screenshot_bound()
 {
-	Fbox res			=  g_pGameLevel->ObjectSpace.GetBoundingVolume();
-	if(g_pGameLevel->pLevel->section_exist("level_map"))
-	{
-		Fvector4 res2d = g_pGameLevel->pLevel->r_fvector4("level_map","bound_rect");
-		res.min.x = res2d.x;
-		res.min.z = res2d.y;
+	Fbox res;
 
-		res.max.x = res2d.z;
-		res.max.z = res2d.w;
-	}
 
 	return res;
 }
