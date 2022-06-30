@@ -10,7 +10,6 @@
 #include	"blenders\blender_recorder.h"
 #include	"../../xrEngine/ai_script_space.h"
 #include	"../../xrEngine/ai_script_lua_extension.h"
-#include	"luabind/return_reference_to_policy.hpp"
 
 #include	"dxRenderDeviceRender.h"
 #include "../../XrCore/doug_lea_allocator.h"

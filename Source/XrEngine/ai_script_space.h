@@ -26,8 +26,6 @@ extern "C" {
 }
 
 // Lua-bind
-#include <luabind/luabind.hpp>
-#include <luabind/object.hpp>
 
 #pragma warning(default:4244)
 #pragma warning(default:4995)
@@ -36,8 +34,6 @@ extern "C" {
 typedef lua_State CLuaVirtualMachine;
 
 struct SMemberCallback {
-	luabind::functor<void>	*m_lua_function;
-	luabind::object			*m_lua_object;
 	shared_str				m_method_name;
 };
 
