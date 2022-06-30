@@ -92,7 +92,6 @@ namespace PS
 		BOOL 				SaveActionList		(IWriter& F);
 		BOOL 				LoadActionList		(IReader& F);
 	// execute
-		void				ExecuteAnimate		(PAPI::Particle *particles, u32 p_cnt, float dt);
         void				ExecuteCollision	(PAPI::Particle *particles, u32 p_cnt, float dt, CParticleEffect* owner, CollisionCallback cb);
 	public:
                             CPEDef				();

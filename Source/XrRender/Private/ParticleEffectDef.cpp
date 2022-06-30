@@ -11,7 +11,6 @@
 #endif
 
 //---------------------------------------------------------------------------
-using namespace PAPI;
 using namespace PS;
 
 //------------------------------------------------------------------------------
@@ -102,75 +101,9 @@ void CPEDef::pTimeLimit(float time_limit)
 	m_fTimeLimit		= time_limit;
 }
 */
-void CPEDef::ExecuteAnimate(Particle *particles, u32 p_cnt, float dt)
-{
-	float speedFac = m_Frame.m_fSpeed * dt;
-	for(u32 i = 0; i < p_cnt; i++){
-		Particle &m = particles[i];
-		float f						= (float(m.frame)/255.f+((m.flags.is(Particle::ANIMATE_CCW))?-1.f:1.f)*speedFac);
-		if (f>m_Frame.m_iFrameCount)f-=m_Frame.m_iFrameCount;
-		if (f<0.f)					f+=m_Frame.m_iFrameCount;
-		m.frame						= (u16)iFloor(f*255.f);
-	}
-}
 
 void CPEDef::ExecuteCollision(PAPI::Particle* particles, u32 p_cnt, float dt, CParticleEffect* owner, CollisionCallback cb)
 {
-	pVector pt,n;
-	// Must traverse list in reverse order so Remove will work
-	for(int i = p_cnt-1; i >= 0; i--){
-		Particle &m = particles[i];
-
-		bool pick_needed;
-		int pick_cnt=0;
-		do{		
-			pick_needed = false;
-			Fvector 	dir;
-			dir.sub		(m.pos,m.posB);
-			float dist 	= dir.magnitude();
-			if (dist>=EPS){
-				dir.div	(dist);
-#ifdef REDITOR                
-				if (Tools->RayPick(m.posB,dir,dist,&pt,&n)){
-#else
-				collide::rq_result	RQ;
-                collide::rq_target	RT = m_Flags.is(dfCollisionDyn)?collide::rqtBoth:collide::rqtStatic;
-				if (g_pGameLevel->ObjectSpace.RayPick(m.posB,dir,dist,RT,RQ,NULL)){	
-					pt.mad	(m.posB,dir,RQ.range);
-					if (RQ.O){
-						n.set(0.f,1.f,0.f);
-					}else{
-						CDB::TRI*	T		=  	g_pGameLevel->ObjectSpace.GetStaticTris()+RQ.element;
-						Fvector*	verts	=	g_pGameLevel->ObjectSpace.GetStaticVerts();
-						n.mknormal(verts[T->verts[0]],verts[T->verts[1]],verts[T->verts[2]]);
-					}
-#endif
-					pick_cnt++;
-					if (cb&&(pick_cnt==1)) if (!cb(owner,m,pt,n)) break;
-					if (m_Flags.is(dfCollisionDel)){ 
-	                   	ParticleManager()->RemoveParticle(owner->m_HandleEffect,i);
-					}else{
-						// Compute tangential and normal components of velocity
-						float nmag = m.vel * n;
-						pVector vn(n * nmag); 	// Normal Vn = (V.N)N
-						pVector vt(m.vel - vn);	// Tangent Vt = V - Vn
-
-						// Compute _new velocity heading out:
-						// Don't apply friction if tangential velocity < cutoff
-						if(vt.length2() <= m_fCollideSqrCutoff){
-							m.vel = vt - vn * m_fCollideResilience;
-						}else{
-							m.vel = vt * m_fCollideOneMinusFriction - vn * m_fCollideResilience;
-						}
-						m.pos	= m.posB + m.vel * dt; 
-						pick_needed = true;
-					}
-				}
-			}else{
-				m.pos	= m.posB;
-			}
-		}while(pick_needed&&(pick_cnt<2));
-	}
 }
 
 //------------------------------------------------------------------------------

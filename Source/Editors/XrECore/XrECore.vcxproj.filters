@@ -299,9 +299,6 @@
     <ClCompile Include="..\..\XrRender\Private\ParticleEffect.cpp">
       <Filter>Render</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\XrRender\Private\ParticleGroup.cpp">
-      <Filter>Render</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\XrRender\Private\PSLibrary.cpp">
       <Filter>Render</Filter>
     </ClCompile>

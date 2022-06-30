@@ -96,7 +96,8 @@ void dxEnvironmentRender::Copy(IEnvironmentRender &_in)
 
 particles_systems::library_interface const& dxEnvironmentRender::particles_systems_library()
 {
-	return	(RImplementation.PSLibrary);
+	particles_systems::library_interface* inter = nullptr;
+	return *inter;
 }
 
 void dxEnvDescriptorMixerRender::Destroy()

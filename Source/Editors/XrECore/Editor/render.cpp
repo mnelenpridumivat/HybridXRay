@@ -32,11 +32,9 @@ CRender::~CRender	()
 
 void					CRender::Initialize				()
 {
-	PSLibrary.OnCreate			();
 }
 void					CRender::ShutDown				()
 {
-	PSLibrary.OnDestroy			();
 }
 
 void					CRender::OnDeviceCreate			()
@@ -138,18 +136,12 @@ IRender_DetailModel*	CRender::model_CreateDM(IReader* F)
 
 IRenderVisual*	CRender::model_CreatePE(LPCSTR name)
 {
-	PS::CPEDef*	source		= PSLibrary.FindPED	(name);
-	return Models->CreatePE	(source);
+	return nullptr;
 }
 
 IRenderVisual*			CRender::model_CreateParticles	(LPCSTR name)
 {
-	PS::CPEDef*	SE		= PSLibrary.FindPED	(name);
-	if (SE) return		Models->CreatePE	(SE);
-	else{
-		PS::CPGDef*	SG	= PSLibrary.FindPGD	(name);
-		return			SG?Models->CreatePG	(SG):0;
-	}
+	return nullptr;
 }
 
 void	CRender::rmNear		()

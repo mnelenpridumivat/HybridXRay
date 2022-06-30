@@ -69,7 +69,6 @@
     <ClCompile Include="..\..\XrRender\Private\ModelPool.cpp" />
     <ClCompile Include="..\..\XrRender\Private\ParticleEffect.cpp" />
     <ClCompile Include="..\..\XrRender\Private\ParticleEffectDef.cpp" />
-    <ClCompile Include="..\..\XrRender\Private\ParticleGroup.cpp" />
     <ClCompile Include="..\..\XrRender\Private\PSLibrary.cpp" />
     <ClCompile Include="..\..\XrRender\Private\ResourceManager.cpp" />
     <ClCompile Include="..\..\XrRender\Private\ResourceManager_Loader.cpp" />

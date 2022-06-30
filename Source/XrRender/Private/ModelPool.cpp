@@ -20,7 +20,6 @@
     #include "fvisual.h"
     #include "fprogressive.h"
     #include "ParticleEffect.h"
-    #include "ParticleGroup.h"
 	#include "fskinned.h"
     #include "fhierrarhyvisual.h"
     #include "SkeletonAnimated.h"
@@ -56,9 +55,6 @@ dxRender_Visual*	CModelPool::Instance_Create(u32 type)
 		break;
 	case MT_PARTICLE_EFFECT:
 		V	= xr_new<PS::CParticleEffect>	();
-		break;
-	case MT_PARTICLE_GROUP:
-		V	= xr_new<PS::CParticleGroup>	();
 		break;
 #ifndef REDITOR
 	case MT_LOD:
@@ -403,13 +399,6 @@ dxRender_Visual* CModelPool::CreatePE	(PS::CPEDef* source)
 	return V;
 }
 
-dxRender_Visual* CModelPool::CreatePG	(PS::CPGDef* source)
-{
-	PS::CParticleGroup* V	= (PS::CParticleGroup*)Instance_Create(MT_PARTICLE_GROUP);
-	V->Compile		(source);
-	return V;
-}
-
 void CModelPool::dump()
 {
 	Log	("--- model pool --- begin:");
@@ -569,19 +558,6 @@ void 	CModelPool::Render(dxRender_Visual* m_pVisual, const Fmatrix& mTransform, 
     	            RCache.set_xform_world	(mTransform);
         	        (*I)->Render		 	(m_fLOD);
                 }
-            }
-        }
-    }break;
-    case MT_PARTICLE_GROUP:{
-        PS::CParticleGroup* pG			= dynamic_cast<PS::CParticleGroup*>(m_pVisual); VERIFY(pG);
-//		if (_IsBoxVisible(m_pVisual,mTransform))
-        {
-            RCache.set_xform_world	  		(mTransform);
-            for (PS::CParticleGroup::SItemVecIt i_it=pG->items.begin(); i_it!=pG->items.end(); i_it++){
-                xr_vector<dxRender_Visual*>	visuals;
-                i_it->GetVisuals			(visuals);
-                for (xr_vector<dxRender_Visual*>::iterator it=visuals.begin(); it!=visuals.end(); it++)
-                    Render					(*it,Fidentity,priority,strictB2F,m_fLOD);
             }
         }
     }break;

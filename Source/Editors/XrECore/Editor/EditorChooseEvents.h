@@ -7,7 +7,6 @@
 #include "SkeletonAnimated.h"
 #include "ResourceManager.h"
 #include "ParticleEffect.h"
-#include "ParticleGroup.h"
 #include "defines.h"
 #include "EditObject.h"
 
@@ -230,56 +229,18 @@ namespace ChoseEvents
     //---------------------------------------------------------------------------
     void   FillPE(ChooseItemVec& items, void* param)
     {
-        for (PS::PEDIt E = ::RImplementation.PSLibrary.FirstPED(); E != ::RImplementation.PSLibrary.LastPED(); E++)items.push_back(SChooseItem(*(*E)->m_Name, "EFFECT"));
     }
     //---------------------------------------------------------------------------
     void   FillParticles(ChooseItemVec& items, void* param)
     {
-        for (PS::PEDIt E = ::RImplementation.PSLibrary.FirstPED(); E != ::RImplementation.PSLibrary.LastPED(); E++)items.push_back(SChooseItem(*(*E)->m_Name, "EFFECT"));
-        for (PS::PGDIt G = ::RImplementation.PSLibrary.FirstPGD(); G != ::RImplementation.PSLibrary.LastPGD(); G++)items.push_back(SChooseItem(*(*G)->m_Name, "GROUP"));
     }
 
     void   SelectPE(SChooseItem* item, PropItemVec& info_items)
     {
-        string64 	str;
-        u32 		i = 0;
-        PHelper().CreateCaption(info_items, "", "used in groups");
-        for (PS::PGDIt G = ::RImplementation.PSLibrary.FirstPGD(); G != ::RImplementation.PSLibrary.LastPGD(); ++G)
-        {
-            PS::CPGDef* def = (*G);
-            PS::CPGDef::EffectIt pe_it = def->m_Effects.begin();
-            PS::CPGDef::EffectIt pe_it_e = def->m_Effects.end();
-            for (; pe_it != pe_it_e; ++pe_it)
-            {
-                if ((*pe_it)->m_EffectName == item->name)
-                {
-                    xr_sprintf(str, sizeof(str), "%d", ++i);
-                    PHelper().CreateCaption(info_items, str, def->m_Name);
-                }
-            }
-        }
     }
 
     void   SelectPG(SChooseItem* item, PropItemVec& info_items)
     {
-        string64 	str;
-        u32 		i = 0;
-        PHelper().CreateCaption(info_items, "", "using effects");
-        for (PS::PGDIt G = ::RImplementation.PSLibrary.FirstPGD(); G != ::RImplementation.PSLibrary.LastPGD(); G++)
-        {
-            PS::CPGDef* def = (*G);
-            if (def->m_Name == item->name)
-            {
-                PS::CPGDef::EffectIt pe_it = def->m_Effects.begin();
-                PS::CPGDef::EffectIt pe_it_e = def->m_Effects.end();
-                for (; pe_it != pe_it_e; ++pe_it)
-                {
-                    xr_sprintf(str, sizeof(str), "%d", ++i);
-                    PHelper().CreateCaption(info_items, str, (*pe_it)->m_EffectName);
-                }
-                break;
-            }
-        }
     }
 
     //---------------------------------------------------------------------------

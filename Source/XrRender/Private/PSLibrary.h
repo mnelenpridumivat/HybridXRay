@@ -34,9 +34,7 @@ public:
     void				OnCreate		();
     void				OnDestroy		();
 
-    PS::CPEDef*			FindPED			(LPCSTR name);
     PS::PEDIt			FindPEDIt		(LPCSTR name);
-    PS::CPGDef*			FindPGD			(LPCSTR name);
     PS::PGDIt			FindPGDIt		(LPCSTR name);
 
     // get object properties methods
@@ -45,19 +43,11 @@ public:
     IC PS::PGDIt		FirstPGD		()	{return m_PGDs.begin();}
     IC PS::PGDIt		LastPGD			()	{return m_PGDs.end();}
 
-    PS::CPEDef*			AppendPED		(PS::CPEDef* src=0);
-    PS::CPGDef*			AppendPGD		(PS::CPGDef* src=0);
     void				Remove			(LPCSTR name);
     void				RenamePED		(PS::CPEDef* src, LPCSTR new_name);
-    void				RenamePGD		(PS::CPGDef* src, LPCSTR new_name);
 
     void				Reload			();
     bool				Save			();
-
-	virtual	PS::CPGDef const* const*	particles_group_begin	() const;
-	virtual	PS::CPGDef const* const*	particles_group_end		() const;
-	virtual	void						particles_group_next	(PS::CPGDef const* const*& iterator) const;
-	virtual	shared_str const&			particles_group_id		(PS::CPGDef const& particles_group) const;
 };
 
 #define PS_LIB_SIGN 			"PS_LIB"

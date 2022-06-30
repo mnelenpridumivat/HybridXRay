@@ -52,7 +52,6 @@ public:
 
 	// Data
 	CFrustum				ViewBase;
-	CPSLibrary				PSLibrary;
 
 	CModelPool* Models;
 public:

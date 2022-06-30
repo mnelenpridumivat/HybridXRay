@@ -133,6 +133,9 @@ namespace Object_tool
 
 			SaveSklDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
 
+			SaveDmDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
+			SaveDmDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + ".dm";
+
 			FILE_NAME = filename;
 
 			if (!Directory.Exists(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp"))
@@ -437,6 +440,8 @@ namespace Object_tool
 		{
 			if (SaveDmDialog.ShowDialog() == DialogResult.OK)
 			{
+				SaveDmDialog.InitialDirectory = "";
+
 				int code = StartEditor(EditorMode.ExportDM, TEMP_FILE_NAME, SaveDmDialog.FileName);
 				if (code == 0)
                     AutoClosingMessageBox.Show("Model succesfully saved.", "", 1000, MessageBoxIcon.Information);
