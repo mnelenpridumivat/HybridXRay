@@ -123,7 +123,6 @@ private:
 	u32								vb_stride;
 
 	// Pixel/Vertex constants
-	ALIGN(16)	R_constants			constants;
 	R_constant_table*				ctable;
 
 	// Shaders/State
@@ -233,15 +232,7 @@ public:
 #endif	//	USE_DX10
 	}
 
-#if defined(USE_DX10) || defined(USE_DX11)
-	IC	void						get_ConstantDirect	(shared_str& n, u32 DataSize, void** pVData, void** pGData, void** pPData);
-#else	//USE_DX10
-	IC	R_constant_array&			get_ConstantCache_Vertex	()			{ return constants.a_vertex;	}
-	IC	R_constant_array&			get_ConstantCache_Pixel		()			{ return constants.a_pixel;		}
-#endif	//	USE_DX10
-
 	// API
-	IC	void						set_xform			(u32 ID, const Fmatrix& M);
 	IC	void						set_xform_world		(const Fmatrix& M);
 	IC	void						set_xform_view		(const Fmatrix& M);
 	IC	void						set_xform_project	(const Fmatrix& M);
@@ -249,13 +240,10 @@ public:
 	IC	const Fmatrix&				get_xform_view		();
 	IC	const Fmatrix&				get_xform_project	();
 
-	IC	void						set_RT				(ID3DRenderTargetView* RT, u32 ID=0);
-	IC	void						set_ZB				(ID3DDepthStencilView* ZB);
 	IC	ID3DRenderTargetView*		get_RT				(u32 ID=0);
 	IC	ID3DDepthStencilView*		get_ZB				();
 
-	IC	void						set_Constants		(R_constant_table* C);
-	IC	void						set_Constants		(ref_ctable& C)						{ set_Constants(&*C);			}
+	IC	void						set_Constants		(ref_ctable& C)						{ 	}
 
 		void						set_Textures		(STextureList* T);
 	IC	void						set_Textures		(ref_texture_list& T)				{ set_Textures(&*T);			}
@@ -274,27 +262,16 @@ public:
 	ICF	void						set_States			(ID3DState* _state);
 	ICF	void						set_States			(ref_state& _state)					{ set_States(_state->state);	}
 
-#if defined(USE_DX10) || defined(USE_DX11)
-	ICF  void						set_Format			(SDeclaration* _decl);
-#else	//	USE_DX10
-	ICF  void						set_Format			(IDirect3DVertexDeclaration9* _decl);
-#endif	//	USE_DX10
-
-	ICF void						set_PS				(ID3DPixelShader* _ps, LPCSTR _n=0);
-	ICF void						set_PS				(ref_ps& _ps)						{ set_PS(_ps->ps,_ps->cName.c_str());				}
+	ICF void						set_PS				(ref_ps& _ps)						{ 	}
 
 #if defined(USE_DX10) || defined(USE_DX11)
-	ICF void						set_GS				(ID3DGeometryShader* _gs, LPCSTR _n=0);
 	ICF void						set_GS				(ref_gs& _gs)						{ set_GS(_gs->gs,_gs->cName.c_str());				}
 
 #	ifdef USE_DX11
-	ICF void						set_HS				(ID3D11HullShader* _hs, LPCSTR _n=0);
 	ICF void						set_HS				(ref_hs& _hs)						{ set_HS(_hs->sh,_hs->cName.c_str());				}
 
-	ICF void						set_DS				(ID3D11DomainShader* _ds, LPCSTR _n=0);
 	ICF void						set_DS				(ref_ds& _ds)						{ set_DS(_ds->sh,_ds->cName.c_str());				}
 
-	ICF void						set_CS				(ID3D11ComputeShader* _cs, LPCSTR _n=0);
 	ICF void						set_CS				(ref_cs& _cs)						{ set_CS(_cs->sh,_cs->cName.c_str());				}
 #	endif
 
@@ -306,42 +283,17 @@ public:
 	ICF	bool						is_TessEnabled		() {return false;}
 #endif
 
-	ICF void						set_VS				(ref_vs& _vs);
-#if defined(USE_DX10) || defined(USE_DX11)
-	ICF void						set_VS				(SVS* _vs);
-protected:	//	In DX10 we need input shader signature which is stored in ref_vs
-#endif	//	USE_DX10
-	ICF void						set_VS				(ID3DVertexShader* _vs, LPCSTR _n=0);
-#if defined(USE_DX10) || defined(USE_DX11)
-public:
-#endif	//	USE_DX10
 
-	ICF	void						set_Vertices		(ID3DVertexBuffer* _vb, u32 _vb_stride);
-	ICF	void						set_Indices			(ID3DIndexBuffer* _ib);
-	ICF void						set_Geometry		(SGeometry* _geom);
-	ICF void						set_Geometry		(ref_geom& _geom)					{	set_Geometry(&*_geom);		}
-	IC  void						set_Stencil			(u32 _enable, u32 _func=D3DCMP_ALWAYS, u32 _ref=0x00, u32 _mask=0x00, u32 _writemask=0x00, u32 _fail=D3DSTENCILOP_KEEP, u32 _pass=D3DSTENCILOP_KEEP, u32 _zfail=D3DSTENCILOP_KEEP);
-	IC  void						set_Z				(u32 _enable);
-	IC  void						set_ZFunc			(u32 _func);
-	IC  void						set_AlphaRef		(u32 _value);
-	IC  void						set_ColorWriteEnable(u32 _mask = D3DCOLORWRITEENABLE_RED | D3DCOLORWRITEENABLE_GREEN | D3DCOLORWRITEENABLE_BLUE | D3DCOLORWRITEENABLE_ALPHA);
-	IC  void						set_CullMode		(u32 _mode);
+	ICF void						set_Geometry		(ref_geom& _geom)					{}
 	IC  u32							get_CullMode		(){return cull_mode;}
 	void							set_ClipPlanes		(u32 _enable, Fplane*	_planes=NULL, u32 count=0);
 	void							set_ClipPlanes		(u32 _enable, Fmatrix*	_xform =NULL, u32 fmask=0xff);
-	IC	void						set_Scissor			(Irect*	rect=NULL);
 
 	// constants
 	ICF	ref_constant				get_c				(LPCSTR			n)													{ if (ctable)	return ctable->get(n);else return 0;}
 	ICF	ref_constant				get_c				(shared_str&	n)													{ if (ctable)	return ctable->get(n);else return 0;}
 
 	// constants - direct (fast)
-	ICF	void						set_c				(R_constant* C, const Fmatrix& A)									{ if (C)		constants.set(C,A);					}
-	ICF	void						set_c				(R_constant* C, const Fvector4& A)									{ if (C)		constants.set(C,A);					}
-	ICF	void						set_c				(R_constant* C, float x, float y, float z, float w)					{ if (C)		constants.set(C,x,y,z,w);			}
-	ICF	void						set_ca				(R_constant* C, u32 e, const Fmatrix& A)							{ if (C)		constants.seta(C,e,A);				}
-	ICF	void						set_ca				(R_constant* C, u32 e, const Fvector4& A)							{ if (C)		constants.seta(C,e,A);				}
-	ICF	void						set_ca				(R_constant* C, u32 e, float x, float y, float z, float w)			{ if (C)		constants.seta(C,e,x,y,z,w);		}
 #if defined(USE_DX10) || defined(USE_DX11)
 	ICF	void						set_c				(R_constant* C, float A)											{ if (C)		constants.set(C,A);					}
 	ICF	void						set_c				(R_constant* C, int A)												{ if (C)		constants.set(C,A);					}
@@ -349,35 +301,16 @@ public:
 
 
 	// constants - LPCSTR (slow)
-	ICF	void						set_c				(LPCSTR n, const Fmatrix& A)										{ if(ctable)	set_c	(&*ctable->get(n),A);		}
-	ICF	void						set_c				(LPCSTR n, const Fvector4& A)										{ if(ctable)	set_c	(&*ctable->get(n),A);		}
-	ICF	void						set_c				(LPCSTR n, float x, float y, float z, float w)						{ if(ctable)	set_c	(&*ctable->get(n),x,y,z,w);	}
-	ICF	void						set_ca				(LPCSTR n, u32 e, const Fmatrix& A)									{ if(ctable)	set_ca	(&*ctable->get(n),e,A);		}
-	ICF	void						set_ca				(LPCSTR n, u32 e, const Fvector4& A)								{ if(ctable)	set_ca	(&*ctable->get(n),e,A);		}
-	ICF	void						set_ca				(LPCSTR n, u32 e, float x, float y, float z, float w)				{ if(ctable)	set_ca	(&*ctable->get(n),e,x,y,z,w);}
 #if defined(USE_DX10) || defined(USE_DX11)
 	ICF	void						set_c				(LPCSTR n, float A)											{ if(ctable)	set_c	(&*ctable->get(n),A);		}
 	ICF	void						set_c				(LPCSTR n, int A)												{ if(ctable)	set_c	(&*ctable->get(n),A);		}
 #endif	//	USE_DX10
 
 	// constants - shared_str (average)
-	ICF	void						set_c				(shared_str& n, const Fmatrix& A)									{ if(ctable)	set_c	(&*ctable->get(n),A);			}
-	ICF	void						set_c				(shared_str& n, const Fvector4& A)									{ if(ctable)	set_c	(&*ctable->get(n),A);			}
-	ICF	void						set_c				(shared_str& n, float x, float y, float z, float w)					{ if(ctable)	set_c	(&*ctable->get(n),x,y,z,w);	}
-	ICF	void						set_ca				(shared_str& n, u32 e, const Fmatrix& A)							{ if(ctable)	set_ca	(&*ctable->get(n),e,A);		}
-	ICF	void						set_ca				(shared_str& n, u32 e, const Fvector4& A)							{ if(ctable)	set_ca	(&*ctable->get(n),e,A);		}
-	ICF	void						set_ca				(shared_str& n, u32 e, float x, float y, float z, float w)			{ if(ctable)	set_ca	(&*ctable->get(n),e,x,y,z,w);}
 #if defined(USE_DX10) || defined(USE_DX11)
 	ICF	void						set_c				(shared_str& n, float A)											{ if(ctable)	set_c	(&*ctable->get(n),A);		}
 	ICF	void						set_c				(shared_str& n, int A)												{ if(ctable)	set_c	(&*ctable->get(n),A);		}
 #endif	//	USE_DX10
-
-	ICF	void						Render				(D3DPRIMITIVETYPE T, u32 baseV, u32 startV, u32 countV, u32 startI, u32 PC);
-	ICF	void						Render				(D3DPRIMITIVETYPE T, u32 startV, u32 PC);
-
-#ifdef USE_DX11
-	ICF	void						Compute				(UINT ThreadGroupCountX, UINT ThreadGroupCountY, UINT ThreadGroupCountZ);
-#endif
 
 	// Device create / destroy / frame signaling
 	void							RestoreQuadIBData	();	// Igor: is used to test bug with rain, particles corruption
@@ -414,22 +347,6 @@ public:
 #endif
 
 	CBackend()						{	Invalidate(); };
-
-#if defined(USE_DX10) || defined(USE_DX11)
-private:
-	//	DirectX 10 internal functionality
-	//void CreateConstantBuffers();
-	//void DestroyConstantBuffers();
-	void	ApplyVertexLayout();
-	void	ApplyRTandZB();
-	void	ApplyPrimitieTopology( D3D_PRIMITIVE_TOPOLOGY Topology );
-	bool	CBuffersNeedUpdate(ref_cbuffer	buf1[MaxCBuffers], ref_cbuffer	buf2[MaxCBuffers], u32	&uiMin, u32	&uiMax);
-
-private:
-	ID3DBlob*				m_pInputSignature;
-
-	bool					m_bChangedRTorZB;
-#endif	//	USE_DX10
 };
 #pragma warning(pop)
 

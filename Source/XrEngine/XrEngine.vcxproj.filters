@@ -576,9 +576,6 @@
     <ClInclude Include="EventAPI.h">
       <Filter>Engine\Core</Filter>
     </ClInclude>
-    <ClInclude Include="ai_script_lua_extension.h">
-      <Filter>Engine\Core\Scripting</Filter>
-    </ClInclude>
     <ClInclude Include="ai_script_lua_space.h">
       <Filter>Engine\Core\Scripting</Filter>
     </ClInclude>
@@ -1116,9 +1113,6 @@
       <Filter>Engine\Core</Filter>
     </ClCompile>
     <ClCompile Include="_scripting.cpp">
-      <Filter>Engine\Core\Scripting</Filter>
-    </ClCompile>
-    <ClCompile Include="ai_script_lua_extension.cpp">
       <Filter>Engine\Core\Scripting</Filter>
     </ClCompile>
     <ClCompile Include="perlin.cpp">

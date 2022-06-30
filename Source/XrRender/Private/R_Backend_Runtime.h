@@ -7,21 +7,6 @@
 #include "sh_constant.h"
 #include "sh_rt.h"
 
-#if defined(USE_DX10) || defined(USE_DX11)
-#include "../DX10/dx10R_Backend_Runtime.h"
-#include "../DX10/StateManager/dx10State.h"
-#else	//	USE_DX10
-#include "../DX9/dx9R_Backend_Runtime.h"
-#endif	//	USE_DX10
-
-IC void		R_xforms::set_c_w			(R_constant* C)		{	c_w		= C;	RCache.set_c(C,m_w);	};
-IC void		R_xforms::set_c_invw		(R_constant* C)		{	c_invw	= C;	apply_invw();			};
-IC void		R_xforms::set_c_v			(R_constant* C)		{	c_v		= C;	RCache.set_c(C,m_v);	};
-IC void		R_xforms::set_c_p			(R_constant* C)		{	c_p		= C;	RCache.set_c(C,m_p);	};
-IC void		R_xforms::set_c_wv			(R_constant* C)		{	c_wv	= C;	RCache.set_c(C,m_wv);	};
-IC void		R_xforms::set_c_vp			(R_constant* C)		{	c_vp	= C;	RCache.set_c(C,m_vp);	};
-IC void		R_xforms::set_c_wvp			(R_constant* C)		{	c_wvp	= C;	RCache.set_c(C,m_wvp);	};
-
 IC	void	CBackend::set_xform_world	(const Fmatrix& M)
 { 
 	xforms.set_W(M);	
@@ -94,7 +79,6 @@ IC void CBackend::set_Element			(ShaderElement* S, u32	pass)
 	SPass&	P		= *(S->passes[pass]);
 	set_States		(P.state);
 	set_PS			(P.ps);
-	set_VS			(P.vs);
 #if defined(USE_DX10) || defined(USE_DX11)
 	set_GS			(P.gs);
 #ifdef USE_DX11

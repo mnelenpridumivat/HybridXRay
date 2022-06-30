@@ -38,8 +38,6 @@
 #include "XrISEAbstract.h"
 extern ENGINE_API CInifile *pGameIni;
 
-#include "lua/library_linkage.h"
-
 #ifndef DEBUG
 #	define LUABIND_NO_ERROR_CHECKING
 #endif

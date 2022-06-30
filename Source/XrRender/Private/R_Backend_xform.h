@@ -31,13 +31,6 @@ public:
 	IC const Fmatrix&	get_W	()					{ return m_w;	}
 	IC const Fmatrix&	get_V	()					{ return m_v;	}
 	IC const Fmatrix&	get_P	()					{ return m_p;	}
-	IC void			set_c_w		(R_constant* C);
-	IC void			set_c_invw	(R_constant* C);
-	IC void			set_c_v		(R_constant* C);
-	IC void			set_c_p		(R_constant* C);
-	IC void			set_c_wv	(R_constant* C);
-	IC void			set_c_vp	(R_constant* C);
-	IC void			set_c_wvp	(R_constant* C);
 private:
 	void			apply_invw	();
 };

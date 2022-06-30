@@ -71,25 +71,17 @@ CEditorRenderDevice::~CEditorRenderDevice(){
 #include "../../../xrAPI/xrAPI.h"
 #include "../../../xrRender/Private/dxRenderFactory.h"
 #include "../../../xrRender/Private/dxUIRender.h"
-#include "../../../xrRender/Private/dxDebugRender.h"
 typedef void __cdecl ttapi_Done_func(void);
 void CEditorRenderDevice::Initialize()
 {
 //	m_Camera.Reset();
-	{
-		hPSGP = LoadLibrary("xrCPU_Pipe.dll");
-		R_ASSERT(hPSGP);
-		xrBinder* bindCPU = (xrBinder*)GetProcAddress(hPSGP, "xrBind_PSGP");	R_ASSERT(bindCPU);
-		bindCPU(&PSGP, CPU::ID.feature);
-	}
-
     m_DefaultMat.set(1,1,1);
 //	Surface_Init();
 
 	RenderFactory = &RenderFactoryImpl;
 	UIRender = &UIRenderImpl;
 #ifdef DEBUG
-	DRender = &DebugRenderImpl;
+	DRender = nullptr;
 #endif
 
 	// game materials
@@ -132,17 +124,6 @@ void CEditorRenderDevice::ShutDown()
 	// destroy context
 	Destroy				();
 	xr_delete			(pSystemFont);
-
-	if (hPSGP)
-	{
-		ttapi_Done_func* ttapi_Done = (ttapi_Done_func*)GetProcAddress(hPSGP, "ttapi_Done");	R_ASSERT(ttapi_Done);
-		if (ttapi_Done)
-			ttapi_Done();
-
-		FreeLibrary(hPSGP);
-		hPSGP = 0;
-		ZeroMemory(&PSGP, sizeof(PSGP));
-	}
 	// destroy shaders
 //	PSLib.xrShutDown	();
 }
@@ -419,24 +400,11 @@ void CEditorRenderDevice::FrameMove()
 
 void CEditorRenderDevice::DP(D3DPRIMITIVETYPE pt, ref_geom geom, u32 vBase, u32 pc)
 {
-	ref_shader S 			= m_CurrentShader?m_CurrentShader:m_WireShader;
-    u32 dwRequired			= S->E[0]->passes.size();
-    RCache.set_Geometry		(geom);
-    for (u32 dwPass = 0; dwPass<dwRequired; dwPass++){
-    	RCache.set_Shader	(S,dwPass);
-		RCache.Render		(pt,vBase,pc);
-    }
+
 }
 
 void CEditorRenderDevice::DIP(D3DPRIMITIVETYPE pt, ref_geom geom, u32 baseV, u32 startV, u32 countV, u32 startI, u32 PC)
 {
-	ref_shader S 			= m_CurrentShader?m_CurrentShader:m_WireShader;
-    u32 dwRequired			= S->E[0]->passes.size();
-    RCache.set_Geometry		(geom);
-    for (u32 dwPass = 0; dwPass<dwRequired; dwPass++){
-    	RCache.set_Shader	(S,dwPass);
-		RCache.Render		(pt,baseV,startV,countV,startI,PC);
-    }
 }
 
 void CEditorRenderDevice::ReloadTextures()

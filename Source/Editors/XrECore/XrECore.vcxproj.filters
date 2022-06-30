@@ -344,9 +344,6 @@
     <ClCompile Include="..\..\XrRender\Private\R_Backend_DBG.cpp">
       <Filter>Render</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\XrRender\DX9\dx9r_constants_cache.cpp">
-      <Filter>Render</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\XrRender\Private\r_constants.cpp">
       <Filter>Render</Filter>
     </ClCompile>
@@ -407,33 +404,6 @@
     <ClCompile Include="..\..\XrRender\Private\stats_manager.cpp">
       <Filter>Render</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\XrRender\R1_PC\BlenderDefault.cpp">
-      <Filter>Render</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\XrRender\R1_PC\Blender_default_aref.cpp">
-      <Filter>Render</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\XrRender\R1_PC\Blender_Vertex.cpp">
-      <Filter>Render</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\XrRender\R1_PC\Blender_Vertex_aref.cpp">
-      <Filter>Render</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\XrRender\R1_PC\Blender_Screen_GRAY.cpp">
-      <Filter>Render</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\XrRender\R1_PC\Blender_Blur.cpp">
-      <Filter>Render</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\XrRender\R1_PC\Blender_LaEmB.cpp">
-      <Filter>Render</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\XrRender\R1_PC\Blender_Model.cpp">
-      <Filter>Render</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\XrRender\R1_PC\Blender_Shadow_World.cpp">
-      <Filter>Render</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\XrRender\Private\R_Backend.cpp">
       <Filter>Render</Filter>
     </ClCompile>
@@ -446,7 +416,6 @@
     <ClCompile Include="Editor\UISoundEditorForm.cpp">
       <Filter>Editor</Filter>
     </ClCompile>
-    <ClCompile Include="StbImage.cpp" />
     <ClCompile Include="Editor\UIImageEditorForm.cpp">
       <Filter>Editor</Filter>
     </ClCompile>
@@ -498,9 +467,6 @@
     <ClCompile Include="..\..\XrRender\Private\dxConsoleRender.cpp">
       <Filter>Render\Interface</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\XrRender\Private\dxDebugRender.cpp">
-      <Filter>Render\Interface</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\XrRender\Private\dxEnvironmentRender.cpp">
       <Filter>Render\Interface</Filter>
     </ClCompile>
@@ -525,16 +491,10 @@
     <ClCompile Include="Engine\Image.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\XrCPU_Pipe\xrSkin2W.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\guid_generator.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="..\..\XrRender\Private\ResourceManager_Scripting.cpp">
-      <Filter>Render</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\XrEngine\ai_script_lua_extension.cpp">
       <Filter>Render</Filter>
     </ClCompile>
     <ClCompile Include="LuaMemoryController.cpp" />
@@ -798,9 +758,6 @@
       <Filter>Render\Interface</Filter>
     </ClInclude>
     <ClInclude Include="..\..\XrRender\Private\dxConsoleRender.h">
-      <Filter>Render\Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\XrRender\Private\dxDebugRender.h">
       <Filter>Render\Interface</Filter>
     </ClInclude>
     <ClInclude Include="..\..\XrRender\Private\dxEnvironmentRender.h">

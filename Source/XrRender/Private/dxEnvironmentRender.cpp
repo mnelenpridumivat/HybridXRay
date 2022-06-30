@@ -268,7 +268,6 @@ void dxEnvironmentRender::RenderSky(IEnvironment &env)
 	RCache.set_Shader			(sh_2sky);
 //	RCache.set_Textures			(&env.CurrentEnv->sky_r_textures);
 	RCache.set_Textures			(&mixRen.sky_r_textures);
-	RCache.Render				(D3DPT_TRIANGLELIST,v_offset,0,12,i_offset,20);
 
 	// Sun
  	::Render->rmNormal			();
@@ -287,42 +286,6 @@ void dxEnvironmentRender::RenderSky(IEnvironment &env)
 
 void dxEnvironmentRender::RenderClouds(IEnvironment &env)
 {
-	::Render->rmFar				();
-
-	Fmatrix						mXFORM, mScale;
-	mScale.scale				(10,0.4f,10);
-	mXFORM.rotateY				(env.CurrentEnv->sky_rotation);
-	mXFORM.mulB_43				(mScale);
-	mXFORM.translate_over		(Device->vCameraPosition);
-
-	Fvector wd0,wd1;
-	Fvector4 wind_dir;
-	wd0.setHP					(PI_DIV_4,0);
-	wd1.setHP					(PI_DIV_4+PI_DIV_8,0);
-	wind_dir.set				(wd0.x,wd0.z,wd1.x,wd1.z).mul(0.5f).add(0.5f).mul(255.f);
-	u32		i_offset,v_offset;
-	u32		C0					= color_rgba(iFloor(wind_dir.x),iFloor(wind_dir.y),iFloor(wind_dir.w),iFloor(wind_dir.z));
-	u32		C1					= color_rgba(iFloor(env.CurrentEnv->clouds_color.x*255.f),iFloor(env.CurrentEnv->clouds_color.y*255.f),iFloor(env.CurrentEnv->clouds_color.z*255.f),iFloor(env.CurrentEnv->clouds_color.w*255.f));
-
-	// Fill index buffer
-	u16* pib = RCache.Index.Lock(env.CloudsIndices.size(), i_offset);
-	CopyMemory					(pib,&env.CloudsIndices.front(),env.CloudsIndices.size()*sizeof(u16));
-	RCache.Index.Unlock			(env.CloudsIndices.size());
-
-	// Fill vertex buffer
-	v_clouds* pv				= (v_clouds*)	RCache.Vertex.Lock	(env.CloudsVerts.size(),clouds_geom.stride(),v_offset);
-	for (FvectorIt it=env.CloudsVerts.begin(); it!=env.CloudsVerts.end(); it++,pv++)
-		pv->set					(*it,C0,C1);
-	RCache.Vertex.Unlock		(env.CloudsVerts.size(),clouds_geom.stride());
-
-	// Render
-	RCache.set_xform_world		(mXFORM);
-	RCache.set_Geometry			(clouds_geom);
-	RCache.set_Shader			(clouds_sh);
-	dxEnvDescriptorMixerRender	&mixRen = *(dxEnvDescriptorMixerRender*)&*env.CurrentEnv->m_pDescriptorMixer;
-	RCache.set_Textures			(&mixRen.clouds_r_textures);
-	RCache.Render				(D3DPT_TRIANGLELIST,v_offset,0,env.CloudsVerts.size(),i_offset,env.CloudsIndices.size()/3);
-	::Render->rmNormal			();
 }
 
 void dxEnvironmentRender::OnDeviceCreate()

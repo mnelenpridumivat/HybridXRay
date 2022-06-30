@@ -37,25 +37,7 @@ void CBackend::OnFrameEnd	()
 
 void CBackend::OnFrameBegin	()
 {
-//#ifndef DEDICATED_SERVER
-#ifndef REDITOR
-	if (!g_dedicated_server)
-#endif    
-	{
-		PGO					(Msg("PGO:*****frame[%d]*****",Device->dwFrame));
-#if defined(USE_DX10) || defined(USE_DX11)
-		Invalidate();
-		//	DX9 sets base rt nd base zb by default
-		RImplementation.rmNormal();
-		set_RT				(HW.pBaseRT);
-		set_ZB				(HW.pBaseZB);
-#endif	//	USE_DX10
-		Memory.mem_fill		(&stat,0,sizeof(stat));
-		Vertex.Flush		();
-		Index.Flush			();
-		set_Stencil			(FALSE);
-	}
-//#endif
+
 }
 
 void CBackend::Invalidate	()

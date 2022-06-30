@@ -24,7 +24,6 @@ class ECORE_API CEditorRenderDevice :
 {
     friend class 			CUI_Camera;
     friend class 			TUI;
-	HMODULE					hPSGP;
     float 					m_fNearer;
 
 	//u32						Timer_MM_Delta;
@@ -194,9 +193,6 @@ enum {
 
 #define		REQ_CREATE()	if (!EDevice->bReady)	return;
 #define		REQ_DESTROY()	if (EDevice->bReady)	return;
-
-#include "../../../xrCPU_Pipe/xrCPU_Pipe.h"
-ENGINE_API extern xrDispatchTable	PSGP;
 
 #include "../../../xrRender/Private/R_Backend_Runtime.h"
 

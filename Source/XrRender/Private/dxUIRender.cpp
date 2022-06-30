@@ -27,8 +27,6 @@ void dxUIRender::SetShader(IUIShader &shader)
 
 void dxUIRender::SetAlphaRef(int aref)
 {
-	//CHK_DX(HW.pDevice->SetRenderState(D3DRS_ALPHAREF,aref));
-	RCache.set_AlphaRef(aref);
 }
 /*
 void dxUIRender::StartTriList(u32 iMaxVerts)
@@ -139,12 +137,6 @@ void dxUIRender::FlushLineList()
 */
 void dxUIRender::SetScissor(Irect* rect)
 {
-#if (RENDER == R_R3) || (RENDER == R_R4)
-	RCache.set_Scissor(rect);
-	StateManager.OverrideScissoring( rect?true:false, TRUE );
-#else	//	(RENDER == R_R3) || (RENDER == R_R4)
-	RCache.set_Scissor(rect);
-#endif	//	(RENDER == R_R3) || (RENDER == R_R4)
 }
 
 void dxUIRender::GetActiveTextureResolution(Fvector2 &res)
@@ -222,67 +214,13 @@ void dxUIRender::StartPrimitive(u32 iMaxVerts, ePrimitiveType primType, ePointTy
 
 void dxUIRender::FlushPrimitive()
 {
-	u32 primCount					= 0;
-	_D3DPRIMITIVETYPE d3dPrimType	= D3DPT_FORCE_DWORD;
-	std::ptrdiff_t p_cnt			= 0;
-
-	switch(m_PointType)
-	{
-	case pttLIT:
-		p_cnt						= LIT_pv-LIT_start_pv;
-		VERIFY(u32(p_cnt)<=m_iMaxVerts);
-
-		RCache.Vertex.Unlock		(u32(p_cnt),hGeom_LIT.stride());
-		RCache.set_Geometry	 		(hGeom_LIT);
-		break;
-	case pttTL:
-		p_cnt						= TL_pv-TL_start_pv;
-		VERIFY(u32(p_cnt)<=m_iMaxVerts);
-
-		RCache.Vertex.Unlock		(u32(p_cnt),hGeom_TL.stride());
-		RCache.set_Geometry	 		(hGeom_TL);
-		break;
-	default:
-		NODEFAULT;
-	}
-
-	//	Update data for primitive type
-	switch(PrimitiveType)
-	{
-	case ptTriStrip:
-		primCount = (u32)(p_cnt-2);
-		d3dPrimType = D3DPT_TRIANGLESTRIP;
-		break;
-	case ptTriList:
-		primCount = (u32)(p_cnt/3);
-		d3dPrimType = D3DPT_TRIANGLELIST;
-		break;
-	case ptLineStrip:
-		primCount = (u32)(p_cnt-1);
-		d3dPrimType = D3DPT_LINESTRIP;
-		break;
-	case ptLineList:
-		primCount = (u32)(p_cnt/2);
-		d3dPrimType = D3DPT_LINELIST;
-		break;
-	default:
-		NODEFAULT;
-	}
-
-	if (primCount>0) 
-		RCache.Render(d3dPrimType,vOffset,primCount);
-
-	PrimitiveType	= ptNone;
-	m_PointType		= pttNone;
 }
 
 void dxUIRender::CacheSetXformWorld(const Fmatrix& M)
 {
-	RCache.set_xform_world(M);
 }
 
 void dxUIRender::CacheSetCullMode(CullMode m)
 {
-	RCache.set_CullMode	(CULL_NONE+m);
 }
 

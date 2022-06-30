@@ -1,15 +1,12 @@
 #include "stdafx.h"
 #pragma hdrstop
 
-#include <lua/library_linkage.h>
-
 #include	"../../xrEngine/Render.h"
 #include	"ResourceManager.h"
 #include	"tss.h"
 #include	"blenders\blender.h"
 #include	"blenders\blender_recorder.h"
 #include	"../../xrEngine/ai_script_space.h"
-#include	"../../xrEngine/ai_script_lua_extension.h"
 
 #include	"dxRenderDeviceRender.h"
 #include "../../XrCore/doug_lea_allocator.h"
@@ -86,8 +83,6 @@ public:
 
 void LuaLog(LPCSTR caMessage)
 {
-	MDB;	
-	Lua::LuaOut	(Lua::eLuaMessageTypeMessage,"%s",caMessage);
 }
 void LuaError(lua_State* L)
 {

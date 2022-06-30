@@ -16,22 +16,11 @@
 
 //#define LUABIND_NO_EXCEPTIONS
 
-extern "C" {
-	//#define BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION
-
-	#include <lua/lua.h>
-	#include <lua/lualib.h>
-	#include <lua/lauxlib.h>
-//	#include <lua/luajit.h>
-}
-
 // Lua-bind
 
 #pragma warning(default:4244)
 #pragma warning(default:4995)
 #pragma warning(default:4267)
-
-typedef lua_State CLuaVirtualMachine;
 
 struct SMemberCallback {
 	shared_str				m_method_name;

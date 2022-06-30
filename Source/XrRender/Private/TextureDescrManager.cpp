@@ -12,7 +12,6 @@ public:
 	cl_dt_scaler		(float s) : scale(s)	{};
 	virtual void setup	(R_constant* C)
 	{
-		RCache.set_c	(C,scale,scale,scale,1/r__dtex_range);
 	}
 };
 
