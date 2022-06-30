@@ -11,7 +11,7 @@
 // argv[5] - object scale
 
 extern ECORE_API BOOL g_force16BitTransformQuant;
-extern ECORE_API BOOL g_forceNoCompressTransformQuant;
+extern ECORE_API BOOL g_forceFloatTransformQuant;
 
 int iReaderPos = 0;
 
@@ -175,7 +175,7 @@ int main(int argc, char** argv)
     if (flags & exf16Bit)
         g_force16BitTransformQuant = true;
     else if (flags & exfNoCompress)
-        g_forceNoCompressTransformQuant = true;
+        g_forceFloatTransformQuant = true;
 
     if (flags & exfMakeProgressive)
         ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoProgressive, TRUE);
