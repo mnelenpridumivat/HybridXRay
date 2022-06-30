@@ -8,7 +8,6 @@
 #endif
 
 #include "../../xrEngine/tntQAVI.h"
-#include "../../xrEngine/xrTheora_Surface.h"
 
 #include "dxRenderDeviceRender.h"
 
@@ -31,7 +30,6 @@ CTexture::CTexture		()
 {
 	pSurface			= NULL;
 	pAVI				= NULL;
-	pTheora				= NULL;
 	desc_cache			= 0;
 	seqMSPF				= 0;
 	flags.MemoryUsage	= 0;
@@ -67,8 +65,7 @@ ID3DBaseTexture*	CTexture::surface_get	()
 
 void CTexture::PostLoad	()
 {
-	if (pTheora)				bind		= fastdelegate::FastDelegate1<u32>(this,&CTexture::apply_theora);
-	else if (pAVI)				bind		= fastdelegate::FastDelegate1<u32>(this,&CTexture::apply_avi);
+	if (pAVI)				bind		= fastdelegate::FastDelegate1<u32>(this,&CTexture::apply_avi);
 	else if (!seqDATA.empty())	bind		= fastdelegate::FastDelegate1<u32>(this,&CTexture::apply_seq);
 	else						bind		= fastdelegate::FastDelegate1<u32>(this,&CTexture::apply_normal);
 }
@@ -81,27 +78,6 @@ void CTexture::apply_load	(u32 dwStage)	{
 
 void CTexture::apply_theora	(u32 dwStage)
 {
-	if (pTheora->Update(m_play_time!=0xFFFFFFFF?m_play_time:Device->dwTimeContinual))
-    {
-		R_ASSERT(D3DRTYPE_TEXTURE == pSurface->GetType());
-		ID3DTexture2D*	T2D		= (ID3DTexture2D*)pSurface;
-		D3DLOCKED_RECT		R;
-		RECT rect;
-		rect.left			= 0;
-		rect.top			= 0;
-		rect.right			= pTheora->Width(true);
-		rect.bottom			= pTheora->Height(true);
-
-		u32 _w				= pTheora->Width(false);
-
-		R_CHK				(T2D->LockRect(0,&R,&rect,0));
-		R_ASSERT			(R.Pitch == int(pTheora->Width(false)*4));
-		int _pos			= 0;
-		pTheora->DecompressFrame((u32*)R.pBits, _w - rect.right, _pos);
-		VERIFY				(u32(_pos) == rect.bottom*_w);
-		R_CHK				(T2D->UnlockRect(0));
-	}
-	CHK_DX(HW.pDevice->SetTexture(dwStage,pSurface));
 };
 void CTexture::apply_avi	(u32 dwStage)	
 {
@@ -172,39 +148,6 @@ void CTexture::Load		()
 #ifndef REDITOR
 		if (FS.exist(fn,"$game_textures$",*cName,".ogm"))
 		{
-			// AVI
-			pTheora		= xr_new<CTheoraSurface>();
-			m_play_time	= 0xFFFFFFFF;
-
-			if (!pTheora->Load(fn)) 
-			{
-				xr_delete(pTheora);
-				FATAL				("Can't open video stream");
-			} 
-			else 
-			{
-				flags.MemoryUsage	= pTheora->Width(true)*pTheora->Height(true)*4;
-				BOOL bstop_at_end	= (0!=strstr(cName.c_str(), "intro\\")) || (0!=strstr(cName.c_str(), "outro\\"));
-				pTheora->Play		(!bstop_at_end, Device->dwTimeContinual);
-
-				// Now create texture
-				ID3DTexture2D*	pTexture = 0;
-				u32 _w = pTheora->Width(false);
-				u32 _h = pTheora->Height(false);
-
-				HRESULT hrr = HW.pDevice->CreateTexture(
-					_w, _h, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &pTexture, NULL );
-
-				pSurface = pTexture;
-				if (FAILED(hrr))
-				{
-					FATAL		("Invalid video stream");
-					R_CHK		(hrr);
-					xr_delete	(pTheora);
-					pSurface	= 0;
-				}
-
-			}
 		} 
 		else
 #endif
@@ -319,7 +262,6 @@ void CTexture::Unload	()
 	_RELEASE								(pSurface);
 
 	xr_delete		(pAVI);
-	xr_delete		(pTheora);
 
 	bind			= fastdelegate::FastDelegate1<u32>(this,&CTexture::apply_load);
 }
@@ -336,20 +278,17 @@ void CTexture::desc_update	()
 
 void CTexture::video_Play		(BOOL looped, u32 _time)	
 { 
-	if (pTheora) pTheora->Play	(looped,(_time!=0xFFFFFFFF)?(m_play_time=_time):Device->dwTimeContinual);
 }
 
 void CTexture::video_Pause		(BOOL state)
 {
-	if (pTheora) pTheora->Pause	(state); 
 }
 
 void CTexture::video_Stop			()				
 { 
-	if (pTheora) pTheora->Stop(); 
 }
 
 BOOL CTexture::video_IsPlaying	()				
 { 
-	return (pTheora)?pTheora->IsPlaying():FALSE; 
+	return FALSE;
 }

@@ -82,7 +82,6 @@ public:	//	Public class members (must be encapsulated furthur)
 
 
 	CAviPlayerCustom*					pAVI;
-	CTheoraSurface*						pTheora;
 	float								m_material;
 	shared_str							m_bumpmap;
 

@@ -338,9 +338,6 @@
     <ClInclude Include="xrLevel.h" />
     <ClInclude Include="xrSASH.h" />
     <ClInclude Include="xrSheduler.h" />
-    <ClInclude Include="xrTheora_Stream.h" />
-    <ClInclude Include="xrTheora_Surface.h" />
-    <ClInclude Include="xrTheora_Surface_mmx.h" />
     <ClInclude Include="xr_collide_form.h" />
     <ClInclude Include="xr_efflensflare.h" />
     <ClInclude Include="xr_input.h" />
@@ -485,14 +482,6 @@
     <ClCompile Include="XrISEAbstract.cpp" />
     <ClCompile Include="xrSASH.cpp" />
     <ClCompile Include="xrSheduler.cpp" />
-    <ClCompile Include="xrTheora_Stream.cpp" />
-    <ClCompile Include="xrTheora_Surface.cpp" />
-    <ClCompile Include="xrTheora_Surface_mmx.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="xr_collide_form.cpp" />
     <ClCompile Include="xr_efflensflare.cpp" />
     <ClCompile Include="Xr_input.cpp" />
@@ -528,9 +517,6 @@
   <ItemGroup>
     <ProjectReference Include="..\External\Luabind\Luabind.vcxproj">
       <Project>{18c37994-f2f2-46c0-bd55-bc738e8b9d89}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\External\Ogg\Ogg.vcxproj">
-      <Project>{490c4173-e321-4e03-8e09-0475d7b91307}</Project>
     </ProjectReference>
     <ProjectReference Include="..\External\OpenAutomate\OpenAutomate.vcxproj">
       <Project>{200accb3-758b-4118-a10a-32eff361ae64}</Project>

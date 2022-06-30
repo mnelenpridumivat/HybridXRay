@@ -19,9 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="audio.cpp" />
     <ClCompile Include="CreateDX.cpp" />
-    <ClCompile Include="encode.cpp" />
     <ClCompile Include="ETools.cpp" />
     <ClCompile Include="ETools_cm.cpp" />
     <ClCompile Include="Intersect.cpp" />
@@ -46,7 +44,6 @@
     <ClInclude Include="BinaryHeap.h" />
     <ClInclude Include="D3DX_Wrapper.h" />
     <ClInclude Include="DLink.h" />
-    <ClInclude Include="encode.h" />
     <ClInclude Include="ETools.h" />
     <ClInclude Include="mesh.h" />
     <ClInclude Include="object.h" />

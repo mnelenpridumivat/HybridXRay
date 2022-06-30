@@ -13,7 +13,6 @@
 #include "stdafx.h"
 
 #include "platform.h"
-#include "encode.h"
 //#include "i18n.h"
 #include <stdlib.h>
 #include <ctype.h>

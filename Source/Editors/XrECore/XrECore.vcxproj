@@ -351,9 +351,6 @@
     <ProjectReference Include="..\..\External\Luabind\Luabind.vcxproj">
       <Project>{18c37994-f2f2-46c0-bd55-bc738e8b9d89}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\External\Ogg\Ogg.vcxproj">
-      <Project>{490c4173-e321-4e03-8e09-0475d7b91307}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\External\RedImage\RedImageTool\RedImageTool.vcxproj">
       <Project>{416e323e-3a4b-41a7-b0f5-7a8ec8517b11}</Project>
     </ProjectReference>
