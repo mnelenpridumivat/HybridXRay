@@ -40,8 +40,6 @@ const float particles_time		= .3f;
 CEffect_Rain::CEffect_Rain()
 {
 	state							= stIdle;
-	
-	snd_Ambient.create				("ambient\\rain",st_Effect,sg_Undefined);
 
 	//	Moced to p_Render constructor
 	/*
@@ -60,8 +58,6 @@ CEffect_Rain::CEffect_Rain()
 
 CEffect_Rain::~CEffect_Rain()
 {
-	snd_Ambient.destroy				();
-
 	// Cleanup
 	p_destroy						();
 	//	Moved to p_Render destructor
@@ -166,26 +162,13 @@ void	CEffect_Rain::OnFrame	()
 	case stIdle:		
 		if (factor<EPS_L)		return;
 		state					= stWorking;
-		snd_Ambient.play		(0,sm_Looped);
-		snd_Ambient.set_position(Fvector().set(0,0,0));
-		snd_Ambient.set_range	(source_offset,source_offset*2.f);
 	break;
 	case stWorking:
 		if (factor<EPS_L){
 			state				= stIdle;
-			snd_Ambient.stop	();
 			return;
 		}
 		break;
-	}
-
-	// ambient sound
-	if (snd_Ambient._feedback())
-	{
-//		Fvector					sndP;
-//		sndP.mad				(Device->vCameraPosition,Fvector().set(0,1,0),source_offset);
-//		snd_Ambient.set_position(sndP);
-		snd_Ambient.set_volume	(_max(0.1f,factor) * hemi_factor );
 	}
 }
 

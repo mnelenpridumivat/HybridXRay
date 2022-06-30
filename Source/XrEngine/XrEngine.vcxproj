@@ -232,7 +232,6 @@
     <ClInclude Include="EventAPI.h" />
     <ClInclude Include="FDemoPlay.h" />
     <ClInclude Include="FDemoRecord.h" />
-    <ClInclude Include="Feel_Sound.h" />
     <ClInclude Include="Feel_Touch.h" />
     <ClInclude Include="Feel_Vision.h" />
     <ClInclude Include="Fmesh.h" />

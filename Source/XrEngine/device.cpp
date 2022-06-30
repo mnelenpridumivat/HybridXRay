@@ -116,7 +116,6 @@ void CRenderDevice::End		(void)
 #endif // #ifdef INGAME_EDITOR
 	if (dwPrecacheFrame)
 	{
-		::Sound->set_master_volume	(0.f);
 		dwPrecacheFrame	--;
 //.		pApp->load_draw_internal	();
 		if (0==dwPrecacheFrame)
@@ -130,7 +129,6 @@ void CRenderDevice::End		(void)
 
 			if(precache_light) precache_light->set_active	(false);
 			if(precache_light) precache_light.destroy		();
-			::Sound->set_master_volume						(1.f);
 //			pApp->destroy_loading_shaders					();
 
 			m_pRender->ResourcesDestroyNecessaryTextures	();
@@ -527,8 +525,7 @@ void CRenderDevice::Pause(BOOL bOn, BOOL bTimer, BOOL bSound, LPCSTR reason)
 #endif // DEBUG
 		}
 	
-		if (bSound && ::Sound) {
-			snd_emitters_ =					::Sound->pause_emitters(true);
+		if (bSound) {
 #ifdef DEBUG
 //			Log("snd_emitters_[true]",snd_emitters_);
 #endif // DEBUG
@@ -545,7 +542,6 @@ void CRenderDevice::Pause(BOOL bOn, BOOL bTimer, BOOL bSound, LPCSTR reason)
 		{
 			if(snd_emitters_>0) //avoid crash
 			{
-				snd_emitters_ =				::Sound->pause_emitters(false);
 #ifdef DEBUG
 //				Log("snd_emitters_[false]",snd_emitters_);
 #endif // DEBUG

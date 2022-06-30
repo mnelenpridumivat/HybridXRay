@@ -443,7 +443,6 @@ class CCC_SND_Restart : public IConsole_Command
 public:
 	CCC_SND_Restart(LPCSTR N) : IConsole_Command(N) { bEmptyArgsHandled = TRUE; };
 	virtual void Execute(LPCSTR args) {
-		Sound->_restart();
 	}
 };
 
@@ -568,43 +567,7 @@ public:
 	}
 
 };
-#ifndef DEDICATED_SERVER
-class CCC_soundDevice : public CCC_Token
-{
-	typedef CCC_Token inherited;
-public:
-	CCC_soundDevice(LPCSTR N) :inherited(N, &snd_device_id, NULL){};
-	virtual			~CCC_soundDevice	()
-	{}
 
-	virtual void Execute(LPCSTR args)
-	{
-		GetToken				();
-		if(!tokens)				return;
-		inherited::Execute		(args);
-	}
-
-	virtual void	Status	(TStatus& S)
-	{
-		GetToken				();
-		if(!tokens)				return;
-		inherited::Status		(S);
-	}
-
-	virtual xr_token* GetToken()
-	{
-		tokens					= snd_devices_token;
-		return inherited::GetToken();
-	}
-
-	virtual void Save(IWriter *F)	
-	{
-		GetToken				();
-		if(!tokens)				return;
-		inherited::Save			(F);
-	}
-};
-#endif
 //-----------------------------------------------------------------------
 class CCC_ExclusiveMode : public IConsole_Command {
 private:
@@ -768,13 +731,7 @@ void CCC_Register()
 	CMD1(CCC_VID_Reset, "vid_restart"			);
 	
 	// Sound
-	CMD2(CCC_Float,		"snd_volume_eff",		&psSoundVEffects);
-	CMD2(CCC_Float,		"snd_volume_music",		&psSoundVMusic);
 	CMD1(CCC_SND_Restart,"snd_restart"			);
-	CMD3(CCC_Mask,		"snd_acceleration",		&psSoundFlags,		ss_Hardware	);
-	CMD3(CCC_Mask,		"snd_efx",				&psSoundFlags,		ss_EAX		);
-	CMD4(CCC_Integer,	"snd_targets",			&psSoundTargets,	4,32		);
-	CMD4(CCC_Integer,	"snd_cache_size",		&psSoundCacheSizeMB,4,32		);
 
 #ifdef DEBUG
 	CMD3(CCC_Mask,		"snd_stats",			&g_stats_flags,		st_sound	);
@@ -797,12 +754,6 @@ void CCC_Register()
 	CMD2(CCC_Float,		"cam_slide_inert",		&psCamSlideInert);
 
 	CMD1(CCC_r2,		"renderer"				);
-
-#ifndef DEDICATED_SERVER
-	CMD1(CCC_soundDevice, "snd_device"			);
-#endif
-	//psSoundRolloff	= pSettings->r_float	("sound","rolloff");		clamp(psSoundRolloff,			EPS_S,	2.f);
-	psSoundOcclusionScale	= pSettings->r_float	("sound","occlusion_scale");clamp(psSoundOcclusionScale,	0.1f,	.5f);
 
 	extern	int	g_Dump_Export_Obj;
 	extern	int	g_Dump_Import_Obj;

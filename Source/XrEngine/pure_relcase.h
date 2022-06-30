@@ -1,6 +1,8 @@
 #ifndef pure_relcaseH
 #define pure_relcaseH
 
+class CObject;
+
 class ENGINE_API pure_relcase{
 private:
 	int							m_ID;

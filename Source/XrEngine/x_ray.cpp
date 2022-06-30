@@ -161,9 +161,6 @@ struct _SoundProcessor	: public pureFrame
 	virtual void	_BCL	OnFrame	( )
 	{
 		//Msg							("------------- sound: %d [%3.2f,%3.2f,%3.2f]",u32(EngineDevice->dwFrame),VPUSH(EngineDevice->vCameraPosition));
-		EngineDevice->Statistic->Sound.Begin();
-		::Sound->update				(EngineDevice->vCameraPosition,EngineDevice->vCameraDirection,EngineDevice->vCameraTop);
-		EngineDevice->Statistic->Sound.End	();
 	}
 }	SoundProcessor;
 
@@ -283,17 +280,14 @@ void destroyInput	()
 
 PROTECT_API void InitSound1		()
 {
-	CSound_manager_interface::_create				(0);
 }
 
 PROTECT_API void InitSound2		()
 {
-	CSound_manager_interface::_create				(1);
 }
 
 void destroySound	()
 {
-	CSound_manager_interface::_destroy				( );
 }
 
 void destroySettings()

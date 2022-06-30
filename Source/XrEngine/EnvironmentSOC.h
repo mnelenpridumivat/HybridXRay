@@ -28,14 +28,12 @@ class ENGINE_API	CEnvSOCAmbient : public IEnvAmbient
 protected:
 	shared_str			section;
 	EffectVec			effects;
-	xr_vector<ref_sound>sounds;
 	Fvector2			sound_dist;
 	Ivector2			sound_period;
 	Ivector2			effect_period;
 public:
 	virtual void				load				(const shared_str& section);
 	virtual SEffect*			get_rnd_effect		(){return effects.empty()?0:&effects[Random.randI(effects.size())];}
-	virtual ref_sound*			get_rnd_sound		(){return sounds.empty()?0:&sounds[Random.randI(sounds.size())];}
 	virtual const shared_str&	name				(){return section;}
 	virtual u32					get_rnd_sound_time	(){return Random.randI(sound_period.x,sound_period.y);}
 	virtual float				get_rnd_sound_dist	(){return Random.randF(sound_dist.x,sound_dist.y);}

@@ -10,7 +10,6 @@
 #include "ParticleGroup.h"
 #include "defines.h"
 #include "EditObject.h"
-ref_sound* choose_snd;
 
 namespace ChoseEvents
 {
@@ -27,9 +26,6 @@ namespace ChoseEvents
     //---------------------------------------------------------------------------
     void   SelectSoundSource(SChooseItem* item, PropItemVec& info_items)
     {
-        choose_snd->stop();
-        choose_snd->create(item->name.c_str(), st_Effect, sg_Undefined);
-        choose_snd->play(0, sm_2D);
         //    snd.pla
         /*
         //.
@@ -39,7 +35,6 @@ namespace ChoseEvents
     }
     void   CloseSoundSource()
     {
-        choose_snd->destroy();
     }
     void   FillSoundSource(ChooseItemVec& items, void* param)
     {
@@ -431,12 +426,10 @@ void FillChooseEvents()
     UIChooseForm::AppendEvents(smGameMaterial, "Select Game Material", ChoseEvents::FillGameMaterial, 0, 0, 0, 0);
     UIChooseForm::AppendEvents(smGameAnim, "Select Animation", ChoseEvents::FillGameAnim, 0, 0, 0, 0);
     UIChooseForm::AppendEvents(smGameSMotions, "Select Game Object Motions", ChoseEvents::FillGameObjectMots, ChoseEvents::SelectGameObjectMots, 0, 0, 0);
-    choose_snd = xr_new<ref_sound>();
 }
 void ClearChooseEvents()
 {
 	UIChooseForm::ClearEvents	();
-    xr_delete					(choose_snd);
 }
 
 //---------------------------------------------------------------------------

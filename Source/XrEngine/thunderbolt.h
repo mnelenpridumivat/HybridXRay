@@ -28,8 +28,6 @@ struct SThunderboltDesc
 	// geom
 	//IRender_DetailModel*		l_model;
 	FactoryPtr<IThunderboltDescRender>	m_pRender;
-    // sound
-    ref_sound					snd;
     // gradient
 	struct SFlare
 	{

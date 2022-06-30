@@ -103,14 +103,6 @@ void CEnvAmbient::SSndChannel::load(CInifile& config, LPCSTR sect)
 	u32 cnt					= _GetItemCount			(snds);
 	string_path				tmp;
 	R_ASSERT3				(cnt,"sounds empty", sect);
-
-	m_sounds.resize			(cnt);
-
-	for (u32 k=0; k<cnt; ++k)
-	{
-		_GetItem			(snds,k,tmp);
-		m_sounds[k].create	(tmp,st_Effect,sg_SourceType);
-	}
 }
 
 CEnvAmbient::SEffect* CEnvAmbient::create_effect	(CInifile& config, LPCSTR id)
@@ -121,9 +113,6 @@ CEnvAmbient::SEffect* CEnvAmbient::create_effect	(CInifile& config, LPCSTR id)
 	VERIFY						(result->particles.size());
 	result->offset				= config.r_fvector3	(id,"offset");
 	result->wind_gust_factor	= config.r_float(id,"wind_gust_factor");
-	
-	if (config.line_exist(id,"sound"))
-		result->sound.create	(config.r_string(id,"sound"),st_Effect,sg_SourceType);
 
 	if (config.line_exist(id,"wind_blast_strength")) {
 		result->wind_blast_strength		= config.r_float(id,"wind_blast_strength");

@@ -193,8 +193,6 @@ void CStats::Show()
 		r_ps						= .99f*r_ps + .01f*(clRAY.count/clRAY.result);
 		b_ps						= .99f*b_ps + .01f*(clBOX.count/clBOX.result);
 
-		CSound_stats				snd_stat;
-		::Sound->statistic			(&snd_stat,0);
 		F.SetColor	(0xFFFFFFFF	);
 
 		F.OutSet	(0,0);
@@ -261,8 +259,6 @@ void CStats::Show()
 		F.OutNext	("  S_render:  %2.2fms, %d",RenderDUMP_Srender.result,RenderDUMP_Srender.count);
 		F.OutSkip	();
 		F.OutNext	("*** SOUND:   %2.2fms",Sound.result);
-		F.OutNext	("  TGT/SIM/E: %d/%d/%d",  snd_stat._rendered, snd_stat._simulated, snd_stat._events);
-		F.OutNext	("  HIT/MISS:  %d/%d",  snd_stat._cache_hits, snd_stat._cache_misses);
 		F.OutSkip	();
 		F.OutNext	("Input:       %2.2fms",Input.result);
 		F.OutNext	("clRAY:       %2.2fms, %d, %2.0fK",clRAY.result,		clRAY.count,r_ps);
@@ -477,42 +473,4 @@ void CStats::OnDeviceDestroy		()
 
 void CStats::OnRender				()
 {
-#ifdef DEBUG
-	if (g_stats_flags.is(st_sound)){
-		CSound_stats_ext				snd_stat_ext;
-		::Sound->statistic				(0,&snd_stat_ext);
-		CSound_stats_ext::item_vec_it	_I = snd_stat_ext.items.begin();
-		CSound_stats_ext::item_vec_it	_E = snd_stat_ext.items.end();
-		for (;_I!=_E;_I++){
-			const CSound_stats_ext::SItem& item = *_I;
-			if (item._3D)
-			{
-				m_pRender->SetDrawParams(&*Device->m_pRender);
-				//RCache.set_xform_world(Fidentity);
-				//RCache.set_Shader		(Device->m_SelectionShader);
-				//RCache.set_c			("tfactor",1,1,1,1);
-				DU->DrawCross			(item.params.position, 0.5f, 0xFF0000FF, true );
-				if (g_stats_flags.is(st_sound_min_dist))
-					DU->DrawSphere		(Fidentity, item.params.position, item.params.min_distance, 0x400000FF,	0xFF0000FF, true, true);
-				if (g_stats_flags.is(st_sound_max_dist))
-					DU->DrawSphere		(Fidentity, item.params.position, item.params.max_distance, 0x4000FF00,	0xFF008000, true, true);
-				
-				xr_string out_txt		= (out_txt.size() && g_stats_flags.is(st_sound_info_name)) ? item.name.c_str():"";
-
-				if (item.game_object)
-				{
-					if (g_stats_flags.is(st_sound_ai_dist))
-						DU->DrawSphere	(Fidentity, item.params.position, item.params.max_ai_distance, 0x80FF0000,0xFF800000,true,true);
-					if (g_stats_flags.is(st_sound_info_object)){
-						out_txt			+= "  (";
-						out_txt			+= item.game_object->cNameSect().c_str();
-						out_txt			+= ")";
-					}
-				}
-				if (g_stats_flags.is_any(st_sound_info_name|st_sound_info_object) && item.name.size())
-					DU->OutText			(item.params.position, out_txt.c_str(),0xFFFFFFFF,0xFF000000);
-			}
-		}
-	}
-#endif
 }

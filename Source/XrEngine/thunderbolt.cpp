@@ -29,8 +29,7 @@ SThunderboltDesc::~SThunderboltDesc()
 	m_GradientTop->m_pFlare->DestroyShader();
 	m_GradientCenter->m_pFlare->DestroyShader();
     //m_GradientTop.hShader.destroy	();
-    //m_GradientCenter.hShader.destroy();
-    snd.destroy					();
+    //m_GradientCenter.hShader.destroy()
 
 	xr_delete					(m_GradientTop);
 	xr_delete					(m_GradientCenter);
@@ -80,7 +79,6 @@ void SThunderboltDesc::load						(CInifile& pIni, shared_str const& sect)
 
     // sound
 	m_name				= pIni.r_string(sect,"sound");
-    if (m_name&&m_name[0]) snd.create(m_name,st_Effect,sg_Undefined);
 }
 
 //----------------------------------------------------------------------------------------------

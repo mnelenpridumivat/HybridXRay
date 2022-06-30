@@ -504,9 +504,6 @@
     <ClInclude Include="ObjectAnimator.h">
       <Filter>Game API\Animator</Filter>
     </ClInclude>
-    <ClInclude Include="Feel_Sound.h">
-      <Filter>Game API\Feelers</Filter>
-    </ClInclude>
     <ClInclude Include="Feel_Touch.h">
       <Filter>Game API\Feelers</Filter>
     </ClInclude>

@@ -43,41 +43,6 @@ float	CEnvSOCModifier::sum	(IEnvModifier& M, Fvector3& view)
 //-----------------------------------------------------------------------------
 void CEnvSOCAmbient::load(const shared_str& sect)
 {
-	section				= sect;
-	string_path			tmp;
-	// sounds
-	if (pSettings->line_exist(sect,"sounds")){
-		Fvector2 t		= pSettings->r_fvector2	(sect,"sound_period");
-		sound_period.set(iFloor(t.x*1000.f),iFloor(t.y*1000.f));
-		sound_dist		= pSettings->r_fvector2	(sect,"sound_dist"); if (sound_dist[0]>sound_dist[1]) std::swap(sound_dist[0],sound_dist[1]);
-		LPCSTR snds		= pSettings->r_string	(sect,"sounds");
-		u32 cnt			= _GetItemCount(snds);
-		if (cnt){
-			sounds.resize(cnt);
-			for (u32 k=0; k<cnt; ++k)
-				sounds[k].create(_GetItem(snds,k,tmp),st_Effect,sg_SourceType);
-		}
-	}
-	// effects
-	if (pSettings->line_exist(sect,"effects")){
-		Fvector2 t		= pSettings->r_fvector2	(sect,"effect_period");
-		effect_period.set(iFloor(t.x*1000.f),iFloor(t.y*1000.f));
-		LPCSTR effs		= pSettings->r_string	(sect,"effects");
-		u32 cnt			= _GetItemCount(effs);
-		if (cnt){
-			effects.resize(cnt);
-			for (u32 k=0; k<cnt; ++k){
-				_GetItem(effs,k,tmp);
-				effects[k].life_time		= iFloor(pSettings->r_float(tmp,"life_time")*1000.f);
-				effects[k].particles		= pSettings->r_string	(tmp,"particles");		VERIFY(effects[k].particles.size());
-				effects[k].offset			= pSettings->r_fvector3	(tmp,"offset");
-				effects[k].wind_gust_factor	= pSettings->r_float	(tmp,"wind_gust_factor");
-				if (pSettings->line_exist(tmp,"sound"))
-					effects[k].sound.create	(pSettings->r_string(tmp,"sound"),st_Effect,sg_SourceType);
-			}
-		}
-	}
-	VERIFY(!sounds.empty() || !effects.empty());
 }
 
 //-----------------------------------------------------------------------------

@@ -43,7 +43,6 @@ private:
 	BOOL				bAutoPlay;
 
 	FS_FileSet	modif_map;
-	ref_sound			m_Snd;
 
 	void				AppendModif(LPCSTR nm);
 private:

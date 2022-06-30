@@ -14,7 +14,6 @@
 #include "..\XrEngine\XrDeviceInterface.h"
 #include "..\XrEProps\stdafx.h"
 #include "..\..\xrCDB\xrCDB.h"
-#include "..\..\xrSound\Sound.h"
 #include "..\..\XrEngine\psystem.h"
 
 #include "..\..\XrEngine\fmesh.h"

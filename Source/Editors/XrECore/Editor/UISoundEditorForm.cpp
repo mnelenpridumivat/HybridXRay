@@ -2,8 +2,6 @@
 #include "stdafx.h"
 #include "UISoundEditorForm.h"
 #include "SoundManager.h"
-#include "../../../xrSound/stdafx.h"
-#include "../../../xrSound/soundrender_source.h"
 UISoundEditorForm *UISoundEditorForm::Form = nullptr;
 
 UISoundEditorForm::UISoundEditorForm()
@@ -47,7 +45,6 @@ void UISoundEditorForm::Draw()
     ImGui::SameLine();
     if (ImGui::Button("Ok"))
     {
-        m_Snd.destroy();
         UpdateLib();
         HideLib();
     }
@@ -81,7 +78,6 @@ void UISoundEditorForm::Show()
 
 void UISoundEditorForm::HideLib()
 {
-    m_Snd.destroy();
     bOpen = false;
     ImGui::CloseCurrentPopup();
 }
@@ -125,14 +121,6 @@ void UISoundEditorForm::AppendModif(LPCSTR nm)
 
 void UISoundEditorForm::OnControlClick(ButtonValue* V, bool& bModif, bool& bSafe)
 {
-    switch (V->btn_num) {
-    case 0: m_Snd.play(0, sm_2D); 	break;
-    case 1: m_Snd.stop();			break;
-    case 2: {
-        bAutoPlay = !bAutoPlay;
-        V->value[V->btn_num] = shared_str().printf("Auto (%s)", bAutoPlay ? "on" : "off");
-    }break;
-    }
     bModif = false;
 }
 
@@ -172,17 +160,6 @@ void UISoundEditorForm::OnSyncCurrentClick(ButtonValue* V, bool& bModif, bool& b
 void UISoundEditorForm::OnAttClick(ButtonValue* V, bool& bModif, bool& bSafe)
 {
     bModif = true;
-    ESoundThumbnail* thm = m_THM_Current.back();
-    switch (V->btn_num) {
-    case 0: {
-        float dist = thm->MinDist() / (0.01f * psSoundRolloff);
-        thm->SetMaxDist(dist + 0.1f * dist);
-    }break;
-    case 1: {
-        float dist = psSoundRolloff * (thm->MaxDist() - (0.1f / 1.1f) * thm->MaxDist()) * 0.01f;
-        thm->SetMinDist(dist);
-    }break;
-    }
 }
 
 void UISoundEditorForm::InitItemList()
@@ -206,7 +183,6 @@ void UISoundEditorForm::OnItemsFocused(ListItem* item)
     PropItemVec props;
 
     RegisterModifiedTHM();
-    m_Snd.destroy();
     m_THM_Current.clear();
 
     if (item != nullptr) 
@@ -260,35 +236,9 @@ void UISoundEditorForm::OnItemsFocused(ListItem* item)
 }
 void UISoundEditorForm::PlaySound(LPCSTR name, u32& size, u32& time)
 {
-    string_path fname;
-    FS.update_path(fname, _game_sounds_, EFS.ChangeFileExt(name, ".ogg").c_str());
-    FS_File F;
-    if (FS.file_find(fname, F))
-    {
-        m_Snd.create(name, st_Effect, sg_Undefined);
-        m_Snd.play(0, sm_2D);
-        CSoundRender_Source* src = (CSoundRender_Source*)m_Snd._handle(); VERIFY(src);
-        size = F.size;
-        time = iFloor(src->fTimeTotal / 1000.0f);
-        if (!bAutoPlay)		m_Snd.stop();
-    }
 }
 void UISoundEditorForm::OnAttenuationDraw(CanvasValue* sender)
 {
-#define WIETH 90
-#define HEIGHT 80.f
-    ESoundThumbnail* thm = m_THM_Current.back();
-    float d_cost = thm->MaxDist() / WIETH;
-    static float values[WIETH] = {};
-    for (int d = 1; d < WIETH+1; d++) {
-        float R = d * d_cost;
-        float b = thm->MinDist() / (psSoundRolloff * R);
-        //		float b = m_Brightness/(m_Attenuation0+m_Attenuation1*R+m_Attenuation2*R*R);
-        float bb =  (HEIGHT * b);
-        float y = floorf(bb); clamp(y, 0.f, HEIGHT);
-        values[d - 1] = y;
-    }
-    ImGui::PlotLines("##LinesSound", values, IM_ARRAYSIZE(values),0,0,0, HEIGHT, ImVec2(0, HEIGHT), 4);
 }
 ESoundThumbnail* UISoundEditorForm::FindUsedTHM(LPCSTR name)
 {

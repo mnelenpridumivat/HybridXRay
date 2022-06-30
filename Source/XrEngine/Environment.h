@@ -50,18 +50,11 @@ public:
 		Fvector2				m_sound_dist;
 		Ivector4				m_sound_period;
 
-		typedef xr_vector<ref_sound>	sounds_type;
-
 		virtual	void					load					(CInifile& config, LPCSTR sect);
-		virtual ref_sound&				get_rnd_sound			()	{return sounds()[Random.randI(sounds().size())];}
 		virtual u32						get_rnd_sound_time		()	{return (m_sound_period.z < m_sound_period.w) ? Random.randI(m_sound_period.z,m_sound_period.w) : 0;}
 		virtual u32						get_rnd_sound_first_time()	{return (m_sound_period.x < m_sound_period.y) ? Random.randI(m_sound_period.x,m_sound_period.y) : 0;}
 		virtual float					get_rnd_sound_dist		()	{return (m_sound_dist.x < m_sound_dist.y) ? Random.randF(m_sound_dist.x, m_sound_dist.y) : 0;}
 		INGAME_EDITOR_VIRTUAL	~SSndChannel			()	{}
-		inline INGAME_EDITOR_VIRTUAL sounds_type& sounds()  {return m_sounds;}
-
-	protected:
-		xr_vector<ref_sound>	m_sounds;
 	};
 	DEFINE_VECTOR(SSndChannel*,SSndChannelVec,SSndChannelVecIt);
 protected:

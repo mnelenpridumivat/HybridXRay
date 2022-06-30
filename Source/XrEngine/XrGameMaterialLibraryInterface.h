@@ -92,7 +92,6 @@ public:
 };
 
 DEFINE_VECTOR(SGameMtl*, GameMtlVec, GameMtlIt);
-DEFINE_VECTOR(ref_sound, SoundVec, SoundIt);
 DEFINE_VECTOR(shared_str, PSVec, PSIt);
 #include "WallMarkArray.h"
 #include "RenderFactory.h"
@@ -120,9 +119,6 @@ public:
     };
     Flags32				OwnProps;
     //	properties
-    SoundVec			BreakingSounds;
-    SoundVec			StepSounds;
-    SoundVec			CollideSounds;
     PSVec				CollideParticles;
     FactoryPtr<IWallMarkArray> m_pCollideMarks;
 public:

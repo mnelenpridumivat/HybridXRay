@@ -25,7 +25,6 @@ class 	IEnvAmbient {
 public:
 	struct SEffect {
 		u32 			life_time;
-		ref_sound		sound;
 		shared_str		particles;
 		Fvector			offset;
 		float			wind_gust_factor;

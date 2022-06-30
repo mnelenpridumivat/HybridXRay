@@ -37,7 +37,6 @@
 
 #include "../xrcdb/xrXRC.h"
 
-#include "../xrSound/sound.h"
 #include "XrISEAbstract.h"
 extern ENGINE_API CInifile *pGameIni;
 

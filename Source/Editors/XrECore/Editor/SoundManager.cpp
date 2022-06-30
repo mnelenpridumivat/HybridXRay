@@ -2,7 +2,6 @@
 #pragma hdrstop
 
 #include "SoundManager.h"
-#include "../../../xrSound/soundrender_environment.h"
 #include "EThumbnail.h"
 #include "ui_main.h"
 
@@ -47,26 +46,19 @@ bool CSoundManager::OnCreate()
 {
 //.	psSoundFreq			= sf_44K;
 //	psSoundFlags.set	(ssHardware,FALSE);
-    CSound_manager_interface::_create		(0);
-    CSound_manager_interface::_create		(1);
     return true;
 }
 
 void CSoundManager::OnDestroy()
 {
-    CSound_manager_interface::_destroy		();
 }
 
 void CSoundManager::OnFrame()
 {
-	::psSoundVEffects		= psDeviceFlags.is(rsMuteSounds)?0.f:1.f;
-	Sound->update			(EDevice->m_Camera.GetPosition(), EDevice->m_Camera.GetDirection(), EDevice->m_Camera.GetNormal());
 }
 
 void CSoundManager::MuteSounds(BOOL bVal)
 {
-	if (bVal) 	::psSoundVEffects = 0.f;
-    else		::psSoundVEffects = psDeviceFlags.is(rsMuteSounds)?0.f:1.f;
 }
 
 void CSoundManager::RenameSound(LPCSTR nm0, LPCSTR nm1, EItemType type)
@@ -90,7 +82,6 @@ void CSoundManager::RenameSound(LPCSTR nm0, LPCSTR nm1, EItemType type)
         FS.update_path(fn0,_game_sounds_,nm0);	strcat(fn0,".ogg");
         FS.update_path(fn1,_game_sounds_,nm1);	strcat(fn1,".ogg");
         FS.file_rename(fn0,fn1,false);
-	    Sound->refresh_sources();
 	}
 }
 
@@ -112,7 +103,6 @@ BOOL CSoundManager::RemoveSound(LPCSTR fname, EItemType type)
             FS.file_delete		(_sounds_,thm_name.c_str());
             // game
             FS.file_delete		(_game_sounds_,game_name.c_str());
-		   Sound->refresh_sources();
             return TRUE;
         }
     }
@@ -188,7 +178,6 @@ void CSoundManager::MakeGameSound(ESoundThumbnail* THM, LPCSTR src_name, LPCSTR 
 {
 	VerifyPath		(game_name);
     CMemoryWriter 	F;
-    F.w_u32			(OGG_COMMENT_VERSION);
     F.w_float		(THM->m_fMinDist);
     F.w_float		(THM->m_fMaxDist);
     F.w_float		(THM->m_fBaseVolume);
@@ -418,7 +407,6 @@ void CSoundManager::RefreshSounds(bool bSync)
             SynchronizeSounds	(true,true,false,0,0);
             CleanupSounds		();
         }
-        Sound->refresh_sources();
         UI->SetStatus("");
     }else{
         Log("#!You don't have permisions to modify sounds.");
