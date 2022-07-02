@@ -1171,8 +1171,16 @@ namespace Object_tool
 			TextureTextBox.Size = new System.Drawing.Size(282, 23);
 			TextureTextBox.Location = new System.Drawing.Point(55, 30);
 			TextureTextBox.TextChanged += new System.EventHandler(this.TextBoxFilter);
-			TextureTextBox.Text = surfaces[idx].texture.Substring(0, surfaces[idx].texture.LastIndexOf('.'));
 			TextureTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+
+			string texture_path = surfaces[idx].texture;
+			if (surfaces[idx].texture.LastIndexOf('.') != -1)
+			{
+				string format = surfaces[idx].texture.Substring(surfaces[idx].texture.LastIndexOf('.') + 1, surfaces[idx].texture.Length - surfaces[idx].texture.LastIndexOf('.') - 1);
+				if (format.Length == 3) // ’з нужно ли или нет, но у основных форматов длинна назван€и в 3 символа, пусть будет проверкой
+					texture_path = surfaces[idx].texture.Substring(0, surfaces[idx].texture.LastIndexOf('.'));
+			}
+			TextureTextBox.Text = texture_path;
 
 			var ShaderLabel = new Label();
 			ShaderLabel.Text = "Shader:";
