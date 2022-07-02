@@ -1170,9 +1170,9 @@ namespace Object_tool
 			TextureTextBox.Name = "TextureTextBox_" + idx;
 			TextureTextBox.Size = new System.Drawing.Size(282, 23);
 			TextureTextBox.Location = new System.Drawing.Point(55, 30);
-			TextureTextBox.Text = surfaces[idx].texture;
-			TextureTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
 			TextureTextBox.TextChanged += new System.EventHandler(this.TextBoxFilter);
+			TextureTextBox.Text = surfaces[idx].texture.Substring(0, surfaces[idx].texture.LastIndexOf('.'));
+			TextureTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
 
 			var ShaderLabel = new Label();
 			ShaderLabel.Text = "Shader:";
