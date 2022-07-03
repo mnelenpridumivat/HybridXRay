@@ -88,8 +88,8 @@ namespace Object_tool
 			DEBUG_MODE = Convert.ToBoolean(Convert.ToUInt16(Settings.ReadDef("debug", "settings", "0")));
 
 			debugToolStripMenuItem.Visible = DEBUG_MODE;
-			radioButton3.Visible = DEVELOPER_MODE;
-			radioButton3.Checked = DEVELOPER_MODE;
+			AnimsNoCompress.Visible = DEVELOPER_MODE;
+			AnimsNoCompress.Checked = DEVELOPER_MODE;
 
 			if (Environment.GetCommandLineArgs().Length > 1)
 			{
@@ -235,13 +235,13 @@ namespace Object_tool
         {
 			int flags = 0;
 
-			if (radioButton2.Checked)
+			if (Anims16Bit.Checked)
 				flags |= (1 << 0);
 
-			if (radioButton3.Checked)
+			if (AnimsNoCompress.Checked)
 				flags |= (1 << 1);
 
-			if (checkBox1.Checked)
+			if (ProgressiveMeshes.Checked)
 				flags |= (1 << 2);
 
 			if (checkBox2.Checked)
@@ -255,6 +255,9 @@ namespace Object_tool
 
 			if (HQGeometryPlus.Checked)
 				flags |= (1 << 6);
+
+			if (StripifyMeshes.Checked)
+				flags |= (1 << 7);
 
 			return flags;
         }
@@ -765,9 +768,10 @@ namespace Object_tool
 		{
 			MessageBox.Show("Motion export:\nДанные флаги влияют на компресиию анимаций при экспортировании в OMF.\n1. 8 bit - ТЧ Формат\n2. 16 bit - ЗП Формат\n" + (DEVELOPER_MODE ? "3. No compress - экспортирует анимации без сжатия\n\n" : "\n") +
 				"Model export:\n" +
-				"1. Make progressive bones - создает прогрессивные меши при экспорте OGF. Это динамическая детализация модели (lod'ы), чаще используется для мировых объектов.\n" +
-				"2. Optimize surfaces - при включении объединяет меши с одинаковыми названиями текстур и шейдеров как и любой SDK. В данном эдиторе появилась возможность отключить это для последующих изменений через OGF Editor.\n" +
-                "3. HQ Geometry+ - при активации компилятор будет экспортировать модель без оптимизаций вертексов. \n\n" +
+				"1. Make progressive meshes - создает прогрессивные меши при экспорте OGF. Это динамическая детализация модели (lod'ы), чаще используется для мировых объектов, так же влияет на основную модель.\n" +
+				"2. Make stripify meshes - оптимизация vertex'ов и face'ов у мешей, стоит в SDK по дефолту и чаще используется для моделей с мягкой привязкой.\n" +
+				"3. Optimize surfaces - при включении объединяет меши с одинаковыми названиями текстур и шейдеров как и любой SDK. В данном эдиторе появилась возможность отключить это для последующих изменений через OGF Editor.\n" +
+                "4. HQ Geometry+ - при активации компилятор будет экспортировать модель без оптимизаций вертексов. \n\n" +
                 "Object scale - изменяет размер объекта при экспорте, влияет на размер модели и размер анимаций.\nScale center of mass - при активации во время экспорта с измененным размером объекта будут пересчитаны центры массы коллизии под новый размер.", "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
@@ -1211,5 +1215,21 @@ namespace Object_tool
 			else
 				return flags &= ~mask;
 		}
-	}
+
+        private void ProgressiveMeshes_CheckedChanged(object sender, EventArgs e)
+        {
+			CheckBox chbx = sender as CheckBox;
+
+			if (chbx.Checked)
+				StripifyMeshes.Checked = false;
+        }
+
+        private void StripifyMeshes_CheckedChanged(object sender, EventArgs e)
+        {
+			CheckBox chbx = sender as CheckBox;
+
+			if (chbx.Checked)
+				ProgressiveMeshes.Checked = false;
+		}
+    }
 }

@@ -55,6 +55,9 @@ namespace Object_tool
             this.DeletesklsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bonesPartsToDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.surfaceParamsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.enableAll2SidedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.disableAll2SidedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.shapeParamsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generateShapesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.typeHelperToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -62,9 +65,6 @@ namespace Object_tool
             this.allBoxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.allSphereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.allCylinderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.surfaceParamsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.enableAll2SidedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.disableAll2SidedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.debugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -84,13 +84,14 @@ namespace Object_tool
             this.FlagsPage = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.AnimsNoCompress = new System.Windows.Forms.RadioButton();
+            this.Anims8Bit = new System.Windows.Forms.RadioButton();
+            this.Anims16Bit = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.StripifyMeshes = new System.Windows.Forms.CheckBox();
             this.HQGeometry = new System.Windows.Forms.RadioButton();
             this.HQGeometryPlus = new System.Windows.Forms.RadioButton();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.ProgressiveMeshes = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.ScaleCenterOfMassCheckBox = new System.Windows.Forms.CheckBox();
@@ -303,19 +304,42 @@ namespace Object_tool
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
             // 
+            // surfaceParamsToolStripMenuItem
+            // 
+            this.surfaceParamsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.enableAll2SidedToolStripMenuItem,
+            this.disableAll2SidedToolStripMenuItem});
+            this.surfaceParamsToolStripMenuItem.Name = "surfaceParamsToolStripMenuItem";
+            this.surfaceParamsToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.surfaceParamsToolStripMenuItem.Text = "Surface Params";
+            // 
+            // enableAll2SidedToolStripMenuItem
+            // 
+            this.enableAll2SidedToolStripMenuItem.Name = "enableAll2SidedToolStripMenuItem";
+            this.enableAll2SidedToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.enableAll2SidedToolStripMenuItem.Text = "Enable all 2 sided";
+            this.enableAll2SidedToolStripMenuItem.Click += new System.EventHandler(this.enableAll2SidedToolStripMenuItem_Click);
+            // 
+            // disableAll2SidedToolStripMenuItem
+            // 
+            this.disableAll2SidedToolStripMenuItem.Name = "disableAll2SidedToolStripMenuItem";
+            this.disableAll2SidedToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.disableAll2SidedToolStripMenuItem.Text = "Disable all 2 sided";
+            this.disableAll2SidedToolStripMenuItem.Click += new System.EventHandler(this.disableAll2SidedToolStripMenuItem_Click);
+            // 
             // shapeParamsToolStripMenuItem
             // 
             this.shapeParamsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.generateShapesToolStripMenuItem1,
             this.typeHelperToolStripMenuItem1});
             this.shapeParamsToolStripMenuItem.Name = "shapeParamsToolStripMenuItem";
-            this.shapeParamsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.shapeParamsToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.shapeParamsToolStripMenuItem.Text = "Shape Params";
             // 
             // generateShapesToolStripMenuItem1
             // 
             this.generateShapesToolStripMenuItem1.Name = "generateShapesToolStripMenuItem1";
-            this.generateShapesToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.generateShapesToolStripMenuItem1.Size = new System.Drawing.Size(161, 22);
             this.generateShapesToolStripMenuItem1.Text = "Generate Shapes";
             this.generateShapesToolStripMenuItem1.Click += new System.EventHandler(this.generateShapesToolStripMenuItem_Click);
             // 
@@ -327,59 +351,36 @@ namespace Object_tool
             this.allSphereToolStripMenuItem,
             this.allCylinderToolStripMenuItem});
             this.typeHelperToolStripMenuItem1.Name = "typeHelperToolStripMenuItem1";
-            this.typeHelperToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.typeHelperToolStripMenuItem1.Size = new System.Drawing.Size(161, 22);
             this.typeHelperToolStripMenuItem1.Text = "Type helper";
             // 
             // allNoneToolStripMenuItem
             // 
             this.allNoneToolStripMenuItem.Name = "allNoneToolStripMenuItem";
-            this.allNoneToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.allNoneToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.allNoneToolStripMenuItem.Text = "All None";
             this.allNoneToolStripMenuItem.Click += new System.EventHandler(this.allNoneToolStripMenuItem_Click);
             // 
             // allBoxToolStripMenuItem
             // 
             this.allBoxToolStripMenuItem.Name = "allBoxToolStripMenuItem";
-            this.allBoxToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.allBoxToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.allBoxToolStripMenuItem.Text = "All Box";
             this.allBoxToolStripMenuItem.Click += new System.EventHandler(this.allBoxToolStripMenuItem_Click);
             // 
             // allSphereToolStripMenuItem
             // 
             this.allSphereToolStripMenuItem.Name = "allSphereToolStripMenuItem";
-            this.allSphereToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.allSphereToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.allSphereToolStripMenuItem.Text = "All Sphere";
             this.allSphereToolStripMenuItem.Click += new System.EventHandler(this.allSphereToolStripMenuItem_Click);
             // 
             // allCylinderToolStripMenuItem
             // 
             this.allCylinderToolStripMenuItem.Name = "allCylinderToolStripMenuItem";
-            this.allCylinderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.allCylinderToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.allCylinderToolStripMenuItem.Text = "All Cylinder";
             this.allCylinderToolStripMenuItem.Click += new System.EventHandler(this.allCylinderToolStripMenuItem_Click);
-            // 
-            // surfaceParamsToolStripMenuItem
-            // 
-            this.surfaceParamsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.enableAll2SidedToolStripMenuItem,
-            this.disableAll2SidedToolStripMenuItem});
-            this.surfaceParamsToolStripMenuItem.Name = "surfaceParamsToolStripMenuItem";
-            this.surfaceParamsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.surfaceParamsToolStripMenuItem.Text = "Surface Params";
-            // 
-            // enableAll2SidedToolStripMenuItem
-            // 
-            this.enableAll2SidedToolStripMenuItem.Name = "enableAll2SidedToolStripMenuItem";
-            this.enableAll2SidedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.enableAll2SidedToolStripMenuItem.Text = "Enable all 2 sided";
-            this.enableAll2SidedToolStripMenuItem.Click += new System.EventHandler(this.enableAll2SidedToolStripMenuItem_Click);
-            // 
-            // disableAll2SidedToolStripMenuItem
-            // 
-            this.disableAll2SidedToolStripMenuItem.Name = "disableAll2SidedToolStripMenuItem";
-            this.disableAll2SidedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.disableAll2SidedToolStripMenuItem.Text = "Disable all 2 sided";
-            this.disableAll2SidedToolStripMenuItem.Click += new System.EventHandler(this.disableAll2SidedToolStripMenuItem_Click);
             // 
             // debugToolStripMenuItem
             // 
@@ -409,7 +410,7 @@ namespace Object_tool
             this.StatusPanel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileLabel,
             this.StatusFile});
-            this.StatusPanel.Location = new System.Drawing.Point(0, 223);
+            this.StatusPanel.Location = new System.Drawing.Point(0, 243);
             this.StatusPanel.Name = "StatusPanel";
             this.StatusPanel.Size = new System.Drawing.Size(384, 22);
             this.StatusPanel.TabIndex = 31;
@@ -468,7 +469,7 @@ namespace Object_tool
             this.BonesPage.AutoScroll = true;
             this.BonesPage.Location = new System.Drawing.Point(4, 25);
             this.BonesPage.Name = "BonesPage";
-            this.BonesPage.Size = new System.Drawing.Size(352, 164);
+            this.BonesPage.Size = new System.Drawing.Size(352, 184);
             this.BonesPage.TabIndex = 2;
             this.BonesPage.Text = "Bones";
             this.BonesPage.UseVisualStyleBackColor = true;
@@ -478,7 +479,7 @@ namespace Object_tool
             this.FlagsPage.Controls.Add(this.groupBox1);
             this.FlagsPage.Location = new System.Drawing.Point(4, 25);
             this.FlagsPage.Name = "FlagsPage";
-            this.FlagsPage.Size = new System.Drawing.Size(352, 164);
+            this.FlagsPage.Size = new System.Drawing.Size(352, 184);
             this.FlagsPage.TabIndex = 0;
             this.FlagsPage.Text = "Flags";
             this.FlagsPage.UseVisualStyleBackColor = true;
@@ -494,16 +495,16 @@ namespace Object_tool
             this.groupBox1.Controls.Add(this.FlagsHelpButton);
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(352, 164);
+            this.groupBox1.Size = new System.Drawing.Size(352, 184);
             this.groupBox1.TabIndex = 16;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Edit export flags";
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.radioButton3);
-            this.groupBox3.Controls.Add(this.radioButton1);
-            this.groupBox3.Controls.Add(this.radioButton2);
+            this.groupBox3.Controls.Add(this.AnimsNoCompress);
+            this.groupBox3.Controls.Add(this.Anims8Bit);
+            this.groupBox3.Controls.Add(this.Anims16Bit);
             this.groupBox3.Location = new System.Drawing.Point(6, 15);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(165, 90);
@@ -511,51 +512,63 @@ namespace Object_tool
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Motion export";
             // 
-            // radioButton3
+            // AnimsNoCompress
             // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(8, 65);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(87, 17);
-            this.radioButton3.TabIndex = 10;
-            this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "No compress";
-            this.radioButton3.UseVisualStyleBackColor = true;
+            this.AnimsNoCompress.AutoSize = true;
+            this.AnimsNoCompress.Location = new System.Drawing.Point(8, 65);
+            this.AnimsNoCompress.Name = "AnimsNoCompress";
+            this.AnimsNoCompress.Size = new System.Drawing.Size(87, 17);
+            this.AnimsNoCompress.TabIndex = 10;
+            this.AnimsNoCompress.TabStop = true;
+            this.AnimsNoCompress.Text = "No compress";
+            this.AnimsNoCompress.UseVisualStyleBackColor = true;
             // 
-            // radioButton1
+            // Anims8Bit
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(8, 19);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(45, 17);
-            this.radioButton1.TabIndex = 8;
-            this.radioButton1.Text = "8 bit";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.Anims8Bit.AutoSize = true;
+            this.Anims8Bit.Location = new System.Drawing.Point(8, 19);
+            this.Anims8Bit.Name = "Anims8Bit";
+            this.Anims8Bit.Size = new System.Drawing.Size(45, 17);
+            this.Anims8Bit.TabIndex = 8;
+            this.Anims8Bit.Text = "8 bit";
+            this.Anims8Bit.UseVisualStyleBackColor = true;
             // 
-            // radioButton2
+            // Anims16Bit
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Checked = true;
-            this.radioButton2.Location = new System.Drawing.Point(8, 42);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(51, 17);
-            this.radioButton2.TabIndex = 9;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "16 bit";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.Anims16Bit.AutoSize = true;
+            this.Anims16Bit.Checked = true;
+            this.Anims16Bit.Location = new System.Drawing.Point(8, 42);
+            this.Anims16Bit.Name = "Anims16Bit";
+            this.Anims16Bit.Size = new System.Drawing.Size(51, 17);
+            this.Anims16Bit.TabIndex = 9;
+            this.Anims16Bit.TabStop = true;
+            this.Anims16Bit.Text = "16 bit";
+            this.Anims16Bit.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.StripifyMeshes);
             this.groupBox2.Controls.Add(this.HQGeometry);
             this.groupBox2.Controls.Add(this.HQGeometryPlus);
-            this.groupBox2.Controls.Add(this.checkBox1);
+            this.groupBox2.Controls.Add(this.ProgressiveMeshes);
             this.groupBox2.Controls.Add(this.checkBox2);
             this.groupBox2.Location = new System.Drawing.Point(177, 15);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(169, 114);
+            this.groupBox2.Size = new System.Drawing.Size(169, 137);
             this.groupBox2.TabIndex = 21;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Model export";
+            // 
+            // StripifyMeshes
+            // 
+            this.StripifyMeshes.AutoSize = true;
+            this.StripifyMeshes.Location = new System.Drawing.Point(6, 89);
+            this.StripifyMeshes.Name = "StripifyMeshes";
+            this.StripifyMeshes.Size = new System.Drawing.Size(124, 17);
+            this.StripifyMeshes.TabIndex = 21;
+            this.StripifyMeshes.Text = "Make stripify meshes";
+            this.StripifyMeshes.UseVisualStyleBackColor = true;
+            this.StripifyMeshes.CheckedChanged += new System.EventHandler(this.StripifyMeshes_CheckedChanged);
             // 
             // HQGeometry
             // 
@@ -579,20 +592,21 @@ namespace Object_tool
             this.HQGeometryPlus.Text = "HQ Geometry+ ";
             this.HQGeometryPlus.UseVisualStyleBackColor = true;
             // 
-            // checkBox1
+            // ProgressiveMeshes
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(6, 65);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(142, 17);
-            this.checkBox1.TabIndex = 13;
-            this.checkBox1.Text = "Make progressive bones";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.ProgressiveMeshes.AutoSize = true;
+            this.ProgressiveMeshes.Location = new System.Drawing.Point(6, 65);
+            this.ProgressiveMeshes.Name = "ProgressiveMeshes";
+            this.ProgressiveMeshes.Size = new System.Drawing.Size(149, 17);
+            this.ProgressiveMeshes.TabIndex = 13;
+            this.ProgressiveMeshes.Text = "Make progressive meshes";
+            this.ProgressiveMeshes.UseVisualStyleBackColor = true;
+            this.ProgressiveMeshes.CheckedChanged += new System.EventHandler(this.ProgressiveMeshes_CheckedChanged);
             // 
             // checkBox2
             // 
             this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(6, 88);
+            this.checkBox2.Location = new System.Drawing.Point(6, 112);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(109, 17);
             this.checkBox2.TabIndex = 14;
@@ -634,7 +648,7 @@ namespace Object_tool
             // FlagsHelpButton
             // 
             this.FlagsHelpButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.FlagsHelpButton.Location = new System.Drawing.Point(273, 135);
+            this.FlagsHelpButton.Location = new System.Drawing.Point(273, 155);
             this.FlagsHelpButton.Name = "FlagsHelpButton";
             this.FlagsHelpButton.Size = new System.Drawing.Size(73, 23);
             this.FlagsHelpButton.TabIndex = 15;
@@ -653,7 +667,7 @@ namespace Object_tool
             this.TabControl.Location = new System.Drawing.Point(12, 27);
             this.TabControl.Name = "TabControl";
             this.TabControl.SelectedIndex = 0;
-            this.TabControl.Size = new System.Drawing.Size(360, 193);
+            this.TabControl.Size = new System.Drawing.Size(360, 213);
             this.TabControl.TabIndex = 10;
             this.TabControl.SelectedIndexChanged += new System.EventHandler(this.IndexChanged);
             // 
@@ -662,7 +676,7 @@ namespace Object_tool
             this.SurfacesPage.AutoScroll = true;
             this.SurfacesPage.Location = new System.Drawing.Point(4, 25);
             this.SurfacesPage.Name = "SurfacesPage";
-            this.SurfacesPage.Size = new System.Drawing.Size(352, 164);
+            this.SurfacesPage.Size = new System.Drawing.Size(352, 184);
             this.SurfacesPage.TabIndex = 3;
             this.SurfacesPage.Text = "Surfaces";
             this.SurfacesPage.UseVisualStyleBackColor = true;
@@ -672,7 +686,7 @@ namespace Object_tool
             this.MotionPage.Controls.Add(this.MotionTextBox);
             this.MotionPage.Location = new System.Drawing.Point(4, 25);
             this.MotionPage.Name = "MotionPage";
-            this.MotionPage.Size = new System.Drawing.Size(352, 164);
+            this.MotionPage.Size = new System.Drawing.Size(352, 184);
             this.MotionPage.TabIndex = 4;
             this.MotionPage.Text = "Motions";
             this.MotionPage.UseVisualStyleBackColor = true;
@@ -693,7 +707,7 @@ namespace Object_tool
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(384, 245);
+            this.ClientSize = new System.Drawing.Size(384, 265);
             this.Controls.Add(this.StatusPanel);
             this.Controls.Add(this.TabControl);
             this.Controls.Add(this.MenuPanel);
@@ -701,7 +715,7 @@ namespace Object_tool
             this.MainMenuStrip = this.MenuPanel;
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(400, 680);
-            this.MinimumSize = new System.Drawing.Size(400, 284);
+            this.MinimumSize = new System.Drawing.Size(400, 304);
             this.Name = "Object_Editor";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Object Editor";
@@ -767,13 +781,13 @@ namespace Object_tool
         private System.Windows.Forms.TabPage FlagsPage;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.RadioButton radioButton3;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.RadioButton AnimsNoCompress;
+        private System.Windows.Forms.RadioButton Anims8Bit;
+        private System.Windows.Forms.RadioButton Anims16Bit;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.RadioButton HQGeometry;
         private System.Windows.Forms.RadioButton HQGeometryPlus;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox ProgressiveMeshes;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox ScaleCenterOfMassCheckBox;
@@ -796,6 +810,7 @@ namespace Object_tool
         private System.Windows.Forms.ToolStripMenuItem surfaceParamsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem enableAll2SidedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem disableAll2SidedToolStripMenuItem;
+        private System.Windows.Forms.CheckBox StripifyMeshes;
     }
 }
 

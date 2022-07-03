@@ -24,6 +24,7 @@ enum EExportFlags
     exfDbgWindow    	= (1<<4),	
     exfScaleCenterMass 	= (1<<5),	
     exfHQGeometryPlus   = (1<<6),	
+    exfMakeStripify	    = (1<<7),	
 };
 
 enum EditorMode
@@ -179,6 +180,9 @@ int main(int argc, char** argv)
 
     if (flags & exfMakeProgressive)
         ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoProgressive, TRUE);
+
+    if (flags & exfMakeStripify)
+        ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoStripify, TRUE);
 
     if (flags & exfOptimizeSurfaces)
         ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoOptimizeSurf, TRUE);

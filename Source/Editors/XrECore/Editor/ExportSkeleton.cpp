@@ -824,7 +824,7 @@ bool CExportSkeleton::ExportGeometry(IWriter& F, u8 infl)
 	{
 		if (m_Source->m_objectFlags.is(CEditableObject::eoProgressive))
         	split_it->MakeProgressive();
-        else
+        else if (m_Source->m_objectFlags.is(CEditableObject::eoStripify))
         	split_it->MakeStripify();
 
 		SkelVertVec& lst = split_it->getV_Verts();

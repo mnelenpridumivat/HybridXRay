@@ -197,7 +197,8 @@ public:
         eoMultipleUsage	= (1<<4),			
         eoSoundOccluder	= (1<<5),
         eoHQExportPlus  = (1<<6),           
-        eoOptimizeSurf  = (1<<7),    
+        eoOptimizeSurf  = (1<<7),   
+        eoStripify      = (1<<8),
 		eoFORCE32		= u32(-1)           
     };
     IC BOOL			IsDynamic				(){return m_objectFlags.is(eoDynamic);}

@@ -70,6 +70,7 @@ public:
     Fvector			m_VMeps;
 
     u16				VPack			(SOGFVert& V);
+    u16				VPackHQ			(SOGFVert& V);
 	void			ComputeBounding	();
     void  			OptimizeTextureCoordinates();
 public:
@@ -83,7 +84,7 @@ public:
 		else
 			return true;
     }
-	IC bool			add_face	(SOGFVert& v0, SOGFVert& v1, SOGFVert& v2)
+	IC bool			add_face	(SOGFVert& v0, SOGFVert& v1, SOGFVert& v2, bool HQ)
 	{
 		if (v0.P.similar(v1.P,EPS) || v0.P.similar(v2.P,EPS) || v1.P.similar(v2.P,EPS))
 		{
@@ -92,9 +93,18 @@ public:
         }
         SOGFFace F;
         u16 v;
-        v	= VPack(v0); if (0xffff==v) return false; F.v[0] = v;
-        v	= VPack(v1); if (0xffff==v) return false; F.v[1] = v;
-        v	= VPack(v2); if (0xffff==v) return false; F.v[2] = v;
+        if (!HQ)
+        {
+            F.v[0] = VPack(v0);
+            F.v[1] = VPack(v1);
+            F.v[2] = VPack(v2);
+        }
+        else
+        {
+            F.v[0] = VPackHQ(v0);
+            F.v[1] = VPackHQ(v1);
+            F.v[2] = VPackHQ(v2);
+        }
         
         if (check(F)) 	
 			m_Faces.push_back(F);
