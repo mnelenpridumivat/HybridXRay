@@ -74,7 +74,7 @@ public:
 	void			ComputeBounding	();
     void  			OptimizeTextureCoordinates();
 public:
-    CObjectOGFCollectorPacked		(const Fbox &bb, int apx_vertices, int apx_faces);
+    CObjectOGFCollectorPacked		(const Fbox &bb, bool hq, int apx_vertices, int apx_faces);
     void			CalculateTB		();
     void 			MakeProgressive	();
     IC bool 		check      		(SOGFFace& F)
