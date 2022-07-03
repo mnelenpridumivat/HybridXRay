@@ -78,6 +78,7 @@ namespace Object_tool
 			bonesToolStripMenuItem.Enabled = false;
 			dMToolStripMenuItem.Enabled = false;
 			bonesPartsToolStripMenuItem.Enabled = false;
+			FlagsGroupBox.Enabled = false;
 
 			SaveSklDialog = new FolderSelectDialog();
 
@@ -162,7 +163,8 @@ namespace Object_tool
 			objectToolStripMenuItem.Enabled = !skeleton;
 			dMToolStripMenuItem.Enabled = !skeleton;
 			bonesPartsToolStripMenuItem.Enabled = !skeleton;
-			groupBox2.Enabled = !skeleton;
+			ModelFlagsGroupBox.Enabled = !skeleton;
+			FlagsGroupBox.Enabled = true;
 
 			if (skeleton)
 			{
@@ -176,10 +178,14 @@ namespace Object_tool
 			LoadSurfaceData();
 			ParseMotions();
 
+			StripifyMeshes.Enabled = HasBones();
+
 			for (int i = 0; i < shapes.Count; i++)
 			{
 				CreateShapeGroupBox(i, shapes[i]);
 			}
+
+			IndexChanged(null, null);
 		}
 
 		private int StartEditor(EditorMode mode, string object_path, string second_path = "null")
@@ -477,7 +483,6 @@ namespace Object_tool
 			using (var r = new BinaryReader(new FileStream(TEMP_FILE_NAME, FileMode.Open)))
 			{
 				xr_loader.SetStream(r.BaseStream);
-
 				xr_loader.ReadInt64();
 
 				bool B_CHUNK = xr_loader.SetData(xr_loader.find_and_return_chunk_in_chunk((int)OBJECT.EOBJ_CHUNK_BONES2));
@@ -541,7 +546,6 @@ namespace Object_tool
 			using (var r = new BinaryReader(new FileStream(TEMP_FILE_NAME, FileMode.Open)))
 			{
 				xr_loader.SetStream(r.BaseStream);
-
 				xr_loader.ReadInt64();
 
 				if (xr_loader.find_chunkSize((int)OBJECT.EOBJ_CHUNK_ACTORTRANSFORM) > 24)
@@ -564,7 +568,6 @@ namespace Object_tool
 			using (var r = new BinaryReader(new FileStream(TEMP_FILE_NAME, FileMode.Open)))
 			{
 				xr_loader.SetStream(r.BaseStream);
-
 				xr_loader.ReadInt64();
 
 				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SMOTIONS))
@@ -581,7 +584,6 @@ namespace Object_tool
 			using (var r = new BinaryReader(new FileStream(TEMP_FILE_NAME, FileMode.Open)))
 			{
 				xr_loader.SetStream(r.BaseStream);
-
 				xr_loader.ReadInt64();
 
 				Surface surface = new Surface();
@@ -648,11 +650,11 @@ namespace Object_tool
 			var xr_loader = new XRayLoader();
 			MotionTextBox.Clear();
 			MotionTextBox.Text = $"Motions count: 0";
+			MotionFlagsGroupBox.Enabled = MotionCount() > 0;
 
 			using (var r = new BinaryReader(new FileStream(TEMP_FILE_NAME, FileMode.Open)))
 			{
 				xr_loader.SetStream(r.BaseStream);
-
 				xr_loader.ReadInt64();
 
 				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SMOTIONS))
@@ -764,6 +766,27 @@ namespace Object_tool
 			}
 		}
 
+		private bool HasBones()
+		{
+			var xr_loader = new XRayLoader();
+
+			using (var r = new BinaryReader(new FileStream(TEMP_FILE_NAME, FileMode.Open)))
+			{
+				xr_loader.SetStream(r.BaseStream);
+				xr_loader.ReadInt64();
+
+				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_BONES2))
+					return true;
+
+				xr_loader.reader.BaseStream.Position = 0;
+				xr_loader.ReadInt64();
+
+				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_BONES))
+					return true;
+			}
+			return false;
+		}
+
 		private void FlagsHelpButton_Click(object sender, EventArgs e)
 		{
 			MessageBox.Show("Motion export:\nДанные флаги влияют на компресиию анимаций при экспортировании в OMF.\n1. 8 bit - ТЧ Формат\n2. 16 bit - ЗП Формат\n" + (DEVELOPER_MODE ? "3. No compress - экспортирует анимации без сжатия\n\n" : "\n") +
@@ -772,7 +795,17 @@ namespace Object_tool
 				"2. Make stripify meshes - оптимизация vertex'ов и face'ов у мешей, стоит в SDK по дефолту и чаще используется для моделей с мягкой привязкой. Можно не включать если модель была хорошо подготовлена в 3д редакторе.\n" +
 				"3. Optimize surfaces - при включении объединяет меши с одинаковыми названиями текстур и шейдеров как и любой SDK. В данном эдиторе появилась возможность отключить это для последующих изменений через OGF Editor.\n" +
                 "4. HQ Geometry+ - при активации компилятор будет экспортировать модель без оптимизаций вертексов. \n\n" +
-                "Object scale - изменяет размер объекта при экспорте, влияет на размер модели и размер анимаций.\nScale center of mass - при активации во время экспорта с измененным размером объекта будут пересчитаны центры массы коллизии под новый размер.", "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				"Object scale - изменяет размер объекта при экспорте, влияет на размер модели и размер анимаций.\nScale center of mass - при активации во время экспорта с измененным размером объекта будут пересчитаны центры массы коллизии под новый размер.\n\n" +
+				"Surface params:\n" +
+				"1. Surface->2 Sided - после экспорта OGF модель будет отрисовываться с наружной и внутренней стороны, в 2 раза увеличивает колличество полигонов модели.\n\n" +
+				"Shape params (Bones):\n" +
+				"1. No Pickable - при активации Ray Query лучи, хит wallmark'и будут пропускать данный элемент.\n" +
+				"2. Remove After Break - при активации у всех костей, после спавна объекта начнется таймер при истечении которого объект удалится.\n" +
+				"3. No Physics - при активации движок игнорирует физику шейпа.\n" +
+				"4. No Fog Collider - при активации Volumetric fog будет игнорировать данный элемент.\n\n" +
+				"    Для создания коллизии с нуля нужно настроить Shape type параметры у каждой кости (можно воспользоваться Tools->Shape Params->Type helper) и далее нажать Tools->Shape Params->Generate Shapes.\nЕсли коллизия уже была сгенерирована, то Shape type можно менять без повторной генерации коллизии.\n\n" +
+				"Tools->Surface Params и Tools->Shape Params активируются при выборе соответствующей вкладки в программе."
+				, "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
 		private void ClearUI()
@@ -790,7 +823,7 @@ namespace Object_tool
 
 		private void IndexChanged(object sender, EventArgs e)
 		{
-			if (TabControl.SelectedIndex < 0) return;
+			if (TabControl.SelectedIndex < 0 || !FlagsGroupBox.Enabled) return;
 
 			shapeParamsToolStripMenuItem.Enabled = false;
 			surfaceParamsToolStripMenuItem.Enabled = false;

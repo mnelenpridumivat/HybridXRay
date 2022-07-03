@@ -82,12 +82,12 @@ namespace Object_tool
             this.SaveLtxDialog = new System.Windows.Forms.SaveFileDialog();
             this.BonesPage = new System.Windows.Forms.TabPage();
             this.FlagsPage = new System.Windows.Forms.TabPage();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.FlagsGroupBox = new System.Windows.Forms.GroupBox();
+            this.MotionFlagsGroupBox = new System.Windows.Forms.GroupBox();
             this.AnimsNoCompress = new System.Windows.Forms.RadioButton();
             this.Anims8Bit = new System.Windows.Forms.RadioButton();
             this.Anims16Bit = new System.Windows.Forms.RadioButton();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.ModelFlagsGroupBox = new System.Windows.Forms.GroupBox();
             this.StripifyMeshes = new System.Windows.Forms.CheckBox();
             this.HQGeometry = new System.Windows.Forms.RadioButton();
             this.HQGeometryPlus = new System.Windows.Forms.RadioButton();
@@ -96,17 +96,17 @@ namespace Object_tool
             this.label3 = new System.Windows.Forms.Label();
             this.ScaleCenterOfMassCheckBox = new System.Windows.Forms.CheckBox();
             this.ObjectScaleTextBox = new System.Windows.Forms.TextBox();
-            this.FlagsHelpButton = new System.Windows.Forms.Button();
             this.TabControl = new System.Windows.Forms.TabControl();
             this.SurfacesPage = new System.Windows.Forms.TabPage();
             this.MotionPage = new System.Windows.Forms.TabPage();
             this.MotionTextBox = new System.Windows.Forms.RichTextBox();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuPanel.SuspendLayout();
             this.StatusPanel.SuspendLayout();
             this.FlagsPage.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            this.FlagsGroupBox.SuspendLayout();
+            this.MotionFlagsGroupBox.SuspendLayout();
+            this.ModelFlagsGroupBox.SuspendLayout();
             this.TabControl.SuspendLayout();
             this.MotionPage.SuspendLayout();
             this.SuspendLayout();
@@ -129,7 +129,8 @@ namespace Object_tool
             this.MenuPanel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.toolsToolStripMenuItem,
-            this.debugToolStripMenuItem});
+            this.debugToolStripMenuItem,
+            this.helpToolStripMenuItem});
             this.MenuPanel.Location = new System.Drawing.Point(0, 0);
             this.MenuPanel.Name = "MenuPanel";
             this.MenuPanel.Size = new System.Drawing.Size(384, 24);
@@ -410,7 +411,7 @@ namespace Object_tool
             this.StatusPanel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileLabel,
             this.StatusFile});
-            this.StatusPanel.Location = new System.Drawing.Point(0, 243);
+            this.StatusPanel.Location = new System.Drawing.Point(0, 217);
             this.StatusPanel.Name = "StatusPanel";
             this.StatusPanel.Size = new System.Drawing.Size(384, 22);
             this.StatusPanel.TabIndex = 31;
@@ -469,48 +470,47 @@ namespace Object_tool
             this.BonesPage.AutoScroll = true;
             this.BonesPage.Location = new System.Drawing.Point(4, 25);
             this.BonesPage.Name = "BonesPage";
-            this.BonesPage.Size = new System.Drawing.Size(352, 184);
+            this.BonesPage.Size = new System.Drawing.Size(352, 158);
             this.BonesPage.TabIndex = 2;
             this.BonesPage.Text = "Bones";
             this.BonesPage.UseVisualStyleBackColor = true;
             // 
             // FlagsPage
             // 
-            this.FlagsPage.Controls.Add(this.groupBox1);
+            this.FlagsPage.Controls.Add(this.FlagsGroupBox);
             this.FlagsPage.Location = new System.Drawing.Point(4, 25);
             this.FlagsPage.Name = "FlagsPage";
-            this.FlagsPage.Size = new System.Drawing.Size(352, 184);
+            this.FlagsPage.Size = new System.Drawing.Size(352, 158);
             this.FlagsPage.TabIndex = 0;
             this.FlagsPage.Text = "Flags";
             this.FlagsPage.UseVisualStyleBackColor = true;
             // 
-            // groupBox1
+            // FlagsGroupBox
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.groupBox1.Controls.Add(this.groupBox3);
-            this.groupBox1.Controls.Add(this.groupBox2);
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.ScaleCenterOfMassCheckBox);
-            this.groupBox1.Controls.Add(this.ObjectScaleTextBox);
-            this.groupBox1.Controls.Add(this.FlagsHelpButton);
-            this.groupBox1.Location = new System.Drawing.Point(0, 0);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(352, 184);
-            this.groupBox1.TabIndex = 16;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Edit export flags";
+            this.FlagsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.FlagsGroupBox.Controls.Add(this.MotionFlagsGroupBox);
+            this.FlagsGroupBox.Controls.Add(this.ModelFlagsGroupBox);
+            this.FlagsGroupBox.Controls.Add(this.label3);
+            this.FlagsGroupBox.Controls.Add(this.ScaleCenterOfMassCheckBox);
+            this.FlagsGroupBox.Controls.Add(this.ObjectScaleTextBox);
+            this.FlagsGroupBox.Location = new System.Drawing.Point(0, 0);
+            this.FlagsGroupBox.Name = "FlagsGroupBox";
+            this.FlagsGroupBox.Size = new System.Drawing.Size(352, 158);
+            this.FlagsGroupBox.TabIndex = 16;
+            this.FlagsGroupBox.TabStop = false;
+            this.FlagsGroupBox.Text = "Edit export flags";
             // 
-            // groupBox3
+            // MotionFlagsGroupBox
             // 
-            this.groupBox3.Controls.Add(this.AnimsNoCompress);
-            this.groupBox3.Controls.Add(this.Anims8Bit);
-            this.groupBox3.Controls.Add(this.Anims16Bit);
-            this.groupBox3.Location = new System.Drawing.Point(6, 15);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(165, 90);
-            this.groupBox3.TabIndex = 22;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Motion export";
+            this.MotionFlagsGroupBox.Controls.Add(this.AnimsNoCompress);
+            this.MotionFlagsGroupBox.Controls.Add(this.Anims8Bit);
+            this.MotionFlagsGroupBox.Controls.Add(this.Anims16Bit);
+            this.MotionFlagsGroupBox.Location = new System.Drawing.Point(6, 15);
+            this.MotionFlagsGroupBox.Name = "MotionFlagsGroupBox";
+            this.MotionFlagsGroupBox.Size = new System.Drawing.Size(165, 90);
+            this.MotionFlagsGroupBox.TabIndex = 22;
+            this.MotionFlagsGroupBox.TabStop = false;
+            this.MotionFlagsGroupBox.Text = "Motion export";
             // 
             // AnimsNoCompress
             // 
@@ -545,19 +545,19 @@ namespace Object_tool
             this.Anims16Bit.Text = "16 bit";
             this.Anims16Bit.UseVisualStyleBackColor = true;
             // 
-            // groupBox2
+            // ModelFlagsGroupBox
             // 
-            this.groupBox2.Controls.Add(this.StripifyMeshes);
-            this.groupBox2.Controls.Add(this.HQGeometry);
-            this.groupBox2.Controls.Add(this.HQGeometryPlus);
-            this.groupBox2.Controls.Add(this.ProgressiveMeshes);
-            this.groupBox2.Controls.Add(this.checkBox2);
-            this.groupBox2.Location = new System.Drawing.Point(177, 15);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(169, 137);
-            this.groupBox2.TabIndex = 21;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Model export";
+            this.ModelFlagsGroupBox.Controls.Add(this.StripifyMeshes);
+            this.ModelFlagsGroupBox.Controls.Add(this.HQGeometry);
+            this.ModelFlagsGroupBox.Controls.Add(this.HQGeometryPlus);
+            this.ModelFlagsGroupBox.Controls.Add(this.ProgressiveMeshes);
+            this.ModelFlagsGroupBox.Controls.Add(this.checkBox2);
+            this.ModelFlagsGroupBox.Location = new System.Drawing.Point(177, 15);
+            this.ModelFlagsGroupBox.Name = "ModelFlagsGroupBox";
+            this.ModelFlagsGroupBox.Size = new System.Drawing.Size(169, 137);
+            this.ModelFlagsGroupBox.TabIndex = 21;
+            this.ModelFlagsGroupBox.TabStop = false;
+            this.ModelFlagsGroupBox.Text = "Model export";
             // 
             // StripifyMeshes
             // 
@@ -645,17 +645,6 @@ namespace Object_tool
             this.ObjectScaleTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ScaleKeyDown);
             this.ObjectScaleTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ScaleKeyPress);
             // 
-            // FlagsHelpButton
-            // 
-            this.FlagsHelpButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.FlagsHelpButton.Location = new System.Drawing.Point(273, 155);
-            this.FlagsHelpButton.Name = "FlagsHelpButton";
-            this.FlagsHelpButton.Size = new System.Drawing.Size(73, 23);
-            this.FlagsHelpButton.TabIndex = 15;
-            this.FlagsHelpButton.Text = "Help";
-            this.FlagsHelpButton.UseVisualStyleBackColor = true;
-            this.FlagsHelpButton.Click += new System.EventHandler(this.FlagsHelpButton_Click);
-            // 
             // TabControl
             // 
             this.TabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
@@ -667,7 +656,7 @@ namespace Object_tool
             this.TabControl.Location = new System.Drawing.Point(12, 27);
             this.TabControl.Name = "TabControl";
             this.TabControl.SelectedIndex = 0;
-            this.TabControl.Size = new System.Drawing.Size(360, 213);
+            this.TabControl.Size = new System.Drawing.Size(360, 187);
             this.TabControl.TabIndex = 10;
             this.TabControl.SelectedIndexChanged += new System.EventHandler(this.IndexChanged);
             // 
@@ -676,7 +665,7 @@ namespace Object_tool
             this.SurfacesPage.AutoScroll = true;
             this.SurfacesPage.Location = new System.Drawing.Point(4, 25);
             this.SurfacesPage.Name = "SurfacesPage";
-            this.SurfacesPage.Size = new System.Drawing.Size(352, 184);
+            this.SurfacesPage.Size = new System.Drawing.Size(352, 158);
             this.SurfacesPage.TabIndex = 3;
             this.SurfacesPage.Text = "Surfaces";
             this.SurfacesPage.UseVisualStyleBackColor = true;
@@ -686,7 +675,7 @@ namespace Object_tool
             this.MotionPage.Controls.Add(this.MotionTextBox);
             this.MotionPage.Location = new System.Drawing.Point(4, 25);
             this.MotionPage.Name = "MotionPage";
-            this.MotionPage.Size = new System.Drawing.Size(352, 184);
+            this.MotionPage.Size = new System.Drawing.Size(352, 158);
             this.MotionPage.TabIndex = 4;
             this.MotionPage.Text = "Motions";
             this.MotionPage.UseVisualStyleBackColor = true;
@@ -698,16 +687,23 @@ namespace Object_tool
             this.MotionTextBox.Location = new System.Drawing.Point(0, 0);
             this.MotionTextBox.Name = "MotionTextBox";
             this.MotionTextBox.ReadOnly = true;
-            this.MotionTextBox.Size = new System.Drawing.Size(352, 164);
+            this.MotionTextBox.Size = new System.Drawing.Size(352, 155);
             this.MotionTextBox.TabIndex = 0;
             this.MotionTextBox.Text = "";
+            // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Text = "Help";
+            this.helpToolStripMenuItem.Click += new System.EventHandler(this.FlagsHelpButton_Click);
             // 
             // Object_Editor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(384, 265);
+            this.ClientSize = new System.Drawing.Size(384, 239);
             this.Controls.Add(this.StatusPanel);
             this.Controls.Add(this.TabControl);
             this.Controls.Add(this.MenuPanel);
@@ -715,7 +711,7 @@ namespace Object_tool
             this.MainMenuStrip = this.MenuPanel;
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(400, 680);
-            this.MinimumSize = new System.Drawing.Size(400, 304);
+            this.MinimumSize = new System.Drawing.Size(400, 278);
             this.Name = "Object_Editor";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Object Editor";
@@ -725,12 +721,12 @@ namespace Object_tool
             this.StatusPanel.ResumeLayout(false);
             this.StatusPanel.PerformLayout();
             this.FlagsPage.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.FlagsGroupBox.ResumeLayout(false);
+            this.FlagsGroupBox.PerformLayout();
+            this.MotionFlagsGroupBox.ResumeLayout(false);
+            this.MotionFlagsGroupBox.PerformLayout();
+            this.ModelFlagsGroupBox.ResumeLayout(false);
+            this.ModelFlagsGroupBox.PerformLayout();
             this.TabControl.ResumeLayout(false);
             this.MotionPage.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -779,12 +775,12 @@ namespace Object_tool
         private System.Windows.Forms.ToolStripMenuItem showWindowToolStripMenuItem;
         private System.Windows.Forms.TabPage BonesPage;
         private System.Windows.Forms.TabPage FlagsPage;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox FlagsGroupBox;
+        private System.Windows.Forms.GroupBox MotionFlagsGroupBox;
         private System.Windows.Forms.RadioButton AnimsNoCompress;
         private System.Windows.Forms.RadioButton Anims8Bit;
         private System.Windows.Forms.RadioButton Anims16Bit;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox ModelFlagsGroupBox;
         private System.Windows.Forms.RadioButton HQGeometry;
         private System.Windows.Forms.RadioButton HQGeometryPlus;
         private System.Windows.Forms.CheckBox ProgressiveMeshes;
@@ -792,7 +788,6 @@ namespace Object_tool
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox ScaleCenterOfMassCheckBox;
         private System.Windows.Forms.TextBox ObjectScaleTextBox;
-        private System.Windows.Forms.Button FlagsHelpButton;
         private System.Windows.Forms.TabControl TabControl;
         private System.Windows.Forms.ToolStripMenuItem sklToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dMToolStripMenuItem;
@@ -811,6 +806,7 @@ namespace Object_tool
         private System.Windows.Forms.ToolStripMenuItem enableAll2SidedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem disableAll2SidedToolStripMenuItem;
         private System.Windows.Forms.CheckBox StripifyMeshes;
+        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
     }
 }
 
