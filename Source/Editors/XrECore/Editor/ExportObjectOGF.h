@@ -35,13 +35,13 @@ struct SOGFVert{
 	}
 	BOOL	similar_pos(SOGFVert& V)
 	{
-        return P.similar(V.P,EPS_L);
+        return P.similar(V.P,EPS);
     }
 	BOOL	similar(SOGFVert& V)
 	{
-        if (!P.similar	(V.P,EPS_L))	return FALSE;
+        if (!P.similar	(V.P,EPS))	return FALSE;
         if (!UV.similar	(V.UV,EPS_S))	return FALSE;
-		if (!N.similar	(V.N,EPS_L))	return FALSE;
+		if (!N.similar	(V.N,EPS))	return FALSE;
 		return TRUE;
 	}
 };
@@ -137,7 +137,7 @@ class ECORE_API CExportObjectOGF
         CSurface*		m_Surf;
 
         // Progressive
-		void			AppendPart		(int apx_vertices, int apx_faces);
+		void			AppendPart		(int apx_vertices, int apx_faces, bool hq);
         void			SavePart		(IWriter& F, CObjectOGFCollectorPacked* part);
         void 			Save			(IWriter& F, int& chunk_id);
 

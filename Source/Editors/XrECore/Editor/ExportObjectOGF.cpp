@@ -126,9 +126,9 @@ CExportObjectOGF::SSplit::~SSplit()
     	xr_delete(*it);
 }
 
-void CExportObjectOGF::SSplit::AppendPart(int apx_vertices, int apx_faces)
+void CExportObjectOGF::SSplit::AppendPart(int apx_vertices, int apx_faces, bool hq)
 {
-	m_Parts.push_back	(xr_new<CObjectOGFCollectorPacked>(apx_box,apx_vertices, apx_faces));
+	m_Parts.push_back	(xr_new<CObjectOGFCollectorPacked>(apx_box, hq, apx_vertices, apx_faces));
     m_CurrentPart		= m_Parts.back();
 }
 
@@ -324,7 +324,7 @@ bool CExportObjectOGF::PrepareMESH(CEditableMesh* MESH)
             
         if (0==split->m_CurrentPart) 
 			split->AppendPart(	(elapsed_faces>0xffff) ? 0xffff : elapsed_faces,
-								(elapsed_faces>0xffff) ? 0xffff : elapsed_faces);
+								(elapsed_faces>0xffff) ? 0xffff : elapsed_faces, m_Source->m_objectFlags.is(CEditableObject::eoHQExportPlus));
             
         do{
             for (IntIt f_it=face_lst.begin(); f_it!=face_lst.end(); ++f_it)
@@ -368,7 +368,7 @@ bool CExportObjectOGF::PrepareMESH(CEditableMesh* MESH)
                 }
                 if (bNewPart && (elapsed_faces>0)) 
 					split->AppendPart(	(elapsed_faces>0xffff) ? 0xffff : elapsed_faces,
-										(elapsed_faces>0xffff) ? 0xffff : elapsed_faces);
+										(elapsed_faces>0xffff) ? 0xffff : elapsed_faces, m_Source->m_objectFlags.is(CEditableObject::eoHQExportPlus));
             }
         }while(elapsed_faces>0);
     }
