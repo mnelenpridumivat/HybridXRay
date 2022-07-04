@@ -149,6 +149,8 @@ namespace Object_tool
 			TEMP_FILE_NAME = TempFile;
 
 			bool has_motions = MotionCount() > 0;
+			bool has_bones = HasBones();
+
 			DeletesklsToolStripMenuItem.Enabled = has_motions;
 			SaveSklsToolStripMenuItem.Enabled = has_motions;
 			sklToolStripMenuItem.Enabled = has_motions;
@@ -156,15 +158,19 @@ namespace Object_tool
 			saveToolStripMenuItem.Enabled = !skeleton;
 			exportToolStripMenuItem.Enabled = true;
 			deleteToolStripMenuItem.Enabled = true;
-			sklSklsToolStripMenuItem.Enabled = true;
-			bonesToolStripMenuItem.Enabled = true;
+			sklSklsToolStripMenuItem.Enabled = has_bones;
+			bonesToolStripMenuItem.Enabled = has_bones;
 			oGFToolStripMenuItem.Enabled = !skeleton;
 			objToolStripMenuItem.Enabled = !skeleton;
 			objectToolStripMenuItem.Enabled = !skeleton;
 			dMToolStripMenuItem.Enabled = !skeleton;
-			bonesPartsToolStripMenuItem.Enabled = !skeleton;
+			bonesPartsToolStripMenuItem.Enabled = has_bones;
 			ModelFlagsGroupBox.Enabled = !skeleton;
 			FlagsGroupBox.Enabled = true;
+			StripifyMeshes.Enabled = has_bones;
+			bonesToolStripMenuItem1.Enabled = has_bones;
+			bonesPartsToolStripMenuItem1.Enabled = has_bones;
+			bonesPartsToDefaultToolStripMenuItem.Enabled = has_bones;
 
 			if (skeleton)
 			{
@@ -177,8 +183,6 @@ namespace Object_tool
 			LoadScale();
 			LoadSurfaceData();
 			ParseMotions();
-
-			StripifyMeshes.Enabled = HasBones();
 
 			for (int i = 0; i < shapes.Count; i++)
 			{
@@ -791,7 +795,7 @@ namespace Object_tool
 		{
 			MessageBox.Show("Motion export:\nДанные флаги влияют на компресиию анимаций при экспортировании в OMF.\n1. 8 bit - ТЧ Формат\n2. 16 bit - ЗП Формат\n" + (DEVELOPER_MODE ? "3. No compress - экспортирует анимации без сжатия\n\n" : "\n") +
 				"Model export:\n" +
-				"1. Make progressive meshes - создает прогрессивные меши при экспорте OGF. Это динамическая детализация модели (lod'ы), чаще используется для мировых объектов, так же немного оптимизирует основную модель.\n" +
+				"1. Make progressive meshes - создает прогрессивные меши при экспорте OGF. Это динамическая детализация модели (lod'ы), чаще используется для мировых объектов.\n" +
 				"2. Make stripify meshes - оптимизация vertex'ов и face'ов у мешей которая портила сетку, раньше стояла по дефолту в SDK и использовалась для оптимизации мешей под старый DirectX и видеокарты. Сейчас же надобности в данном флаге нет.\n" +
 				"3. Optimize surfaces - при включении объединяет меши с одинаковыми названиями текстур и шейдеров как и любой SDK. В данном эдиторе появилась возможность отключить это для последующих изменений через OGF Editor.\n" +
                 "4. HQ Geometry+ - при активации компилятор будет экспортировать модель без оптимизаций vertex'ов и face'ов. \n\n" +
@@ -803,7 +807,7 @@ namespace Object_tool
 				"2. Remove After Break - при активации у всех костей, после спавна объекта начнется таймер \"remove_time\" из конфига, при истечении которого объект удалится.\n" +
 				"3. No Physics - при активации движок игнорирует физику шейпа.\n" +
 				"4. No Fog Collider - при активации Volumetric fog будет игнорировать данный элемент.\n\n" +
-				"    Для создания коллизии с нуля нужно настроить Shape type параметры у каждой кости (можно воспользоваться Tools->Shape Params->Type helper) и далее нажать Tools->Shape Params->Generate Shapes.\nЕсли коллизия уже была сгенерирована, то Shape type можно менять без повторной генерации коллизии.\n\n" +
+				"Для создания коллизии с нуля нужно настроить Shape type параметры у каждой кости (можно воспользоваться Tools->Shape Params->Type helper) и далее нажать Tools->Shape Params->Generate Shapes.\nЕсли коллизия уже была сгенерирована, то Shape type можно менять без повторной генерации коллизии.\n\n" +
 				"Tools->Surface Params и Tools->Shape Params активируются при выборе соответствующей вкладки в программе."
 				, "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
