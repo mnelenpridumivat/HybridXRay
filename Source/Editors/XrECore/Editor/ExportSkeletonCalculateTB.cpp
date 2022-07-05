@@ -188,34 +188,6 @@ void CExportSkeleton::SSplit::CalculateTB()
 
 void 	CExportSkeleton::SSplit::OptimizeTextureCoordinates()
 {
-	// Optimize texture coordinates
-    // 1. Calc bounds
-    Fvector2 	Tdelta;
-    Fvector2 	Tmin,Tmax;
-    Tmin.set	(flt_max,flt_max);
-    Tmax.set	(flt_min,flt_min);
-
-	u32	v_cnt	= m_Verts.size();
-
-    for ( u32 v_idx=0; v_idx!=v_cnt; v_idx++ ){
-        SSkelVert	&iV = m_Verts[v_idx];
-        Tmin.min	(iV.uv);
-        Tmax.max	(iV.uv);
-    }
-    Tdelta.x 	= floorf((Tmax.x-Tmin.x)/2+Tmin.x);
-    Tdelta.y 	= floorf((Tmax.y-Tmin.y)/2+Tmin.y);
-
-    Fvector2	Tsize;
-    Tsize.sub	(Tmax,Tmin);
-    if ((Tsize.x>32)||(Tsize.y>32))
-    	Msg		("#!Surface [T:'%s', S:'%s'] has UV tiled more than 32 times.",*m_Texture,*m_Shader);
-    {
-      // 2. Recalc UV mapping
-      for ( u32 v_idx=0; v_idx!=v_cnt; v_idx++ ){
-          SSkelVert	&iV = m_Verts[v_idx];
-          iV.uv.sub	(Tdelta);
-      }
-    }
 }
 /*
 IC void	set_vertex( MeshMender::Vertex &out_vertex, const SSkelVert& in_vertex )
