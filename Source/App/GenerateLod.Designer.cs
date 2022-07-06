@@ -32,13 +32,15 @@
             this.button1 = new System.Windows.Forms.Button();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(100, 9);
+            this.label1.Location = new System.Drawing.Point(123, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(61, 13);
             this.label1.TabIndex = 0;
@@ -46,7 +48,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(171, 72);
+            this.button1.Location = new System.Drawing.Point(224, 72);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 2;
@@ -56,7 +58,7 @@
             // 
             // trackBar1
             // 
-            this.trackBar1.Location = new System.Drawing.Point(12, 25);
+            this.trackBar1.Location = new System.Drawing.Point(36, 25);
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.Size = new System.Drawing.Size(234, 45);
             this.trackBar1.TabIndex = 3;
@@ -72,11 +74,31 @@
             this.checkBox1.Text = "Make progressive meshes";
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(276, 25);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(23, 13);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "HQ";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(9, 25);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(21, 13);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "LQ";
+            // 
             // GenerateLod
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(258, 105);
+            this.ClientSize = new System.Drawing.Size(306, 105);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.trackBar1);
             this.Controls.Add(this.button1);
@@ -98,5 +120,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TrackBar trackBar1;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
     }
 }
