@@ -46,6 +46,7 @@ namespace Object_tool
 		SaveBoneParts,
 		ToDefaultBoneParts,
 		SaveSklMotions,
+		GenerateLod
     };
 
 	public partial class Object_Editor : Form
@@ -57,6 +58,8 @@ namespace Object_tool
 		public List<ShapeEditType> shapes;
 		public List<Surface> surfaces;
 		public float model_scale = 1.0f;
+		public float lod_quality = 0.5f;
+		public int lod_flags = 0;
 		public bool DEVELOPER_MODE = false;
 		public bool DEBUG_MODE = false;
 		IniFile Settings = null;
@@ -141,6 +144,9 @@ namespace Object_tool
 			SaveObjectDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
 			SaveObjectDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + ".object";
 
+			SaveOgfLodDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
+			SaveOgfLodDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + "_lod.ogf";
+
 			FILE_NAME = filename;
 
 			if (!Directory.Exists(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp"))
@@ -189,6 +195,7 @@ namespace Object_tool
 			LoadScale();
 			LoadSurfaceData();
 			ParseMotions();
+			LoadLod();
 
 			for (int i = 0; i < shapes.Count; i++)
 			{
@@ -222,7 +229,13 @@ namespace Object_tool
                 args += $" \"{OpenSklsDialog.FileNames[i]}\"";
             }
 
-            return RunCompiller(args);
+			// Ёкспортируем качество и флаги лода
+			args += $" {lod_quality} {lod_flags}";
+
+			// Ёкспортируем путь к огф лоду
+			args += $" \"{LodTextBox.Text}\"";
+
+			return RunCompiller(args);
 		}
 
 		private int RunCompiller(string args)
@@ -486,6 +499,31 @@ namespace Object_tool
 			}
 		}
 
+		private void generateLodToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			GenerateLod Params = new GenerateLod();
+			Params.ShowDialog();
+
+			if (Params.res)
+			{
+				lod_quality = Params.lod_quality;
+				lod_flags = 0;
+				if (Params.progressive)
+					lod_flags |= (1<<2);
+
+				if (SaveOgfLodDialog.ShowDialog() == DialogResult.OK)
+				{
+					SaveOgfLodDialog.InitialDirectory = "";
+
+					int code = StartEditor(EditorMode.GenerateLod, TEMP_FILE_NAME, SaveOgfLodDialog.FileName);
+					if (code == 0)
+						AutoClosingMessageBox.Show("Lod succesfully generated.", "", 1000, MessageBoxIcon.Information);
+					else
+						AutoClosingMessageBox.Show($"Failed to generate lod.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+				}
+			}
+		}
+
 		private void LoadBoneData()
 		{
 			var xr_loader = new XRayLoader();
@@ -567,6 +605,22 @@ namespace Object_tool
 					ObjectScaleTextBox.Text = model_scale.ToString();
 					uint chk = xr_loader.ReadUInt32();
 					ScaleCenterOfMassCheckBox.Checked = Convert.ToBoolean(chk);
+				}
+			}
+		}
+
+		private void LoadLod()
+		{
+			var xr_loader = new XRayLoader();
+
+			using (var r = new BinaryReader(new FileStream(TEMP_FILE_NAME, FileMode.Open)))
+			{
+				xr_loader.SetStream(r.BaseStream);
+				xr_loader.ReadInt64();
+
+				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_LODS))
+				{
+					LodTextBox.Text = xr_loader.read_stringZ();
 				}
 			}
 		}

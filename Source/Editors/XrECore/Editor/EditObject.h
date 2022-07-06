@@ -199,6 +199,7 @@ public:
         eoHQExportPlus  = (1<<6),           
         eoOptimizeSurf  = (1<<7),   
         eoStripify      = (1<<8),
+        eoLod           = (1<<9),
 		eoFORCE32		= u32(-1)           
     };
     IC BOOL			IsDynamic				(){return m_objectFlags.is(eoDynamic);}

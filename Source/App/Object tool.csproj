@@ -69,6 +69,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GenerateLod.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GenerateLod.Designer.cs">
+      <DependentUpon>GenerateLod.cs</DependentUpon>
+    </Compile>
     <Compile Include="XRayLoader.cs" />
     <Compile Include="ObjectEditor.cs">
       <SubType>Form</SubType>
@@ -78,6 +84,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="GenerateLod.resx">
+      <DependentUpon>GenerateLod.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ObjectEditor.resx">
       <DependentUpon>ObjectEditor.cs</DependentUpon>
     </EmbeddedResource>

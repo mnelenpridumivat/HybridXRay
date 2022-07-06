@@ -913,7 +913,7 @@ bool CExportSkeleton::ExportGeometry(IWriter& F, u8 infl)
             {
                 CExportSkeleton	    E(lod_src);
 #else
-
+                Msg("Export lod [%s]", m_Source->GetLODs());
                 F.w_string          ( m_Source->GetLODs() );
 #endif
 

@@ -12,6 +12,7 @@
 
 extern ECORE_API BOOL g_force16BitTransformQuant;
 extern ECORE_API BOOL g_forceFloatTransformQuant;
+extern ECORE_API float g_EpsSkelPositionDelta;
 
 int iReaderPos = 0;
 
@@ -44,6 +45,7 @@ enum EditorMode
     SaveBoneParts,
     ToDefaultBoneParts,
     SaveSklMotions,
+    GenerateLod
 };
 
 xr_vector<CEditableObject::ShapeEditType> LoadShapes(char** args, int count)
@@ -157,6 +159,9 @@ int main(int argc, char** argv)
     xr_vector<CEditableObject::ShapeEditType> pShapes = LoadShapes(argv, shapes_count);
     xr_vector<CEditableObject::SurfaceParams> pSurfaces = LoadSurfaces(argv, surfaces_count);
     xr_vector<shared_str> pLoadedAnims = LoadAnims(argv, loaded_skls_count);
+    float lod_quality = atof(argv[iReaderPos]); iReaderPos++;
+    int lod_flags = atoi(argv[iReaderPos]); iReaderPos++;
+    shared_str lod_path = argv[iReaderPos]; iReaderPos++;
     // End of program params
 
     Tools = xr_new<CActorTools>();
@@ -166,6 +171,7 @@ int main(int argc, char** argv)
     ATools->LoadScale(object_path.c_str(), scale, (flags & exfScaleCenterMass));
     ATools->CurrentObject()->ChangeSurfaceFlags(pSurfaces);
     ATools->CurrentObject()->ChangeBoneShapeTypes(pShapes);
+    ATools->CurrentObject()->m_LODs = lod_path;
 
     if (!ATools->BonePartsExist() && mode != 9)
     {
@@ -182,6 +188,7 @@ int main(int argc, char** argv)
     ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoStripify, (flags & exfMakeStripify));
     ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoOptimizeSurf, (flags & exfOptimizeSurfaces));
     ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoHQExportPlus, (flags & exfHQGeometryPlus));
+    ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoLod, (mode == GenerateLod));
 
     switch (mode)
     {
@@ -270,6 +277,22 @@ int main(int argc, char** argv)
         case SaveSklMotions:
         {
             if (!ATools->SaveMotions(second_file_path.c_str(), true))
+                ret_code = -1;
+        }break;
+        case GenerateLod:
+        {
+            Msg("Quality: %f", lod_quality);
+            float lq = 0.01f;
+            float hq = 0.002f;
+            float quality = lq + (lod_quality / 1.0f * (hq - lq));
+            g_EpsSkelPositionDelta = quality;
+            ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoOptimizeSurf, TRUE);
+            ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoHQExportPlus, FALSE);
+            ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoProgressive, (lod_flags & exfMakeProgressive));
+            ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoStripify, FALSE); // Крашит
+            std::cout << "Export Lod" << std::endl;
+            Msg("Lod quality: %f", g_EpsSkelPositionDelta);
+            if (!ATools->ExportOGF(second_file_path.c_str()))
                 ret_code = -1;
         }break;
     }

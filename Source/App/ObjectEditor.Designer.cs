@@ -67,6 +67,7 @@ namespace Object_tool
             this.allBoxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.allSphereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.allCylinderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.generateLodToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.debugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -103,7 +104,11 @@ namespace Object_tool
             this.SurfacesPage = new System.Windows.Forms.TabPage();
             this.MotionPage = new System.Windows.Forms.TabPage();
             this.MotionTextBox = new System.Windows.Forms.RichTextBox();
+            this.LodPage = new System.Windows.Forms.TabPage();
             this.SaveObjectDialog = new System.Windows.Forms.SaveFileDialog();
+            this.SaveOgfLodDialog = new System.Windows.Forms.SaveFileDialog();
+            this.label1 = new System.Windows.Forms.Label();
+            this.LodTextBox = new System.Windows.Forms.TextBox();
             this.MenuPanel.SuspendLayout();
             this.StatusPanel.SuspendLayout();
             this.FlagsPage.SuspendLayout();
@@ -112,6 +117,7 @@ namespace Object_tool
             this.ModelFlagsGroupBox.SuspendLayout();
             this.TabControl.SuspendLayout();
             this.MotionPage.SuspendLayout();
+            this.LodPage.SuspendLayout();
             this.SuspendLayout();
             // 
             // OpenObjectDialog
@@ -317,7 +323,8 @@ namespace Object_tool
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.surfaceParamsToolStripMenuItem,
-            this.shapeParamsToolStripMenuItem});
+            this.shapeParamsToolStripMenuItem,
+            this.generateLodToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
@@ -328,7 +335,7 @@ namespace Object_tool
             this.enableAll2SidedToolStripMenuItem,
             this.disableAll2SidedToolStripMenuItem});
             this.surfaceParamsToolStripMenuItem.Name = "surfaceParamsToolStripMenuItem";
-            this.surfaceParamsToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.surfaceParamsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.surfaceParamsToolStripMenuItem.Text = "Surface Params";
             // 
             // enableAll2SidedToolStripMenuItem
@@ -351,7 +358,7 @@ namespace Object_tool
             this.generateShapesToolStripMenuItem1,
             this.typeHelperToolStripMenuItem1});
             this.shapeParamsToolStripMenuItem.Name = "shapeParamsToolStripMenuItem";
-            this.shapeParamsToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.shapeParamsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.shapeParamsToolStripMenuItem.Text = "Shape Params";
             // 
             // generateShapesToolStripMenuItem1
@@ -399,6 +406,13 @@ namespace Object_tool
             this.allCylinderToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.allCylinderToolStripMenuItem.Text = "All Cylinder";
             this.allCylinderToolStripMenuItem.Click += new System.EventHandler(this.allCylinderToolStripMenuItem_Click);
+            // 
+            // generateLodToolStripMenuItem
+            // 
+            this.generateLodToolStripMenuItem.Name = "generateLodToolStripMenuItem";
+            this.generateLodToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.generateLodToolStripMenuItem.Text = "Generate lod";
+            this.generateLodToolStripMenuItem.Click += new System.EventHandler(this.generateLodToolStripMenuItem_Click);
             // 
             // debugToolStripMenuItem
             // 
@@ -677,6 +691,7 @@ namespace Object_tool
             this.TabControl.Controls.Add(this.SurfacesPage);
             this.TabControl.Controls.Add(this.BonesPage);
             this.TabControl.Controls.Add(this.MotionPage);
+            this.TabControl.Controls.Add(this.LodPage);
             this.TabControl.Location = new System.Drawing.Point(12, 27);
             this.TabControl.Name = "TabControl";
             this.TabControl.SelectedIndex = 0;
@@ -716,9 +731,42 @@ namespace Object_tool
             this.MotionTextBox.TabIndex = 0;
             this.MotionTextBox.Text = "";
             // 
+            // LodPage
+            // 
+            this.LodPage.Controls.Add(this.LodTextBox);
+            this.LodPage.Controls.Add(this.label1);
+            this.LodPage.Location = new System.Drawing.Point(4, 25);
+            this.LodPage.Name = "LodPage";
+            this.LodPage.Size = new System.Drawing.Size(352, 158);
+            this.LodPage.TabIndex = 5;
+            this.LodPage.Text = "Lod";
+            this.LodPage.UseVisualStyleBackColor = true;
+            // 
             // SaveObjectDialog
             // 
             this.SaveObjectDialog.Filter = "Object file|*.object";
+            // 
+            // SaveOgfLodDialog
+            // 
+            this.SaveOgfLodDialog.Filter = "OGF file|*.ogf";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 10);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(52, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Lod path:";
+            // 
+            // LodTextBox
+            // 
+            this.LodTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.LodTextBox.Location = new System.Drawing.Point(6, 26);
+            this.LodTextBox.Name = "LodTextBox";
+            this.LodTextBox.Size = new System.Drawing.Size(340, 20);
+            this.LodTextBox.TabIndex = 1;
             // 
             // Object_Editor
             // 
@@ -752,6 +800,8 @@ namespace Object_tool
             this.ModelFlagsGroupBox.PerformLayout();
             this.TabControl.ResumeLayout(false);
             this.MotionPage.ResumeLayout(false);
+            this.LodPage.ResumeLayout(false);
+            this.LodPage.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -833,6 +883,11 @@ namespace Object_tool
         private System.Windows.Forms.SaveFileDialog SaveObjectDialog;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem generateLodToolStripMenuItem;
+        private System.Windows.Forms.TabPage LodPage;
+        private System.Windows.Forms.SaveFileDialog SaveOgfLodDialog;
+        private System.Windows.Forms.TextBox LodTextBox;
+        private System.Windows.Forms.Label label1;
     }
 }
 
