@@ -40,7 +40,7 @@ struct ECORE_API SSkelVert: public st_SVert{
     }
     BOOL    similar_pos(SSkelVert& V)
     {
-        return offs.similar(V.offs,EPS);
+        return offs.similar(V.offs, g_EpsSkelPositionDelta);
     }
     BOOL    similar(SSkelVert& V)
     {
@@ -50,13 +50,13 @@ struct ECORE_API SSkelVert: public st_SVert{
             if (!bones[k].similar(V.bones[k]))
                 return FALSE;
         }
-        if (!uv.similar    (V.uv,EPS_S))
+        if (!uv.similar    (V.uv, EPS_S))
             return FALSE;
 
-        if (!offs.similar(V.offs,EPS))
+        if (!offs.similar(V.offs, g_EpsSkelPositionDelta))
             return FALSE;
 
-        if (!norm.similar(V.norm,EPS))
+        if (!norm.similar(V.norm, g_EpsSkelPositionDelta))
             return FALSE;
 
         return TRUE;
@@ -101,8 +101,10 @@ public:
     }
 	bool add_face	(SSkelVert& v0, SSkelVert& v1, SSkelVert& v2, bool HQ)
     {
-		if (v0.offs.similar(v1.offs,EPS) || v0.offs.similar(v2.offs,EPS) || v1.offs.similar(v2.offs,EPS)){
-			ELog.Msg(mtError,"Degenerate face found. Removed.");
+		if (!HQ && ((v0.offs.similar(v1.offs,EPS) || v0.offs.similar(v2.offs,EPS) || v1.offs.similar(v2.offs,EPS))))
+        {
+            if (g_EpsSkelPositionDelta <= EPS)
+			    ELog.Msg(mtError,"Degenerate face found. Removed.");
             invalid_faces++;
             return false;
         }
@@ -120,11 +122,15 @@ public:
             F.v[1] = VPackHQ(v1);
             F.v[2] = VPackHQ(v2);
         }
-        if (check(F)){ 
+        if (HQ || check(F))
+        { 
         	m_Faces.push_back	(F);
 	        return 				true;
-        }else{	
-        	ELog.Msg(mtError,"Duplicate face found. Removed.");
+        }
+        else
+        {	
+            if (g_EpsSkelPositionDelta <= EPS)
+        	    ELog.Msg(mtError,"Duplicate face found. Removed.");
             invalid_faces++;
             return false;
         }
