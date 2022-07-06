@@ -109,6 +109,8 @@ namespace Object_tool
             this.SaveOgfLodDialog = new System.Windows.Forms.SaveFileDialog();
             this.label1 = new System.Windows.Forms.Label();
             this.LodTextBox = new System.Windows.Forms.TextBox();
+            this.UserDataPage = new System.Windows.Forms.TabPage();
+            this.UserDataTextBox = new System.Windows.Forms.RichTextBox();
             this.MenuPanel.SuspendLayout();
             this.StatusPanel.SuspendLayout();
             this.FlagsPage.SuspendLayout();
@@ -118,6 +120,7 @@ namespace Object_tool
             this.TabControl.SuspendLayout();
             this.MotionPage.SuspendLayout();
             this.LodPage.SuspendLayout();
+            this.UserDataPage.SuspendLayout();
             this.SuspendLayout();
             // 
             // OpenObjectDialog
@@ -691,6 +694,7 @@ namespace Object_tool
             this.TabControl.Controls.Add(this.SurfacesPage);
             this.TabControl.Controls.Add(this.BonesPage);
             this.TabControl.Controls.Add(this.MotionPage);
+            this.TabControl.Controls.Add(this.UserDataPage);
             this.TabControl.Controls.Add(this.LodPage);
             this.TabControl.Location = new System.Drawing.Point(12, 27);
             this.TabControl.Name = "TabControl";
@@ -768,6 +772,27 @@ namespace Object_tool
             this.LodTextBox.Size = new System.Drawing.Size(340, 20);
             this.LodTextBox.TabIndex = 1;
             // 
+            // UserDataPage
+            // 
+            this.UserDataPage.Controls.Add(this.UserDataTextBox);
+            this.UserDataPage.Location = new System.Drawing.Point(4, 25);
+            this.UserDataPage.Name = "UserDataPage";
+            this.UserDataPage.Size = new System.Drawing.Size(352, 158);
+            this.UserDataPage.TabIndex = 6;
+            this.UserDataPage.Text = "UserData";
+            this.UserDataPage.UseVisualStyleBackColor = true;
+            // 
+            // UserDataTextBox
+            // 
+            this.UserDataTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.UserDataTextBox.Location = new System.Drawing.Point(0, 0);
+            this.UserDataTextBox.Name = "UserDataTextBox";
+            this.UserDataTextBox.Size = new System.Drawing.Size(352, 158);
+            this.UserDataTextBox.TabIndex = 0;
+            this.UserDataTextBox.Text = "";
+            // 
             // Object_Editor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -802,6 +827,7 @@ namespace Object_tool
             this.MotionPage.ResumeLayout(false);
             this.LodPage.ResumeLayout(false);
             this.LodPage.PerformLayout();
+            this.UserDataPage.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -888,6 +914,8 @@ namespace Object_tool
         private System.Windows.Forms.SaveFileDialog SaveOgfLodDialog;
         private System.Windows.Forms.TextBox LodTextBox;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TabPage UserDataPage;
+        private System.Windows.Forms.RichTextBox UserDataTextBox;
     }
 }
 

@@ -162,6 +162,7 @@ int main(int argc, char** argv)
     float lod_quality = atof(argv[iReaderPos]); iReaderPos++;
     int lod_flags = atoi(argv[iReaderPos]); iReaderPos++;
     shared_str lod_path = argv[iReaderPos]; iReaderPos++;
+    shared_str userdata = argv[iReaderPos]; iReaderPos++;
     // End of program params
 
     Tools = xr_new<CActorTools>();
@@ -172,6 +173,7 @@ int main(int argc, char** argv)
     ATools->CurrentObject()->ChangeSurfaceFlags(pSurfaces);
     ATools->CurrentObject()->ChangeBoneShapeTypes(pShapes);
     ATools->CurrentObject()->m_LODs = lod_path;
+    ATools->CurrentObject()->GetClassScript() = userdata.c_str();
 
     if (!ATools->BonePartsExist() && mode != 9)
     {

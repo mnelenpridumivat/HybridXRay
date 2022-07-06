@@ -192,10 +192,9 @@ namespace Object_tool
 			}
 
 			LoadBoneData();
-			LoadScale();
 			LoadSurfaceData();
 			ParseMotions();
-			LoadLod();
+			LoadData();
 
 			for (int i = 0; i < shapes.Count; i++)
 			{
@@ -234,6 +233,18 @@ namespace Object_tool
 
 			// Ёкспортируем путь к огф лоду
 			args += $" \"{LodTextBox.Text}\"";
+
+			// Ёкспортируем юзердату
+			string userdata = "";
+			if (UserDataTextBox.Text != "")
+			{
+				for (int i = 0; i < UserDataTextBox.Lines.Count(); i++)
+				{
+					string ext = i == UserDataTextBox.Lines.Count() - 1 ? "" : "\r\n";
+					userdata += UserDataTextBox.Lines[i] + ext;
+				}
+			}
+			args += $" \"{userdata}\"";
 
 			return RunCompiller(args);
 		}
@@ -596,16 +607,25 @@ namespace Object_tool
 			}
 		}
 
-		private void LoadScale()
+		private void LoadData()
 		{
 			var xr_loader = new XRayLoader();
 
 			using (var r = new BinaryReader(new FileStream(TEMP_FILE_NAME, FileMode.Open)))
 			{
 				xr_loader.SetStream(r.BaseStream);
-				xr_loader.ReadInt64();
 
-				if (xr_loader.find_chunkSize((int)OBJECT.EOBJ_CHUNK_ACTORTRANSFORM) > 24)
+				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_LODS, true, true))
+				{
+					LodTextBox.Text = xr_loader.read_stringData();
+				}
+
+				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_CLASSSCRIPT, true, true))
+				{
+					UserDataTextBox.Text = xr_loader.read_stringZ();
+				}
+
+				if (xr_loader.find_chunkSize((int)OBJECT.EOBJ_CHUNK_ACTORTRANSFORM, true, true) > 24)
 				{
 					xr_loader.ReadBytes(12);
 					xr_loader.ReadBytes(12);
@@ -613,22 +633,6 @@ namespace Object_tool
 					ObjectScaleTextBox.Text = model_scale.ToString();
 					uint chk = xr_loader.ReadUInt32();
 					ScaleCenterOfMassCheckBox.Checked = Convert.ToBoolean(chk);
-				}
-			}
-		}
-
-		private void LoadLod()
-		{
-			var xr_loader = new XRayLoader();
-
-			using (var r = new BinaryReader(new FileStream(TEMP_FILE_NAME, FileMode.Open)))
-			{
-				xr_loader.SetStream(r.BaseStream);
-				xr_loader.ReadInt64();
-
-				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_LODS))
-				{
-					LodTextBox.Text = xr_loader.read_stringData();
 				}
 			}
 		}
