@@ -224,6 +224,29 @@ namespace Object_tool
             return str;
         }
 
+        public string read_stringData()
+        {
+            string str = "";
+
+            while (reader.BaseStream.Position < reader.BaseStream.Length)
+            {
+                byte[] one = { reader.ReadByte() };
+                if (one[0] != 0 && one[0] != 0xA && one[0] != 0xD)
+                {
+                    str += Encoding.Default.GetString(one);
+                }
+                else
+                {
+                    if (one[0] == 0xD)
+                    {
+                        reader.ReadByte();
+                    }
+                    break;
+                }
+            }
+            return str;
+        }
+
         public string read_motion_mark_string()
         {
             string str = "";

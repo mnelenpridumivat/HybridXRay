@@ -620,7 +620,7 @@ namespace Object_tool
 
 				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_LODS))
 				{
-					LodTextBox.Text = xr_loader.read_stringZ();
+					LodTextBox.Text = xr_loader.read_stringData();
 				}
 			}
 		}
