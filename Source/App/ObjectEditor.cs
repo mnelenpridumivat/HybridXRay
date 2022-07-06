@@ -658,6 +658,26 @@ namespace Object_tool
 					}
 					MotionRefsBox.Lines = refs.ToArray();
 				}
+				else if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SMOTIONS2, true, true))
+				{
+					string motions = xr_loader.read_stringZ();
+
+					string motion = "";
+					List<string> refs = new List<string>();
+
+					for (int i = 0; i < motions.Length; i++)
+                    {
+						if (motions[i] != ',')
+							motion += motions[i];
+						else
+						{
+							motion = "";
+							refs.Add(motion);
+						}
+
+					}
+					MotionRefsBox.Lines = refs.ToArray();
+				}
 			}
 		}
 
