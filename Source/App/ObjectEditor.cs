@@ -138,6 +138,9 @@ namespace Object_tool
 			SaveDmDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
 			SaveDmDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + ".dm";
 
+			SaveObjectDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
+			SaveObjectDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + ".object";
+
 			FILE_NAME = filename;
 
 			if (!Directory.Exists(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp"))
@@ -335,6 +338,7 @@ namespace Object_tool
 				SaveSklsToolStripMenuItem.Enabled = false;
 				sklToolStripMenuItem.Enabled = false;
 				oMFToolStripMenuItem.Enabled = false;
+				MotionFlagsGroupBox.Enabled = false;
 
 				MotionTextBox.Clear();
 			}
@@ -808,7 +812,8 @@ namespace Object_tool
 				"3. No Physics - при активации движок игнорирует физику шейпа.\n" +
 				"4. No Fog Collider - при активации Volumetric fog будет игнорировать данный элемент.\n\n" +
 				"Для создания коллизии с нуля нужно настроить Shape type параметры у каждой кости (можно воспользоваться Tools->Shape Params->Type helper) и далее нажать Tools->Shape Params->Generate Shapes.\nЕсли коллизия уже была сгенерирована, то Shape type можно менять без повторной генерации коллизии.\n\n" +
-				"Tools->Surface Params и Tools->Shape Params активируются при выборе соответствующей вкладки в программе."
+				"Tools->Surface Params и Tools->Shape Params активируются при выборе соответствующей вкладки в программе.\n\n" + 
+				"Хоткеи:\nF3 - Экспорт\nF4 - Загрузка\nF5 - Быстрое сохранение .object\nF6 - Сохранение"
 				, "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
@@ -881,8 +886,17 @@ namespace Object_tool
 
 		private void objectToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+			if (SaveObjectDialog.ShowDialog() == DialogResult.OK)
+			{
+				SaveObjectDialog.InitialDirectory = "";
+				FastSaveObject(SaveObjectDialog.FileName);
+			}
+		}
+
+		private void FastSaveObject(string filename)
+        {
 			StartEditor(EditorMode.SaveObject, TEMP_FILE_NAME);
-			File.Copy(TEMP_FILE_NAME, FILE_NAME, true);
+			File.Copy(TEMP_FILE_NAME, filename, true);
 			AutoClosingMessageBox.Show("Object succesfully saved.", "", 1000, MessageBoxIcon.Information);
 		}
 
@@ -1101,6 +1115,59 @@ namespace Object_tool
 			}
 		}
 
+		private void EditorKeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.Control && e.KeyCode == Keys.S)
+				FastSaveObject(FILE_NAME);
+
+			switch (e.KeyData)
+			{
+				case Keys.F3:
+					fileToolStripMenuItem.ShowDropDown();
+					exportToolStripMenuItem.ShowDropDown();
+					break;
+				case Keys.F4:
+					fileToolStripMenuItem.ShowDropDown();
+					loadToolStripMenuItem.ShowDropDown();
+					break;
+				case Keys.F5: FastSaveObject(FILE_NAME); break;
+				case Keys.F6:
+					fileToolStripMenuItem.ShowDropDown();
+					saveToolStripMenuItem.ShowDropDown();
+					break;
+			}
+		}
+
+		private int BitSet(int flags, int mask, bool bvalue)
+		{
+			if (bvalue)
+				return flags |= mask;
+			else
+				return flags &= ~mask;
+		}
+
+		private void ProgressiveMeshes_CheckedChanged(object sender, EventArgs e)
+		{
+			CheckBox chbx = sender as CheckBox;
+
+			if (chbx.Checked)
+				StripifyMeshes.Checked = false;
+		}
+
+		private void StripifyMeshes_CheckedChanged(object sender, EventArgs e)
+		{
+			CheckBox chbx = sender as CheckBox;
+
+			if (chbx.Checked)
+				ProgressiveMeshes.Checked = false;
+		}
+
+		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (MessageBox.Show("Are you sure you want to exit?", "Object Editor", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+				Close();
+		}
+
 		private void CreateShapeGroupBox(int idx, ShapeEditType shape)
 		{
 			var GroupBox = new GroupBox();
@@ -1243,30 +1310,6 @@ namespace Object_tool
 			box.Controls.Add(TextureTextBox);
 			box.Controls.Add(ShaderLabel);
 			box.Controls.Add(ShaderTextBox);
-		}
-
-		private int BitSet(int flags, int mask, bool bvalue)
-		{
-			if (bvalue)
-				return flags |= mask;
-			else
-				return flags &= ~mask;
-		}
-
-        private void ProgressiveMeshes_CheckedChanged(object sender, EventArgs e)
-        {
-			CheckBox chbx = sender as CheckBox;
-
-			if (chbx.Checked)
-				StripifyMeshes.Checked = false;
-        }
-
-        private void StripifyMeshes_CheckedChanged(object sender, EventArgs e)
-        {
-			CheckBox chbx = sender as CheckBox;
-
-			if (chbx.Checked)
-				ProgressiveMeshes.Checked = false;
 		}
     }
 }
