@@ -517,7 +517,15 @@ namespace Object_tool
 
 					int code = StartEditor(EditorMode.GenerateLod, TEMP_FILE_NAME, SaveOgfLodDialog.FileName);
 					if (code == 0)
+					{
 						AutoClosingMessageBox.Show("Lod succesfully generated.", "", 1000, MessageBoxIcon.Information);
+
+						if (SaveOgfLodDialog.FileName.Contains("meshes"))
+						{
+							string lod_path = SaveOgfLodDialog.FileName.Substring(SaveOgfLodDialog.FileName.LastIndexOf("meshes") + 7);
+							LodTextBox.Text = lod_path;
+						}
+					}
 					else
 						AutoClosingMessageBox.Show($"Failed to generate lod.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 				}
