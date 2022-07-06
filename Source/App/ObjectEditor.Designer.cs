@@ -104,13 +104,15 @@ namespace Object_tool
             this.SurfacesPage = new System.Windows.Forms.TabPage();
             this.MotionPage = new System.Windows.Forms.TabPage();
             this.MotionTextBox = new System.Windows.Forms.RichTextBox();
-            this.LodPage = new System.Windows.Forms.TabPage();
-            this.SaveObjectDialog = new System.Windows.Forms.SaveFileDialog();
-            this.SaveOgfLodDialog = new System.Windows.Forms.SaveFileDialog();
-            this.label1 = new System.Windows.Forms.Label();
-            this.LodTextBox = new System.Windows.Forms.TextBox();
+            this.MotionRefsPage = new System.Windows.Forms.TabPage();
             this.UserDataPage = new System.Windows.Forms.TabPage();
             this.UserDataTextBox = new System.Windows.Forms.RichTextBox();
+            this.LodPage = new System.Windows.Forms.TabPage();
+            this.LodTextBox = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.SaveObjectDialog = new System.Windows.Forms.SaveFileDialog();
+            this.SaveOgfLodDialog = new System.Windows.Forms.SaveFileDialog();
+            this.MotionRefsBox = new System.Windows.Forms.RichTextBox();
             this.MenuPanel.SuspendLayout();
             this.StatusPanel.SuspendLayout();
             this.FlagsPage.SuspendLayout();
@@ -119,8 +121,9 @@ namespace Object_tool
             this.ModelFlagsGroupBox.SuspendLayout();
             this.TabControl.SuspendLayout();
             this.MotionPage.SuspendLayout();
-            this.LodPage.SuspendLayout();
+            this.MotionRefsPage.SuspendLayout();
             this.UserDataPage.SuspendLayout();
+            this.LodPage.SuspendLayout();
             this.SuspendLayout();
             // 
             // OpenObjectDialog
@@ -145,7 +148,7 @@ namespace Object_tool
             this.helpToolStripMenuItem});
             this.MenuPanel.Location = new System.Drawing.Point(0, 0);
             this.MenuPanel.Name = "MenuPanel";
-            this.MenuPanel.Size = new System.Drawing.Size(384, 24);
+            this.MenuPanel.Size = new System.Drawing.Size(401, 24);
             this.MenuPanel.TabIndex = 11;
             this.MenuPanel.Text = "menuStrip1";
             // 
@@ -338,7 +341,7 @@ namespace Object_tool
             this.enableAll2SidedToolStripMenuItem,
             this.disableAll2SidedToolStripMenuItem});
             this.surfaceParamsToolStripMenuItem.Name = "surfaceParamsToolStripMenuItem";
-            this.surfaceParamsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.surfaceParamsToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.surfaceParamsToolStripMenuItem.Text = "Surface Params";
             // 
             // enableAll2SidedToolStripMenuItem
@@ -361,7 +364,7 @@ namespace Object_tool
             this.generateShapesToolStripMenuItem1,
             this.typeHelperToolStripMenuItem1});
             this.shapeParamsToolStripMenuItem.Name = "shapeParamsToolStripMenuItem";
-            this.shapeParamsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.shapeParamsToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.shapeParamsToolStripMenuItem.Text = "Shape Params";
             // 
             // generateShapesToolStripMenuItem1
@@ -413,7 +416,7 @@ namespace Object_tool
             // generateLodToolStripMenuItem
             // 
             this.generateLodToolStripMenuItem.Name = "generateLodToolStripMenuItem";
-            this.generateLodToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.generateLodToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.generateLodToolStripMenuItem.Text = "Generate lod";
             this.generateLodToolStripMenuItem.Click += new System.EventHandler(this.generateLodToolStripMenuItem_Click);
             // 
@@ -454,7 +457,7 @@ namespace Object_tool
             this.StatusFile});
             this.StatusPanel.Location = new System.Drawing.Point(0, 217);
             this.StatusPanel.Name = "StatusPanel";
-            this.StatusPanel.Size = new System.Drawing.Size(384, 22);
+            this.StatusPanel.Size = new System.Drawing.Size(401, 22);
             this.StatusPanel.TabIndex = 31;
             this.StatusPanel.Text = "statusStrip1";
             // 
@@ -511,7 +514,7 @@ namespace Object_tool
             this.BonesPage.AutoScroll = true;
             this.BonesPage.Location = new System.Drawing.Point(4, 25);
             this.BonesPage.Name = "BonesPage";
-            this.BonesPage.Size = new System.Drawing.Size(352, 158);
+            this.BonesPage.Size = new System.Drawing.Size(369, 158);
             this.BonesPage.TabIndex = 2;
             this.BonesPage.Text = "Bones";
             this.BonesPage.UseVisualStyleBackColor = true;
@@ -521,14 +524,16 @@ namespace Object_tool
             this.FlagsPage.Controls.Add(this.FlagsGroupBox);
             this.FlagsPage.Location = new System.Drawing.Point(4, 25);
             this.FlagsPage.Name = "FlagsPage";
-            this.FlagsPage.Size = new System.Drawing.Size(352, 158);
+            this.FlagsPage.Size = new System.Drawing.Size(369, 158);
             this.FlagsPage.TabIndex = 0;
             this.FlagsPage.Text = "Flags";
             this.FlagsPage.UseVisualStyleBackColor = true;
             // 
             // FlagsGroupBox
             // 
-            this.FlagsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.FlagsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.FlagsGroupBox.Controls.Add(this.MotionFlagsGroupBox);
             this.FlagsGroupBox.Controls.Add(this.ModelFlagsGroupBox);
             this.FlagsGroupBox.Controls.Add(this.ObjectScaleLabel);
@@ -536,7 +541,7 @@ namespace Object_tool
             this.FlagsGroupBox.Controls.Add(this.ObjectScaleTextBox);
             this.FlagsGroupBox.Location = new System.Drawing.Point(0, 0);
             this.FlagsGroupBox.Name = "FlagsGroupBox";
-            this.FlagsGroupBox.Size = new System.Drawing.Size(352, 158);
+            this.FlagsGroupBox.Size = new System.Drawing.Size(369, 158);
             this.FlagsGroupBox.TabIndex = 16;
             this.FlagsGroupBox.TabStop = false;
             this.FlagsGroupBox.Text = "Edit export flags";
@@ -548,7 +553,7 @@ namespace Object_tool
             this.MotionFlagsGroupBox.Controls.Add(this.Anims16Bit);
             this.MotionFlagsGroupBox.Location = new System.Drawing.Point(6, 15);
             this.MotionFlagsGroupBox.Name = "MotionFlagsGroupBox";
-            this.MotionFlagsGroupBox.Size = new System.Drawing.Size(165, 90);
+            this.MotionFlagsGroupBox.Size = new System.Drawing.Size(175, 90);
             this.MotionFlagsGroupBox.TabIndex = 22;
             this.MotionFlagsGroupBox.TabStop = false;
             this.MotionFlagsGroupBox.Text = "Motion export";
@@ -588,14 +593,16 @@ namespace Object_tool
             // 
             // ModelFlagsGroupBox
             // 
+            this.ModelFlagsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.ModelFlagsGroupBox.Controls.Add(this.StripifyMeshes);
             this.ModelFlagsGroupBox.Controls.Add(this.HQGeometry);
             this.ModelFlagsGroupBox.Controls.Add(this.HQGeometryPlus);
             this.ModelFlagsGroupBox.Controls.Add(this.ProgressiveMeshes);
             this.ModelFlagsGroupBox.Controls.Add(this.checkBox2);
-            this.ModelFlagsGroupBox.Location = new System.Drawing.Point(177, 15);
+            this.ModelFlagsGroupBox.Location = new System.Drawing.Point(188, 15);
             this.ModelFlagsGroupBox.Name = "ModelFlagsGroupBox";
-            this.ModelFlagsGroupBox.Size = new System.Drawing.Size(169, 137);
+            this.ModelFlagsGroupBox.Size = new System.Drawing.Size(175, 137);
             this.ModelFlagsGroupBox.TabIndex = 21;
             this.ModelFlagsGroupBox.TabStop = false;
             this.ModelFlagsGroupBox.Text = "Model export";
@@ -679,7 +686,7 @@ namespace Object_tool
             // 
             this.ObjectScaleTextBox.Location = new System.Drawing.Point(78, 109);
             this.ObjectScaleTextBox.Name = "ObjectScaleTextBox";
-            this.ObjectScaleTextBox.Size = new System.Drawing.Size(93, 20);
+            this.ObjectScaleTextBox.Size = new System.Drawing.Size(103, 20);
             this.ObjectScaleTextBox.TabIndex = 16;
             this.ObjectScaleTextBox.Text = "1";
             this.ObjectScaleTextBox.TextChanged += new System.EventHandler(this.ScaleTextChanged);
@@ -688,18 +695,21 @@ namespace Object_tool
             // 
             // TabControl
             // 
-            this.TabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.TabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.TabControl.Appearance = System.Windows.Forms.TabAppearance.Buttons;
             this.TabControl.Controls.Add(this.FlagsPage);
             this.TabControl.Controls.Add(this.SurfacesPage);
             this.TabControl.Controls.Add(this.BonesPage);
             this.TabControl.Controls.Add(this.MotionPage);
+            this.TabControl.Controls.Add(this.MotionRefsPage);
             this.TabControl.Controls.Add(this.UserDataPage);
             this.TabControl.Controls.Add(this.LodPage);
             this.TabControl.Location = new System.Drawing.Point(12, 27);
             this.TabControl.Name = "TabControl";
             this.TabControl.SelectedIndex = 0;
-            this.TabControl.Size = new System.Drawing.Size(360, 187);
+            this.TabControl.Size = new System.Drawing.Size(377, 187);
             this.TabControl.TabIndex = 10;
             this.TabControl.SelectedIndexChanged += new System.EventHandler(this.IndexChanged);
             this.TabControl.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EditorKeyDown);
@@ -709,7 +719,7 @@ namespace Object_tool
             this.SurfacesPage.AutoScroll = true;
             this.SurfacesPage.Location = new System.Drawing.Point(4, 25);
             this.SurfacesPage.Name = "SurfacesPage";
-            this.SurfacesPage.Size = new System.Drawing.Size(352, 158);
+            this.SurfacesPage.Size = new System.Drawing.Size(369, 158);
             this.SurfacesPage.TabIndex = 3;
             this.SurfacesPage.Text = "Surfaces";
             this.SurfacesPage.UseVisualStyleBackColor = true;
@@ -719,65 +729,39 @@ namespace Object_tool
             this.MotionPage.Controls.Add(this.MotionTextBox);
             this.MotionPage.Location = new System.Drawing.Point(4, 25);
             this.MotionPage.Name = "MotionPage";
-            this.MotionPage.Size = new System.Drawing.Size(352, 158);
+            this.MotionPage.Size = new System.Drawing.Size(369, 158);
             this.MotionPage.TabIndex = 4;
             this.MotionPage.Text = "Motions";
             this.MotionPage.UseVisualStyleBackColor = true;
             // 
             // MotionTextBox
             // 
-            this.MotionTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.MotionTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.MotionTextBox.Location = new System.Drawing.Point(0, 0);
             this.MotionTextBox.Name = "MotionTextBox";
             this.MotionTextBox.ReadOnly = true;
-            this.MotionTextBox.Size = new System.Drawing.Size(352, 155);
+            this.MotionTextBox.Size = new System.Drawing.Size(369, 155);
             this.MotionTextBox.TabIndex = 0;
             this.MotionTextBox.Text = "";
             // 
-            // LodPage
+            // MotionRefsPage
             // 
-            this.LodPage.Controls.Add(this.LodTextBox);
-            this.LodPage.Controls.Add(this.label1);
-            this.LodPage.Location = new System.Drawing.Point(4, 25);
-            this.LodPage.Name = "LodPage";
-            this.LodPage.Size = new System.Drawing.Size(352, 158);
-            this.LodPage.TabIndex = 5;
-            this.LodPage.Text = "Lod";
-            this.LodPage.UseVisualStyleBackColor = true;
-            // 
-            // SaveObjectDialog
-            // 
-            this.SaveObjectDialog.Filter = "Object file|*.object";
-            // 
-            // SaveOgfLodDialog
-            // 
-            this.SaveOgfLodDialog.Filter = "OGF file|*.ogf";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 10);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(52, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Lod path:";
-            // 
-            // LodTextBox
-            // 
-            this.LodTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.LodTextBox.Location = new System.Drawing.Point(6, 26);
-            this.LodTextBox.Name = "LodTextBox";
-            this.LodTextBox.Size = new System.Drawing.Size(340, 20);
-            this.LodTextBox.TabIndex = 1;
+            this.MotionRefsPage.Controls.Add(this.MotionRefsBox);
+            this.MotionRefsPage.Location = new System.Drawing.Point(4, 25);
+            this.MotionRefsPage.Name = "MotionRefsPage";
+            this.MotionRefsPage.Size = new System.Drawing.Size(369, 158);
+            this.MotionRefsPage.TabIndex = 7;
+            this.MotionRefsPage.Text = "Motion Refs";
+            this.MotionRefsPage.UseVisualStyleBackColor = true;
             // 
             // UserDataPage
             // 
             this.UserDataPage.Controls.Add(this.UserDataTextBox);
             this.UserDataPage.Location = new System.Drawing.Point(4, 25);
             this.UserDataPage.Name = "UserDataPage";
-            this.UserDataPage.Size = new System.Drawing.Size(352, 158);
+            this.UserDataPage.Size = new System.Drawing.Size(369, 158);
             this.UserDataPage.TabIndex = 6;
             this.UserDataPage.Text = "UserData";
             this.UserDataPage.UseVisualStyleBackColor = true;
@@ -789,24 +773,72 @@ namespace Object_tool
             | System.Windows.Forms.AnchorStyles.Right)));
             this.UserDataTextBox.Location = new System.Drawing.Point(0, 0);
             this.UserDataTextBox.Name = "UserDataTextBox";
-            this.UserDataTextBox.Size = new System.Drawing.Size(352, 158);
+            this.UserDataTextBox.Size = new System.Drawing.Size(369, 158);
             this.UserDataTextBox.TabIndex = 0;
             this.UserDataTextBox.Text = "";
+            // 
+            // LodPage
+            // 
+            this.LodPage.Controls.Add(this.LodTextBox);
+            this.LodPage.Controls.Add(this.label1);
+            this.LodPage.Location = new System.Drawing.Point(4, 25);
+            this.LodPage.Name = "LodPage";
+            this.LodPage.Size = new System.Drawing.Size(369, 158);
+            this.LodPage.TabIndex = 5;
+            this.LodPage.Text = "Lod";
+            this.LodPage.UseVisualStyleBackColor = true;
+            // 
+            // LodTextBox
+            // 
+            this.LodTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.LodTextBox.Location = new System.Drawing.Point(6, 26);
+            this.LodTextBox.Name = "LodTextBox";
+            this.LodTextBox.Size = new System.Drawing.Size(357, 20);
+            this.LodTextBox.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 10);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(52, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Lod path:";
+            // 
+            // SaveObjectDialog
+            // 
+            this.SaveObjectDialog.Filter = "Object file|*.object";
+            // 
+            // SaveOgfLodDialog
+            // 
+            this.SaveOgfLodDialog.Filter = "OGF file|*.ogf";
+            // 
+            // MotionRefsBox
+            // 
+            this.MotionRefsBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.MotionRefsBox.Location = new System.Drawing.Point(0, 0);
+            this.MotionRefsBox.Name = "MotionRefsBox";
+            this.MotionRefsBox.Size = new System.Drawing.Size(369, 158);
+            this.MotionRefsBox.TabIndex = 0;
+            this.MotionRefsBox.Text = "";
             // 
             // Object_Editor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(384, 239);
+            this.ClientSize = new System.Drawing.Size(401, 239);
             this.Controls.Add(this.StatusPanel);
             this.Controls.Add(this.TabControl);
             this.Controls.Add(this.MenuPanel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.MenuPanel;
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(400, 680);
-            this.MinimumSize = new System.Drawing.Size(400, 278);
+            this.MaximumSize = new System.Drawing.Size(417, 680);
+            this.MinimumSize = new System.Drawing.Size(417, 278);
             this.Name = "Object_Editor";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Object Editor";
@@ -825,9 +857,10 @@ namespace Object_tool
             this.ModelFlagsGroupBox.PerformLayout();
             this.TabControl.ResumeLayout(false);
             this.MotionPage.ResumeLayout(false);
+            this.MotionRefsPage.ResumeLayout(false);
+            this.UserDataPage.ResumeLayout(false);
             this.LodPage.ResumeLayout(false);
             this.LodPage.PerformLayout();
-            this.UserDataPage.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -916,6 +949,8 @@ namespace Object_tool
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TabPage UserDataPage;
         private System.Windows.Forms.RichTextBox UserDataTextBox;
+        private System.Windows.Forms.TabPage MotionRefsPage;
+        private System.Windows.Forms.RichTextBox MotionRefsBox;
     }
 }
 

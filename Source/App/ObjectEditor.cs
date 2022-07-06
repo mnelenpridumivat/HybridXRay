@@ -82,6 +82,9 @@ namespace Object_tool
 			dMToolStripMenuItem.Enabled = false;
 			bonesPartsToolStripMenuItem.Enabled = false;
 			FlagsGroupBox.Enabled = false;
+			MotionRefsBox.Enabled = false;
+			UserDataTextBox.Enabled = false;
+			LodTextBox.Enabled = false;
 
 			SaveSklDialog = new FolderSelectDialog();
 
@@ -183,6 +186,9 @@ namespace Object_tool
 			ObjectScaleTextBox.Enabled = has_bones;
 			ScaleCenterOfMassCheckBox.Enabled = has_bones;
 			ObjectScaleLabel.Enabled = has_bones;
+			MotionRefsBox.Enabled = has_bones && !has_motions;
+			UserDataTextBox.Enabled = has_bones;
+			LodTextBox.Enabled = has_bones;
 
 			if (skeleton)
 			{
@@ -245,6 +251,13 @@ namespace Object_tool
 				}
 			}
 			args += $" \"{userdata}\"";
+
+			// Ёкспортируем моушн рефы
+			args += $" {MotionRefsBox.Lines.Count()}";
+			for (int i = 0; i < MotionRefsBox.Lines.Count(); i++)
+			{
+				args += $" \"{MotionRefsBox.Lines[i]}\"";
+			}
 
 			return RunCompiller(args);
 		}
@@ -367,7 +380,7 @@ namespace Object_tool
 				oMFToolStripMenuItem.Enabled = false;
 				MotionFlagsGroupBox.Enabled = false;
 
-				MotionTextBox.Clear();
+				ParseMotions();
 			}
 			else
 				AutoClosingMessageBox.Show($"Can't delete motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
@@ -531,7 +544,7 @@ namespace Object_tool
 					{
 						AutoClosingMessageBox.Show("Lod succesfully generated.", "", 1000, MessageBoxIcon.Information);
 
-						if (SaveOgfLodDialog.FileName.Contains("meshes"))
+						if (SaveOgfLodDialog.FileName.Contains("meshes") && LodTextBox.Enabled)
 						{
 							string lod_path = SaveOgfLodDialog.FileName.Substring(SaveOgfLodDialog.FileName.LastIndexOf("meshes") + 7);
 							LodTextBox.Text = lod_path;
@@ -634,6 +647,17 @@ namespace Object_tool
 					uint chk = xr_loader.ReadUInt32();
 					ScaleCenterOfMassCheckBox.Checked = Convert.ToBoolean(chk);
 				}
+
+				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SMOTIONS3, true, true))
+				{
+					List<string> refs = new List<string>();
+					uint count = xr_loader.ReadUInt32();
+					for (int i = 0; i < count; i++)
+                    {
+						refs.Add(xr_loader.read_stringZ());
+					}
+					MotionRefsBox.Lines = refs.ToArray();
+				}
 			}
 		}
 
@@ -727,7 +751,10 @@ namespace Object_tool
 			var xr_loader = new XRayLoader();
 			MotionTextBox.Clear();
 			MotionTextBox.Text = $"Motions count: 0";
-			MotionFlagsGroupBox.Enabled = MotionCount() > 0;
+			bool hasmot = MotionCount() > 0;
+			bool has_bones = HasBones();
+			MotionFlagsGroupBox.Enabled = hasmot;
+			MotionRefsBox.Enabled = !hasmot && has_bones;
 
 			using (var r = new BinaryReader(new FileStream(TEMP_FILE_NAME, FileMode.Open)))
 			{
@@ -736,6 +763,7 @@ namespace Object_tool
 
 				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SMOTIONS))
 				{
+					MotionRefsBox.Clear();
 					uint count = xr_loader.ReadUInt32();
 					MotionTextBox.Clear();
 					MotionTextBox.Text = $"Motions count: {count}\n";
@@ -1241,7 +1269,7 @@ namespace Object_tool
 		{
 			var GroupBox = new GroupBox();
 			GroupBox.Location = new System.Drawing.Point(3, 3 + 106 * idx);
-			GroupBox.Size = new System.Drawing.Size(345, 100);
+			GroupBox.Size = new System.Drawing.Size(362, 100);
 			GroupBox.Text = "Bone name: " + shape.bone_name;
 			GroupBox.Name = "ShapeGrpBox_" + idx;
 			GroupBox.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
@@ -1290,11 +1318,11 @@ namespace Object_tool
 			var TypeLabel = new Label();
 			TypeLabel.Name = "TypeLbl_" + idx;
 			TypeLabel.Text = "Shape type: ";
-			TypeLabel.Location = new System.Drawing.Point(177, 18);
+			TypeLabel.Location = new System.Drawing.Point(180, 18);
 
 			var TypeComboBox = new ComboBox();
 			TypeComboBox.Name = "cbxType_" + idx;
-			TypeComboBox.Size = new System.Drawing.Size(90, 23);
+			TypeComboBox.Size = new System.Drawing.Size(107, 23);
 			TypeComboBox.Location = new System.Drawing.Point(245, 15);
 			TypeComboBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
 			TypeComboBox.Items.Add("None");
@@ -1317,7 +1345,7 @@ namespace Object_tool
 		{
 			var GroupBox = new GroupBox();
 			GroupBox.Location = new System.Drawing.Point(3, 3 + 114 * idx);
-			GroupBox.Size = new System.Drawing.Size(345, 108);
+			GroupBox.Size = new System.Drawing.Size(362, 108);
 			GroupBox.Text = name;
 			GroupBox.Name = "MaterialGrpBox_" + idx;
 			GroupBox.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
@@ -1345,7 +1373,7 @@ namespace Object_tool
 
 			var TextureTextBox = new TextBox();
 			TextureTextBox.Name = "TextureTextBox_" + idx;
-			TextureTextBox.Size = new System.Drawing.Size(282, 23);
+			TextureTextBox.Size = new System.Drawing.Size(299, 23);
 			TextureTextBox.Location = new System.Drawing.Point(55, 30);
 			TextureTextBox.TextChanged += new System.EventHandler(this.TextBoxFilter);
 			TextureTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
@@ -1368,7 +1396,7 @@ namespace Object_tool
 
 			var ShaderTextBox = new TextBox();
 			ShaderTextBox.Name = "ShaderTextBox_" + idx;
-			ShaderTextBox.Size = new System.Drawing.Size(282, 23);
+			ShaderTextBox.Size = new System.Drawing.Size(299, 23);
 			ShaderTextBox.Location = new System.Drawing.Point(55, 58);
 			ShaderTextBox.Text = surfaces[idx].shader;
 			ShaderTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;

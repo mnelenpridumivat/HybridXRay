@@ -131,6 +131,20 @@ xr_vector<shared_str> LoadAnims(char** args, int count)
     return vec;
 }
 
+xr_vector<shared_str> LoadRefs(char** args, int count)
+{
+    xr_vector<shared_str> vec;
+
+    for (int i = 0; i < count; i++)
+    {
+        vec.push_back(args[iReaderPos]);
+
+        iReaderPos++;
+    }
+
+    return vec;
+}
+
 int main(int argc, char** argv)
 {
     Core._initialize("Actor", ELogCallback,1, "",true, (atoi(argv[4]) & exfDbgWindow));
@@ -163,6 +177,8 @@ int main(int argc, char** argv)
     int lod_flags = atoi(argv[iReaderPos]); iReaderPos++;
     shared_str lod_path = argv[iReaderPos]; iReaderPos++;
     shared_str userdata = argv[iReaderPos]; iReaderPos++;
+    int motion_refs_count = atoi(argv[iReaderPos]); iReaderPos++;
+    xr_vector<shared_str> pMotionRefs = LoadRefs(argv, motion_refs_count);
     // End of program params
 
     Tools = xr_new<CActorTools>();
@@ -170,10 +186,16 @@ int main(int argc, char** argv)
 
     std::cout << "Import object" << std::endl;
     ATools->LoadScale(object_path.c_str(), scale, (flags & exfScaleCenterMass));
+
     ATools->CurrentObject()->ChangeSurfaceFlags(pSurfaces);
     ATools->CurrentObject()->ChangeBoneShapeTypes(pShapes);
     ATools->CurrentObject()->m_LODs = lod_path;
     ATools->CurrentObject()->GetClassScript() = userdata.c_str();
+
+    if (ATools->CurrentObject()->SMotionCount() == 0)
+        ATools->CurrentObject()->m_SMotionRefs = pMotionRefs;
+    else
+        ATools->CurrentObject()->m_SMotionRefs.clear();
 
     if (!ATools->BonePartsExist() && mode != 9)
     {
