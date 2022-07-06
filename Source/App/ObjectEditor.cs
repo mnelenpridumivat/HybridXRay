@@ -676,6 +676,10 @@ namespace Object_tool
 						}
 
 					}
+
+					if (motion != "")
+						refs.Add(motion);
+
 					MotionRefsBox.Lines = refs.ToArray();
 				}
 			}
