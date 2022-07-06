@@ -178,17 +178,10 @@ int main(int argc, char** argv)
     else if (flags & exfNoCompress)
         g_forceFloatTransformQuant = true;
 
-    if (flags & exfMakeProgressive)
-        ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoProgressive, TRUE);
-
-    if (flags & exfMakeStripify)
-        ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoStripify, TRUE);
-
-    if (flags & exfOptimizeSurfaces)
-        ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoOptimizeSurf, TRUE);
-
-    if (flags & exfHQGeometryPlus)
-        ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoHQExportPlus, TRUE);
+    ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoProgressive, (flags & exfMakeProgressive));
+    ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoStripify, (flags & exfMakeStripify));
+    ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoOptimizeSurf, (flags & exfOptimizeSurfaces));
+    ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoHQExportPlus, (flags & exfHQGeometryPlus));
 
     switch (mode)
     {

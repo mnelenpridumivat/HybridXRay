@@ -174,6 +174,9 @@ namespace Object_tool
 			bonesToolStripMenuItem1.Enabled = has_bones;
 			bonesPartsToolStripMenuItem1.Enabled = has_bones;
 			bonesPartsToDefaultToolStripMenuItem.Enabled = has_bones;
+			ObjectScaleTextBox.Enabled = has_bones;
+			ScaleCenterOfMassCheckBox.Enabled = has_bones;
+			ObjectScaleLabel.Enabled = has_bones;
 
 			if (skeleton)
 			{
