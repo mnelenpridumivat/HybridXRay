@@ -16,3 +16,38 @@
 #include "UIMainForm.h"
 #include "UI_ActorMain.h"
 #include "UI_ActorTools.h"
+
+enum EExportFlags
+{
+    exf16Bit            = (1<<0),	
+    exfNoCompress		= (1<<1),
+    exfMakeProgressive	= (1<<2),	
+    exfOptimizeSurfaces	= (1<<3),	
+    exfDbgWindow    	= (1<<4),	
+    exfScaleCenterMass 	= (1<<5),	
+    exfHQGeometryPlus   = (1<<6),	
+    exfMakeStripify	    = (1<<7),	
+};
+
+enum EditorMode
+{
+    ExportOGF = 0,
+    ExportOMF,
+    GenerateShape,
+    DeleteMotions,
+    LoadMotions,
+    SaveSklsMotions,
+    LoadBones,
+    SaveBones,
+    ExportOBJ,
+    ExportDM,
+    SaveObject,
+    LoadBoneParts,
+    SaveBoneParts,
+    ToDefaultBoneParts,
+    SaveSklMotions,
+    GenerateLod,
+    SaveCpp,
+    BatchLtx,
+    BatchDialog,
+};

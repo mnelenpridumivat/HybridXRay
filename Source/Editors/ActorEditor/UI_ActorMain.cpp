@@ -196,16 +196,7 @@ CCommandVar CActorTools::CommandMakeThumbnail(CCommandVar p1, CCommandVar p2)
 }
 CCommandVar CActorTools::CommandBatchConvert(CCommandVar p1, CCommandVar p2)
 {
-	CCommandVar res 				= FALSE;
-    xr_string fn;
-    if (EFS.GetOpenName(EDevice->m_hWnd, "$import$",fn,false,0,6))
-    {
-        if (0!=(res=BatchConvert(fn.c_str())))	
-        	ELog.Msg(mtInformation,"Convert complete.");
-        else		        		    		
-        	ELog.Msg(mtError,"Convert failed.");
-    }
-    return res;
+    return FALSE;
 }
 
 

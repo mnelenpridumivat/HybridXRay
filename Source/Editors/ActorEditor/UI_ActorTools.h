@@ -311,7 +311,8 @@ public:
     void				OptimizeMotions		();
     void				RealMakeThumbnail();
     void				RealGenerateLOD(bool hq);
-    bool				BatchConvert		(LPCSTR fn);
+    bool				BatchConvert		(LPCSTR fn, int flags);
+    bool				BatchConvertDialog	(xr_vector<shared_str> files, int flags);
 
 
     void				PhysicsSimulate			( );
@@ -323,9 +324,9 @@ public:
 
     bool                LoadBoneParts           (LPCSTR full_name);
     bool                SaveBoneParts           (LPCSTR full_name);
-    bool                ToDefaultBoneParts      ();
-    bool                UpdateBoneParts         ();
-    bool                PrepareBoneParts        ();
+    bool                ToDefaultBoneParts      (CEditableObject* object);
+    bool                UpdateBoneParts         (CEditableObject* object);
+    bool                PrepareBoneParts        (CEditableObject* object);
     bool                BonePartsExist          ();
 
     struct ItemList

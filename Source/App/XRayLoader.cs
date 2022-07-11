@@ -46,7 +46,8 @@ namespace Object_tool
         EMESH_CHUNK_BOP				=	0x1010,
         EMESH_CHUNK_VMAPS_1		    =   0x1011,
         EMESH_CHUNK_VMAPS_2		    =  	0x1012,
-        EMESH_CHUNK_SG			    =  	0x1013
+        EMESH_CHUNK_SG			    =  	0x1013,
+        EMESH_CHUNK_NORMALS         =   0x1014
     };
 
 

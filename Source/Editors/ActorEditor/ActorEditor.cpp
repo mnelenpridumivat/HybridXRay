@@ -16,38 +16,6 @@ extern ECORE_API float g_EpsSkelPositionDelta;
 
 int iReaderPos = 0;
 
-enum EExportFlags
-{
-    exf16Bit            = (1<<0),	
-    exfNoCompress		= (1<<1),
-    exfMakeProgressive	= (1<<2),	
-    exfOptimizeSurfaces	= (1<<3),	
-    exfDbgWindow    	= (1<<4),	
-    exfScaleCenterMass 	= (1<<5),	
-    exfHQGeometryPlus   = (1<<6),	
-    exfMakeStripify	    = (1<<7),	
-};
-
-enum EditorMode
-{
-    ExportOGF = 0,
-    ExportOMF,
-    GenerateShape,
-    DeleteMotions,
-    LoadMotions,
-    SaveSklsMotions,
-    LoadBones,
-    SaveBones,
-    ExportOBJ,
-    ExportDM,
-    SaveObject,
-    LoadBoneParts,
-    SaveBoneParts,
-    ToDefaultBoneParts,
-    SaveSklMotions,
-    GenerateLod
-};
-
 xr_vector<CEditableObject::ShapeEditType> LoadShapes(char** args, int count)
 {
     xr_vector<CEditableObject::ShapeEditType> vec;
@@ -117,28 +85,13 @@ xr_vector<CEditableObject::SurfaceParams> LoadSurfaces(char** args, int count)
     return vec;
 }
 
-xr_vector<shared_str> LoadAnims(char** args, int count)
+xr_vector<shared_str> LoadStringVector(char** args, int count)
 {
     xr_vector<shared_str> vec;
 
     for (int i = 0; i < count; i++)
     {
         vec.push_back(args[iReaderPos]);
-
-        iReaderPos++;
-    }
-
-    return vec;
-}
-
-xr_vector<shared_str> LoadRefs(char** args, int count)
-{
-    xr_vector<shared_str> vec;
-
-    for (int i = 0; i < count; i++)
-    {
-        vec.push_back(args[iReaderPos]);
-
         iReaderPos++;
     }
 
@@ -172,47 +125,52 @@ int main(int argc, char** argv)
     iReaderPos = 9;
     xr_vector<CEditableObject::ShapeEditType> pShapes = LoadShapes(argv, shapes_count);
     xr_vector<CEditableObject::SurfaceParams> pSurfaces = LoadSurfaces(argv, surfaces_count);
-    xr_vector<shared_str> pLoadedAnims = LoadAnims(argv, loaded_skls_count);
+    xr_vector<shared_str> pLoadedAnims = LoadStringVector(argv, loaded_skls_count);
     float lod_quality = atof(argv[iReaderPos]); iReaderPos++;
     int lod_flags = atoi(argv[iReaderPos]); iReaderPos++;
     shared_str lod_path = argv[iReaderPos]; iReaderPos++;
     shared_str userdata = argv[iReaderPos]; iReaderPos++;
     int motion_refs_count = atoi(argv[iReaderPos]); iReaderPos++;
-    xr_vector<shared_str> pMotionRefs = LoadRefs(argv, motion_refs_count);
+    xr_vector<shared_str> pMotionRefs = LoadStringVector(argv, motion_refs_count);
+    int batch_files_count = atoi(argv[iReaderPos]); iReaderPos++;
+    xr_vector<shared_str> pBatchFiles = LoadStringVector(argv, batch_files_count);
     // End of program params
 
     Tools = xr_new<CActorTools>();
     ATools = (CActorTools*)Tools;
 
-    std::cout << "Import object" << std::endl;
-    ATools->LoadScale(object_path.c_str(), scale, (flags & exfScaleCenterMass));
-
-    ATools->CurrentObject()->ChangeSurfaceFlags(pSurfaces);
-    ATools->CurrentObject()->ChangeBoneShapeTypes(pShapes);
-    ATools->CurrentObject()->m_LODs = lod_path;
-    ATools->CurrentObject()->GetClassScript() = userdata.c_str();
-
-    if (ATools->CurrentObject()->SMotionCount() == 0)
-        ATools->CurrentObject()->m_SMotionRefs = pMotionRefs;
-    else
-        ATools->CurrentObject()->m_SMotionRefs.clear();
-
-    if (!ATools->BonePartsExist() && mode != 9)
+    if (mode != BatchLtx && mode != BatchDialog)
     {
-        ATools->ToDefaultBoneParts();
-        std::cout << "Can't find bone parts, reset to default." << std::endl;
+        std::cout << "Import object" << std::endl;
+        ATools->LoadScale(object_path.c_str(), scale, (flags & exfScaleCenterMass));
+
+        ATools->CurrentObject()->ChangeSurfaceFlags(pSurfaces);
+        ATools->CurrentObject()->ChangeBoneShapeTypes(pShapes);
+        ATools->CurrentObject()->m_LODs = lod_path;
+        ATools->CurrentObject()->GetClassScript() = userdata.c_str();
+
+        if (ATools->CurrentObject()->SMotionCount() == 0)
+            ATools->CurrentObject()->m_SMotionRefs = pMotionRefs;
+        else
+            ATools->CurrentObject()->m_SMotionRefs.clear();
+
+        if (!ATools->BonePartsExist() && mode != 9)
+        {
+            ATools->ToDefaultBoneParts(ATools->CurrentObject());
+            std::cout << "Can't find bone parts, reset to default." << std::endl;
+        }
+
+        ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoProgressive, (flags & exfMakeProgressive));
+        ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoStripify, (flags & exfMakeStripify));
+        ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoOptimizeSurf, (flags & exfOptimizeSurfaces));
+        ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoHQExportPlus, (flags & exfHQGeometryPlus));
+        ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoLod, (mode == GenerateLod));
     }
 
     if (flags & exf16Bit)
         g_force16BitTransformQuant = true;
     else if (flags & exfNoCompress)
         g_forceFloatTransformQuant = true;
-
-    ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoProgressive, (flags & exfMakeProgressive));
-    ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoStripify, (flags & exfMakeStripify));
-    ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoOptimizeSurf, (flags & exfOptimizeSurfaces));
-    ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoHQExportPlus, (flags & exfHQGeometryPlus));
-    ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoLod, (mode == GenerateLod));
 
     switch (mode)
     {
@@ -295,7 +253,7 @@ int main(int argc, char** argv)
         }break;
         case ToDefaultBoneParts:
         {
-            if (!ATools->ToDefaultBoneParts() || !ATools->Save(object_path.c_str()))
+            if (!ATools->ToDefaultBoneParts(ATools->CurrentObject()) || !ATools->Save(object_path.c_str()))
                 ret_code = -1;
         }break;
         case SaveSklMotions:
@@ -317,6 +275,21 @@ int main(int argc, char** argv)
             std::cout << "Export Lod" << std::endl;
             Msg("Lod quality: %f", g_EpsSkelPositionDelta);
             if (!ATools->ExportOGF(second_file_path.c_str()))
+                ret_code = -1;
+        }break;
+        case SaveCpp:
+        {
+            if (!ATools->ExportCPP(second_file_path.c_str()))
+                ret_code = -1;
+        }break;
+        case BatchLtx:
+        {
+            if (!ATools->BatchConvert(second_file_path.c_str(), flags))
+                ret_code = -1;
+        }break;
+        case BatchDialog:
+        {
+            if (!ATools->BatchConvertDialog(pBatchFiles, flags))
                 ret_code = -1;
         }break;
     }

@@ -46,8 +46,11 @@ namespace Object_tool
 		SaveBoneParts,
 		ToDefaultBoneParts,
 		SaveSklMotions,
-		GenerateLod
-    };
+		GenerateLod,
+		SaveCpp,
+		BatchLtx,
+		BatchDialog,
+	};
 
 	public partial class Object_Editor : Form
 	{
@@ -65,6 +68,12 @@ namespace Object_tool
 		IniFile Settings = null;
 		FolderSelectDialog SaveSklDialog = null;
 
+		// Info
+		public uint vertex_count = 0;
+		public uint face_count = 0;
+		public uint surface_count = 0;
+		public uint joints_count = 0;
+
 		// Input
 		public bool bKeyIsDown = false;
 
@@ -81,10 +90,12 @@ namespace Object_tool
 			bonesToolStripMenuItem.Enabled = false;
 			dMToolStripMenuItem.Enabled = false;
 			bonesPartsToolStripMenuItem.Enabled = false;
-			FlagsGroupBox.Enabled = false;
 			MotionRefsBox.Enabled = false;
 			UserDataTextBox.Enabled = false;
 			LodTextBox.Enabled = false;
+			ObjectScaleTextBox.Enabled = false;
+			ScaleCenterOfMassCheckBox.Enabled = false;
+			ObjectScaleLabel.Enabled = false;
 
 			SaveSklDialog = new FolderSelectDialog();
 
@@ -93,6 +104,21 @@ namespace Object_tool
 
 			DEVELOPER_MODE = Convert.ToBoolean(Convert.ToUInt16(Settings.ReadDef("developer", "settings", "0")));
 			DEBUG_MODE = Convert.ToBoolean(Convert.ToUInt16(Settings.ReadDef("debug", "settings", "0")));
+
+#if DEBUG
+			DEVELOPER_MODE = true;
+			DEBUG_MODE = true;
+			dbg_window = true;
+			showWindowToolStripMenuItem.Enabled = false;
+#endif
+
+			if (System.Diagnostics.Debugger.IsAttached)
+            {
+				DEVELOPER_MODE = true;
+				DEBUG_MODE = true;
+				dbg_window = true;
+				showWindowToolStripMenuItem.Enabled = false;
+			}
 
 			debugToolStripMenuItem.Visible = DEBUG_MODE;
 			AnimsNoCompress.Visible = DEVELOPER_MODE;
@@ -139,6 +165,9 @@ namespace Object_tool
 			SaveLtxDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
 			SaveLtxDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + ".ltx";
 
+			SaveCppDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
+			SaveCppDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + ".ltx";
+
 			SaveSklDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
 
 			SaveDmDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
@@ -177,8 +206,7 @@ namespace Object_tool
 			objectToolStripMenuItem.Enabled = !skeleton;
 			dMToolStripMenuItem.Enabled = !skeleton;
 			bonesPartsToolStripMenuItem.Enabled = has_bones;
-			ModelFlagsGroupBox.Enabled = !skeleton;
-			FlagsGroupBox.Enabled = true;
+			cToolStripMenuItem.Enabled = !skeleton;
 			StripifyMeshes.Enabled = has_bones;
 			bonesToolStripMenuItem1.Enabled = has_bones;
 			bonesPartsToolStripMenuItem1.Enabled = has_bones;
@@ -197,14 +225,15 @@ namespace Object_tool
 				TabControl.Controls.Add(MotionPage);
 			}
 
-			LoadBoneData();
-			LoadSurfaceData();
 			ParseMotions();
 			LoadData();
 
-			for (int i = 0; i < shapes.Count; i++)
+			if (shapes != null)
 			{
-				CreateShapeGroupBox(i, shapes[i]);
+				for (int i = 0; i < shapes.Count; i++)
+				{
+					CreateShapeGroupBox(i, shapes[i]);
+				}
 			}
 
 			IndexChanged(null, null);
@@ -212,21 +241,29 @@ namespace Object_tool
 
 		private int StartEditor(EditorMode mode, string object_path, string second_path = "null")
 		{
-			string args = $"{(int)mode} \"{object_path}\" \"{second_path}\" {GetFlags()} {model_scale} {shapes.Count} {surfaces.Count} {OpenSklsDialog.FileNames.Count()}";
+			int shapes_count = (shapes != null ? shapes.Count : 0);
+			int surfaces_count = (surfaces != null ? surfaces.Count : 0);
+			string args = $"{(int)mode} \"{object_path}\" \"{second_path}\" {GetFlags()} {model_scale} {shapes_count} {surfaces_count} {OpenSklsDialog.FileNames.Count()}";
 
 			// Экспортируем шейпы
-			for (int i = 0; i < shapes.Count; i++)
+			if (shapes_count > 0)
 			{
-				args += $" \"{shapes[i].bone_id}-{shapes[i].bone_type}-{shapes[i].bone_flags}\"";
+				for (int i = 0; i < shapes.Count; i++)
+				{
+					args += $" \"{shapes[i].bone_id}-{shapes[i].bone_type}-{shapes[i].bone_flags}\"";
+				}
 			}
 
-            // Экспортируем текстуры
-            for (int i = 0; i < surfaces.Count; i++)
-            {
-                args += $" {surfaces[i].flags}";
-                args += $" \"{surfaces[i].texture}\"";
-                args += $" \"{surfaces[i].shader}\"";
-            }
+			// Экспортируем текстуры
+			if (surfaces_count > 0)
+			{
+				for (int i = 0; i < surfaces.Count; i++)
+				{
+					args += $" {surfaces[i].flags}";
+					args += $" \"{surfaces[i].texture}\"";
+					args += $" \"{surfaces[i].shader}\"";
+				}
+			}
 
             // Экспортируем лист анимаций на загрузку
             for (int i = 0; i < OpenSklsDialog.FileNames.Count(); i++)
@@ -242,7 +279,7 @@ namespace Object_tool
 
 			// Экспортируем юзердату
 			string userdata = "";
-			if (UserDataTextBox.Text != "")
+			if (IsTextCorrect(UserDataTextBox.Text))
 			{
 				for (int i = 0; i < UserDataTextBox.Lines.Count(); i++)
 				{
@@ -253,10 +290,27 @@ namespace Object_tool
 			args += $" \"{userdata}\"";
 
 			// Экспортируем моушн рефы
-			args += $" {MotionRefsBox.Lines.Count()}";
-			for (int i = 0; i < MotionRefsBox.Lines.Count(); i++)
+			List<string> motion_refs = new List<string>();
+			if (IsTextCorrect(MotionRefsBox.Text))
 			{
-				args += $" \"{MotionRefsBox.Lines[i]}\"";
+				for (int i = 0; i < MotionRefsBox.Lines.Count(); i++)
+				{
+					if (IsTextCorrect(MotionRefsBox.Lines[i]))
+						motion_refs.Add(GetCorrectString(MotionRefsBox.Lines[i]));
+				}
+			}
+
+			args += $" {motion_refs.Count}";
+			for (int i = 0; i < motion_refs.Count; i++)
+			{
+				args += $" \"{motion_refs[i]}\"";
+			}
+
+			// Экспортируем файлы батч конвертера
+			args += $" \"{OpenBatchDialog.FileNames.Count()}\"";
+			for (int i = 0; i < OpenBatchDialog.FileNames.Count(); i++)
+            {
+				args += $" \"{OpenBatchDialog.FileNames[i]}\"";
 			}
 
 			return RunCompiller(args);
@@ -323,7 +377,7 @@ namespace Object_tool
 
 				int code = StartEditor(EditorMode.ExportOGF, TEMP_FILE_NAME, SaveOgfDialog.FileName);
 				if (code == 0)
-					AutoClosingMessageBox.Show("Model succesfully exported.", "", 1000, MessageBoxIcon.Information);
+					AutoClosingMessageBox.Show("Model successfully exported.", "", 1000, MessageBoxIcon.Information);
 				else
                 {
 					if (code == 1)
@@ -342,7 +396,7 @@ namespace Object_tool
 
 				int code = StartEditor(EditorMode.ExportOMF, TEMP_FILE_NAME, SaveOmfDialog.FileName);
 				if (code == 0)
-					AutoClosingMessageBox.Show("Motions succesfully exported.", "", 1000, MessageBoxIcon.Information);
+					AutoClosingMessageBox.Show("Motions successfully exported.", "", 1000, MessageBoxIcon.Information);
 				else
 					AutoClosingMessageBox.Show($"Can't export motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 			}
@@ -355,7 +409,7 @@ namespace Object_tool
 				int code = StartEditor(EditorMode.LoadMotions, TEMP_FILE_NAME);
 				if (code == 0)
 				{
-					AutoClosingMessageBox.Show("Motions succesfully loaded.", "", 1000, MessageBoxIcon.Information);
+					AutoClosingMessageBox.Show("Motions successfully loaded.", "", 1000, MessageBoxIcon.Information);
 					DeletesklsToolStripMenuItem.Enabled = true;
 					SaveSklsToolStripMenuItem.Enabled = true;
 					sklToolStripMenuItem.Enabled = true;
@@ -373,12 +427,11 @@ namespace Object_tool
 			int code = StartEditor(EditorMode.DeleteMotions, TEMP_FILE_NAME);
 			if (code == 0)
 			{
-				AutoClosingMessageBox.Show("Motions succesfully deleted.", "", 1000, MessageBoxIcon.Information);
+				AutoClosingMessageBox.Show("Motions successfully deleted.", "", 1000, MessageBoxIcon.Information);
 				DeletesklsToolStripMenuItem.Enabled = false;
 				SaveSklsToolStripMenuItem.Enabled = false;
 				sklToolStripMenuItem.Enabled = false;
 				oMFToolStripMenuItem.Enabled = false;
-				MotionFlagsGroupBox.Enabled = false;
 
 				ParseMotions();
 			}
@@ -394,7 +447,7 @@ namespace Object_tool
 
 				int code = StartEditor(EditorMode.SaveSklsMotions, TEMP_FILE_NAME, SaveSklsDialog.FileName);
 				if (code == 0)
-					AutoClosingMessageBox.Show("Motions succesfully saved.", "", 1000, MessageBoxIcon.Information);
+					AutoClosingMessageBox.Show("Motions successfully saved.", "", 1000, MessageBoxIcon.Information);
 				else
 					AutoClosingMessageBox.Show($"Can't save motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 			}
@@ -408,7 +461,7 @@ namespace Object_tool
 
 				int code = StartEditor(EditorMode.SaveSklMotions, TEMP_FILE_NAME, SaveSklDialog.FileName);
 				if (code == 0)
-					AutoClosingMessageBox.Show("Motions succesfully saved.", "", 1000, MessageBoxIcon.Information);
+					AutoClosingMessageBox.Show("Motions successfully saved.", "", 1000, MessageBoxIcon.Information);
 				else
 					AutoClosingMessageBox.Show($"Can't save motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 			}
@@ -420,7 +473,7 @@ namespace Object_tool
 			{
 				int code = StartEditor(EditorMode.LoadBones, TEMP_FILE_NAME, OpenBonesDialog.FileName);
 				if (code == 0)
-					AutoClosingMessageBox.Show("Bone data succesfully loaded.", "", 1000, MessageBoxIcon.Information);
+					AutoClosingMessageBox.Show("Bone data successfully loaded.", "", 1000, MessageBoxIcon.Information);
 				else
 					AutoClosingMessageBox.Show($"Failed to load bone data.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 			}
@@ -434,7 +487,7 @@ namespace Object_tool
 
 				int code = StartEditor(EditorMode.SaveBones, TEMP_FILE_NAME, SaveBonesDialog.FileName);
 				if (code == 0)
-					AutoClosingMessageBox.Show("Bone data succesfully saved.", "", 1000, MessageBoxIcon.Information);
+					AutoClosingMessageBox.Show("Bone data successfully saved.", "", 1000, MessageBoxIcon.Information);
 				else
 					AutoClosingMessageBox.Show($"Failed to save bone data.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 			}
@@ -448,7 +501,7 @@ namespace Object_tool
 
 				int code = StartEditor(EditorMode.ExportOBJ, TEMP_FILE_NAME, SaveObjDialog.FileName);
 				if (code == 0)
-					AutoClosingMessageBox.Show("Model succesfully saved.", "", 1000, MessageBoxIcon.Information);
+					AutoClosingMessageBox.Show("Model successfully saved.", "", 1000, MessageBoxIcon.Information);
 				else
 					AutoClosingMessageBox.Show($"Failed to save model.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 			}
@@ -458,7 +511,7 @@ namespace Object_tool
 		{
 			int code = StartEditor(EditorMode.GenerateShape, TEMP_FILE_NAME);
 			if (code == 0)
-				AutoClosingMessageBox.Show("Bone shapes succesfully generated.", "", 1000, MessageBoxIcon.Information);
+				AutoClosingMessageBox.Show("Bone shapes successfully generated.", "", 1000, MessageBoxIcon.Information);
 			else
 				AutoClosingMessageBox.Show($"Can't generate bone shapes.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 		}
@@ -469,7 +522,7 @@ namespace Object_tool
 			{
 				int code = StartEditor(EditorMode.LoadBoneParts, TEMP_FILE_NAME, OpenLtxDialog.FileName);
 				if (code == 0)
-					AutoClosingMessageBox.Show("Bone parts succesfully loaded.", "", 1000, MessageBoxIcon.Information);
+					AutoClosingMessageBox.Show("Bone parts successfully loaded.", "", 1000, MessageBoxIcon.Information);
 				else
 					AutoClosingMessageBox.Show($"Failed to load bone parts.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 			}
@@ -479,9 +532,11 @@ namespace Object_tool
 		{
 			if (SaveLtxDialog.ShowDialog() == DialogResult.OK)
 			{
+				SaveLtxDialog.InitialDirectory = "";
+
 				int code = StartEditor(EditorMode.SaveBoneParts, TEMP_FILE_NAME, SaveLtxDialog.FileName);
 				if (code == 0)
-					AutoClosingMessageBox.Show("Bone parts succesfully saved.", "", 1000, MessageBoxIcon.Information);
+					AutoClosingMessageBox.Show("Bone parts successfully saved.", "", 1000, MessageBoxIcon.Information);
 				else
 					AutoClosingMessageBox.Show($"Failed to saved bone parts.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 			}
@@ -491,7 +546,7 @@ namespace Object_tool
 		{
 			int code = StartEditor(EditorMode.ToDefaultBoneParts, TEMP_FILE_NAME);
 			if (code == 0)
-				AutoClosingMessageBox.Show("Bone parts succesfully reseted to default.", "", 1000, MessageBoxIcon.Information);
+				AutoClosingMessageBox.Show("Bone parts successfully reseted to default.", "", 1000, MessageBoxIcon.Information);
 			else
 				AutoClosingMessageBox.Show($"Failed to reset bone parts to default.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 		}
@@ -504,7 +559,7 @@ namespace Object_tool
 
 				int code = StartEditor(EditorMode.ExportDM, TEMP_FILE_NAME, SaveDmDialog.FileName);
 				if (code == 0)
-                    AutoClosingMessageBox.Show("Model succesfully saved.", "", 1000, MessageBoxIcon.Information);
+                    AutoClosingMessageBox.Show("Model successfully saved.", "", 1000, MessageBoxIcon.Information);
                 else
                 {
                     switch (code)
@@ -542,7 +597,7 @@ namespace Object_tool
 					int code = StartEditor(EditorMode.GenerateLod, TEMP_FILE_NAME, SaveOgfLodDialog.FileName);
 					if (code == 0)
 					{
-						AutoClosingMessageBox.Show("Lod succesfully generated.", "", 1000, MessageBoxIcon.Information);
+						AutoClosingMessageBox.Show("Lod successfully generated.", "", 1000, MessageBoxIcon.Information);
 
 						if (SaveOgfLodDialog.FileName.Contains("meshes") && LodTextBox.Enabled)
 						{
@@ -556,67 +611,41 @@ namespace Object_tool
 			}
 		}
 
-		private void LoadBoneData()
+		private void cToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var xr_loader = new XRayLoader();
-			shapes = new List<ShapeEditType>();
-
-			using (var r = new BinaryReader(new FileStream(TEMP_FILE_NAME, FileMode.Open)))
+			if (SaveCppDialog.ShowDialog() == DialogResult.OK)
 			{
-				xr_loader.SetStream(r.BaseStream);
-				xr_loader.ReadInt64();
+				SaveCppDialog.InitialDirectory = "";
 
-				bool B_CHUNK = xr_loader.SetData(xr_loader.find_and_return_chunk_in_chunk((int)OBJECT.EOBJ_CHUNK_BONES2));
-				if (B_CHUNK)
-				{
-					int chunk = 0;
+				int code = StartEditor(EditorMode.SaveCpp, TEMP_FILE_NAME, SaveCppDialog.FileName);
+				if (code == 0)
+					AutoClosingMessageBox.Show("Model data successfully saved.", "", 1000, MessageBoxIcon.Information);
+				else
+					AutoClosingMessageBox.Show($"Failed to saved model data.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+			}
+		}
 
-					while (true)
-					{
-						Stream temp = xr_loader.reader.BaseStream;
+		private void fromLtxToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (OpenBatchLtxDialog.ShowDialog() == DialogResult.OK)
+			{
+				int code = StartEditor(EditorMode.BatchLtx, TEMP_FILE_NAME, OpenBatchLtxDialog.FileName);
+				if (code == 0)
+					AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
+				else
+					AutoClosingMessageBox.Show($"Batch convert failed.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+			}
+		}
 
-						if (!xr_loader.SetData(xr_loader.find_and_return_chunk_in_chunk(chunk, false, true))) break;
-
-						ShapeEditType shape = new ShapeEditType();
-						shape.bone_id = (ushort)chunk;
-
-                        if (xr_loader.find_chunk((int)BONE.BONE_CHUNK_DEF, false, true))
-                        {
-                            shape.bone_name = xr_loader.read_stringZ();
-                        }
-
-						if (xr_loader.find_chunk((int)BONE.BONE_CHUNK_SHAPE, false, true))
-						{
-							shape.bone_type = (ushort)xr_loader.ReadUInt16();
-							shape.bone_flags = (ushort)xr_loader.ReadUInt16();
-						}
-
-						shapes.Add(shape);
-
-						chunk++;
-						xr_loader.SetStream(temp);
-					}
-				}
-				else if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_BONES, false, true))
-				{
-					ShapeEditType shape = new ShapeEditType();
-					shape.bone_flags = 0;
-					shape.bone_type = 0;
-
-					uint size = xr_loader.ReadUInt32();
-					for (int i = 0; i < size; i++)
-					{
-						shape.bone_name = xr_loader.read_stringZ();
-						shape.bone_id = (ushort)i;
-						xr_loader.read_stringZ();
-						xr_loader.read_stringZ();
-						xr_loader.ReadBytes(12);
-						xr_loader.ReadBytes(12);
-						xr_loader.ReadFloat();
-
-						shapes.Add(shape);
-					}
-				}
+		private void fromDialogToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (OpenBatchDialog.ShowDialog() == DialogResult.OK)
+			{
+				int code = StartEditor(EditorMode.BatchDialog, TEMP_FILE_NAME);
+				if (code == 0)
+					AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
+				else
+					AutoClosingMessageBox.Show($"Batch convert completed with errors.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 			}
 		}
 
@@ -682,41 +711,42 @@ namespace Object_tool
 
 					MotionRefsBox.Lines = refs.ToArray();
 				}
-			}
-		}
 
-		private uint MotionCount()
-		{
-			uint count = 0;
-			var xr_loader = new XRayLoader();
+				if (xr_loader.SetData(xr_loader.find_and_return_chunk_in_chunk((int)OBJECT.EOBJ_CHUNK_EDITMESHES, true, true)))
+				{
+					int id = 0;
+					uint size;
 
-			using (var r = new BinaryReader(new FileStream(TEMP_FILE_NAME, FileMode.Open)))
-			{
+					while (true)
+					{
+						if (!xr_loader.find_chunk(id)) break;
+
+						Stream temp = xr_loader.reader.BaseStream;
+
+						if (!xr_loader.SetData(xr_loader.find_and_return_chunk_in_chunk(id, false, true))) break;
+
+						size = xr_loader.find_chunkSize((int)MESH.EMESH_CHUNK_VERTS);
+						if (size == 0) break;
+						vertex_count += xr_loader.ReadUInt32();
+
+						size = xr_loader.find_chunkSize((int)MESH.EMESH_CHUNK_FACES);
+						if (size == 0) break;
+						face_count += xr_loader.ReadUInt32();
+
+						id++;
+						xr_loader.SetStream(temp);
+					}
+				}
+
 				xr_loader.SetStream(r.BaseStream);
-				xr_loader.ReadInt64();
 
-				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SMOTIONS))
-					count = xr_loader.ReadUInt32();
-			}
-			return count;
-		}
-
-		private void LoadSurfaceData()
-		{
-			var xr_loader = new XRayLoader();
-			surfaces = new List<Surface>();
-
-			using (var r = new BinaryReader(new FileStream(TEMP_FILE_NAME, FileMode.Open)))
-			{
-				xr_loader.SetStream(r.BaseStream);
-				xr_loader.ReadInt64();
-
+				surfaces = new List<Surface>();
 				Surface surface = new Surface();
 
-				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SURFACES3))
+				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SURFACES3, true, true))
 				{
-					uint cnt = xr_loader.ReadUInt32();
-					for (int i = 0; i < cnt; i++)
+					surface_count = xr_loader.ReadUInt32();
+					for (int i = 0; i < surface_count; i++)
 					{
 						string name = xr_loader.read_stringZ(); // Name
 						surface.shader = xr_loader.read_stringZ(); // Shader
@@ -732,10 +762,10 @@ namespace Object_tool
 						CreateMaterialGroupBox(i, name);
 					}
 				}
-				else if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SURFACES2))
+				else if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SURFACES2, true, true))
 				{
-					uint cnt = xr_loader.ReadUInt32();
-					for (int i = 0; i < cnt; i++)
+					surface_count = xr_loader.ReadUInt32();
+					for (int i = 0; i < surface_count; i++)
 					{
 						string name = xr_loader.read_stringZ(); // Name
 						surface.shader = xr_loader.read_stringZ(); // Shader
@@ -750,15 +780,15 @@ namespace Object_tool
 						CreateMaterialGroupBox(i, name);
 					}
 				}
-				else if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SURFACES))
+				else if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SURFACES, true, true))
 				{
-					uint cnt = xr_loader.ReadUInt32();
-					for (int i = 0; i < cnt; i++)
+					surface_count = xr_loader.ReadUInt32();
+					for (int i = 0; i < surface_count; i++)
 					{
 						string name = xr_loader.read_stringZ(); // Name
 						surface.shader = xr_loader.read_stringZ(); // Shader
 						surface.flags = xr_loader.ReadByte();     // Flags
-						xr_loader.ReadUInt32();	  // FVF
+						xr_loader.ReadUInt32();   // FVF
 						xr_loader.ReadUInt32();   // TC count
 						surface.texture = xr_loader.read_stringZ(); // Texture
 						xr_loader.read_stringZ(); // VMap
@@ -767,7 +797,79 @@ namespace Object_tool
 						CreateMaterialGroupBox(i, name);
 					}
 				}
+
+				xr_loader.SetStream(r.BaseStream);
+
+				shapes = new List<ShapeEditType>();
+				bool B_CHUNK = xr_loader.SetData(xr_loader.find_and_return_chunk_in_chunk((int)OBJECT.EOBJ_CHUNK_BONES2, true, true));
+				if (B_CHUNK)
+				{
+					int chunk = 0;
+
+					while (true)
+					{
+						Stream temp = xr_loader.reader.BaseStream;
+
+						if (!xr_loader.SetData(xr_loader.find_and_return_chunk_in_chunk(chunk, false, true))) break;
+
+						ShapeEditType shape = new ShapeEditType();
+						shape.bone_id = (ushort)chunk;
+
+						if (xr_loader.find_chunk((int)BONE.BONE_CHUNK_DEF, true, true))
+						{
+							shape.bone_name = xr_loader.read_stringZ();
+						}
+
+						if (xr_loader.find_chunk((int)BONE.BONE_CHUNK_SHAPE, true, true))
+						{
+							shape.bone_type = (ushort)xr_loader.ReadUInt16();
+							shape.bone_flags = (ushort)xr_loader.ReadUInt16();
+						}
+
+						shapes.Add(shape);
+
+						chunk++;
+						xr_loader.SetStream(temp);
+					}
+				}
+				else if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_BONES, true, true))
+				{
+					ShapeEditType shape = new ShapeEditType();
+					shape.bone_flags = 0;
+					shape.bone_type = 0;
+
+					uint size = xr_loader.ReadUInt32();
+					for (int i = 0; i < size; i++)
+					{
+						shape.bone_name = xr_loader.read_stringZ();
+						shape.bone_id = (ushort)i;
+						xr_loader.read_stringZ();
+						xr_loader.read_stringZ();
+						xr_loader.ReadBytes(12);
+						xr_loader.ReadBytes(12);
+						xr_loader.ReadFloat();
+
+						shapes.Add(shape);
+					}
+				}
+
+				joints_count = (uint)shapes.Count;
 			}
+		}
+
+		private uint MotionCount()
+		{
+			uint count = 0;
+			var xr_loader = new XRayLoader();
+
+			using (var r = new BinaryReader(new FileStream(TEMP_FILE_NAME, FileMode.Open)))
+			{
+				xr_loader.SetStream(r.BaseStream);
+
+				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SMOTIONS, true, true))
+					count = xr_loader.ReadUInt32();
+			}
+			return count;
 		}
 
 		private void ParseMotions()
@@ -777,15 +879,13 @@ namespace Object_tool
 			MotionTextBox.Text = $"Motions count: 0";
 			bool hasmot = MotionCount() > 0;
 			bool has_bones = HasBones();
-			MotionFlagsGroupBox.Enabled = hasmot;
 			MotionRefsBox.Enabled = !hasmot && has_bones;
 
 			using (var r = new BinaryReader(new FileStream(TEMP_FILE_NAME, FileMode.Open)))
 			{
 				xr_loader.SetStream(r.BaseStream);
-				xr_loader.ReadInt64();
 
-				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SMOTIONS))
+				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SMOTIONS, true, true))
 				{
 					MotionRefsBox.Clear();
 					uint count = xr_loader.ReadUInt32();
@@ -902,15 +1002,8 @@ namespace Object_tool
 			using (var r = new BinaryReader(new FileStream(TEMP_FILE_NAME, FileMode.Open)))
 			{
 				xr_loader.SetStream(r.BaseStream);
-				xr_loader.ReadInt64();
 
-				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_BONES2))
-					return true;
-
-				xr_loader.reader.BaseStream.Position = 0;
-				xr_loader.ReadInt64();
-
-				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_BONES))
+				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_BONES2, true, true) || xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_BONES, true, true))
 					return true;
 			}
 			return false;
@@ -935,10 +1028,32 @@ namespace Object_tool
 				"Для создания коллизии с нуля нужно настроить Shape type параметры у каждой кости (можно воспользоваться Tools->Shape Params->Type helper) и далее нажать Tools->Shape Params->Generate Shapes.\nЕсли коллизия уже была сгенерирована, то Shape type можно менять без повторной генерации коллизии.\n\n" +
 				"Tools->Surface Params и Tools->Shape Params активируются при выборе соответствующей вкладки в программе.\n\n" + 
 				"Для создания lod модели нужно нажать Tools->Generate lod, появится окно с настройкой детализации лода, после нажатия кнопки Append сгенерируется lod модель. Если она была сохранена в геймдату игры, то референс лода автоматически пропишестя в текщую модель, иначе его нужно будет прописывать вручную.\n\n" +
-				"Хоткеи:\nF3 - Экспорт\nF4 - Загрузка\nF5 - Быстрое сохранение .object\nF6 - Сохранение"
+				"Хоткеи:\nF3 - Экспорт\nF4 - Загрузка\nF5, Ctrl+S - Быстрое сохранение .object\nF6 - Сохранение"
 				, "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
+		private void ltxHelpToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			MessageBox.Show("Batch Converter создан для массового экспорта моделей и анимаций.\n\n" +
+				"Пример ltx конфига:\n\n" +
+				"[ogf] ; секция из которой будут экспортироватсья ogf модели\n" +
+                "test.object = test.ogf ; test.object из папки с ltx будет экспортирован в test.ogf\n" +
+				"test2 = test3 ; можно указывать без форматов файлов, все равно будет работать\n" +
+                "test\\test3 = test\\test3 ; так же можно прописывать папки\n\n" +
+                "[omf] ; секция из которой будут экспортироваться omf анимации\n" +
+                "test.object = test.omf ; встроенные анимации из test.object будут экспортированны в test.omf\n" +
+				"test\\test = test\\test ; все так же можно прописывать без указания формата и в папках\n\n" +
+                "[skls_skl] ; новая секция которая есть только в Object Editor, подгружает анимации в модели перед экспортом\n" +
+				"test.object = test1.skl, test\\test2.skls, test3.skl ; все анимации из списка будут загружены в test.object перед экспортом в ogf и omf\n" +
+				"test = test1, test\\test2, test3 ; указание без форматов и расположение в папках так же работает, программа будет искать анимации в skls и skl формате\n\n" +
+                "Экспортированные модели и анимации будут находиться в папке meshes"
+			, "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+		private void objectInfoToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			MessageBox.Show($"Vertex count: {vertex_count}\nFace count: {face_count}\nSurface count: {surface_count}\nJoints count: {joints_count}", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
 		private void ClearUI()
         {
 			BonesPage.Controls.Clear();
@@ -962,7 +1077,8 @@ namespace Object_tool
 			switch (TabControl.Controls[TabControl.SelectedIndex].Name)
 			{
 				case "BonesPage":
-					shapeParamsToolStripMenuItem.Enabled = shapes.Count > 0;
+					int shapes_count = (shapes != null ? shapes.Count : 0);
+					shapeParamsToolStripMenuItem.Enabled = shapes_count > 0;
 					break;
 				case "SurfacesPage":
 					surfaceParamsToolStripMenuItem.Enabled = true;
@@ -992,7 +1108,8 @@ namespace Object_tool
 
 		private void SwitchShapeType(ushort type)
 		{
-			for (int i = 0; i < shapes.Count; i++)
+			int shapes_count = (shapes != null ? shapes.Count : 0);
+			for (int i = 0; i < shapes_count; i++)
 			{
 				ShapeEditType shape = new ShapeEditType();
 				shape.bone_id = shapes[i].bone_id;
@@ -1019,7 +1136,7 @@ namespace Object_tool
         {
 			StartEditor(EditorMode.SaveObject, TEMP_FILE_NAME);
 			File.Copy(TEMP_FILE_NAME, filename, true);
-			AutoClosingMessageBox.Show("Object succesfully saved.", "", 1000, MessageBoxIcon.Information);
+			AutoClosingMessageBox.Show("Object successfully saved.", "", 1000, MessageBoxIcon.Information);
 		}
 
         private void ClosingForm(object sender, FormClosingEventArgs e)
@@ -1288,6 +1405,52 @@ namespace Object_tool
 		{
 			if (MessageBox.Show("Are you sure you want to exit?", "Object Editor", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 				Close();
+		}
+
+		private void RichTextBoxImgDefender(object sender, KeyEventArgs e)
+		{
+			RichTextBox TextBox = sender as RichTextBox;
+			if (e.Control && e.KeyCode == Keys.V)
+			{
+				if (Clipboard.ContainsText())
+					TextBox.Paste(DataFormats.GetFormat(DataFormats.Text));
+				e.Handled = true;
+			}
+		}
+
+		private bool IsTextCorrect(string text)
+		{
+			foreach (char ch in text)
+			{
+				if (ch > 0x1F && ch != 0x20)
+					return true;
+			}
+			return false;
+		}
+
+		private string GetCorrectString(string text)
+		{
+			string ret_text = "", symbols = "";
+			bool started = false;
+			foreach (char ch in text)
+			{
+				if (started)
+				{
+					if (ch <= 0x1F || ch == 0x20)
+						symbols += ch;
+					else
+					{
+						ret_text += symbols + ch;
+						symbols = "";
+					}
+				}
+				else if (ch > 0x1F && ch != 0x20)
+				{
+					started = true;
+					ret_text += ch;
+				}
+			}
+			return ret_text;
 		}
 
 		private void CreateShapeGroupBox(int idx, ShapeEditType shape)
