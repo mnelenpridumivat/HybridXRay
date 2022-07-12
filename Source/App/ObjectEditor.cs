@@ -309,6 +309,7 @@ namespace Object_tool
 
 			// Ёкспортируем юзердату
 			string userdata = "";
+			List<string> userdata_quotes = new List<string>();
 			if (IsTextCorrect(UserDataTextBox.Text))
 			{
 				for (int i = 0; i < UserDataTextBox.Lines.Count(); i++)
@@ -316,8 +317,8 @@ namespace Object_tool
 					string ext = i == UserDataTextBox.Lines.Count() - 1 ? "" : "\r\n";
 					userdata += UserDataTextBox.Lines[i] + ext;
 				}
+				File.WriteAllText(object_path + "_temp.userdata", userdata);
 			}
-			args += $" \"{userdata}\"";
 
 			// Ёкспортируем моушн рефы
 			List<string> motion_refs = new List<string>();
@@ -343,7 +344,10 @@ namespace Object_tool
 				args += $" \"{OpenBatchDialog.FileNames[i]}\"";
 			}
 
-			return RunCompiller(args);
+			int exit_code = RunCompiller(args);
+			if (File.Exists(object_path + "_temp.userdata"))
+				File.Delete(object_path + "_temp.userdata");
+			return exit_code;
 		}
 
 		private int RunCompiller(string args)

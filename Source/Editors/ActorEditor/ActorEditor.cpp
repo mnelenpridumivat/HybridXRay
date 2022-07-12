@@ -3,6 +3,7 @@
 #include "stdafx.h"
 #include <iostream>
 #include <string>
+#include <fstream>
 
 // argv[1] - mode
 // argv[2] - object
@@ -129,12 +130,34 @@ int main(int argc, char** argv)
     float lod_quality = atof(argv[iReaderPos]); iReaderPos++;
     int lod_flags = atoi(argv[iReaderPos]); iReaderPos++;
     shared_str lod_path = argv[iReaderPos]; iReaderPos++;
-    shared_str userdata = argv[iReaderPos]; iReaderPos++;
     int motion_refs_count = atoi(argv[iReaderPos]); iReaderPos++;
     xr_vector<shared_str> pMotionRefs = LoadStringVector(argv, motion_refs_count);
     int batch_files_count = atoi(argv[iReaderPos]); iReaderPos++;
     xr_vector<shared_str> pBatchFiles = LoadStringVector(argv, batch_files_count);
     // End of program params
+
+    std::string line;
+    std::string userdata_path = object_path.c_str();
+    xr_string userdata = "";
+    userdata_path += "_temp.userdata";
+
+    std::ifstream fuserdata(userdata_path);
+
+    if (fuserdata.is_open())
+    {
+        while (getline(fuserdata, line))
+        {
+            userdata += line.c_str();
+            userdata += "\r\n";
+        }
+
+        if (userdata.size() > 2)
+        {
+            userdata.pop_back();
+            userdata.pop_back();
+        }
+    }
+    fuserdata.close();
 
     Tools = xr_new<CActorTools>();
     ATools = (CActorTools*)Tools;
