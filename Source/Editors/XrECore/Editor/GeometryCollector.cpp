@@ -9,48 +9,35 @@
 //------------------------------------------------------------------------------
 // VCPacked
 //------------------------------------------------------------------------------
-VCPacked::VCPacked(const Fbox &bb, bool HQ, float _eps, u32 _sx, u32 _sy, u32 _sz, int apx_vertices)
+VCPacked::VCPacked(const Fbox &bb, float _eps, u32 _sx, u32 _sy, u32 _sz, int apx_vertices)
 {
-    if (!HQ)
-    {
-        eps                = _eps;
-        sx                = _max(_sx,1);
-        sy                = _max(_sy,1);
-        sz                = _max(_sz,1);
-        // prepare hash table
-        VM.resize        (sx*sy*sz);
+    eps                = _eps;
+    sx                = _max(_sx,1);
+    sy                = _max(_sy,1);
+    sz                = _max(_sz,1);
+    // prepare hash table
+    VM.resize        (sx*sy*sz);
 
-        // Params
-        VMscale.set        (bb.max.x-bb.min.x, bb.max.y-bb.min.y, bb.max.z-bb.min.z);
-        VMmin.set        (bb.min);
-        VMeps.set        (VMscale.x/(sx-1)/2,VMscale.y/(sy-1)/2,VMscale.z/(sz-1)/2);
-        VMeps.x            = (VMeps.x<EPS_L)?VMeps.x:EPS_L;
-        VMeps.y            = (VMeps.y<EPS_L)?VMeps.y:EPS_L;
-        VMeps.z            = (VMeps.z<EPS_L)?VMeps.z:EPS_L;
-    }
+    // Params
+    VMscale.set        (bb.max.x-bb.min.x, bb.max.y-bb.min.y, bb.max.z-bb.min.z);
+    VMmin.set        (bb.min);
+    VMeps.set        (VMscale.x/(sx-1)/2,VMscale.y/(sy-1)/2,VMscale.z/(sz-1)/2);
+    VMeps.x            = (VMeps.x<EPS_L)?VMeps.x:EPS_L;
+    VMeps.y            = (VMeps.y<EPS_L)?VMeps.y:EPS_L;
+    VMeps.z            = (VMeps.z<EPS_L)?VMeps.z:EPS_L;
 
     // Preallocate memory
     verts.reserve	(apx_vertices);
 
-    if (!HQ)
-    {
-        int        _size = VM.size();
-        int        _average = (apx_vertices / _size) / 2;
-        for (GCHashIt it = VM.begin(); it != VM.end(); it++)
-            it->reserve(_average);
-    }
+    int        _size = VM.size();
+    int        _average = (apx_vertices / _size) / 2;
+    for (GCHashIt it = VM.begin(); it != VM.end(); it++)
+        it->reserve(_average);
 }
 
-u32		VCPacked::add_vert(const Fvector& V, bool HQ)
+u32		VCPacked::add_vert(const Fvector& V)
 {
     u32 P = 0xffffffff;
-
-    if (HQ)
-    {
-        P = verts.size();
-        verts.push_back(GCVertex(V));
-        return P;
-    }
 
     u32 clpX = sx - 1, clpY = sy - 1, clpZ = sz - 1;
     u32 ix, iy, iz;
@@ -107,12 +94,12 @@ void	VCPacked::clear()
 //------------------------------------------------------------------------------
 // GCPacked
 //------------------------------------------------------------------------------
-void	GCPacked::add_face(const Fvector& v0, const Fvector& v1, const Fvector& v2, bool HQ, u32 dummy)
+void	GCPacked::add_face(const Fvector& v0, const Fvector& v1, const Fvector& v2, u32 dummy)
 {
 	GCFace T;
-    T.verts	[0] 	= add_vert(v0, HQ);
-    T.verts	[1] 	= add_vert(v1, HQ);
-    T.verts	[2] 	= add_vert(v2, HQ);
+    T.verts	[0] 	= add_vert(v0);
+    T.verts	[1] 	= add_vert(v1);
+    T.verts	[2] 	= add_vert(v2);
     T.dummy			= dummy;
     faces.push_back	(T);
     validate		(T);

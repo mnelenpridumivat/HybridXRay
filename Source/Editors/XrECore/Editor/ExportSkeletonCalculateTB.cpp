@@ -146,11 +146,11 @@ void 	CExportSkeleton::SSplit::CalculateTB	()
 
 	retrive_data_from_mender_otput( m_Verts, m_Faces, mender_in_out_verts, mender_in_out_indices, mender_mapping_out_to_in_vert  );
 
-	t_remove_isolated_verts( m_Verts, m_Faces );
+	//t_remove_isolated_verts( m_Verts, m_Faces );
 
 	mender_in_out_verts				.clear( );
 	mender_in_out_indices			.clear( );
 	mender_mapping_out_to_in_vert	.clear( );
 
-	OptimizeTextureCoordinates();
+	//OptimizeTextureCoordinates();
 }

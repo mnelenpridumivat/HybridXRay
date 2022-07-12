@@ -167,6 +167,9 @@ int main(int argc, char** argv)
         ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoLod, (mode == GenerateLod));
     }
 
+    if (flags & exfHQGeometryPlus)
+        g_EpsSkelPositionDelta = EPS_S;
+
     if (flags & exf16Bit)
         g_force16BitTransformQuant = true;
     else if (flags & exfNoCompress)
