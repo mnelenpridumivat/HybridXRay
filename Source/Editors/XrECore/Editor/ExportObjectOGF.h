@@ -85,8 +85,7 @@ public:
     }
 	IC bool			add_face	(SOGFVert& v0, SOGFVert& v1, SOGFVert& v2, bool hq)
 	{
-        float eps = (hq ? EPS_S : EPS);
-		if (!hq && ((v0.P.similar(v1.P,eps) || v0.P.similar(v2.P,eps) || v1.P.similar(v2.P,eps))))
+		if (!hq && ((v0.P.similar(v1.P,EPS) || v0.P.similar(v2.P,EPS) || v1.P.similar(v2.P,EPS))))
 		{
 			ELog.Msg(mtError,"Degenerate face found. Removed.");
             return true;

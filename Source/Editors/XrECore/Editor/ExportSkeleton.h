@@ -100,8 +100,7 @@ public:
     }
 	bool add_face	(SSkelVert& v0, SSkelVert& v1, SSkelVert& v2, bool hq)
     {
-        float eps = (hq ? EPS_S : EPS);
-		if (!hq && ((v0.offs.similar(v1.offs,eps) || v0.offs.similar(v2.offs,eps) || v1.offs.similar(v2.offs,eps))))
+		if (!hq && ((v0.offs.similar(v1.offs,EPS) || v0.offs.similar(v2.offs,EPS) || v1.offs.similar(v2.offs,EPS))))
         {
 			ELog.Msg(mtError,"Degenerate face found. Removed.");
             invalid_faces++;
