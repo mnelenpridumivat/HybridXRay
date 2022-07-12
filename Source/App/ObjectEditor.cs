@@ -91,12 +91,17 @@ namespace Object_tool
 			bonesToolStripMenuItem.Enabled = false;
 			dMToolStripMenuItem.Enabled = false;
 			bonesPartsToolStripMenuItem.Enabled = false;
+			FlagsGroupBox.Enabled = false;
 			MotionRefsBox.Enabled = false;
 			UserDataTextBox.Enabled = false;
 			LodTextBox.Enabled = false;
 			ObjectScaleTextBox.Enabled = false;
 			ScaleCenterOfMassCheckBox.Enabled = false;
 			ObjectScaleLabel.Enabled = false;
+			motionRefsToolStripMenuItem.Enabled = false;
+			userDataToolStripMenuItem.Enabled = false;
+			motionRefsToolStripMenuItem1.Enabled = false;
+			userDataToolStripMenuItem1.Enabled = false;
 
 			SaveSklDialog = new FolderSelectDialog();
 
@@ -135,7 +140,7 @@ namespace Object_tool
 			}
 		}
 
-		public void OpenFile(string filename, bool skeleton = false)
+		public void OpenFile(string filename, bool ogf_skeleton = false)
         {
 			if (Directory.Exists(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp"))
 				Directory.Delete(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp", true);
@@ -145,7 +150,7 @@ namespace Object_tool
 
 			StatusFile.Text = FILE_NAME.Substring(FILE_NAME.LastIndexOf('\\') + 1);
 
-			if (skeleton)
+			if (ogf_skeleton)
 				FILE_NAME = Environment.GetCommandLineArgs()[3];
 
 			SaveOgfDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
@@ -163,11 +168,17 @@ namespace Object_tool
 			SaveObjDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
 			SaveObjDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + ".obj";
 
-			SaveLtxDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
-			SaveLtxDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + ".ltx";
+			SaveBonePartsDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
+			SaveBonePartsDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + ".ltx";
 
 			SaveCppDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
 			SaveCppDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + ".ltx";
+
+			SaveMotionRefsDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
+			SaveMotionRefsDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + "_refs.ltx";
+
+			SaveUserDataDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
+			SaveUserDataDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + "_userdata.ltx";
 
 			SaveSklDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
 
@@ -197,17 +208,17 @@ namespace Object_tool
 			SaveSklsToolStripMenuItem.Enabled = has_motions;
 			sklToolStripMenuItem.Enabled = has_motions;
 			oMFToolStripMenuItem.Enabled = has_motions;
-			saveToolStripMenuItem.Enabled = !skeleton;
+			saveToolStripMenuItem.Enabled = !ogf_skeleton;
 			exportToolStripMenuItem.Enabled = true;
 			deleteToolStripMenuItem.Enabled = true;
 			sklSklsToolStripMenuItem.Enabled = has_bones;
 			bonesToolStripMenuItem.Enabled = has_bones;
-			oGFToolStripMenuItem.Enabled = !skeleton;
-			objToolStripMenuItem.Enabled = !skeleton;
-			objectToolStripMenuItem.Enabled = !skeleton;
-			dMToolStripMenuItem.Enabled = !skeleton;
+			oGFToolStripMenuItem.Enabled = !ogf_skeleton;
+			objToolStripMenuItem.Enabled = !ogf_skeleton;
+			objectToolStripMenuItem.Enabled = !ogf_skeleton;
+			dMToolStripMenuItem.Enabled = !ogf_skeleton;
 			bonesPartsToolStripMenuItem.Enabled = has_bones;
-			cToolStripMenuItem.Enabled = !skeleton;
+			cToolStripMenuItem.Enabled = !ogf_skeleton;
 			StripifyMeshes.Enabled = has_bones;
 			bonesToolStripMenuItem1.Enabled = has_bones;
 			bonesPartsToolStripMenuItem1.Enabled = has_bones;
@@ -218,8 +229,12 @@ namespace Object_tool
 			MotionRefsBox.Enabled = has_bones && !has_motions;
 			UserDataTextBox.Enabled = has_bones;
 			LodTextBox.Enabled = has_bones;
+			motionRefsToolStripMenuItem.Enabled = has_bones && !ogf_skeleton;
+			userDataToolStripMenuItem.Enabled = has_bones && !ogf_skeleton;
+			ModelFlagsGroupBox.Enabled = !ogf_skeleton;
+			FlagsGroupBox.Enabled = true;
 
-			if (skeleton)
+			if (ogf_skeleton)
 			{
 				TabControl.Controls.Clear();
 				TabControl.Controls.Add(FlagsPage);
@@ -238,13 +253,22 @@ namespace Object_tool
 			}
 
 			IndexChanged(null, null);
+
+			MotionRefsTextChanged(MotionRefsBox, null);
+			UserDataTextChanged(UserDataTextBox, null);
 		}
 
-		private int StartEditor(EditorMode mode, string object_path, string second_path = "null")
+		private int StartEditor(EditorMode mode, string object_path, string second_path = "null", int flags = -1, float scale = -1.0f)
 		{
+			if (flags == -1)
+            {
+				flags = GetFlags();
+				scale = model_scale;
+			}
+
 			int shapes_count = (shapes != null ? shapes.Count : 0);
 			int surfaces_count = (surfaces != null ? surfaces.Count : 0);
-			string args = $"{(int)mode} \"{object_path}\" \"{second_path}\" {GetFlags()} {model_scale} {shapes_count} {surfaces_count} {OpenSklsDialog.FileNames.Count()}";
+			string args = $"{(int)mode} \"{object_path}\" \"{second_path}\" {flags} {scale} {shapes_count} {surfaces_count} {OpenSklsDialog.FileNames.Count()}";
 
 			// Экспортируем шейпы
 			if (shapes_count > 0)
@@ -531,11 +555,11 @@ namespace Object_tool
 
 		private void bonesPartsToolStripMenuItem1_Click(object sender, EventArgs e)
 		{
-			if (SaveLtxDialog.ShowDialog() == DialogResult.OK)
+			if (SaveBonePartsDialog.ShowDialog() == DialogResult.OK)
 			{
-				SaveLtxDialog.InitialDirectory = "";
+				SaveBonePartsDialog.InitialDirectory = "";
 
-				int code = StartEditor(EditorMode.SaveBoneParts, TEMP_FILE_NAME, SaveLtxDialog.FileName);
+				int code = StartEditor(EditorMode.SaveBoneParts, TEMP_FILE_NAME, SaveBonePartsDialog.FileName);
 				if (code == 0)
 					AutoClosingMessageBox.Show("Bone parts successfully saved.", "", 1000, MessageBoxIcon.Information);
 				else
@@ -630,11 +654,17 @@ namespace Object_tool
 		{
 			if (OpenBatchLtxDialog.ShowDialog() == DialogResult.OK)
 			{
-				int code = StartEditor(EditorMode.BatchLtx, TEMP_FILE_NAME, OpenBatchLtxDialog.FileName);
-				if (code == 0)
-					AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
-				else
-					AutoClosingMessageBox.Show($"Batch convert failed.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+				BatchFlags batch_flags = new BatchFlags();
+				batch_flags.ShowDialog();
+
+				if (batch_flags.res)
+                {
+					int code = StartEditor(EditorMode.BatchLtx, TEMP_FILE_NAME, OpenBatchLtxDialog.FileName, batch_flags.GetFlags(dbg_window), batch_flags.scale);
+					if (code == 0)
+						AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
+					else
+						AutoClosingMessageBox.Show($"Batch convert failed.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+				}
 			}
 		}
 
@@ -642,11 +672,17 @@ namespace Object_tool
 		{
 			if (OpenBatchDialog.ShowDialog() == DialogResult.OK)
 			{
-				int code = StartEditor(EditorMode.BatchDialogOGF, TEMP_FILE_NAME);
-				if (code == 0)
-					AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
-				else
-					AutoClosingMessageBox.Show($"Batch convert completed with errors.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+				BatchFlags batch_flags = new BatchFlags();
+				batch_flags.ShowDialog();
+
+				if (batch_flags.res)
+				{
+					int code = StartEditor(EditorMode.BatchDialogOGF, TEMP_FILE_NAME, "null", batch_flags.GetFlags(dbg_window), batch_flags.scale);
+					if (code == 0)
+						AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
+					else
+						AutoClosingMessageBox.Show($"Batch convert completed with errors.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+				}
 			}
 		}
 
@@ -654,11 +690,17 @@ namespace Object_tool
 		{
 			if (OpenBatchDialog.ShowDialog() == DialogResult.OK)
 			{
-				int code = StartEditor(EditorMode.BatchDialogOMF, TEMP_FILE_NAME);
-				if (code == 0)
-					AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
-				else
-					AutoClosingMessageBox.Show($"Batch convert completed with errors.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+				BatchFlags batch_flags = new BatchFlags();
+				batch_flags.ShowDialog();
+
+				if (batch_flags.res)
+				{
+					int code = StartEditor(EditorMode.BatchDialogOMF, TEMP_FILE_NAME, "null", batch_flags.GetFlags(dbg_window), batch_flags.scale);
+					if (code == 0)
+						AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
+					else
+						AutoClosingMessageBox.Show($"Batch convert completed with errors.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+				}
 			}
 		}
 
@@ -677,6 +719,69 @@ namespace Object_tool
 					UserDataTextBox.Text += "\n" + line;
 				}
 				file.Close();
+			}
+		}
+
+		private void motionRefsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (OpenMotionRefsDialog.ShowDialog() == DialogResult.OK)
+			{
+				MotionRefsBox.Clear();
+
+				IniFile MotionRefs = new IniFile(OpenMotionRefsDialog.FileName);
+
+				string Ref = MotionRefs.Read("000000", "refs");
+				MotionRefsBox.Text += Ref;
+
+				int counter = 0;
+				while (Ref != "")
+                {
+					counter++;
+					string param = string.Format("{0:000000}.", counter).Substring(0, 6);
+					Ref = MotionRefs.Read(param, "refs");
+
+					if (Ref == "")
+						break;
+
+					MotionRefsBox.Text += "\n" + Ref;
+				}
+			}
+		}
+
+		private void motionRefsToolStripMenuItem1_Click(object sender, EventArgs e)
+		{
+			if (SaveMotionRefsDialog.ShowDialog() == DialogResult.OK)
+			{
+				SaveMotionRefsDialog.InitialDirectory = "";
+
+				string ExportRefs = "[refs]";
+
+				List<string> motion_refs = new List<string>(); // корректные моушн рефы
+				if (IsTextCorrect(MotionRefsBox.Text))
+				{
+					for (int i = 0; i < MotionRefsBox.Lines.Count(); i++)
+					{
+						if (IsTextCorrect(MotionRefsBox.Lines[i]))
+							motion_refs.Add(GetCorrectString(MotionRefsBox.Lines[i]));
+					}
+				}
+
+				for (int i = 0; i < motion_refs.Count; i++)
+                {
+					string val = string.Format("\n        {0:000000}                           = ", i);
+					ExportRefs += $"{val}{motion_refs[i]}";
+				}
+
+				File.WriteAllText(SaveMotionRefsDialog.FileName, ExportRefs);
+			}
+		}
+
+		private void userDataToolStripMenuItem1_Click(object sender, EventArgs e)
+		{
+			if (SaveUserDataDialog.ShowDialog() == DialogResult.OK)
+			{
+				SaveUserDataDialog.InitialDirectory = "";
+				File.WriteAllText(SaveUserDataDialog.FileName, UserDataTextBox.Text);
 			}
 		}
 
@@ -911,6 +1016,9 @@ namespace Object_tool
 			bool hasmot = MotionCount() > 0;
 			bool has_bones = HasBones();
 			MotionRefsBox.Enabled = !hasmot && has_bones;
+			MotionFlagsGroupBox.Enabled = hasmot && has_bones;
+			MotionRefsTextChanged(MotionRefsBox, null);
+			UserDataTextChanged(UserDataTextBox, null);
 
 			using (var r = new BinaryReader(new FileStream(TEMP_FILE_NAME, FileMode.Open)))
 			{
@@ -1065,8 +1173,8 @@ namespace Object_tool
 
 		private void ltxHelpToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Batch Converter создан для массового экспорта моделей и анимаций.\n\n" +
-				"Пример ltx конфига:\n\n" +
+			MessageBox.Show("Batch Converter создан для массового экспорта моделей и анимаций.\nВ данной программе имеется 2 режима: From Ltx и From Dialog.\n\n" +
+				"From Ltx - Пример ltx конфига:\n\n" +
 				"[ogf] ; секция из которой будут экспортироватсья ogf модели\n" +
                 "test.object = test.ogf ; test.object из папки с ltx будет экспортирован в test.ogf\n" +
 				"test2 = test3 ; можно указывать без форматов файлов, все равно будет работать\n" +
@@ -1077,6 +1185,8 @@ namespace Object_tool
                 "[skls_skl] ; новая секция которая есть только в Object Editor, подгружает анимации в модели перед экспортом\n" +
 				"test.object = test1.skl, test\\test2.skls, test3.skl ; все анимации из списка будут загружены в test.object перед экспортом в ogf и omf\n" +
 				"test = test1, test\\test2, test3 ; указание без форматов и расположение в папках так же работает, программа будет искать анимации в skls и skl формате\n\n" +
+                "From Dialog - принцип работы:\n" +
+				"Object будет экспортирован в выбранный вами формат во вкладке From Dialog\nПри экспорте программа будет искать skls анимации с таким же названием что и object, и при нахождении загрузит их в модель перед экспортом.\n\n" +
                 "Экспортированные модели и анимации будут находиться в папке meshes"
 			, "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
@@ -1484,6 +1594,16 @@ namespace Object_tool
 			return ret_text;
 		}
 
+		private void MotionRefsTextChanged(object sender, EventArgs e)
+		{
+			motionRefsToolStripMenuItem1.Enabled = IsTextCorrect((sender as RichTextBox).Text) && MotionRefsBox.Enabled;
+		}
+
+		private void UserDataTextChanged(object sender, EventArgs e)
+		{
+			userDataToolStripMenuItem1.Enabled = IsTextCorrect((sender as RichTextBox).Text) && UserDataTextBox.Enabled;
+		}
+
 		private void CreateShapeGroupBox(int idx, ShapeEditType shape)
 		{
 			var GroupBox = new GroupBox();
@@ -1538,12 +1658,13 @@ namespace Object_tool
 			TypeLabel.Name = "TypeLbl_" + idx;
 			TypeLabel.Text = "Shape type: ";
 			TypeLabel.Location = new System.Drawing.Point(180, 18);
+			TypeLabel.Anchor = AnchorStyles.Right;
 
 			var TypeComboBox = new ComboBox();
 			TypeComboBox.Name = "cbxType_" + idx;
 			TypeComboBox.Size = new System.Drawing.Size(107, 23);
 			TypeComboBox.Location = new System.Drawing.Point(245, 15);
-			TypeComboBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+			TypeComboBox.Anchor = AnchorStyles.Right;
 			TypeComboBox.Items.Add("None");
 			TypeComboBox.Items.Add("Box");
 			TypeComboBox.Items.Add("Sphere");

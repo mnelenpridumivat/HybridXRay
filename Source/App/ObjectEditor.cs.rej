@@ -1,0 +1,10 @@
+diff a/Source/App/ObjectEditor.cs b/Source/App/ObjectEditor.cs	(rejected hunks)
+@@ -206,8 +206,6 @@
+ 			objectToolStripMenuItem.Enabled = !skeleton;
+ 			dMToolStripMenuItem.Enabled = !skeleton;
+ 			bonesPartsToolStripMenuItem.Enabled = has_bones;
+-			ModelFlagsGroupBox.Enabled = !skeleton;
+-			FlagsGroupBox.Enabled = true;
+ 			cToolStripMenuItem.Enabled = !skeleton;
+ 			StripifyMeshes.Enabled = has_bones;
+ 			bonesToolStripMenuItem1.Enabled = has_bones;

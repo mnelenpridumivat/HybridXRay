@@ -69,6 +69,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BatchFlags.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BatchFlags.Designer.cs">
+      <DependentUpon>BatchFlags.cs</DependentUpon>
+    </Compile>
     <Compile Include="GenerateLod.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -84,6 +90,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="BatchFlags.resx">
+      <DependentUpon>BatchFlags.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GenerateLod.resx">
       <DependentUpon>GenerateLod.cs</DependentUpon>
     </EmbeddedResource>
