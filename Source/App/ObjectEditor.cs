@@ -49,7 +49,8 @@ namespace Object_tool
 		GenerateLod,
 		SaveCpp,
 		BatchLtx,
-		BatchDialog,
+		BatchDialogOGF,
+		BatchDialogOMF,
 	};
 
 	public partial class Object_Editor : Form
@@ -637,15 +638,45 @@ namespace Object_tool
 			}
 		}
 
-		private void fromDialogToolStripMenuItem_Click(object sender, EventArgs e)
+		private void oGFToolStripMenuItem1_Click(object sender, EventArgs e)
 		{
 			if (OpenBatchDialog.ShowDialog() == DialogResult.OK)
 			{
-				int code = StartEditor(EditorMode.BatchDialog, TEMP_FILE_NAME);
+				int code = StartEditor(EditorMode.BatchDialogOGF, TEMP_FILE_NAME);
 				if (code == 0)
 					AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
 				else
 					AutoClosingMessageBox.Show($"Batch convert completed with errors.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+			}
+		}
+
+		private void oMFToolStripMenuItem1_Click(object sender, EventArgs e)
+		{
+			if (OpenBatchDialog.ShowDialog() == DialogResult.OK)
+			{
+				int code = StartEditor(EditorMode.BatchDialogOMF, TEMP_FILE_NAME);
+				if (code == 0)
+					AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
+				else
+					AutoClosingMessageBox.Show($"Batch convert completed with errors.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+			}
+		}
+
+		private void userDataToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (OpenUserDataDialog.ShowDialog() == DialogResult.OK)
+			{
+				UserDataTextBox.Clear();
+
+				StreamReader file = new StreamReader(OpenUserDataDialog.FileName);
+				string line = file.ReadLine();
+				UserDataTextBox.Text += line;
+				while (line != null)
+				{
+					line = file.ReadLine();
+					UserDataTextBox.Text += "\n" + line;
+				}
+				file.Close();
 			}
 		}
 

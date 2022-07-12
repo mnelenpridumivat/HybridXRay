@@ -49,5 +49,6 @@ enum EditorMode
     GenerateLod,
     SaveCpp,
     BatchLtx,
-    BatchDialog,
+    BatchDialogOGF,
+    BatchDialogOMF,
 };

@@ -139,7 +139,7 @@ int main(int argc, char** argv)
     Tools = xr_new<CActorTools>();
     ATools = (CActorTools*)Tools;
 
-    if (mode != BatchLtx && mode != BatchDialog)
+    if (mode != BatchLtx && mode != BatchDialogOGF && mode != BatchDialogOMF)
     {
         std::cout << "Import object" << std::endl;
         ATools->LoadScale(object_path.c_str(), scale, (flags & exfScaleCenterMass));
@@ -287,9 +287,14 @@ int main(int argc, char** argv)
             if (!ATools->BatchConvert(second_file_path.c_str(), flags))
                 ret_code = -1;
         }break;
-        case BatchDialog:
+        case BatchDialogOGF:
         {
-            if (!ATools->BatchConvertDialog(pBatchFiles, flags))
+            if (!ATools->BatchConvertDialogOGF(pBatchFiles, flags))
+                ret_code = -1;
+        }break;
+        case BatchDialogOMF:
+        {
+            if (!ATools->BatchConvertDialogOMF(pBatchFiles, flags))
                 ret_code = -1;
         }break;
     }

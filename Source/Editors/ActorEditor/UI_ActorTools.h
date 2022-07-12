@@ -312,7 +312,8 @@ public:
     void				RealMakeThumbnail();
     void				RealGenerateLOD(bool hq);
     bool				BatchConvert		(LPCSTR fn, int flags);
-    bool				BatchConvertDialog	(xr_vector<shared_str> files, int flags);
+    bool				BatchConvertDialogOGF(xr_vector<shared_str> files, int flags);
+    bool				BatchConvertDialogOMF(xr_vector<shared_str> files, int flags);
 
 
     void				PhysicsSimulate			( );

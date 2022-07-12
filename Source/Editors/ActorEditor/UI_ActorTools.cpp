@@ -1256,7 +1256,7 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags)
     return bRes;
 }
 
-bool CActorTools::BatchConvertDialog(xr_vector<shared_str> files, int flags)
+bool CActorTools::BatchConvertDialogOGF(xr_vector<shared_str> files, int flags)
 {
     bool bRes = true;
 
@@ -1284,7 +1284,89 @@ bool CActorTools::BatchConvertDialog(xr_vector<shared_str> files, int flags)
             CEditableObject* O = xr_new<CEditableObject>("convert");
             BOOL res = O->Load(src_name);
 
+            if (O->BonePartCount() == 0)
+            {
+                ATools->ToDefaultBoneParts(O);
+                Msg("Can't find bone parts, reset to default.");
+            }
+
+            O->m_objectFlags.set(CEditableObject::eoProgressive, (flags & exfMakeProgressive));
+            O->m_objectFlags.set(CEditableObject::eoStripify, (flags & exfMakeStripify));
+            O->m_objectFlags.set(CEditableObject::eoOptimizeSurf, (flags & exfOptimizeSurfaces));
+            O->m_objectFlags.set(CEditableObject::eoHQExportPlus, (flags & exfHQGeometryPlus));
+
+            shared_str skls_name = EFS.ChangeFileExt(src_name, ".skls").c_str();
+
+            if (FS.exist(skls_name.c_str()))
+                O->AppendSMotion(skls_name.c_str());
+
+            skls_name = EFS.ChangeFileExt(src_name, ".skl").c_str();
+            if (FS.exist(skls_name.c_str()))
+                O->AppendSMotion(skls_name.c_str());
+
+            if (O->SMotionCount() > 0)
+                O->m_SMotionRefs.clear();
+
             if (res) res = O->ExportOGF(tgt_name, 4);
+            Log(res ? ".OK" : "!.FAILED");
+            xr_delete(O);
+        }
+        else
+        {
+            bRes = false;
+        }
+    }
+
+    return bRes;
+}
+
+bool CActorTools::BatchConvertDialogOMF(xr_vector<shared_str> files, int flags)
+{
+    bool bRes = true;
+
+    for (int i = 0; i < files.size(); i++)
+    {
+        Msg("Start converting %d items...", files.size());
+        string_path 		src_name;
+        string_path 		tgt_name;
+
+        const char* pFname;
+        pFname = strrchr(files[i].c_str(), '\\');
+
+        std::string folder = files[i].c_str();
+        folder = folder.substr(0, folder.find_last_of("\\") + 1);
+        std::string tgt = folder;
+        tgt += "meshes";
+        tgt += pFname;
+
+        xr_sprintf(src_name, "%s", files[i].c_str());
+        xr_sprintf(tgt_name, "%s", tgt.c_str());
+
+        strcpy(tgt_name, EFS.ChangeFileExt(tgt_name, ".omf").c_str());
+        if (FS.exist(src_name))
+        {
+            CEditableObject* O = xr_new<CEditableObject>("convert");
+            BOOL res = O->Load(src_name);
+
+            if (O->BonePartCount() == 0)
+            {
+                ATools->ToDefaultBoneParts(O);
+                Msg("Can't find bone parts, reset to default.");
+            }
+
+            shared_str skls_name = EFS.ChangeFileExt(src_name, ".skls").c_str();
+
+            if (FS.exist(skls_name.c_str()))
+                O->AppendSMotion(skls_name.c_str());
+
+            skls_name = EFS.ChangeFileExt(src_name, ".skl").c_str();
+            if (FS.exist(skls_name.c_str()))
+                O->AppendSMotion(skls_name.c_str());
+
+            if (O->SMotionCount() > 0)
+                O->m_SMotionRefs.clear();
+
+            if (res) res = O->ExportOMF(tgt_name);
             Log(res ? ".OK" : "!.FAILED");
             xr_delete(O);
         }
