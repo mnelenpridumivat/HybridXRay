@@ -102,6 +102,7 @@ namespace Object_tool
 			userDataToolStripMenuItem.Enabled = false;
 			motionRefsToolStripMenuItem1.Enabled = false;
 			userDataToolStripMenuItem1.Enabled = false;
+			generateLodToolStripMenuItem.Enabled = false;
 
 			SaveSklDialog = new FolderSelectDialog();
 
@@ -223,9 +224,9 @@ namespace Object_tool
 			bonesToolStripMenuItem1.Enabled = has_bones;
 			bonesPartsToolStripMenuItem1.Enabled = has_bones;
 			bonesPartsToDefaultToolStripMenuItem.Enabled = has_bones;
-			ObjectScaleTextBox.Enabled = has_bones;
-			ScaleCenterOfMassCheckBox.Enabled = has_bones;
-			ObjectScaleLabel.Enabled = has_bones;
+			ObjectScaleTextBox.Enabled = has_bones && !ogf_skeleton;
+			ScaleCenterOfMassCheckBox.Enabled = has_bones && !ogf_skeleton;
+			ObjectScaleLabel.Enabled = has_bones && !ogf_skeleton;
 			MotionRefsBox.Enabled = has_bones && !has_motions;
 			UserDataTextBox.Enabled = has_bones;
 			LodTextBox.Enabled = has_bones;
@@ -233,6 +234,7 @@ namespace Object_tool
 			userDataToolStripMenuItem.Enabled = has_bones && !ogf_skeleton;
 			ModelFlagsGroupBox.Enabled = !ogf_skeleton;
 			FlagsGroupBox.Enabled = true;
+			generateLodToolStripMenuItem.Enabled = !ogf_skeleton;
 
 			if (ogf_skeleton)
 			{
@@ -254,8 +256,11 @@ namespace Object_tool
 
 			IndexChanged(null, null);
 
-			MotionRefsTextChanged(MotionRefsBox, null);
-			UserDataTextChanged(UserDataTextBox, null);
+			if (!ogf_skeleton)
+			{
+				MotionRefsTextChanged(MotionRefsBox, null);
+				UserDataTextChanged(UserDataTextBox, null);
+			}
 		}
 
 		private int StartEditor(EditorMode mode, string object_path, string second_path = "null", int flags = -1, float scale = -1.0f)
@@ -1019,6 +1024,10 @@ namespace Object_tool
 			MotionFlagsGroupBox.Enabled = hasmot && has_bones;
 			MotionRefsTextChanged(MotionRefsBox, null);
 			UserDataTextChanged(UserDataTextBox, null);
+
+			ObjectScaleTextBox.Enabled = has_bones && hasmot;
+			ScaleCenterOfMassCheckBox.Enabled = has_bones && hasmot;
+			ObjectScaleLabel.Enabled = has_bones && hasmot;
 
 			using (var r = new BinaryReader(new FileStream(TEMP_FILE_NAME, FileMode.Open)))
 			{
