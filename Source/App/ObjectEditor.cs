@@ -68,6 +68,7 @@ namespace Object_tool
 		public bool DEBUG_MODE = false;
 		IniFile Settings = null;
 		FolderSelectDialog SaveSklDialog = null;
+		public bool IsOgfMode = false;
 
 		// Info
 		public uint vertex_count = 0;
@@ -134,15 +135,15 @@ namespace Object_tool
 
 			if (Environment.GetCommandLineArgs().Length > 1)
 			{
-				bool skeleton = false;
+				IsOgfMode = false;
 				if (Environment.GetCommandLineArgs().Length > 2)
-					skeleton = Environment.GetCommandLineArgs()[2] == "skeleton_only";
+					IsOgfMode = Environment.GetCommandLineArgs()[2] == "skeleton_only";
 
-				OpenFile(Environment.GetCommandLineArgs()[1], skeleton);
+				OpenFile(Environment.GetCommandLineArgs()[1]);
 			}
 		}
 
-		public void OpenFile(string filename, bool ogf_skeleton = false)
+		public void OpenFile(string filename)
         {
 			if (Directory.Exists(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp"))
 				Directory.Delete(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp", true);
@@ -152,7 +153,7 @@ namespace Object_tool
 
 			StatusFile.Text = FILE_NAME.Substring(FILE_NAME.LastIndexOf('\\') + 1);
 
-			if (ogf_skeleton)
+			if (IsOgfMode)
 				FILE_NAME = Environment.GetCommandLineArgs()[3];
 
 			SaveOgfDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
@@ -210,35 +211,35 @@ namespace Object_tool
 			SaveSklsToolStripMenuItem.Enabled = has_motions;
 			sklToolStripMenuItem.Enabled = has_motions;
 			oMFToolStripMenuItem.Enabled = has_motions;
-			saveToolStripMenuItem.Enabled = !ogf_skeleton;
+			saveToolStripMenuItem.Enabled = !IsOgfMode;
 			exportToolStripMenuItem.Enabled = true;
 			deleteToolStripMenuItem.Enabled = true;
 			sklSklsToolStripMenuItem.Enabled = has_bones;
 			bonesToolStripMenuItem.Enabled = has_bones;
-			oGFToolStripMenuItem.Enabled = !ogf_skeleton;
-			objToolStripMenuItem.Enabled = !ogf_skeleton;
-			objectToolStripMenuItem.Enabled = !ogf_skeleton;
-			dMToolStripMenuItem.Enabled = !ogf_skeleton;
+			oGFToolStripMenuItem.Enabled = !IsOgfMode;
+			objToolStripMenuItem.Enabled = !IsOgfMode;
+			objectToolStripMenuItem.Enabled = !IsOgfMode;
+			dMToolStripMenuItem.Enabled = !IsOgfMode;
 			bonesPartsToolStripMenuItem.Enabled = has_bones;
-			cToolStripMenuItem.Enabled = !ogf_skeleton;
+			cToolStripMenuItem.Enabled = !IsOgfMode;
 			StripifyMeshes.Enabled = has_bones;
 			bonesToolStripMenuItem1.Enabled = has_bones;
 			bonesPartsToolStripMenuItem1.Enabled = has_bones;
 			bonesPartsToDefaultToolStripMenuItem.Enabled = has_bones;
-			ObjectScaleTextBox.Enabled = has_bones && !ogf_skeleton;
-			ScaleCenterOfMassCheckBox.Enabled = has_bones && !ogf_skeleton;
-			ObjectScaleLabel.Enabled = has_bones && !ogf_skeleton;
+			ObjectScaleTextBox.Enabled = has_bones && !IsOgfMode;
+			ScaleCenterOfMassCheckBox.Enabled = has_bones && !IsOgfMode;
+			ObjectScaleLabel.Enabled = has_bones && !IsOgfMode;
 			MotionRefsBox.Enabled = has_bones && !has_motions;
 			UserDataTextBox.Enabled = has_bones;
 			LodTextBox.Enabled = has_bones;
-			motionRefsToolStripMenuItem.Enabled = has_bones && !ogf_skeleton;
-			userDataToolStripMenuItem.Enabled = has_bones && !ogf_skeleton;
-			ModelFlagsGroupBox.Enabled = !ogf_skeleton;
+			motionRefsToolStripMenuItem.Enabled = has_bones && !IsOgfMode;
+			userDataToolStripMenuItem.Enabled = has_bones && !IsOgfMode;
+			ModelFlagsGroupBox.Enabled = !IsOgfMode;
 			FlagsGroupBox.Enabled = true;
-			generateLodToolStripMenuItem.Enabled = !ogf_skeleton;
-			objectInfoToolStripMenuItem.Enabled = !ogf_skeleton;
+			generateLodToolStripMenuItem.Enabled = !IsOgfMode;
+			objectInfoToolStripMenuItem.Enabled = !IsOgfMode;
 
-			if (ogf_skeleton)
+			if (IsOgfMode)
 			{
 				TabControl.Controls.Clear();
 				TabControl.Controls.Add(FlagsPage);
@@ -258,7 +259,7 @@ namespace Object_tool
 
 			IndexChanged(null, null);
 
-			if (!ogf_skeleton)
+			if (!IsOgfMode)
 			{
 				MotionRefsTextChanged(MotionRefsBox, null);
 				UserDataTextChanged(UserDataTextBox, null);
@@ -1031,9 +1032,12 @@ namespace Object_tool
 			MotionRefsTextChanged(MotionRefsBox, null);
 			UserDataTextChanged(UserDataTextBox, null);
 
-			ObjectScaleTextBox.Enabled = has_bones && hasmot;
-			ScaleCenterOfMassCheckBox.Enabled = has_bones && hasmot;
-			ObjectScaleLabel.Enabled = has_bones && hasmot;
+			if (IsOgfMode)
+			{
+				ObjectScaleTextBox.Enabled = has_bones && hasmot;
+				ScaleCenterOfMassCheckBox.Enabled = has_bones && hasmot;
+				ObjectScaleLabel.Enabled = has_bones && hasmot;
+			}
 
 			using (var r = new BinaryReader(new FileStream(TEMP_FILE_NAME, FileMode.Open)))
 			{
