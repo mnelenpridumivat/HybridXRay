@@ -103,6 +103,7 @@ namespace Object_tool
 			motionRefsToolStripMenuItem1.Enabled = false;
 			userDataToolStripMenuItem1.Enabled = false;
 			generateLodToolStripMenuItem.Enabled = false;
+			objectInfoToolStripMenuItem.Enabled = false;
 
 			SaveSklDialog = new FolderSelectDialog();
 
@@ -235,6 +236,7 @@ namespace Object_tool
 			ModelFlagsGroupBox.Enabled = !ogf_skeleton;
 			FlagsGroupBox.Enabled = true;
 			generateLodToolStripMenuItem.Enabled = !ogf_skeleton;
+			objectInfoToolStripMenuItem.Enabled = !ogf_skeleton;
 
 			if (ogf_skeleton)
 			{
