@@ -41,3 +41,4 @@ gamedata/textures/
 Source/App/obj/
 /*.ini
 *.vcxproj.user
+*sqlite
