@@ -622,7 +622,7 @@ namespace Object_tool
             // 
             // SaveBonePartsDialog
             // 
-            this.SaveBonePartsDialog.Filter = "Ltx\\Txt file|*.ltx;*.txt";
+            this.SaveBonePartsDialog.Filter = "Ltx file|*.ltx|Txt file|*.txt";
             // 
             // BonesPage
             // 
@@ -949,7 +949,7 @@ namespace Object_tool
             // 
             // SaveCppDialog
             // 
-            this.SaveCppDialog.Filter = "Ltx/Txt file|*.ltx;*.txt";
+            this.SaveCppDialog.Filter = "Ltx file|*.ltx|Txt file|*.txt";
             // 
             // OpenBatchLtxDialog
             // 
@@ -970,11 +970,11 @@ namespace Object_tool
             // 
             // SaveUserDataDialog
             // 
-            this.SaveUserDataDialog.Filter = "Ltx/Txt file|*.ltx;*.txt";
+            this.SaveUserDataDialog.Filter = "Ltx file|*.ltx|Txt file|*.txt";
             // 
             // SaveMotionRefsDialog
             // 
-            this.SaveMotionRefsDialog.Filter = "Ltx/Txt file|*.ltx;*.txt";
+            this.SaveMotionRefsDialog.Filter = "Ltx file|*.ltx|Txt file|*.txt";
             // 
             // Object_Editor
             // 
