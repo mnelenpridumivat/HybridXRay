@@ -841,8 +841,8 @@ namespace Object_tool
 							motion += motions[i];
 						else
 						{
-							motion = "";
 							refs.Add(motion);
+							motion = "";
 						}
 
 					}
