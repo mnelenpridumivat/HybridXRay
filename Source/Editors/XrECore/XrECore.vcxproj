@@ -94,6 +94,7 @@
     <ClCompile Include="..\..\XrRender\Private\tga.cpp" />
     <ClCompile Include="..\..\XrRender\Private\tss_def.cpp" />
     <ClCompile Include="..\..\XrRender\Private\xrRender_console.cpp" />
+    <ClCompile Include="..\Public\NVMeshMenderTwo.cpp" />
     <ClCompile Include="Editor\ColorPicker.cpp" />
     <ClCompile Include="Editor\c_dinput.cpp" />
     <ClCompile Include="Editor\D3DUtils.cpp" />
