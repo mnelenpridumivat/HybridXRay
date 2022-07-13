@@ -976,12 +976,12 @@ namespace Object_tool
 						ShapeEditType shape = new ShapeEditType();
 						shape.bone_id = (ushort)chunk;
 
-						if (xr_loader.find_chunk((int)BONE.BONE_CHUNK_DEF, true, true))
+						if (xr_loader.find_chunk((int)BONE.BONE_CHUNK_DEF, false, true))
 						{
 							shape.bone_name = xr_loader.read_stringZ();
 						}
 
-						if (xr_loader.find_chunk((int)BONE.BONE_CHUNK_SHAPE, true, true))
+						if (xr_loader.find_chunk((int)BONE.BONE_CHUNK_SHAPE, false, true))
 						{
 							shape.bone_type = (ushort)xr_loader.ReadUInt16();
 							shape.bone_flags = (ushort)xr_loader.ReadUInt16();
