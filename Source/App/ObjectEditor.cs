@@ -1374,7 +1374,6 @@ namespace Object_tool
 
 		private void enableAll2SidedToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			Button CurButton = sender as Button;
 			for (int i = 0; i < surfaces.Count; i++)
 			{
 				Surface surface = new Surface();
@@ -1390,7 +1389,6 @@ namespace Object_tool
 
 		private void disableAll2SidedToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			Button CurButton = sender as Button;
 			for (int i = 0; i < surfaces.Count; i++)
 			{
 				Surface surface = new Surface();
