@@ -889,10 +889,7 @@ namespace Object_tool
 						face_count += xr_loader.ReadUInt32();
 
 						if (!SplitNormalsChbx.Enabled && xr_loader.find_chunk((int)MESH.EMESH_CHUNK_NORMALS, false, true))
-						{
 							SplitNormalsChbx.Enabled = true;
-							SplitNormalsChbx.Checked = true;
-						}
 
 						id++;
 						xr_loader.SetStream(temp);
