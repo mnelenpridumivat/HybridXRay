@@ -218,7 +218,7 @@ class ECORE_API CEditableMesh {
 public:
 	static 			BOOL m_bDraftMeshMode;
     void 			GenerateFNormals	();
-    void 			GenerateVNormals	(const Fmatrix* parent_xform);
+    void 			GenerateVNormals	(const Fmatrix* parent_xform, bool force = false);
     void            GenerateSVertices	(u32 influence);
 	void 			GenerateAdjacency	();
 
@@ -309,6 +309,7 @@ public:
 	IC const SurfFaces&	GetSurfFaces		(){ return m_SurfFaces;	}
     IC const Fvector*	GetFNormals			(){ VERIFY(0!=m_FaceNormals); return m_FaceNormals;	}
     IC const Fvector*	GetVNormals			(){ VERIFY(0!=m_VertexNormals); return m_VertexNormals;	}
+	IC const Fvector*	GetNormals			(){ VERIFY(0!=m_Normals); return m_Normals;	}
     IC const st_SVert*	GetSVertices		(){ VERIFY(0!=m_SVertices);return m_SVertices;	}
 	    
     // pick routine

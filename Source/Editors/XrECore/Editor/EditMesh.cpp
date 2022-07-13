@@ -121,10 +121,10 @@ void CEditableMesh::GenerateFNormals()
 }
 BOOL CEditableMesh::m_bDraftMeshMode = FALSE;
 
-void CEditableMesh::GenerateVNormals(const Fmatrix* parent_xform)
+void CEditableMesh::GenerateVNormals(const Fmatrix* parent_xform, bool force)
 {
 	m_VNormalsRefs++;
-	if (m_VertexNormals || (m_Normals && m_Parent->m_objectFlags.is(CEditableObject::eoNormals)))        return;
+	if ((m_VertexNormals || (m_Normals && m_Parent->m_objectFlags.is(CEditableObject::eoNormals))) && !force)        return;
 	m_VertexNormals				= xr_alloc<Fvector>(m_FaceCount*3);
 
 	// gen req    
