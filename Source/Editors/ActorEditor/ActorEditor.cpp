@@ -86,6 +86,41 @@ xr_vector<CEditableObject::SurfaceParams> LoadSurfaces(char** args, int count)
     return vec;
 }
 
+xr_vector<CActorTools::BatchFiles> LoadBatchFiles(char** args, int count)
+{
+    xr_vector<CActorTools::BatchFiles> batch_files;
+    if (count > 0) // Режим папок
+    {
+        for (int i = 0; i < count; i++)
+        {
+            CActorTools::BatchFiles file;
+            file.source_folder = args[iReaderPos]; iReaderPos++;
+            int cnt = atoi(args[iReaderPos]); iReaderPos++;
+
+            for (int i = 0; i < cnt; i++)
+            {
+                file.files.push_back(args[iReaderPos]); iReaderPos++;
+            }
+
+            batch_files.push_back(file);
+        }
+    }
+    else // Режим файлов
+    {
+        int cnt = atoi(args[iReaderPos]); iReaderPos++;
+
+        CActorTools::BatchFiles file;
+        file.source_folder = "null";
+        for (int i = 0; i < cnt; i++)
+        {
+            file.files.push_back(args[iReaderPos]); iReaderPos++;
+        }
+        batch_files.push_back(file);
+    }
+
+    return batch_files;
+}
+
 xr_vector<shared_str> LoadStringVector(char** args, int count)
 {
     xr_vector<shared_str> vec;
@@ -133,7 +168,9 @@ int main(int argc, char** argv)
     int motion_refs_count = atoi(argv[iReaderPos]); iReaderPos++;
     xr_vector<shared_str> pMotionRefs = LoadStringVector(argv, motion_refs_count);
     int batch_files_count = atoi(argv[iReaderPos]); iReaderPos++;
-    xr_vector<shared_str> pBatchFiles = LoadStringVector(argv, batch_files_count);
+    xr_vector<CActorTools::BatchFiles> pBatchFiles = LoadBatchFiles(argv, batch_files_count);
+    shared_str batch_out = argv[iReaderPos]; iReaderPos++;
+    int cpp_export_mode = atoi(argv[iReaderPos]); iReaderPos++;
     // End of program params
 
     std::string line;
@@ -306,7 +343,7 @@ int main(int argc, char** argv)
         }break;
         case SaveCpp:
         {
-            if (!ATools->ExportCPP(second_file_path.c_str()))
+            if (!ATools->ExportCPP(second_file_path.c_str(), cpp_export_mode))
                 ret_code = -1;
         }break;
         case BatchLtx:
@@ -316,12 +353,12 @@ int main(int argc, char** argv)
         }break;
         case BatchDialogOGF:
         {
-            if (!ATools->BatchConvertDialogOGF(pBatchFiles, flags))
+            if (!ATools->BatchConvertDialogOGF(pBatchFiles, batch_out, flags))
                 ret_code = -1;
         }break;
         case BatchDialogOMF:
         {
-            if (!ATools->BatchConvertDialogOMF(pBatchFiles, flags))
+            if (!ATools->BatchConvertDialogOMF(pBatchFiles, batch_out, flags))
                 ret_code = -1;
         }break;
     }

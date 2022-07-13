@@ -196,6 +196,12 @@ public:
     UIPropertiesForm*		m_Props;
     UIItemListForm*			m_ObjectItems;
 
+    struct BatchFiles
+    {
+        shared_str source_folder;
+        xr_vector<shared_str> files;
+    };
+
 // undo part
 protected:
     #pragma pack( push,1 )
@@ -269,7 +275,7 @@ public:
     bool				ExportOGF			(LPCSTR name);
     bool				ExportOMF			(LPCSTR name);
     bool				ExportDM			(LPCSTR name);
-    bool 				ExportCPP			(LPCSTR name);
+    bool 				ExportCPP			(LPCSTR name, int mode);
     bool				SaveMotions			(LPCSTR name, bool bSelOnly);
     bool				AppendMotion		(LPCSTR fn);
     bool				RemoveMotion		(LPCSTR name);
@@ -312,8 +318,8 @@ public:
     void				RealMakeThumbnail();
     void				RealGenerateLOD(bool hq);
     bool				BatchConvert		(LPCSTR fn, int flags);
-    bool				BatchConvertDialogOGF(xr_vector<shared_str> files, int flags);
-    bool				BatchConvertDialogOMF(xr_vector<shared_str> files, int flags);
+    bool				BatchConvertDialogOGF(xr_vector<BatchFiles> files, shared_str out, int flags);
+    bool				BatchConvertDialogOMF(xr_vector<BatchFiles> files, shared_str out, int flags);
 
 
     void				PhysicsSimulate			( );

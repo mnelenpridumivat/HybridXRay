@@ -168,6 +168,17 @@ namespace Object_tool
             get { return ofd.FileName; }
         }
 
+        public string[] FileNames
+        {
+            get { return ofd.FileNames; }
+        }
+
+        public bool Multiselect
+        {
+            get { return ofd.Multiselect; }
+            set { ofd.Multiselect = value; }
+        }
+
         #endregion
 
         #region Methods

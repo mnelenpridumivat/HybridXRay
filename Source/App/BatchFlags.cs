@@ -17,9 +17,20 @@ namespace Object_tool
 		private bool bKeyIsDown = false;
 		public float scale = 1.0f;
 
-		public BatchFlags()
+		public BatchFlags(bool dev_mode)
         {
             InitializeComponent();
+
+			if (dev_mode)
+            {
+				AnimsNoCompress.Visible = true;
+				AnimsNoCompress.Checked = true;
+			}
+			else
+            {
+				AnimsNoCompress.Visible = false;
+				Anims16Bit.Checked = true;
+			}
         }
 
 		public int GetFlags(bool dbg_window)

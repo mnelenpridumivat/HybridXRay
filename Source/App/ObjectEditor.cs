@@ -68,7 +68,12 @@ namespace Object_tool
 		public bool DEBUG_MODE = false;
 		IniFile Settings = null;
 		FolderSelectDialog SaveSklDialog = null;
+		FolderSelectDialog OpenBatchOutDialog = null;
+        List<string[]> batch_files = null;
+		List<string> batch_source = null;
 		public bool IsOgfMode = false;
+
+		public int cpp_mode = 0;
 
 		// Info
 		public uint vertex_count = 0;
@@ -106,8 +111,12 @@ namespace Object_tool
 			generateLodToolStripMenuItem.Enabled = false;
 			objectInfoToolStripMenuItem.Enabled = false;
 			SplitNormalsChbx.Enabled = false;
+			normalsToolStripMenuItem.Enabled = false;
 
 			SaveSklDialog = new FolderSelectDialog();
+			OpenBatchOutDialog = new FolderSelectDialog();
+			batch_files = new List<string[]>();
+			batch_source = new List<string>();
 
 			string file_path = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\Settings.ini";
 			Settings = new IniFile(file_path, "[settings]\ndeveloper=0\ndebug=0");
@@ -173,10 +182,10 @@ namespace Object_tool
 			SaveObjDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + ".obj";
 
 			SaveBonePartsDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
-			SaveBonePartsDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + ".ltx";
+			SaveBonePartsDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + "_boneparts.ltx";
 
 			SaveCppDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
-			SaveCppDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + ".ltx";
+			SaveCppDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + "_cpp.ltx";
 
 			SaveMotionRefsDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
 			SaveMotionRefsDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + "_refs.ltx";
@@ -267,7 +276,7 @@ namespace Object_tool
 			}
 		}
 
-		private int StartEditor(EditorMode mode, string object_path, string second_path = "null", int flags = -1, float scale = -1.0f)
+		private int StartEditor(EditorMode mode, string object_path, string second_path = "null", int flags = -1, float scale = 1.0f)
 		{
 			if (flags == -1)
             {
@@ -341,12 +350,36 @@ namespace Object_tool
 				args += $" \"{motion_refs[i]}\"";
 			}
 
-			// Экспортируем файлы батч конвертера
-			args += $" \"{OpenBatchDialog.FileNames.Count()}\"";
-			for (int i = 0; i < OpenBatchDialog.FileNames.Count(); i++)
-            {
-				args += $" \"{OpenBatchDialog.FileNames[i]}\"";
+            // Экспортируем файлы батч конвертера
+            args += $" {(batch_source.Count == 0 ? -1 : batch_source.Count)}";
+
+			if (batch_source.Count > 0)
+			{
+				for (int i = 0; i < batch_source.Count; i++)
+				{
+					args += $" \"{batch_source[i]}\"";
+					args += $" {batch_files[i].Count()}";
+					for (int cnt = 0; cnt < batch_files[i].Count(); cnt++)
+					{
+						args += $" \"{batch_files[i][cnt]}\"";
+					}
+				}
 			}
+			else
+            {
+				args += $" {batch_files.Count}";
+				for (int i = 0; i < batch_files.Count; i++)
+				{
+					args += $" \"{batch_files[i]}\"";
+				}
+			}
+            args += $" \"{OpenBatchOutDialog.FileName}\"";
+
+            batch_files.Clear();
+			batch_source.Clear();
+
+			// Экспорт режима экспорта c++
+			args += $" {cpp_mode}";
 
 			int exit_code = RunCompiller(args);
 			if (File.Exists(object_path + "_temp.userdata"))
@@ -652,25 +685,51 @@ namespace Object_tool
 			}
 		}
 
-		private void cToolStripMenuItem_Click(object sender, EventArgs e)
-		{
+		private void CppExport(int mode)
+        {
 			if (SaveCppDialog.ShowDialog() == DialogResult.OK)
 			{
 				SaveCppDialog.InitialDirectory = "";
 
+				cpp_mode = mode;
 				int code = StartEditor(EditorMode.SaveCpp, TEMP_FILE_NAME, SaveCppDialog.FileName);
 				if (code == 0)
-					AutoClosingMessageBox.Show("Model data successfully saved.", "", 1000, MessageBoxIcon.Information);
+					AutoClosingMessageBox.Show("Model data successfully exported.", "", 1000, MessageBoxIcon.Information);
 				else
-					AutoClosingMessageBox.Show($"Failed to saved model data.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+					AutoClosingMessageBox.Show($"Failed to export model data.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 			}
+		}
+
+        private void allInfoToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			CppExport(0);
+		}
+
+		private void vertexToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			CppExport(1);
+		}
+
+		private void facesToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			CppExport(2);
+		}
+
+		private void vertexNormalsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			CppExport(3);
+		}
+
+		private void normalsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			CppExport(4);
 		}
 
 		private void fromLtxToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			if (OpenBatchLtxDialog.ShowDialog() == DialogResult.OK)
 			{
-				BatchFlags batch_flags = new BatchFlags();
+				BatchFlags batch_flags = new BatchFlags(DEVELOPER_MODE);
 				batch_flags.ShowDialog();
 
 				if (batch_flags.res)
@@ -684,12 +743,15 @@ namespace Object_tool
 			}
 		}
 
+		// Батч в огф из диалога с файлами
 		private void oGFToolStripMenuItem1_Click(object sender, EventArgs e)
 		{
-			if (OpenBatchDialog.ShowDialog() == DialogResult.OK)
+			if (OpenBatchDialog.ShowDialog() == DialogResult.OK && OpenBatchOutDialog.ShowDialog())
 			{
-				BatchFlags batch_flags = new BatchFlags();
+				BatchFlags batch_flags = new BatchFlags(DEVELOPER_MODE);
 				batch_flags.ShowDialog();
+
+				batch_files.Add(OpenBatchDialog.FileNames);
 
 				if (batch_flags.res)
 				{
@@ -702,12 +764,77 @@ namespace Object_tool
 			}
 		}
 
+		// Батч в омф из диалога с файлами
 		private void oMFToolStripMenuItem1_Click(object sender, EventArgs e)
 		{
-			if (OpenBatchDialog.ShowDialog() == DialogResult.OK)
+			if (OpenBatchDialog.ShowDialog() == DialogResult.OK && OpenBatchOutDialog.ShowDialog())
 			{
-				BatchFlags batch_flags = new BatchFlags();
+				BatchFlags batch_flags = new BatchFlags(DEVELOPER_MODE);
 				batch_flags.ShowDialog();
+
+				batch_files.Add(OpenBatchDialog.FileNames);
+
+				if (batch_flags.res)
+				{
+					int code = StartEditor(EditorMode.BatchDialogOMF, TEMP_FILE_NAME, "null", batch_flags.GetFlags(dbg_window), batch_flags.scale);
+					if (code == 0)
+						AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
+					else
+						AutoClosingMessageBox.Show($"Batch convert completed with errors.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+				}
+			}
+		}
+
+		// Батч в огф из диалога с папками
+		private void toOGFToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			FolderSelectDialog OpenBatchFoldersDialog = new FolderSelectDialog();
+			OpenBatchFoldersDialog.Multiselect = true;
+
+			if (OpenBatchFoldersDialog.ShowDialog() && OpenBatchOutDialog.ShowDialog())
+			{
+				BatchFlags batch_flags = new BatchFlags(DEVELOPER_MODE);
+				batch_flags.ShowDialog();
+
+				for (int i = 0; i < OpenBatchFoldersDialog.FileNames.Count(); i++)
+				{
+					string source_folder = OpenBatchFoldersDialog.FileNames[i];
+					source_folder = source_folder.Substring(0, source_folder.LastIndexOf('\\'));
+					batch_source.Add(source_folder);
+					string[] files = DirSearch(OpenBatchFoldersDialog.FileNames[i]);
+					batch_files.Add(files);
+				}
+
+				if (batch_flags.res)
+				{
+					int code = StartEditor(EditorMode.BatchDialogOGF, TEMP_FILE_NAME, "null", batch_flags.GetFlags(dbg_window), batch_flags.scale);
+					if (code == 0)
+						AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
+					else
+						AutoClosingMessageBox.Show($"Batch convert completed with errors.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+				}
+			}
+		}
+
+		// Батч в омф из диалога с папками
+		private void toOMFToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			FolderSelectDialog OpenBatchFoldersDialog = new FolderSelectDialog();
+			OpenBatchFoldersDialog.Multiselect = true;
+
+			if (OpenBatchFoldersDialog.ShowDialog() && OpenBatchOutDialog.ShowDialog())
+			{
+				BatchFlags batch_flags = new BatchFlags(DEVELOPER_MODE);
+				batch_flags.ShowDialog();
+
+				for (int i = 0; i < OpenBatchFoldersDialog.FileNames.Count(); i++)
+				{
+					string source_folder = OpenBatchFoldersDialog.FileNames[i];
+					source_folder = source_folder.Substring(0, source_folder.LastIndexOf('\\'));
+					batch_source.Add(source_folder);
+					string[] files = DirSearch(OpenBatchFoldersDialog.FileNames[i]);
+					batch_files.Add(files);
+				}
 
 				if (batch_flags.res)
 				{
@@ -866,6 +993,7 @@ namespace Object_tool
 
 				SplitNormalsChbx.Enabled = false;
 				SplitNormalsChbx.Checked = false;
+				normalsToolStripMenuItem.Enabled = false;
 
 				if (xr_loader.SetData(xr_loader.find_and_return_chunk_in_chunk((int)OBJECT.EOBJ_CHUNK_EDITMESHES, true, true)))
 				{
@@ -889,7 +1017,11 @@ namespace Object_tool
 						face_count += xr_loader.ReadUInt32();
 
 						if (!SplitNormalsChbx.Enabled && xr_loader.find_chunk((int)MESH.EMESH_CHUNK_NORMALS, false, true))
+						{
 							SplitNormalsChbx.Enabled = true;
+							SplitNormalsChbx.Checked = true;
+							normalsToolStripMenuItem.Enabled = true;
+						}
 
 						id++;
 						xr_loader.SetStream(temp);
@@ -1216,8 +1348,9 @@ namespace Object_tool
 				"test.object = test1.skl, test\\test2.skls, test3.skl ; все анимации из списка будут загружены в test.object перед экспортом в ogf и omf\n" +
 				"test = test1, test\\test2, test3 ; указание без форматов и расположение в папках так же работает, программа будет искать анимации в skls и skl формате\n\n" +
                 "From Dialog - принцип работы:\n" +
-				"Object будет экспортирован в выбранный вами формат во вкладке From Dialog\nПри экспорте программа будет искать skls анимации с таким же названием что и object, и при нахождении загрузит их в модель перед экспортом.\n\n" +
-                "Экспортированные модели и анимации будут находиться в папке meshes"
+				"Object будет экспортирован в выбранный вами формат во вкладке From Dialog\nПри экспорте программа будет искать skls анимации лежащие рядом с ним с таким же названием что и у object, и при нахождении загрузит их в модель перед экспортом.\n\n" +
+                "При выборе From File Dialog откроется окно выбора файлов, после выбора необходимых моделей откроется окно выбора папки куда будут сохранены все выбранные модели.\n" +
+				"При выборе From Folder Dialog откроется окно выбора папок, после выбора папок с моделями откроется окно выбора папки куда будут сохранены все выбранные папки с моделями внутри."
 			, "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
@@ -1426,6 +1559,28 @@ namespace Object_tool
 			if (DEBUG_MODE)
 				return 15000;
 			return 1000;
+		}
+
+		private string[] DirSearch(string sDir)
+		{
+			List<string> files = new List<string>();
+			try
+			{
+				foreach (string f in Directory.GetFiles(sDir))
+				{
+					files.Add(f);
+				}
+				foreach (string d in Directory.GetDirectories(sDir))
+				{
+					files.AddRange(DirSearch(d));
+				}
+			}
+			catch (System.Exception excpt)
+			{
+				MessageBox.Show(excpt.Message);
+			}
+
+			return files.ToArray();
 		}
 
 		private void TextBoxFilter(object sender, EventArgs e)

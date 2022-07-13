@@ -86,6 +86,8 @@
             // SplitNormalsChbx
             // 
             this.SplitNormalsChbx.AutoSize = true;
+            this.SplitNormalsChbx.Checked = true;
+            this.SplitNormalsChbx.CheckState = System.Windows.Forms.CheckState.Checked;
             this.SplitNormalsChbx.Location = new System.Drawing.Point(6, 135);
             this.SplitNormalsChbx.Name = "SplitNormalsChbx";
             this.SplitNormalsChbx.Size = new System.Drawing.Size(105, 17);

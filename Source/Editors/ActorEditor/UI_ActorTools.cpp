@@ -879,7 +879,7 @@ bool CActorTools::ExportOBJ(LPCSTR name)
 }
 
 
-bool CActorTools::ExportCPP(LPCSTR name)
+bool CActorTools::ExportCPP(LPCSTR name, int mode)
 {
     if (m_pEditObject)
     {
@@ -897,38 +897,55 @@ bool CActorTools::ExportCPP(LPCSTR name)
             const Fvector* normals = mesh->GetNormals();
             sprintf(tmp, "MESH %s {", mesh->Name().c_str());
             W->w_string(tmp);
-            sprintf(tmp, "\tVERTEX_COUNT %d", mesh->GetVCount());
+            sprintf(tmp, "\tconst size_t VERTEX_COUNT %d", mesh->GetVCount());
             W->w_string(tmp);
-            sprintf(tmp, "\tFACE_COUNT %d", mesh->GetFCount());
+            sprintf(tmp, "\tconst size_t FACE_COUNT %d", mesh->GetFCount());
             W->w_string(tmp);
-            W->w_string("\tconst Fvector vertices[VERTEX_COUNT] = {");
-            for (u32 v_id = 0; v_id < mesh->GetVCount(); v_id++)
+
+            if (mode == 0 || mode == 1)
             {
-                sprintf(tmp, "\t\t{% 3.6f,\t% 3.6f,\t% 3.6f},", VPUSH(verts[v_id]));
-                W->w_string(tmp);
+                W->w_string("\tconst Fvector vertices[VERTEX_COUNT] = {");
+                for (u32 v_id = 0; v_id < mesh->GetVCount(); v_id++)
+                {
+                    sprintf(tmp, "\t\t{% 3.6f,\t% 3.6f,\t% 3.6f},", VPUSH(verts[v_id]));
+                    W->w_string(tmp);
+                }
+                W->w_string("\t}");
             }
-            W->w_string("\t}");
-            W->w_string("\tconst u16 faces[FACE_COUNT*3] = {");
-            for (u32 f_id = 0; f_id < mesh->GetFCount(); f_id++)
+
+            if (mode == 0 || mode == 2)
             {
-                sprintf(tmp, "\t\t%-d,\t\t%-d,\t\t%-d,", faces[f_id].pv[0].pindex, faces[f_id].pv[1].pindex, faces[f_id].pv[2].pindex);
-                W->w_string(tmp);
+                W->w_string("\tconst u16 faces[FACE_COUNT*3] = {");
+                for (u32 f_id = 0; f_id < mesh->GetFCount(); f_id++)
+                {
+                    sprintf(tmp, "\t\t%-d,\t\t%-d,\t\t%-d,", faces[f_id].pv[0].pindex, faces[f_id].pv[1].pindex, faces[f_id].pv[2].pindex);
+                    W->w_string(tmp);
+                }
+                W->w_string("\t}");
             }
-            W->w_string("\t}");
-            W->w_string("\tconst Fvector normals[FACE_COUNT*3] = {");
-            for (u32 n_id = 0; n_id < mesh->GetFCount() * 3; n_id++)
+
+            if (mode == 0 || mode == 3)
             {
-                sprintf(tmp, "\t\t{% 3.6f,\t% 3.6f,\t% 3.6f},", VPUSH(normals[n_id]));
-                W->w_string(tmp);
+                W->w_string("\tconst Fvector vnormals[FACE_COUNT*3] = {");
+                for (u32 vn_id = 0; vn_id < mesh->GetFCount() * 3; vn_id++)
+                {
+                    sprintf(tmp, "\t\t{% 3.6f,\t% 3.6f,\t% 3.6f},", VPUSH(vnormals[vn_id]));
+                    W->w_string(tmp);
+                }
+                W->w_string("\t}");
             }
-            W->w_string("\t}");
-            W->w_string("\tconst Fvector vnormals[FACE_COUNT*3] = {");
-            for (u32 vn_id = 0; vn_id < mesh->GetFCount() * 3; vn_id++)
+
+            if ((mode == 0 || mode == 4) && normals)
             {
-                sprintf(tmp, "\t\t{% 3.6f,\t% 3.6f,\t% 3.6f},", VPUSH(vnormals[vn_id]));
-                W->w_string(tmp);
+                W->w_string("\tconst Fvector normals[FACE_COUNT*3] = {");
+                for (u32 n_id = 0; n_id < mesh->GetFCount() * 3; n_id++)
+                {
+                    sprintf(tmp, "\t\t{% 3.6f,\t% 3.6f,\t% 3.6f},", VPUSH(normals[n_id]));
+                    W->w_string(tmp);
+                }
+                W->w_string("\t}");
             }
-            W->w_string("\t}");
+
             W->w_string("}");
         }
         FS.w_close(W);
@@ -1273,123 +1290,143 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags)
     return bRes;
 }
 
-bool CActorTools::BatchConvertDialogOGF(xr_vector<shared_str> files, int flags)
+bool CActorTools::BatchConvertDialogOGF(xr_vector<BatchFiles> files, shared_str out, int flags)
 {
     bool bRes = true;
+    bool FileMode = (files.size() == 1 && files[0].source_folder == "null");
 
     for (int i = 0; i < files.size(); i++)
     {
-        Msg("Start converting %d items...", files.size());
-        string_path 		src_name;
-        string_path 		tgt_name;
-
-        const char* pFname;
-        pFname = strrchr(files[i].c_str(), '\\');
-
-        std::string folder = files[i].c_str();
-        folder = folder.substr(0, folder.find_last_of("\\") + 1);
-        std::string tgt = folder;
-        tgt += "meshes";
-        tgt += pFname;
-
-        xr_sprintf(src_name, "%s", files[i].c_str());
-        xr_sprintf(tgt_name, "%s", tgt.c_str());
-
-        strcpy(tgt_name, EFS.ChangeFileExt(tgt_name, ".ogf").c_str());
-        if (FS.exist(src_name))
+        Msg("Start converting %d items...", files[i].files.size());
+        for (int j = 0; j < files[i].files.size(); j++)
         {
-            CEditableObject* O = xr_new<CEditableObject>("convert");
-            BOOL res = O->Load(src_name);
+            string_path 		src_name;
+            string_path 		tgt_name;
 
-            if (O->BonePartCount() == 0)
+            std::string tgt = out.c_str();
+
+            if (FileMode)
             {
-                ATools->ToDefaultBoneParts(O);
-                Msg("Can't find bone parts, reset to default.");
+                const char* pFname;
+                pFname = strrchr(files[i].files[j].c_str(), '\\');
+                tgt += pFname;
+            }
+            else
+            {
+                std::string fname = files[i].files[j].c_str();
+                fname.erase(0, files[i].source_folder.size());
+                tgt += fname;
             }
 
-            O->m_objectFlags.set(CEditableObject::eoProgressive, (flags & exfMakeProgressive));
-            O->m_objectFlags.set(CEditableObject::eoStripify, (flags & exfMakeStripify));
-            O->m_objectFlags.set(CEditableObject::eoOptimizeSurf, (flags & exfOptimizeSurfaces));
-            O->m_objectFlags.set(CEditableObject::eoHQExportPlus, (flags & exfHQGeometryPlus));
+            xr_sprintf(src_name, "%s", files[i].files[j].c_str());
+            xr_sprintf(tgt_name, "%s", tgt.c_str());
 
-            shared_str skls_name = EFS.ChangeFileExt(src_name, ".skls").c_str();
+            strcpy(tgt_name, EFS.ChangeFileExt(tgt_name, ".ogf").c_str());
+            if (FS.exist(src_name))
+            {
+                CEditableObject* O = xr_new<CEditableObject>("convert");
+                BOOL res = O->Load(src_name);
 
-            if (FS.exist(skls_name.c_str()))
-                O->AppendSMotion(skls_name.c_str());
+                if (O->BonePartCount() == 0)
+                {
+                    ATools->ToDefaultBoneParts(O);
+                    Msg("Can't find bone parts, reset to default.");
+                }
 
-            skls_name = EFS.ChangeFileExt(src_name, ".skl").c_str();
-            if (FS.exist(skls_name.c_str()))
-                O->AppendSMotion(skls_name.c_str());
+                O->m_objectFlags.set(CEditableObject::eoProgressive, (flags & exfMakeProgressive));
+                O->m_objectFlags.set(CEditableObject::eoStripify, (flags & exfMakeStripify));
+                O->m_objectFlags.set(CEditableObject::eoOptimizeSurf, (flags & exfOptimizeSurfaces));
+                O->m_objectFlags.set(CEditableObject::eoHQExportPlus, (flags & exfHQGeometryPlus));
 
-            if (O->SMotionCount() > 0)
-                O->m_SMotionRefs.clear();
+                shared_str skls_name = EFS.ChangeFileExt(src_name, ".skls").c_str();
 
-            if (res) res = O->ExportOGF(tgt_name, 4);
-            Log(res ? ".OK" : "!.FAILED");
-            xr_delete(O);
-        }
-        else
-        {
-            bRes = false;
+                if (FS.exist(skls_name.c_str()))
+                    O->AppendSMotion(skls_name.c_str());
+
+                skls_name = EFS.ChangeFileExt(src_name, ".skl").c_str();
+                if (FS.exist(skls_name.c_str()))
+                    O->AppendSMotion(skls_name.c_str());
+
+                if (O->SMotionCount() > 0)
+                    O->m_SMotionRefs.clear();
+
+                if (res) res = O->ExportOGF(tgt_name, 4);
+                Log(res ? ".OK" : "!.FAILED");
+                xr_delete(O);
+            }
+            else
+            {
+                bRes = false;
+            }
         }
     }
 
     return bRes;
 }
 
-bool CActorTools::BatchConvertDialogOMF(xr_vector<shared_str> files, int flags)
+bool CActorTools::BatchConvertDialogOMF(xr_vector<BatchFiles> files, shared_str out, int flags)
 {
     bool bRes = true;
+    bool FileMode = (files.size() == 1 && files[0].source_folder == "null");
 
     for (int i = 0; i < files.size(); i++)
     {
-        Msg("Start converting %d items...", files.size());
-        string_path 		src_name;
-        string_path 		tgt_name;
-
-        const char* pFname;
-        pFname = strrchr(files[i].c_str(), '\\');
-
-        std::string folder = files[i].c_str();
-        folder = folder.substr(0, folder.find_last_of("\\") + 1);
-        std::string tgt = folder;
-        tgt += "meshes";
-        tgt += pFname;
-
-        xr_sprintf(src_name, "%s", files[i].c_str());
-        xr_sprintf(tgt_name, "%s", tgt.c_str());
-
-        strcpy(tgt_name, EFS.ChangeFileExt(tgt_name, ".omf").c_str());
-        if (FS.exist(src_name))
+        Msg("Start converting %d items...", files[i].files.size());
+        for (int j = 0; j < files[i].files.size(); j++)
         {
-            CEditableObject* O = xr_new<CEditableObject>("convert");
-            BOOL res = O->Load(src_name);
+            string_path 		src_name;
+            string_path 		tgt_name;
 
-            if (O->BonePartCount() == 0)
+            std::string tgt = out.c_str();
+
+            if (FileMode)
             {
-                ATools->ToDefaultBoneParts(O);
-                Msg("Can't find bone parts, reset to default.");
+                const char* pFname;
+                pFname = strrchr(files[i].files[j].c_str(), '\\');
+                tgt += pFname;
+            }
+            else
+            {
+                std::string fname = files[i].files[j].c_str();
+                fname.erase(0, files[i].source_folder.size());
+                tgt += fname;
             }
 
-            shared_str skls_name = EFS.ChangeFileExt(src_name, ".skls").c_str();
+            xr_sprintf(src_name, "%s", files[i].files[j].c_str());
+            xr_sprintf(tgt_name, "%s", tgt.c_str());
 
-            if (FS.exist(skls_name.c_str()))
-                O->AppendSMotion(skls_name.c_str());
+            strcpy(tgt_name, EFS.ChangeFileExt(tgt_name, ".omf").c_str());
+            if (FS.exist(src_name))
+            {
+                CEditableObject* O = xr_new<CEditableObject>("convert");
+                BOOL res = O->Load(src_name);
 
-            skls_name = EFS.ChangeFileExt(src_name, ".skl").c_str();
-            if (FS.exist(skls_name.c_str()))
-                O->AppendSMotion(skls_name.c_str());
+                if (O->BonePartCount() == 0)
+                {
+                    ATools->ToDefaultBoneParts(O);
+                    Msg("Can't find bone parts, reset to default.");
+                }
 
-            if (O->SMotionCount() > 0)
-                O->m_SMotionRefs.clear();
+                shared_str skls_name = EFS.ChangeFileExt(src_name, ".skls").c_str();
 
-            if (res) res = O->ExportOMF(tgt_name);
-            Log(res ? ".OK" : "!.FAILED");
-            xr_delete(O);
-        }
-        else
-        {
-            bRes = false;
+                if (FS.exist(skls_name.c_str()))
+                    O->AppendSMotion(skls_name.c_str());
+
+                skls_name = EFS.ChangeFileExt(src_name, ".skl").c_str();
+                if (FS.exist(skls_name.c_str()))
+                    O->AppendSMotion(skls_name.c_str());
+
+                if (O->SMotionCount() > 0)
+                    O->m_SMotionRefs.clear();
+
+                if (res) res = O->ExportOMF(tgt_name);
+                Log(res ? ".OK" : "!.FAILED");
+                xr_delete(O);
+            }
+            else
+            {
+                bRes = false;
+            }
         }
     }
 

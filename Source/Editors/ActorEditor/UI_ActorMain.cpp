@@ -155,14 +155,6 @@ CCommandVar CActorTools::CommandExportOMF(CCommandVar p1, CCommandVar p2)
 CCommandVar CActorTools::CommandExportCPP(CCommandVar p1, CCommandVar p2)
 {
 	CCommandVar res 				= FALSE;
-    xr_string fn=p1.IsString()?xr_string(p1):xr_string("");
-    if (p1.IsString()||EFS.GetSaveName(_import_,fn,0,7))
-    {
-        if (0!=(res=ExportCPP(fn.c_str())))	
-        	ELog.Msg(mtInformation,"Export complete.");
-        else        		    			
-        	ELog.Msg(mtError,"Export failed.");
-    }
     return res;
 }
 
