@@ -105,6 +105,7 @@ namespace Object_tool
 			userDataToolStripMenuItem1.Enabled = false;
 			generateLodToolStripMenuItem.Enabled = false;
 			objectInfoToolStripMenuItem.Enabled = false;
+			SplitNormalsChbx.Enabled = false;
 
 			SaveSklDialog = new FolderSelectDialog();
 
@@ -402,6 +403,9 @@ namespace Object_tool
 
 			if (StripifyMeshes.Checked)
 				flags |= (1 << 7);
+
+			if (SplitNormalsChbx.Checked)
+				flags |= (1 << 8);
 
 			return flags;
         }
@@ -860,6 +864,9 @@ namespace Object_tool
 					MotionRefsBox.Lines = refs.ToArray();
 				}
 
+				SplitNormalsChbx.Enabled = false;
+				SplitNormalsChbx.Checked = false;
+
 				if (xr_loader.SetData(xr_loader.find_and_return_chunk_in_chunk((int)OBJECT.EOBJ_CHUNK_EDITMESHES, true, true)))
 				{
 					int id = 0;
@@ -880,6 +887,12 @@ namespace Object_tool
 						size = xr_loader.find_chunkSize((int)MESH.EMESH_CHUNK_FACES);
 						if (size == 0) break;
 						face_count += xr_loader.ReadUInt32();
+
+						if (!SplitNormalsChbx.Enabled && xr_loader.find_chunk((int)MESH.EMESH_CHUNK_NORMALS, false, true))
+						{
+							SplitNormalsChbx.Enabled = true;
+							SplitNormalsChbx.Checked = true;
+						}
 
 						id++;
 						xr_loader.SetStream(temp);

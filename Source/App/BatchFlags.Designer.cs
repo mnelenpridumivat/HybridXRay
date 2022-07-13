@@ -29,23 +29,24 @@
         private void InitializeComponent()
         {
             this.FlagsGroupBox = new System.Windows.Forms.GroupBox();
-            this.MotionFlagsGroupBox = new System.Windows.Forms.GroupBox();
-            this.AnimsNoCompress = new System.Windows.Forms.RadioButton();
-            this.Anims8Bit = new System.Windows.Forms.RadioButton();
-            this.Anims16Bit = new System.Windows.Forms.RadioButton();
             this.ModelFlagsGroupBox = new System.Windows.Forms.GroupBox();
+            this.SplitNormalsChbx = new System.Windows.Forms.CheckBox();
             this.StripifyMeshes = new System.Windows.Forms.CheckBox();
             this.HQGeometry = new System.Windows.Forms.RadioButton();
             this.HQGeometryPlus = new System.Windows.Forms.RadioButton();
             this.ProgressiveMeshes = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.MotionFlagsGroupBox = new System.Windows.Forms.GroupBox();
+            this.AnimsNoCompress = new System.Windows.Forms.RadioButton();
+            this.Anims8Bit = new System.Windows.Forms.RadioButton();
+            this.Anims16Bit = new System.Windows.Forms.RadioButton();
             this.ObjectScaleLabel = new System.Windows.Forms.Label();
             this.ScaleCenterOfMassCheckBox = new System.Windows.Forms.CheckBox();
             this.ObjectScaleTextBox = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
             this.FlagsGroupBox.SuspendLayout();
-            this.MotionFlagsGroupBox.SuspendLayout();
             this.ModelFlagsGroupBox.SuspendLayout();
+            this.MotionFlagsGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // FlagsGroupBox
@@ -53,80 +54,44 @@
             this.FlagsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.FlagsGroupBox.Controls.Add(this.ModelFlagsGroupBox);
             this.FlagsGroupBox.Controls.Add(this.button1);
             this.FlagsGroupBox.Controls.Add(this.MotionFlagsGroupBox);
-            this.FlagsGroupBox.Controls.Add(this.ModelFlagsGroupBox);
             this.FlagsGroupBox.Controls.Add(this.ObjectScaleLabel);
             this.FlagsGroupBox.Controls.Add(this.ScaleCenterOfMassCheckBox);
             this.FlagsGroupBox.Controls.Add(this.ObjectScaleTextBox);
             this.FlagsGroupBox.Location = new System.Drawing.Point(12, 12);
             this.FlagsGroupBox.Name = "FlagsGroupBox";
-            this.FlagsGroupBox.Size = new System.Drawing.Size(354, 184);
+            this.FlagsGroupBox.Size = new System.Drawing.Size(354, 208);
             this.FlagsGroupBox.TabIndex = 17;
             this.FlagsGroupBox.TabStop = false;
             this.FlagsGroupBox.Text = "Edit export flags";
             // 
-            // MotionFlagsGroupBox
-            // 
-            this.MotionFlagsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.MotionFlagsGroupBox.Controls.Add(this.AnimsNoCompress);
-            this.MotionFlagsGroupBox.Controls.Add(this.Anims8Bit);
-            this.MotionFlagsGroupBox.Controls.Add(this.Anims16Bit);
-            this.MotionFlagsGroupBox.Location = new System.Drawing.Point(6, 15);
-            this.MotionFlagsGroupBox.Name = "MotionFlagsGroupBox";
-            this.MotionFlagsGroupBox.Size = new System.Drawing.Size(160, 90);
-            this.MotionFlagsGroupBox.TabIndex = 22;
-            this.MotionFlagsGroupBox.TabStop = false;
-            this.MotionFlagsGroupBox.Text = "Motion export";
-            // 
-            // AnimsNoCompress
-            // 
-            this.AnimsNoCompress.AutoSize = true;
-            this.AnimsNoCompress.Location = new System.Drawing.Point(8, 65);
-            this.AnimsNoCompress.Name = "AnimsNoCompress";
-            this.AnimsNoCompress.Size = new System.Drawing.Size(87, 17);
-            this.AnimsNoCompress.TabIndex = 10;
-            this.AnimsNoCompress.TabStop = true;
-            this.AnimsNoCompress.Text = "No compress";
-            this.AnimsNoCompress.UseVisualStyleBackColor = true;
-            // 
-            // Anims8Bit
-            // 
-            this.Anims8Bit.AutoSize = true;
-            this.Anims8Bit.Location = new System.Drawing.Point(8, 19);
-            this.Anims8Bit.Name = "Anims8Bit";
-            this.Anims8Bit.Size = new System.Drawing.Size(45, 17);
-            this.Anims8Bit.TabIndex = 8;
-            this.Anims8Bit.Text = "8 bit";
-            this.Anims8Bit.UseVisualStyleBackColor = true;
-            // 
-            // Anims16Bit
-            // 
-            this.Anims16Bit.AutoSize = true;
-            this.Anims16Bit.Checked = true;
-            this.Anims16Bit.Location = new System.Drawing.Point(8, 42);
-            this.Anims16Bit.Name = "Anims16Bit";
-            this.Anims16Bit.Size = new System.Drawing.Size(51, 17);
-            this.Anims16Bit.TabIndex = 9;
-            this.Anims16Bit.TabStop = true;
-            this.Anims16Bit.Text = "16 bit";
-            this.Anims16Bit.UseVisualStyleBackColor = true;
-            // 
             // ModelFlagsGroupBox
             // 
             this.ModelFlagsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ModelFlagsGroupBox.Controls.Add(this.SplitNormalsChbx);
             this.ModelFlagsGroupBox.Controls.Add(this.StripifyMeshes);
             this.ModelFlagsGroupBox.Controls.Add(this.HQGeometry);
             this.ModelFlagsGroupBox.Controls.Add(this.HQGeometryPlus);
             this.ModelFlagsGroupBox.Controls.Add(this.ProgressiveMeshes);
             this.ModelFlagsGroupBox.Controls.Add(this.checkBox2);
-            this.ModelFlagsGroupBox.Location = new System.Drawing.Point(173, 15);
+            this.ModelFlagsGroupBox.Location = new System.Drawing.Point(173, 19);
             this.ModelFlagsGroupBox.Name = "ModelFlagsGroupBox";
-            this.ModelFlagsGroupBox.Size = new System.Drawing.Size(175, 137);
-            this.ModelFlagsGroupBox.TabIndex = 21;
+            this.ModelFlagsGroupBox.Size = new System.Drawing.Size(175, 156);
+            this.ModelFlagsGroupBox.TabIndex = 24;
             this.ModelFlagsGroupBox.TabStop = false;
             this.ModelFlagsGroupBox.Text = "Model export";
+            // 
+            // SplitNormalsChbx
+            // 
+            this.SplitNormalsChbx.AutoSize = true;
+            this.SplitNormalsChbx.Location = new System.Drawing.Point(6, 135);
+            this.SplitNormalsChbx.Name = "SplitNormalsChbx";
+            this.SplitNormalsChbx.Size = new System.Drawing.Size(105, 17);
+            this.SplitNormalsChbx.TabIndex = 22;
+            this.SplitNormalsChbx.Text = "Use split normals";
+            this.SplitNormalsChbx.UseVisualStyleBackColor = true;
             // 
             // StripifyMeshes
             // 
@@ -182,6 +147,65 @@
             this.checkBox2.Text = "Optimize surfaces";
             this.checkBox2.UseVisualStyleBackColor = true;
             // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Location = new System.Drawing.Point(6, 179);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(342, 23);
+            this.button1.TabIndex = 23;
+            this.button1.Text = "Start";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // MotionFlagsGroupBox
+            // 
+            this.MotionFlagsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.MotionFlagsGroupBox.Controls.Add(this.AnimsNoCompress);
+            this.MotionFlagsGroupBox.Controls.Add(this.Anims8Bit);
+            this.MotionFlagsGroupBox.Controls.Add(this.Anims16Bit);
+            this.MotionFlagsGroupBox.Location = new System.Drawing.Point(6, 15);
+            this.MotionFlagsGroupBox.Name = "MotionFlagsGroupBox";
+            this.MotionFlagsGroupBox.Size = new System.Drawing.Size(160, 90);
+            this.MotionFlagsGroupBox.TabIndex = 22;
+            this.MotionFlagsGroupBox.TabStop = false;
+            this.MotionFlagsGroupBox.Text = "Motion export";
+            // 
+            // AnimsNoCompress
+            // 
+            this.AnimsNoCompress.AutoSize = true;
+            this.AnimsNoCompress.Location = new System.Drawing.Point(8, 65);
+            this.AnimsNoCompress.Name = "AnimsNoCompress";
+            this.AnimsNoCompress.Size = new System.Drawing.Size(87, 17);
+            this.AnimsNoCompress.TabIndex = 10;
+            this.AnimsNoCompress.TabStop = true;
+            this.AnimsNoCompress.Text = "No compress";
+            this.AnimsNoCompress.UseVisualStyleBackColor = true;
+            // 
+            // Anims8Bit
+            // 
+            this.Anims8Bit.AutoSize = true;
+            this.Anims8Bit.Location = new System.Drawing.Point(8, 19);
+            this.Anims8Bit.Name = "Anims8Bit";
+            this.Anims8Bit.Size = new System.Drawing.Size(45, 17);
+            this.Anims8Bit.TabIndex = 8;
+            this.Anims8Bit.Text = "8 bit";
+            this.Anims8Bit.UseVisualStyleBackColor = true;
+            // 
+            // Anims16Bit
+            // 
+            this.Anims16Bit.AutoSize = true;
+            this.Anims16Bit.Checked = true;
+            this.Anims16Bit.Location = new System.Drawing.Point(8, 42);
+            this.Anims16Bit.Name = "Anims16Bit";
+            this.Anims16Bit.Size = new System.Drawing.Size(51, 17);
+            this.Anims16Bit.TabIndex = 9;
+            this.Anims16Bit.TabStop = true;
+            this.Anims16Bit.Text = "16 bit";
+            this.Anims16Bit.UseVisualStyleBackColor = true;
+            // 
             // ObjectScaleLabel
             // 
             this.ObjectScaleLabel.AutoSize = true;
@@ -216,23 +240,11 @@
             this.ObjectScaleTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ScaleKeyDown);
             this.ObjectScaleTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ScaleKeyPress);
             // 
-            // button1
-            // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(6, 155);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(342, 23);
-            this.button1.TabIndex = 23;
-            this.button1.Text = "Start";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // BatchFlags
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(378, 208);
+            this.ClientSize = new System.Drawing.Size(378, 232);
             this.Controls.Add(this.FlagsGroupBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -241,10 +253,10 @@
             this.Text = "BatchFlags";
             this.FlagsGroupBox.ResumeLayout(false);
             this.FlagsGroupBox.PerformLayout();
-            this.MotionFlagsGroupBox.ResumeLayout(false);
-            this.MotionFlagsGroupBox.PerformLayout();
             this.ModelFlagsGroupBox.ResumeLayout(false);
             this.ModelFlagsGroupBox.PerformLayout();
+            this.MotionFlagsGroupBox.ResumeLayout(false);
+            this.MotionFlagsGroupBox.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -256,15 +268,16 @@
         private System.Windows.Forms.RadioButton AnimsNoCompress;
         private System.Windows.Forms.RadioButton Anims8Bit;
         private System.Windows.Forms.RadioButton Anims16Bit;
+        private System.Windows.Forms.Label ObjectScaleLabel;
+        private System.Windows.Forms.CheckBox ScaleCenterOfMassCheckBox;
+        private System.Windows.Forms.TextBox ObjectScaleTextBox;
+        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.GroupBox ModelFlagsGroupBox;
+        private System.Windows.Forms.CheckBox SplitNormalsChbx;
         private System.Windows.Forms.CheckBox StripifyMeshes;
         private System.Windows.Forms.RadioButton HQGeometry;
         private System.Windows.Forms.RadioButton HQGeometryPlus;
         private System.Windows.Forms.CheckBox ProgressiveMeshes;
         private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.Label ObjectScaleLabel;
-        private System.Windows.Forms.CheckBox ScaleCenterOfMassCheckBox;
-        private System.Windows.Forms.TextBox ObjectScaleTextBox;
-        private System.Windows.Forms.Button button1;
     }
 }

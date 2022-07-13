@@ -50,6 +50,9 @@ namespace Object_tool
 			if (StripifyMeshes.Checked)
 				flags |= (1 << 7);
 
+			if (SplitNormalsChbx.Checked)
+				flags |= (1 << 8);
+
 			return flags;
 		}
 

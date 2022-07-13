@@ -27,6 +27,7 @@ enum EExportFlags
     exfScaleCenterMass 	= (1<<5),	
     exfHQGeometryPlus   = (1<<6),	
     exfMakeStripify	    = (1<<7),	
+    exfSplitNormals	    = (1<<8),	
 };
 
 enum EditorMode

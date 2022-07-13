@@ -132,6 +132,7 @@ namespace Object_tool
             this.OpenMotionRefsDialog = new System.Windows.Forms.OpenFileDialog();
             this.SaveUserDataDialog = new System.Windows.Forms.SaveFileDialog();
             this.SaveMotionRefsDialog = new System.Windows.Forms.SaveFileDialog();
+            this.SplitNormalsChbx = new System.Windows.Forms.CheckBox();
             this.MenuPanel.SuspendLayout();
             this.StatusPanel.SuspendLayout();
             this.FlagsPage.SuspendLayout();
@@ -196,48 +197,48 @@ namespace Object_tool
             this.motionRefsToolStripMenuItem,
             this.userDataToolStripMenuItem});
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.loadToolStripMenuItem.Text = "Load";
             // 
             // objectToolStripMenuItem
             // 
             this.objectToolStripMenuItem.Name = "objectToolStripMenuItem";
-            this.objectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.objectToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.objectToolStripMenuItem.Text = "Object";
             this.objectToolStripMenuItem.Click += new System.EventHandler(this.objectToolStripMenuItem_Click);
             // 
             // sklSklsToolStripMenuItem
             // 
             this.sklSklsToolStripMenuItem.Name = "sklSklsToolStripMenuItem";
-            this.sklSklsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.sklSklsToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.sklSklsToolStripMenuItem.Text = "Skl\\Skls";
             this.sklSklsToolStripMenuItem.Click += new System.EventHandler(this.LoadSkls_Click);
             // 
             // bonesToolStripMenuItem
             // 
             this.bonesToolStripMenuItem.Name = "bonesToolStripMenuItem";
-            this.bonesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.bonesToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.bonesToolStripMenuItem.Text = "Bones";
             this.bonesToolStripMenuItem.Click += new System.EventHandler(this.bonesToolStripMenuItem_Click);
             // 
             // bonesPartsToolStripMenuItem
             // 
             this.bonesPartsToolStripMenuItem.Name = "bonesPartsToolStripMenuItem";
-            this.bonesPartsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.bonesPartsToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.bonesPartsToolStripMenuItem.Text = "Bone parts";
             this.bonesPartsToolStripMenuItem.Click += new System.EventHandler(this.bonesPartsToolStripMenuItem_Click);
             // 
             // motionRefsToolStripMenuItem
             // 
             this.motionRefsToolStripMenuItem.Name = "motionRefsToolStripMenuItem";
-            this.motionRefsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.motionRefsToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.motionRefsToolStripMenuItem.Text = "Motion Refs";
             this.motionRefsToolStripMenuItem.Click += new System.EventHandler(this.motionRefsToolStripMenuItem_Click);
             // 
             // userDataToolStripMenuItem
             // 
             this.userDataToolStripMenuItem.Name = "userDataToolStripMenuItem";
-            this.userDataToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.userDataToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.userDataToolStripMenuItem.Text = "User Data";
             this.userDataToolStripMenuItem.Click += new System.EventHandler(this.userDataToolStripMenuItem_Click);
             // 
@@ -250,7 +251,7 @@ namespace Object_tool
             this.bonesToolStripMenuItem1,
             this.bonesPartsToolStripMenuItem1});
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.saveToolStripMenuItem.Text = "Save";
             // 
             // objectToolStripMenuItem1
@@ -299,55 +300,55 @@ namespace Object_tool
             this.motionRefsToolStripMenuItem1,
             this.userDataToolStripMenuItem1});
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.exportToolStripMenuItem.Text = "Export";
             // 
             // oGFToolStripMenuItem
             // 
             this.oGFToolStripMenuItem.Name = "oGFToolStripMenuItem";
-            this.oGFToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.oGFToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.oGFToolStripMenuItem.Text = "OGF";
             this.oGFToolStripMenuItem.Click += new System.EventHandler(this.ExportOGF_Click);
             // 
             // oMFToolStripMenuItem
             // 
             this.oMFToolStripMenuItem.Name = "oMFToolStripMenuItem";
-            this.oMFToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.oMFToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.oMFToolStripMenuItem.Text = "OMF";
             this.oMFToolStripMenuItem.Click += new System.EventHandler(this.ExportOMF_Click);
             // 
             // objToolStripMenuItem
             // 
             this.objToolStripMenuItem.Name = "objToolStripMenuItem";
-            this.objToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.objToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.objToolStripMenuItem.Text = "Obj";
             this.objToolStripMenuItem.Click += new System.EventHandler(this.objToolStripMenuItem_Click);
             // 
             // dMToolStripMenuItem
             // 
             this.dMToolStripMenuItem.Name = "dMToolStripMenuItem";
-            this.dMToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.dMToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.dMToolStripMenuItem.Text = "DM";
             this.dMToolStripMenuItem.Click += new System.EventHandler(this.dMToolStripMenuItem_Click_1);
             // 
             // cToolStripMenuItem
             // 
             this.cToolStripMenuItem.Name = "cToolStripMenuItem";
-            this.cToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.cToolStripMenuItem.Text = "C++";
             this.cToolStripMenuItem.Click += new System.EventHandler(this.cToolStripMenuItem_Click);
             // 
             // motionRefsToolStripMenuItem1
             // 
             this.motionRefsToolStripMenuItem1.Name = "motionRefsToolStripMenuItem1";
-            this.motionRefsToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.motionRefsToolStripMenuItem1.Size = new System.Drawing.Size(138, 22);
             this.motionRefsToolStripMenuItem1.Text = "Motion Refs";
             this.motionRefsToolStripMenuItem1.Click += new System.EventHandler(this.motionRefsToolStripMenuItem1_Click);
             // 
             // userDataToolStripMenuItem1
             // 
             this.userDataToolStripMenuItem1.Name = "userDataToolStripMenuItem1";
-            this.userDataToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.userDataToolStripMenuItem1.Size = new System.Drawing.Size(138, 22);
             this.userDataToolStripMenuItem1.Text = "User Data";
             this.userDataToolStripMenuItem1.Click += new System.EventHandler(this.userDataToolStripMenuItem1_Click);
             // 
@@ -357,7 +358,7 @@ namespace Object_tool
             this.DeletesklsToolStripMenuItem,
             this.bonesPartsToDefaultToolStripMenuItem});
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.deleteToolStripMenuItem.Text = "Delete";
             // 
             // DeletesklsToolStripMenuItem
@@ -381,7 +382,7 @@ namespace Object_tool
             this.fromDialogToolStripMenuItem,
             this.BatchHelpToolStripMenuItem});
             this.batchConvertToolStripMenuItem.Name = "batchConvertToolStripMenuItem";
-            this.batchConvertToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.batchConvertToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.batchConvertToolStripMenuItem.Text = "Batch Convert";
             // 
             // fromLtxToolStripMenuItem
@@ -424,12 +425,12 @@ namespace Object_tool
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(146, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -570,7 +571,7 @@ namespace Object_tool
             this.StatusPanel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileLabel,
             this.StatusFile});
-            this.StatusPanel.Location = new System.Drawing.Point(0, 217);
+            this.StatusPanel.Location = new System.Drawing.Point(0, 236);
             this.StatusPanel.Name = "StatusPanel";
             this.StatusPanel.Size = new System.Drawing.Size(401, 22);
             this.StatusPanel.TabIndex = 31;
@@ -639,7 +640,7 @@ namespace Object_tool
             this.FlagsPage.Controls.Add(this.FlagsGroupBox);
             this.FlagsPage.Location = new System.Drawing.Point(4, 25);
             this.FlagsPage.Name = "FlagsPage";
-            this.FlagsPage.Size = new System.Drawing.Size(369, 158);
+            this.FlagsPage.Size = new System.Drawing.Size(369, 177);
             this.FlagsPage.TabIndex = 0;
             this.FlagsPage.Text = "Flags";
             this.FlagsPage.UseVisualStyleBackColor = true;
@@ -656,7 +657,7 @@ namespace Object_tool
             this.FlagsGroupBox.Controls.Add(this.ObjectScaleTextBox);
             this.FlagsGroupBox.Location = new System.Drawing.Point(0, 0);
             this.FlagsGroupBox.Name = "FlagsGroupBox";
-            this.FlagsGroupBox.Size = new System.Drawing.Size(369, 158);
+            this.FlagsGroupBox.Size = new System.Drawing.Size(369, 177);
             this.FlagsGroupBox.TabIndex = 16;
             this.FlagsGroupBox.TabStop = false;
             this.FlagsGroupBox.Text = "Edit export flags";
@@ -711,6 +712,7 @@ namespace Object_tool
             // ModelFlagsGroupBox
             // 
             this.ModelFlagsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ModelFlagsGroupBox.Controls.Add(this.SplitNormalsChbx);
             this.ModelFlagsGroupBox.Controls.Add(this.StripifyMeshes);
             this.ModelFlagsGroupBox.Controls.Add(this.HQGeometry);
             this.ModelFlagsGroupBox.Controls.Add(this.HQGeometryPlus);
@@ -718,7 +720,7 @@ namespace Object_tool
             this.ModelFlagsGroupBox.Controls.Add(this.checkBox2);
             this.ModelFlagsGroupBox.Location = new System.Drawing.Point(188, 15);
             this.ModelFlagsGroupBox.Name = "ModelFlagsGroupBox";
-            this.ModelFlagsGroupBox.Size = new System.Drawing.Size(175, 137);
+            this.ModelFlagsGroupBox.Size = new System.Drawing.Size(175, 156);
             this.ModelFlagsGroupBox.TabIndex = 21;
             this.ModelFlagsGroupBox.TabStop = false;
             this.ModelFlagsGroupBox.Text = "Model export";
@@ -827,7 +829,7 @@ namespace Object_tool
             this.TabControl.Location = new System.Drawing.Point(12, 27);
             this.TabControl.Name = "TabControl";
             this.TabControl.SelectedIndex = 0;
-            this.TabControl.Size = new System.Drawing.Size(377, 187);
+            this.TabControl.Size = new System.Drawing.Size(377, 206);
             this.TabControl.TabIndex = 10;
             this.TabControl.SelectedIndexChanged += new System.EventHandler(this.IndexChanged);
             this.TabControl.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EditorKeyDown);
@@ -976,12 +978,22 @@ namespace Object_tool
             // 
             this.SaveMotionRefsDialog.Filter = "Ltx file|*.ltx|Txt file|*.txt";
             // 
+            // SplitNormalsChbx
+            // 
+            this.SplitNormalsChbx.AutoSize = true;
+            this.SplitNormalsChbx.Location = new System.Drawing.Point(6, 135);
+            this.SplitNormalsChbx.Name = "SplitNormalsChbx";
+            this.SplitNormalsChbx.Size = new System.Drawing.Size(105, 17);
+            this.SplitNormalsChbx.TabIndex = 22;
+            this.SplitNormalsChbx.Text = "Use split normals";
+            this.SplitNormalsChbx.UseVisualStyleBackColor = true;
+            // 
             // Object_Editor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(401, 239);
+            this.ClientSize = new System.Drawing.Size(401, 258);
             this.Controls.Add(this.StatusPanel);
             this.Controls.Add(this.TabControl);
             this.Controls.Add(this.MenuPanel);
@@ -989,7 +1001,7 @@ namespace Object_tool
             this.MainMenuStrip = this.MenuPanel;
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(550, 680);
-            this.MinimumSize = new System.Drawing.Size(417, 278);
+            this.MinimumSize = new System.Drawing.Size(417, 297);
             this.Name = "Object_Editor";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Object Editor";
@@ -1121,6 +1133,7 @@ namespace Object_tool
         private System.Windows.Forms.OpenFileDialog OpenMotionRefsDialog;
         private System.Windows.Forms.SaveFileDialog SaveUserDataDialog;
         private System.Windows.Forms.SaveFileDialog SaveMotionRefsDialog;
+        private System.Windows.Forms.CheckBox SplitNormalsChbx;
     }
 }
 
