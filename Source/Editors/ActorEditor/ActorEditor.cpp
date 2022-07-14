@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <ctime>    
 
 // argv[1] - mode
 // argv[2] - object
@@ -136,7 +137,11 @@ xr_vector<shared_str> LoadStringVector(char** args, int count)
 
 int main(int argc, char** argv)
 {
+    unsigned int start_time = clock();
     Core._initialize("Actor", ELogCallback,1, "",true, (atoi(argv[4]) & exfDbgWindow));
+    unsigned int end_time = clock();
+    double seconds = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+    Msg("Core init time: %f", seconds);
 
     std::cout << "[Arg debugger]" << std::endl;
     std::cout << "Arg count: " << argc << std::endl;

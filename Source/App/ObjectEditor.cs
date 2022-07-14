@@ -392,6 +392,7 @@ namespace Object_tool
 			string exe_path = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\ActorEditor.exe";
 			if (File.Exists(exe_path))
 			{
+				CheckTempFileExist();
 				System.Diagnostics.Process proc = new System.Diagnostics.Process();
 				proc.StartInfo.FileName = exe_path;
 				proc.StartInfo.WorkingDirectory = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\'));
@@ -1448,6 +1449,17 @@ namespace Object_tool
 			if (Directory.Exists(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp"))
 				Directory.Delete(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp", true);
 		}
+
+		private void CheckTempFileExist()
+        {
+			if (!File.Exists(TEMP_FILE_NAME) && File.Exists(FILE_NAME))
+            {
+				if (!Directory.Exists(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp"))
+					Directory.CreateDirectory(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp");
+
+				File.Copy(FILE_NAME, Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + $"\\temp\\{StatusFile.Text}", true);
+			}
+        }
 
         private void ScaleKeyPress(object sender, KeyPressEventArgs e)
         {
