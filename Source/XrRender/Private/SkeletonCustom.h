@@ -171,13 +171,6 @@ public:
         return bd;
     }
 
-	virtual	const IBoneData&_BCL	GetBoneData(u16 bone_id) const
-	{
-		VERIFY(bone_id<LL_BoneCount());
-        VERIFY(bones);
-        CBoneData& bd =  *((*bones)[bone_id]) ;
-        return bd;
-	}
 	CBoneData*	_BCL	LL_GetBoneData		(u16 bone_id)
 	{
 		

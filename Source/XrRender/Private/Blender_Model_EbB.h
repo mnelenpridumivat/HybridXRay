@@ -11,7 +11,6 @@ class CBlender_Model_EbB : public IBlender
 public:
 	string64	oT2_Name;		// name of secondary texture
 	string64	oT2_xform;		// xform for secondary texture
-	xrP_BOOL	oBlend;
 public:
 	virtual		LPCSTR		getComment()	{ return "MODEL: env^base";	}
 	virtual		BOOL		canBeLMAPped()	{ return FALSE; }

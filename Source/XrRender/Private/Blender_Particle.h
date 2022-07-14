@@ -8,9 +8,6 @@
 
 class CBlender_Particle		: public IBlender  
 {
-	xrP_TOKEN	oBlend;
-	xrP_Integer	oAREF;
-	xrP_BOOL	oClamp;
 public:
 	virtual		LPCSTR		getComment()	{ return "particles";	}
 	virtual		BOOL		canBeLMAPped()	{ return FALSE;			}

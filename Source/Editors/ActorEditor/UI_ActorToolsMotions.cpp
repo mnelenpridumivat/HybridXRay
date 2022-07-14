@@ -6,10 +6,10 @@
 #include "UI_ActorTools.h"
 #include "../xrECore/Editor/UI_Main.h"
 #include "../xrECore/Editor/EditObject.h"
-#include "motion.h"
-#include "bone.h"
+#include "..\xrEngine\motion.h"
+#include "..\xrEngine\bone.h"
 #include "SkeletonAnimated.h"
-#include "fmesh.h"
+#include "..\xrEngine\fmesh.h"
 //---------------------------------------------------------------------------
 MotionID EngineModel::FindMotionID(LPCSTR name, u16 slot)
 {

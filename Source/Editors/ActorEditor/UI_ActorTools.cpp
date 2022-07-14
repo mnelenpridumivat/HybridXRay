@@ -19,7 +19,6 @@ ECORE_API void BoneRotate(CBone& Bone, const Fvector& _axis, float angle);
 void EngineModel::DeleteVisual		()
 {
 	DeletePhysicsShell	();
-	Render->model_Delete(m_pVisual);
     m_pVisual	= 0;
 	m_pBlend	= 0;
 }
@@ -161,7 +160,6 @@ CActorTools::~CActorTools()
 {
 }
 
-#include "igame_persistent.h"
 #include "..\xrECore\editor\d3dutils.h"
 
 const u32 color_bone_sel_color = 0xFFFFFFFF;
@@ -290,6 +288,8 @@ void CActorTools::ZoomObject(BOOL bSelOnly)
         EDevice->m_Camera.ZoomExtents(BB);
     }
 }
+
+#include "../XrECore/Editor/EditObject.h"
 
 bool CActorTools::Load(LPCSTR obj_name)
 {
@@ -602,7 +602,7 @@ void CActorTools::WorldMotionRotate(const Fvector& R)
     R_ASSERT(m_pEditObject && (!m_CurrentMotion.empty()));
     CSMotion* M = m_pEditObject->FindSMotionByName(m_CurrentMotion.c_str());
     int rootId = m_pEditObject->GetRootBoneID();
-    M->WorldRotate(rootId, R.y, R.x, R.z);
+    //M->WorldRotate(rootId, R.y, R.x, R.z);
     OnMotionKeysModified();
 }
 

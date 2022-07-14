@@ -9,7 +9,7 @@
 #include "directx\d3dx9.h"
 #pragma warning(default:4995)
 
-#include "../../xrEngine/fmesh.h"
+#include "../xrEngine/fmesh.h"
 #include "fvisual.h"
 
 #if defined(USE_DX10)||defined(USE_DX11)

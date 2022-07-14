@@ -80,8 +80,7 @@ namespace PS
 		virtual const shared_str	Name			(){VERIFY(m_Def); return m_Def->m_Name;}
 
         void				SetDestroyCB		(DestroyCallback 	destroy_cb)		{m_DestroyCallback 	= destroy_cb;}
-        void				SetCollisionCB		(CollisionCallback	collision_cb)	{m_CollisionCallback= collision_cb;}
-        void				SetBirthDeadCB		(PAPI::OnBirthParticleCB bc, PAPI::OnDeadParticleCB dc, void* owner, u32 p);		
+        void				SetCollisionCB		(CollisionCallback	collision_cb)	{m_CollisionCallback= collision_cb;}	
 
 	    virtual u32			ParticlesCount		();
 	};

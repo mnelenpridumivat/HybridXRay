@@ -85,10 +85,6 @@ void CCustomPreferences::Edit()
 extern bool bAllowLogCommands;
 void CCustomPreferences::Load(CInifile* I)
 {
-    psDeviceFlags.flags		= R_U32_SAFE	("editor_prefs","device_flags",	psDeviceFlags.flags);
-
-    Tools->m_Settings.flags	= R_U32_SAFE	("editor_prefs","tools_settings",Tools->m_Settings.flags);
-    
     view_np				= R_FLOAT_SAFE	("editor_prefs","view_np"			,view_np		 	);
     view_fp				= R_FLOAT_SAFE	("editor_prefs","view_fp"			,view_fp		 	);
     view_fov			= R_FLOAT_SAFE	("editor_prefs","view_fov"			,view_fov			);
@@ -150,8 +146,6 @@ void CCustomPreferences::Load(CInifile* I)
 
 void CCustomPreferences::Save(CInifile* I)
 {
-    I->w_u32("editor_prefs", "device_flags", psDeviceFlags.flags);
-
     I->w_u32("editor_prefs", "tools_settings", Tools->m_Settings.flags);
 
     I->w_float("editor_prefs", "view_np", view_np);
@@ -193,7 +187,6 @@ void CCustomPreferences::Save(CInifile* I)
         I->w_string("editor_prefs", L.c_str(), V.c_str());
     }
     I->w_string("editor_prefs", "weather", sWeather.c_str());
-    I->w_bool("render", "maximized", EDevice->dwMaximized);
     I->w_u32("render", "w", EDevice->dwRealWidth);
     I->w_u32("render", "h", EDevice->dwRealHeight);
     I->w_bool("windows", "log", bAllowLogCommands);

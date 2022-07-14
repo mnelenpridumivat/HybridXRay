@@ -3,8 +3,8 @@
 
 #include "EditObject.h"
 #include "EditMesh.h"
-#include "motion.h"
-#include "bone.h"
+#include "..\xrEngine\motion.h"
+#include "..\xrEngine\bone.h"
 #include "ExportSkeleton.h"
 #include "ExportObjectOGF.h"
 #include "d3dutils.h"
@@ -76,66 +76,6 @@ extern float 	ssaLIMIT;
 extern float	g_fSCREEN;
 static const float ssaLim = 64.f*64.f/(640*480);
 void CEditableObject::Render(const Fmatrix& parent, int priority, bool strictB2F, SurfaceVec* surfaces){
-    if (!(m_LoadState.is(LS_RBUFFERS)))
-    	DefferedLoadRP();
-	Fvector v; 
-    float r;
-    Fbox bb; 
-    bb.xform			(m_BBox,parent); 
-    bb.getsphere		(v,r);
-
-    if (EPrefs->object_flags.is(epoDrawLOD)&&(m_objectFlags.is(eoUsingLOD)&&(CalcSSA(v,r)<ssaLim)))
-    {
-		if ((1==priority)&&(true==strictB2F))
-        	RenderLOD(parent);
-    }else{
-        RCache.set_xform_world	(parent);
-        if (m_objectFlags.is(eoHOM))
-        {
-            if ((1==priority)&&(false==strictB2F))
-            	RenderEdge		(parent,0,0,0x40B64646);
-
-            if ((2==priority)&&(true==strictB2F))
-            	RenderSelection	(parent,0,0,0xA0FFFFFF);
-
-        }else if (m_objectFlags.is(eoSoundOccluder))
-        {
-            if ((1==priority)&&(false==strictB2F))
-            	RenderEdge		(parent,0,0,0xFF000000);
-
-            if ((2==priority)&&(true==strictB2F))
-            	RenderSelection	(parent,0,0,0xA00000FF);
-        }else{
-            if(psDeviceFlags.is(rsEdgedFaces)&&(1==priority)&&(false==strictB2F))
-                RenderEdge(parent);
-            size_t s_id = 0;
-            for(SurfaceIt s_it=m_Surfaces.begin(); s_it!=m_Surfaces.end(); s_it++)
-            {
-            	int pr = (*s_it)->_Priority();
-                bool strict = (*s_it)->_StrictB2F();
-                
-                if ((priority==pr)&&(strictB2F==strict))
-                {
-                    if (surfaces)
-                    {
-                        EDevice->SetShader((*surfaces)[s_id]->_Shader());
-                       
-                    }
-                    else
-                    {
-
-                        EDevice->SetShader((*s_it)->_Shader());
-                    }
-                    for (EditMeshIt _M=m_Meshes.begin(); _M!=m_Meshes.end(); _M++)
-                        if (IsSkeleton())
-                        	(*_M)->RenderSkeleton	(parent,*s_it);
-                        else
-                        	(*_M)->Render			(parent,*s_it);
-                }
-                s_id++;
-            }
-        }
-    }
 }
 
 void CEditableObject::RenderSingle(const Fmatrix& parent)
@@ -211,38 +151,6 @@ void CEditableObject::GetLODFrame(int frame, Fvector p[4], Fvector2 t[4], const 
 
 void CEditableObject::RenderLOD(const Fmatrix& parent)
 {
-    Fvector C;
-    C.sub			(parent.c,EDevice->m_Camera.GetPosition()); C.y = 0;
-    float m 		= C.magnitude();
-    if (m<EPS) return;
-    C.div			(m);
-	int max_frame;
-    float max_dot	= 0;
-    Fvector HPB;
-    parent.getHPB	(HPB);
-
-    for (int frame=0; frame<LOD_SAMPLE_COUNT; frame++){
-    	float angle = angle_normalize(frame*(PI_MUL_2/float(LOD_SAMPLE_COUNT))+HPB.x);
-
-        Fvector D;
-        D.setHP(angle,0);
-        float dot = C.dotproduct(D);
-        if (dot<0.7072f) continue;
-
-        if (dot>max_dot){
-        	max_dot = dot;
-            max_frame = frame;
-        }
-    }
-	{
-    	Fvector    	p[4];
-        Fvector2 	t[4];
-    	GetLODFrame(max_frame,p,t);
-        for (int i=0; i<4; i++){ LOD[i].p.set(p[i]); LOD[i].t.set(t[i]); }
-    	RCache.set_xform_world(parent);
-        EDevice->SetShader		(m_LODShader?m_LODShader:EDevice->m_WireShader);
-    	DU_impl.DrawPrimitiveLIT	(D3DPT_TRIANGLEFAN, 2, LOD, 4, true, false);
-    }
 }
 
 xr_string CEditableObject::GetLODTextureName()
@@ -362,20 +270,6 @@ IC BOOL BE      (BOOL A, BOOL B)
 bool CEditableObject::CheckShaderCompatible()
 {
 	bool bRes 			= true;
-	for(SurfaceIt s_it=m_Surfaces.begin(); s_it!=m_Surfaces.end(); s_it++)
-    {
-    	IBlender* 		B = EDevice->Resources->_FindBlender(*(*s_it)->m_ShaderName);
-        Shader_xrLC* 	C = EDevice->ShaderXRLC.Get(*(*s_it)->m_ShaderXRLCName);
-        if (!B||!C){
-        	ELog.Msg	(mtError,"Object '%s': invalid or missing shader [E:'%s', C:'%s']",GetName(),(*s_it)->_ShaderName(),(*s_it)->_ShaderXRLCName());
-            bRes 		= false;
-        }else{
-            if (!BE(B->canBeLMAPped(),!C->flags.bLIGHT_Vertex)){
-                ELog.Msg	(mtError,"Object '%s': engine shader '%s' non compatible with compiler shader '%s'",GetName(),(*s_it)->_ShaderName(),(*s_it)->_ShaderXRLCName());
-                bRes 		= false;
-            }
-        }
-    }
     return bRes;
 }
 #if 1
@@ -450,7 +344,7 @@ void CEditableObject::DeleteBone(CBone* bone)
 
 
     bone_to_delete = bone;
-    bone_to_delete_frame = EDevice->dwFrame;
+    bone_to_delete_frame = 0;
 	PrepareBones	();
 
     for (EditMeshIt _M=m_Meshes.begin(); _M!=m_Meshes.end(); _M++)

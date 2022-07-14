@@ -199,20 +199,6 @@ void CEditableMesh::FillRenderBuffer(IntVec& face_lst, int start_face, int num_f
 //----------------------------------------------------
 void CEditableMesh::Render(const Fmatrix& parent, CSurface* S)
 {
-    if (0==m_RenderBuffers) GenerateRenderBuffers();
-    // visibility test
-    if (!m_Flags.is(flVisible)) return;
-    // frustum test
-    Fbox bb; bb.set(m_Box);
-    bb.xform(parent);
-    if (!::Render->occ_visible(bb)) return;
-    // render
-    RBMapPairIt rb_pair = m_RenderBuffers->find(S);
-    if (rb_pair!=m_RenderBuffers->end()){
-        RBVector& rb_vec = rb_pair->second;
-        for (RBVecIt rb_it=rb_vec.begin(); rb_it!=rb_vec.end(); rb_it++)
-            EDevice->DP(D3DPT_TRIANGLELIST,rb_it->pGeom,0,rb_it->dwNumVertex/3);
-    }
 }
 //----------------------------------------------------
 #define MAX_VERT_COUNT 0xFFFF
@@ -221,62 +207,12 @@ static int RB_cnt=0;
 
 void CEditableMesh::RenderList(const Fmatrix& parent, u32 color, bool bEdge, IntVec& fl)
 {
-//	if (!m_Visible) return;
-//	if (!m_LoadState.is(LS_RBUFFERS)) CreateRenderBuffers();
-
-	if (fl.size()==0) return;
-	RCache.set_xform_world(parent);
-	EDevice->RenderNearer(0.0006);
-	RB_cnt = 0;
-    if (bEdge){
-    	EDevice->SetShader(EDevice->m_WireShader);
-	    EDevice->SetRS(D3DRS_FILLMODE,D3DFILL_WIREFRAME);
-    }else
-    	EDevice->SetShader(EDevice->m_SelectionShader);
-    for (IntIt dw_it=fl.begin(); dw_it!=fl.end(); ++dw_it)
-    {
-        st_Face& face 		= m_Faces[*dw_it];
-        for (int k=0; k<3; ++k)
-        	RB[RB_cnt++].set(m_Vertices[face.pv[k].pindex]);
-
-		if (RB_cnt==MAX_VERT_COUNT)
-        {
-        	DU_impl.DrawPrimitiveL(D3DPT_TRIANGLELIST,RB_cnt/3,RB,RB_cnt,color,true,false);
-			RB_cnt = 0;
-        }
-    }
-
-	if (RB_cnt)
-    	DU_impl.DrawPrimitiveL(D3DPT_TRIANGLELIST,RB_cnt/3,RB,RB_cnt,color,true,false);
-
-    if (bEdge)
-    	EDevice->SetRS(D3DRS_FILLMODE,EDevice->dwFillMode);
-
-	EDevice->ResetNearer();
 }
 //----------------------------------------------------
 
 void CEditableMesh::RenderSelection(const Fmatrix& parent, CSurface* s, u32 color)
 {
-    if (0==m_RenderBuffers) GenerateRenderBuffers();
-//	if (!m_Visible) return;
-    Fbox bb; bb.set(m_Box);
-    bb.xform(parent);
-	if (!::Render->occ_visible(bb)) return;
-    // render
-	RCache.set_xform_world(parent);
-    if (s){
-        SurfFacesPairIt sp_it = m_SurfFaces.find(s);
-        if (sp_it!=m_SurfFaces.end()) RenderList(parent,color,false,sp_it->second);
-    }else{
-	    EDevice->SetRS(D3DRS_TEXTUREFACTOR,	color);
-        for (RBMapPairIt p_it=m_RenderBuffers->begin(); p_it!=m_RenderBuffers->end(); p_it++){
-            RBVector& rb_vec = p_it->second;
-            for (RBVecIt rb_it=rb_vec.begin(); rb_it!=rb_vec.end(); rb_it++)
-                EDevice->DP(D3DPT_TRIANGLELIST,rb_it->pGeom,0,rb_it->dwNumVertex/3);
-        }
-	    EDevice->SetRS(D3DRS_TEXTUREFACTOR,	0xffffffff);
-    }
+
 }
 //----------------------------------------------------
 

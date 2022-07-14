@@ -10,7 +10,7 @@
 #endif // #ifndef REDITOR
 
 #include "fbasicvisual.h"
-#include "../../xrEngine/fmesh.h"
+#include "../xrEngine/fmesh.h"
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction

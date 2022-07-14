@@ -4,9 +4,6 @@
 #include "render.h"
 #include "ResourceManager.h"
 #include "../../../xrAPI/xrAPI.h"
-#include "../../xrEngine/irenderable.h"
-#include "../../xrEngine/xr_object.h"
-#include "../../xrEngine/CustomHUD.h"
 //---------------------------------------------------------------------------
 float ssaDISCARD		= 4.f;
 float ssaDONTSORT		= 32.f;
@@ -20,9 +17,6 @@ CRender   			RImplementation;
 //---------------------------------------------------------------------------
 CRender::CRender	()
 {
-	val_bInvisible = FALSE;
-	::Render = &RImplementation;
-	m_skinning					= 0;
 }
 
 CRender::~CRender	()
@@ -65,7 +59,6 @@ void CRender::Calculate()
 {
 }
 
-#include "igame_persistent.h"
 void CRender::Render()
 {
 	
@@ -164,53 +157,7 @@ HRESULT	CRender::shader_compile			(
 			defines[def_it]			= pDefines[def_it];
 		}
 	}
-	// options
-	if (m_skinning<0)		{
-		defines[def_it].Name		=	"SKIN_NONE";
-		defines[def_it].Definition	=	"1";
-		def_it						++;
-	}
-	if (0==m_skinning)		{
-		defines[def_it].Name		=	"SKIN_0";
-		defines[def_it].Definition	=	"1";
-		def_it						++;
-	}
-	if (1==m_skinning)		{
-		defines[def_it].Name		=	"SKIN_1";
-		defines[def_it].Definition	=	"1";
-		def_it						++;
-	}
-	if (2==m_skinning)		{
-		defines[def_it].Name		=	"SKIN_2";
-		defines[def_it].Definition	=	"1";
-		def_it						++;
-	}
-	if (3 == m_skinning) {
-		defines[def_it].Name = "SKIN_3";
-		defines[def_it].Definition = "1";
-		def_it++;
-	}
-	if (4 == m_skinning) {
-		defines[def_it].Name = "SKIN_4";
-		defines[def_it].Definition = "1";
-		def_it++;
-	}
-	// finish
-	defines[def_it].Name			=	0;
-	defines[def_it].Definition		=	0;
-	def_it							++;
-
-	LPD3DXINCLUDE                   pInclude		= (LPD3DXINCLUDE)		_pInclude;
-	LPD3DXBUFFER*                   ppShader		= (LPD3DXBUFFER*)		_ppShader;
-	LPD3DXBUFFER*                   ppErrorMsgs		= (LPD3DXBUFFER*)		_ppErrorMsgs;
-	LPD3DXCONSTANTTABLE*            ppConstantTable	= (LPD3DXCONSTANTTABLE*)_ppConstantTable;
-//.	return D3DXCompileShader		(pSrcData,SrcDataLen,defines,pInclude,pFunctionName,pTarget,Flags,ppShader,ppErrorMsgs,ppConstantTable);
-#ifdef D3DXSHADER_USE_LEGACY_D3DX9_31_DLL //	December 2006 and later
-	HRESULT		_result	= D3DXCompileShader(pSrcData,SrcDataLen,defines,pInclude,pFunctionName,pTarget,Flags|D3DXSHADER_USE_LEGACY_D3DX9_31_DLL,ppShader,ppErrorMsgs,ppConstantTable);
-#else
-	HRESULT		_result	= D3DXCompileShader(pSrcData,SrcDataLen,defines,pInclude,pFunctionName,pTarget,Flags,ppShader,ppErrorMsgs,ppConstantTable);
-#endif
-	return _result;
+	return 0;
 }
 
 void					CRender::reset_begin			()
@@ -261,28 +208,10 @@ void CRender::level_Unload()
 }
 
 // IDirect3DBaseTexture9*	texture_load			(LPCSTR	fname, u32& msize)					= 0;
-
-
-
-//	 ref_shader				getShader				(int id)									= 0;
-IRender_Sector* CRender::getSector(int id)
-{
-	return nullptr;
- }
-IRenderVisual* CRender::getVisual(int id)
-{
-	return nullptr;
-}
-IRender_Sector* CRender::detectSector(const Fvector& P)
-{
-	return nullptr;
-}
-
 void CRender::flush() {}
-void CRender::set_Object(IRenderable* O) {}
 void CRender::add_Occluder(Fbox2& bb_screenspace) {}
 void CRender::add_Geometry(IRenderVisual* V) {}
-class RenderObjectSpecific :public IRender_ObjectSpecific
+class RenderObjectSpecific
 {
 public:
 	RenderObjectSpecific() {}
@@ -298,13 +227,11 @@ public:
 	}
 
 };
- IRender_ObjectSpecific* CRender::ros_create(IRenderable* parent) { return xr_new< RenderObjectSpecific>(); }
- void CRender::ros_destroy(IRender_ObjectSpecific*& a) { xr_delete(a); }
- class RLight : public IRender_Light
+
+ class RLight
  {
  public:
  public:
-	 virtual void set_type(LT type) {}
 	 virtual void set_active(bool) {}
 	 virtual bool get_active() { return false; }
 	 virtual void set_shadow(bool) {}
@@ -327,12 +254,10 @@ public:
 	 }
 	 virtual ~RLight() {}
  };
- IRender_Light* CRender::light_create() { return xr_new< RLight>(); }
- void CRender::light_destroy(IRender_Light* p_) {  }
 
 
 
- class RGlow : public IRender_Glow
+ class RGlow
  {
  public:
  public:
@@ -350,13 +275,9 @@ public:
 	 virtual void					spatial_move() { return ; }
  };
 
- IRender_Glow* CRender::glow_create() { return xr_new< RGlow>(); }
- void CRender::glow_destroy(IRender_Glow* p_) {  }
  void CRender::model_Logging(BOOL bEnable) {}
 void CRender::models_Prefetch() {}
 void CRender::models_Clear(BOOL b_complete) {}
-void CRender::Screenshot(ScreenshotMode mode , LPCSTR name ) {}
-void CRender::Screenshot(ScreenshotMode mode, CMemoryWriter& memory_writer) {}
 void CRender::ScreenshotAsyncBegin() {}
 void CRender::ScreenshotAsyncEnd(CMemoryWriter& memory_writer) {}
 u32 CRender::memory_usage() { return 0; }

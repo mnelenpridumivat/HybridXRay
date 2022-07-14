@@ -4,8 +4,8 @@
 #include "EditObject.h"
 #include "EditMesh.h"
 #include "ui_main.h"
-#include "motion.h"
-#include "bone.h"
+#include "..\xrEngine\motion.h"
+#include "..\xrEngine\bone.h"
 
 void CEditableObject::OnChangeShader(PropValue*)
 {

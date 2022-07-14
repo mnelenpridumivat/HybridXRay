@@ -81,7 +81,6 @@
     <ClCompile Include="..\..\XrRender\Private\Shader.cpp" />
     <ClCompile Include="..\..\XrRender\Private\SH_Atomic.cpp" />
     <ClCompile Include="..\..\XrRender\Private\SH_Constant.cpp" />
-    <ClCompile Include="..\..\XrRender\Private\SH_Matrix.cpp" />
     <ClCompile Include="..\..\XrRender\Private\SH_RT.cpp" />
     <ClCompile Include="..\..\XrRender\Private\SH_Texture.cpp" />
     <ClCompile Include="..\..\XrRender\Private\SkeletonAnimated.cpp" />
@@ -95,6 +94,13 @@
     <ClCompile Include="..\..\XrRender\Private\tss_def.cpp" />
     <ClCompile Include="..\..\XrRender\Private\xrRender_console.cpp" />
     <ClCompile Include="..\Public\NVMeshMenderTwo.cpp" />
+    <ClCompile Include="..\XrEngine\xrbone.cpp" />
+    <ClCompile Include="..\XrEngine\BoneEditor.cpp" />
+    <ClCompile Include="..\XrEngine\Envelope.cpp" />
+    <ClCompile Include="..\XrEngine\fmesh.cpp" />
+    <ClCompile Include="..\XrEngine\interp.cpp" />
+    <ClCompile Include="..\XrEngine\motion.cpp" />
+    <ClCompile Include="..\XrEngine\SkeletonMotions.cpp" />
     <ClCompile Include="Editor\ColorPicker.cpp" />
     <ClCompile Include="Editor\c_dinput.cpp" />
     <ClCompile Include="Editor\D3DUtils.cpp" />
@@ -128,7 +134,6 @@
     <ClCompile Include="Editor\GeometryCollector.cpp" />
     <ClCompile Include="Editor\Library.cpp" />
     <ClCompile Include="Editor\ParticleEffectActions.cpp" />
-    <ClCompile Include="Editor\pDomain.cpp" />
     <ClCompile Include="Editor\PhysicsShellHolderEditorBase.cpp" />
     <ClCompile Include="Editor\render.cpp" />
     <ClCompile Include="Editor\TLSPRITE.CPP" />
@@ -140,12 +145,9 @@
     <ClCompile Include="Editor\xrLoadSurface.cpp" />
     <ClCompile Include="Engine\ai_sounds.cpp" />
     <ClCompile Include="Engine\bone.cpp" />
-    <ClCompile Include="Engine\guid_generator.cpp" />
     <ClCompile Include="Engine\Image.cpp" />
     <ClCompile Include="Engine\NVMeshMender.cpp" />
     <ClCompile Include="Engine\nv_algebra.cpp" />
-    <ClCompile Include="Engine\XrGameMaterialLibraryEditors.cpp" />
-    <ClCompile Include="Engine\XrGamePersistentEditors.cpp" />
     <ClCompile Include="guid.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
@@ -217,6 +219,18 @@
     <ClInclude Include="..\..\XrRender\Private\dxUISequenceVideoItem.h" />
     <ClInclude Include="..\..\XrRender\Private\dxUIShader.h" />
     <ClInclude Include="..\..\XrRender\Private\dxWallMarkArray.h" />
+    <ClInclude Include="..\XrEngine\bone.h" />
+    <ClInclude Include="..\XrEngine\defines.h" />
+    <ClInclude Include="..\XrEngine\Engine.h" />
+    <ClInclude Include="..\XrEngine\EngineAPI.h" />
+    <ClInclude Include="..\XrEngine\envelope.h" />
+    <ClInclude Include="..\XrEngine\Fmesh.h" />
+    <ClInclude Include="..\XrEngine\motion.h" />
+    <ClInclude Include="..\XrEngine\SkeletonMotionDefs.h" />
+    <ClInclude Include="..\XrEngine\SkeletonMotions.h" />
+    <ClInclude Include="..\XrEngine\stdafx.h" />
+    <ClInclude Include="..\XrEngine\vis_common.h" />
+    <ClInclude Include="..\XrEngine\_d3d_extensions.h" />
     <ClInclude Include="Editor\ArbitraryList.h" />
     <ClInclude Include="Editor\ColorPicker.h" />
     <ClInclude Include="Editor\D3DUtils.h" />
@@ -255,14 +269,11 @@
     <ClInclude Include="Editor\UI_ToolsCustom.h" />
     <ClInclude Include="Engine\ai_sounds.h" />
     <ClInclude Include="Engine\cl_intersect.h" />
-    <ClInclude Include="Engine\guid_generator.h" />
     <ClInclude Include="Engine\NVMeshMender.h" />
     <ClInclude Include="Engine\nv_algebra.h" />
     <ClInclude Include="Engine\nv_math.h" />
     <ClInclude Include="Engine\nv_mathdecl.h" />
     <ClInclude Include="Engine\Texture.h" />
-    <ClInclude Include="Engine\XrGameMaterialLibraryEditors.h" />
-    <ClInclude Include="Engine\XrGamePersistentEditors.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="WildMagic\WmlApprGaussPointsFit3.h" />
     <ClInclude Include="WildMagic\WmlBox3.h" />
@@ -311,9 +322,6 @@
     </ProjectReference>
     <ProjectReference Include="..\..\XrCore\XrCore.vcxproj">
       <Project>{da642d7c-4fff-43dc-98f8-3f96caf1e4ba}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\XrEngine\XrEngine.vcxproj">
-      <Project>{2820680f-79fe-4477-a14c-007f273a5fa8}</Project>
     </ProjectReference>
     <ProjectReference Include="..\FreeMagic\FreeMagic.vcxproj">
       <Project>{dcc5b76d-be13-4d1f-be14-75d0fa678340}</Project>
@@ -395,14 +403,14 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PreprocessorDefinitions>;WIN32;_DEBUG;XRECORE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>.;..\..\XrEngine\;..\..\XrRender\Private;..\..\XrRender\Public;..\FreeMagic;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./;../../XrCore;../../XrRender\Private;../../XrRender\Public;..\FreeMagic;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>d3d9.lib;d3dx9.lib;vfw32.lib;Winmm.lib;dxguid.lib;dinput8.lib;Rpcrt4.lib;XrEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d9.lib;d3dx9.lib;vfw32.lib;Winmm.lib;dxguid.lib;dinput8.lib;Rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -410,14 +418,14 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PreprocessorDefinitions>;_DEBUG;XRECORE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>.;..\..\XrEngine\;..\..\XrRender\Private;..\..\XrRender\Public;..\FreeMagic;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./;../../XrCore;../../XrRender\Private;../../XrRender\Public;..\FreeMagic;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>d3d9.lib;d3dx9.lib;vfw32.lib;Winmm.lib;dxguid.lib;dinput8.lib;Rpcrt4.lib;XrEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d9.lib;d3dx9.lib;vfw32.lib;Winmm.lib;dxguid.lib;dinput8.lib;Rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -427,7 +435,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>;WIN32;NDEBUG;XRECORE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>.;..\..\XrEngine\;..\..\XrRender\Private;..\..\XrRender\Public;..\FreeMagic;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./;../../XrCore;../../XrRender\Private;../../XrRender\Public;..\FreeMagic;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
@@ -436,7 +444,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>d3d9.lib;d3dx9.lib;vfw32.lib;Winmm.lib;dxguid.lib;dinput8.lib;Rpcrt4.lib;XrEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d9.lib;d3dx9.lib;vfw32.lib;Winmm.lib;dxguid.lib;dinput8.lib;Rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -446,7 +454,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>;NDEBUG;XRECORE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>.;..\..\XrEngine\;..\..\XrRender\Private;..\..\XrRender\Public;..\FreeMagic;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./;../../XrCore;../../XrRender\Private;../../XrRender\Public;..\FreeMagic;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
@@ -455,7 +463,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>d3d9.lib;d3dx9.lib;vfw32.lib;Winmm.lib;dxguid.lib;dinput8.lib;Rpcrt4.lib;XrEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d9.lib;d3dx9.lib;vfw32.lib;Winmm.lib;dxguid.lib;dinput8.lib;Rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

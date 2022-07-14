@@ -14,7 +14,6 @@ void	CBlender_Compile::r_Pass		(LPCSTR _vs, LPCSTR _ps, bool bFog, BOOL bZtest, 
 	RS.Invalidate			();
 	ctable.clear			();
 	passTextures.clear		();
-	passMatrices.clear		();
 	passConstants.clear		();
 	dwStage					= 0;
 
@@ -168,14 +167,5 @@ void	CBlender_Compile::r_Sampler_clw	(LPCSTR name, LPCSTR texture, bool b_ps1x_P
 
 void	CBlender_Compile::r_End			()
 {
-	SetMapping				();
-	dest.constants			= DEV->_CreateConstantTable(ctable);
-	dest.state				= DEV->_CreateState		(RS.GetContainer());
-	dest.T					= DEV->_CreateTextureList	(passTextures);
-	dest.C					= 0;
-#ifdef REDITOR
-	dest.M					= 0;
-#endif
-	SH->passes.push_back(DEV->_CreatePass(dest));
 }
 #endif	//	USE_DX10

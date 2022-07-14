@@ -4,20 +4,14 @@
 
 #ifndef LibraryH
 #define LibraryH
-
-#include "pure.h"     
+   
 //----------------------------------------------------
-class CEditableObject;
-
-DEFINE_MAP_PRED(xr_string,CEditableObject*,EditObjMap,EditObjPairIt,astr_pred);
 //----------------------------------------------------
 class ECORE_API ELibrary//:	public pureDeviceCreate, public pureDeviceDestroy
 {
 	bool				m_bReady;
 	friend class TfrmChoseObject;
-	EditObjMap			m_EditObjects;
 
-    CEditableObject*	LoadEditObject		(LPCSTR full_name);
     void				UnloadEditObject	(LPCSTR full_name);
 public:
 						ELibrary			();
@@ -31,11 +25,7 @@ public:
     void 				CleanLibrary		();
     void 				ReloadObject		(LPCSTR name);
 
-    CEditableObject*	CreateEditObject	(LPCSTR name);
-    void				RemoveEditObject	(CEditableObject*& object);
-
     int					GetObjects			(FS_FileSet& files);
-    int					ObjectCount			(){return m_EditObjects.size();}
 
     void				EvictObjects		();
 

@@ -3,12 +3,10 @@
 //////////////////////////////////////////////////////////////////////
 
 #pragma once
-#include "../../../xrengine/stats.h"
 // refs
 class CGameFont;
 
-class ECORE_API CEStats:
-	public CStatsPhysics, public CStats
+class ECORE_API CEStats
 {
 public:
 	float		fFPS,fRFPS,fTPS;	// FPS, RenderFPS, TPS

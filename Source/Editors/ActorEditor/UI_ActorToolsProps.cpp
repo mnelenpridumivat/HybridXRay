@@ -53,7 +53,7 @@ void  CActorTools::OnMotionRefsChange(PropValue* sender)
 	ExecCommand				(COMMAND_UPDATE_PROPERTIES);
 }
 
-#include "envelope.h"
+#include "..\xrEngine\envelope.h"
 Fvector StartMotionPoint, EndMotionPoint;
 void CActorTools::FillMotionProperties(PropItemVec& items, LPCSTR pref, ListItem* sender)
 {

@@ -31,9 +31,6 @@ extern XRAPI_API	bool g_dedicated_server;
 class IGame_Persistent;
 extern XRAPI_API	IGame_Persistent* g_pGamePersistent;
 
-class XrGameMaterialLibraryInterface;
-extern XRAPI_API XrGameMaterialLibraryInterface* GameMaterialLibrary;
-
 class XrGameEditorInterface;
 extern XRAPI_API XrGameEditorInterface* GameEditor;
 class XrEditorSceneInterface;

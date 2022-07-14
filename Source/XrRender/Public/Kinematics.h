@@ -7,7 +7,6 @@
 typedef void (* UpdateCallback)		(IKinematics*	P);
 
 class CBoneData;
-class IBoneData;
 class IKinematicsAnimated;
 class IRenderVisual;
 class CBoneInstance;
@@ -44,8 +43,6 @@ public:
 	virtual ICF CBoneInstance&	_BCL	LL_GetBoneInstance(u16 bone_id) = 0;
 
 	virtual CBoneData&			_BCL	LL_GetData(u16 bone_id) = 0;
-
-virtual	const IBoneData&		_BCL	GetBoneData(u16 bone_id) const = 0;
 
 	virtual u16					_BCL	LL_BoneCount()const = 0;
 	virtual u16							LL_VisibleBoneCount() = 0;

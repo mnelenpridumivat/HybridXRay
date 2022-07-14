@@ -4,9 +4,6 @@
 
 #include "DetailModel.h"
 
-// refs
-class CEditableObject;
-
 class ECORE_API EDetail: public CDetail{
 	friend class EDetailManager;
 	friend class CDetailManager;
@@ -65,7 +62,6 @@ class ECORE_API EDetail: public CDetail{
 
     // references
     xr_string			m_sRefs;
-	CEditableObject*	m_pRefs;
 
 	u16 				_AddVert		(const Fvector& p, float u, float v);
 public:

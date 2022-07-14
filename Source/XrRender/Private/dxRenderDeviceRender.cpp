@@ -357,25 +357,6 @@ void dxRenderDeviceRender::Begin()
 
 void dxRenderDeviceRender::Clear()
 {
-#ifndef REDITOR
-#if defined(USE_DX10) || defined(USE_DX11)
-	HW.pContext->ClearDepthStencilView(RCache.get_ZB(), 
-		D3D_CLEAR_DEPTH|D3D_CLEAR_STENCIL, 1.0f, 0);
-
-	if (psDeviceFlags.test(rsClearBB))
-	{
-		FLOAT ColorRGBA[4] = {0.0f,0.0f,0.0f,0.0f};
-		HW.pContext->ClearRenderTargetView(RCache.get_RT(), ColorRGBA);
-	}
-#else	//	USE_DX10
-	CHK_DX(HW.pDevice->Clear(0,0,
-		D3DCLEAR_ZBUFFER|
-		(psDeviceFlags.test(rsClearBB)?D3DCLEAR_TARGET:0)|
-		(HW.Caps.bStencil?D3DCLEAR_STENCIL:0),
-		D3DCOLOR_XRGB(0,0,0),1,0
-		));
-#endif	//	USE_DX10
-#endif
 }
 
 void DoAsyncScreenshot();

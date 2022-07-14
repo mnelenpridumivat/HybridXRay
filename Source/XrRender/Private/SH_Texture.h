@@ -80,8 +80,6 @@ public:	//	Public class members (must be encapsulated furthur)
 	}									flags;
 	fastdelegate::FastDelegate1<u32>	bind;
 
-
-	CAviPlayerCustom*					pAVI;
 	float								m_material;
 	shared_str							m_bumpmap;
 

@@ -40,55 +40,8 @@ struct PVector{
     void 		set(const Fvector& v){val.set(v);}
     void 		set(float x, float y, float z){val.set(x,y,z);}
 };
-struct PDomain
-{
-public:
-	PAPI::PDomainEnum	type;
-    union{
-		float	f[9];
-        Fvector	v[3];  
-    };
-    enum EType{
-        vNum,
-        vAngle,
-        vColor,
-        _force_u32 = u32(-1),
-    };
-    enum {
-    	flRenderable = (1<<0)
-    };
-    EType		e_type;
-    Flags32		flags;
-    u32			clr;
-protected:
-	void  PDomain::OnTypeChange(PropValue* sender);
-public:
-	PDomain 	(){}
-	PDomain		(EType et, BOOL renderable, u32 color=0x00000000, PAPI::PDomainEnum type = PAPI::PDPoint,	
-    												float inA0 = 0.0f,	float inA1 = 0.0f,	float inA2 = 0.0f,
-													float inA3 = 0.0f,	float inA4 = 0.0f,	float inA5 = 0.0f,
-													float inA6 = 0.0f,	float inA7 = 0.0f,	float inA8 = 0.0f	);
-	~PDomain	();
-	PDomain 	(const PDomain &in);
-
-	void		MoveXYZ		(float x, float y, float z);
-	void		RotateXYZ	(float x, float y, float z);
-	void		ScaleXYZ	(float x, float y, float z);
-
-	Fvector&	GetCenter();
-	
-    void 		Load		(IReader& F);
-    void 		Save		(IWriter& F);
-
-	void 		Load2		(CInifile& ini, const shared_str& sect);
-    void 		Save2		(CInifile& ini, const shared_str& sect);
-    
-	void 		Render		(u32 color, const Fmatrix& parent);
-    void 		FillProp	(PropItemVec& items, LPCSTR pref, u32 clr);
-};
 struct EParticleAction
 {
-	DEFINE_MAP(xr_string,PDomain,	PDomainMap,	PDomainMapIt);
 	DEFINE_MAP(xr_string,PBool,	PBoolMap,	PBoolMapIt);
 	DEFINE_MAP(xr_string,PFloat,	PFloatMap,	PFloatMapIt);
     DEFINE_MAP(xr_string,PInt,		PIntMap,	PIntMapIt);
@@ -102,9 +55,7 @@ struct EParticleAction
     	flDraw		= (1<<1),
     };
 	Flags32				flags;
-    PAPI::PActionEnum	type;
 
-	PDomainMap		domains;
 	PBoolMap		bools;
 	PFloatMap		floats;
     PIntMap			ints;
@@ -124,22 +75,14 @@ struct EParticleAction
     };
 	DEFINE_VECTOR	(SOrder, OrderVec,	OrderVecIt);
     OrderVec		orders;
-    
-    EParticleAction	(PAPI::PActionEnum	_type)
-    {
-    	flags.assign(flEnabled);
-        type		= _type;
-    }
 public:
 	void			appendFloat	(LPCSTR name, float v, float mn, float mx);
-	void			appendInt	(LPCSTR name, int v, int mn=-P_MAXINT, int mx=P_MAXINT);
-	void			appendVector(LPCSTR name, PVector::EType type, float vx, float vy, float vz, float mn=-P_MAXFLOAT, float mx=P_MAXFLOAT);
-	void			appendDomain(LPCSTR name, PDomain v);
+	void			appendInt	(LPCSTR name, int v, int mn=-1, int mx=1);
+	void			appendVector(LPCSTR name, PVector::EType type, float vx, float vy, float vz, float mn=-1, float mx=1);
 	void			appendBool	(LPCSTR name, BOOL b);
 	PFloat&			_float		(LPCSTR name){PFloatMapIt 	it=floats.find(name); 	R_ASSERT2(it!=floats.end(),name);	return it->second;}
 	PInt&			_int		(LPCSTR name){PIntMapIt 	it=ints.find(name); 	R_ASSERT2(it!=ints.end(),name);		return it->second;}
 	PVector&		_vector		(LPCSTR name){PVectorMapIt 	it=vectors.find(name); 	R_ASSERT2(it!=vectors.end(),name);	return it->second;}
-	PDomain&		_domain		(LPCSTR name){PDomainMapIt 	it=domains.find(name); 	R_ASSERT2(it!=domains.end(),name);	return it->second;}
 	PBool&			_bool		(LPCSTR name){PBoolMapIt 	it=bools.find(name); 	R_ASSERT2(it!=bools.end(),name); 	return it->second;}
 	PBool*			_bool_safe	(LPCSTR name){PBoolMapIt 	it=bools.find(name); 	return (it!=bools.end())?&it->second:0;}
 public:    
@@ -338,9 +281,6 @@ public:
 };
 
 extern xr_token2	actions_token[];
-
-typedef EParticleAction* (*_CreateEAction)(PAPI::PActionEnum type);
-extern ECORE_API _CreateEAction 	pCreateEAction;
 //---------------------------------------------------------------------------
 #endif
 

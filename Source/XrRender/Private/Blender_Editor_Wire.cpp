@@ -20,14 +20,10 @@ CBlender_Editor_Wire::~CBlender_Editor_Wire()
 
 void	CBlender_Editor_Wire::Save	( IWriter& fs	)
 {
-	IBlender::Save	(fs);
-	xrPWRITE_PROP	(fs,"TFactor",	xrPID_CONSTANT, oT_Factor);
 }
 
 void	CBlender_Editor_Wire::Load	( IReader& fs, u16 version	)
 {
-	IBlender::Load	(fs,version);
-	xrPREAD_PROP	(fs,xrPID_CONSTANT,	oT_Factor);
 }
 
 void CBlender_Editor_Wire::Compile	(CBlender_Compile& C)

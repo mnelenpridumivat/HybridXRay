@@ -10,8 +10,8 @@
 	#include "ui_main.h"
 #endif
 
-#include "motion.h"
-#include "bone.h"
+#include "..\xrEngine\motion.h"
+#include "..\xrEngine\bone.h"
 #include "EditMesh.h"
 
 
@@ -44,26 +44,6 @@ extern u32 		bone_to_delete_frame;
 
 void CEditableObject::OnFrame()
 {
-	if (IsSkeleton()){
-		BoneVec& lst = m_Bones;
-    	if (IsSMotionActive()){
-            Fvector R,T;
-            int i=0;
-            for(BoneIt b_it=lst.begin(); b_it!=lst.end(); b_it++, i++){
-	            m_ActiveSMotion->_Evaluate(i,m_SMParam.Frame(),T,R);
-                (*b_it)->_Update(T,R);
-            }
-            m_SMParam.Update(EDevice->fTimeDelta,m_ActiveSMotion->fSpeed,!m_ActiveSMotion->m_Flags.is(esmStopAtEnd));
-        }else{
-		    //for (BoneIt b_it=lst.begin(); b_it!=lst.end(); b_it++) (*b_it)->Reset();
-        }
-        CalculateAnimation(m_ActiveSMotion);
-    }
-    if(bone_to_delete)
-    {
-        if(EDevice->dwFrame > bone_to_delete_frame+3)
-    		xr_delete(bone_to_delete);
-    }
 }
 #endif
 

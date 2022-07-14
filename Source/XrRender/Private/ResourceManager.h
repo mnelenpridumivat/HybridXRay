@@ -29,7 +29,6 @@ private:
 public:
 	DEFINE_MAP_PRED(const char*,IBlender*,		map_Blender,	map_BlenderIt,		str_pred);
 	DEFINE_MAP_PRED(const char*,CTexture*,		map_Texture,	map_TextureIt,		str_pred);
-	DEFINE_MAP_PRED(const char*,CMatrix*,		map_Matrix,		map_MatrixIt,		str_pred);
 	DEFINE_MAP_PRED(const char*,CConstant*,		map_Constant,	map_ConstantIt,		str_pred);
 	DEFINE_MAP_PRED(const char*,CRT*,			map_RT,			map_RTIt,			str_pred);
 	//	DX10 cut DEFINE_MAP_PRED(const char*,CRTC*,			map_RTC,		map_RTCIt,			str_pred);
@@ -49,7 +48,6 @@ private:
 	// data
 	map_Blender											m_blenders;
 	map_Texture											m_textures;
-	map_Matrix											m_matrices;
 	map_Constant										m_constants;
 	map_RT												m_rtargets;
 	//	DX10 cut map_RTC												m_rtargets_c;
@@ -72,7 +70,6 @@ private:
 
 	// lists
 	xr_vector<STextureList*>							lst_textures;
-	xr_vector<SMatrixList*>								lst_matrices;
 	xr_vector<SConstantList*>							lst_constants;
 
 	// main shader-array
@@ -108,7 +105,6 @@ public:
 
 	// Editor cooperation
 	void							ED_UpdateBlender	(LPCSTR Name, IBlender*		data);
-	void							ED_UpdateMatrix		(LPCSTR Name, CMatrix*		data);
 	void							ED_UpdateConstant	(LPCSTR Name, CConstant*	data);
 #ifdef REDITOR
 	void							ED_UpdateTextures	(AStringVec* names);
@@ -117,9 +113,6 @@ public:
 	// Low level resource creation
 	CTexture*						_CreateTexture		(LPCSTR Name);
 	void							_DeleteTexture		(const CTexture* T);
-
-	CMatrix*						_CreateMatrix		(LPCSTR Name);
-	void							_DeleteMatrix		(const CMatrix*  M);
 
 	CConstant*						_CreateConstant		(LPCSTR Name);
 	void							_DeleteConstant		(const CConstant* C);
@@ -178,9 +171,6 @@ public:
 
 	STextureList*					_CreateTextureList	(STextureList& L);
 	void							_DeleteTextureList	(const STextureList* L);
-
-	SMatrixList*					_CreateMatrixList	(SMatrixList& L);
-	void							_DeleteMatrixList	(const SMatrixList* L);
 
 	SConstantList*					_CreateConstantList	(SConstantList& L);
 	void							_DeleteConstantList	(const SConstantList* L);

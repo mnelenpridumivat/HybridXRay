@@ -10,10 +10,8 @@
 
 #include "PSLibrary.h"
 #include "Library.h"
-#include "LightAnimLibrary.h"
 
 #include "ResourceManager.h"
-#include "engine\XrGamePersistentEditors.h"
 
 
 ECommandVec 		ECommands;
@@ -193,7 +191,6 @@ void	TUI::ClearCommands ()
 //------------------------------------------------------------------------------
 CCommandVar	TUI::CommandRenderFocus(CCommandVar p1, CCommandVar p2)
 {
-    SetFocus(EDevice->m_hWnd);
     return 1;
 }
 CCommandVar	TUI::CommandBreakLastOperation(CCommandVar p1, CCommandVar p2)
@@ -230,89 +227,11 @@ CCommandVar 	TUI::CommandRenderResize(CCommandVar p1, CCommandVar p2)
 //------------------------------------------------------------------------------
 CCommandVar CommandInitialize(CCommandVar p1, CCommandVar p2)
 {
-
-    EDevice = xr_new< CEditorRenderDevice>();
-    Device = EDevice;
 	CCommandVar res		= TRUE;
-    {
-        string_path              fn;
-        strconcat(sizeof(fn), fn, UI->EditorName(), ".log");
-        FS.update_path(fn, _local_root_, fn);
-        string_path 			si_name;
-        FS.update_path(si_name, "$game_config$", "system.ltx");
-        pSettings = xr_new<CInifile>(si_name, TRUE);// FALSE,TRUE,TRUE);
-        string_path					fname;
-        FS.update_path(fname, "$game_config$", "game.ltx");
-        pGameIni = xr_new<CInifile>(fname, TRUE);
-        CHECK_OR_EXIT(0 != pGameIni->section_count(), make_string("Cannot find file %s.\nReinstalling application may fix this problem.", fname));
-    }
-    // make interface
-    //----------------
-    if(EPrefs)EPrefs->OnCreate		();
-    if (UI->OnCreate(/*(TD3DWindow*)(u32)p1,(TPanel*)(u32)p2)*/))
-    {
-        LALib.OnCreate	();
-        Lib.OnCreate	();
-        BOOL bWeather = psDeviceFlags.is(rsEnvironment);
-        psDeviceFlags.set(rsEnvironment, FALSE);
-        g_pGamePersistent= xr_new<XrGamePersistentEditors>();
-        if (Tools)
-        {
-            if (Tools->OnCreate())
-            {
-                if(EPrefs)
-                    EPrefs->Load();
-                EDevice->seqAppStart.Process(rp_AppStart);
-                ExecCommand(COMMAND_RESTORE_UI_BAR);
-                ExecCommand(COMMAND_REFRESH_UI_BAR);
-                ExecCommand(COMMAND_CLEAR);
-                ExecCommand(COMMAND_RENDER_FOCUS);
-                ExecCommand(COMMAND_CHANGE_ACTION, etaSelect);
-                ExecCommand(COMMAND_RENDER_RESIZE);
-                /*
-                            if(bWeather && EPrefs->sWeather.size() )
-                            {
-                                psDeviceFlags.set(rsEnvironment, TRUE);
-                                g_pGamePersistent->Environment().SetWeather(EPrefs->sWeather, true);
-
-                            }
-                */
-            }
-            else {
-                res = FALSE;
-            }
-        }
-    }else{
-        res 			= FALSE;
-    }
     return res;
 }             
 CCommandVar 	CommandDestroy(CCommandVar p1, CCommandVar p2)
 {
-    ExecCommand			(COMMAND_SAVE_UI_BAR);
-    EPrefs->OnDestroy	();
-    ExecCommand			(COMMAND_CLEAR);
-    EDevice->seqAppEnd.Process(rp_AppEnd);
-    xr_delete			(g_pGamePersistent);
-    LALib.OnDestroy		();
-    Tools->OnDestroy	();
-    DU_impl.DestroyObjects();
-    Lib.OnDestroy		();
-    UI->OnDestroy		();
-    {
-        xr_delete(pSettings);
-    }
-    {
-        xr_delete(pGameIni);
-    }
-    ELog.Close();
-    for (auto& item : ECommands)
-    {
-        xr_delete(item);
-    }
-    ECommands.clear();
-    xr_delete(EDevice);
-    Device = nullptr;
     return				TRUE;
 }             
 CCommandVar 	CommandQuit(CCommandVar p1, CCommandVar p2)
@@ -458,22 +377,17 @@ CCommandVar 	CommandToggleRenderWire(CCommandVar p1, CCommandVar p2)
 }
 CCommandVar 	CommandToggleSafeRect(CCommandVar p1, CCommandVar p2)
 {
-    psDeviceFlags.set	(rsDrawSafeRect,!psDeviceFlags.is(rsDrawSafeRect));
     ExecCommand			(COMMAND_RENDER_RESIZE);
     UI->RedrawScene		();
     return				TRUE;
 }
 CCommandVar 	CommandToggleGrid(CCommandVar p1, CCommandVar p2)
 {
-    psDeviceFlags.set(rsDrawGrid,!psDeviceFlags.is(rsDrawGrid));
     UI->RedrawScene		();
     return				TRUE;
 }
 CCommandVar 	CommandUpdateGrid(CCommandVar p1, CCommandVar p2)
 {
-    DU_impl.UpdateGrid		(EPrefs->grid_cell_count,EPrefs->grid_cell_size);
-    UI->OutGridSize		();
-    UI->RedrawScene		();
     return				TRUE;
 }
 CCommandVar 	CommandGridNumberOfSlots(CCommandVar p1, CCommandVar p2)
@@ -626,16 +540,6 @@ CCommandVar 	CommandRunMacro(CCommandVar p1, CCommandVar p2)
 }
 CCommandVar 	CommandAssignMacro(CCommandVar p1, CCommandVar p2)
 {
-    xr_string fn 		= p2.IsString()?xr_string(p2):xr_string(""); 
-    if (p2.IsString()){
-        if (0==fn.find(FS.get_path(_import_)->m_Path))
-            fn 			= xr_string(fn.c_str()+xr_strlen(FS.get_path(_import_)->m_Path));
-	    ECommands[COMMAND_RUN_MACRO]->sub_commands[p1]->p0 = fn;
-	    return 			TRUE;
-    }else{
-    	if (EFS.GetOpenName(EDevice->m_hWnd, _import_,fn,false,NULL,2))
-        	return 		ExecCommand	(COMMAND_ASSIGN_MACRO,p1,fn);
-    }
     return FALSE;
 }
 void TUI::RegisterCommands()

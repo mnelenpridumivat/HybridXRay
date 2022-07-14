@@ -13,7 +13,6 @@
 
 //
 STextureList::~STextureList				()			{	DEV->_DeleteTextureList	(this);			}
-SMatrixList::~SMatrixList				()			{	DEV->_DeleteMatrixList		(this);			}
 SConstantList::~SConstantList			()			{	DEV->_DeleteConstantList	(this);			}
 SPass::~SPass							()			{	DEV->_DeletePass			(this);			}
 ShaderElement::~ShaderElement			()			{	DEV->_DeleteElement		(this);			}
@@ -57,12 +56,6 @@ BOOL SPass::equal(const SPass& other)
 #	endif
 #endif	//	USE_DX10
 	if (constants	!= other.constants)		return FALSE;	// is this nessesary??? (ps+vs already combines)
-
-	if (T != other.T)					return FALSE;
-	if (C != other.C)					return FALSE;
-#ifdef REDITOR
-	if (M != other.M)					return FALSE;
-#endif
 	return TRUE;
 }
 

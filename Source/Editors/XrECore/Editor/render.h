@@ -1,9 +1,6 @@
 //---------------------------------------------------------------------------
 #pragma once
 
-#include "..\..\..\XrEngine\vis_common.h"
-#include "..\..\..\XrEngine\Render.h"
-
 #include "../../../xrRender/Private/blenders\blender.h"
 #include "../../../xrRender/Private/blenders\blender_clsid.h"
 #include "../../../xrRender/Private/xrRender_console.h"
@@ -16,7 +13,7 @@
 class ISpatial;
 
 // definition (Renderer)
-class CRenderTarget :public IRender_Target
+class CRenderTarget
 {
 public:
 	CRenderTarget() {}
@@ -35,13 +32,13 @@ public:
 	virtual void					set_cm_interpolate(float	f) {}
 	virtual void					set_cm_textures(const shared_str& tex0, const shared_str& tex1) {}
 	virtual ~CRenderTarget() {};
-	virtual u32			get_width			()				{ return EDevice->dwWidth;	}
-	virtual u32			get_height			()				{ return EDevice->dwHeight;	}
+	virtual u32			get_width			()				{ return 0;	}
+	virtual u32			get_height			()				{ return 0;	}
 };
 
 
 
-class	ECORE_API CRender : public IRender_interface
+class	ECORE_API CRender
 {
 	CRenderTarget* Target;
 	Fmatrix					current_matrix;
@@ -100,7 +97,6 @@ public:
 	}
 	void 					model_Render(IRenderVisual* m_pVisual, const Fmatrix& mTransform, int priority, bool strictB2F, float m_fLOD);
 	void 					model_RenderSingle(IRenderVisual* m_pVisual, const Fmatrix& mTransform, float m_fLOD);
-	virtual	GenerationLevel	get_generation() { return GENERATION_R1; }
 	virtual bool			is_sun_static() { return true; };
 
 	virtual void			add_SkeletonWallmark(intrusive_ptr<CSkeletonWallmark> wm) {};
@@ -161,16 +157,12 @@ public:
 	virtual	void					Statistics(CGameFont* F) {};
 
 	//	virtual ref_shader				getShader				(int id)									= 0;
-	virtual IRender_Sector* getSector(int id);
-	virtual IRenderVisual* getVisual(int id);
-	virtual IRender_Sector* detectSector(const Fvector& P);
 
 	// Main 
 	virtual void					set_HUD(BOOL 		V);
 	virtual BOOL					get_HUD();
 	virtual void					set_Invisible(BOOL 		V);
 	virtual void					flush();
-	virtual void					set_Object(IRenderable* O);
 	virtual	void					add_Occluder(Fbox2& bb_screenspace);	// mask screen region as oclluded (-1..1, -1..1)
 	virtual void					add_Geometry(IRenderVisual* V);	// add visual(s)	(all culling performed)
 //	virtual void					add_StaticWallmark		(ref_shader& S, const Fvector& P, float s, CDB::TRI* T, Fvector* V)=0;
@@ -181,24 +173,12 @@ public:
 	//virtual IBlender*				blender_create			(CLASS_ID cls)								= 0;
 	//virtual void					blender_destroy			(IBlender* &)								= 0;
 
-	virtual IRender_ObjectSpecific* ros_create(IRenderable* parent);
-	virtual void					ros_destroy(IRender_ObjectSpecific*&);
-
-	// Lighting/glowing
-	virtual IRender_Light* light_create();
-	virtual void					light_destroy(IRender_Light* p_);
-	virtual IRender_Glow* glow_create();
-	virtual void					glow_destroy(IRender_Glow* p_);
-
 	// Models
 	virtual void					model_Logging(BOOL bEnable);
 	virtual void					models_Prefetch();
 	virtual void					models_Clear(BOOL b_complete);
 
 	// Main
-
-	virtual void					Screenshot(ScreenshotMode mode = SM_NORMAL, LPCSTR name = 0);
-	virtual	void					Screenshot(ScreenshotMode mode, CMemoryWriter& memory_writer);
 	virtual void					ScreenshotAsyncBegin();
 	virtual void					ScreenshotAsyncEnd(CMemoryWriter& memory_writer);
 
@@ -206,7 +186,6 @@ public:
 	virtual u32						memory_usage();
 
 protected:
-	virtual	void					ScreenshotImpl(ScreenshotMode mode, LPCSTR name, CMemoryWriter* memory_writer) {};
 	virtual HRESULT					shader_compile(
 		LPCSTR							name,
 		DWORD const* pSrcData,

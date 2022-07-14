@@ -46,7 +46,6 @@ private:
 	R_constant_table	ctable;
 
 	STextureList		passTextures;
-	SMatrixList			passMatrices;
 	SConstantList		passConstants;
 	u32					dwStage;
 

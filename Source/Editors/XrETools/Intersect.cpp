@@ -4,7 +4,7 @@
 
 #include "../../xrrender/Public/kinematics.h"
 #define ECORE_API 
-#include "../../xrEngine/bone.h"
+#include "../xrEngine/bone.h"
 
 namespace ETOOLS{
 
@@ -197,30 +197,33 @@ bool intersect( const Fcylinder& cylinder ,const Fvector& origin, const Fvector 
 
  bool bone_intersect			( u16 bone, const IKinematics& K, const Fvector& origin, const Fvector &direction, float &dist, Fvector &norm  )
  {
-	const IBoneData &d = K.GetBoneData( bone );
-	const Fmatrix	&bone_transform = K.LL_GetTransform(bone);
-	const Fmatrix	bone_invert_transform = Fmatrix().invert(bone_transform);
+	 R_ASSERT2(false, "bone_intersect");
+	 return false;
 
-	Fvector l_origin;
-	bone_invert_transform.transform_tiny( l_origin, origin );
-	Fvector l_direction;
-	bone_invert_transform.transform_dir( l_direction, direction );
-	const SBoneShape &bone_shape = d.get_shape();
-	
-	bool result = false;
-	switch ( bone_shape.type )
-	{
-	case	SBoneShape::stNone		: return false;
-	case	SBoneShape::stBox		: result = intersect( bone_shape.box,		l_origin, l_direction, dist, norm ); break;
-	case	SBoneShape::stSphere	: result = intersect( bone_shape.sphere,	l_origin, l_direction, dist, norm ); break;
-	case	SBoneShape::stCylinder	: result = intersect( bone_shape.cylinder,	l_origin, l_direction, dist, norm ); break;
-	default							: NODEFAULT ; return false; 
-    };
+	//const CBone &d = K.GetBoneData( bone );
+	//const Fmatrix	&bone_transform = K.LL_GetTransform(bone);
+	//const Fmatrix	bone_invert_transform = Fmatrix().invert(bone_transform);
 
-	if( result )
-		bone_transform.transform_dir( norm );
-	
-	return result;
+	//Fvector l_origin;
+	//bone_invert_transform.transform_tiny( l_origin, origin );
+	//Fvector l_direction;
+	//bone_invert_transform.transform_dir( l_direction, direction );
+	//const SBoneShape &bone_shape = d.get_shape();
+	//
+	//bool result = false;
+	//switch ( bone_shape.type )
+	//{
+	//case	SBoneShape::stNone		: return false;
+	//case	SBoneShape::stBox		: result = intersect( bone_shape.box,		l_origin, l_direction, dist, norm ); break;
+	//case	SBoneShape::stSphere	: result = intersect( bone_shape.sphere,	l_origin, l_direction, dist, norm ); break;
+	//case	SBoneShape::stCylinder	: result = intersect( bone_shape.cylinder,	l_origin, l_direction, dist, norm ); break;
+	//default							: NODEFAULT ; return false; 
+ //   };
+
+	//if( result )
+	//	bone_transform.transform_dir( norm );
+	//
+	//return result;
  }
 	
 

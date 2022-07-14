@@ -7,11 +7,6 @@
 #include "PSLibrary.h"
 #include "ParticleEffect.h"
 
-#ifdef REDITOR
-#	include "Editor/ParticleEffectActions.h"
-#include "Editor/ui_main.h"
-#endif
-
 #define _game_data_			"$game_data$"
 
 bool ped_sort_pred	(const PS::CPEDef* a, 	const PS::CPEDef* b)	{	return xr_strcmp(a->Name(),b->Name())<0;}

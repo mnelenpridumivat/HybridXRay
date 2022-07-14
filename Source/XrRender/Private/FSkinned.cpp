@@ -9,14 +9,12 @@
 #include "directx\d3dx9.h"
 #pragma warning(default:4995)
 
-#include "../../xrEngine/fmesh.h"
+#include "../xrEngine/fmesh.h"
 #include "FSkinned.h"
 #include "SkeletonX.h"
 #if defined(USE_DX10)||defined(USE_DX11)
 #include "../DX10/dx10BufferUtils.h"
 #endif
-
-#include "../../xrEngine/EnnumerateVertices.h"
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -382,7 +380,6 @@ void CSkeletonX_PM::Load(const char* N, IReader *data, u32 dwFlags)
 	_Load							(N,data,vCount);
 	void*	_verts_					= data->pointer	();
 	inherited1::Load				(N,data,dwFlags|VLOAD_NOVERTICES);
-	::Render->shader_option_skinning(-1);
 #if defined(USE_DX10) || defined(USE_DX11)
 	_DuplicateIndices(N, data);
 #endif	//	USE_DX10
@@ -394,7 +391,6 @@ void CSkeletonX_ST::Load(const char* N, IReader *data, u32 dwFlags)
 	_Load							(N,data,vCount);
 	void*	_verts_					= data->pointer	();
 	inherited1::Load				(N,data,dwFlags|VLOAD_NOVERTICES);
-	::Render->shader_option_skinning(-1);
 #if defined(USE_DX10) || defined(USE_DX11)
 	_DuplicateIndices(N, data);
 #endif	//	USE_DX10
@@ -1288,14 +1284,6 @@ void CSkeletonX_ext::TEnumBoneVertices	( vertHW_2W &verteses, u16 bone_id, u16* 
 template <typename vertex_buffer_type>
 IC void TEnumBoneVertices	(vertex_buffer_type vertices, u16* indices, CBoneData::FacesVec& faces, SEnumVerticesCallback &C ) 
 {
-		for (CBoneData::FacesVecIt it=faces.begin(); it!=faces.end(); it++){
-			u32 idx			= (*it)*3;
-			for (u32 k=0; k<3; k++){
-				Fvector		P;
-				vertices[indices[idx+k]].get_pos( P );
-				C( P );
-			}
-		}
 }
 
 void	CSkeletonX_ext::_EnumBoneVertices	( SEnumVerticesCallback &C, Fvisual* V, u16 bone_id, u32 iBase, u32 iCount ) const

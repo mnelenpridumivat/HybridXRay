@@ -3,7 +3,6 @@
 
 #include "dxRenderDeviceRender.h"
 
-#include "../../xrEngine/environment.h"
 #include "../Private/ResourceManager.h"
 
 
@@ -145,14 +144,6 @@ void dxEnvDescriptorMixerRender::lerp(IEnvDescriptorRender *inA, IEnvDescriptorR
 
 void dxEnvDescriptorRender::OnDeviceCreate(IEnvDescriptor &owner)
 {
-	if (owner.sky_texture_name.size())	
-		sky_texture.create		(owner.sky_texture_name.c_str());
-
-	if (owner.sky_texture_env_name.size())
-		sky_texture_env.create	(owner.sky_texture_env_name.c_str());
-
-	if (owner.clouds_texture_name.size())	
-		clouds_texture.create	(owner.clouds_texture_name.c_str());
 }
 
 void dxEnvDescriptorRender::OnDeviceDestroy()
@@ -170,47 +161,6 @@ dxEnvironmentRender::dxEnvironmentRender()
 
 void dxEnvironmentRender::OnFrame(IEnvironment &env)
 {
-	dxEnvDescriptorMixerRender &mixRen = *(dxEnvDescriptorMixerRender*)&*env.CurrentEnv->m_pDescriptorMixer;
-
-	if (::Render->get_generation()==IRender_interface::GENERATION_R2){
-		//. very very ugly hack
-		if (HW.Caps.raster_major >= 3 && HW.Caps.geometry.bVTF){
-			// tonemapping in VS
-			mixRen.sky_r_textures.push_back		(mk_pair(u32(D3DVERTEXTEXTURESAMPLER0),tonemap));	//. hack
-			mixRen.sky_r_textures_env.push_back	(mk_pair(u32(D3DVERTEXTEXTURESAMPLER0),tonemap));	//. hack
-			mixRen.clouds_r_textures.push_back	(mk_pair(u32(D3DVERTEXTEXTURESAMPLER0),tonemap));	//. hack
-		} else {
-			// tonemapping in PS
-			mixRen.sky_r_textures.push_back		(mk_pair(2,tonemap));								//. hack
-			mixRen.sky_r_textures_env.push_back	(mk_pair(2,tonemap));								//. hack
-			mixRen.clouds_r_textures.push_back	(mk_pair(2,tonemap));								//. hack
-		}
-
-	}
-
-	//. Setup skybox textures, somewhat ugly
-	ID3DBaseTexture*	e0	= mixRen.sky_r_textures[0].second->surface_get();
-	ID3DBaseTexture*	e1	= mixRen.sky_r_textures[1].second->surface_get();
-
-	tsky0->surface_set		(e0);	_RELEASE(e0);
-	tsky1->surface_set		(e1);	_RELEASE(e1);
-
-	// ******************** Environment params (setting)
-#if defined(USE_DX10) || defined(USE_DX11)
-	//	TODO: DX10: Implement environment parameters setting for DX10 (if necessary)
-#else	//	USE_DX10
-
-#if		RENDER==R_R1
-	Fvector3	fog_color = env.CurrentEnv->fog_color;
-				fog_color.mul(ps_r1_fog_luminance);
-#else	//	RENDER==R_R1
-	Fvector3	&fog_color = env.CurrentEnv->fog_color;
-#endif	//	RENDER==R_R1
-
-	CHK_DX(HW.pDevice->SetRenderState( D3DRS_FOGCOLOR,	 color_rgba_f(fog_color.x,fog_color.y,fog_color.z,0) ));
-	CHK_DX(HW.pDevice->SetRenderState( D3DRS_FOGSTART,	*(u32 *)(&env.CurrentEnv->fog_near)	));
-	CHK_DX(HW.pDevice->SetRenderState( D3DRS_FOGEND,	*(u32 *)(&env.CurrentEnv->fog_far)	));
-#endif	//	USE_DX10
 }
 
 void dxEnvironmentRender::OnLoad()
@@ -225,63 +175,6 @@ void dxEnvironmentRender::OnUnload()
 
 void dxEnvironmentRender::RenderSky(IEnvironment &env)
 {
-	// clouds_sh.create		("clouds","null");
-	//. this is the bug-fix for the case when the sky is broken
-	//. for some unknown reason the geoms happen to be invalid sometimes
-	//. if vTune show this in profile, please add simple cache (move-to-forward last found) 
-	//. to the following functions:
-	//.		CResourceManager::_CreateDecl
-	//.		CResourceManager::CreateGeom
-	if(env.bNeed_re_create_env)
-	{
-		sh_2sky.create			(&m_b_skybox,"skybox_2t");
-		sh_2geom.create			(v_skybox_fvf,RCache.Vertex.Buffer(), RCache.Index.Buffer());
-		clouds_sh.create		("clouds","null");
-		clouds_geom.create		(v_clouds_fvf,RCache.Vertex.Buffer(), RCache.Index.Buffer());
-		env.bNeed_re_create_env		= FALSE;
-	}
-	::Render->rmFar				();
-
-	dxEnvDescriptorMixerRender &mixRen = *(dxEnvDescriptorMixerRender*)&*env.CurrentEnv->m_pDescriptorMixer;
-
-	// draw sky box
-	Fmatrix						mSky;
-	mSky.rotateY				(env.CurrentEnv->sky_rotation);
-	mSky.translate_over			(Device->vCameraPosition);
-
-	u32		i_offset,v_offset;
-	u32		C					= color_rgba(iFloor(env.CurrentEnv->sky_color.x*255.f), iFloor(env.CurrentEnv->sky_color.y*255.f), iFloor(env.CurrentEnv->sky_color.z*255.f), iFloor(env.CurrentEnv->weight*255.f));
-
-	// Fill index buffer
-	u16*	pib					= RCache.Index.Lock	(20*3,i_offset);
-	CopyMemory					(pib,hbox_faces,20*3*2);
-	RCache.Index.Unlock			(20*3);
-
-	// Fill vertex buffer
-	v_skybox* pv				= (v_skybox*)	RCache.Vertex.Lock	(12,sh_2geom.stride(),v_offset);
-	for (u32 v=0; v<12; v++)	pv[v].set		(hbox_verts[v*2],C,hbox_verts[v*2+1]);
-	RCache.Vertex.Unlock		(12,sh_2geom.stride());
-
-	// Render
-	RCache.set_xform_world		(mSky);
-	RCache.set_Geometry			(sh_2geom);
-	RCache.set_Shader			(sh_2sky);
-//	RCache.set_Textures			(&env.CurrentEnv->sky_r_textures);
-	RCache.set_Textures			(&mixRen.sky_r_textures);
-
-	// Sun
- 	::Render->rmNormal			();
-#if		RENDER!=R_R1
-	//
-	// This hack is done to make sure that the state is set for sure:
-	// The state may be not set by RCache if the state is changed using API SetRenderState() function before 
-	// and the RCache flag will remain unchanged to it's old value. 
-	// 
-	RCache.set_Z(FALSE);
-	RCache.set_Z(TRUE);
- 	env.eff_LensFlare->Render		(TRUE,FALSE,FALSE);
-	RCache.set_Z(FALSE);
-#endif
 }
 
 void dxEnvironmentRender::RenderClouds(IEnvironment &env)

@@ -4,12 +4,11 @@
 #include "ExportObjectOGF.h"
 #include "EditObject.h"
 #include "EditMesh.h"
-#include "fmesh.h"
-#include "bone.h"
-#include "motion.h"
+#include "..\xrEngine\fmesh.h"
+#include "..\xrEngine\bone.h"
+#include "..\xrEngine\motion.h"
 
 #if 1
-#include "std_classes.h"
 #include "ui_main.h"
 #endif
 

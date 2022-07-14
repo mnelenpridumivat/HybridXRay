@@ -11,7 +11,6 @@
 
 #include "sh_atomic.h"
 #include "sh_texture.h"
-#include "sh_matrix.h"
 #include "sh_constant.h"
 #include "sh_rt.h"
 
@@ -43,12 +42,7 @@ struct	 ECORE_API		STextureList	: public xr_resource_flagged, public xr_vector<s
 	//	If possible use precompiled texture list.
 	u32		find_texture_stage(const shared_str &TexName) const;
 };
-typedef	resptr_core<STextureList,resptr_base<STextureList> >								ref_texture_list;
 //////////////////////////////////////////////////////////////////////////
-struct	 ECORE_API		SMatrixList		: public xr_resource_flagged, public svector<ref_matrix,4>		{
-						~SMatrixList	();
-};
-typedef	resptr_core<SMatrixList,resptr_base<SMatrixList> >									ref_matrix_list;
 //////////////////////////////////////////////////////////////////////////
 struct	 ECORE_API		SConstantList	: public xr_resource_flagged, public svector<ref_constant_obsolette,4>	{
 						~SConstantList	();
@@ -88,12 +82,7 @@ struct	  ECORE_API		SPass			: public xr_resource_flagged									{
 #	endif
 #endif	//	USE_DX10
 	ref_ctable							constants;	// may be NULL
-
-	ref_texture_list					T;
 	ref_constant_list					C;
-#ifdef REDITOR
-	ref_matrix_list						M;
-#endif
 
 						~SPass			();
 

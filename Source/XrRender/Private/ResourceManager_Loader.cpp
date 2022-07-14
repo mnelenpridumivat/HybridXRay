@@ -9,13 +9,6 @@ void	CResourceManager::OnDeviceDestroy(BOOL )
 {
 	if (Device->b_is_Ready)				return;
 	m_textures_description.UnLoad		();
-
-	// Matrices
-	for (map_Matrix::iterator m=m_matrices.begin(); m!=m_matrices.end(); m++)	{
-		R_ASSERT		(1==m->second->dwReference);
-		xr_delete		(m->second);
-	}
-	m_matrices.clear	();
     
 	// Constants
 	for (map_Constant::iterator c=m_constants.begin(); c!=m_constants.end(); c++)
@@ -62,17 +55,6 @@ void	CResourceManager::OnDeviceCreate	(IReader* F)
 			fs->r_stringZ	(name,sizeof(name));
 			CConstant*	C	= _CreateConstant	(name);
 			C->Load			(fs);
-		}
-		fs->close			();
-	}
-
-	// Load matrices
-    fs						= F->open_chunk(1);
-	if (fs){
-		while (!fs->eof())	{
-			fs->r_stringZ	(name,sizeof(name));
-			CMatrix*	M	= _CreateMatrix	(name);
-			M->Load			(fs);
 		}
 		fs->close			();
 	}

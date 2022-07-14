@@ -9,9 +9,6 @@
 class CBlender_Tree : public IBlender  
 {
 public:
-	xrP_BOOL	oBlend;
-	xrP_BOOL	oNotAnTree;
-public:
 	virtual		LPCSTR		getComment()	{ return "LEVEL: trees/bushes";	}
 	virtual		BOOL		canBeLMAPped()	{ return FALSE; }
 	virtual		BOOL		canBeDetailed()	{ return TRUE; }

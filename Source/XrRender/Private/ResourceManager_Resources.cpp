@@ -78,11 +78,6 @@ SPass*		CResourceManager::_CreatePass			(const SPass& proto)
 	P->state					=	proto.state;
 	P->ps						=	proto.ps;
 	P->vs						=	proto.vs;
-	P->constants				=	proto.constants;
-	P->T						=	proto.T;
-#ifdef REDITOR
-	P->M						=	proto.M;
-#endif
 	P->C						=	proto.C;
 
 	v_passes.push_back			(P);
@@ -473,40 +468,6 @@ void	CResourceManager::DBG_VerifyTextures	()
 #endif
 
 //--------------------------------------------------------------------------------------------------------------
-CMatrix*	CResourceManager::_CreateMatrix	(LPCSTR Name)
-{
-	R_ASSERT(Name && Name[0]);
-	if (0==stricmp(Name,"$null"))	return NULL;
-
-	LPSTR N = LPSTR(Name);
-	map_Matrix::iterator I = m_matrices.find	(N);
-	if (I!=m_matrices.end())	return I->second;
-	else
-	{
-		CMatrix* M			=	xr_new<CMatrix>();
-		M->dwFlags			|=	xr_resource_flagged::RF_REGISTERED;
-		M->dwReference		=	1;
-		m_matrices.insert	(mk_pair(M->set_name(Name),M));
-		return			M;
-	}
-}
-void	CResourceManager::_DeleteMatrix		(const CMatrix* M)
-{
-	if (0==(M->dwFlags&xr_resource_flagged::RF_REGISTERED))	return;
-	LPSTR N					= LPSTR		(*M->cName);
-	map_Matrix::iterator I	= m_matrices.find	(N);
-	if (I!=m_matrices.end())	{
-		m_matrices.erase(I);
-		return;
-	}
-	Msg	("! ERROR: Failed to find xform-def '%s'",*M->cName);
-}
-void	CResourceManager::ED_UpdateMatrix		(LPCSTR Name, CMatrix* data)
-{
-	CMatrix*	M	= _CreateMatrix	(Name);
-	*M				= *data;
-}
-//--------------------------------------------------------------------------------------------------------------
 CConstant*	CResourceManager::_CreateConstant	(LPCSTR Name)
 {
 	R_ASSERT(Name && Name[0]);
@@ -565,29 +526,7 @@ void			CResourceManager::_DeleteTextureList(const STextureList* L)
 	if (reclaim(lst_textures,L))					return;
 	Msg	("! ERROR: Failed to find compiled list of textures");
 }
-//--------------------------------------------------------------------------------------------------------------
-SMatrixList*	CResourceManager::_CreateMatrixList(SMatrixList& L)
-{
-	BOOL bEmpty = TRUE;
-	for (u32 i=0; i<L.size(); i++)	if (L[i]) { bEmpty=FALSE; break; }
-	if (bEmpty)	return NULL;
 
-	for (u32 it=0; it<lst_matrices.size(); it++)
-	{
-		SMatrixList*	base		= lst_matrices[it];
-		if (L.equal(*base))			return base;
-	}
-	SMatrixList*	lst		=	xr_new<SMatrixList>(L);
-	lst->dwFlags			|=	xr_resource_flagged::RF_REGISTERED;
-	lst_matrices.push_back	(lst);
-	return lst;
-}
-void			CResourceManager::_DeleteMatrixList ( const SMatrixList* L )
-{
-	if (0==(L->dwFlags&xr_resource_flagged::RF_REGISTERED))	return;
-	if (reclaim(lst_matrices,L))					return;
-	Msg	("! ERROR: Failed to find compiled list of xform-defs");
-}
 //--------------------------------------------------------------------------------------------------------------
 SConstantList*	CResourceManager::_CreateConstantList(SConstantList& L)
 {
@@ -619,24 +558,6 @@ class	includer				: public ID3DXInclude
 public:
 	HRESULT __stdcall	Open(D3DXINCLUDE_TYPE IncludeType, LPCSTR pFileName, LPCVOID pParentData, LPCVOID* ppData, UINT* pBytes)
 	{
-		string_path				pname;
-		strconcat				(sizeof(pname),pname,::Render->getShaderPath(),pFileName);
-		IReader*		R		= FS.r_open	("$game_shaders$",pname);
-		if (0==R)				{
-			// possibly in shared directory or somewhere else - open directly
-			R					= FS.r_open	("$game_shaders$",pFileName);
-			if (0==R)			return			E_FAIL;
-		}
-
-		// duplicate and zero-terminate
-		u32				size	= R->length();
-		u8*				data	= xr_alloc<u8>	(size + 1);
-		CopyMemory			(data,R->pointer(),size);
-		data[size]				= 0;
-		FS.r_close				(R);
-
-		*ppData					= data;
-		*pBytes					= size;
 		return	D3D_OK;
 	}
 	HRESULT 	__stdcall Close	(LPCVOID	pData)
@@ -650,11 +571,6 @@ SVS*	CResourceManager::_CreateVS		(LPCSTR _name)
 {
 	string_path			name;
 	xr_strcpy				(name,_name);
-	if (0 == ::Render->m_skinning)	xr_strcat(name,"_0");
-	if (1 == ::Render->m_skinning)	xr_strcat(name,"_1");
-	if (2 == ::Render->m_skinning)	xr_strcat(name,"_2");
-	if (3 == ::Render->m_skinning)	xr_strcat(name,"_3");
-	if (4 == ::Render->m_skinning)	xr_strcat(name,"_4");
 	LPSTR N				= LPSTR		(name);
 	map_VS::iterator I	= m_vs.find	(N);
 	if (I!=m_vs.end())	return I->second;
@@ -674,7 +590,6 @@ SVS*	CResourceManager::_CreateVS		(LPCSTR _name)
 		LPD3DXSHADER_CONSTANTTABLE	pConstants	= NULL;
 		HRESULT						_hr			= S_OK;
 		string_path					cname;
-		strconcat					(sizeof(cname),cname,::Render->getShaderPath(),_name,".vs");
 		FS.update_path				(cname,	"$game_shaders$", cname);
 //		LPCSTR						target		= NULL;
 
@@ -779,8 +694,6 @@ SPS*	CResourceManager::_CreatePS			(LPCSTR name)
 		// Open file
 		includer					Includer;
 		string_path					cname;
-        LPCSTR						shader_path = ::Render->getShaderPath();
-		strconcat					(sizeof(cname), cname,shader_path,name,".ps");
 		FS.update_path				(cname,	"$game_shaders$", cname);
 
 		// duplicate and zero-terminate

@@ -1,11 +1,10 @@
 #ifndef EditObjectH
 #define EditObjectH
 
-#include "Bone.h"
-#include "Motion.h"
+#include "..\xrEngine\Bone.h"
+#include "..\xrEngine\Motion.h"
 #if 1
 //	#include "PropertiesListHelper.h"
-#	include "..\Engine\XrGameMaterialLibraryEditors.h"
 #	include "pick_defs.h"
 #endif
 #	include "..\..\..\xrRender\Public\kinematics.h"
@@ -474,8 +473,6 @@ private:
 	virtual  CBoneInstance&	_BCL LL_GetBoneInstance(u16 bone_id);
 
 	virtual CBoneData&	_BCL	LL_GetData(u16 bone_id);
-
-virtual	const IBoneData&_BCL	GetBoneData(u16 bone_id) const 															{ return *GetBone( bone_id ); }
 
 	virtual u16			_BCL	LL_BoneCount()const 																	{ return (u16)BoneCount(); }
 	virtual u16					LL_VisibleBoneCount() 																	{ VERIFY(false); return 0; }

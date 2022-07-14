@@ -2,12 +2,10 @@
 #include 	"stdafx.h"
 #pragma hdrstop
 
+#include "../XrEngine/bone.h"
 #include 	"SkeletonCustom.h"
 #include	"SkeletonX.h"
-#include	"../../xrEngine/fmesh.h"
-#ifndef REDITOR
-#include	"../../xrEngine/Render.h"
-#endif
+#include	"../xrEngine/fmesh.h"
 int			psSkeletonUpdate	= 32;
 xrCriticalSection	UCalc_Mutex
 #ifdef PROFILE_CRITICAL_SECTIONS
@@ -15,11 +13,7 @@ xrCriticalSection	UCalc_Mutex
 #endif // PROFILE_CRITICAL_SECTIONS
 ;
 
-#ifndef REDITOR
-#include "../../xrServerEntities/smart_cast.h"
-#else
 #include "../../xrAPI/xrAPI.h"
-#endif
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -54,38 +48,6 @@ LPCSTR CKinematics::LL_BoneName_dbg	(u16 ID)
 #ifdef DEBUG
 void CKinematics::DebugRender(Fmatrix& XFORM)
 {
-	CalculateBones	();
-
-	CBoneData::BoneDebug	dbgLines;
-	(*bones)[iRoot]->DebugQuery	(dbgLines);
-
-	Fvector Z;  Z.set(0,0,0);
-	Fvector H1; H1.set(0.01f,0.01f,0.01f);
-	Fvector H2; H2.mul(H1,2);
-	for (u32 i=0; i<dbgLines.size(); i+=2)	{
-		Fmatrix& M1 = bone_instances[dbgLines[i]].mTransform;
-		Fmatrix& M2 = bone_instances[dbgLines[i+1]].mTransform;
-
-		Fvector P1,P2;
-		M1.transform_tiny(P1,Z);
-		M2.transform_tiny(P2,Z);
-		RCache.dbg_DrawLINE(XFORM,P1,P2,D3DCOLOR_XRGB(0,255,0));
-
-		Fmatrix M;
-		M.mul_43(XFORM,M2);
-		RCache.dbg_DrawOBB(M,H1,D3DCOLOR_XRGB(255,255,255));
-		RCache.dbg_DrawOBB(M,H2,D3DCOLOR_XRGB(255,255,255));
-	}
-
-	for (u32 b=0; b<bones->size(); b++)
-	{
-		Fobb&		obb		= (*bones)[b]->obb;
-		Fmatrix&	Mbone	= bone_instances[b].mTransform;
-		Fmatrix		Mbox;	obb.xform_get(Mbox);
-		Fmatrix		X;		X.mul(Mbone,Mbox);
-		Fmatrix		W;		W.mul(XFORM,X);
-		RCache.dbg_DrawOBB(W,obb.m_halfsize,D3DCOLOR_XRGB(0,0,255));
-	}
 }
 #endif
 
@@ -170,7 +132,6 @@ void	CKinematics::Load(const char* N, IReader *data, u32 dwFlags)
 			string_path		lod_name;
 			LD->r_string	(lod_name, sizeof(lod_name));
 //.         strconcat		(sizeof(name_load),name_load, short_name, ":lod:", lod_name.c_str());
-            m_lod 			= (dxRender_Visual*) ::Render->model_CreateChild(lod_name, NULL);
 
 			if ( CKinematics* lod_kinematics = dynamic_cast<CKinematics*>(m_lod) )
 			{
@@ -274,8 +235,6 @@ void	CKinematics::Load(const char* N, IReader *data, u32 dwFlags)
 	        B->mass			= IKD->r_float();
     	    IKD->r_fvector3	(B->center_of_mass);
         }
-        // calculate model to bone converting matrix
-        (*bones)[LL_GetBoneRoot()]->CalculateM2B(Fidentity);
     	IKD->close();
     }
 
@@ -378,8 +337,6 @@ void CKinematics::Copy(dxRender_Visual *P)
 		LL_GetChild(i)->SetParent(this);
 
 	CalculateBones_Invalidate	();
-
-    m_lod 	   = (pFrom->m_lod)?(dxRender_Visual*)::Render->model_Duplicate	(pFrom->m_lod):0;
 }
 
 void CKinematics::CalculateBones_Invalidate	()

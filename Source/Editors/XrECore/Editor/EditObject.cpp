@@ -5,14 +5,14 @@
 #include "stdafx.h"
 #pragma hdrstop
 
-#include "..\..\..\xrEngine\fmesh.h"
+#include "..\..\xrEngine\fmesh.h"
 
 #include "EditObject.h"
 #include "EditMesh.h"
 
 #if 1
-	#include "motion.h"
-	#include "bone.h"
+	#include "..\xrEngine\motion.h"
+	#include "..\xrEngine\bone.h"
 #endif
 
 // mimimal bounding box size

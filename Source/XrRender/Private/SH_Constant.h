@@ -2,8 +2,6 @@
 #define SH_CONSTANT_H
 #pragma once
 
-#include "../../xrEngine/WaveForm.h"
-
 class		IReader;
 class		IWriter;
 
@@ -16,10 +14,6 @@ public:
 
 	u32				dwFrame;
 	u32				dwMode;
-	WaveForm		_R;
-	WaveForm		_G;
-	WaveForm		_B;
-	WaveForm		_A;
 
 	CConstant		()
 	{
@@ -43,11 +37,6 @@ public:
 	void			Calculate	();
 	IC	BOOL		Similar		(CConstant& C)		// comare by modes and params
 	{
-		if (dwMode!=C.dwMode)	return FALSE;
-		if (!_R.Similar(C._R))	return FALSE;
-		if (!_G.Similar(C._G))	return FALSE;
-		if (!_B.Similar(C._B))	return FALSE;
-		if (!_A.Similar(C._A))	return FALSE;
 		return TRUE;
 	}
 	void			Load		(IReader* fs);

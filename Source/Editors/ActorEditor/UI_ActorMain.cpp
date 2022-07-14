@@ -67,39 +67,6 @@ CCommandVar CActorTools::CommandSave(CCommandVar p1, CCommandVar p2)
 }     
 CCommandVar CActorTools::CommandImport(CCommandVar p1, CCommandVar p2)
 {
-    xr_string		temp_fn			= p1.IsString()?xr_string(p1):xr_string("");
-    if(p1.IsString()||EFS.GetOpenName(EDevice->m_hWnd, _import_,temp_fn))
-    {
-        FS_Path* pp = FS.get_path(_import_);
-
-        if (temp_fn.npos!=temp_fn.find(pp->m_Path))
-        {
-            xr_strlwr(temp_fn);
-            if (!Tools->IfModified())
-                return	FALSE;
-                
-            ExecCommand( COMMAND_CLEAR );
-            CTimer T;
-            T.Start();
-            if (!ATools->Import(NULL, temp_fn.c_str()))
-                return	FALSE;
-                
-            m_LastFileName = temp_fn.c_str();
-            ELog.Msg(mtInformation,"Object '%s' successfully imported. Loading time - %3.2f(s).",m_LastFileName.c_str(),T.GetElapsed_sec());
-            if (ExecCommand( COMMAND_SAVE,temp_fn,1 ))
-            {
-                xr_string mfn;
-                mfn = temp_fn;
-                EFS.MarkFile(mfn.c_str(),true);
-            }else
-            {
-                ExecCommand( COMMAND_CLEAR );
-            }
-            return TRUE;
-        }else{
-            ELog.Msg	(mtError,"Invalid file path. ");
-        }
-    }
     return FALSE;
 }
 CCommandVar CActorTools::CommandExportDM(CCommandVar p1, CCommandVar p2)
@@ -408,47 +375,6 @@ CCommandVar CActorTools::CommandClear(CCommandVar p1, CCommandVar p2)
 
 CCommandVar CActorTools::CommandLoad(CCommandVar p1, CCommandVar p2)
 {
-    xr_string temp_fn = p1.IsString() ? xr_string(p1) : xr_string("");
-    if (!p1.IsString()) {
-        temp_fn = EFS.ChangeFileExt(m_LastFileName.c_str(), "");
-        if (!EFS.GetOpenName(EDevice->m_hWnd,_objects_, temp_fn))
-            return  	FALSE;
-    }
-    if (temp_fn.size()) {
-        xr_strlwr(temp_fn);
-        if (!IfModified())		return FALSE;
-
-        if (!FS.exist(temp_fn.c_str())) {
-            Msg("#!Can't load file: %s", temp_fn.c_str());
-            return FALSE;
-        }
-
-
-        ExecCommand(COMMAND_CLEAR);
-
-        BOOL bReadOnly = !FS.can_modify_file(temp_fn.c_str());
-        m_Flags.set(flReadOnlyMode, bReadOnly);
-
-
-        // set enable ...
-        //m_Props->SetReadOnly(bReadOnly);
-
-        //fraLeftBar->SetReadOnly(bReadOnly);
-
-        CTimer T;
-        T.Start();
-        if (!Load(temp_fn.c_str())) {
-            return FALSE;
-        }
-        m_LastFileName = temp_fn.c_str();
-        ELog.Msg(mtInformation, "Object '%s' successfully loaded. Loading time - %3.2f(s).", m_LastFileName.c_str(), T.GetElapsed_sec());
-        EPrefs->AppendRecentFile(m_LastFileName.c_str());
-        ExecCommand(COMMAND_UPDATE_CAPTION);
-        ExecCommand(COMMAND_UPDATE_PROPERTIES);
-
-        UndoClear();
-        UndoSave();
-    }
     return TRUE;
 }
 

@@ -3,7 +3,6 @@
 #define UI_MainH
 
 #include "UI_MainCommand.h"
-#include "IInputReceiver.h"
 
 // refs
 class CCustomObject;
@@ -36,7 +35,7 @@ public:
 typedef xr_vector<EEditorState> EStateList;
 typedef EStateList::iterator EStateIt;
 
-class ECORE_API TUI: public IInputReceiver
+class ECORE_API TUI
 {
     bool m_AppClosed;
     inline void	RealQuit() { m_AppClosed = true; }
@@ -125,8 +124,8 @@ public:
 
     void			Quit			()	{	m_Flags.set(flNeedQuit,TRUE); }
     
-    u32 			&GetRenderWidth	()	{   return EDevice->dwWidth; }
-    u32&GetRenderHeight	()	{   return EDevice->dwHeight; }
+    u32& GetRenderWidth() { u32 t = 0; return t; }
+    u32&GetRenderHeight	()	{    u32 t = 0; return t; }
     int 			GetRealWidth	()	{   return EDevice->dwRealWidth; }
     int 			GetRealHeight	()  {   return EDevice->dwRealHeight; }
 

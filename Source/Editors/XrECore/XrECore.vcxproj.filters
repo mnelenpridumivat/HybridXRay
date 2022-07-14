@@ -95,9 +95,6 @@
     <ClCompile Include="Editor\PhysicsShellHolderEditorBase.cpp">
       <Filter>Editor</Filter>
     </ClCompile>
-    <ClCompile Include="Editor\pDomain.cpp">
-      <Filter>Editor</Filter>
-    </ClCompile>
     <ClCompile Include="Editor\ParticleEffectActions.cpp">
       <Filter>Editor</Filter>
     </ClCompile>
@@ -332,9 +329,6 @@
     <ClCompile Include="..\..\XrRender\Private\ResourceManager.cpp">
       <Filter>Render</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\XrRender\Private\SH_Matrix.cpp">
-      <Filter>Render</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\XrRender\Private\SH_Texture.cpp">
       <Filter>Render</Filter>
     </ClCompile>
@@ -382,12 +376,6 @@
     </ClCompile>
     <ClCompile Include="..\..\XrRender\Private\Blender_Particle.cpp">
       <Filter>Render</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\XrGamePersistentEditors.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\XrGameMaterialLibraryEditors.cpp">
-      <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="..\..\XrRender\Private\dxRenderFactory.cpp">
       <Filter>Render\Interface</Filter>
@@ -446,9 +434,6 @@
     <ClCompile Include="Engine\Image.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\guid_generator.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\XrRender\Private\ResourceManager_Scripting.cpp">
       <Filter>Render</Filter>
     </ClCompile>
@@ -456,6 +441,13 @@
     <ClCompile Include="..\Public\NVMeshMenderTwo.cpp">
       <Filter>Editor</Filter>
     </ClCompile>
+    <ClCompile Include="..\XrEngine\Envelope.cpp" />
+    <ClCompile Include="..\XrEngine\motion.cpp" />
+    <ClCompile Include="..\XrEngine\SkeletonMotions.cpp" />
+    <ClCompile Include="..\XrEngine\interp.cpp" />
+    <ClCompile Include="..\XrEngine\xrbone.cpp" />
+    <ClCompile Include="..\XrEngine\BoneEditor.cpp" />
+    <ClCompile Include="..\XrEngine\fmesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WildMagic\WmlMath.h">
@@ -649,12 +641,6 @@
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="Editor\itterate_adjacents.h" />
-    <ClInclude Include="Engine\XrGamePersistentEditors.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\XrGameMaterialLibraryEditors.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\XrRender\Private\dxRenderFactory.h">
       <Filter>Render\Interface</Filter>
     </ClInclude>
@@ -709,9 +695,18 @@
     <ClInclude Include="..\..\XrRender\Private\dxRenderDeviceRender.h">
       <Filter>Render\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\guid_generator.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
+    <ClInclude Include="..\XrEngine\_d3d_extensions.h" />
+    <ClInclude Include="..\XrEngine\bone.h" />
+    <ClInclude Include="..\XrEngine\defines.h" />
+    <ClInclude Include="..\XrEngine\Engine.h" />
+    <ClInclude Include="..\XrEngine\EngineAPI.h" />
+    <ClInclude Include="..\XrEngine\envelope.h" />
+    <ClInclude Include="..\XrEngine\Fmesh.h" />
+    <ClInclude Include="..\XrEngine\motion.h" />
+    <ClInclude Include="..\XrEngine\SkeletonMotionDefs.h" />
+    <ClInclude Include="..\XrEngine\SkeletonMotions.h" />
+    <ClInclude Include="..\XrEngine\stdafx.h" />
+    <ClInclude Include="..\XrEngine\vis_common.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="WildMagic\WmlMath.inl">

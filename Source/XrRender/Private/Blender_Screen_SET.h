@@ -8,13 +8,6 @@
 
 class CBlender_Screen_SET : public IBlender  
 {
-	xrP_TOKEN	oBlend;
-	xrP_Integer	oAREF;
-	xrP_BOOL	oZTest;
-	xrP_BOOL	oZWrite;
-	xrP_BOOL	oLighting;
-	xrP_BOOL	oFog;
-	xrP_BOOL	oClamp;
 public:
 	virtual		LPCSTR		getComment()	{ return "basic (simple)"; }
 	virtual		BOOL		canBeLMAPped()	{ return FALSE; }

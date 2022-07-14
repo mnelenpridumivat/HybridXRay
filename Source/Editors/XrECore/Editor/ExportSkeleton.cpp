@@ -6,12 +6,11 @@
 #include "ExportObjectOGF.h"
 #include "EditObject.h"
 #include "EditMesh.h"
-#include "fmesh.h"
+#include "..\xrEngine\fmesh.h"
 
-#include "std_classes.h"
-#include "bone.h"
-#include "SkeletonMotions.h"
-#include "motion.h"
+#include "..\xrEngine\bone.h"
+#include "..\xrEngine\SkeletonMotions.h"
+#include "..\xrEngine\motion.h"
 
 //#include "library.h"
 
@@ -21,7 +20,6 @@
 #if 1
 #include "ui_main.h"
 #include "ui_toolscustom.h"
-#include "..\Engine\XrGameMaterialLibraryEditors.h"
 #endif
 //#include "../../../xrRender/Private/SkeletonAnimated.h"
 

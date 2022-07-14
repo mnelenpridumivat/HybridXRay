@@ -150,50 +150,10 @@ void	CBlender_Compile::SetParams		(int iPriority, bool bStrictB2F)
 //
 void	CBlender_Compile::PassBegin		()
 {
-	RS.Invalidate			();
-	passTextures.clear		();
-	passMatrices.clear		();
-	passConstants.clear		();
-	xr_strcpy					(pass_ps,"null");
-	xr_strcpy					(pass_vs,"null");
-	dwStage					= 0;
 }
 
 void	CBlender_Compile::PassEnd			()
 {
-	// Last Stage - disable
-	RS.SetTSS				(Stage(),D3DTSS_COLOROP,D3DTOP_DISABLE);
-	RS.SetTSS				(Stage(),D3DTSS_ALPHAOP,D3DTOP_DISABLE);
-
-	SPass	proto;
-	// Create pass
-	proto.state		= DEV->_CreateState		(RS.GetContainer());
-	proto.ps		= DEV->_CreatePS			(pass_ps);
-	proto.vs		= DEV->_CreateVS			(pass_vs);
-	ctable.merge	(&proto.ps->constants);
-	ctable.merge	(&proto.vs->constants);
-#if defined(USE_DX10) || defined(USE_DX11)
-	proto.gs		= DEV->_CreateGS			(pass_gs);
-	ctable.merge	(&proto.gs->constants);
-#	ifdef	USE_DX11
-	proto.hs		= DEV->_CreateHS			(pass_hs);
-	ctable.merge	(&proto.hs->constants);
-	proto.ds		= DEV->_CreateDS			(pass_ds);
-	ctable.merge	(&proto.ds->constants);
-	proto.cs		= DEV->_CreateCS			(pass_cs);
-	ctable.merge	(&proto.cs->constants);
-#	endif
-#endif	//	USE_DX10
-	SetMapping				();
-	proto.constants	= DEV->_CreateConstantTable(ctable);
-	proto.T 		= DEV->_CreateTextureList	(passTextures);
-#ifdef REDITOR
-	proto.M			= DEV->_CreateMatrixList	(passMatrices);
-#endif
-	proto.C			= DEV->_CreateConstantList	(passConstants);
-
-	ref_pass	_pass_		= DEV->_CreatePass			(proto);
-	SH->passes.push_back	(_pass_);
 }
 
 void	CBlender_Compile::PassSET_PS		(LPCSTR name)
@@ -323,26 +283,6 @@ void	CBlender_Compile::Stage_Texture	(LPCSTR name, u32 ,	u32	 fmin, u32 fmip, u3
 #endif	//	USE_DX10
 void	CBlender_Compile::Stage_Matrix		(LPCSTR name, int iChannel)
 {
-	sh_list& lst	= L_matrices; 
-	int id			= ParseName(name);
-	CMatrix*	M	= DEV->_CreateMatrix	((id>=0)?*lst[id]:name);
-	passMatrices.push_back(M);
-
-	// Setup transform pipeline
-	u32	ID = Stage();
-	if (M) {
-		switch (M->dwMode)
-		{
-		case CMatrix::modeProgrammable:	StageSET_XForm	(D3DTTFF_COUNT3,D3DTSS_TCI_CAMERASPACEPOSITION|ID);					break;
-		case CMatrix::modeTCM:			StageSET_XForm	(D3DTTFF_COUNT2,D3DTSS_TCI_PASSTHRU|iChannel);						break;
-		case CMatrix::modeC_refl:		StageSET_XForm	(D3DTTFF_COUNT3,D3DTSS_TCI_CAMERASPACEREFLECTIONVECTOR|ID);			break;
-		case CMatrix::modeS_refl:		StageSET_XForm	(D3DTTFF_COUNT2,D3DTSS_TCI_CAMERASPACENORMAL|ID);					break;
-		default:						StageSET_XForm	(D3DTTFF_DISABLE,D3DTSS_TCI_PASSTHRU|iChannel);						break;
-		}
-	} else {
-		// No XForm at all
-		StageSET_XForm	(D3DTTFF_DISABLE,D3DTSS_TCI_PASSTHRU|iChannel);	
-	}
 }
 void	CBlender_Compile::Stage_Constant	(LPCSTR name)
 {

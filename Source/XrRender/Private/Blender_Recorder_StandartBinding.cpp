@@ -10,11 +10,6 @@
 #include "blenders\Blender_Recorder.h"
 #include "blenders\Blender.h"
 
-#include "../../xrEngine/igame_persistent.h"
-#ifndef REDITOR
-#include "../../xrEngine/environment.h"
-#endif
-
 #include "dxRenderDeviceRender.h"
 
 // matrices

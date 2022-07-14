@@ -3,7 +3,6 @@
 #pragma once
 
 #include "sh_texture.h"
-#include "sh_matrix.h"
 #include "sh_constant.h"
 #include "sh_rt.h"
 
@@ -88,7 +87,6 @@ IC void CBackend::set_Element			(ShaderElement* S, u32	pass)
 #endif
 #endif	//	USE_DX10
 	set_Constants	(P.constants);
-	set_Textures	(P.T);
 #ifdef _EDITOR
 	set_Matrices	(P.M);
 #endif

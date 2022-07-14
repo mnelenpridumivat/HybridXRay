@@ -71,10 +71,6 @@ BOOL CParticleEffect::Compile(CPEDef* def)
 	return TRUE;
 }
 
-void CParticleEffect::SetBirthDeadCB(PAPI::OnBirthParticleCB bc, PAPI::OnDeadParticleCB dc, void* owner, u32 p)
-{
-}
-
 u32 CParticleEffect::ParticlesCount()
 {
 	return 0;

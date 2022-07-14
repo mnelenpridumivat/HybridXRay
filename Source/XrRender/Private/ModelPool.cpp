@@ -16,14 +16,14 @@
     #include "ParticleGroup.h"
     #include "ParticleEffect.h"
 #else
-    #include "fmesh.h"
+    #include "..\xrEngine\fmesh.h"
+	#include "..\xrEngine\bone.h"
     #include "fvisual.h"
     #include "fprogressive.h"
     #include "ParticleEffect.h"
 	#include "fskinned.h"
     #include "fhierrarhyvisual.h"
     #include "SkeletonAnimated.h"
-	#include "IGame_Persistent.h"
 #endif
 
 dxRender_Visual*	CModelPool::Instance_Create(u32 type)
@@ -128,7 +128,6 @@ dxRender_Visual*	CModelPool::Instance_Load		(const char* N, BOOL allow_register)
 	V = Instance_Create (H.type);
 	V->Load				(N,data,0);
 	FS.r_close			(data);
-	g_pGamePersistent->RegisterModel(V);
 
 	// Registration
 	if (allow_register) Instance_Register(N,V);
@@ -276,11 +275,9 @@ dxRender_Visual* CModelPool::CreateChild(LPCSTR name, IReader* data)
     dxRender_Visual* Model	= bAllowChildrenDuplicate?Instance_Duplicate(Base):Base;
     return					Model;
 }
-
-extern  BOOL ENGINE_API g_bRendering; 
+ 
 void	CModelPool::DeleteInternal	(dxRender_Visual* &V, BOOL bDiscard)
 {
-	VERIFY					(!g_bRendering);
     if (!V)					return;
 	V->Depart				();
 	if (bDiscard||bForceDiscard){
@@ -303,12 +300,6 @@ void	CModelPool::DeleteInternal	(dxRender_Visual* &V, BOOL bDiscard)
 void	CModelPool::Delete		(dxRender_Visual* &V, BOOL bDiscard)
 {
 	if (NULL==V)				return;
-	if (g_bRendering){
-		VERIFY					(!bDiscard);
-		ModelsToDelete.push_back(V);
-	} else {
-		DeleteInternal			(V,bDiscard);
-	}	
 	V							=	NULL;
 }
 
@@ -372,7 +363,6 @@ void CModelPool::Prefetch()
 	Logging					(FALSE);
 	// prefetch visuals
 	string256 section;
-	strconcat				(sizeof(section),section,"prefetch_visuals_",g_pGamePersistent->m_game_params.m_game_type);
 	CInifile::Sect& sect	= pSettings->r_section(section);
 	for (CInifile::SectCIt I=sect.Data.begin(); I!=sect.Data.end(); I++)	{
 		const CInifile::Item& item= *I;
@@ -502,7 +492,7 @@ IC bool	_IsBoxVisible(dxRender_Visual* visual, const Fmatrix& transform)
 {
     Fbox 		bb; 
     bb.xform	(visual->vis.box,transform);
-    return 		::Render->occ_visible(bb);
+	return 		false;
 }
 IC bool	_IsValidShader(dxRender_Visual* visual, u32 priority, bool strictB2F)
 {

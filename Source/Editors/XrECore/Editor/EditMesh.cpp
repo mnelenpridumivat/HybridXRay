@@ -7,7 +7,7 @@
 
 #include "EditMesh.h"
 #include "EditObject.h"
-#include "Bone.h"
+#include "..\xrEngine\Bone.h"
 
 #include "face_smoth_flags.h"
 #include "itterate_adjacents.h"

@@ -3,15 +3,12 @@
 #include "stdafx.h"
 #pragma hdrstop
 
-#include "xr_input.h"
 #include "UI_ToolsCustom.h"
 
 #include "UI_Main.h"
 #include "d3dutils.h"
 #include "PSLibrary.h"
 #include "..\XrETools\ETools.h"
-#include "gamefont.h"
-#include "../XrEngine/XR_IOConsole.h"
 TUI* 	UI			= 0;
 
 TUI::TUI()
@@ -48,13 +45,11 @@ TUI::~TUI()
 
 void TUI::OnDeviceCreate()
 {
-	DU_impl.OnDeviceCreate();
 
 }
 
 void TUI::OnDeviceDestroy()
 {
-	DU_impl.OnDeviceDestroy();
 }
 
 bool TUI::IsModified()
@@ -160,56 +155,8 @@ void TUI::CheckWindowPos(HWND* form)
 	if (form->Top<0) 							form->Top 	= 0;*/
 }
 //---------------------------------------------------------------------------
-#include "igame_persistent.h"
 void TUI::PrepareRedraw()
 {
-	VERIFY(m_bReady);
-	if (m_Flags.is(flResize)) 			RealResize();
-// set render state
-    EDevice->SetRS(D3DRS_TEXTUREFACTOR,	0xffffffff);
-    // fog
-    u32 fog_color;
-	float fog_start, fog_end;
-    Tools->GetCurrentFog	(fog_color, fog_start, fog_end);
-/*
-    if (0==g_pGamePersistent->Environment().GetWeather().size())
-    {
-        g_pGamePersistent->Environment().CurrentEnv->fog_color.set	(color_get_R(fog_color),color_get_G(fog_color),color_get_B(fog_color));
-        g_pGamePersistent->Environment().CurrentEnv->fog_far		= fog_end;
-        g_pGamePersistent->Environment().CurrentEnv->fog_near		= fog_start;
-    }
-*/    
-	EDevice->SetRS( D3DRS_FOGCOLOR,		fog_color			);
-	EDevice->SetRS( D3DRS_RANGEFOGENABLE,	FALSE				);
-	if (HW.Caps.bTableFog)	{
-		EDevice->SetRS( D3DRS_FOGTABLEMODE,	D3DFOG_LINEAR 	);
-		EDevice->SetRS( D3DRS_FOGVERTEXMODE,	D3DFOG_NONE	 	);
-	} else {
-		EDevice->SetRS( D3DRS_FOGTABLEMODE,	D3DFOG_NONE	 	);
-		EDevice->SetRS( D3DRS_FOGVERTEXMODE,	D3DFOG_LINEAR	);
-	}
-	EDevice->SetRS( D3DRS_FOGSTART,	*(DWORD *)(&fog_start)	);
-	EDevice->SetRS( D3DRS_FOGEND,		*(DWORD *)(&fog_end)	);
-    // filter
-    for (u32 k=0; k<HW.Caps.raster.dwStages; k++){
-        if( psDeviceFlags.is(rsFilterLinear)){
-            EDevice->SetSS(k,D3DSAMP_MAGFILTER,D3DTEXF_LINEAR);
-            EDevice->SetSS(k,D3DSAMP_MINFILTER,D3DTEXF_LINEAR);
-            EDevice->SetSS(k,D3DSAMP_MIPFILTER,D3DTEXF_LINEAR);
-        } else {
-            EDevice->SetSS(k,D3DSAMP_MAGFILTER,D3DTEXF_POINT);
-            EDevice->SetSS(k,D3DSAMP_MINFILTER,D3DTEXF_POINT);
-            EDevice->SetSS(k,D3DSAMP_MIPFILTER,D3DTEXF_POINT);
-        }
-    }
-	// ligthing
-    if (psDeviceFlags.is(rsLighting)) 	EDevice->SetRS(D3DRS_AMBIENT,0x00000000);
-    else                				EDevice->SetRS(D3DRS_AMBIENT,0xFFFFFFFF);
-
-    EDevice->SetRS			(D3DRS_FILLMODE, EDevice->dwFillMode);
-    EDevice->SetRS			(D3DRS_SHADEMODE,EDevice->dwShadeMode);
-
-    RCache.set_xform_world	(Fidentity);
 }
 extern ENGINE_API BOOL g_bRendering;
 void TUI::Redraw()
@@ -253,40 +200,6 @@ void TUI::OnFrame()
 }
 bool TUI::Idle()         
 {
-	VERIFY(m_bReady);
-   // EDevice->b_is_Active  = Application->Active;
-	// input
-    MSG msg;
-    do
-    {
-        ZeroMemory(&msg, sizeof(msg));
-        if (::PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE))
-        {
-            ::TranslateMessage(&msg);
-            ::DispatchMessage(&msg);
-            if (msg.message == WM_QUIT)
-            {
-                UI->Quit();
-            }
-            continue;
-        }
-
-    } while (msg.message);
-    if (m_Flags.is(flResetUI))RealResetUI();
-    Sleep(1);
-
-    OnFrame			();
-    if (m_bAppActive && !m_Flags.is(flNeedQuit) && !m_AppClosed)
-    RealRedrawScene();
-
-    {
-        for (u32 pit = 0; pit < Device->seqParallel.size(); pit++)
-            Device->seqParallel[pit]();
-        Device->seqParallel.clear_not_free();
-        Device->seqFrameMT.Process(rp_Frame);
-    }
-    // test quit
-    if (m_Flags.is(flNeedQuit))	RealQuit();
     return !m_AppClosed;
 }
 //---------------------------------------------------------------------------
@@ -301,70 +214,11 @@ void ResetActionToSelect()
 
 bool TUI::OnCreate()
 {
-// create base class
-	EDevice->InitTimer();
-
-  //  m_D3DWindow 	= w;
-  //  m_D3DPanel		= p;
-    EDevice->Initialize();
-	// Creation
-
-    pInput			= xr_new<CInput>(FALSE, all_device_key);
-
-    Console = xr_new<CConsole>();
-    Console->Initialize();
-
-    UI->IR_Capture	();
-
-    m_bReady		= true;
-
-#if 0
-    if (!CreateMailslot()) {
-        ELog.DlgMsg(mtError, "Can't create mail slot.\nIt's possible two Editors started.");
-        return 		false;
-    }
-#endif
-    string_path log_path;
-    if (!FS.exist(log_path,_temp_,""))
-    {
-        VerifyPath(log_path);
-    }
-    if (!FS.path_exist(_local_root_)){
-    	ELog.DlgMsg	(mtError,"Undefined Editor local directory.");
-        return 		false;
-    }
-
-	BeginEState		(esEditScene);
-    GetRenderWidth() = 128;
-    GetRenderHeight() = 128;
-    RTSize.set(GetRenderWidth(), GetRenderHeight());
-    EDevice->fASPECT = (float)RTSize.x / (float)RTSize.y;
-    EDevice->mProject.build_projection(deg2rad(EDevice->fFOV), EDevice->fASPECT, EDevice->m_Camera.m_Znear, EDevice->m_Camera.m_Zfar);
-    EDevice->m_fNearer = EDevice->mProject._43;
-
-
-    RCache.set_xform_project(EDevice->mProject);
-    RCache.set_xform_world(Fidentity);
-    RT.create("rt_color", RTSize .x*EDevice->m_ScreenQuality, RTSize.y * EDevice->m_ScreenQuality, HW.Caps.fTarget);
-    ZB.create("rt_depth", RTSize.x * EDevice->m_ScreenQuality, RTSize.y* EDevice->m_ScreenQuality, D3DFORMAT::D3DFMT_D24X8);
-
     return true;
 }
 
 void TUI::OnDestroy()
 {
-    Console->Destroy();
-    xr_delete(Console);
-    RT.destroy();
-    ZB.destroy();
-
-	VERIFY(m_bReady);
-	m_bReady		= false;
-	UI->IR_Release	();
-    xr_delete		(pInput);
-    EndEState		();
-
-    EDevice->ShutDown();    
 }
 
 SPBItem* TUI::ProgressStart		(float max_val, LPCSTR text)

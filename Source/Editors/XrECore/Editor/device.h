@@ -1,26 +1,21 @@
 #pragma once
 
-#include "../../../xrengine/XrDeviceInterface.h"
 #include "ui_camera.h"
 #include "../../../xrRender/Private/hwcaps.h"
 #include "../../../xrRender/Private/hw.h"
-#include "../../../xrEngine/pure.h"
 #include "../../../xrCore/ftimer.h"
 #include "estats.h"
-#include "../../../xrEngine/shader_xrlc.h"
 #include "../../../xrRender/Private/shader.h"
 #include "../../../xrRender/Private/R_Backend.h"
 
 
 //---------------------------------------------------------------------------
 // refs
-class CGameFont;
 class CInifile;
 class CResourceManager;
 #undef CreateWindow
 //------------------------------------------------------------------------------
-class ECORE_API CEditorRenderDevice :
-	public XrDeviceInterface
+class ECORE_API CEditorRenderDevice
 {
     friend class 			CUI_Camera;
     friend class 			TUI;
@@ -85,8 +80,6 @@ public:
 	CResourceManager*		Resources;	  
 	CEStats*				EStatistic;
 
-	CGameFont* 				pSystemFont;
-
 	// registrators
 //	CRegistrator <pureDeviceDestroy>	seqDevDestroy;
 //	CRegistrator <pureDeviceCreate>		seqDevCreate;
@@ -123,9 +116,9 @@ public:
     IC float				GetRenderArea	(){return m_RenderArea;}
 	// Sprite rendering
 	IC float 				_x2real			(float x)
-    { return (x+1)*dwWidth*0.5f;	}
+    { return 0;	}
 	IC float 				_y2real			(float y)
-    { return (y+1) * dwHeight * 0.5f;}
+    { return 0;}
 
 	// draw
 	void			   		SetShader		(ref_shader sh){m_CurrentShader = sh;}
@@ -133,9 +126,9 @@ public:
 	void 					DIP				(D3DPRIMITIVETYPE pt, ref_geom geom, u32 baseV, u32 startV, u32 countV, u32 startI, u32 PC);
 
     IC void					SetRS			(D3DRENDERSTATETYPE p1, u32 p2)
-    { VERIFY(b_is_Ready); CHK_DX(HW.pDevice->SetRenderState(p1,p2)); }
+    { }
     IC void					SetSS			(u32 sampler, D3DSAMPLERSTATETYPE type, u32 value)
-    { VERIFY(b_is_Ready); CHK_DX(HW.pDevice->SetSamplerState(sampler,type,value)); }
+    { }
 
     // light&material
     IC void					LightEnable		(u32 dwLightIndex, BOOL bEnable)
@@ -158,12 +151,6 @@ public:
 	virtual void	Pause(BOOL bOn, BOOL bTimer, BOOL bSound, LPCSTR reason) {}
 	virtual void PreCache(u32 amount, bool b_draw_loadscreen, bool b_wait_user_input) {}
 	virtual void Clear() {}
-public:
-    Shader_xrLC_LIB			ShaderXRLC;
-private:
-	virtual		CStatsPhysics* _BCL			StatPhysics();
-	virtual				void	   _BCL			AddSeqFrame(pureFrame* f, bool mt);
-	virtual				void	   _BCL			RemoveSeqFrame(pureFrame* f);
 private:
 	WNDCLASSEX m_WC;
 public:

@@ -7,10 +7,10 @@
 #include "EditObject.h"
 #include "EditMesh.h"
 #include "ui_main.h"           
-#include "motion.h"
-#include "bone.h"
+#include "..\xrEngine\motion.h"
+#include "..\xrEngine\bone.h"
 #include "library.h"
-#include "fmesh.h"
+#include "..\xrEngine\fmesh.h"
 #include "d3dutils.h"
 
 //------------------------------------------------------------------------------
@@ -101,8 +101,6 @@ void CToolCustom::SetSettings(u32 mask, BOOL val)
 
 void CToolCustom::GetCurrentFog(u32& fog_color, float& s_fog, float& e_fog)
 {
-    s_fog				= psDeviceFlags.is(rsFog)?(1.0f - fFogness)* 0.85f * UI->ZFar():0.99f*UI->ZFar();
-    e_fog				= psDeviceFlags.is(rsFog)?0.91f * UI->ZFar():UI->ZFar();
     fog_color 			= dwFogColor;
 }
 
@@ -117,62 +115,6 @@ void CToolCustom::Clear()
 
 void CToolCustom::Render()
 {
-	// render errors
-    EDevice->SetShader		(EDevice->m_SelectionShader);
-    RCache.set_xform_world	(Fidentity);
-    EDevice->RenderNearer		(0.0003f);
-    EDevice->SetRS			(D3DRS_CULLMODE,D3DCULL_NONE);
-    xr_string temp;
-    int cnt=0;
-    for (SDebugDraw::PointIt vit=m_DebugDraw.m_Points.begin(); vit!=m_DebugDraw.m_Points.end(); ++vit)
-    {
-        LPCSTR s = NULL;
-        if (vit->i)
-        {
-        	temp.sprintf		("P: %d",cnt++);
-            s = temp.c_str();
-        }
-
-        if(vit->descr.size())
-        {
-            s = vit->descr.c_str();
-        }
-        DU_impl.dbgDrawVert(vit->p[0],			vit->c,	s?s:"");
-    }
-    EDevice->SetShader		(EDevice->m_SelectionShader);
-    cnt=0;
-      for (SDebugDraw::LineIt eit=m_DebugDraw.m_Lines.begin(); eit!=m_DebugDraw.m_Lines.end(); eit++){
-        if (eit->i)        temp.sprintf		("L: %d",cnt++);
-        DU_impl.dbgDrawEdge		(eit->p[0],eit->p[1],				eit->c,	eit->i?temp.c_str():"");
-    }
-    EDevice->SetShader		(EDevice->m_SelectionShader);
-    cnt=0;
-    for (SDebugDraw::FaceIt fwit=m_DebugDraw.m_WireFaces.begin(); fwit!=m_DebugDraw.m_WireFaces.end(); fwit++){
-    	if (fwit->i)        temp.sprintf		("F: %d",cnt++);
-        DU_impl.dbgDrawFace		(fwit->p[0],fwit->p[1],fwit->p[2],fwit->c,	fwit->i?temp.c_str():"");
-    }
-    cnt=0;
-    if (!m_DebugDraw.m_SolidFaces.empty()){
-	    EDevice->SetShader		(EDevice->m_SelectionShader);
-        DU_impl.DD_DrawFace_begin	(FALSE);
-        for (SDebugDraw::FaceIt fsit=m_DebugDraw.m_SolidFaces.begin(); fsit!=m_DebugDraw.m_SolidFaces.end(); fsit++)
-            DU_impl.DD_DrawFace_push	(fsit->p[0],fsit->p[1],fsit->p[2],	fsit->c);
-        DU_impl.DD_DrawFace_end		();
-    }
-    EDevice->SetShader		(EDevice->m_SelectionShader);
-    cnt=0;
-    for (SDebugDraw::OBBVecIt oit=m_DebugDraw.m_OBB.begin(); oit!=m_DebugDraw.m_OBB.end(); oit++)
-    {
-        temp.sprintf		("OBB: %d",cnt++);
-        DU_impl.DrawOBB			(Fidentity,*oit,0x2F00FF00,0xFF00FF00);
-        DU_impl.OutText			(oit->m_translate,temp.c_str(),0xffff0000,0x0000000);
-    }
-    EDevice->SetRS			(D3DRS_CULLMODE,D3DCULL_CCW);
-    EDevice->ResetNearer		();
-    
-
-    
-	
 }
 //------------------------------------------------------------------------------
 

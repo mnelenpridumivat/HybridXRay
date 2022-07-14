@@ -166,7 +166,6 @@ private:
 
 	// Lists
 	STextureList*					T;
-	SMatrixList*					M;
 	SConstantList*					C;
 
 	// Lists-expanded
@@ -181,9 +180,6 @@ private:
 	CTexture*						textures_cs	[mtMaxComputeShaderTextures];	// 4 vs
 #	endif
 #endif	//	USE_DX10
-#ifdef REDITOR
-	CMatrix*						matrices	[8	];	// matrices are supported only for FFP
-#endif
 
 	void							Invalidate	();
 public:
@@ -246,7 +242,6 @@ public:
 	IC	void						set_Constants		(ref_ctable& C)						{ 	}
 
 		void						set_Textures		(STextureList* T);
-	IC	void						set_Textures		(ref_texture_list& T)				{ set_Textures(&*T);			}
 
 #ifdef _EDITOR
 	IC	void						set_Matrices		(SMatrixList* M);

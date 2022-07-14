@@ -3,12 +3,6 @@
 
 #include "ParticleEffectDef.h"
 #include "ParticleEffect.h"
-#ifdef REDITOR
-	#include "Editor/UI_ToolsCustom.h"
-	#include "Editor/ParticleEffectActions.h"
-#else
-
-#endif
 
 //---------------------------------------------------------------------------
 using namespace PS;

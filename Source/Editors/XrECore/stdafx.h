@@ -11,11 +11,9 @@
 //#include <dsound.h>
 
 #include "..\XrEngine\stdafx.h"
-#include "..\XrEngine\XrDeviceInterface.h"
-#include "..\..\XrEngine\psystem.h"
 
-#include "..\..\XrEngine\fmesh.h"
-#include "..\..\XrEngine\_d3d_extensions.h"
+#include "..\XrEngine\fmesh.h"
+#include "..\XrEngine\_d3d_extensions.h"
 #define smart_cast dynamic_cast
 
 #ifndef O_SEQUENTIAL
@@ -55,7 +53,7 @@ DEFINE_VECTOR		(xr_string*,LPAStringVec,LPAStringIt);
 
 #include "..\..\xrCore\Log.h"
 #include "editor\ELog.h"
-#include "..\..\XrEngine\defines.h"
+#include "..\XrEngine\defines.h"
 
 #include "..\..\XrRender\Private\FVF.h"
 
@@ -71,7 +69,6 @@ struct astr_pred
 };
 
 #include "editor\device.h"
-#include "..\..\XrEngine\properties.h"
 #include "editor\render.h"
 DEFINE_VECTOR(FVF::L,FLvertexVec,FLvertexIt);
 DEFINE_VECTOR(FVF::TL,FTLvertexVec,FTLvertexIt);

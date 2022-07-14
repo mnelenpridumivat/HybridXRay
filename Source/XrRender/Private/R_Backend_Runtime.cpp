@@ -65,7 +65,6 @@ DX10_ONLY(gs					= NULL);
 	ctable						= NULL;
 
 	T							= NULL;
-	M							= NULL;
 	C							= NULL;
 
 	stencil_enable=u32(-1);
@@ -119,9 +118,6 @@ DX10_ONLY(gs					= NULL);
 
 	for (u32 ps_it =0; ps_it < mtMaxPixelShaderTextures;)	textures_ps	[ps_it++]	= 0;
 	for (u32 vs_it =0; vs_it < mtMaxVertexShaderTextures;)	textures_vs	[vs_it++]	= 0;
-#ifdef REDITOR
-	for (u32 m_it =0; m_it< 8;)		matrices	[m_it++]	= 0;
-#endif
 }
 
 void	CBackend::set_ClipPlanes	(u32 _enable, Fplane*	_planes /*=NULL */, u32 count/* =0*/)

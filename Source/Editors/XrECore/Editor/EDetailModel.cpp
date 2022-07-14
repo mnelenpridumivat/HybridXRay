@@ -2,7 +2,6 @@
 #pragma hdrstop
 
 #include "EDetailModel.h"
-#include "Library.h"
 #include "EditObject.h"
 #include "EditMesh.h"
 
@@ -19,6 +18,8 @@ void EDetail::EVertexIn::remapUV(const fvfVertexIn& src, const Fvector2& offs, c
 {
     P.set		(src.P);
 }
+
+CEditableObject*	m_pRefs = nullptr;
 
 EDetail::EDetail()
 {
@@ -43,7 +44,6 @@ EDetail::~EDetail()
 void EDetail::Unload()
 {
 	CDetail::Unload		();
-    Lib.RemoveEditObject(m_pRefs);
     OnDeviceDestroy		();
 }
 
@@ -111,7 +111,9 @@ bool EDetail::Update	(LPCSTR name)
 {
 	m_sRefs				= name;
     // update link
-    CEditableObject* R	= Lib.CreateEditObject(name);
+    CEditableObject* R = xr_new<CEditableObject>(name);
+    R->Load(name);
+
     if (!R)
     {
  		ELog.Msg		(mtError,"Can't load detail object '%s'.", name);
@@ -120,7 +122,7 @@ bool EDetail::Update	(LPCSTR name)
     if(R->SurfaceCount()!=1)
     {
     	ELog.Msg		(mtError,"Object must contain 1 material.");
-	    Lib.RemoveEditObject(R);
+        xr_delete(R);
 
         Core._destroy();
         exit(1);
@@ -129,14 +131,13 @@ bool EDetail::Update	(LPCSTR name)
 	if(R->MeshCount()==0)
     {
     	ELog.Msg		(mtError,"Object must contain 1 mesh.");
-	    Lib.RemoveEditObject(R);
+        xr_delete(R);
 
         Core._destroy();
         exit(2);
     	return false;
     }
 
-    Lib.RemoveEditObject(m_pRefs);
     m_pRefs				= R;
 
     // fill geometry

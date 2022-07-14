@@ -6,7 +6,6 @@
 #define AFX_BLENDER_H__A023332E_C09B_4D93_AA53_57C052CCC075__INCLUDED_
 #pragma once
 
-#include "../../xrEngine/properties.h"
 #include "Blender_Recorder.h"
 
 #pragma pack(push,4)
@@ -31,13 +30,11 @@ public:
 	void						Setup	(LPCSTR N);
 };
 
-class ECORE_API IBlender	: public CPropertyBase
+class ECORE_API IBlender
 {
 	friend class				CBlender_Compile;
 protected:
 	CBlender_DESC				description;
-	xrP_Integer					oPriority;
-	xrP_BOOL					oStrictSorting;
 	string64					oT_Name;
 	string64					oT_xform;
 protected:
