@@ -99,38 +99,6 @@ void CToolCustom::SetSettings(u32 mask, BOOL val)
     ExecCommand(COMMAND_REFRESH_UI_BAR);
 }
 
-
-bool  CToolCustom::MouseStart(TShiftState Shift)
-{
-	switch(m_Action)
-    {
-        case etaSelect:	break;
-        case etaAdd:	break;
-   
-    }
-    
-	return m_bHiddenMode;
-}
-
-bool  CToolCustom::MouseEnd(TShiftState Shift)
-{
-	switch(m_Action)
-    {
-        case etaSelect: break;
-        case etaAdd: 	break;
-    }
-	return true;
-}
-
-void  CToolCustom::MouseMove(TShiftState Shift)
-{
-	switch(m_Action)
-    {
-    case etaSelect: break;
-    case etaAdd: 	break;
-    }
-}
-
 void CToolCustom::GetCurrentFog(u32& fog_color, float& s_fog, float& e_fog)
 {
     s_fog				= psDeviceFlags.is(rsFog)?(1.0f - fFogness)* 0.85f * UI->ZFar():0.99f*UI->ZFar();

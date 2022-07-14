@@ -1,6 +1,5 @@
 // dear imgui: standalone example application for DirectX 9
 // If you are new to dear imgui, see examples/README.txt and documentation at the top of imgui.cpp.
-#include "..\XrEProps\stdafx.h"
 #include "imgui_impl_dx9.h"
 #include "imgui_impl_win32.h"
 #include <d3d9.h>

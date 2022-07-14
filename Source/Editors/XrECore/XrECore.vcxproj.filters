@@ -89,9 +89,6 @@
     <ClCompile Include="Editor\TLSPRITE.CPP">
       <Filter>Editor</Filter>
     </ClCompile>
-    <ClCompile Include="Editor\SoundManager.cpp">
-      <Filter>Editor</Filter>
-    </ClCompile>
     <ClCompile Include="Editor\render.cpp">
       <Filter>Editor</Filter>
     </ClCompile>
@@ -107,15 +104,6 @@
     <ClCompile Include="Editor\Library.cpp">
       <Filter>Editor</Filter>
     </ClCompile>
-    <ClCompile Include="Editor\ImageManagerLOD.cpp">
-      <Filter>Editor</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor\ImageManagerDO.cpp">
-      <Filter>Editor</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor\ImageManager.cpp">
-      <Filter>Editor</Filter>
-    </ClCompile>
     <ClCompile Include="Editor\GeometryCollector.cpp">
       <Filter>Editor</Filter>
     </ClCompile>
@@ -129,21 +117,6 @@
       <Filter>Editor</Filter>
     </ClCompile>
     <ClCompile Include="Editor\ExportObjectOGF.cpp">
-      <Filter>Editor</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor\EThumbnailTexture.cpp">
-      <Filter>Editor</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor\EThumbnailSound.cpp">
-      <Filter>Editor</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor\EThumbnailObject.cpp">
-      <Filter>Editor</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor\EThumbnailGroup.cpp">
-      <Filter>Editor</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor\EThumbnail.cpp">
       <Filter>Editor</Filter>
     </ClCompile>
     <ClCompile Include="Editor\EStats.cpp">
@@ -410,24 +383,6 @@
     <ClCompile Include="..\..\XrRender\Private\Blender_Particle.cpp">
       <Filter>Render</Filter>
     </ClCompile>
-    <ClCompile Include="Editor\UIRenderForm.cpp">
-      <Filter>Editor</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor\UISoundEditorForm.cpp">
-      <Filter>Editor</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor\UIImageEditorForm.cpp">
-      <Filter>Editor</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor\UIMinimapEditorForm.cpp">
-      <Filter>Editor</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor\UILogForm.cpp">
-      <Filter>Editor</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor\UIEditLightAnim.cpp">
-      <Filter>Editor</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\XrGamePersistentEditors.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
@@ -579,9 +534,6 @@
     <ClInclude Include="Editor\TLSPRITE.h">
       <Filter>Editor</Filter>
     </ClInclude>
-    <ClInclude Include="Editor\SoundManager.h">
-      <Filter>Editor</Filter>
-    </ClInclude>
     <ClInclude Include="Editor\SkeletonVert.h">
       <Filter>Editor</Filter>
     </ClInclude>
@@ -615,9 +567,6 @@
     <ClInclude Include="Editor\itterate_adjacents_dynamic.h">
       <Filter>Editor</Filter>
     </ClInclude>
-    <ClInclude Include="Editor\ImageManager.h">
-      <Filter>Editor</Filter>
-    </ClInclude>
     <ClInclude Include="Editor\GeometryCollector.h">
       <Filter>Editor</Filter>
     </ClInclude>
@@ -625,9 +574,6 @@
       <Filter>Editor</Filter>
     </ClInclude>
     <ClInclude Include="Editor\ExportObjectOGF.h">
-      <Filter>Editor</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\EThumbnail.h">
       <Filter>Editor</Filter>
     </ClInclude>
     <ClInclude Include="Editor\EStats.h">
@@ -703,27 +649,6 @@
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="Editor\itterate_adjacents.h" />
-    <ClInclude Include="Editor\UIRenderForm.h">
-      <Filter>Editor</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\EditorChooseEvents.h">
-      <Filter>Editor</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\UISoundEditorForm.h">
-      <Filter>Editor</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\UIImageEditorForm.h">
-      <Filter>Editor</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\UIMinimapEditorForm.h">
-      <Filter>Editor</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\UILogForm.h">
-      <Filter>Editor</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\UIEditLightAnim.h">
-      <Filter>Editor</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\XrGamePersistentEditors.h">
       <Filter>Engine</Filter>
     </ClInclude>
@@ -838,12 +763,6 @@
       <Filter>Editor</Filter>
     </None>
     <None Include="Editor\LogForm.dfm">
-      <Filter>Editor</Filter>
-    </None>
-    <None Include="Editor\ImageEditor.dfm">
-      <Filter>Editor</Filter>
-    </None>
-    <None Include="Editor\ImageEditor.ddp">
       <Filter>Editor</Filter>
     </None>
   </ItemGroup>

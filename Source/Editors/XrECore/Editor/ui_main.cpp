@@ -8,15 +8,8 @@
 
 #include "UI_Main.h"
 #include "d3dutils.h"
-#include "SoundManager.h"
 #include "PSLibrary.h"
-
-#include "UIEditLightAnim.h"
-#include "UIImageEditorForm.h"
-#include "UISoundEditorForm.h"
-#include "UIMinimapEditorForm.h"
 #include "..\XrETools\ETools.h"
-#include "UILogForm.h"
 #include "gamefont.h"
 #include "../XrEngine/XR_IOConsole.h"
 TUI* 	UI			= 0;
@@ -81,173 +74,19 @@ void TUI::UpdateSelectionRect( const Ivector2& from, const Ivector2& to ){
 	m_SelEnd.set(to);
 }
 
-bool  TUI::KeyDown (WORD Key, TShiftState Shift)
-{
-	if (!m_bReady) return false;
-    if (Console->bVisible)
-    {
-        if (Key == 0xC0)
-        {
-            Console->Hide();
-        }
-        return true;
-    }
-   
-    if (Key == 0xC0)
-    {
-        Console->Show();
-        return true;
-    }
-//	m_ShiftState = Shift;
-//	Log("Dn  ",Shift.Contains(ssShift)?"1":"0");
-	if (EDevice->m_Camera.KeyDown(Key,Shift)) return true;
-    return Tools->KeyDown(Key, Shift);
-}
-
-bool  TUI::KeyUp   (WORD Key, TShiftState Shift)
-{
-	if (!m_bReady) return false;
-//	m_ShiftState = Shift;
-	if (EDevice->m_Camera.KeyUp(Key,Shift)) return true;
-    return Tools->KeyUp(Key, Shift);
-}
-
-bool  TUI::KeyPress(WORD Key, TShiftState Shift)
-{
-	if (!m_bReady) return false;
-    return Tools->KeyPress(Key, Shift);
-}
-//----------------------------------------------------
-
-void TUI::MousePress(TShiftState Shift, int X, int Y)
-{
-	if (!m_bReady) return;
-    if (m_MouseCaptured) return;
-
-    bMouseInUse = true;
-
-    m_ShiftState = Shift;
-
-    // camera activate
-    if(!EDevice->m_Camera.MoveStart(m_ShiftState)){
-    	if (Tools->Pick(Shift)) return;
-        if( !m_MouseCaptured ){
-            if(! Tools->HiddenMode() )
-            {
-                m_CurrentCp = GetRenderMousePosition();
-                m_StartCp = m_CurrentCp;
-                EDevice->m_Camera.MouseRayFromPoint(m_CurrentRStart, m_CurrentRDir, m_CurrentCp );
-                m_StartRStart = m_CurrentRStart;
-                m_StartRDir = m_CurrentRDir;
-            }
-           
-            if(Tools->MouseStart(m_ShiftState))
-            {
-                if(Tools->HiddenMode()) ShowCursor( FALSE );
-                m_MouseCaptured = true;
-            }
-
-            if (Tools->HiddenMode())
-            {
-                IR_GetMousePosScreen(m_StartCpH);
-                m_DeltaCpH.set(0, 0);
-            }
-        }
-    }
-    RedrawScene();
-}
-
-void TUI::MouseRelease(TShiftState Shift, int X, int Y)
-{
-	if (!m_bReady) return;
-
-    m_ShiftState = Shift;
-
-    if( EDevice->m_Camera.IsMoving() ){
-        if (EDevice->m_Camera.MoveEnd(m_ShiftState)) bMouseInUse = false;
-    }else{
-	    bMouseInUse = false;
-        if( m_MouseCaptured ){
-            if( !Tools->HiddenMode() ){
-                m_CurrentCp = GetRenderMousePosition();
-                EDevice->m_Camera.MouseRayFromPoint(m_CurrentRStart,m_CurrentRDir,m_CurrentCp );
-            }
-            bool bIsHiddenMode = Tools->HiddenMode();
-            if( Tools->MouseEnd(m_ShiftState) ){
-                if(bIsHiddenMode){
-                    SetCursorPos(m_StartCpH.x,m_StartCpH.y);
-                    ShowCursor( TRUE );
-                }
-                m_MouseCaptured = false;
-            }
-        }
-    }
-    // update tools (change action)
-    Tools->OnFrame	();
-    RedrawScene		();
-}
-//----------------------------------------------------
-void TUI::MouseMove(TShiftState Shift, int X, int Y)
-{
-	if (!m_bReady) return;
-    m_ShiftState = Shift;
-}
 //----------------------------------------------------
 void TUI::IR_OnMouseMove(int x, int y)
 {
-	if (!m_bReady) return;
-	if (!EDevice->m_Camera.Process(m_ShiftState,x,y))
-    {
-        if( m_MouseCaptured || m_MouseMultiClickCaptured )
-        {
-            if( Tools->HiddenMode() )
-            {
-				m_DeltaCpH.set(x,y);
-                if( m_DeltaCpH.x || m_DeltaCpH.y )
-                {
-                	Tools->MouseMove(m_ShiftState);
-                }
-            }
-            else
-            {
-                m_CurrentCp = GetRenderMousePosition();
-                EDevice->m_Camera.MouseRayFromPoint(m_CurrentRStart,m_CurrentRDir,m_CurrentCp);
-                Tools->MouseMove(m_ShiftState);
-            }
-		    RedrawScene();
-        }
-    }
-    {
-        m_CurrentCp = GetRenderMousePosition();
-        EDevice->m_Camera.MouseRayFromPoint(m_CurrentRStart, m_CurrentRDir, m_CurrentCp);
-    }
-    // Out cursor pos
-    OutUICursorPos	();
 }
 //---------------------------------------------------------------------------
 
 void TUI::OnAppActivate()
 {
-    m_bAppActive = true;
-    if (!m_bReady)return;
-	if (pInput){
-        m_ShiftState = ssNone;
-     	pInput->OnAppActivate();
-        EDevice->seqAppActivate.Process	(rp_AppActivate);
-    }
 }
 //---------------------------------------------------------------------------
 
 void TUI::OnAppDeactivate()
 {
-    m_bAppActive = false;
-    if (!m_bReady)return;
-	if (pInput){
-		pInput->OnAppDeactivate();
-        m_ShiftState = ssNone;
-        EDevice->seqAppDeactivate.Process(rp_AppDeactivate);
-    }
-    HideHint();
 }
 //---------------------------------------------------------------------------
 
@@ -398,7 +237,6 @@ void TUI::RealRedrawScene()
 void TUI::OnFrame()
 {
 	EDevice->FrameMove	();
-    SndLib->OnFrame		();
     // tools on frame
     if (m_Flags.is(flUpdateScene)) RealUpdateScene();
     Tools->OnFrame		();
@@ -578,24 +416,11 @@ void TUI::ProgressDraw()
 
 void TUI::OnDrawUI()
 {
-    UIKeyPressForm::Update(EDevice->fTimeGlobal);
-    UIEditLightAnim::Update();
-    UIImageEditorForm::Update();
-    UISoundEditorForm::Update();
-    UIMinimapEditorForm::Update();
-    UILogForm::Update();
-    EDevice->seqDrawUI.Process(rp_DrawUI);
+
 }
 
 void TUI::RealResetUI()
 {
-    m_Flags.set(flResetUI, FALSE);
-    string_path 		ini_path;
-    if (FS.exist(ini_path, "$server_data_root$", UI->EditorName(), "_imgui_default.ini"))
-    {
-        UI->Resize(1280, 800);
-        ImGui::LoadIniSettingsFromDisk(ini_path);
-    }
 }
 
 void TUI::OnStats(CGameFont* font)

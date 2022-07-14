@@ -149,10 +149,8 @@ CActorTools::CActorTools()
 {
     m_IsPhysics = false;
     m_ChooseSkeletonBones = false;
-    m_Props = 0;
     m_pEditObject = 0;
     m_bObjectModified = false;
-    m_ObjectItems = 0;
     m_Flags.zero();
     m_EditMode = emObject;
     fFogness = 0.9f;
@@ -175,53 +173,6 @@ const float joint_size = 0.025f;
 
 void CActorTools::Render()
 {
-    if (!m_bReady) return;
-    PrepareLighting();
-    m_PreviewObject.Render();
-    if (m_pEditObject) 
-    {
-        Fmatrix World = Fidentity;
-        {
-            m_pEditObject->UpdateObjectXform(World);
-        }
-        m_RenderObject.OnRender();
-        if (m_RenderObject.IsRenderable() && MainForm->GetLeftBarForm()->GetRenderMode() == UILeftBarForm::Render_Engine)
-        {
-            RImplementation.model_RenderSingle(m_RenderObject.m_pVisual, m_RenderObject.ObjectXFORM(), m_RenderObject.m_fLOD);
-            RCache.set_xform_world(World);
-            if (EPrefs->object_flags.is(epoDrawJoints))
-            {
-                CKinematics* K = dynamic_cast<CKinematics*>(m_RenderObject.m_pVisual);
-                if (K)
-                {
-                    u16 bcnt = K->LL_BoneCount();
-                    for (u16 bidx = 0; bidx < bcnt; ++bidx)
-                    {
-                        EDevice->SetShader(EDevice->m_WireShader);
-
-                        Fmatrix M = Fmatrix().mul(m_RenderObject.ObjectXFORM(), K->LL_GetTransform(bidx));
-
-                        Fvector p1 = M.c;
-                        u32 c_joint = color_bone_norm_color;
-                        DU_impl.DrawJoint(p1, joint_size, c_joint);
-
-                        if (EPrefs->object_flags.is(epoDrawBoneAxis))
-                        {
-                            DU_impl.DrawObjectAxis(M, 0.03f, false);
-                        }
-                    }
-                }
-            }
-        }
-        else
-        {
-            // update transform matrix
-            if (!IsPhysics())World = m_AVTransform;
-            m_pEditObject->RenderSkeletonSingle(World);
-        }
-    }
-
-    inherited::Render();
 }
 
 void CActorTools::RenderEnvironment()
@@ -230,89 +181,6 @@ void CActorTools::RenderEnvironment()
 
 void CActorTools::OnFrame()
 {
-    if (!m_bReady) return;
-    //.    if (m_KeyBar) m_KeyBar->UpdateBar();
-    m_PreviewObject.Update();
-    if (m_pEditObject)
-    {
-        // update matrix
-        Fmatrix	mTranslate, mRotate, mScale;
-        mRotate.setHPB(m_pEditObject->a_vRotate.y, m_pEditObject->a_vRotate.x, m_pEditObject->a_vRotate.z);
-        mTranslate.translate(m_pEditObject->a_vPosition);
-        mScale.scale(m_pEditObject->t_vScale);
-        m_AVTransform.mul(mTranslate, mRotate);
-        m_AVTransform.mulB_43(mScale);
-
-        if (!MainForm->GetLeftBarForm()->GetRenderMode() == UILeftBarForm::Render_Engine)
-            m_pEditObject->OnFrame();
-
-        if (!MainForm->GetKeyForm()->AutoChange())
-        {
-            m_pEditObject->m_SMParam.t_current = float(MainForm->GetKeyForm()->Position()) ;
-        }
-        //CKinematicsAnimated* KA = dynamic_cast<CKinematicsAnimated*>(m_RenderObject.m_pVisual);
-        if (m_RenderObject.IsRenderable() && m_pEditObject->IsSkeleton() && m_RenderObject.m_pVisual)
-        {
-
-            CKinematicsAnimated* KA = dynamic_cast<CKinematicsAnimated*>(m_RenderObject.m_pVisual);
-            if (KA && !MainForm->GetKeyForm()->AutoChange() && m_RenderObject.m_pBlend)
-            {
-                float tm = float(MainForm->GetKeyForm()->Position());
-                for (int k = 0; k < MAX_PARTS; k++)
-                {
-                    if (KA->LL_PartBlendsCount(k))
-                    {
-                        CBlend* B = KA->LL_PartBlend(k, 0);
-                        B->timeCurrent = tm;
-                    }
-                }
-            }
-
-            IKinematics* K = m_RenderObject.m_pVisual->dcast_PKinematics();
-            VERIFY(K);
-            // K->Bone_Calculate			(&K->LL_GetData(K->LL_GetBoneRoot()),&Fidentity);
-            if (!MainForm->GetKeyForm()->AutoChange())
-                K->Bone_Calculate(&K->LL_GetData(K->LL_GetBoneRoot()), &Fidentity);
-            else
-                K->CalculateBones(TRUE);
-        }
-
-    }
-    if (m_Flags.is(flRefreshShaders))
-    {
-        m_Flags.set(flRefreshShaders, FALSE);
-        m_pEditObject->OnDeviceDestroy();
-    }
-    if (m_Flags.is(flMakeThumbnail))
-    {
-        m_Flags.set(flMakeThumbnail, FALSE);
-        RealMakeThumbnail();
-    }
-    if (m_Flags.is(flGenerateLODHQ)|| m_Flags.is(flGenerateLODLQ))
-    {
-        RealGenerateLOD(m_Flags.is(flGenerateLODHQ));
-        m_Flags.set(flGenerateLODHQ, FALSE);
-        m_Flags.set(flGenerateLODLQ, FALSE);
-    }
-    if (m_Flags.is(flRefreshSubProps))
-    {
-        m_Flags.set(flRefreshSubProps, FALSE);
-
-        xr_vector<ListItem*> items;
-        m_ObjectItems->GetSelected(0, items, false);
-        OnObjectItemsFocused(items);
-    }
-
-    if (m_Flags.is(flRefreshProps))
-        RealUpdateProperties();
-
-    /*if (fraLeftBar->ebRenderEditorStyle->Down && !m_CurrentMotion.IsEmpty() && NULL == m_pEditObject->GetActiveSMotion())
-    {
-        AnsiString	tmp = m_CurrentMotion;
-        m_CurrentMotion = "";
-
-        SetCurrentMotion(tmp.c_str(), m_CurrentSlot);
-    }*/
 }
 
 bool CActorTools::OnCreate()
@@ -320,10 +188,6 @@ bool CActorTools::OnCreate()
 
     
     inherited::OnCreate();
-    m_ObjectItems = xr_new<UIItemListForm>();
-    m_ObjectItems->m_Flags.set(UIItemListForm::fMultiSelect,true);
-    m_Props = xr_new<UIPropertiesForm>();
-    m_ObjectItems->SetOnItemsFocusedEvent(TOnILItemsFocused(this, &CActorTools::OnObjectItemsFocused));
      m_PreviewObject.OnCreate();
 
     // key bar
@@ -336,8 +200,6 @@ void CActorTools::OnDestroy()
 {
     inherited::OnDestroy();
 
-    xr_delete(m_Props);
-    xr_delete(m_ObjectItems);
     m_PreviewObject.OnDestroy();
 
     m_PreviewObject.Clear();
@@ -526,8 +388,6 @@ void CActorTools::Clear()
     xr_delete(m_pEditObject);
     m_RenderObject.Clear();
     //	m_PreviewObject.Clear();
-    m_ObjectItems->ClearList();
-    m_Props->ClearProperties();
 
     m_bObjectModified = false;
     m_Flags.set(flUpdateGeometry | flUpdateMotionDefs | flUpdateMotionKeys | flReadOnlyMode, FALSE);
@@ -538,211 +398,6 @@ void CActorTools::Clear()
 
 void CActorTools::OnShowHint(AStringVec& SS)
 {
-}
-extern xr_string MakeFullBoneName(CBone* bone);
-bool  CActorTools::MouseStart(TShiftState Shift)
-{
-    inherited::MouseStart(Shift);
-    switch (m_Action) {
-    case etaSelect:
-        switch (MainForm->GetLeftBarForm()->GetPickMode())
-        {
-            case 2:
-            {
-                CBone* B = m_pEditObject->PickBone(UI->m_CurrentRStart, UI->m_CurrentRDir, m_AVTransform);
-                bool bVal = B ? (Shift | ssAlt) ? false : ((Shift | ssCtrl) ? !B->Selected() : true) : false;
-                if(B)
-                SelectListItem(BONES_PREFIX, B ? MakeFullBoneName(B).c_str() : 0, bVal, (Shift | ssCtrl) || (Shift | ssAlt), true);
-            }
-            break;
-            case 1:
-            {
-                SRayPickInfo pinf;
-                float dis = UI->ZFar();
-                Fmatrix iTransform;
-                iTransform.invert(m_AVTransform);
-                if (m_pEditObject->RayPick(dis, UI->m_CurrentRStart, UI->m_CurrentRDir, iTransform, &pinf))
-                {
-                }
-            }
-            break;
-        }
-
-        break;
-    case etaAdd:
-        break;
-   /* case etaMove:	break;
-    case etaRotate:	break;*/
-    }
-    return m_bHiddenMode;
-}
-
-bool  CActorTools::MouseEnd(TShiftState Shift)
-{
-    inherited::MouseEnd(Shift);
-    switch (m_Action)
-    {
-    case etaSelect: 	break;
-    case etaAdd: 	break;
-  /*  case etaMove:
-    {
-        switch (m_EditMode)
-        {
-        case emObject:
-            if (Shift|ssCtrl)
-                OnMotionKeysModified();
-            break;
-
-        case emBone:
-            if (Shift|ssCtrl)
-                OnBoneModified();
-
-            if (Shift|ssAlt)
-                OnBoneModified();
-            break;
-        }
-    }break;
-    case etaRotate:
-    {
-        switch (m_EditMode)
-        {
-        case emObject:
-            if (Shift|ssCtrl)
-                OnMotionKeysModified();
-            break;
-
-        case emBone:
-            if (Shift|ssCtrl)
-                OnBoneModified();
-
-            if (Shift|ssAlt)
-                OnBoneModified();
-            break;
-        }
-    }break;
-    case etaScale:
-    {
-        switch (m_EditMode)
-        {
-        case emBone:
-            if (Shift|ssCtrl)
-                OnBoneModified();
-            break;
-        }
-    }break;*/
-    }
-    return true;
-}
-
-void  CActorTools::MouseMove(TShiftState Shift)
-{
-    inherited::MouseMove(Shift);
-    if (!m_pEditObject) return;
-
-    switch (m_Action)
-    {
-    case etaSelect: 	break;
-    case etaAdd: 	break;
-    /*case etaMove:
-    {
-        switch (m_EditMode)
-        {
-        case emObject:
-            if (true || Shift | ssCtrl)
-                m_pEditObject->a_vPosition.add(m_MovedAmount);
-            break;
-
-        case emBone:
-            BoneVec lst;
-            if (m_pEditObject->GetSelectedBones(lst))
-            {
-                if (Shift | ssCtrl) {
-                    for (BoneIt b_it = lst.begin(); b_it != lst.end(); ++b_it)
-                       ShapeMove(*(*b_it),m_MovedAmount);
-
-                }
-                else
-                    if (Shift | ssAlt)
-                    {
-                        for (BoneIt b_it = lst.begin(); b_it != lst.end(); ++b_it)
-                            (*b_it)->BindMove(m_MovedAmount);
-
-                        m_pEditObject->OnBindTransformChange();
-                        RefreshSubProperties();
-                    }
-                    else {
-                        for (BoneIt b_it = lst.begin(); b_it != lst.end(); ++b_it)
-                            (*b_it)->BoneMove(m_MovedAmount);
-
-                        RefreshSubProperties();
-                    }
-            }
-            break;
-        }
-    }break;
-    case etaRotate:
-    {
-        switch (m_EditMode)
-        {
-        case emObject:
-            if (Shift | ssCtrl)
-                m_pEditObject->a_vRotate.mad(m_RotateVector, m_RotateAmount);
-            break;
-
-        case emBone:
-        {
-            BoneVec lst;
-            Fvector rot;
-            rot.mul(m_RotateVector, m_RotateAmount);
-            if (m_pEditObject->GetSelectedBones(lst))
-            {
-                if (Shift | ssCtrl)
-                {
-                    for (BoneIt b_it = lst.begin(); b_it != lst.end(); ++b_it)
-                      ShapeRotate(*(*b_it),rot);
-
-                }
-                else
-                    if (Shift | ssAlt)
-                    {
-                        for (BoneIt b_it = lst.begin(); b_it != lst.end(); ++b_it)
-                            (*b_it)->BindRotate(rot);
-
-                        m_pEditObject->OnBindTransformChange();
-                        RefreshSubProperties();
-                    }
-                    else
-                    {
-                        for (BoneIt b_it = lst.begin(); b_it != lst.end(); ++b_it)
-                           BoneRotate(*(*b_it),m_RotateVector, m_RotateAmount);
-
-                        RefreshSubProperties();
-                    }
-            }
-        }break;
-        }
-    }break;
-    case etaScale:
-    {
-        switch (m_EditMode)
-        {
-        case emBone:
-            if (Shift | ssCtrl)
-            {
-                BoneVec lst;
-                if (m_pEditObject->GetSelectedBones(lst))
-                    for (BoneIt b_it = lst.begin(); b_it != lst.end(); ++b_it)
-                        (*b_it)->ShapeScale(m_ScaleAmount);
-            }
-            break;
-        }
-    }break;*/
-    }
-}
-
-bool CActorTools::Pick(TShiftState Shift)
-{
-    return false;
 }
 
 bool CActorTools::RayPick(const Fvector& start, const Fvector& dir, float& dist, Fvector* pt, Fvector* n)
@@ -774,39 +429,11 @@ bool CActorTools::RayPick(const Fvector& start, const Fvector& dir, float& dist,
 
 void CActorTools::GetStatTime(float& a, float& b, float& c)
 {
-    if (m_RenderObject.IsRenderable() && MainForm->GetLeftBarForm()->GetRenderMode() == UILeftBarForm::Render_Engine && m_RenderObject.m_pBlend)
-    {
-        a = 0;
-        b = m_RenderObject.m_pBlend->timeTotal / m_RenderObject.m_pBlend->speed;
-        c = m_RenderObject.m_pBlend->timeCurrent / m_RenderObject.m_pBlend->speed;
-        if (c > b)
-        {
-            int cnt = iFloor(c / b);
-            c -= (cnt * b);
-        }
-    }
-    else
-    {
-        if (MainForm->GetLeftBarForm()->GetRenderMode() == UILeftBarForm::Render_Editor && m_pEditObject && m_pEditObject->GetActiveSMotion())
-        {
-            SAnimParams& P = m_pEditObject->m_SMParam;
-            a = P.min_t;
-            b = P.max_t;
-            c = P.t_current;
-        }
-        else
-        {
-            a = 0;
-            b = 0;
-            c = 0;
-        }
-    }
 }
 
 bool CActorTools::IsEngineMode()
 {
-    
-    return MainForm->GetLeftBarForm()->GetRenderMode() == UILeftBarForm::Render_Engine;
+    return false;
 }
 
 void CActorTools::SelectPreviewObject(bool bClear)
@@ -847,7 +474,6 @@ bool CActorTools::Import(LPCSTR initial, LPCSTR obj_name)
         m_pEditObject = O;
         // delete visual
         m_RenderObject.Clear();
-        MainForm->GetLeftBarForm()->SetRenderMode(false);
 
         UpdateProperties();
         return true;
@@ -1052,9 +678,7 @@ u16 CActorTools::ExtractMotionSlot(LPCSTR full_name, LPCSTR prefix)
 
 xr_string CActorTools::BuildMotionPref(u16 slot, LPCSTR prefix)
 {
-    VERIFY(slot < MAX_ANIM_SLOT);
-    string32 slot_nm; 			sprintf(slot_nm, "Slot %1d", slot + 1);
-    return PrepareKey(prefix, slot_nm).c_str();
+    return "";
 }
 
 
@@ -1069,68 +693,10 @@ void CActorTools::OptimizeMotions()
 
 void CActorTools::RealMakeThumbnail()
 {
-    if (CurrentObject()) {
-        CEditableObject* obj = CurrentObject();
-        xr_string tex_name, obj_name;
-        tex_name = ChangeFileExt(obj->GetName(), ".thm");
-        obj_name = ChangeFileExt(obj->GetName(), ".object");
-        FS_File 	F;
-        string_path	fname;
-        //.     FS.update_path(fname,_objects_,obj_name.c_str());
-        //.     R_ASSERT	(FS.file_find(fname,F));
-        R_ASSERT(FS.file_find(obj_name.c_str(), F));
-
-        if (ImageLib.CreateOBJThumbnail(tex_name.c_str(), obj, F.time_write)) {
-            ELog.Msg(mtInformation, "Thumbnail successfully created.");
-        }
-        else {
-            ELog.Msg(mtError, "Making thumbnail failed.");
-        }
-    }
-    else {
-        ELog.DlgMsg(mtError, "Can't create thumbnail. Empty scene.");
-    }
 }
 
 void CActorTools::RealGenerateLOD(bool hq)
 {
-    if (m_pEditObject)
-    {
-        bool engine_render = MainForm->GetLeftBarForm()->GetRenderMode() == UILeftBarForm::Render_Engine;
-        MainForm->GetLeftBarForm()->SetRenderMode(false);
-        CEditableObject* O = m_pEditObject;
-
-        if (O && O->IsMUStatic())
-        {
-            BOOL bLod = O->m_objectFlags.is(CEditableObject::eoUsingLOD);
-            O->m_objectFlags.set(CEditableObject::eoUsingLOD, FALSE);
-            xr_string tex_name;
-            tex_name = EFS.ChangeFileExt(O->GetName(), "");
-
-            string_path fname;
-            FS.update_path(fname, _objects_, "");
-
-            if (tex_name.find(fname) == 0)
-            {
-                tex_name.erase(0, xr_strlen(fname));
-            }
-
-            string_path				tmp;
-            strcpy(tmp, tex_name.c_str()); _ChangeSymbol(tmp, '\\', '_'); _ChangeSymbol(tmp, ':', '_');
-            tex_name = xr_string("lod_") + tmp;
-            tex_name = ImageLib.UpdateFileName(tex_name);
-            ImageLib.CreateLODTexture(O, tex_name.c_str(), LOD_IMAGE_SIZE, LOD_IMAGE_SIZE, LOD_SAMPLE_COUNT, O->Version(), hq ? 4/*7*/ : 1);
-            O->OnDeviceDestroy();
-            O->m_objectFlags.set(CEditableObject::eoUsingLOD, bLod);
-            ELog.Msg(mtInformation, "LOD for object '%s' successfully created.", O->GetName());
-        }
-        else
-        {
-            ELog.Msg(mtError, "Can't create LOD texture from non 'Multiple Usage' object.", O->GetName());
-        }
-        MainForm->GetLeftBarForm()->SetRenderMode(engine_render);
-    }
-
 }
 
 bool CActorTools::BatchConvert(LPCSTR fn, int flags)
@@ -1435,13 +1001,6 @@ bool CActorTools::BatchConvertDialogOMF(xr_vector<BatchFiles> files, shared_str 
 
 void CActorTools::PhysicsSimulate()
 {
-    if (!m_pEditObject)return;
-    m_IsPhysics = true;
-    CreatePhysicsWorld();
-    if (MainForm->GetLeftBarForm()->GetRenderMode() != UILeftBarForm::Render_Editor)
-        m_RenderObject.CreatePhysicsShell(&m_AVTransform);
-    else
-        m_pEditObject->CreatePhysicsShell(&m_AVTransform);
 }
 
 void CActorTools::PhysicsStopSimulate()

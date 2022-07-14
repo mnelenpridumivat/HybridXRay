@@ -198,16 +198,6 @@ char* CActorMain::GetCaption()
 	return ATools->GetEditFileName().empty()?"noname":ATools->GetEditFileName().c_str();
 }
 
-bool  CActorMain::ApplyShortCut(DWORD Key, TShiftState Shift)
-{
-    return inherited::ApplyShortCut(Key,Shift);
-}
-//---------------------------------------------------------------------------
-
-bool  CActorMain::ApplyGlobalShortCut(DWORD Key, TShiftState Shift)
-{
-    return inherited::ApplyGlobalShortCut(Key,Shift);
-}
 //---------------------------------------------------------------------------
 
 void CActorMain::RealUpdateScene()
@@ -300,12 +290,6 @@ void CAEPreferences::Save(CInifile* I)
 extern ECORE_API BOOL g_force16BitTransformQuant;
 void CAEPreferences::FillProp(PropItemVec& props)
 {
-	inherited::FillProp(props);
-
-    PHelper().CreateBOOL	(props,"Keybar\\show footsteps 12",	&bAlwaysShowKeyBar12);
-    PHelper().CreateBOOL	(props,"Keybar\\show footsteps 34",	&bAlwaysShowKeyBar34);
-
-    PHelper().CreateBOOL	(props,"Tools\\MotionExport\\Force 16bit MotionT",	&g_force16BitTransformQuant);
 }
 
 
@@ -519,6 +503,6 @@ void CActorMain::OnDrawUI()
 
 Ivector2 CActorMain::GetRenderMousePosition() const
 {
-    return MainForm->GetRenderForm()->GetMousePos();
+    return Ivector2().set(0,0);
 }
 

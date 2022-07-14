@@ -6,18 +6,12 @@
 #include "ui_main.h"
 #include "UI_ToolsCustom.h"
 
-#include "UIEditLightAnim.h"
-#include "UIImageEditorForm.h"
-#include "UIMinimapEditorForm.h"
-#include "UISoundEditorForm.h"
 #include "d3dutils.h"
 
 #include "PSLibrary.h"
 #include "Library.h"
 #include "LightAnimLibrary.h"
 
-#include "ImageManager.h"
-#include "SoundManager.h"
 #include "ResourceManager.h"
 #include "engine\XrGamePersistentEditors.h"
 
@@ -257,8 +251,6 @@ CCommandVar CommandInitialize(CCommandVar p1, CCommandVar p2)
     if(EPrefs)EPrefs->OnCreate		();
     if (UI->OnCreate(/*(TD3DWindow*)(u32)p1,(TPanel*)(u32)p2)*/))
     {
-        ExecCommand		(COMMAND_CREATE_SOUND_LIB);	R_ASSERT(SndLib);
-        SndLib->OnCreate();
         LALib.OnCreate	();
         Lib.OnCreate	();
         BOOL bWeather = psDeviceFlags.is(rsEnvironment);
@@ -304,8 +296,6 @@ CCommandVar 	CommandDestroy(CCommandVar p1, CCommandVar p2)
     xr_delete			(g_pGamePersistent);
     LALib.OnDestroy		();
     Tools->OnDestroy	();
-    SndLib->OnDestroy	();
-    xr_delete			(SndLib);
     DU_impl.DestroyObjects();
     Lib.OnDestroy		();
     UI->OnDestroy		();
@@ -368,44 +358,34 @@ CCommandVar 	CommandSetSettings(CCommandVar p1, CCommandVar p2)
 }             
 CCommandVar 	CommandSoundEditor(CCommandVar p1, CCommandVar p2)
 {
-    UISoundEditorForm::Show();
   //  TfrmSoundLib::EditLib(xr_string("Sound Editor"));
     return				TRUE;
 }
 CCommandVar 	CommandSyncSounds(CCommandVar p1, CCommandVar p2)
 {
-   
-    if (ELog.DlgMsg(mtConfirmation,TMsgDlgButtons() << mbYes << mbNo,"Are you sure to synchronize sounds?")==mrYes)
-        SndLib->RefreshSounds(true);
     return				TRUE;
 }
 CCommandVar 	CommandImageEditor(CCommandVar p1, CCommandVar p2)
 {
-    UIImageEditorForm::Show(false);
     return				TRUE;
 }
 CCommandVar 	CommandLightAnimEditor(CCommandVar p1, CCommandVar p2)
 {
-    UIEditLightAnim::Show();
     return				TRUE;
 }
 
 CCommandVar 	CommandMinimapEditor(CCommandVar p1, CCommandVar p2)
 {
-    UIMinimapEditorForm::Show();
     //TTMinimapEditor::Show   ();
     return				    TRUE;
 }
 
 CCommandVar 	CommandCheckTextures(CCommandVar p1, CCommandVar p2)
 {
-    UIImageEditorForm::ImportTextures();
     return				TRUE;
 }
 CCommandVar 	CommandRefreshTextures(CCommandVar p1, CCommandVar p2)
 {
-    if (ELog.DlgMsg(mtConfirmation,TMsgDlgButtons() << mbYes << mbNo,"Are you sure to synchronize textures?")==mrYes)
-        ImageLib.RefreshTextures(0);
     return				TRUE;
 }
 CCommandVar 	CommandReloadTextures(CCommandVar p1, CCommandVar p2)
@@ -521,12 +501,10 @@ CCommandVar 	CommandGridSlotSize(CCommandVar p1, CCommandVar p2)
 }
 CCommandVar 	CommandCreateSoundLib(CCommandVar p1, CCommandVar p2)
 {
-    SndLib		= xr_new<CSoundManager>();
     return				TRUE;
 }
 CCommandVar 	CommandMuteSound(CCommandVar p1, CCommandVar p2)
 {
-    SndLib->MuteSounds	(p1);
     return				TRUE;
 }
 CCommandVar CommandMoveCameraTo(CCommandVar p1, CCommandVar p2)
@@ -727,49 +705,3 @@ void TUI::RegisterCommands()
     REGISTER_SUB_CMD_END;
     REGISTER_CMD_S	    (COMMAND_ASSIGN_MACRO, 			CommandAssignMacro);
 }                                                                        
-
-//---------------------------------------------------------------------------
-bool TUI::ApplyShortCut(DWORD Key, TShiftState Shift)
-{
-	VERIFY(m_bReady);
-
-    if (ApplyGlobalShortCut(Key,Shift))	return true;
-
-    if (Key==VK_ESCAPE){		ExecCommand	(COMMAND_CHANGE_ACTION, etaSelect); return true;}
-
-    xr_shortcut SC; 
-    SC.key						= Key;
-    SC.ext.assign				(u8((Shift&ssShift?xr_shortcut::flShift:0)|
-    							 (Shift&ssCtrl ?xr_shortcut::flCtrl:0)|
-                                 (Shift&ssAlt  ?xr_shortcut::flAlt:0)));
-	SESubCommand* SUB 			= FindCommandByShortcut(SC);
-
-    if (!SUB||SUB->parent->global_shortcut) 			return false;
-
-    return 						ExecCommand(SC);
-}
-//---------------------------------------------------------------------------
-
-bool TUI::ApplyGlobalShortCut(DWORD Key, TShiftState Shift)
-{
-	VERIFY(m_bReady);
-
-    xr_shortcut SC;
-    SC.key = Key;
-    SC.ext.assign(u8((Shift & ssShift ? xr_shortcut::flShift : 0) |
-        (Shift & ssCtrl ? xr_shortcut::flCtrl : 0) |
-        (Shift & ssAlt ? xr_shortcut::flAlt : 0)));
-
-    if (UIKeyPressForm::SetResult(SC))return true;
-    if (Key == VK_OEM_3) { ExecCommand(COMMAND_RENDER_FOCUS); return true; }
-
-  
-	SESubCommand* SUB 			= FindCommandByShortcut(SC);
-
-    if (!SUB||!SUB->parent->global_shortcut) 			return false;
-
-    return						ExecCommand(SUB->parent->idx,SUB->p0,SUB->p1);
-}
-//---------------------------------------------------------------------------
-
-

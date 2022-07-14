@@ -12,7 +12,6 @@
 
 #include "..\XrEngine\stdafx.h"
 #include "..\XrEngine\XrDeviceInterface.h"
-#include "..\XrEProps\stdafx.h"
 #include "..\..\XrEngine\psystem.h"
 
 #include "..\..\XrEngine\fmesh.h"
@@ -54,7 +53,6 @@ DEFINE_VECTOR(ListItem*, ListItemsVec, ListItemsIt);
 DEFINE_VECTOR		(xr_string,AStringVec,AStringIt);
 DEFINE_VECTOR		(xr_string*,LPAStringVec,LPAStringIt);
 
-#include "..\Public\xrEProps.h"
 #include "..\..\xrCore\Log.h"
 #include "editor\ELog.h"
 #include "..\..\XrEngine\defines.h"
@@ -113,7 +111,7 @@ DEFINE_VECTOR(shared_str,RStrVec,RStrVecIt);
 
 #include "..\..\XrRender\Private\ETextureParams.h"
 #include "..\..\XrRender\Private\ResourceManager.h"
-#include "Editor/ImageManager.h"
+
 inline xr_string ChangeFileExt(const char* name, const char* e)
 {
 	string_path path;

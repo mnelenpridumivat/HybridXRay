@@ -10,7 +10,6 @@ CCustomPreferences* EPrefs=0;
 
 CCustomPreferences::CCustomPreferences()
 {
-    bOpen = false;
 	// view
     view_np				= 0.1f;
     view_fp				= 1500.f;
@@ -75,126 +74,12 @@ void  CCustomPreferences::OnClose	()
 }
 //---------------------------------------------------------------------------
 
-
-void CheckValidate(ShortcutValue*, const xr_shortcut& new_val, bool& result)
-{
-    {
-        xr_shortcut null;
-        if (null.similar(new_val)) { return; }
-    }
-	result 					= true; 
-    ECommandVec& cmds		= GetEditorCommands();
-    for (u32 cmd_idx=0; cmd_idx<cmds.size(); cmd_idx++){
-    	SECommand*& CMD		= cmds[cmd_idx];
-        if (CMD&&CMD->editable){
-        	VERIFY(!CMD->sub_commands.empty());
-		    for (u32 sub_cmd_idx=0; sub_cmd_idx<CMD->sub_commands.size(); sub_cmd_idx++){
-            	SESubCommand*& SUB_CMD = CMD->sub_commands[sub_cmd_idx];
-                if (SUB_CMD->shortcut.similar(new_val)){ result = false; return;}
-            }
-        }
-    }
-}
-
-void CCustomPreferences::OnKeyboardCommonFileClick(ButtonValue* B, bool& bModif, bool&)
-{
-    bModif = false;
-    xr_string fn;
-	switch(B->btn_num){
-    case 0:
-        if(EFS.GetOpenName(EDevice->m_hWnd,"$import$", fn, false, NULL, 6)){
-            CInifile* 	I 	= xr_new<CInifile>(fn.c_str(), TRUE, TRUE, TRUE);
-		    LoadShortcuts	(I);
-            xr_delete		(I);
-           // m_ItemProps->RefreshForm();
-        }
-    break;
-    case 1:
-        if(EFS.GetSaveName("$import$", fn, NULL, 6)){
-		    CInifile* 	I 	= xr_new<CInifile>(fn.c_str(), FALSE, TRUE, TRUE);
-		    SaveShortcuts	(I);
-            xr_delete		(I);
-        }
-    break;
-	}
-}
-
 void CCustomPreferences::FillProp(PropItemVec& props)
 {
-    PHelper().CreateFlag32	(props,"Objects\\Library\\Discard Instance",	&object_flags, 	epoDiscardInstance);
-    PHelper().CreateFlag32	(props,"Objects\\Skeleton\\Draw Joints",		&object_flags, 	epoDrawJoints);
-    PHelper().CreateFlag32	(props,"Objects\\Skeleton\\Draw Bone Axis",		&object_flags, 	epoDrawBoneAxis);
-    PHelper().CreateFlag32	(props,"Objects\\Skeleton\\Draw Bone Names",	&object_flags, 	epoDrawBoneNames);
-    PHelper().CreateFlag32	(props,"Objects\\Skeleton\\Draw Bone Shapes",	&object_flags, 	epoDrawBoneShapes);
-    PHelper().CreateFlag32	(props,"Objects\\Show\\Hint",					&object_flags, 	epoShowHint);
-    PHelper().CreateFlag32	(props,"Objects\\Show\\Pivot",					&object_flags, 	epoDrawPivot);
-    PHelper().CreateFlag32	(props,"Objects\\Show\\Animation Path",			&object_flags, 	epoDrawAnimPath);
-    PHelper().CreateFlag32	(props,"Objects\\Show\\LOD",					&object_flags, 	epoDrawLOD);
-    PHelper().CreateFlag32	(props,"Objects\\Loading\\Deffered Loading RB",	&object_flags, 	epoDeffLoadRB);
-    PHelper().CreateFlag32	(props,"Objects\\Loading\\Deffered Loading CF",	&object_flags, 	epoDeffLoadCF);
-    PHelper().CreateFlag32	(props,"Objects\\GroupObject\\Select ingroup",	&object_flags, 	epoSelectInGroup);
-
-    PHelper().CreateU32		(props,"Scene\\Common\\Recent Count", 		    &scene_recent_count,0, 		25);
-    PHelper().CreateU32		(props,"Scene\\Common\\Undo Level", 		    &scene_undo_level,	0, 		125);
-    PHelper().CreateFloat	(props,"Scene\\Grid\\Cell Size", 	           	&grid_cell_size,	0.1f,	10.f);
-    PHelper().CreateU32		(props,"Scene\\Grid\\Cell Count", 	           	&grid_cell_count,	10, 	1000);
-    PHelper().CreateFloat(props, "Scene\\RadiusRender", &EDevice->RadiusRender,10.f,100000.f);
-
-    PHelper().CreateBOOL	(props,"Tools\\Box Pick\\Limited Depth",		&bp_lim_depth);
-    PHelper().CreateBOOL	(props,"Tools\\Box Pick\\Back Face Culling",	&bp_cull);
-    PHelper().CreateFloat	(props,"Tools\\Box Pick\\Depth Tolerance",		&bp_depth_tolerance,0.f, 	10000.f);
-    PHelper().CreateFloat	(props,"Tools\\Sens\\Move",			          	&tools_sens_move);
-    PHelper().CreateBOOL	(props,"Tools\\Sens\\ShowMoveAxis",				&tools_show_move_axis);
-    
-    PHelper().CreateFloat	(props,"Tools\\Sens\\Rotate",		          	&tools_sens_rot);
-    PHelper().CreateFloat	(props,"Tools\\Sens\\Scale",		          	&tools_sens_scale);
-    PHelper().CreateAngle	(props,"Tools\\Snap\\Angle",		          	&snap_angle,		0, 		PI_MUL_2);
-    PHelper().CreateFloat	(props,"Tools\\Snap\\Move",			          	&snap_move, 		0.01f,	1000.f);
-    PHelper().CreateFloat	(props,"Tools\\Snap\\Move To", 		          	&snap_moveto,		0.01f,	1000.f);
-
-
-    PHelper().CreateFloat	(props,"Viewport\\Camera\\Move Sens",		    &cam_sens_move);
-    PHelper().CreateFloat	(props,"Viewport\\Camera\\Rotate Sens",		    &cam_sens_rot);
-    PHelper().CreateFloat	(props,"Viewport\\Camera\\Fly Speed",		    &cam_fly_speed, 	0.01f, 	100.f);
-    PHelper().CreateFloat	(props,"Viewport\\Camera\\Fly Altitude",	    &cam_fly_alt, 		0.f, 	1000.f);
-    PHelper().CreateColor	(props,"Viewport\\Fog\\Color",				    &fog_color	);
-    PHelper().CreateFloat	(props,"Viewport\\Fog\\Fogness",			    &fog_fogness, 		0.f, 	100.f);
-    PHelper().CreateFloat	(props,"Viewport\\Near Plane",				    &view_np, 			0.01f,	10.f);
-    PHelper().CreateFloat	(props,"Viewport\\Far Plane", 				    &view_fp,			10.f, 	10000.f);
-    PHelper().CreateAngle	(props,"Viewport\\FOV",		  				    &view_fov,			deg2rad(0.1f), deg2rad(170.f));
-    PHelper().CreateColor	(props,"Viewport\\Clear Color",		           	&scene_clear_color	);
-
-   ButtonValue* B = PHelper().CreateButton	(props,"Keyboard\\Common\\File","Load,Save", 0);
-    B->OnBtnClickEvent.bind	(this,&CCustomPreferences::OnKeyboardCommonFileClick);
-    ECommandVec& cmds		= GetEditorCommands();
-    for (u32 cmd_idx=0; cmd_idx<cmds.size(); cmd_idx++){
-    	SECommand*& CMD		= cmds[cmd_idx];
-        if (CMD&&CMD->editable){
-        	VERIFY(!CMD->sub_commands.empty());
-		    for (u32 sub_cmd_idx=0; sub_cmd_idx<CMD->sub_commands.size(); sub_cmd_idx++){
-            	SESubCommand*& SUB_CMD = CMD->sub_commands[sub_cmd_idx];
-                string128 nm; 		sprintf(nm,"%s%s%s",CMD->Desc(),!SUB_CMD->desc.empty()?"\\":"",SUB_CMD->desc.c_str());
-                ShortcutValue* V 	= PHelper().CreateShortcut(props,PrepareKey("Keyboard\\Shortcuts",nm), &SUB_CMD->shortcut);
-                V->OnValidateResultEvent.bind(CheckValidate);
-            }
-        }
-    }
 }
 
 void CCustomPreferences::Edit()
 {
-    if (bOpen)return;
-    bOpen = true;
-    // fill prop
-	PropItemVec props;
-
-    FillProp						(props);
-
-	m_ItemProps->AssignItems		(props);
-    UI->Push(this, false);
-   // m_ItemProps->ShowPropertiesModal();
-
-    // save changed options
 }
 //---------------------------------------------------------------------------
 extern bool bAllowLogCommands;
@@ -321,21 +206,6 @@ void CCustomPreferences::Save(CInifile* I)
 
 void CCustomPreferences::Draw()
 {
-    if (!bOpen)return;
-    ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(300, 400));
-    if (!ImGui::Begin("Editor Preferences",&bOpen))
-    {
-        OnClose();
-        Save();
-        ImGui::PopStyleVar();
-        ImGui::End();
-        return;
-    }
-    ImGui::PopStyleVar();
-    {
-        m_ItemProps->Draw();
-    }
-    ImGui::End();
 }
 
 void CCustomPreferences::Load()
@@ -375,17 +245,11 @@ void CCustomPreferences::AppendRecentFile(LPCSTR name)
 
 void CCustomPreferences::OnCreate()
 {
-	Load				();
-    m_ItemProps = xr_new<UIPropertiesForm>();
-	//m_ItemProps 		= TProperties::CreateModalForm("Editor Preferences",false,0,0,TOnCloseEvent(this,&CCustomPreferences::OnClose),TProperties::plItemFolders|TProperties::plFullSort); //TProperties::plFullExpand TProperties::plFullSort TProperties::plNoClearStore|TProperties::plFolderStore|
 }
 //---------------------------------------------------------------------------
 
 void CCustomPreferences::OnDestroy()
 {
-  
-    xr_delete(m_ItemProps);
-    Save				();
 }
 //---------------------------------------------------------------------------
 

@@ -48,9 +48,6 @@ public:
     virtual LPCSTR	EditorName				(){return "actor";}
     virtual LPCSTR	EditorDesc				(){return "Actor Editor";}
 
-    virtual bool 	ApplyShortCut			(DWORD Key, TShiftState Shift);
-    virtual bool 	ApplyGlobalShortCut		(DWORD Key, TShiftState Shift);
-
     // commands
 	virtual	void	RegisterCommands		(); 
 protected:

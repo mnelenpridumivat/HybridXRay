@@ -3,7 +3,6 @@
 #define UI_ActorToolsH
 #include "animation_motion.h"
 // refs
-class UIPropertiesForm;
 class CEditableObject;
 class PropValue;
 class CBlend;
@@ -76,7 +75,6 @@ private:
 };
 
 class PreviewModel{
-    UIPropertiesForm*	m_Props;
     float			m_fSpeed;
     float			m_fSegment;
     Flags32			m_Flags;
@@ -98,7 +96,7 @@ public:
     };
     EScrollAxis		m_ScrollAxis;
 public:
-                    PreviewModel		(){m_pObject=0;m_fSpeed=5.f;m_fSegment=50.f;m_Flags.zero();m_Props=0;m_vPosition.set(0,0,0);m_ScrollAxis=saZp;}
+                    PreviewModel		(){m_pObject=0;m_fSpeed=5.f;m_fSegment=50.f;m_Flags.zero();m_vPosition.set(0,0,0);m_ScrollAxis=saZp;}
     void			OnCreate			();
     void			OnDestroy			();
     void			Clear				();
@@ -132,22 +130,7 @@ class CActorTools: public CToolCustom
 	void   	OnChangeTransform		(PropValue* sender);
 	void   	OnMotionNameChange		(PropValue* sender);
 
-	void    	OnBoxAxisClick			(ButtonValue* sender, bool& bModif, bool& bSafe);
-	void    	OnCylinderAxisClick		(ButtonValue* sender, bool& bModif, bool& bSafe);
-    
-	void   	OnMotionEditClick		(ButtonValue* sender, bool& bModif, bool& bSafe);
-	void   	OnMotionControlClick	(ButtonValue* sender, bool& bModif, bool& bSafe);
-	void   	OnExportImportRefsClick	(ButtonValue* sender, bool& bModif, bool& bSafe);
-
-	void   	OnMarksControlClick12		(ButtonValue* sender, bool& bModif, bool& bSafe);
-	void   	OnMarksControlClick34		(ButtonValue* sender, bool& bModif, bool& bSafe);
-
     void   	OnObjectItemsFocused		(xr_vector<ListItem*>& items);
-
-    void  		OnBoneShapeClick  		(ButtonValue* sender, bool& bModif, bool& bSafe);
-    void  		OnBoneCreateDeleteClick (ButtonValue* sender, bool& bModif, bool& bSafe);
-    void  		OnBoneEditClick			(ButtonValue* sender, bool& bModif, bool& bSafe);
-    void  		OnBoneFileClick			(ButtonValue* sender, bool& bModif, bool& bSafe);
     void  		OnBoneLimitsChange		(PropValue* sender);
     
 	void   	OnJointTypeChange		(PropValue* sender);
@@ -160,9 +143,6 @@ class CActorTools: public CToolCustom
     void  OnTypeChange(PropValue* V);
 
     void  OnUsingLodFlagChange(PropValue* V);
-
-    void OnMakeThumbnailClick(ButtonValue* sender, bool& bModif, bool& bSafe);
-    void OnMakeLODClick(ButtonValue* sender, bool& bModif, bool& bSafe);
     SMotionVec 			appended_motions;
 protected:
 	// flags
@@ -192,9 +172,6 @@ protected:
 public:
 	EngineModel			m_RenderObject;
     PreviewModel		m_PreviewObject;
-
-    UIPropertiesForm*		m_Props;
-    UIItemListForm*			m_ObjectItems;
 
     struct BatchFiles
     {
@@ -250,11 +227,6 @@ public:
 
     virtual void		OnShowHint			(AStringVec& SS);
 
-    virtual bool  	MouseStart  		(TShiftState Shift);
-    virtual bool  	MouseEnd    		(TShiftState Shift);
-    virtual void  	MouseMove   		(TShiftState Shift);
-
-    virtual bool		Pick				(TShiftState Shift);
 	virtual bool 		RayPick				(const Fvector& start, const Fvector& dir, float& dist, Fvector* pt, Fvector* n);
 
     virtual void		ShowProperties		(LPCSTR focused_item){;}

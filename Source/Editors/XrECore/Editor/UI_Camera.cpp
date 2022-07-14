@@ -113,29 +113,6 @@ static const Fvector down_dir={0.f,-1.f,0.f};
 
 void CUI_Camera::Update(float dt)
 {
-	if (m_bMoving){
-    	BOOL bLeftDn = m_Shift&ssLeft;
-    	BOOL bRightDn = m_Shift&ssRight;
-		if ((m_Style==csFreeFly)&&(bLeftDn||bRightDn)&&!(bLeftDn&&bRightDn)){
-			Fvector vmove;
-	        vmove.set( m_CamMat.k );
-			vmove.mul( m_FlySpeed*dt );
-    		if (bLeftDn) 		m_Position.add( vmove );
-    		else if (bRightDn) 	m_Position.sub( vmove );
-
-            if (m_Shift&ssCtrl){
-                float dist = UI->ZFar();
-            	if (Tools->RayPick(m_Position,down_dir,dist))//UI->R PickGround(pos,m_Position,dir,-1))
-                	m_Position.y = m_Position.y+down_dir.y*dist+m_FlyAltitude;
-                else
-                	m_Position.y = m_FlyAltitude;
-                	
-            }
-
-        	UI->RedrawScene();
-	    }
-        BuildCamera();
-    }
 }
 
 void CUI_Camera::Pan(float dx, float dz)
@@ -170,96 +147,6 @@ void CUI_Camera::Rotate(float dx, float dy)
 	m_HPB.y-=m_SR*dy*EDevice->fASPECT;
 
     BuildCamera();
-}
-
-bool CUI_Camera::MoveStart(TShiftState Shift)
-{
-	if (Shift&ssShift){
-    	if (!m_bMoving){
-		    ShowCursor	(FALSE);
-    	    UI->IR_GetMousePosScreen(m_StartPos);
-			m_bMoving	= true;
-        }
-		m_Shift 	= Shift;
-        return true;
-    }
-	m_Shift = Shift;
-    return false;
-}
-
-bool CUI_Camera::MoveEnd(TShiftState Shift)
-{
-	m_Shift = Shift;
-	if ((!Shift&ssLeft)||(!Shift&ssShift)){
-	    SetCursorPos(m_StartPos.x, m_StartPos.y);
-    	ShowCursor	(TRUE);
-		m_bMoving	= false;
-        return true;
-    }
-    return false;
-}
-
-bool CUI_Camera::Process(TShiftState Shift, int dx, int dy)
-{
-    if (m_bMoving){
-        m_Shift = Shift;
-// camera move
-        if( dx || dy ){
-        	SetCursorPos(m_StartPos.x,m_StartPos.y);
-            switch (m_Style){
-            case csPlaneMove:
-                if ((m_Shift & ssLeft) && (m_Shift & ssRight)) 
-                {
-                    Rotate(dx, dy);
-                }
-                else if (m_Shift & ssLeft)
-                {
-                    Pan(dx, dy);
-                }
-                else if (m_Shift &ssRight)
-                {
-                    Scale(dy);
-                }
-            break;
-            case csFreeFly:
-                if ((m_Shift&ssLeft)||(m_Shift&ssRight)) Rotate (dx,dy);
-//                if (Shift&ssLeft)) Rotate (d.x,d.y);
-//                else if (Shift&ssRight)) Scale(d.y);
-            break;
-            case cs3DArcBall:
-            	ArcBall(m_Shift,dx,dy);
-            break;
-            }
-		    UI->RedrawScene();
-        }
-        return true;
-	}
-    return false;
-}
-
-bool CUI_Camera::KeyDown(WORD Key, TShiftState Shift)
-{
-    if (m_bMoving){
-    	switch (Key){
-        case VK_CONTROL:  m_Shift = ssCtrl | m_Shift; break;
-        default: return false;
-        }
-	    return true;
-    }
-	return false;
-}
-
-bool CUI_Camera::KeyUp(WORD Key, TShiftState Shift)
-{
-    if (m_bMoving){
-    	switch (Key){
-        case VK_SHIFT:  m_Shift = ~ssShift & m_Shift; MoveEnd(m_Shift); break;
-        case VK_CONTROL: m_Shift = ~ssCtrl & m_Shift; break;
-        default: return false;
-        }
-	    return true;
-    }
-	return false;
 }
 
 void CUI_Camera::MouseRayFromPoint( Fvector& start, Fvector& direction, const Ivector2& point )
@@ -309,44 +196,4 @@ void CUI_Camera::ZoomExtents(const Fbox& bb)
      camera.posz:=minz-s;
 */
 }
-
-void CUI_Camera::ArcBall(TShiftState Shift, float dx, float dy)
-{
-	float dist = m_Position.distance_to(m_Target);
-	if (Shift&ssAlt){
-		if (Shift&ssLeft){
-            Fvector vmove;
-            vmove.set( m_CamMat.k );  vmove.y = 0;
-            vmove.normalize_safe();
-            vmove.mul( dy*-m_SM );
-            m_Target.add( vmove );
-
-            vmove.set( m_CamMat.i );  vmove.y = 0;
-            vmove.normalize_safe();
-            vmove.mul( dx*m_SM );
-            m_Target.add( vmove );
-        }else if(Shift&ssRight){
-            Fvector vmove;
-            vmove.set( 0.f, dy, 0.f );
-            vmove.y *= -m_SM;
-            m_Target.add( vmove );
-        }
-    }else{
-    	if (Shift&ssRight){
-        	dist -= dx*m_SM;
-	    }else if (Shift&ssLeft){
-    	    m_HPB.x-=m_SR*dx;
-        	m_HPB.y-=m_SR*dy*EDevice->fASPECT;
-	    }
-    }
-
-    Fvector D;
-    D.setHP			(m_HPB.x,m_HPB.y);
-
-    m_Position.mul	(D,-dist);
-    m_Position.add	(m_Target);
-
-	BuildCamera		();
-}
-
 

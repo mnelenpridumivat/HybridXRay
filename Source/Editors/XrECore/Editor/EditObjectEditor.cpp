@@ -10,9 +10,7 @@
 #include "d3dutils.h"
 #include "ui_main.h"
 #include "render.h"
-#include "../Public/PropertiesListHelper.h"
 #include "ResourceManager.h"
-#include "ImageManager.h"
 
 const float tex_w	= LOD_SAMPLE_COUNT*LOD_IMAGE_SIZE;
 const float tex_h	= 1*LOD_IMAGE_SIZE;
@@ -249,10 +247,7 @@ void CEditableObject::RenderLOD(const Fmatrix& parent)
 
 xr_string CEditableObject::GetLODTextureName()
 {
-    string512 nm; 	strcpy	(nm,m_LibName.c_str()); _ChangeSymbol(nm,'\\','_');
-	xr_string 	l_name;
-    l_name 			= xr_string("lod_")+nm;
-    return ImageLib.UpdateFileName(l_name);
+    return "";
 }
 
 void CEditableObject::OnDeviceCreate()

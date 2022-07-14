@@ -7,7 +7,6 @@
 
 #include "ELog.h"
 #if 1
-	#include "UILogForm.h"
 	#include "ui_main.h"
 	void  ELogCallback(LPCSTR txt)
 	{
@@ -16,8 +15,6 @@
         TMsgDlgType mt	= ('!'==txt[0])||((0!=txt[1])&&('!'==txt[1]))?mtError:mtInformation;
         if (('!'==txt[0])||('#'==txt[0])) txt++;
         if (('!'==txt[0])||('#'==txt[0])) txt++;
-		if (bDlg)		UILogForm::AddDlgMessage	(mt,txt);
-        else			UILogForm::AddMessage		(mt,txt);
 	}
 #endif
 #ifdef _LW_EXPORT
@@ -178,7 +175,6 @@ int CLog::DlgMsg (TMsgDlgType mt, int btn, LPCSTR _Format, ...)
 void CLog::Close()
 {
 	SetLogCB(0);
-	UILogForm::Destroy();
 }
 
 
@@ -239,9 +235,6 @@ void CLog::Msg(TMsgDlgType mt, LPCSTR _Format, ...)
 
 	std::cout << buf << std::endl;
 
-#if 1
-    UILogForm::AddMessage(mt,xr_string(buf));
-#endif
 #ifdef _MAX_EXPORT
 	EConsole.print(mt,buf);
 #endif

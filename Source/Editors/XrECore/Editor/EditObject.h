@@ -4,7 +4,6 @@
 #include "Bone.h"
 #include "Motion.h"
 #if 1
-#	include "../../../Editors/Public/PropertiesListTypes.h"
 //	#include "PropertiesListHelper.h"
 #	include "..\Engine\XrGameMaterialLibraryEditors.h"
 #	include "pick_defs.h"
@@ -39,7 +38,6 @@ class	CCustomObject;
 
 // refs
 class XRayMtl;
-class SSimpleImage;
 
 class ECORE_API CSurface
 {
@@ -63,13 +61,11 @@ public:
 
 	Flags32			m_RTFlags;
 	u32				tag;
-    SSimpleImage*	m_ImageData;
     u16             m_id;
 public:
 	CSurface		()
 	{
     	m_GameMtlName="default";
-        m_ImageData	= 0;
 		m_Shader	= 0;
         m_RTFlags.zero	();
 		m_Flags.zero	();
@@ -82,7 +78,7 @@ public:
     	return (0!=xr_strlen(m_Texture))&&(0!=xr_strlen(m_ShaderName));
     }
 #if 1
-					~CSurface		(){R_ASSERT(!m_Shader);xr_delete(m_ImageData);}
+					~CSurface		(){R_ASSERT(!m_Shader);}
 	IC void			CopyFrom		(CSurface* surf){*this = *surf; m_Shader=0; m_RTFlags.set(rtValidShader, FALSE);}
     IC int			_Priority		()	{return _Shader()?_Shader()->E[0]->flags.iPriority:1;}
     IC bool			_StrictB2F		()	{return _Shader()?_Shader()->E[0]->flags.bStrictB2F:false;}

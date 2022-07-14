@@ -11,7 +11,6 @@ enum ECameraStyle{
 class ECORE_API CUI_Camera{
 	ECameraStyle	m_Style;
     bool			m_bMoving;
-    TShiftState	 	m_Shift;
     Ivector2		m_StartPos;
     float 			m_FlySpeed;
     float 			m_FlyAltitude;
@@ -31,7 +30,6 @@ protected:
     void 			Pan			(float X, float Z);
     void 			Scale		(float Y);
     void 			Rotate		(float X, float Y);
-    void			ArcBall		(TShiftState Shift, float X, float Y);
 public:
 					CUI_Camera	();
     virtual			~CUI_Camera	();
@@ -44,13 +42,6 @@ public:
     void 			Update		(float dt);
     void			SetStyle	(ECameraStyle style);
 	ECameraStyle	GetStyle	(){return m_Style;}
-
-    bool			MoveStart	(TShiftState Shift);
-    bool			MoveEnd		(TShiftState Shift);
-    bool			IsMoving	(){return m_bMoving;}
-	bool 			Process		(TShiftState Shift, int dx, int dy);
-    bool			KeyDown		(WORD Key, TShiftState Shift);
-    bool			KeyUp		(WORD Key, TShiftState Shift);
 
     void			ViewFront	(){m_HPB.set(0.f,0.f,0.f); 			BuildCamera();}
     void			ViewBack 	(){m_HPB.set(M_PI,0.f,0.f); 		BuildCamera();}

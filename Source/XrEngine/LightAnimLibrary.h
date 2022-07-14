@@ -3,7 +3,6 @@
 #ifndef LightAnimLibraryH
 #define LightAnimLibraryH
 //---------------------------------------------------------------------------
-enum EItemType;
 class ENGINE_API CLAItem			
 {
 public:
@@ -45,10 +44,6 @@ public:
 public:
 					ELightAnimLibrary	();
 					~ELightAnimLibrary	();
-#if DEV_MODE       
-    void  			RemoveObject		(LPCSTR fname, EItemType type, bool& res);
-    void		 	RenameObject		(LPCSTR fn0, LPCSTR fn1, EItemType type);
-#endif
 
     void			OnCreate			();
     void			OnDestroy			();

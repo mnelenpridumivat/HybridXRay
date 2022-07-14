@@ -308,38 +308,6 @@ bool XrGameMaterialLibraryEditors::Save()
 //------------------------------------------------------------------------------
 void SGameMtlEditor::FillProp(PropItemVec& items, ListItem* owner)
 {
-    PropValue* V = 0;
-    PHelper().CreateRText(items, "Desc", &m_Desc);
-    // flags                                                      	
-    V = PHelper().CreateFlag32(items, "Flags\\Dynamic", &Flags, flDynamic);	V->Owner()->Enable(FALSE);
-    PHelper().CreateFlag32(items, "Flags\\Passable", &Flags, flPassable);
-    if (Flags.is(flDynamic))
-        PHelper().CreateFlag32(items, "Flags\\Breakable", &Flags, flBreakable);
-    PHelper().CreateFlag32(items, "Flags\\Bounceable", &Flags, flBounceable);
-    PHelper().CreateFlag32(items, "Flags\\Skidmark", &Flags, flSkidmark);
-    PHelper().CreateFlag32(items, "Flags\\Bloodmark", &Flags, flBloodmark);
-    PHelper().CreateFlag32(items, "Flags\\Climable", &Flags, flClimable);
-    PHelper().CreateFlag32(items, "Flags\\Liquid", &Flags, flLiquid);
-    PHelper().CreateFlag32(items, "Flags\\Suppress Shadows", &Flags, flSuppressShadows);
-    PHelper().CreateFlag32(items, "Flags\\Suppress Wallmarks", &Flags, flSuppressWallmarks);
-    PHelper().CreateFlag32(items, "Flags\\Actor Obstacle", &Flags, flActorObstacle);
-    PHelper().CreateFlag32(items, "Flags\\Bullet No Ricoshet", &Flags, flNoRicoshet);
-    // physics part
-    PHelper().CreateFloat(items, "Physics\\Friction", &fPHFriction, 0.f, 100.f, 0.001f, 3);
-    PHelper().CreateFloat(items, "Physics\\Damping", &fPHDamping, 0.001f, 100.f, 0.001f, 3);
-    PHelper().CreateFloat(items, "Physics\\Spring", &fPHSpring, 0.001f, 100.f, 0.001f, 3);
-    PHelper().CreateFloat(items, "Physics\\Bounce start vel", &fPHBounceStartVelocity, 0.f, 100.f, 0.01f, 2);
-    PHelper().CreateFloat(items, "Physics\\Bouncing", &fPHBouncing, 0.f, 1.f, 0.001f, 3);
-    // factors
-    PHelper().CreateFloat(items, "Factors\\Bounce Damage", &fBounceDamageFactor, 0.f, 100.f, 0.1f, 1);
-    PHelper().CreateFloat(items, "Factors\\Injurious", &fInjuriousSpeed, 0.f, 10000.f);
-    PHelper().CreateFloat(items, "Factors\\Shooting (1-went through)", &fShootFactor);
-    PHelper().CreateFloat(items, "Factors\\Shooting MP (1-went through)", &fShootFactorMP);
-    PHelper().CreateFloat(items, "Factors\\Transparency (1-full transp)", &fVisTransparencyFactor);
-    PHelper().CreateFloat(items, "Factors\\Sound occlusion (1-full hear)", &fSndOcclusionFactor);
-    PHelper().CreateFloat(items, "Factors\\Flotation (1-full passable)", &fFlotationFactor);
-
-    PHelper().CreateFloat(items, "Factors\\Density Factor", &fDensityFactor, 0.0f, 1000.0f, 1.0f, 1);
 }
 
 
@@ -348,24 +316,11 @@ void SGameMtlEditor::FillProp(PropItemVec& items, ListItem* owner)
 //------------------------------------------------------------------------------
 void  SGameMtlPairEditor::OnFlagChange(PropValue* sender)
 {
-    bool bChecked = sender->Owner()->m_Flags.is(PropItem::flCBChecked);
-    u32 mask = 0;
-    if (sender == propBreakingSounds)			mask = flBreakingSounds;
-    else if (sender == propStepSounds)		mask = flStepSounds;
-    else if (sender == propCollideSounds)		mask = flCollideSounds;
-    else if (sender == propCollideParticles)	mask = flCollideParticles;
-    else if (sender == propCollideMarks)		mask = flCollideMarks;
-    else THROW;
-
-    OwnProps.set(mask, bChecked);
-    sender->Owner()->m_Flags.set(PropItem::flDisabled, !bChecked);
-
-    ExecCommand(COMMAND_UPDATE_PROPERTIES);
 }
 
 IC u32 SetMask(u32 mask, Flags32 flags, u32 flag)
 {
-    return mask ? (mask | (flags.is(flag) ? PropItem::flCBChecked : PropItem::flDisabled)) : 0;
+    return 0;
 }
 
 IC SGameMtlPairEditor* GetLastParentValue(SGameMtlPairEditor* who, u32 flag)
@@ -408,92 +363,8 @@ BOOL SGameMtlPairEditor::SetParent(int parent)
     return TRUE;
 }
 
-void  SGameMtlPairEditor::FillChooseMtl(ChooseItemVec& items, void* param)
-{
-    for (GameMtlIt m0_it = GameMaterialLibraryEditors->FirstMaterial(); m0_it != GameMaterialLibraryEditors->LastMaterial(); m0_it++) {
-        SGameMtl* M0 = *m0_it;
-        for (GameMtlIt m1_it = GameMaterialLibraryEditors->FirstMaterial(); m1_it != GameMaterialLibraryEditors->LastMaterial(); m1_it++) {
-            SGameMtl* M1 = *m1_it;
-            GameMtlPairIt p_it = GameMaterialLibraryEditors->GetMaterialPairIt(M0->GetID(), M1->GetID());
-            if (p_it != GameMaterialLibraryEditors->LastMaterialPair())
-                items.push_back(SChooseItem(GameMaterialLibraryEditors->MtlPairToName(M0->GetID(), M1->GetID()), ""));
-        }
-    }
-}
-
-void  SGameMtlPairEditor::OnParentClick(ButtonValue* V, bool& bModif, bool& bSafe)
-{
-    bModif = false;
-    switch (V->btn_num)
-    {
-    case 0:
-    {
-        LPCSTR MP = 0;
-        SGameMtlPair* P = GameMaterialLibraryEditors->GetMaterialPair(ID_parent);
-        xr_string nm = P ? GameMaterialLibraryEditors->MtlPairToName(P->GetMtl0(), P->GetMtl1()) : NONE_CAPTION;
-        UIChooseForm::SelectItem(smCustom, 1, (nm == NONE_CAPTION) ? 0 : nm.c_str(), TOnChooseFillItems(this, &SGameMtlPairEditor::FillChooseMtl));
-        m_EditParent = true;
-    }break;
-    }
-}
-
-void  SGameMtlPairEditor::OnCommandClick(ButtonValue* V, bool& bModif, bool& bSafe)
-{
-    bModif = false;
-    switch (V->btn_num) {
-    case 0: {
-        SGameMtlPair* P = GameMaterialLibraryEditors->GetMaterialPair(ID_parent);
-        xr_string nm = P ? GameMaterialLibraryEditors->MtlPairToName(P->GetMtl0(), P->GetMtl1()) : NONE_CAPTION;
-        UIChooseForm::SelectItem(smCustom, 128, 0, TOnChooseFillItems(this, &SGameMtlPairEditor::FillChooseMtl));
-        m_EditCommand = true;
-    }
-          break;
-    }
-}
-
 void SGameMtlPairEditor::FillProp(PropItemVec& items)
 {
-    PropValue::TOnChange OnChange = 0;
-    u32 show_CB = 0;
-    SGameMtlPair* P = 0;
-    if (ID_parent != GAMEMTL_NONE_ID) {
-        OnChange.bind(this, &SGameMtlPairEditor::OnFlagChange);
-        show_CB = PropItem::flShowCB;
-        P = GameMaterialLibraryEditors->GetMaterialPair(ID_parent);
-    }
-    ButtonValue* B;
-    B = PHelper().CreateButton(items, "Command", "Set As Parent To...", 0);
-    B->OnBtnClickEvent.bind(this, &SGameMtlPairEditor::OnCommandClick);
-    B = PHelper().CreateButton(items, "Parent", P ? GameMaterialLibraryEditors->MtlPairToName(P->GetMtl0(), P->GetMtl1()) : NONE_CAPTION, 0);
-    B->OnBtnClickEvent.bind(this, &SGameMtlPairEditor::OnParentClick);
-
-    propBreakingSounds = PHelper().CreateChoose(items, "Breaking Sounds", &BreakingSounds, smSoundSource, 0, 0, GAMEMTL_SUBITEM_COUNT);
-    propStepSounds = PHelper().CreateChoose(items, "Step Sounds", &StepSounds, smSoundSource, 0, 0, GAMEMTL_SUBITEM_COUNT + 2);
-    propCollideSounds = PHelper().CreateChoose(items, "Collide Sounds", &CollideSounds, smSoundSource, 0, 0, GAMEMTL_SUBITEM_COUNT);
-    propCollideParticles = PHelper().CreateChoose(items, "Collide Particles", &CollideParticles, smParticles, 0, 0, GAMEMTL_SUBITEM_COUNT);
-    propCollideMarks = PHelper().CreateChoose(items, "Collide Marks", &CollideMarks, smTexture, 0, 0, GAMEMTL_SUBITEM_COUNT);
-
-    propBreakingSounds->Owner()->m_Flags.assign(SetMask(show_CB, OwnProps, flBreakingSounds));
-    propStepSounds->Owner()->m_Flags.assign(SetMask(show_CB, OwnProps, flStepSounds));
-    propCollideSounds->Owner()->m_Flags.assign(SetMask(show_CB, OwnProps, flCollideSounds));
-    propCollideParticles->Owner()->m_Flags.assign(SetMask(show_CB, OwnProps, flCollideParticles));
-    propCollideMarks->Owner()->m_Flags.assign(SetMask(show_CB, OwnProps, flCollideMarks));
-
-    propBreakingSounds->OnChangeEvent = OnChange;
-    propStepSounds->OnChangeEvent = OnChange;
-    propCollideSounds->OnChangeEvent = OnChange;
-    propCollideParticles->OnChangeEvent = OnChange;
-    propCollideMarks->OnChangeEvent = OnChange;
-
-    if (show_CB)
-    {
-        SGameMtlPairEditor* O;
-        if (0 != (O = GetLastParentValue(this, flBreakingSounds)))	BreakingSounds = O->BreakingSounds;
-        if (0 != (O = GetLastParentValue(this, flStepSounds))) 		StepSounds = O->StepSounds;
-        if (0 != (O = GetLastParentValue(this, flCollideSounds))) 	CollideSounds = O->CollideSounds;
-        if (0 != (O = GetLastParentValue(this, flCollideParticles))) CollideParticles = O->CollideParticles;
-        if (0 != (O = GetLastParentValue(this, flCollideMarks))) 	CollideMarks = O->CollideMarks;
-    }
 }
 
 void SGameMtlPairEditor::TransferFromParent(SGameMtlPairEditor* parent)
@@ -671,62 +542,6 @@ void SGameMtlPairEditor::Save(IWriter& fs)
 
 void  SGameMtlPairEditor::OnDrawUI()
 {
-    if (m_EditParent)
-    {
-        bool change = true;
-        shared_str result;
-        if (UIChooseForm::GetResult(change, result))
-        {
-            if (change)
-            {
-                int m0, m1;
-                GameMaterialLibraryEditors->NameToMtlPair(result.c_str(), m0, m1);
-                SGameMtlPair* p = GameMaterialLibraryEditors->GetMaterialPair(m0, m1); VERIFY(p);
-                if (!SetParent(p->GetID()))
-                {
-                    ELog.DlgMsg(mtError, "Pair can't inherit from self.");
-                }
-                else
-                {
-                    ExecCommand(COMMAND_UPDATE_PROPERTIES);
-                }
-
-            }
-            else
-            {
-                SetParent(GAMEMTL_NONE_ID);
-                ExecCommand(COMMAND_UPDATE_PROPERTIES);
-            }
-            m_EditParent = false;
-        }
-        UIChooseForm::Update();
-    }
-    if (m_EditCommand)
-    {
-        bool change = true;
-        shared_str result;
-        if (UIChooseForm::GetResult(change, result))
-        {
-            if (change)
-            {
-                AStringVec lst;
-                _SequenceToList(lst, result.c_str());
-                for (AStringIt it = lst.begin(); it != lst.end(); it++)
-                {
-                    int m0, m1;
-                    GameMaterialLibraryEditors->NameToMtlPair(it->c_str(), m0, m1);
-                    SGameMtlPairEditor* p =static_cast<SGameMtlPairEditor*>( GameMaterialLibraryEditors->GetMaterialPair(m0, m1)); VERIFY(p);
-                    if (!p->SetParent(GetID()))
-                    {
-                        ELog.DlgMsg(mtError, "Pair can't inherit from self.");
-                    }
-                }
-                ExecCommand(COMMAND_UPDATE_PROPERTIES);
-            }
-            m_EditCommand = FALSE;
-        }
-        UIChooseForm::Update();
-    }
 }
 
 SGameMtlPairEditor::~SGameMtlPairEditor()

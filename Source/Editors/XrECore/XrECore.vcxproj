@@ -121,32 +121,17 @@
     <ClCompile Include="Editor\EditorPreferences.cpp" />
     <ClCompile Include="Editor\ELog.cpp" />
     <ClCompile Include="Editor\EStats.cpp" />
-    <ClCompile Include="Editor\EThumbnail.cpp" />
-    <ClCompile Include="Editor\EThumbnailGroup.cpp" />
-    <ClCompile Include="Editor\EThumbnailObject.cpp" />
-    <ClCompile Include="Editor\EThumbnailSound.cpp" />
-    <ClCompile Include="Editor\EThumbnailTexture.cpp" />
     <ClCompile Include="Editor\ExportObjectOGF.cpp" />
     <ClCompile Include="Editor\ExportObjectOGFCalculateTB.cpp" />
     <ClCompile Include="Editor\ExportSkeleton.cpp" />
     <ClCompile Include="Editor\ExportSkeletonCalculateTB.cpp" />
     <ClCompile Include="Editor\GeometryCollector.cpp" />
-    <ClCompile Include="Editor\UIEditLightAnim.cpp" />
-    <ClCompile Include="Editor\UIImageEditorForm.cpp" />
-    <ClCompile Include="Editor\ImageManager.cpp" />
-    <ClCompile Include="Editor\ImageManagerDO.cpp" />
-    <ClCompile Include="Editor\ImageManagerLOD.cpp" />
     <ClCompile Include="Editor\Library.cpp" />
-    <ClCompile Include="Editor\UILogForm.cpp" />
-    <ClCompile Include="Editor\UIMinimapEditorForm.cpp" />
     <ClCompile Include="Editor\ParticleEffectActions.cpp" />
     <ClCompile Include="Editor\pDomain.cpp" />
     <ClCompile Include="Editor\PhysicsShellHolderEditorBase.cpp" />
     <ClCompile Include="Editor\render.cpp" />
-    <ClCompile Include="Editor\UISoundEditorForm.cpp" />
-    <ClCompile Include="Editor\SoundManager.cpp" />
     <ClCompile Include="Editor\TLSPRITE.CPP" />
-    <ClCompile Include="Editor\UIRenderForm.cpp" />
     <ClCompile Include="Editor\UI_Camera.cpp" />
     <ClCompile Include="Editor\ui_main.cpp" />
     <ClCompile Include="Editor\UI_MainCommand.cpp" />
@@ -245,24 +230,17 @@
     <ClInclude Include="Editor\EDetailModel.h" />
     <ClInclude Include="Editor\EditMesh.h" />
     <ClInclude Include="Editor\EditObject.h" />
-    <ClInclude Include="Editor\EditorChooseEvents.h" />
     <ClInclude Include="Editor\EditorPreferences.h" />
     <ClInclude Include="Editor\ELog.h" />
     <ClInclude Include="Editor\EStats.h" />
-    <ClInclude Include="Editor\EThumbnail.h" />
     <ClInclude Include="Editor\ExportObjectOGF.h" />
     <ClInclude Include="Editor\ExportSkeleton.h" />
     <ClInclude Include="Editor\GeometryCollector.h" />
-    <ClInclude Include="Editor\UIEditLightAnim.h" />
-    <ClInclude Include="Editor\UIImageEditorForm.h" />
-    <ClInclude Include="Editor\ImageManager.h" />
     <ClInclude Include="Editor\itterate_adjacents.h" />
     <ClInclude Include="Editor\itterate_adjacents_dynamic.h" />
     <ClInclude Include="Editor\Library.h" />
-    <ClInclude Include="Editor\UILogForm.h" />
     <ClInclude Include="Editor\lwo2.h" />
     <ClInclude Include="Editor\LW_ShaderDef.h" />
-    <ClInclude Include="Editor\UIMinimapEditorForm.h" />
     <ClInclude Include="Editor\ParticleEffectActions.h" />
     <ClInclude Include="Editor\PhysicsShellHolderEditorBase.h" />
     <ClInclude Include="Editor\pick_defs.h" />
@@ -270,10 +248,7 @@
     <ClInclude Include="Editor\render.h" />
     <ClInclude Include="Editor\SkeletonFace.h" />
     <ClInclude Include="Editor\SkeletonVert.h" />
-    <ClInclude Include="Editor\UISoundEditorForm.h" />
-    <ClInclude Include="Editor\SoundManager.h" />
     <ClInclude Include="Editor\TLSPRITE.h" />
-    <ClInclude Include="Editor\UIRenderForm.h" />
     <ClInclude Include="Editor\UI_Camera.h" />
     <ClInclude Include="Editor\ui_main.h" />
     <ClInclude Include="Editor\UI_MainCommand.h" />
@@ -312,8 +287,6 @@
     <ClInclude Include="WildMagic\WmlWinSystem.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Editor\ImageEditor.ddp" />
-    <None Include="Editor\ImageEditor.dfm" />
     <None Include="Editor\LogForm.dfm" />
     <None Include="Editor\MinimapEditor.ddp" />
     <None Include="Editor\MinimapEditor.dfm" />
@@ -345,14 +318,8 @@
     <ProjectReference Include="..\FreeMagic\FreeMagic.vcxproj">
       <Project>{dcc5b76d-be13-4d1f-be14-75d0fa678340}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\XrEProps\XrEProps.vcxproj">
-      <Project>{6d47afc7-0557-4bbf-8902-b248f3621419}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\XrETools\XrETools.vcxproj">
       <Project>{fb040f9f-8344-43da-a4d6-1c8a9d5dbc59}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\XrEUI\XrEUI.vcxproj">
-      <Project>{7e28883c-db86-4ee8-813a-991ba20c68c9}</Project>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">

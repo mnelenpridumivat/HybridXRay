@@ -36,7 +36,7 @@ public:
 typedef xr_vector<EEditorState> EStateList;
 typedef EStateList::iterator EStateIt;
 
-class ECORE_API TUI: public IInputReceiver,public XrUIManager
+class ECORE_API TUI: public IInputReceiver
 {
     bool m_AppClosed;
     inline void	RealQuit() { m_AppClosed = true; }
@@ -46,8 +46,6 @@ protected:
 protected:
     friend class CCustomPreferences;
     friend class CEditorRenderDevice;
-
-    TShiftState m_ShiftState;
 
     bool m_bAppActive;
 protected:
@@ -133,7 +131,6 @@ public:
     int 			GetRealHeight	()  {   return EDevice->dwRealHeight; }
 
     IC float 		ZFar			()	{	return EDevice->m_Camera.m_Zfar; }
-    IC TShiftState	GetShiftState 	()	{	return m_ShiftState; }
 
     virtual bool 	OnCreate		();
     virtual void 	OnDestroy		();
@@ -161,13 +158,6 @@ public:
     bool  IsMouseCaptured		()	{	return m_MouseCaptured|m_MouseMultiClickCaptured;}
     bool  IsMouseInUse		()	{	return bMouseInUse;}
 
-   virtual bool  KeyDown     		(WORD Key, TShiftState Shift);
-    bool  KeyUp       		(WORD Key, TShiftState Shift);
-    bool  KeyPress    		(WORD Key, TShiftState Shift);
-	void  MousePress			(TShiftState Shift, int X, int Y);
-	void  MouseRelease		(TShiftState Shift, int X, int Y);
-	void  MouseMove			(TShiftState Shift, int X, int Y);
-
     void 			BeginEState			(EEditorState st){ m_EditorState.push_back(st); }
     void 			EndEState			(){ m_EditorState.pop_back(); }
     void 			EndEState			(EEditorState st){
@@ -194,9 +184,6 @@ public:
     bool    		NeedAbort           (){ return bNeedAbort;}
     void 			NeedBreak			(){bNeedAbort = true;}
     void 			ResetBreak			(){bNeedAbort = false;}
-
-    virtual bool 	ApplyShortCut		(DWORD Key, TShiftState Shift)=0;
-    virtual bool 	ApplyGlobalShortCut	(DWORD Key, TShiftState Shift)=0;
 
     void			SetGradient			(u32 color){;}
 

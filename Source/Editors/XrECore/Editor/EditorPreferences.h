@@ -3,9 +3,6 @@
 #ifndef EditorPreferencesH
 #define EditorPreferencesH
 //---------------------------------------------------------------------------
-// refs
-class UIPropertiesForm;
-
 //---------------------------------------------------------------------------
 enum{
     epoDrawPivot		= (1<<0),
@@ -21,10 +18,8 @@ enum{
     epoDeffLoadCF		= (1<<10),
     epoSelectInGroup    = (1<<11),
 };
-class ECORE_API CCustomPreferences:protected XrUI
+class ECORE_API CCustomPreferences
 {
-private:	// User declarations
-    UIPropertiesForm*	m_ItemProps;
 public:
     u32             start_w;
     u32             start_h;
@@ -66,7 +61,6 @@ public:
     Flags32			object_flags;
     shared_str      sWeather;
 protected:
-	void 			OnKeyboardCommonFileClick	(ButtonValue* value, bool& bModif, bool& bSafe);
 	void 	        OnClose();
     void			ApplyValues();
 

@@ -3,7 +3,6 @@
 #pragma hdrstop
 #include "gamefont.h"
 #include <sal.h>
-#include "ImageManager.h"
 #include "ui_main.h"
 #include "render.h"
 #include "../Engine/XrGameMaterialLibraryEditors.h"
@@ -166,7 +165,6 @@ bool CEditorRenderDevice::Create()
 		xr_strcat			(ini_name, "_imgui.ini");
 		FS.update_path(ini_path, "$local_root$", ini_name);
 		if (!FS.exist(ini_path))UI->ResetUI();
-		UI->Initialize(m_hWnd, HW.pDevice, ini_path);
 	}
 	
 	// after creation
@@ -202,8 +200,6 @@ void CEditorRenderDevice::Destroy(){
 	// before destroy
 	_Destroy			(FALSE);
 	xr_delete			(Resources);
-
-	UI->Destroy();
 	// real destroy
 	HW.DestroyDevice	();
 
@@ -298,7 +294,6 @@ void CEditorRenderDevice::Reset  	(bool )
 {
     u32 tm_start			= TimerAsync();
     Resources->reset_begin	();
-	UI->ResetBegin();
     Memory.mem_compact		();
     HW.DevPP.BackBufferWidth= dwRealWidth;
     HW.DevPP.BackBufferHeight= dwRealHeight;
@@ -308,7 +303,6 @@ void CEditorRenderDevice::Reset  	(bool )
 //		fWidth_2			= float(dwRealWidth/2);
 //		fHeight_2			= float(dwRealHeight/2);
     Resources->reset_end	();
-	UI->ResetEnd();
     _SetupStates			();
     u32 tm_end				= TimerAsync();
     Msg						("*** RESET [%d ms]",tm_end-tm_start);
@@ -450,68 +444,5 @@ void CEditorRenderDevice::DestryWindow()
 }
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg)
-	{
-	case WM_ACTIVATE:
-	{
-		u16 fActive = LOWORD(wParam);
-		BOOL fMinimized = (BOOL)HIWORD(wParam);
-		BOOL bActive = ((fActive != WA_INACTIVE) && (!fMinimized)) ? TRUE : FALSE;
-		if (bActive != EDevice->b_is_Active)
-		{
-			EDevice->b_is_Active = bActive;
-
-			if (EDevice->b_is_Active)
-			{
-				if (UI)UI->OnAppActivate();
-			}
-			else
-			{
-				
-				if (UI)UI->OnAppDeactivate();
-			}
-		}
-	}
-	break;
-	}
-	if (UI &&UI->WndProcHandler(hWnd, msg, wParam, lParam))
-		return true;
-
-	switch (msg)
-	{
-	case WM_KEYDOWN: 
-	case WM_SYSKEYDOWN:
-		if(UI)UI->KeyDown(wParam,UI->GetShiftState());
-		break;
-	case WM_KEYUP:
-	case WM_SYSKEYUP:
-		if (UI)UI->KeyUp(wParam, UI->GetShiftState());
-		break;
-	
-	case WM_SIZE:
-
-		if (UI && HW.pDevice)
-		{
-			UI->Resize(LOWORD(lParam), HIWORD(lParam), wParam == SIZE_MAXIMIZED);
-		}
-		/*if (g_pd3dDevice != NULL && wParam != SIZE_MINIMIZED)
-		{
-			g_d3dpp.BackBufferWidth = ;
-			g_d3dpp.BackBufferHeight = ;
-			ResetDevice();
-		}*/
-		return 0;
-	
-	case WM_SYSCOMMAND:
-
-		if ((wParam & 0xfff0) == SC_KEYMENU) // Disable ALT application menu
-		{
-			return 0;
-		}
-		break;
-	case WM_DESTROY:
-		::PostQuitMessage(0);
-		return 0;
-	}
 	return ::DefWindowProc(hWnd, msg, wParam, lParam);
 }

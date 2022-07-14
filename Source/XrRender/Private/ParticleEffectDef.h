@@ -107,39 +107,6 @@ namespace PS
 
 		void 				Save2				(CInifile& ini);
 		BOOL 				Load2				(CInifile& ini);
-
-#ifdef REDITOR         
-// change Copy&Equal if variables changed
-	public:
-	    DEFINE_VECTOR		(EParticleAction*,EPAVec,EPAVecIt);
-		EPAVec 				m_EActionList;
-		bool m_EditChoose;
-	public:             
-		void   	FindActionByName	(LPCSTR new_name, bool& res);
-		bool   	NameOnAfterEdit					(PropValue* sender, shared_str& edit_val);
-		bool   	CollisionFrictionOnAfterEdit	(PropValue* sender, float& edit_val);
-		void   	CollisionFrictionOnBeforeEdit	(PropValue* sender, float& edit_val);
-		void   	CollisionFrictionOnDraw			(PropValue* sender, xr_string& draw_val);
-		bool   	CollisionCutoffOnAfterEdit		(PropValue* sender, float& edit_val);
-		void   	CollisionCutoffOnBeforeEdit		(PropValue* sender, float& edit_val);
-		void   	CollisionCutoffOnDraw			(PropValue* sender, xr_string& draw_val);
-		void   	OnActionEditClick	(ButtonValue* sender, bool& bDataModified, bool& bSafe);
-	    void   	OnFrameResize		(PropValue* sender);
-	    void   	OnShaderChange		(PropValue* sender);
-	    void   	OnFlagChange		(PropValue* sender);
-		void   	OnControlClick		(ButtonValue* sender, bool& bDataModified, bool& bSafe);
-		void   	OnActionsClick		(ButtonValue* sender, bool& bDataModified, bool& bSafe);
-        bool   	OnAfterActionNameEdit(PropValue* sender, shared_str& edit_val);
-		void				FillProp		   	(LPCSTR pref, ::PropItemVec& items, ::ListItem* owner);
-		void				Copy				(const CPEDef& src);
-		BOOL				Equal				(const CPEDef* pe);
-		void 				Render				(const Fmatrix& parent);
-		static PFunction*	FindCommandPrototype(LPCSTR src, LPCSTR& dest);
-		void   	FillActionList		(ChooseItemVec& items, void* param);
-        bool 				Validate 			(bool bMsg);
-		void 				Compile				(EPAVec& v);
-		void				OnDrawUI();
-#endif
 	};
 };
 #define PED_VERSION				0x0001

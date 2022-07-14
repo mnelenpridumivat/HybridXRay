@@ -186,63 +186,7 @@ int ELibrary::GetObjects(FS_FileSet& files)
     return FS.file_list(files,_objects_,FS_ListFiles|FS_ClampExt,"*.object");
 }
 //---------------------------------------------------------------------------
-
-void ELibrary::RemoveObject(LPCSTR _fname, EItemType type, bool& res)   
-{
-	if (TYPE_FOLDER==type){
-    	FS.dir_delete			(_objects_,_fname,FALSE);
-        res 					= true;
-		return;
-    }else if (TYPE_OBJECT==type){
-        string_path fname,src_name;
-        strcpy(fname,EFS.ChangeFileExt(_fname,".object").c_str());
-        FS.update_path			(src_name,_objects_,fname);
-        if (FS.exist(src_name))
-        {
-            xr_string thm_name	= EFS.ChangeFileExt(fname,".thm");
-            // source
-            FS.file_delete		(src_name);
-            // thumbnail
-            FS.file_delete		(_objects_,thm_name.c_str());
-
-	        UnloadEditObject	(_fname);
-            
-            res = true;
-            return;
-        }
-    }else THROW;
-    res = false;
-}
 //---------------------------------------------------------------------------
-
-void ELibrary::RenameObject(LPCSTR nm0, LPCSTR nm1, EItemType type)
-{
-	if (TYPE_FOLDER==type){
-    	FS.dir_delete			(_objects_,nm0,FALSE);
-    }else if (TYPE_OBJECT==type){
-        string_path fn0,fn1,temp;
-        // rename base file
-        FS.update_path(fn0,_objects_,nm0);
-        strcat(fn0,".object");
-        FS.update_path(fn1,_objects_,nm1);
-        strcat(fn1,".object");
-        FS.file_rename(fn0,fn1,false);
-
-        // rename thm
-        FS.update_path(fn0,_objects_,nm0);
-        strcat(fn0,".thm");
-        FS.update_path(fn1,_objects_,nm1);
-        strcat(fn1,".thm");
-        FS.file_rename(fn0,fn1,false);
-
-        // rename in cache
-        EditObjPairIt it 	= m_EditObjects.find(nm0);
-	    if (it!=m_EditObjects.end()){
-            m_EditObjects[nm1]	= it->second;
-            m_EditObjects.erase	(it);
-        }
-	}
-}
 //---------------------------------------------------------------------------
 
 void ELibrary::UnloadEditObject(LPCSTR full_name)

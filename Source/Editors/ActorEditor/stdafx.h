@@ -6,7 +6,6 @@
 #include "..\XrECore\Editor\ui_main.h"
 #include "..\XrECore\Editor\EditorPreferences.h"
 #include "..\XrECore\Editor\render.h"
-#include "..\XrECore\Editor\UIRenderForm.h"
 #include "..\XrECore\Editor\ELog.h"
 #include "UITopBarForm.h"
 #include "UIMainMenuForm.h"

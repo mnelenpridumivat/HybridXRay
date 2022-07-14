@@ -30,9 +30,6 @@ public:
     PropValue* propCollideParticles;
     PropValue* propCollideMarks;
     void OnFlagChange(PropValue* sender);
-    void OnParentClick(ButtonValue* sender, bool& bModif, bool& bSafe);
-    void OnCommandClick(ButtonValue* sender, bool& bModif, bool& bSafe);
-    void FillChooseMtl(ChooseItemVec& items, void* param);
     void CopyFrom(SGameMtlPairEditor* parent);
 	SGameMtlPairEditor(XrGameMaterialLibraryInterface* owner);
     void 				FillProp(PropItemVec& values);

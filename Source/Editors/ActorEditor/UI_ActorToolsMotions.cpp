@@ -10,7 +10,6 @@
 #include "bone.h"
 #include "SkeletonAnimated.h"
 #include "fmesh.h"
-#include "../xrEProps/folderlib.h"
 //---------------------------------------------------------------------------
 MotionID EngineModel::FindMotionID(LPCSTR name, u16 slot)
 {
@@ -40,31 +39,6 @@ CMotion*	EngineModel::FindMotionKeys(LPCSTR name, u16 slot)
 
 void EngineModel::FillMotionList(LPCSTR pref, ListItemsVec& items, int modeID)
 {
-    LHelper().CreateItem			(items, pref,  modeID, 0);
-    if (IsRenderable()&& MainForm->GetLeftBarForm()->GetRenderMode() == UILeftBarForm::Render_Engine){
-    	CKinematicsAnimated* SA		= PKinematicsAnimated(m_pVisual);
-		if (SA){
-            for (int k=SA->m_Motions.size()-1; k>=0; --k){
-            	xr_string slot_pref	= ATools->BuildMotionPref((u16)k,pref);
-			    LHelper().CreateItem(items, slot_pref.c_str(),  modeID, ListItem::flSorted);
-	            // cycles
-                accel_map::const_iterator I,E;
-                I = SA->m_Motions[k].motions.cycle()->begin(); 
-                E = SA->m_Motions[k].motions.cycle()->end();              
-                for ( ; I != E; ++I){
-                	shared_str tmp = PrepareKey(slot_pref.c_str(),*(*I).first);
-                    LHelper().CreateItem(items, tmp.c_str(), modeID, 0, *(void**)&MotionID((u16)k,I->second));
-            	}
-                // fxs
-                I = SA->m_Motions[k].motions.fx()->begin(); 
-                E = SA->m_Motions[k].motions.fx()->end(); 
-                for ( ; I != E; ++I){
-                	shared_str tmp = PrepareKey(slot_pref.c_str(),*(*I).first);
-                    LHelper().CreateItem(items, tmp.c_str(), modeID, 0, *(void**)&MotionID((u16)k,I->second));
-                }
-            }
-        }
-    }
 }
 /*
 void EngineModel::PlayCycle(LPCSTR name, int part, u16 slot)
@@ -226,49 +200,14 @@ void EngineModel::SaveParams(TFormStorage* s)
 
 void CActorTools::OnMotionKeysModified()
 {
-	Modified			();
-	m_Flags.set			(flUpdateMotionKeys,TRUE);
-    if (MainForm->GetLeftBarForm()->GetRenderMode() == UILeftBarForm::Render_Engine){
-		m_Flags.set		(flUpdateMotionKeys,FALSE);
-        if (m_RenderObject.UpdateVisual(m_pEditObject,false,true,false)){
-            PlayMotion();
-        }else{
-            m_RenderObject.DeleteVisual();
-              MainForm->GetLeftBarForm()->SetRenderMode(false);
-        }
-    }
-    OnMotionDefsModified();
 }
 
 void CActorTools::OnMotionDefsModified()
 {
-	Modified			();
-	m_Flags.set			(flUpdateMotionDefs,TRUE);
-    if ( MainForm->GetLeftBarForm()->GetRenderMode() == UILeftBarForm::Render_Engine){
-		m_Flags.set		(flUpdateMotionDefs,FALSE);
-        if (m_RenderObject.UpdateVisual(m_pEditObject,false,false,true)){
-            PlayMotion();
-        }else{
-            m_RenderObject.DeleteVisual();
-              MainForm->GetLeftBarForm()->SetRenderMode(false);
-        }
-    }
-    UndoSave			();
 }
 
 void CActorTools::OnGeometryModified()
 {
-	Modified			();
-    if ( MainForm->GetLeftBarForm()->GetRenderMode() == UILeftBarForm::Render_Engine){
-		m_Flags.set		(flUpdateGeometry,FALSE);
-        if (m_RenderObject.UpdateVisual(m_pEditObject,true,false,false)){
-            PlayMotion();
-        }else{
-            m_RenderObject.DeleteVisual();
-              MainForm->GetLeftBarForm()->SetRenderMode(false);
-        }
-    }
-    UndoSave			();  
 }
 //---------------------------------------------------------------------------
 
@@ -327,51 +266,18 @@ bool CActorTools::SaveBoneData(shared_str file)
 
 void CActorTools::MakePreview()
 {
-	if (m_pEditObject){
-        CMemoryWriter F;
-		m_Flags.set		(flUpdateGeometry|flUpdateMotionDefs|flUpdateMotionKeys,FALSE);
-    	if (m_RenderObject.UpdateVisual(m_pEditObject,true,true,true)){
-            PlayMotion();
-        }else{
-        	m_RenderObject.DeleteVisual();
-            MainForm->GetLeftBarForm()->SetRenderMode(false);
-        }
-    }else{
-    	ELog.DlgMsg(mtError,"Scene empty. Load object first.");
-    }
 }
 
 void CActorTools::PlayMotion()
 {
-	if (m_pEditObject){
-//.	    m_ClipMaker->Stop();
-    	if ( MainForm->GetLeftBarForm()->GetRenderMode() == UILeftBarForm::Render_Editor) m_pEditObject->SkeletonPlay();
-        else if ( MainForm->GetLeftBarForm()->GetRenderMode() == UILeftBarForm::Render_Engine) {
-        	if (m_Flags.is(flUpdateMotionKeys))	{ OnMotionKeysModified();	}
-        	if (m_Flags.is(flUpdateMotionDefs))	{ OnMotionDefsModified(); 	}
-        	if (m_Flags.is(flUpdateGeometry))	{ OnGeometryModified(); 	}
-            m_RenderObject.PlayMotion(m_CurrentMotion.c_str(),m_CurrentSlot);
-        }
-    }
 }
 
 void CActorTools::StopMotion()
 {
-	if (m_pEditObject)
-    	if ( MainForm->GetLeftBarForm()->GetRenderMode() == UILeftBarForm::Render_Editor) m_pEditObject->SkeletonStop();
-        else if ( MainForm->GetLeftBarForm()->GetRenderMode() == UILeftBarForm::Render_Engine&&m_RenderObject.m_pBlend) {
-        	m_RenderObject.m_pBlend->playing	 = false;
-        	m_RenderObject.m_pBlend->timeCurrent = 0;
-        }
 }
 
 void CActorTools::PauseMotion()
 {
-	if (m_pEditObject)
-    	if ( MainForm->GetLeftBarForm()->GetRenderMode() == UILeftBarForm::Render_Editor) m_pEditObject->SkeletonPause(true);
-        else if ( MainForm->GetLeftBarForm()->GetRenderMode() == UILeftBarForm::Render_Engine&&m_RenderObject.m_pBlend) {
-        	m_RenderObject.m_pBlend->playing=!m_RenderObject.m_pBlend->playing;
-        }
 }
 
 bool CActorTools::RenameMotion(LPCSTR old_name, LPCSTR new_name)

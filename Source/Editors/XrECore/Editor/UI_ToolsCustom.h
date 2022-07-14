@@ -2,11 +2,9 @@
 #ifndef UI_ToolsCustomH
 #define UI_ToolsCustomH
 
-#include "../xrEProps/ItemListHelper.h"
 #include "EditObject.h"
 
 // refs
-class UIPropertiesForm;
 class CEditableObject;
 class PropValue;
 class TfrmKeyBar;
@@ -186,15 +184,6 @@ public:
 
     virtual void		OnShowHint			(AStringVec& SS)=0;
 
-    virtual bool  	MouseStart 	(TShiftState Shift)=0;
-    virtual bool  	MouseEnd   	(TShiftState Shift)=0;
-    virtual void  	MouseMove  	(TShiftState Shift)=0;
-	virtual bool  	HiddenMode 	(){return m_bHiddenMode;}
-    virtual bool  	KeyDown    	(WORD Key, TShiftState Shift){return false;}
-    virtual bool  	KeyUp      	(WORD Key, TShiftState Shift){return false;}
-    virtual bool  	KeyPress   	(WORD Key, TShiftState Shift){return false;}
-
-    virtual bool		Pick				(TShiftState Shift)=0;
 	virtual bool 		RayPick				(const Fvector& start, const Fvector& dir, float& dist, Fvector* pt=0, Fvector* n=0)=0;
 
     virtual void		ShowProperties		(LPCSTR focused_item)=0;
