@@ -333,18 +333,6 @@
     <None Include="WildMagic\WmlVector4.inl" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\External\Luabind\Luabind.vcxproj">
-      <Project>{18c37994-f2f2-46c0-bd55-bc738e8b9d89}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\External\RedImage\RedImageTool\RedImageTool.vcxproj">
-      <Project>{416e323e-3a4b-41a7-b0f5-7a8ec8517b11}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\External\Theora\Theora.vcxproj">
-      <Project>{0cbe8406-ae28-414b-b353-cb2d3c4003c8}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\External\Vorbis\Vorbis.vcxproj">
-      <Project>{ac3d4f35-0e39-47f7-aeb7-552811a90a07}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\XrAPI\XrAPI.vcxproj">
       <Project>{ff16ef0a-8a51-4c36-9213-4aa87cb4b317}</Project>
     </ProjectReference>
@@ -354,17 +342,8 @@
     <ProjectReference Include="..\..\XrEngine\XrEngine.vcxproj">
       <Project>{2820680f-79fe-4477-a14c-007f273a5fa8}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\XrParticles\XrParticles.vcxproj">
-      <Project>{c50a948d-9175-4388-ae07-0cdab7fb69c8}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\XrSound\XrSound.vcxproj">
-      <Project>{57601b62-902a-4ec8-bcc7-b6a2e30b0676}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\FreeMagic\FreeMagic.vcxproj">
       <Project>{dcc5b76d-be13-4d1f-be14-75d0fa678340}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\XrDXT\XrDXT.vcxproj">
-      <Project>{7c119635-1963-4547-b345-cb7ed7eb2ee4}</Project>
     </ProjectReference>
     <ProjectReference Include="..\XrEProps\XrEProps.vcxproj">
       <Project>{6d47afc7-0557-4bbf-8902-b248f3621419}</Project>
