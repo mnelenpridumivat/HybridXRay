@@ -215,6 +215,7 @@ u32 CHW::selectGPU ()
 
 u32 CHW::selectRefresh(u32 dwWidth, u32 dwHeight, D3DFORMAT fmt)
 {
+	return 0;
 }
 
 BOOL	CHW::support	(D3DFORMAT fmt, DWORD type, DWORD usage)
