@@ -72,6 +72,7 @@ namespace Object_tool
         List<string[]> batch_files = null;
 		List<string> batch_source = null;
 		public bool IsOgfMode = false;
+		public string script = "null";
 
 		public int cpp_mode = 0;
 
@@ -142,6 +143,7 @@ namespace Object_tool
 			debugToolStripMenuItem.Visible = DEBUG_MODE;
 			AnimsNoCompress.Visible = DEVELOPER_MODE;
 			AnimsNoCompress.Checked = DEVELOPER_MODE;
+			loadScriptToolStripMenuItem.Visible = DEVELOPER_MODE;
 
 			if (Environment.GetCommandLineArgs().Length > 1)
 			{
@@ -380,6 +382,9 @@ namespace Object_tool
 
 			// Экспорт режима экспорта c++
 			args += $" {cpp_mode}";
+
+			// Экспорт скрипта
+			args += $" \"{script}\"";
 
 			int exit_code = RunCompiller(args);
 			if (File.Exists(object_path + "_temp.userdata"))
@@ -929,6 +934,27 @@ namespace Object_tool
 			}
 		}
 
+		private void loadScriptToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (script == "null")
+			{
+				OpenFileDialog Dialog = new OpenFileDialog();
+				Dialog.InitialDirectory = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\scripts";
+				Dialog.Filter = "Script file|*.script";
+
+				if (Dialog.ShowDialog() == DialogResult.OK)
+				{
+					script = Dialog.FileName;
+					loadScriptToolStripMenuItem.Text = "Delete Script";
+				}
+			}
+			else
+            {
+				script = "null";
+				loadScriptToolStripMenuItem.Text = "Load Script";
+			}
+		}
+
 		private void LoadData()
 		{
 			var xr_loader = new XRayLoader();
@@ -1426,6 +1452,11 @@ namespace Object_tool
 				ComboBox ShapeType = BonesPage.Controls[i].Controls[4] as ComboBox;
 				ShapeType.SelectedIndex = type;
 			}
+		}
+
+		private void importObjectParamsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+
 		}
 
 		private void objectToolStripMenuItem1_Click(object sender, EventArgs e)

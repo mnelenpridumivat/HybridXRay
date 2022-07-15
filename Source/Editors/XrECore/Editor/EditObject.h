@@ -181,6 +181,7 @@ public:
     SAnimParams				m_SMParam;
     xr_vector<shared_str>	m_SMotionRefs;
     shared_str				m_LODs;
+    shared_str			    m_EditorScript;
 public:
 	// options
 	Flags32			m_objectFlags;

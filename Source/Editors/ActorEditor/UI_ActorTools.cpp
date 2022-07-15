@@ -699,7 +699,7 @@ void CActorTools::RealGenerateLOD(bool hq)
 {
 }
 
-bool CActorTools::BatchConvert(LPCSTR fn, int flags)
+bool CActorTools::BatchConvert(LPCSTR fn, int flags, shared_str script)
 {
     bool bRes = true;
     CInifile* ini = CInifile::Create(fn); VERIFY(ini);
@@ -740,6 +740,7 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags)
                 O->m_objectFlags.set(CEditableObject::eoStripify, (flags & exfMakeStripify));
                 O->m_objectFlags.set(CEditableObject::eoOptimizeSurf, (flags & exfOptimizeSurfaces));
                 O->m_objectFlags.set(CEditableObject::eoHQExportPlus, (flags & exfHQGeometryPlus));
+                O->m_EditorScript = script;
 
                 if (ini->section_exist("skls_skl") && ini->line_exist("skls_skl", it->first.c_str()))
                 {
@@ -815,6 +816,7 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags)
                 O->m_objectFlags.set(CEditableObject::eoStripify, (flags & exfMakeStripify));
                 O->m_objectFlags.set(CEditableObject::eoOptimizeSurf, (flags & exfOptimizeSurfaces));
                 O->m_objectFlags.set(CEditableObject::eoHQExportPlus, (flags & exfHQGeometryPlus));
+                O->m_EditorScript = script;
 
                 if (ini->section_exist("skls_skl") && ini->line_exist("skls_skl", it->first.c_str()))
                 {
@@ -856,7 +858,7 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags)
     return bRes;
 }
 
-bool CActorTools::BatchConvertDialogOGF(xr_vector<BatchFiles> files, shared_str out, int flags)
+bool CActorTools::BatchConvertDialogOGF(xr_vector<BatchFiles> files, shared_str out, int flags, shared_str script)
 {
     bool bRes = true;
     bool FileMode = (files.size() == 1 && files[0].source_folder == "null");
@@ -903,6 +905,7 @@ bool CActorTools::BatchConvertDialogOGF(xr_vector<BatchFiles> files, shared_str 
                 O->m_objectFlags.set(CEditableObject::eoStripify, (flags & exfMakeStripify));
                 O->m_objectFlags.set(CEditableObject::eoOptimizeSurf, (flags & exfOptimizeSurfaces));
                 O->m_objectFlags.set(CEditableObject::eoHQExportPlus, (flags & exfHQGeometryPlus));
+                O->m_EditorScript = script;
 
                 shared_str skls_name = EFS.ChangeFileExt(src_name, ".skls").c_str();
 
@@ -930,7 +933,7 @@ bool CActorTools::BatchConvertDialogOGF(xr_vector<BatchFiles> files, shared_str 
     return bRes;
 }
 
-bool CActorTools::BatchConvertDialogOMF(xr_vector<BatchFiles> files, shared_str out, int flags)
+bool CActorTools::BatchConvertDialogOMF(xr_vector<BatchFiles> files, shared_str out, int flags, shared_str script)
 {
     bool bRes = true;
     bool FileMode = (files.size() == 1 && files[0].source_folder == "null");
@@ -966,6 +969,8 @@ bool CActorTools::BatchConvertDialogOMF(xr_vector<BatchFiles> files, shared_str 
             {
                 CEditableObject* O = xr_new<CEditableObject>("convert");
                 BOOL res = O->Load(src_name);
+
+                O->m_EditorScript = script;
 
                 if (O->BonePartCount() == 0)
                 {

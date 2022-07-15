@@ -297,6 +297,13 @@ void CEditableMesh::GenerateVNormals(const Fmatrix* parent_xform)
     UnloadAdjacency		();
 }
 */
+
+struct ReMap
+{
+	u16 init_bone;
+	u16 out_bone;
+};
+
 void CEditableMesh::GenerateSVertices(u32 influence)
 {
 	if (!m_Parent->IsSkeleton())return;
@@ -319,6 +326,24 @@ void CEditableMesh::GenerateSVertices(u32 influence)
 	else
 		Log("Export smooth groups");
 
+	xr_vector<ReMap> ReAssignMap;
+
+	if (m_Parent->m_EditorScript != "")
+	{
+		CInifile* ini = CInifile::Create(m_Parent->m_EditorScript.c_str());
+		if (ini->section_exist("reassign"))
+		{
+			CInifile::Sect& sect = ini->r_section("reassign");
+			for (auto it = sect.Data.begin(); it != sect.Data.end(); it++)
+			{
+				ReMap map;
+				map.init_bone = m_Parent->GetBoneIndexByWMap(it->first.c_str());
+				map.out_bone = m_Parent->GetBoneIndexByWMap(it->second.c_str());
+				ReAssignMap.push_back(map);
+			}
+		}
+	}
+
     for (u32 f_id=0; f_id<m_FaceCount; f_id++)
 	{
         st_Face& F 		= m_Faces[f_id];
@@ -338,7 +363,18 @@ void CEditableMesh::GenerateSVertices(u32 influence)
                 const st_VMap& VM 			= *m_VMaps[vmpt_lst.pts[vmpt_id].vmap_index];
                 if (VM.type==vmtWeight)
                 {
-                    wb.push_back			(st_WB(m_Parent->GetBoneIndexByWMap(VM.name.c_str()),VM.getW(vmpt_lst.pts[vmpt_id].index)));
+					u16 bone = m_Parent->GetBoneIndexByWMap(VM.name.c_str());
+
+					for (int i = 0; i < ReAssignMap.size(); i++)
+					{
+						if (bone == ReAssignMap[i].init_bone)
+						{
+							Msg("Script: ReAssign vertex from bone [%s] to bone [%s]", m_Parent->BoneNameByID(bone).c_str(), m_Parent->BoneNameByID(ReAssignMap[i].out_bone).c_str());
+							bone = ReAssignMap[i].out_bone;
+						}
+					}
+
+                    wb.push_back			(st_WB(bone,VM.getW(vmpt_lst.pts[vmpt_id].index)));
 
                     if (wb.back().bone==BI_NONE)
                     {

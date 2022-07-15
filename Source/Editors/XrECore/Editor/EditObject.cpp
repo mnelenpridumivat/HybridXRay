@@ -65,6 +65,7 @@ CEditableObject::CEditableObject(LPCSTR name):
     m_CreateTime	= 0;
 	m_ModifName		= "unknown";
     m_ModifTime		= 0;
+    m_EditorScript = "";
 }
 
 CEditableObject::~CEditableObject()

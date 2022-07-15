@@ -176,6 +176,7 @@ int main(int argc, char** argv)
     xr_vector<CActorTools::BatchFiles> pBatchFiles = LoadBatchFiles(argv, batch_files_count);
     shared_str batch_out = argv[iReaderPos]; iReaderPos++;
     int cpp_export_mode = atoi(argv[iReaderPos]); iReaderPos++;
+    shared_str custom_script = argv[iReaderPos]; iReaderPos++;
     // End of program params
 
     std::string line;
@@ -213,6 +214,7 @@ int main(int argc, char** argv)
         ATools->CurrentObject()->ChangeBoneShapeTypes(pShapes);
         ATools->CurrentObject()->m_LODs = lod_path;
         ATools->CurrentObject()->GetClassScript() = userdata.c_str();
+        ATools->CurrentObject()->m_EditorScript = custom_script;
 
         if (ATools->CurrentObject()->SMotionCount() == 0)
             ATools->CurrentObject()->m_SMotionRefs = pMotionRefs;
@@ -353,17 +355,17 @@ int main(int argc, char** argv)
         }break;
         case BatchLtx:
         {
-            if (!ATools->BatchConvert(second_file_path.c_str(), flags))
+            if (!ATools->BatchConvert(second_file_path.c_str(), flags, custom_script))
                 ret_code = -1;
         }break;
         case BatchDialogOGF:
         {
-            if (!ATools->BatchConvertDialogOGF(pBatchFiles, batch_out, flags))
+            if (!ATools->BatchConvertDialogOGF(pBatchFiles, batch_out, flags, custom_script))
                 ret_code = -1;
         }break;
         case BatchDialogOMF:
         {
-            if (!ATools->BatchConvertDialogOMF(pBatchFiles, batch_out, flags))
+            if (!ATools->BatchConvertDialogOMF(pBatchFiles, batch_out, flags, custom_script))
                 ret_code = -1;
         }break;
     }

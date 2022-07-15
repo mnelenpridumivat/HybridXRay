@@ -289,9 +289,9 @@ public:
     void				OptimizeMotions		();
     void				RealMakeThumbnail();
     void				RealGenerateLOD(bool hq);
-    bool				BatchConvert		(LPCSTR fn, int flags);
-    bool				BatchConvertDialogOGF(xr_vector<BatchFiles> files, shared_str out, int flags);
-    bool				BatchConvertDialogOMF(xr_vector<BatchFiles> files, shared_str out, int flags);
+    bool				BatchConvert		(LPCSTR fn, int flags, shared_str script);
+    bool				BatchConvertDialogOGF(xr_vector<BatchFiles> files, shared_str out, int flags, shared_str script);
+    bool				BatchConvertDialogOMF(xr_vector<BatchFiles> files, shared_str out, int flags, shared_str script);
 
 
     void				PhysicsSimulate			( );
