@@ -95,6 +95,7 @@ public:
 	IC const Fvector2& getUV	(int idx) const			{VERIFY(type==vmtUV);		return (Fvector2&)vm[idx*dim];}
 	IC Fvector2&    getUV		(int idx)				{VERIFY(type==vmtUV);		return (Fvector2&)vm[idx*dim];}
     IC const float&	getW		(int idx) const			{VERIFY(type==vmtWeight);	return vm[idx];}
+	IC float&		getW		(int idx) 				{VERIFY(type==vmtWeight);	return vm[idx];}
     IC const FloatVec& getVM	()	const				{return vm;}
 	IC float*		getVMdata	()						{return &*vm.begin();}
     IC float*		getVMdata	(int start)				{return &*(vm.begin()+start*dim);}
@@ -221,6 +222,7 @@ public:
     void 			GenerateVNormals	(const Fmatrix* parent_xform, bool force = false);
     void            GenerateSVertices	(u32 influence);
 	void 			GenerateAdjacency	();
+	void 			AssignMesh			(shared_str to_bone);
 
     bool			IsGeneratedSVertices(u32 influence)		{return (m_SVertices && (m_SVertInfl==influence));}
     

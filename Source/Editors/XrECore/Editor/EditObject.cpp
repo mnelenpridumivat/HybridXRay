@@ -333,10 +333,24 @@ void CEditableObject::InitScript()
             CInifile::Sect& sect = ini->r_section("create_bones");
             for (auto it = sect.Data.begin(); it != sect.Data.end(); it++)
             {
-                u16 parent_bone = GetBoneIndexByWMap(it->second.c_str());
+                shared_str bone = it->second.c_str();
+                if (!bone) // чистим кости если указана мейн кость
+                    m_Bones.clear();
+
+                u16 parent_bone = BoneIDByName(it->second.c_str());
                 CBone* parent = m_Bones.size() > 0 ? GetBone(parent_bone) : NULL;
                 AddBone(parent, it->first);
                 Msg("Script: Bone [%s] created", it->first.c_str());
+            }
+        }
+
+        if (ini->section_exist("assign_model"))
+        {
+            shared_str bone = ini->r_string("assign_model", "assign_to");
+            for (EditMeshIt mesh_it = FirstMesh(); mesh_it != LastMesh(); mesh_it++)
+            {
+                CEditableMesh* MESH = *mesh_it;
+                MESH->AssignMesh(bone);
             }
         }
     }

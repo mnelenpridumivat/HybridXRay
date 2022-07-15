@@ -53,7 +53,7 @@ int CEditableMesh::FindSimilarWeight(st_VMap* vmap, float _w)
 
 void CEditableMesh::RebuildVMaps()
 {
-//.	Log			("Rebuilding VMaps...");
+	Msg			("Rebuilding VMaps...");
 	IntVec		m_VertVMap;
 	m_VertVMap.resize(m_VertCount,-1);
 	VMapVec		nVMaps;

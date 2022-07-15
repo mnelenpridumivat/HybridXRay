@@ -327,7 +327,6 @@ void CEditableMesh::GenerateSVertices(u32 influence)
 		Log("Export smooth groups");
 
 	xr_vector<ReMap> ReAssignMap;
-	u16 AssignTo = BI_NONE;
 
 	if (m_Parent->m_EditorScript != "")
 	{
@@ -343,13 +342,6 @@ void CEditableMesh::GenerateSVertices(u32 influence)
 				ReAssignMap.push_back(map);
 				Msg("Script: ReAssign vertex from bone [%s] to bone [%s]", it->first.c_str(), it->second.c_str());
 			}
-		}
-
-		if (ini->section_exist("assign_model"))
-		{
-			shared_str bone = ini->r_string("assign_model", "assign_to");
-			AssignTo = m_Parent->BoneIDByName(bone);
-			Msg("Script: Model assigned to bone [%s]", bone.c_str());
 		}
 	}
 
@@ -370,26 +362,20 @@ void CEditableMesh::GenerateSVertices(u32 influence)
             for (u8 vmpt_id=0; vmpt_id!=vmpt_lst.count; ++vmpt_id)
             {
                 const st_VMap& VM 			= *m_VMaps[vmpt_lst.pts[vmpt_id].vmap_index];
+
                 if (VM.type==vmtWeight)
                 {
-					if (AssignTo != BI_NONE)
-					{
-						wb.push_back(st_WB(AssignTo, 1.0f));
-					}
-					else
-					{
-						u16 bone = m_Parent->GetBoneIndexByWMap(VM.name.c_str());
+					u16 bone = m_Parent->GetBoneIndexByWMap(VM.name.c_str());
 
-						for (int i = 0; i < ReAssignMap.size(); i++)
+					for (int i = 0; i < ReAssignMap.size(); i++)
+					{
+						if (bone == ReAssignMap[i].init_bone)
 						{
-							if (bone == ReAssignMap[i].init_bone)
-							{
-								bone = ReAssignMap[i].out_bone;
-							}
+							bone = ReAssignMap[i].out_bone;
 						}
-
-						wb.push_back(st_WB(bone, VM.getW(vmpt_lst.pts[vmpt_id].index)));
 					}
+
+					wb.push_back(st_WB(bone, VM.getW(vmpt_lst.pts[vmpt_id].index)));
 
                     if (wb.back().bone==BI_NONE)
                     {
@@ -431,6 +417,65 @@ void CEditableMesh::GenerateAdjacency()
 //.	Log				(".. Update adjacency");
 	for (u32 f_id=0; f_id<m_FaceCount; f_id++)
 		for (int k=0; k<3; k++) (*m_Adjs)[m_Faces[f_id].pv[k].pindex].push_back(f_id);
+}
+
+void CEditableMesh::AssignMesh(shared_str to_bone)
+{
+	Msg("Script: Mesh assigned to bone [%s]", to_bone.c_str());
+
+	st_VMap* vMap = xr_new<st_VMap>(to_bone.c_str(), vmtWeight, false); // Создаем вертекс мапу
+	vMap->resize(GetFaceCount() * 3);	// Не знаю каким должен быть ресайз, но вроде как размера вертексов должно хватить
+	for (int i = 0; i < GetFaceCount() * 3; i++) // Ставим привязку на 1
+		vMap->getW(i) = 1.0f;
+
+	int vindex = 0;
+	xr_vector<int> DeletedVmapIndexes;
+	for (int i = 0; i < m_VMaps.size(); i++, vindex++) // Чистим от старых вертекс мап
+	{
+		if (m_VMaps[i]->type == vmtWeight)
+		{
+			Msg("Script: Erase old VMap [%s]", m_VMaps[i]->name.c_str());
+			m_VMaps.erase(m_VMaps.begin() + i);
+			DeletedVmapIndexes.push_back(vindex);
+			i--;
+		}
+	}
+
+	m_VMaps.push_back(vMap); // Добавляем новую
+
+	for (int j = 0; j < m_VMRefs.size(); j++) // Чиним вертекс рефы
+	{
+		for (int r = 0; r < m_VMRefs[j].count; r++)
+		{
+			for (int h = 0; h < DeletedVmapIndexes.size(); h++)
+			{
+				if (m_VMRefs[j].pts[r].vmap_index == DeletedVmapIndexes[h]);
+				{
+					m_VMRefs[j].pts[r].vmap_index = m_VMaps.size() - 1;
+					m_VMRefs[j].pts[r].index = vMap->size() - 1;
+				}
+			}
+		}
+	}
+
+	Msg("Script: New VMap size %d", m_VMaps.size());
+	for (int i = 0; i < m_VMaps.size(); i++)
+		Msg("Script: VMap [%d] name [%s]", i, m_VMaps[i]->name.c_str());
+
+	u16 bone = m_Parent->BoneIDByName(to_bone);
+	m_Parent->GetBone(bone)->SetWMap(to_bone.c_str()); // Привязываем кость к вертекс мапе
+
+	for (int i = 0; i < m_VMRefs.size(); i++) // Регистрируем новую вертекс мапу в вертекс рефах
+	{
+		m_VMRefs[i].count++;
+
+		st_VMapPt vMapPt;
+		vMapPt.vmap_index = m_VMaps.size() - 1;
+		vMapPt.index = vMap->size() - 1;
+
+		m_VMRefs[i].pts = (st_VMapPt*)xr_realloc(m_VMRefs[i].pts, m_VMRefs[i].count * sizeof(st_VMapPt));
+		m_VMRefs[i].pts[m_VMRefs[i].count - 1] = vMapPt;
+	}
 }
 
 CSurface*	CEditableMesh::GetSurfaceByFaceID(u32 fid)
