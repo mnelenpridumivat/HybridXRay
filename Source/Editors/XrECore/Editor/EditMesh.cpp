@@ -337,8 +337,8 @@ void CEditableMesh::GenerateSVertices(u32 influence)
 			for (auto it = sect.Data.begin(); it != sect.Data.end(); it++)
 			{
 				ReMap map;
-				map.init_bone = m_Parent->GetBoneIndexByWMap(it->first.c_str());
-				map.out_bone = m_Parent->GetBoneIndexByWMap(it->second.c_str());
+				map.init_bone = m_Parent->BoneIDByName(it->first.c_str());
+				map.out_bone = m_Parent->BoneIDByName(it->second.c_str());
 				ReAssignMap.push_back(map);
 				Msg("Script: ReAssign vertex from bone [%s] to bone [%s]", it->first.c_str(), it->second.c_str());
 			}
