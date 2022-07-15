@@ -273,18 +273,11 @@ bool CEditableObject::CheckShaderCompatible()
     return bRes;
 }
 #if 1
-void CEditableObject::AddBone(CBone* parent_bone)
+void CEditableObject::AddBone(CBone* parent_bone, shared_str name)
 {
 	CBone* B 			= xr_new<CBone>();
 
-	string256			new_name;
-    u32 i				= 0;
-
-    do{
-    	sprintf				(new_name,"bone%.3d", i++);
-    }while(    FindBoneByName(new_name) );
-
- 	B->SetName			(new_name);
+ 	B->SetName			(name.c_str());
     B->SetWMap			("");
 	B->SetRestParams	(0.01f, Fvector().set(0,0,0), Fvector().set(0,0,0) );
 
@@ -294,15 +287,23 @@ void CEditableObject::AddBone(CBone* parent_bone)
 	if(parent_bone)
     {
    		B->SetParentName(parent_bone->Name().c_str());
-    }else
+    }
+    else
     {
-    	int	bid = 		GetRootBoneID	();
-        GetBone(bid)->SetParentName		(B->Name().c_str());
    		B->SetParentName				("");
+        B->parent = 0;
+    }
+
+    if (m_BoneParts.size() == 0)
+    {
+        m_BoneParts.push_back(SBonePart());
+        SBonePart& BP = m_BoneParts.back();
+        BP.alias = "default";
     }
 
     m_BoneParts[0].bones.push_back(B->Name());
     m_Bones.push_back	(B);
+    m_objectFlags.set(eoDynamic, TRUE);
 	PrepareBones		();
 
     for (EditMeshIt _M=m_Meshes.begin(); _M!=m_Meshes.end(); _M++)

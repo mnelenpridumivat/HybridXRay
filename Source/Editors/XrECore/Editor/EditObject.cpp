@@ -322,3 +322,22 @@ void CEditableObject::ChangeSurfaceFlags(xr_vector<SurfaceParams> params)
         m_Surfaces[i]->m_ShaderName = params[i].shader;
     }
 }
+
+void CEditableObject::InitScript()
+{
+    if (m_EditorScript != "")
+    {
+        CInifile* ini = CInifile::Create(m_EditorScript.c_str());
+        if (ini->section_exist("create_bones"))
+        {
+            CInifile::Sect& sect = ini->r_section("create_bones");
+            for (auto it = sect.Data.begin(); it != sect.Data.end(); it++)
+            {
+                u16 parent_bone = GetBoneIndexByWMap(it->second.c_str());
+                CBone* parent = m_Bones.size() > 0 ? GetBone(parent_bone) : NULL;
+                AddBone(parent, it->first);
+                Msg("Script: Bone [%s] created", it->first.c_str());
+            }
+        }
+    }
+}

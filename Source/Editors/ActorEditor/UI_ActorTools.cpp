@@ -741,6 +741,7 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, shared_str script)
                 O->m_objectFlags.set(CEditableObject::eoOptimizeSurf, (flags & exfOptimizeSurfaces));
                 O->m_objectFlags.set(CEditableObject::eoHQExportPlus, (flags & exfHQGeometryPlus));
                 O->m_EditorScript = script;
+                O->InitScript();
 
                 if (ini->section_exist("skls_skl") && ini->line_exist("skls_skl", it->first.c_str()))
                 {
@@ -817,6 +818,7 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, shared_str script)
                 O->m_objectFlags.set(CEditableObject::eoOptimizeSurf, (flags & exfOptimizeSurfaces));
                 O->m_objectFlags.set(CEditableObject::eoHQExportPlus, (flags & exfHQGeometryPlus));
                 O->m_EditorScript = script;
+                O->InitScript();
 
                 if (ini->section_exist("skls_skl") && ini->line_exist("skls_skl", it->first.c_str()))
                 {
@@ -906,6 +908,7 @@ bool CActorTools::BatchConvertDialogOGF(xr_vector<BatchFiles> files, shared_str 
                 O->m_objectFlags.set(CEditableObject::eoOptimizeSurf, (flags & exfOptimizeSurfaces));
                 O->m_objectFlags.set(CEditableObject::eoHQExportPlus, (flags & exfHQGeometryPlus));
                 O->m_EditorScript = script;
+                O->InitScript();
 
                 shared_str skls_name = EFS.ChangeFileExt(src_name, ".skls").c_str();
 
@@ -971,6 +974,7 @@ bool CActorTools::BatchConvertDialogOMF(xr_vector<BatchFiles> files, shared_str 
                 BOOL res = O->Load(src_name);
 
                 O->m_EditorScript = script;
+                O->InitScript();
 
                 if (O->BonePartCount() == 0)
                 {

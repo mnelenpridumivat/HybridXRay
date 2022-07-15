@@ -327,6 +327,7 @@ void CEditableMesh::GenerateSVertices(u32 influence)
 		Log("Export smooth groups");
 
 	xr_vector<ReMap> ReAssignMap;
+	u16 AssignTo = BI_NONE;
 
 	if (m_Parent->m_EditorScript != "")
 	{
@@ -340,7 +341,15 @@ void CEditableMesh::GenerateSVertices(u32 influence)
 				map.init_bone = m_Parent->GetBoneIndexByWMap(it->first.c_str());
 				map.out_bone = m_Parent->GetBoneIndexByWMap(it->second.c_str());
 				ReAssignMap.push_back(map);
+				Msg("Script: ReAssign vertex from bone [%s] to bone [%s]", it->first.c_str(), it->second.c_str());
 			}
+		}
+
+		if (ini->section_exist("assign_model"))
+		{
+			shared_str bone = ini->r_string("assign_model", "assign_to");
+			AssignTo = m_Parent->BoneIDByName(bone);
+			Msg("Script: Model assigned to bone [%s]", bone.c_str());
 		}
 	}
 
@@ -363,18 +372,24 @@ void CEditableMesh::GenerateSVertices(u32 influence)
                 const st_VMap& VM 			= *m_VMaps[vmpt_lst.pts[vmpt_id].vmap_index];
                 if (VM.type==vmtWeight)
                 {
-					u16 bone = m_Parent->GetBoneIndexByWMap(VM.name.c_str());
-
-					for (int i = 0; i < ReAssignMap.size(); i++)
+					if (AssignTo != BI_NONE)
 					{
-						if (bone == ReAssignMap[i].init_bone)
-						{
-							Msg("Script: ReAssign vertex from bone [%s] to bone [%s]", m_Parent->BoneNameByID(bone).c_str(), m_Parent->BoneNameByID(ReAssignMap[i].out_bone).c_str());
-							bone = ReAssignMap[i].out_bone;
-						}
+						wb.push_back(st_WB(AssignTo, 1.0f));
 					}
+					else
+					{
+						u16 bone = m_Parent->GetBoneIndexByWMap(VM.name.c_str());
 
-                    wb.push_back			(st_WB(bone,VM.getW(vmpt_lst.pts[vmpt_id].index)));
+						for (int i = 0; i < ReAssignMap.size(); i++)
+						{
+							if (bone == ReAssignMap[i].init_bone)
+							{
+								bone = ReAssignMap[i].out_bone;
+							}
+						}
+
+						wb.push_back(st_WB(bone, VM.getW(vmpt_lst.pts[vmpt_id].index)));
+					}
 
                     if (wb.back().bone==BI_NONE)
                     {

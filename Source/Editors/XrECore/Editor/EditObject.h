@@ -182,6 +182,8 @@ public:
     xr_vector<shared_str>	m_SMotionRefs;
     shared_str				m_LODs;
     shared_str			    m_EditorScript;
+
+    virtual void            InitScript();
 public:
 	// options
 	Flags32			m_objectFlags;
@@ -280,6 +282,7 @@ public:
 	IC BoneVec&		Bones					()	{return m_Bones;}
     IC int			BoneCount				()const	{return m_Bones.size();}
     shared_str		BoneNameByID			(int id);
+    u16     		BoneIDByName			(shared_str name);
     int				GetRootBoneID			();
     int				PartIDByName			(LPCSTR name);
     IC CBone*		GetBone					(u32 idx){VERIFY(idx<m_Bones.size()); return m_Bones[idx];}
@@ -353,7 +356,7 @@ public:
     // pick methods
 	bool 			RayPick					(float& dist, const Fvector& S, const Fvector& D, const Fmatrix& inv_parent, SRayPickInfo* pinf=0);
 #if 1
-    void			AddBone					(CBone* parent_bone);
+    void			AddBone					(CBone* parent_bone, shared_str name);
     void			DeleteBone				(CBone* bone);
     void			RenameBone				(CBone* bone, LPCSTR new_name);
 

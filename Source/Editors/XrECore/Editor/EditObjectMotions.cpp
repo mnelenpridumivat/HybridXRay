@@ -508,6 +508,17 @@ shared_str CEditableObject::BoneNameByID(int id)
     return m_Bones[id]->Name();
 }
 
+u16 CEditableObject::BoneIDByName(shared_str name)
+{
+    for (int i = 0; i < m_Bones.size(); i++)
+    {
+        if (m_Bones[i]->Name() == name)
+            return i;
+    }
+    return BI_NONE;
+}
+
+
 u16	CEditableObject::GetBoneIndexByWMap(const char* wm_name)
 {
 	BoneIt bone = std::find_if(m_Bones.begin(),m_Bones.end(),fBoneWMNameEQ(wm_name));

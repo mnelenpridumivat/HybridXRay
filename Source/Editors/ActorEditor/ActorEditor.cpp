@@ -138,7 +138,7 @@ xr_vector<shared_str> LoadStringVector(char** args, int count)
 int main(int argc, char** argv)
 {
     unsigned int start_time = clock();
-    Core._initialize("Actor", ELogCallback,1, "",true, (atoi(argv[4]) & exfDbgWindow));
+    Core._initialize("Actor", ELogCallback,1, "",true, IsDebuggerPresent() || (atoi(argv[4]) & exfDbgWindow));
     unsigned int end_time = clock();
     double seconds = (double)(end_time - start_time) / CLOCKS_PER_SEC;
     Msg("Core init time: %f", seconds);
@@ -155,29 +155,61 @@ int main(int argc, char** argv)
 
     // Program params
     int ret_code = 0;
-    int mode = atoi(argv[1]);
-    shared_str object_path = argv[2];
-    shared_str second_file_path = argv[3];
-    int flags = atoi(argv[4]);
-    float scale = atof(argv[5]);
-    int shapes_count = atoi(argv[6]);
-    int surfaces_count = atoi(argv[7]);
-    int loaded_skls_count = atoi(argv[8]);
-    iReaderPos = 9;
-    xr_vector<CEditableObject::ShapeEditType> pShapes = LoadShapes(argv, shapes_count);
-    xr_vector<CEditableObject::SurfaceParams> pSurfaces = LoadSurfaces(argv, surfaces_count);
-    xr_vector<shared_str> pLoadedAnims = LoadStringVector(argv, loaded_skls_count);
-    float lod_quality = atof(argv[iReaderPos]); iReaderPos++;
-    int lod_flags = atoi(argv[iReaderPos]); iReaderPos++;
-    shared_str lod_path = argv[iReaderPos]; iReaderPos++;
-    int motion_refs_count = atoi(argv[iReaderPos]); iReaderPos++;
-    xr_vector<shared_str> pMotionRefs = LoadStringVector(argv, motion_refs_count);
-    int batch_files_count = atoi(argv[iReaderPos]); iReaderPos++;
-    xr_vector<CActorTools::BatchFiles> pBatchFiles = LoadBatchFiles(argv, batch_files_count);
-    shared_str batch_out = argv[iReaderPos]; iReaderPos++;
-    int cpp_export_mode = atoi(argv[iReaderPos]); iReaderPos++;
-    shared_str custom_script = argv[iReaderPos]; iReaderPos++;
+    int mode;
+    shared_str object_path;
+    shared_str second_file_path;
+    int flags = 0;
+    float scale = 1.0f;
+    xr_vector<CEditableObject::ShapeEditType> pShapes;
+    xr_vector<CEditableObject::SurfaceParams> pSurfaces;
+    xr_vector<shared_str> pLoadedAnims;
+    float lod_quality = 1.0f;
+    int lod_flags = 0;
+    shared_str lod_path = "";
+    xr_vector<shared_str> pMotionRefs;
+    xr_vector<CActorTools::BatchFiles> pBatchFiles;
+    shared_str batch_out = "";
+    int cpp_export_mode = 0;
+    shared_str custom_script = "";
     // End of program params
+
+    if (!IsDebuggerPresent())
+    {
+        // Program params
+        mode = atoi(argv[1]);
+        object_path = argv[2];
+        second_file_path = argv[3];
+        flags = atoi(argv[4]);
+        scale = atof(argv[5]);
+        int shapes_count = atoi(argv[6]);
+        int surfaces_count = atoi(argv[7]);
+        int loaded_skls_count = atoi(argv[8]);
+        iReaderPos = 9;
+        pShapes = LoadShapes(argv, shapes_count);
+        pSurfaces = LoadSurfaces(argv, surfaces_count);
+        pLoadedAnims = LoadStringVector(argv, loaded_skls_count);
+        lod_quality = atof(argv[iReaderPos]); iReaderPos++;
+        lod_flags = atoi(argv[iReaderPos]); iReaderPos++;
+        lod_path = argv[iReaderPos]; iReaderPos++;
+        int motion_refs_count = atoi(argv[iReaderPos]); iReaderPos++;
+        pMotionRefs = LoadStringVector(argv, motion_refs_count);
+        int batch_files_count = atoi(argv[iReaderPos]); iReaderPos++;
+        pBatchFiles = LoadBatchFiles(argv, batch_files_count);
+        batch_out = argv[iReaderPos]; iReaderPos++;
+        cpp_export_mode = atoi(argv[iReaderPos]); iReaderPos++;
+        custom_script = argv[iReaderPos]; iReaderPos++;
+        // End of program params
+    }
+    else
+    {
+        // Program params
+        mode = ExportOGF;
+        object_path = "G:\\123\\test_static.object";
+        second_file_path = "G:\\123\\export\\test_static.ogf";
+        flags = exfHQGeometryPlus;
+        custom_script = "G:\\projects\\ValeroK\\xrExportTool\\bin\\x64\\Release\\scripts\\assign_static_to_wpn_body.script";
+        // End of program params
+    }
 
     std::string line;
     std::string userdata_path = object_path.c_str();
@@ -217,7 +249,10 @@ int main(int argc, char** argv)
         ATools->CurrentObject()->m_EditorScript = custom_script;
 
         if (ATools->CurrentObject()->SMotionCount() == 0)
-            ATools->CurrentObject()->m_SMotionRefs = pMotionRefs;
+        {
+            if (!IsDebuggerPresent())
+                ATools->CurrentObject()->m_SMotionRefs = pMotionRefs;
+        }
         else
             ATools->CurrentObject()->m_SMotionRefs.clear();
 
@@ -233,6 +268,7 @@ int main(int argc, char** argv)
         ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoHQExportPlus, (flags & exfHQGeometryPlus));
         ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoNormals, (flags & exfSplitNormals));
         ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoLod, (mode == GenerateLod));
+        ATools->CurrentObject()->InitScript();
     }
 
     if (flags & exfHQGeometryPlus)
