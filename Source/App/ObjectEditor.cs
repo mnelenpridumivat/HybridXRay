@@ -14,21 +14,6 @@ using System.Runtime.InteropServices;
 
 namespace Object_tool
 {
-	public struct ShapeEditType
-	{
-		public ushort bone_id;
-		public ushort bone_type;
-		public ushort bone_flags;
-		public string bone_name;
-	};
-
-	public struct Surface
-	{
-		public uint flags;
-		public string texture;
-		public string shader;
-	};
-
 	public enum EditorMode
     {
 		ExportOGF = 0,
@@ -55,6 +40,21 @@ namespace Object_tool
 
 	public partial class Object_Editor : Form
 	{
+		public class ShapeEditType
+		{
+			public ushort bone_id;
+			public ushort bone_type;
+			public ushort bone_flags;
+			public string bone_name;
+		};
+
+		public class Surface
+		{
+			public uint flags;
+			public string texture;
+			public string shader;
+		};
+
 		// File sytem
 		public string FILE_NAME = "";
 		public string TEMP_FILE_NAME = "";
@@ -73,6 +73,7 @@ namespace Object_tool
 		List<string> batch_source = null;
 		public bool IsOgfMode = false;
 		public string script = "null";
+		public string SCRIPT_FOLDER = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\scripts\\";
 
 		public int cpp_mode = 0;
 
@@ -113,6 +114,7 @@ namespace Object_tool
 			objectInfoToolStripMenuItem.Enabled = false;
 			SplitNormalsChbx.Enabled = false;
 			normalsToolStripMenuItem.Enabled = false;
+			importObjectParamsToolStripMenuItem.Enabled = false;
 
 			SaveSklDialog = new FolderSelectDialog();
 			OpenBatchOutDialog = new FolderSelectDialog();
@@ -143,7 +145,29 @@ namespace Object_tool
 			debugToolStripMenuItem.Visible = DEBUG_MODE;
 			AnimsNoCompress.Visible = DEVELOPER_MODE;
 			AnimsNoCompress.Checked = DEVELOPER_MODE;
-			loadScriptToolStripMenuItem.Visible = DEVELOPER_MODE;
+
+			// Init scripts
+			if (File.Exists(SCRIPT_FOLDER + "main.script"))
+            {
+				IniFile Script = new IniFile(SCRIPT_FOLDER + "main.script");
+
+				for (int i = 0; i < 50; i++)
+                {
+					string script_param = "script_" + i;
+					string script_file = Script.Read(script_param, "main");
+					if (script_file == "") break;
+
+					IniFile NewScript = new IniFile(SCRIPT_FOLDER + script_file + ".script");
+					string script_name = NewScript.Read("name", "options");
+
+					ToolStripMenuItem item = new ToolStripMenuItem();
+					item.Text = script_name;
+					item.Tag = SCRIPT_FOLDER + script_file + ".script";
+					item.Click += new System.EventHandler(this.ScriptClicked);
+
+					loadScriptToolStripMenuItem.DropDownItems.Add(item);
+				}
+			}
 
 			if (Environment.GetCommandLineArgs().Length > 1)
 			{
@@ -250,6 +274,7 @@ namespace Object_tool
 			FlagsGroupBox.Enabled = true;
 			generateLodToolStripMenuItem.Enabled = !IsOgfMode;
 			objectInfoToolStripMenuItem.Enabled = !IsOgfMode;
+			importObjectParamsToolStripMenuItem.Enabled = !IsOgfMode;
 
 			if (IsOgfMode)
 			{
@@ -934,24 +959,152 @@ namespace Object_tool
 			}
 		}
 
-		private void loadScriptToolStripMenuItem_Click(object sender, EventArgs e)
+		private void CopyObjectParams(string FileName)
 		{
-			if (script == "null")
-			{
-				OpenFileDialog Dialog = new OpenFileDialog();
-				Dialog.InitialDirectory = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\scripts";
-				Dialog.Filter = "Script file|*.script";
+			var xr_loader = new XRayLoader();
 
-				if (Dialog.ShowDialog() == DialogResult.OK)
+			using (var r = new BinaryReader(new FileStream(FileName, FileMode.Open)))
+			{
+				xr_loader.SetStream(r.BaseStream);
+
+				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_LODS, true, true)) // Импортируем LOD
 				{
-					script = Dialog.FileName;
-					loadScriptToolStripMenuItem.Text = "Delete Script";
+					LodTextBox.Text = xr_loader.read_stringData();
 				}
-			}
-			else
-            {
-				script = "null";
-				loadScriptToolStripMenuItem.Text = "Load Script";
+
+				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_CLASSSCRIPT, true, true)) // Импортируем UserData
+				{
+					UserDataTextBox.Text = xr_loader.read_stringZ();
+				}
+
+				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SMOTIONS3, true, true)) // Импортируем Моушн рефы
+				{
+					List<string> refs = new List<string>();
+					uint count = xr_loader.ReadUInt32();
+					for (int i = 0; i < count; i++)
+					{
+						refs.Add(xr_loader.read_stringZ());
+					}
+					MotionRefsBox.Lines = refs.ToArray();
+				}
+				else if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SMOTIONS2, true, true))
+				{
+					string motions = xr_loader.read_stringZ();
+
+					string motion = "";
+					List<string> refs = new List<string>();
+
+					for (int i = 0; i < motions.Length; i++)
+					{
+						if (motions[i] != ',')
+							motion += motions[i];
+						else
+						{
+							refs.Add(motion);
+							motion = "";
+						}
+
+					}
+
+					if (motion != "")
+						refs.Add(motion);
+
+					MotionRefsBox.Lines = refs.ToArray();
+				}
+
+				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SURFACES3, true, true))
+				{
+					surface_count = xr_loader.ReadUInt32();
+					for (int i = 0; i < surface_count; i++)
+					{
+						string name = xr_loader.read_stringZ(); // Name
+                        surfaces[i].shader = xr_loader.read_stringZ(); // Shader
+						xr_loader.read_stringZ(); // Shader XRLC
+						xr_loader.read_stringZ(); // GameMtl
+						surfaces[i].texture = xr_loader.read_stringZ(); // Texture
+						xr_loader.read_stringZ(); // VMap
+						surfaces[i].flags = xr_loader.ReadUInt32();   // Flags
+						xr_loader.ReadUInt32();   // FVF
+						xr_loader.ReadUInt32();   // TC count
+					}
+				}
+				else if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SURFACES2, true, true))
+				{
+					surface_count = xr_loader.ReadUInt32();
+					for (int i = 0; i < surface_count; i++)
+					{
+						string name = xr_loader.read_stringZ(); // Name
+						surfaces[i].shader = xr_loader.read_stringZ(); // Shader
+						xr_loader.read_stringZ(); // Shader XRLC
+						surfaces[i].texture = xr_loader.read_stringZ(); // Texture
+						xr_loader.read_stringZ(); // VMap
+						surfaces[i].flags = xr_loader.ReadUInt32();   // Flags
+						xr_loader.ReadUInt32();   // FVF
+						xr_loader.ReadUInt32();   // TC count
+					}
+				}
+				else if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SURFACES, true, true))
+				{
+					surface_count = xr_loader.ReadUInt32();
+					for (int i = 0; i < surface_count; i++)
+					{
+						string name = xr_loader.read_stringZ(); // Name
+						surfaces[i].shader = xr_loader.read_stringZ(); // Shader
+						surfaces[i].flags = xr_loader.ReadByte();     // Flags
+						xr_loader.ReadUInt32();   // FVF
+						xr_loader.ReadUInt32();   // TC count
+						surfaces[i].texture = xr_loader.read_stringZ(); // Texture
+						xr_loader.read_stringZ(); // VMap
+					}
+				}
+
+				xr_loader.SetStream(r.BaseStream);
+
+				bool B_CHUNK = xr_loader.SetData(xr_loader.find_and_return_chunk_in_chunk((int)OBJECT.EOBJ_CHUNK_BONES2, true, true));
+				if (B_CHUNK)
+				{
+					int chunk = 0;
+
+					while (true)
+					{
+						Stream temp = xr_loader.reader.BaseStream;
+
+						if (!xr_loader.SetData(xr_loader.find_and_return_chunk_in_chunk(chunk, false, true))) break;
+
+                        shapes[chunk].bone_id = (ushort)chunk;
+
+						if (xr_loader.find_chunk((int)BONE.BONE_CHUNK_DEF, false, true))
+						{
+							shapes[chunk].bone_name = xr_loader.read_stringZ();
+						}
+
+						if (xr_loader.find_chunk((int)BONE.BONE_CHUNK_SHAPE, false, true))
+						{
+							shapes[chunk].bone_type = (ushort)xr_loader.ReadUInt16();
+							shapes[chunk].bone_flags = (ushort)xr_loader.ReadUInt16();
+						}
+
+						chunk++;
+						xr_loader.SetStream(temp);
+					}
+				}
+				else if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_BONES, true, true))
+				{
+
+					uint size = xr_loader.ReadUInt32();
+					for (int i = 0; i < size; i++)
+					{
+						shapes[i].bone_flags = 0;
+						shapes[i].bone_type = 0;
+						shapes[i].bone_name = xr_loader.read_stringZ();
+						shapes[i].bone_id = (ushort)i;
+						xr_loader.read_stringZ();
+						xr_loader.read_stringZ();
+						xr_loader.ReadBytes(12);
+						xr_loader.ReadBytes(12);
+						xr_loader.ReadFloat();
+					}
+				}
 			}
 		}
 
@@ -1151,13 +1304,12 @@ namespace Object_tool
 				}
 				else if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_BONES, true, true))
 				{
-					ShapeEditType shape = new ShapeEditType();
-					shape.bone_flags = 0;
-					shape.bone_type = 0;
-
 					uint size = xr_loader.ReadUInt32();
 					for (int i = 0; i < size; i++)
 					{
+						ShapeEditType shape = new ShapeEditType();
+						shape.bone_flags = 0;
+						shape.bone_type = 0;
 						shape.bone_name = xr_loader.read_stringZ();
 						shape.bone_id = (ushort)i;
 						xr_loader.read_stringZ();
@@ -1456,7 +1608,13 @@ namespace Object_tool
 
 		private void importObjectParamsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			OpenFileDialog Dialog = new OpenFileDialog();
+			Dialog.Filter = "Object file|*.object";
 
+			if (Dialog.ShowDialog() == DialogResult.OK)
+            {
+				CopyObjectParams(Dialog.FileName);
+            }
 		}
 
 		private void objectToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -1648,6 +1806,28 @@ namespace Object_tool
 					surface.shader = curBox.Text;
 					surfaces[idx] = surface;
 					break;
+			}
+		}
+
+		private void ScriptClicked(object sender, EventArgs e)
+		{
+			ToolStripMenuItem item = sender as ToolStripMenuItem;
+			script = item.Tag.ToString();
+			loadScriptToolStripMenuItem.Text = "Delete Script";
+
+			for (int i = 0; i < loadScriptToolStripMenuItem.DropDownItems.Count; i++)
+				loadScriptToolStripMenuItem.DropDownItems[i].Visible = false;
+		}
+
+		private void LoadScriptClicked(object sender, EventArgs e)
+		{
+			if (script != "null")
+			{
+				script = "null";
+				loadScriptToolStripMenuItem.Text = "Load Script";
+
+				for (int i = 0; i < loadScriptToolStripMenuItem.DropDownItems.Count; i++)
+					loadScriptToolStripMenuItem.DropDownItems[i].Visible = true;
 			}
 		}
 
