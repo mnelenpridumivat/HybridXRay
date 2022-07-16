@@ -169,6 +169,8 @@ namespace Object_tool
 				}
 			}
 
+			loadScriptToolStripMenuItem.Visible = loadScriptToolStripMenuItem.DropDownItems.Count > 0;
+
 			if (Environment.GetCommandLineArgs().Length > 1)
 			{
 				IsOgfMode = false;
