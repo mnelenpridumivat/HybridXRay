@@ -1014,47 +1014,71 @@ namespace Object_tool
 
 				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SURFACES3, true, true))
 				{
-					surface_count = xr_loader.ReadUInt32();
-					for (int i = 0; i < surface_count; i++)
+					uint surf_count = xr_loader.ReadUInt32();
+					if (surface_count == surf_count && MessageBox.Show("Import textures and shaders path?\nThey may have different positions", "Object Editor", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 					{
-						string name = xr_loader.read_stringZ(); // Name
-                        surfaces[i].shader = xr_loader.read_stringZ(); // Shader
-						xr_loader.read_stringZ(); // Shader XRLC
-						xr_loader.read_stringZ(); // GameMtl
-						surfaces[i].texture = xr_loader.read_stringZ(); // Texture
-						xr_loader.read_stringZ(); // VMap
-						surfaces[i].flags = xr_loader.ReadUInt32();   // Flags
-						xr_loader.ReadUInt32();   // FVF
-						xr_loader.ReadUInt32();   // TC count
+						for (int i = 0; i < surface_count; i++)
+						{
+							string name = xr_loader.read_stringZ(); // Name
+							surfaces[i].shader = xr_loader.read_stringZ(); // Shader
+							xr_loader.read_stringZ(); // Shader XRLC
+							xr_loader.read_stringZ(); // GameMtl
+							surfaces[i].texture = xr_loader.read_stringZ(); // Texture
+							xr_loader.read_stringZ(); // VMap
+							surfaces[i].flags = xr_loader.ReadUInt32();   // Flags
+							xr_loader.ReadUInt32();   // FVF
+							xr_loader.ReadUInt32();   // TC count
+
+							CheckBox chbx = SurfacesPage.Controls[i].Controls[0] as CheckBox;
+							chbx.Checked = (surfaces[i].flags == 1);
+							SurfacesPage.Controls[i].Controls[2].Text = surfaces[i].texture;
+							SurfacesPage.Controls[i].Controls[4].Text = surfaces[i].shader;
+						}
 					}
 				}
 				else if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SURFACES2, true, true))
 				{
-					surface_count = xr_loader.ReadUInt32();
-					for (int i = 0; i < surface_count; i++)
+					uint surf_count = xr_loader.ReadUInt32();
+					if (surface_count == surf_count && MessageBox.Show("Import textures and shaders path?\nThey may have different positions", "Object Editor", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 					{
-						string name = xr_loader.read_stringZ(); // Name
-						surfaces[i].shader = xr_loader.read_stringZ(); // Shader
-						xr_loader.read_stringZ(); // Shader XRLC
-						surfaces[i].texture = xr_loader.read_stringZ(); // Texture
-						xr_loader.read_stringZ(); // VMap
-						surfaces[i].flags = xr_loader.ReadUInt32();   // Flags
-						xr_loader.ReadUInt32();   // FVF
-						xr_loader.ReadUInt32();   // TC count
+						for (int i = 0; i < surface_count; i++)
+						{
+							string name = xr_loader.read_stringZ(); // Name
+							surfaces[i].shader = xr_loader.read_stringZ(); // Shader
+							xr_loader.read_stringZ(); // Shader XRLC
+							surfaces[i].texture = xr_loader.read_stringZ(); // Texture
+							xr_loader.read_stringZ(); // VMap
+							surfaces[i].flags = xr_loader.ReadUInt32();   // Flags
+							xr_loader.ReadUInt32();   // FVF
+							xr_loader.ReadUInt32();   // TC count
+
+							CheckBox chbx = SurfacesPage.Controls[i].Controls[0] as CheckBox;
+							chbx.Checked = (surfaces[i].flags == 1);
+							SurfacesPage.Controls[i].Controls[2].Text = surfaces[i].texture;
+							SurfacesPage.Controls[i].Controls[4].Text = surfaces[i].shader;
+						}
 					}
 				}
 				else if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SURFACES, true, true))
 				{
-					surface_count = xr_loader.ReadUInt32();
-					for (int i = 0; i < surface_count; i++)
+					uint surf_count = xr_loader.ReadUInt32();
+					if (surface_count == surf_count && MessageBox.Show("Import textures and shaders path?\nThey may have different positions", "Object Editor", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 					{
-						string name = xr_loader.read_stringZ(); // Name
-						surfaces[i].shader = xr_loader.read_stringZ(); // Shader
-						surfaces[i].flags = xr_loader.ReadByte();     // Flags
-						xr_loader.ReadUInt32();   // FVF
-						xr_loader.ReadUInt32();   // TC count
-						surfaces[i].texture = xr_loader.read_stringZ(); // Texture
-						xr_loader.read_stringZ(); // VMap
+						for (int i = 0; i < surface_count; i++)
+						{
+							string name = xr_loader.read_stringZ(); // Name
+							surfaces[i].shader = xr_loader.read_stringZ(); // Shader
+							surfaces[i].flags = xr_loader.ReadByte();     // Flags
+							xr_loader.ReadUInt32();   // FVF
+							xr_loader.ReadUInt32();   // TC count
+							surfaces[i].texture = xr_loader.read_stringZ(); // Texture
+							xr_loader.read_stringZ(); // VMap
+
+							CheckBox chbx = SurfacesPage.Controls[i].Controls[0] as CheckBox;
+							chbx.Checked = (surfaces[i].flags == 1);
+							SurfacesPage.Controls[i].Controls[2].Text = surfaces[i].texture;
+							SurfacesPage.Controls[i].Controls[4].Text = surfaces[i].shader;
+						}
 					}
 				}
 
@@ -1071,38 +1095,60 @@ namespace Object_tool
 
 						if (!xr_loader.SetData(xr_loader.find_and_return_chunk_in_chunk(chunk, false, true))) break;
 
-                        shapes[chunk].bone_id = (ushort)chunk;
-
-						if (xr_loader.find_chunk((int)BONE.BONE_CHUNK_DEF, false, true))
-						{
-							shapes[chunk].bone_name = xr_loader.read_stringZ();
-						}
-
 						if (xr_loader.find_chunk((int)BONE.BONE_CHUNK_SHAPE, false, true))
 						{
 							shapes[chunk].bone_type = (ushort)xr_loader.ReadUInt16();
 							shapes[chunk].bone_flags = (ushort)xr_loader.ReadUInt16();
+
+							ComboBox cb = BonesPage.Controls[chunk].Controls[4] as ComboBox;
+							cb.SelectedIndex = shapes[chunk].bone_type;
+
+							CheckBox chbx1 = BonesPage.Controls[chunk].Controls[0] as CheckBox;
+							chbx1.Checked = (shapes[chunk].bone_flags & (1 << 0)) == (1 << 0);
+							CheckBox chbx2 = BonesPage.Controls[chunk].Controls[1] as CheckBox;
+							chbx2.Checked = (shapes[chunk].bone_flags & (1 << 1)) == (1 << 1);
+							CheckBox chbx3 = BonesPage.Controls[chunk].Controls[2] as CheckBox;
+							chbx3.Checked = (shapes[chunk].bone_flags & (1 << 2)) == (1 << 2);
+							CheckBox chbx4 = BonesPage.Controls[chunk].Controls[3] as CheckBox;
+							chbx4.Checked = (shapes[chunk].bone_flags & (1 << 3)) == (1 << 3);
 						}
 
 						chunk++;
 						xr_loader.SetStream(temp);
+
+						if (shapes.Count <= chunk) break;
 					}
 				}
 				else if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_BONES, true, true))
 				{
-
 					uint size = xr_loader.ReadUInt32();
-					for (int i = 0; i < size; i++)
+
+					if (size == shapes.Count)
 					{
-						shapes[i].bone_flags = 0;
-						shapes[i].bone_type = 0;
-						shapes[i].bone_name = xr_loader.read_stringZ();
-						shapes[i].bone_id = (ushort)i;
-						xr_loader.read_stringZ();
-						xr_loader.read_stringZ();
-						xr_loader.ReadBytes(12);
-						xr_loader.ReadBytes(12);
-						xr_loader.ReadFloat();
+						for (int i = 0; i < size; i++)
+						{
+							shapes[i].bone_flags = 0;
+							shapes[i].bone_type = 0;
+							shapes[i].bone_name = xr_loader.read_stringZ();
+							shapes[i].bone_id = (ushort)i;
+							xr_loader.read_stringZ();
+							xr_loader.read_stringZ();
+							xr_loader.ReadBytes(12);
+							xr_loader.ReadBytes(12);
+							xr_loader.ReadFloat();
+
+							ComboBox cb = BonesPage.Controls[i].Controls[4] as ComboBox;
+							cb.SelectedIndex = shapes[i].bone_type;
+
+							CheckBox chbx1 = BonesPage.Controls[i].Controls[0] as CheckBox;
+							chbx1.Checked = (shapes[i].bone_flags & (1 << 0)) == (1 << 0);
+							CheckBox chbx2 = BonesPage.Controls[i].Controls[1] as CheckBox;
+							chbx2.Checked = (shapes[i].bone_flags & (1 << 1)) == (1 << 1);
+							CheckBox chbx3 = BonesPage.Controls[i].Controls[2] as CheckBox;
+							chbx3.Checked = (shapes[i].bone_flags & (1 << 2)) == (1 << 2);
+							CheckBox chbx4 = BonesPage.Controls[i].Controls[3] as CheckBox;
+							chbx4.Checked = (shapes[i].bone_flags & (1 << 3)) == (1 << 3);
+						}
 					}
 				}
 			}
