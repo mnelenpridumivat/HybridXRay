@@ -441,8 +441,6 @@ void CEditableMesh::AssignMesh(shared_str to_bone)
 		}
 	}
 
-	m_VMaps.push_back(vMap); // Добавляем новую
-
 	for (int j = 0; j < m_VMRefs.size(); j++) // Чиним вертекс рефы
 	{
 		for (int r = 0; r < m_VMRefs[j].count; r++)
@@ -451,12 +449,14 @@ void CEditableMesh::AssignMesh(shared_str to_bone)
 			{
 				if (m_VMRefs[j].pts[r].vmap_index == DeletedVmapIndexes[h]);
 				{
-					m_VMRefs[j].pts[r].vmap_index = m_VMaps.size() - 1;
+					m_VMRefs[j].pts[r].vmap_index = m_VMaps.size();
 					m_VMRefs[j].pts[r].index = vMap->size() - 1;
 				}
 			}
 		}
 	}
+
+	m_VMaps.push_back(vMap); // Добавляем новую
 
 	Msg("Script: New VMap size %d", m_VMaps.size());
 	for (int i = 0; i < m_VMaps.size(); i++)
@@ -475,6 +475,67 @@ void CEditableMesh::AssignMesh(shared_str to_bone)
 
 		m_VMRefs[i].pts = (st_VMapPt*)xr_realloc(m_VMRefs[i].pts, m_VMRefs[i].count * sizeof(st_VMapPt));
 		m_VMRefs[i].pts[m_VMRefs[i].count - 1] = vMapPt;
+	}
+}
+
+void CEditableMesh::CheckWMaps(shared_str main_bone_name)
+{
+	int main_vmap_index = -1;
+	for (int i = 0; i < m_VMaps.size(); i++)
+	{
+		if (m_VMaps[i]->type == vmtWeight && m_VMaps[i]->name == main_bone_name)
+		{
+			main_vmap_index = i;
+		}
+	}
+
+	int vindex = 0;
+	xr_vector<int> DeletedVmapIndexes;
+	for (int i = 0; i < m_VMaps.size(); i++, vindex++) // Чистим от старых вертекс мап
+	{
+		if (m_VMaps[i]->type == vmtWeight)
+		{
+			if (m_Parent->GetBoneIndexByWMap(m_VMaps[i]->name.c_str()) == BI_NONE)
+			{
+				if (main_vmap_index == -1)
+				{
+					m_VMaps[i]->name = main_bone_name;
+				}
+				else
+				{
+					Msg("Script: Erase old VMap [%s]", m_VMaps[i]->name.c_str());
+					m_VMaps.erase(m_VMaps.begin() + i);
+					DeletedVmapIndexes.push_back(vindex);
+					i--;
+				}
+			}
+		}
+	}
+
+	if (main_vmap_index == -1) return;
+
+	main_vmap_index = 1;
+	for (int i = 0; i < m_VMaps.size(); i++)
+	{
+		if (m_VMaps[i]->type == vmtWeight && m_VMaps[i]->name == main_bone_name)
+		{
+			main_vmap_index = i;
+		}
+	}
+
+	for (int j = 0; j < m_VMRefs.size(); j++) // Чиним вертекс рефы
+	{
+		for (int r = 0; r < m_VMRefs[j].count; r++)
+		{
+			for (int h = 0; h < DeletedVmapIndexes.size(); h++)
+			{
+				if (m_VMRefs[j].pts[r].vmap_index == DeletedVmapIndexes[h]);
+				{
+					m_VMRefs[j].pts[r].vmap_index = main_vmap_index;
+					m_VMRefs[j].pts[r].index = m_VMaps[main_vmap_index]->size() - 1;
+				}
+			}
+		}
 	}
 }
 

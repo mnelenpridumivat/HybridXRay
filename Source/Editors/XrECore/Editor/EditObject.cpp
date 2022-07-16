@@ -344,6 +344,25 @@ void CEditableObject::InitScript()
             }
         }
 
+        if (ini->section_exist("delete_bones"))
+        {
+            CInifile::Sect& sect = ini->r_section("delete_bones");
+            for (auto it = sect.Data.begin(); it != sect.Data.end(); it++)
+            {
+                u16 parent_bone = BoneIDByName(it->first.c_str());
+                CBone* bone_to_del = GetBone(parent_bone);
+                DeleteBone(bone_to_del);
+                Msg("Script: Bone [%s] deleted", it->first.c_str());
+
+                shared_str main_bone = !it->second ? BoneNameByID(0) : it->second;
+                for (EditMeshIt mesh_it = FirstMesh(); mesh_it != LastMesh(); mesh_it++)
+                {
+                    CEditableMesh* MESH = *mesh_it;
+                    MESH->CheckWMaps(main_bone);
+                }
+            }
+        }
+
         if (ini->section_exist("assign_model"))
         {
             shared_str bone = ini->r_string("assign_model", "assign_to");

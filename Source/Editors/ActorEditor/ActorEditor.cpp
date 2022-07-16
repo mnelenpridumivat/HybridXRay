@@ -204,10 +204,10 @@ int main(int argc, char** argv)
     {
         // Program params
         mode = ExportOGF;
-        object_path = "G:\\123\\ak_no_bones.object";
-        second_file_path = "G:\\123\\export\\ak_no_bones.ogf";
+        object_path = "G:\\123\\export\\ak_cop_jma.object";
+        second_file_path = "G:\\123\\export\\ak_del.ogf";
         flags = exfHQGeometryPlus;
-        custom_script = "G:\\projects\\ValeroK\\xrExportTool\\bin\\x64\\Release\\scripts\\assign_static_to_wpn_body.script";
+        custom_script = "G:\\projects\\ValeroK\\xrExportTool\\bin\\x64\\Release\\scripts\\delete_unused_gunslinger_bones.script";
         // End of program params
     }
 

@@ -312,9 +312,6 @@ void CEditableObject::AddBone(CBone* parent_bone, shared_str name)
     }
 }
 
-CBone* 	bone_to_delete = NULL;
-u32 	bone_to_delete_frame = 0;
-
 void CEditableObject::DeleteBone(CBone* bone)
 {
 	CBone* PB = bone->Parent();
@@ -343,9 +340,6 @@ void CEditableObject::DeleteBone(CBone* bone)
         }
     }
 
-
-    bone_to_delete = bone;
-    bone_to_delete_frame = 0;
 	PrepareBones	();
 
     for (EditMeshIt _M=m_Meshes.begin(); _M!=m_Meshes.end(); _M++)

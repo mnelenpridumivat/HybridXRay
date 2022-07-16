@@ -223,6 +223,7 @@ public:
     void            GenerateSVertices	(u32 influence);
 	void 			GenerateAdjacency	();
 	void 			AssignMesh			(shared_str to_bone);
+	void 			CheckWMaps			(shared_str main_bone_name);
 
     bool			IsGeneratedSVertices(u32 influence)		{return (m_SVertices && (m_SVertInfl==influence));}
     
