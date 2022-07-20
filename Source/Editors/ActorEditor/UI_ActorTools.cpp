@@ -814,11 +814,7 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, shared_str script)
                     Msg("Can't find bone parts, reset to default.");
                 }
 
-                O->m_objectFlags.set(CEditableObject::eoProgressive, (flags & exfMakeProgressive));
-                O->m_objectFlags.set(CEditableObject::eoStripify, (flags & exfMakeStripify));
-                O->m_objectFlags.set(CEditableObject::eoOptimizeSurf, (flags & exfOptimizeSurfaces));
-                O->m_objectFlags.set(CEditableObject::eoHQExportPlus, (flags & exfHQGeometryPlus));
-                O->m_objectFlags.set(CEditableObject::eoExpBuildinMots, (flags & exfExportBuildInMots));
+                O->m_objectFlags.set(CEditableObject::eoExpBuildinMots, FALSE);
                 O->m_EditorScript = script;
                 O->InitScript();
 
@@ -976,6 +972,7 @@ bool CActorTools::BatchConvertDialogOMF(xr_vector<BatchFiles> files, shared_str 
                 CEditableObject* O = xr_new<CEditableObject>("convert");
                 BOOL res = O->Load(src_name);
 
+                O->m_objectFlags.set(CEditableObject::eoExpBuildinMots, FALSE);
                 O->m_EditorScript = script;
                 O->InitScript();
 

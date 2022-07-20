@@ -38,13 +38,13 @@
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.button1 = new System.Windows.Forms.Button();
             this.MotionFlagsGroupBox = new System.Windows.Forms.GroupBox();
+            this.BuildInMotionsExport = new System.Windows.Forms.CheckBox();
             this.AnimsNoCompress = new System.Windows.Forms.RadioButton();
             this.Anims8Bit = new System.Windows.Forms.RadioButton();
             this.Anims16Bit = new System.Windows.Forms.RadioButton();
             this.ObjectScaleLabel = new System.Windows.Forms.Label();
             this.ScaleCenterOfMassCheckBox = new System.Windows.Forms.CheckBox();
             this.ObjectScaleTextBox = new System.Windows.Forms.TextBox();
-            this.BuildInMotionsExport = new System.Windows.Forms.CheckBox();
             this.FlagsGroupBox.SuspendLayout();
             this.ModelFlagsGroupBox.SuspendLayout();
             this.MotionFlagsGroupBox.SuspendLayout();
@@ -177,6 +177,18 @@
             this.MotionFlagsGroupBox.TabStop = false;
             this.MotionFlagsGroupBox.Text = "Motion export";
             // 
+            // BuildInMotionsExport
+            // 
+            this.BuildInMotionsExport.AutoSize = true;
+            this.BuildInMotionsExport.Checked = true;
+            this.BuildInMotionsExport.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.BuildInMotionsExport.Location = new System.Drawing.Point(8, 88);
+            this.BuildInMotionsExport.Name = "BuildInMotionsExport";
+            this.BuildInMotionsExport.Size = new System.Drawing.Size(120, 17);
+            this.BuildInMotionsExport.TabIndex = 12;
+            this.BuildInMotionsExport.Text = "Use build-in motions";
+            this.BuildInMotionsExport.UseVisualStyleBackColor = true;
+            // 
             // AnimsNoCompress
             // 
             this.AnimsNoCompress.AutoSize = true;
@@ -243,18 +255,6 @@
             this.ObjectScaleTextBox.TextChanged += new System.EventHandler(this.ScaleTextChanged);
             this.ObjectScaleTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ScaleKeyDown);
             this.ObjectScaleTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ScaleKeyPress);
-            // 
-            // BuildInMotionsExport
-            // 
-            this.BuildInMotionsExport.AutoSize = true;
-            this.BuildInMotionsExport.Checked = true;
-            this.BuildInMotionsExport.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.BuildInMotionsExport.Location = new System.Drawing.Point(8, 88);
-            this.BuildInMotionsExport.Name = "BuildInMotionsExport";
-            this.BuildInMotionsExport.Size = new System.Drawing.Size(131, 17);
-            this.BuildInMotionsExport.TabIndex = 12;
-            this.BuildInMotionsExport.Text = "Export build-in motions";
-            this.BuildInMotionsExport.UseVisualStyleBackColor = true;
             // 
             // BatchFlags
             // 

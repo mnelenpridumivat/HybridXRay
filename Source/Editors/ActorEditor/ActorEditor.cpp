@@ -290,6 +290,7 @@ int main(int argc, char** argv)
         }break;
         case ExportOMF:
         {
+            ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoExpBuildinMots, FALSE);
             std::cout << "Export OMF" << std::endl;
             if (!ATools->ExportOMF(second_file_path.c_str()))
                 ret_code = -1;
