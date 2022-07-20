@@ -701,10 +701,11 @@ void CActorTools::RealGenerateLOD(bool hq)
 
 bool CActorTools::BatchConvert(LPCSTR fn, int flags, shared_str script)
 {
-    bool bRes = true;
+    bool bRes = false;
     CInifile* ini = CInifile::Create(fn); VERIFY(ini);
     if (ini->section_exist("ogf"))
     {
+        bRes = true;
         CInifile::Sect& sect = ini->r_section("ogf");
         Msg("Start converting %d items...", sect.Data.size());
         for (auto it = sect.Data.begin(); it != sect.Data.end(); it++) 
@@ -783,6 +784,7 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, shared_str script)
     }
     if (ini->section_exist("omf"))
     {
+        bRes = true;
         CInifile::Sect& sect = ini->r_section("omf");
         Msg("Start converting %d items...", sect.Data.size());
         for (auto it = sect.Data.begin(); it != sect.Data.end(); ++it)

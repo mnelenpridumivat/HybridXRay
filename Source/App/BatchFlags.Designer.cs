@@ -262,7 +262,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(378, 232);
             this.Controls.Add(this.FlagsGroupBox);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximizeBox = false;
             this.Name = "BatchFlags";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
