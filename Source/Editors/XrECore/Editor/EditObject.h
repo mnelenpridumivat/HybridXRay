@@ -199,6 +199,7 @@ public:
         eoStripify      = (1<<8),
         eoLod           = (1<<9),
         eoNormals       = (1<<10),
+        eoExpBuildinMots= (1<<11),
 		eoFORCE32		= u32(-1)           
     };
     IC BOOL			IsDynamic				(){return m_objectFlags.is(eoDynamic);}

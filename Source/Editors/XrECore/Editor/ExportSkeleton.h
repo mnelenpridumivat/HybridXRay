@@ -203,6 +203,7 @@ public:
 
     virtual bool    	ExportMotionKeys	(IWriter& F);
     virtual bool    	ExportMotionDefs	(IWriter& F);
+    virtual bool    	ExportMotionRefs	(IWriter& F);
     bool                ExportAsSimple		(IWriter& F);
 };
 

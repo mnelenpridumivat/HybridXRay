@@ -267,7 +267,7 @@ namespace Object_tool
 			ObjectScaleTextBox.Enabled = has_bones && !IsOgfMode;
 			ScaleCenterOfMassCheckBox.Enabled = has_bones && !IsOgfMode;
 			ObjectScaleLabel.Enabled = has_bones && !IsOgfMode;
-			MotionRefsBox.Enabled = has_bones && !has_motions;
+			MotionRefsBox.Enabled = has_bones;
 			UserDataTextBox.Enabled = has_bones;
 			LodTextBox.Enabled = has_bones;
 			motionRefsToolStripMenuItem.Enabled = has_bones && !IsOgfMode;
@@ -472,6 +472,9 @@ namespace Object_tool
 
 			if (SplitNormalsChbx.Checked)
 				flags |= (1 << 8);
+
+			if (BuildInMotionsExport.Checked)
+				flags |= (1 << 9);
 
 			return flags;
         }
@@ -1396,10 +1399,8 @@ namespace Object_tool
 			MotionTextBox.Text = $"Motions count: 0";
 			bool hasmot = MotionCount() > 0;
 			bool has_bones = HasBones();
-			MotionRefsBox.Enabled = !hasmot && has_bones;
 			MotionFlagsGroupBox.Enabled = hasmot && has_bones;
 			MotionRefsTextChanged(MotionRefsBox, null);
-			UserDataTextChanged(UserDataTextBox, null);
 
 			if (IsOgfMode)
 			{
@@ -1414,7 +1415,6 @@ namespace Object_tool
 
 				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SMOTIONS, true, true))
 				{
-					MotionRefsBox.Clear();
 					uint count = xr_loader.ReadUInt32();
 					MotionTextBox.Clear();
 					MotionTextBox.Text = $"Motions count: {count}\n";
@@ -1538,7 +1538,8 @@ namespace Object_tool
 
 		private void FlagsHelpButton_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Motion export:\nДанные флаги влияют на компресиию анимаций при экспортировании в OMF.\n1. 8 bit - ТЧ Формат\n2. 16 bit - ЗП Формат\n" + (DEVELOPER_MODE ? "3. No compress - экспортирует анимации без сжатия\n\n" : "\n") +
+			MessageBox.Show("Motion export:\nДанные флаги влияют на компресиию анимаций при экспортировании в OMF.\n1. 8 bit - ТЧ Формат\n2. 16 bit - ЗП Формат\n" + (DEVELOPER_MODE ? "3. No compress - экспортирует анимации без сжатия\n" : "") +
+				(DEVELOPER_MODE ? "4." : "3.") + " Export build-in motions - при активации анимации загруженные в object будут экспортированны вместе с OGF\n\n" +
 				"Model export:\n" +
 				"1. Make progressive meshes - создает прогрессивные меши при экспорте OGF. Это динамическая детализация модели (lod'ы), чаще используется для мировых объектов.\n" +
 				"2. Make stripify meshes - оптимизация vertex'ов и face'ов у мешей которая портила сетку, раньше стояла по дефолту в SDK и использовалась для оптимизации мешей под старый DirectX и видеокарты. Сейчас же надобности в данном флаге нет.\n" +

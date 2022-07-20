@@ -248,7 +248,7 @@ int main(int argc, char** argv)
         ATools->CurrentObject()->GetClassScript() = userdata.c_str();
         ATools->CurrentObject()->m_EditorScript = custom_script;
 
-        if (ATools->CurrentObject()->SMotionCount() == 0)
+        if (ATools->CurrentObject()->SMotionCount() == 0 || !(flags & exfExportBuildInMots))
         {
             if (!IsDebuggerPresent())
                 ATools->CurrentObject()->m_SMotionRefs = pMotionRefs;
@@ -267,6 +267,7 @@ int main(int argc, char** argv)
         ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoOptimizeSurf, (flags & exfOptimizeSurfaces));
         ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoHQExportPlus, (flags & exfHQGeometryPlus));
         ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoNormals, (flags & exfSplitNormals));
+        ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoExpBuildinMots, (flags & exfExportBuildInMots));
         ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoLod, (mode == GenerateLod));
         ATools->CurrentObject()->InitScript();
     }

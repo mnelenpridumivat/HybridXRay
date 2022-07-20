@@ -64,6 +64,9 @@ namespace Object_tool
 			if (SplitNormalsChbx.Checked)
 				flags |= (1 << 8);
 
+			if (BuildInMotionsExport.Checked)
+				flags |= (1 << 9);
+
 			return flags;
 		}
 

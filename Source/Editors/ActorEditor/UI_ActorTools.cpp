@@ -740,6 +740,7 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, shared_str script)
                 O->m_objectFlags.set(CEditableObject::eoStripify, (flags & exfMakeStripify));
                 O->m_objectFlags.set(CEditableObject::eoOptimizeSurf, (flags & exfOptimizeSurfaces));
                 O->m_objectFlags.set(CEditableObject::eoHQExportPlus, (flags & exfHQGeometryPlus));
+                O->m_objectFlags.set(CEditableObject::eoExpBuildinMots, (flags & exfExportBuildInMots));
                 O->m_EditorScript = script;
                 O->InitScript();
 
@@ -817,6 +818,7 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, shared_str script)
                 O->m_objectFlags.set(CEditableObject::eoStripify, (flags & exfMakeStripify));
                 O->m_objectFlags.set(CEditableObject::eoOptimizeSurf, (flags & exfOptimizeSurfaces));
                 O->m_objectFlags.set(CEditableObject::eoHQExportPlus, (flags & exfHQGeometryPlus));
+                O->m_objectFlags.set(CEditableObject::eoExpBuildinMots, (flags & exfExportBuildInMots));
                 O->m_EditorScript = script;
                 O->InitScript();
 
@@ -843,7 +845,7 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, shared_str script)
                     }
                 }
 
-                if (O->SMotionCount() > 0)
+                if (O->SMotionCount() > 0 && (flags & exfExportBuildInMots))
                     O->m_SMotionRefs.clear();
 
                 if (res) res = O->ExportOMF(tgt_name);
@@ -907,6 +909,7 @@ bool CActorTools::BatchConvertDialogOGF(xr_vector<BatchFiles> files, shared_str 
                 O->m_objectFlags.set(CEditableObject::eoStripify, (flags & exfMakeStripify));
                 O->m_objectFlags.set(CEditableObject::eoOptimizeSurf, (flags & exfOptimizeSurfaces));
                 O->m_objectFlags.set(CEditableObject::eoHQExportPlus, (flags & exfHQGeometryPlus));
+                O->m_objectFlags.set(CEditableObject::eoExpBuildinMots, (flags & exfExportBuildInMots));
                 O->m_EditorScript = script;
                 O->InitScript();
 
@@ -919,7 +922,7 @@ bool CActorTools::BatchConvertDialogOGF(xr_vector<BatchFiles> files, shared_str 
                 if (FS.exist(skls_name.c_str()))
                     O->AppendSMotion(skls_name.c_str());
 
-                if (O->SMotionCount() > 0)
+                if (O->SMotionCount() > 0 && (flags & exfExportBuildInMots))
                     O->m_SMotionRefs.clear();
 
                 if (res) res = O->ExportOGF(tgt_name, 4);
@@ -991,7 +994,7 @@ bool CActorTools::BatchConvertDialogOMF(xr_vector<BatchFiles> files, shared_str 
                 if (FS.exist(skls_name.c_str()))
                     O->AppendSMotion(skls_name.c_str());
 
-                if (O->SMotionCount() > 0)
+                if (O->SMotionCount() > 0 && (flags & exfExportBuildInMots))
                     O->m_SMotionRefs.clear();
 
                 if (res) res = O->ExportOMF(tgt_name);

@@ -143,6 +143,7 @@ namespace Object_tool
             this.OpenMotionRefsDialog = new System.Windows.Forms.OpenFileDialog();
             this.SaveUserDataDialog = new System.Windows.Forms.SaveFileDialog();
             this.SaveMotionRefsDialog = new System.Windows.Forms.SaveFileDialog();
+            this.BuildInMotionsExport = new System.Windows.Forms.CheckBox();
             this.MenuPanel.SuspendLayout();
             this.StatusPanel.SuspendLayout();
             this.FlagsPage.SuspendLayout();
@@ -756,12 +757,13 @@ namespace Object_tool
             // 
             this.MotionFlagsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.MotionFlagsGroupBox.Controls.Add(this.BuildInMotionsExport);
             this.MotionFlagsGroupBox.Controls.Add(this.AnimsNoCompress);
             this.MotionFlagsGroupBox.Controls.Add(this.Anims8Bit);
             this.MotionFlagsGroupBox.Controls.Add(this.Anims16Bit);
             this.MotionFlagsGroupBox.Location = new System.Drawing.Point(6, 15);
             this.MotionFlagsGroupBox.Name = "MotionFlagsGroupBox";
-            this.MotionFlagsGroupBox.Size = new System.Drawing.Size(175, 90);
+            this.MotionFlagsGroupBox.Size = new System.Drawing.Size(175, 109);
             this.MotionFlagsGroupBox.TabIndex = 22;
             this.MotionFlagsGroupBox.TabStop = false;
             this.MotionFlagsGroupBox.Text = "Motion export";
@@ -769,7 +771,7 @@ namespace Object_tool
             // AnimsNoCompress
             // 
             this.AnimsNoCompress.AutoSize = true;
-            this.AnimsNoCompress.Location = new System.Drawing.Point(8, 65);
+            this.AnimsNoCompress.Location = new System.Drawing.Point(6, 65);
             this.AnimsNoCompress.Name = "AnimsNoCompress";
             this.AnimsNoCompress.Size = new System.Drawing.Size(87, 17);
             this.AnimsNoCompress.TabIndex = 10;
@@ -780,7 +782,7 @@ namespace Object_tool
             // Anims8Bit
             // 
             this.Anims8Bit.AutoSize = true;
-            this.Anims8Bit.Location = new System.Drawing.Point(8, 19);
+            this.Anims8Bit.Location = new System.Drawing.Point(6, 19);
             this.Anims8Bit.Name = "Anims8Bit";
             this.Anims8Bit.Size = new System.Drawing.Size(45, 17);
             this.Anims8Bit.TabIndex = 8;
@@ -791,7 +793,7 @@ namespace Object_tool
             // 
             this.Anims16Bit.AutoSize = true;
             this.Anims16Bit.Checked = true;
-            this.Anims16Bit.Location = new System.Drawing.Point(8, 42);
+            this.Anims16Bit.Location = new System.Drawing.Point(6, 42);
             this.Anims16Bit.Name = "Anims16Bit";
             this.Anims16Bit.Size = new System.Drawing.Size(51, 17);
             this.Anims16Bit.TabIndex = 9;
@@ -882,7 +884,7 @@ namespace Object_tool
             // ObjectScaleLabel
             // 
             this.ObjectScaleLabel.AutoSize = true;
-            this.ObjectScaleLabel.Location = new System.Drawing.Point(3, 112);
+            this.ObjectScaleLabel.Location = new System.Drawing.Point(3, 131);
             this.ObjectScaleLabel.Name = "ObjectScaleLabel";
             this.ObjectScaleLabel.Size = new System.Drawing.Size(69, 13);
             this.ObjectScaleLabel.TabIndex = 18;
@@ -893,7 +895,7 @@ namespace Object_tool
             this.ScaleCenterOfMassCheckBox.AutoSize = true;
             this.ScaleCenterOfMassCheckBox.Checked = true;
             this.ScaleCenterOfMassCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ScaleCenterOfMassCheckBox.Location = new System.Drawing.Point(6, 135);
+            this.ScaleCenterOfMassCheckBox.Location = new System.Drawing.Point(6, 154);
             this.ScaleCenterOfMassCheckBox.Name = "ScaleCenterOfMassCheckBox";
             this.ScaleCenterOfMassCheckBox.Size = new System.Drawing.Size(125, 17);
             this.ScaleCenterOfMassCheckBox.TabIndex = 17;
@@ -904,7 +906,7 @@ namespace Object_tool
             // 
             this.ObjectScaleTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ObjectScaleTextBox.Location = new System.Drawing.Point(78, 109);
+            this.ObjectScaleTextBox.Location = new System.Drawing.Point(78, 128);
             this.ObjectScaleTextBox.Name = "ObjectScaleTextBox";
             this.ObjectScaleTextBox.Size = new System.Drawing.Size(103, 20);
             this.ObjectScaleTextBox.TabIndex = 16;
@@ -1078,6 +1080,18 @@ namespace Object_tool
             // 
             this.SaveMotionRefsDialog.Filter = "Ltx file|*.ltx|Txt file|*.txt";
             // 
+            // BuildInMotionsExport
+            // 
+            this.BuildInMotionsExport.AutoSize = true;
+            this.BuildInMotionsExport.Checked = true;
+            this.BuildInMotionsExport.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.BuildInMotionsExport.Location = new System.Drawing.Point(6, 88);
+            this.BuildInMotionsExport.Name = "BuildInMotionsExport";
+            this.BuildInMotionsExport.Size = new System.Drawing.Size(131, 17);
+            this.BuildInMotionsExport.TabIndex = 11;
+            this.BuildInMotionsExport.Text = "Export build-in motions";
+            this.BuildInMotionsExport.UseVisualStyleBackColor = true;
+            // 
             // Object_Editor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -1234,6 +1248,7 @@ namespace Object_tool
         private System.Windows.Forms.ToolStripMenuItem normalsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importObjectParamsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadScriptToolStripMenuItem;
+        private System.Windows.Forms.CheckBox BuildInMotionsExport;
     }
 }
 

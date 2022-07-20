@@ -44,6 +44,7 @@
             this.ObjectScaleLabel = new System.Windows.Forms.Label();
             this.ScaleCenterOfMassCheckBox = new System.Windows.Forms.CheckBox();
             this.ObjectScaleTextBox = new System.Windows.Forms.TextBox();
+            this.BuildInMotionsExport = new System.Windows.Forms.CheckBox();
             this.FlagsGroupBox.SuspendLayout();
             this.ModelFlagsGroupBox.SuspendLayout();
             this.MotionFlagsGroupBox.SuspendLayout();
@@ -76,7 +77,7 @@
             this.ModelFlagsGroupBox.Controls.Add(this.HQGeometryPlus);
             this.ModelFlagsGroupBox.Controls.Add(this.ProgressiveMeshes);
             this.ModelFlagsGroupBox.Controls.Add(this.checkBox2);
-            this.ModelFlagsGroupBox.Location = new System.Drawing.Point(173, 19);
+            this.ModelFlagsGroupBox.Location = new System.Drawing.Point(172, 15);
             this.ModelFlagsGroupBox.Name = "ModelFlagsGroupBox";
             this.ModelFlagsGroupBox.Size = new System.Drawing.Size(175, 156);
             this.ModelFlagsGroupBox.TabIndex = 24;
@@ -165,12 +166,13 @@
             // 
             this.MotionFlagsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.MotionFlagsGroupBox.Controls.Add(this.BuildInMotionsExport);
             this.MotionFlagsGroupBox.Controls.Add(this.AnimsNoCompress);
             this.MotionFlagsGroupBox.Controls.Add(this.Anims8Bit);
             this.MotionFlagsGroupBox.Controls.Add(this.Anims16Bit);
             this.MotionFlagsGroupBox.Location = new System.Drawing.Point(6, 15);
             this.MotionFlagsGroupBox.Name = "MotionFlagsGroupBox";
-            this.MotionFlagsGroupBox.Size = new System.Drawing.Size(160, 90);
+            this.MotionFlagsGroupBox.Size = new System.Drawing.Size(160, 111);
             this.MotionFlagsGroupBox.TabIndex = 22;
             this.MotionFlagsGroupBox.TabStop = false;
             this.MotionFlagsGroupBox.Text = "Motion export";
@@ -211,7 +213,7 @@
             // ObjectScaleLabel
             // 
             this.ObjectScaleLabel.AutoSize = true;
-            this.ObjectScaleLabel.Location = new System.Drawing.Point(3, 112);
+            this.ObjectScaleLabel.Location = new System.Drawing.Point(3, 135);
             this.ObjectScaleLabel.Name = "ObjectScaleLabel";
             this.ObjectScaleLabel.Size = new System.Drawing.Size(69, 13);
             this.ObjectScaleLabel.TabIndex = 18;
@@ -222,7 +224,7 @@
             this.ScaleCenterOfMassCheckBox.AutoSize = true;
             this.ScaleCenterOfMassCheckBox.Checked = true;
             this.ScaleCenterOfMassCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ScaleCenterOfMassCheckBox.Location = new System.Drawing.Point(6, 135);
+            this.ScaleCenterOfMassCheckBox.Location = new System.Drawing.Point(6, 158);
             this.ScaleCenterOfMassCheckBox.Name = "ScaleCenterOfMassCheckBox";
             this.ScaleCenterOfMassCheckBox.Size = new System.Drawing.Size(125, 17);
             this.ScaleCenterOfMassCheckBox.TabIndex = 17;
@@ -233,7 +235,7 @@
             // 
             this.ObjectScaleTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ObjectScaleTextBox.Location = new System.Drawing.Point(78, 109);
+            this.ObjectScaleTextBox.Location = new System.Drawing.Point(78, 132);
             this.ObjectScaleTextBox.Name = "ObjectScaleTextBox";
             this.ObjectScaleTextBox.Size = new System.Drawing.Size(88, 20);
             this.ObjectScaleTextBox.TabIndex = 16;
@@ -241,6 +243,18 @@
             this.ObjectScaleTextBox.TextChanged += new System.EventHandler(this.ScaleTextChanged);
             this.ObjectScaleTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ScaleKeyDown);
             this.ObjectScaleTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ScaleKeyPress);
+            // 
+            // BuildInMotionsExport
+            // 
+            this.BuildInMotionsExport.AutoSize = true;
+            this.BuildInMotionsExport.Checked = true;
+            this.BuildInMotionsExport.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.BuildInMotionsExport.Location = new System.Drawing.Point(8, 88);
+            this.BuildInMotionsExport.Name = "BuildInMotionsExport";
+            this.BuildInMotionsExport.Size = new System.Drawing.Size(131, 17);
+            this.BuildInMotionsExport.TabIndex = 12;
+            this.BuildInMotionsExport.Text = "Export build-in motions";
+            this.BuildInMotionsExport.UseVisualStyleBackColor = true;
             // 
             // BatchFlags
             // 
@@ -281,5 +295,6 @@
         private System.Windows.Forms.RadioButton HQGeometryPlus;
         private System.Windows.Forms.CheckBox ProgressiveMeshes;
         private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.CheckBox BuildInMotionsExport;
     }
 }

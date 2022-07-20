@@ -1224,13 +1224,10 @@ bool CExportSkeleton::ExportMotionDefs(IWriter& F)
 
     if (m_Source->m_SMotionRefs.size())
     {
-	    F.open_chunk	(OGF_S_MOTION_REFS2);
-    	F.w_u32			(m_Source->m_SMotionRefs.size());
-        for(u32 i=0; i<m_Source->m_SMotionRefs.size(); ++i)
-        	F.w_stringZ	(m_Source->m_SMotionRefs[i].c_str());
-
-	    F.close_chunk	();
-    }else{
+        ExportMotionRefs(F);
+    }
+    else
+    {
         // save smparams
         F.open_chunk	(OGF_S_SMPARAMS);
         F.w_u16			(xrOGF_SMParamsVersion);
@@ -1314,10 +1311,31 @@ bool CExportSkeleton::ExportMotionDefs(IWriter& F)
     return bRes;
 }
 
+bool CExportSkeleton::ExportMotionRefs(IWriter& F)
+{
+    if (m_Source->m_SMotionRefs.size())
+    {
+        F.open_chunk(OGF_S_MOTION_REFS2);
+        F.w_u32(m_Source->m_SMotionRefs.size());
+        for (u32 i = 0; i < m_Source->m_SMotionRefs.size(); ++i)
+            F.w_stringZ(m_Source->m_SMotionRefs[i].c_str());
+
+        F.close_chunk();
+    }
+    return true;
+}
+
 bool CExportSkeleton::ExportMotions(IWriter& F)
 {
-	if (!ExportMotionKeys(F)) 	return false;
-	if (!ExportMotionDefs(F)) 	return false;
+    if (m_Source->m_objectFlags.is(CEditableObject::eoExpBuildinMots))
+    {
+        if (!ExportMotionKeys(F)) 	return false;
+        if (!ExportMotionDefs(F)) 	return false;
+    }
+    else
+    {
+        ExportMotionRefs(F);
+    }
     return true;
 }
 //----------------------------------------------------
