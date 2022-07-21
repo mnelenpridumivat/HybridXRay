@@ -248,7 +248,7 @@ int main(int argc, char** argv)
         ATools->CurrentObject()->GetClassScript() = userdata.c_str();
         ATools->CurrentObject()->m_EditorScript = custom_script;
 
-        if (ATools->CurrentObject()->SMotionCount() == 0 || !(flags & exfExportBuildInMots))
+        if (ATools->CurrentObject()->SMotionCount() == 0 || !(flags & exfExportBuildInMots) || mode == SaveObject)
         {
             if (!IsDebuggerPresent())
                 ATools->CurrentObject()->m_SMotionRefs = pMotionRefs;
