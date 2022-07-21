@@ -186,104 +186,19 @@ namespace Object_tool
 			if (Directory.Exists(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp"))
 				Directory.Delete(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp", true);
 
-			ClearUI();
-			FILE_NAME = filename;
-
-			StatusFile.Text = FILE_NAME.Substring(FILE_NAME.LastIndexOf('\\') + 1);
-
-			if (IsOgfMode)
-				FILE_NAME = Environment.GetCommandLineArgs()[3];
-
-			SaveOgfDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
-			SaveOgfDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + ".ogf";
-
-			SaveOmfDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
-			SaveOmfDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + ".omf";
-
-			SaveSklsDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
-			SaveSklsDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + ".skls";
-
-			SaveBonesDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
-			SaveBonesDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + ".bones";
-
-			SaveObjDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
-			SaveObjDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + ".obj";
-
-			SaveBonePartsDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
-			SaveBonePartsDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + "_boneparts.ltx";
-
-			SaveCppDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
-			SaveCppDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + "_cpp.ltx";
-
-			SaveMotionRefsDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
-			SaveMotionRefsDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + "_refs.ltx";
-
-			SaveUserDataDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
-			SaveUserDataDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + "_userdata.ltx";
-
-			SaveSklDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
-
-			SaveDmDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
-			SaveDmDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + ".dm";
-
-			SaveObjectDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
-			SaveObjectDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + ".object";
-
-			SaveOgfLodDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
-			SaveOgfLodDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + "_lod.ogf";
-
-			FILE_NAME = filename;
-
 			if (!Directory.Exists(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp"))
 				Directory.CreateDirectory(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp");
 
-			string TempFile = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + $"\\temp\\{StatusFile.Text}";
+			BonesPage.Controls.Clear();
+			FILE_NAME = filename;
+			StatusFile.Text = FILE_NAME.Substring(FILE_NAME.LastIndexOf('\\') + 1);
 
+			InitDialogs();
+			InitUI();
+
+			string TempFile = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + $"\\temp\\{StatusFile.Text}";
 			File.Copy(FILE_NAME, TempFile, true);
 			TEMP_FILE_NAME = TempFile;
-
-			bool has_motions = MotionCount() > 0;
-			bool has_bones = HasBones();
-
-			DeletesklsToolStripMenuItem.Enabled = has_motions;
-			SaveSklsToolStripMenuItem.Enabled = has_motions;
-			sklToolStripMenuItem.Enabled = has_motions;
-			oMFToolStripMenuItem.Enabled = has_motions;
-			saveToolStripMenuItem.Enabled = !IsOgfMode;
-			exportToolStripMenuItem.Enabled = true;
-			deleteToolStripMenuItem.Enabled = true;
-			sklSklsToolStripMenuItem.Enabled = has_bones;
-			bonesToolStripMenuItem.Enabled = has_bones;
-			oGFToolStripMenuItem.Enabled = !IsOgfMode;
-			objToolStripMenuItem.Enabled = !IsOgfMode;
-			objectToolStripMenuItem.Enabled = !IsOgfMode;
-			dMToolStripMenuItem.Enabled = !IsOgfMode;
-			bonesPartsToolStripMenuItem.Enabled = has_bones;
-			cToolStripMenuItem.Enabled = !IsOgfMode;
-			StripifyMeshes.Enabled = has_bones;
-			bonesToolStripMenuItem1.Enabled = has_bones;
-			bonesPartsToolStripMenuItem1.Enabled = has_bones;
-			bonesPartsToDefaultToolStripMenuItem.Enabled = has_bones;
-			ObjectScaleTextBox.Enabled = has_bones && !IsOgfMode;
-			ScaleCenterOfMassCheckBox.Enabled = has_bones && !IsOgfMode;
-			ObjectScaleLabel.Enabled = has_bones && !IsOgfMode;
-			MotionRefsBox.Enabled = has_bones;
-			UserDataTextBox.Enabled = has_bones;
-			LodTextBox.Enabled = has_bones;
-			motionRefsToolStripMenuItem.Enabled = has_bones && !IsOgfMode;
-			userDataToolStripMenuItem.Enabled = has_bones && !IsOgfMode;
-			ModelFlagsGroupBox.Enabled = !IsOgfMode;
-			FlagsGroupBox.Enabled = true;
-			generateLodToolStripMenuItem.Enabled = !IsOgfMode;
-			objectInfoToolStripMenuItem.Enabled = !IsOgfMode;
-			importObjectParamsToolStripMenuItem.Enabled = !IsOgfMode;
-
-			if (IsOgfMode)
-			{
-				TabControl.Controls.Clear();
-				TabControl.Controls.Add(FlagsPage);
-				TabControl.Controls.Add(MotionPage);
-			}
 
 			ParseMotions();
 			LoadData();
@@ -479,488 +394,490 @@ namespace Object_tool
 			return flags;
         }
 
-		private void ExportOGF_Click(object sender, EventArgs e)
+		private void RunSDK_Click(object sender, EventArgs e)
 		{
-			if (SaveOgfDialog.ShowDialog() == DialogResult.OK)
+			ToolStripItem Item = sender as ToolStripItem;
+			string currentField = Item.Tag.ToString();
+			int idx = 0;
+			if (currentField.Contains("_"))
 			{
-				SaveOgfDialog.InitialDirectory = "";
-
-				int code = StartEditor(EditorMode.ExportOGF, TEMP_FILE_NAME, SaveOgfDialog.FileName);
-				if (code == 0)
-					AutoClosingMessageBox.Show("Model successfully exported.", "", 1000, MessageBoxIcon.Information);
-				else
-                {
-					if (code == 1)
-						MessageBox.Show("Can't export model.\nPlease, disable HQ Geometry+ flag.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-					else
-						AutoClosingMessageBox.Show($"Can't export model.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
-				}
+				currentField = currentField.Split('_')[0];
+				idx = Convert.ToInt32(Item.Tag.ToString().Split('_')[1]);
 			}
-		}
 
-		private void ExportOMF_Click(object sender, EventArgs e)
-		{
-			if (SaveOmfDialog.ShowDialog() == DialogResult.OK)
-			{
-				SaveOmfDialog.InitialDirectory = "";
-
-				int code = StartEditor(EditorMode.ExportOMF, TEMP_FILE_NAME, SaveOmfDialog.FileName);
-				if (code == 0)
-					AutoClosingMessageBox.Show("Motions successfully exported.", "", 1000, MessageBoxIcon.Information);
-				else
-					AutoClosingMessageBox.Show($"Can't export motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
-			}
-		}
-
-		private void LoadSkls_Click(object sender, EventArgs e)
-		{
-			if (OpenSklsDialog.ShowDialog() == DialogResult.OK)
-			{
-				int code = StartEditor(EditorMode.LoadMotions, TEMP_FILE_NAME);
-				if (code == 0)
-				{
-					AutoClosingMessageBox.Show("Motions successfully loaded.", "", 1000, MessageBoxIcon.Information);
-					DeletesklsToolStripMenuItem.Enabled = true;
-					SaveSklsToolStripMenuItem.Enabled = true;
-					sklToolStripMenuItem.Enabled = true;
-					oMFToolStripMenuItem.Enabled = true;
-				}
-				else
-					AutoClosingMessageBox.Show($"Can't load motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
-
-				ParseMotions();
-			}
-		}
-
-		private void DeleteMotionsButton_Click(object sender, EventArgs e)
-		{
-			int code = StartEditor(EditorMode.DeleteMotions, TEMP_FILE_NAME);
-			if (code == 0)
-			{
-				AutoClosingMessageBox.Show("Motions successfully deleted.", "", 1000, MessageBoxIcon.Information);
-				DeletesklsToolStripMenuItem.Enabled = false;
-				SaveSklsToolStripMenuItem.Enabled = false;
-				sklToolStripMenuItem.Enabled = false;
-				oMFToolStripMenuItem.Enabled = false;
-
-				ParseMotions();
-			}
-			else
-				AutoClosingMessageBox.Show($"Can't delete motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
-		}
-
-		private void SaveMotionsButton_Click(object sender, EventArgs e)
-		{
-			if (SaveSklsDialog.ShowDialog() == DialogResult.OK)
-			{
-				SaveSklsDialog.InitialDirectory = "";
-
-				int code = StartEditor(EditorMode.SaveSklsMotions, TEMP_FILE_NAME, SaveSklsDialog.FileName);
-				if (code == 0)
-					AutoClosingMessageBox.Show("Motions successfully saved.", "", 1000, MessageBoxIcon.Information);
-				else
-					AutoClosingMessageBox.Show($"Can't save motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
-			}
-		}
-
-		private void sklToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			if (SaveSklDialog.ShowDialog(this.Handle))
-			{
-				SaveSklDialog.InitialDirectory = "";
-
-				int code = StartEditor(EditorMode.SaveSklMotions, TEMP_FILE_NAME, SaveSklDialog.FileName);
-				if (code == 0)
-					AutoClosingMessageBox.Show("Motions successfully saved.", "", 1000, MessageBoxIcon.Information);
-				else
-					AutoClosingMessageBox.Show($"Can't save motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
-			}
-		}
-
-		private void bonesToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			if (OpenBonesDialog.ShowDialog() == DialogResult.OK)
-			{
-				int code = StartEditor(EditorMode.LoadBones, TEMP_FILE_NAME, OpenBonesDialog.FileName);
-				if (code == 0)
-					AutoClosingMessageBox.Show("Bone data successfully loaded.", "", 1000, MessageBoxIcon.Information);
-				else
-					AutoClosingMessageBox.Show($"Failed to load bone data.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
-			}
-		}
-
-		private void bonesToolStripMenuItem1_Click(object sender, EventArgs e)
-		{
-			if (SaveBonesDialog.ShowDialog() == DialogResult.OK)
-			{
-				SaveBonesDialog.InitialDirectory = "";
-
-				int code = StartEditor(EditorMode.SaveBones, TEMP_FILE_NAME, SaveBonesDialog.FileName);
-				if (code == 0)
-					AutoClosingMessageBox.Show("Bone data successfully saved.", "", 1000, MessageBoxIcon.Information);
-				else
-					AutoClosingMessageBox.Show($"Failed to save bone data.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
-			}
-		}
-
-		private void objToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			if (SaveObjDialog.ShowDialog() == DialogResult.OK)
-			{
-				SaveObjDialog.InitialDirectory = "";
-
-				int code = StartEditor(EditorMode.ExportOBJ, TEMP_FILE_NAME, SaveObjDialog.FileName);
-				if (code == 0)
-					AutoClosingMessageBox.Show("Model successfully saved.", "", 1000, MessageBoxIcon.Information);
-				else
-					AutoClosingMessageBox.Show($"Failed to save model.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
-			}
-		}
-
-		private void generateShapesToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			int code = StartEditor(EditorMode.GenerateShape, TEMP_FILE_NAME);
-			if (code == 0)
-				AutoClosingMessageBox.Show("Bone shapes successfully generated.", "", 1000, MessageBoxIcon.Information);
-			else
-				AutoClosingMessageBox.Show($"Can't generate bone shapes.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
-		}
-
-		private void bonesPartsToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			if (OpenLtxDialog.ShowDialog() == DialogResult.OK)
-			{
-				int code = StartEditor(EditorMode.LoadBoneParts, TEMP_FILE_NAME, OpenLtxDialog.FileName);
-				if (code == 0)
-					AutoClosingMessageBox.Show("Bone parts successfully loaded.", "", 1000, MessageBoxIcon.Information);
-				else
-					AutoClosingMessageBox.Show($"Failed to load bone parts.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
-			}
-		}
-
-		private void bonesPartsToolStripMenuItem1_Click(object sender, EventArgs e)
-		{
-			if (SaveBonePartsDialog.ShowDialog() == DialogResult.OK)
-			{
-				SaveBonePartsDialog.InitialDirectory = "";
-
-				int code = StartEditor(EditorMode.SaveBoneParts, TEMP_FILE_NAME, SaveBonePartsDialog.FileName);
-				if (code == 0)
-					AutoClosingMessageBox.Show("Bone parts successfully saved.", "", 1000, MessageBoxIcon.Information);
-				else
-					AutoClosingMessageBox.Show($"Failed to saved bone parts.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
-			}
-		}
-
-		private void bonesPartsToDefaultToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			int code = StartEditor(EditorMode.ToDefaultBoneParts, TEMP_FILE_NAME);
-			if (code == 0)
-				AutoClosingMessageBox.Show("Bone parts successfully reseted to default.", "", 1000, MessageBoxIcon.Information);
-			else
-				AutoClosingMessageBox.Show($"Failed to reset bone parts to default.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
-		}
-
-		private void dMToolStripMenuItem_Click_1(object sender, EventArgs e)
-		{
-			if (SaveDmDialog.ShowDialog() == DialogResult.OK)
-			{
-				SaveDmDialog.InitialDirectory = "";
-
-				int code = StartEditor(EditorMode.ExportDM, TEMP_FILE_NAME, SaveDmDialog.FileName);
-				if (code == 0)
-                    AutoClosingMessageBox.Show("Model successfully saved.", "", 1000, MessageBoxIcon.Information);
-                else
-                {
-                    switch (code)
+			switch (currentField)
+            {
+				case "LoadObject":
                     {
-						case 1:
-							AutoClosingMessageBox.Show($"Failed to save detail model. Object must contain 1 material.", "", GetErrorTime(), MessageBoxIcon.Error);
-							break;
-						case 2:
-							AutoClosingMessageBox.Show($"Failed to save detail model. Object must contain 1 mesh.", "", GetErrorTime(), MessageBoxIcon.Error);
-							break;
-						default:
-							AutoClosingMessageBox.Show($"Failed to save detail model.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
-							break;
+						if (OpenObjectDialog.ShowDialog() == DialogResult.OK)
+							OpenFile(OpenObjectDialog.FileName);
 					}
-                }
-			}
-		}
-
-		private void generateLodToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			GenerateLod Params = new GenerateLod();
-			Params.ShowDialog();
-
-			if (Params.res)
-			{
-				lod_quality = Params.lod_quality;
-				lod_flags = 0;
-				if (Params.progressive)
-					lod_flags |= (1<<2);
-
-				if (SaveOgfLodDialog.ShowDialog() == DialogResult.OK)
-				{
-					SaveOgfLodDialog.InitialDirectory = "";
-
-					int code = StartEditor(EditorMode.GenerateLod, TEMP_FILE_NAME, SaveOgfLodDialog.FileName);
-					if (code == 0)
+					break;
+				case "SaveObject":
 					{
-						AutoClosingMessageBox.Show("Lod successfully generated.", "", 1000, MessageBoxIcon.Information);
-
-						if (SaveOgfLodDialog.FileName.Contains("meshes") && LodTextBox.Enabled)
+						if (SaveObjectDialog.ShowDialog() == DialogResult.OK)
 						{
-							string lod_path = SaveOgfLodDialog.FileName.Substring(SaveOgfLodDialog.FileName.LastIndexOf("meshes") + 7);
-							LodTextBox.Text = lod_path;
+							SaveObjectDialog.InitialDirectory = "";
+							FastSaveObject(SaveObjectDialog.FileName);
 						}
 					}
-					else
-						AutoClosingMessageBox.Show($"Failed to generate lod.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
-				}
-			}
-		}
+					break;
+				case "ExportOGF":
+                    {
+						if (SaveOgfDialog.ShowDialog() == DialogResult.OK)
+						{
+							SaveOgfDialog.InitialDirectory = "";
 
-		private void CppExport(int mode)
-        {
-			if (SaveCppDialog.ShowDialog() == DialogResult.OK)
-			{
-				SaveCppDialog.InitialDirectory = "";
-
-				cpp_mode = mode;
-				int code = StartEditor(EditorMode.SaveCpp, TEMP_FILE_NAME, SaveCppDialog.FileName);
-				if (code == 0)
-					AutoClosingMessageBox.Show("Model data successfully exported.", "", 1000, MessageBoxIcon.Information);
-				else
-					AutoClosingMessageBox.Show($"Failed to export model data.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
-			}
-		}
-
-        private void allInfoToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			CppExport(0);
-		}
-
-		private void vertexToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			CppExport(1);
-		}
-
-		private void facesToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			CppExport(2);
-		}
-
-		private void vertexNormalsToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			CppExport(3);
-		}
-
-		private void normalsToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			CppExport(4);
-		}
-
-		private void fromLtxToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			if (OpenBatchLtxDialog.ShowDialog() == DialogResult.OK)
-			{
-				BatchFlags batch_flags = new BatchFlags(DEVELOPER_MODE);
-				batch_flags.ShowDialog();
-
-				if (batch_flags.res)
-                {
-					int code = StartEditor(EditorMode.BatchLtx, TEMP_FILE_NAME, OpenBatchLtxDialog.FileName, batch_flags.GetFlags(dbg_window), batch_flags.scale);
-					if (code == 0)
-						AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
-					else
-						AutoClosingMessageBox.Show($"Batch convert failed.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
-				}
-			}
-		}
-
-		// Батч в огф из диалога с файлами
-		private void oGFToolStripMenuItem1_Click(object sender, EventArgs e)
-		{
-			if (OpenBatchDialog.ShowDialog() == DialogResult.OK && OpenBatchOutDialog.ShowDialog())
-			{
-				BatchFlags batch_flags = new BatchFlags(DEVELOPER_MODE);
-				batch_flags.ShowDialog();
-
-				batch_files.Add(OpenBatchDialog.FileNames);
-
-				if (batch_flags.res)
-				{
-					int code = StartEditor(EditorMode.BatchDialogOGF, TEMP_FILE_NAME, "null", batch_flags.GetFlags(dbg_window), batch_flags.scale);
-					if (code == 0)
-						AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
-					else
-						AutoClosingMessageBox.Show($"Batch convert completed with errors.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
-				}
-			}
-		}
-
-		// Батч в омф из диалога с файлами
-		private void oMFToolStripMenuItem1_Click(object sender, EventArgs e)
-		{
-			if (OpenBatchDialog.ShowDialog() == DialogResult.OK && OpenBatchOutDialog.ShowDialog())
-			{
-				BatchFlags batch_flags = new BatchFlags(DEVELOPER_MODE);
-				batch_flags.ShowDialog();
-
-				batch_files.Add(OpenBatchDialog.FileNames);
-
-				if (batch_flags.res)
-				{
-					int code = StartEditor(EditorMode.BatchDialogOMF, TEMP_FILE_NAME, "null", batch_flags.GetFlags(dbg_window), batch_flags.scale);
-					if (code == 0)
-						AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
-					else
-						AutoClosingMessageBox.Show($"Batch convert completed with errors.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
-				}
-			}
-		}
-
-		// Батч в огф из диалога с папками
-		private void toOGFToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			FolderSelectDialog OpenBatchFoldersDialog = new FolderSelectDialog();
-			OpenBatchFoldersDialog.Multiselect = true;
-
-			if (OpenBatchFoldersDialog.ShowDialog() && OpenBatchOutDialog.ShowDialog())
-			{
-				BatchFlags batch_flags = new BatchFlags(DEVELOPER_MODE);
-				batch_flags.ShowDialog();
-
-				for (int i = 0; i < OpenBatchFoldersDialog.FileNames.Count(); i++)
-				{
-					string source_folder = OpenBatchFoldersDialog.FileNames[i];
-					source_folder = source_folder.Substring(0, source_folder.LastIndexOf('\\'));
-					batch_source.Add(source_folder);
-					string[] files = DirSearch(OpenBatchFoldersDialog.FileNames[i]);
-					batch_files.Add(files);
-				}
-
-				if (batch_flags.res)
-				{
-					int code = StartEditor(EditorMode.BatchDialogOGF, TEMP_FILE_NAME, "null", batch_flags.GetFlags(dbg_window), batch_flags.scale);
-					if (code == 0)
-						AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
-					else
-						AutoClosingMessageBox.Show($"Batch convert completed with errors.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
-				}
-			}
-		}
-
-		// Батч в омф из диалога с папками
-		private void toOMFToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			FolderSelectDialog OpenBatchFoldersDialog = new FolderSelectDialog();
-			OpenBatchFoldersDialog.Multiselect = true;
-
-			if (OpenBatchFoldersDialog.ShowDialog() && OpenBatchOutDialog.ShowDialog())
-			{
-				BatchFlags batch_flags = new BatchFlags(DEVELOPER_MODE);
-				batch_flags.ShowDialog();
-
-				for (int i = 0; i < OpenBatchFoldersDialog.FileNames.Count(); i++)
-				{
-					string source_folder = OpenBatchFoldersDialog.FileNames[i];
-					source_folder = source_folder.Substring(0, source_folder.LastIndexOf('\\'));
-					batch_source.Add(source_folder);
-					string[] files = DirSearch(OpenBatchFoldersDialog.FileNames[i]);
-					batch_files.Add(files);
-				}
-
-				if (batch_flags.res)
-				{
-					int code = StartEditor(EditorMode.BatchDialogOMF, TEMP_FILE_NAME, "null", batch_flags.GetFlags(dbg_window), batch_flags.scale);
-					if (code == 0)
-						AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
-					else
-						AutoClosingMessageBox.Show($"Batch convert completed with errors.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
-				}
-			}
-		}
-
-		private void userDataToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			if (OpenUserDataDialog.ShowDialog() == DialogResult.OK)
-			{
-				UserDataTextBox.Clear();
-
-				StreamReader file = new StreamReader(OpenUserDataDialog.FileName);
-				string line = file.ReadLine();
-				UserDataTextBox.Text += line;
-				while (line != null)
-				{
-					line = file.ReadLine();
-					UserDataTextBox.Text += "\n" + line;
-				}
-				file.Close();
-			}
-		}
-
-		private void motionRefsToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			if (OpenMotionRefsDialog.ShowDialog() == DialogResult.OK)
-			{
-				MotionRefsBox.Clear();
-
-				IniFile MotionRefs = new IniFile(OpenMotionRefsDialog.FileName);
-
-				string Ref = MotionRefs.Read("000000", "refs");
-				MotionRefsBox.Text += Ref;
-
-				int counter = 0;
-				while (Ref != "")
-                {
-					counter++;
-					string param = string.Format("{0:000000}.", counter).Substring(0, 6);
-					Ref = MotionRefs.Read(param, "refs");
-
-					if (Ref == "")
-						break;
-
-					MotionRefsBox.Text += "\n" + Ref;
-				}
-			}
-		}
-
-		private void motionRefsToolStripMenuItem1_Click(object sender, EventArgs e)
-		{
-			if (SaveMotionRefsDialog.ShowDialog() == DialogResult.OK)
-			{
-				SaveMotionRefsDialog.InitialDirectory = "";
-
-				string ExportRefs = "[refs]";
-
-				List<string> motion_refs = new List<string>(); // корректные моушн рефы
-				if (IsTextCorrect(MotionRefsBox.Text))
-				{
-					for (int i = 0; i < MotionRefsBox.Lines.Count(); i++)
-					{
-						if (IsTextCorrect(MotionRefsBox.Lines[i]))
-							motion_refs.Add(GetCorrectString(MotionRefsBox.Lines[i]));
+							int code = StartEditor(EditorMode.ExportOGF, TEMP_FILE_NAME, SaveOgfDialog.FileName);
+							if (code == 0)
+								AutoClosingMessageBox.Show("Model successfully exported.", "", 1000, MessageBoxIcon.Information);
+							else
+							{
+								if (code == 1)
+									MessageBox.Show("Can't export model.\nPlease, disable HQ Geometry+ flag.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+								else
+									AutoClosingMessageBox.Show($"Can't export model.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+							}
+						}
 					}
-				}
+					break;
+				case "ExportOMF":
+                    {
+						if (SaveOmfDialog.ShowDialog() == DialogResult.OK)
+						{
+							SaveOmfDialog.InitialDirectory = "";
 
-				for (int i = 0; i < motion_refs.Count; i++)
-                {
-					string val = string.Format("\n        {0:000000}                           = ", i);
-					ExportRefs += $"{val}{motion_refs[i]}";
-				}
+							int code = StartEditor(EditorMode.ExportOMF, TEMP_FILE_NAME, SaveOmfDialog.FileName);
+							if (code == 0)
+								AutoClosingMessageBox.Show("Motions successfully exported.", "", 1000, MessageBoxIcon.Information);
+							else
+								AutoClosingMessageBox.Show($"Can't export motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+						}
+					}
+					break;
+				case "LoadSkls":
+                    {
+						if (OpenSklsDialog.ShowDialog() == DialogResult.OK)
+						{
+							int code = StartEditor(EditorMode.LoadMotions, TEMP_FILE_NAME);
+							if (code == 0)
+							{
+								AutoClosingMessageBox.Show("Motions successfully loaded.", "", 1000, MessageBoxIcon.Information);
+								DeletesklsToolStripMenuItem.Enabled = true;
+								SaveSklsToolStripMenuItem.Enabled = true;
+								sklToolStripMenuItem.Enabled = true;
+								oMFToolStripMenuItem.Enabled = true;
+							}
+							else
+								AutoClosingMessageBox.Show($"Can't load motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 
-				File.WriteAllText(SaveMotionRefsDialog.FileName, ExportRefs);
-			}
-		}
+							ParseMotions();
+						}
+					}
+					break;
+				case "DeleteSkls":
+                    {
+						int code = StartEditor(EditorMode.DeleteMotions, TEMP_FILE_NAME);
+						if (code == 0)
+						{
+							AutoClosingMessageBox.Show("Motions successfully deleted.", "", 1000, MessageBoxIcon.Information);
+							DeletesklsToolStripMenuItem.Enabled = false;
+							SaveSklsToolStripMenuItem.Enabled = false;
+							sklToolStripMenuItem.Enabled = false;
+							oMFToolStripMenuItem.Enabled = false;
 
-		private void userDataToolStripMenuItem1_Click(object sender, EventArgs e)
-		{
-			if (SaveUserDataDialog.ShowDialog() == DialogResult.OK)
-			{
-				SaveUserDataDialog.InitialDirectory = "";
-				File.WriteAllText(SaveUserDataDialog.FileName, UserDataTextBox.Text);
+							ParseMotions();
+						}
+						else
+							AutoClosingMessageBox.Show($"Can't delete motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+					}
+					break;
+				case "SaveSkls":
+                    {
+						if (SaveSklsDialog.ShowDialog() == DialogResult.OK)
+						{
+							SaveSklsDialog.InitialDirectory = "";
+
+							int code = StartEditor(EditorMode.SaveSklsMotions, TEMP_FILE_NAME, SaveSklsDialog.FileName);
+							if (code == 0)
+								AutoClosingMessageBox.Show("Motions successfully saved.", "", 1000, MessageBoxIcon.Information);
+							else
+								AutoClosingMessageBox.Show($"Can't save motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+						}
+					}
+					break;
+				case "SaveSkl":
+                    {
+						if (SaveSklDialog.ShowDialog(this.Handle))
+						{
+							SaveSklDialog.InitialDirectory = "";
+
+							int code = StartEditor(EditorMode.SaveSklMotions, TEMP_FILE_NAME, SaveSklDialog.FileName);
+							if (code == 0)
+								AutoClosingMessageBox.Show("Motions successfully saved.", "", 1000, MessageBoxIcon.Information);
+							else
+								AutoClosingMessageBox.Show($"Can't save motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+						}
+					}
+					break;
+				case "LoadBones":
+					{
+						if (OpenBonesDialog.ShowDialog() == DialogResult.OK)
+						{
+							int code = StartEditor(EditorMode.LoadBones, TEMP_FILE_NAME, OpenBonesDialog.FileName);
+							if (code == 0)
+								AutoClosingMessageBox.Show("Bone data successfully loaded.", "", 1000, MessageBoxIcon.Information);
+							else
+								AutoClosingMessageBox.Show($"Failed to load bone data.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+						}
+					}
+					break;
+				case "SaveBones":
+                    {
+						if (SaveBonesDialog.ShowDialog() == DialogResult.OK)
+						{
+							SaveBonesDialog.InitialDirectory = "";
+
+							int code = StartEditor(EditorMode.SaveBones, TEMP_FILE_NAME, SaveBonesDialog.FileName);
+							if (code == 0)
+								AutoClosingMessageBox.Show("Bone data successfully saved.", "", 1000, MessageBoxIcon.Information);
+							else
+								AutoClosingMessageBox.Show($"Failed to save bone data.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+						}
+					}
+					break;
+				case "SaveObj":
+					{
+						if (SaveObjDialog.ShowDialog() == DialogResult.OK)
+						{
+							SaveObjDialog.InitialDirectory = "";
+
+							int code = StartEditor(EditorMode.ExportOBJ, TEMP_FILE_NAME, SaveObjDialog.FileName);
+							if (code == 0)
+								AutoClosingMessageBox.Show("Model successfully saved.", "", 1000, MessageBoxIcon.Information);
+							else
+								AutoClosingMessageBox.Show($"Failed to save model.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+						}
+					}
+					break;
+				case "GenerateShapes":
+					{
+						int code = StartEditor(EditorMode.GenerateShape, TEMP_FILE_NAME);
+						if (code == 0)
+							AutoClosingMessageBox.Show("Bone shapes successfully generated.", "", 1000, MessageBoxIcon.Information);
+						else
+							AutoClosingMessageBox.Show($"Can't generate bone shapes.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+					}
+					break;
+				case "LoadBoneParts":
+					{
+						if (OpenLtxDialog.ShowDialog() == DialogResult.OK)
+						{
+							int code = StartEditor(EditorMode.LoadBoneParts, TEMP_FILE_NAME, OpenLtxDialog.FileName);
+							if (code == 0)
+								AutoClosingMessageBox.Show("Bone parts successfully loaded.", "", 1000, MessageBoxIcon.Information);
+							else
+								AutoClosingMessageBox.Show($"Failed to load bone parts.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+						}
+					}
+					break;
+				case "SaveBoneParts":
+					{
+						if (SaveBonePartsDialog.ShowDialog() == DialogResult.OK)
+						{
+							SaveBonePartsDialog.InitialDirectory = "";
+
+							int code = StartEditor(EditorMode.SaveBoneParts, TEMP_FILE_NAME, SaveBonePartsDialog.FileName);
+							if (code == 0)
+								AutoClosingMessageBox.Show("Bone parts successfully saved.", "", 1000, MessageBoxIcon.Information);
+							else
+								AutoClosingMessageBox.Show($"Failed to saved bone parts.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+						}
+					}
+					break;
+				case "ResetBoneParts":
+					{
+						int code = StartEditor(EditorMode.ToDefaultBoneParts, TEMP_FILE_NAME);
+						if (code == 0)
+							AutoClosingMessageBox.Show("Bone parts successfully reseted to default.", "", 1000, MessageBoxIcon.Information);
+						else
+							AutoClosingMessageBox.Show($"Failed to reset bone parts to default.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+					}
+					break;
+				case "ExportDM":
+					{
+						if (SaveDmDialog.ShowDialog() == DialogResult.OK)
+						{
+							SaveDmDialog.InitialDirectory = "";
+
+							int code = StartEditor(EditorMode.ExportDM, TEMP_FILE_NAME, SaveDmDialog.FileName);
+							if (code == 0)
+								AutoClosingMessageBox.Show("Model successfully saved.", "", 1000, MessageBoxIcon.Information);
+							else
+							{
+								switch (code)
+								{
+									case 1:
+										AutoClosingMessageBox.Show($"Failed to save detail model. Object must contain 1 material.", "", GetErrorTime(), MessageBoxIcon.Error);
+										break;
+									case 2:
+										AutoClosingMessageBox.Show($"Failed to save detail model. Object must contain 1 mesh.", "", GetErrorTime(), MessageBoxIcon.Error);
+										break;
+									default:
+										AutoClosingMessageBox.Show($"Failed to save detail model.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+										break;
+								}
+							}
+						}
+					}
+					break;
+				case "GenerateLod":
+					{
+						GenerateLod Params = new GenerateLod();
+						Params.ShowDialog();
+
+						if (Params.res)
+						{
+							lod_quality = Params.lod_quality;
+							lod_flags = 0;
+							if (Params.progressive)
+								lod_flags |= (1<<2);
+
+							if (SaveOgfLodDialog.ShowDialog() == DialogResult.OK)
+							{
+								SaveOgfLodDialog.InitialDirectory = "";
+
+								int code = StartEditor(EditorMode.GenerateLod, TEMP_FILE_NAME, SaveOgfLodDialog.FileName);
+								if (code == 0)
+								{
+									AutoClosingMessageBox.Show("Lod successfully generated.", "", 1000, MessageBoxIcon.Information);
+
+									if (SaveOgfLodDialog.FileName.Contains("meshes") && LodTextBox.Enabled)
+									{
+										string lod_path = SaveOgfLodDialog.FileName.Substring(SaveOgfLodDialog.FileName.LastIndexOf("meshes") + 7);
+										LodTextBox.Text = lod_path;
+									}
+								}
+								else
+									AutoClosingMessageBox.Show($"Failed to generate lod.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+							}
+						}
+					}
+					break;
+				case "ExportCpp":
+					{
+						if (SaveCppDialog.ShowDialog() == DialogResult.OK)
+						{
+							SaveCppDialog.InitialDirectory = "";
+
+							cpp_mode = idx;
+							int code = StartEditor(EditorMode.SaveCpp, TEMP_FILE_NAME, SaveCppDialog.FileName);
+							if (code == 0)
+								AutoClosingMessageBox.Show("Model data successfully exported.", "", 1000, MessageBoxIcon.Information);
+							else
+								AutoClosingMessageBox.Show($"Failed to export model data.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+						}
+					}
+					break;
+				case "LoadUserData":
+                    {
+						if (OpenUserDataDialog.ShowDialog() == DialogResult.OK)
+						{
+							UserDataTextBox.Clear();
+
+							StreamReader file = new StreamReader(OpenUserDataDialog.FileName);
+							string line = file.ReadLine();
+							UserDataTextBox.Text += line;
+							while (line != null)
+							{
+								line = file.ReadLine();
+								UserDataTextBox.Text += "\n" + line;
+							}
+							file.Close();
+						}
+					}
+					break;
+				case "ExportUserData":
+					{
+						if (SaveUserDataDialog.ShowDialog() == DialogResult.OK)
+						{
+							SaveUserDataDialog.InitialDirectory = "";
+							File.WriteAllText(SaveUserDataDialog.FileName, UserDataTextBox.Text);
+						}
+					}
+					break;
+				case "LoadMotionRefs":
+					{
+						if (OpenMotionRefsDialog.ShowDialog() == DialogResult.OK)
+						{
+							MotionRefsBox.Clear();
+
+							IniFile MotionRefs = new IniFile(OpenMotionRefsDialog.FileName);
+
+							string Ref = MotionRefs.Read("000000", "refs");
+							MotionRefsBox.Text += Ref;
+
+							int counter = 0;
+							while (Ref != "")
+							{
+								counter++;
+								string param = string.Format("{0:000000}.", counter).Substring(0, 6);
+								Ref = MotionRefs.Read(param, "refs");
+
+								if (Ref == "")
+									break;
+
+								MotionRefsBox.Text += "\n" + Ref;
+							}
+						}
+					}
+					break;
+				case "ExportMotionRefs":
+					{
+						if (SaveMotionRefsDialog.ShowDialog() == DialogResult.OK)
+						{
+							SaveMotionRefsDialog.InitialDirectory = "";
+
+							string ExportRefs = "[refs]";
+
+							List<string> motion_refs = new List<string>(); // корректные моушн рефы
+							if (IsTextCorrect(MotionRefsBox.Text))
+							{
+								for (int i = 0; i < MotionRefsBox.Lines.Count(); i++)
+								{
+									if (IsTextCorrect(MotionRefsBox.Lines[i]))
+										motion_refs.Add(GetCorrectString(MotionRefsBox.Lines[i]));
+								}
+							}
+
+							for (int i = 0; i < motion_refs.Count; i++)
+							{
+								string val = string.Format("\n        {0:000000}                           = ", i);
+								ExportRefs += $"{val}{motion_refs[i]}";
+							}
+
+							File.WriteAllText(SaveMotionRefsDialog.FileName, ExportRefs);
+						}
+					}
+					break;
+				case "BatchLtx":
+					{
+						if (OpenBatchLtxDialog.ShowDialog() == DialogResult.OK)
+						{
+							BatchFlags batch_flags = new BatchFlags(DEVELOPER_MODE);
+							batch_flags.ShowDialog();
+
+							if (batch_flags.res)
+							{
+								int code = StartEditor(EditorMode.BatchLtx, TEMP_FILE_NAME, OpenBatchLtxDialog.FileName, batch_flags.GetFlags(dbg_window), batch_flags.scale);
+								if (code == 0)
+									AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
+								else
+									AutoClosingMessageBox.Show($"Batch convert failed.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+							}
+						}
+					}
+					break;
+				case "BatchFilesToOGF":
+					{
+						if (OpenBatchDialog.ShowDialog() == DialogResult.OK && OpenBatchOutDialog.ShowDialog())
+						{
+							BatchFlags batch_flags = new BatchFlags(DEVELOPER_MODE);
+							batch_flags.ShowDialog();
+
+							batch_files.Add(OpenBatchDialog.FileNames);
+
+							if (batch_flags.res)
+							{
+								int code = StartEditor(EditorMode.BatchDialogOGF, TEMP_FILE_NAME, "null", batch_flags.GetFlags(dbg_window), batch_flags.scale);
+								if (code == 0)
+									AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
+								else
+									AutoClosingMessageBox.Show($"Batch convert completed with errors.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+							}
+						}
+					}
+					break;
+				case "BatchFilesToOMF":
+					{
+						if (OpenBatchDialog.ShowDialog() == DialogResult.OK && OpenBatchOutDialog.ShowDialog())
+						{
+							BatchFlags batch_flags = new BatchFlags(DEVELOPER_MODE);
+							batch_flags.ShowDialog();
+
+							batch_files.Add(OpenBatchDialog.FileNames);
+
+							if (batch_flags.res)
+							{
+								int code = StartEditor(EditorMode.BatchDialogOMF, TEMP_FILE_NAME, "null", batch_flags.GetFlags(dbg_window), batch_flags.scale);
+								if (code == 0)
+									AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
+								else
+									AutoClosingMessageBox.Show($"Batch convert completed with errors.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+							}
+						}
+					}
+					break;
+				case "BatchFoldersToOGF":
+					{
+						FolderSelectDialog OpenBatchFoldersDialog = new FolderSelectDialog();
+						OpenBatchFoldersDialog.Multiselect = true;
+
+						if (OpenBatchFoldersDialog.ShowDialog() && OpenBatchOutDialog.ShowDialog())
+						{
+							BatchFlags batch_flags = new BatchFlags(DEVELOPER_MODE);
+							batch_flags.ShowDialog();
+
+							for (int i = 0; i < OpenBatchFoldersDialog.FileNames.Count(); i++)
+							{
+								string source_folder = OpenBatchFoldersDialog.FileNames[i];
+								source_folder = source_folder.Substring(0, source_folder.LastIndexOf('\\'));
+								batch_source.Add(source_folder);
+								string[] files = DirSearch(OpenBatchFoldersDialog.FileNames[i]);
+								batch_files.Add(files);
+							}
+
+							if (batch_flags.res)
+							{
+								int code = StartEditor(EditorMode.BatchDialogOGF, TEMP_FILE_NAME, "null", batch_flags.GetFlags(dbg_window), batch_flags.scale);
+								if (code == 0)
+									AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
+								else
+									AutoClosingMessageBox.Show($"Batch convert completed with errors.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+							}
+						}
+					}
+					break;
+				case "BatchFoldersToOMF":
+					{
+						FolderSelectDialog OpenBatchFoldersDialog = new FolderSelectDialog();
+						OpenBatchFoldersDialog.Multiselect = true;
+
+						if (OpenBatchFoldersDialog.ShowDialog() && OpenBatchOutDialog.ShowDialog())
+						{
+							BatchFlags batch_flags = new BatchFlags(DEVELOPER_MODE);
+							batch_flags.ShowDialog();
+
+							for (int i = 0; i < OpenBatchFoldersDialog.FileNames.Count(); i++)
+							{
+								string source_folder = OpenBatchFoldersDialog.FileNames[i];
+								source_folder = source_folder.Substring(0, source_folder.LastIndexOf('\\'));
+								batch_source.Add(source_folder);
+								string[] files = DirSearch(OpenBatchFoldersDialog.FileNames[i]);
+								batch_files.Add(files);
+							}
+
+							if (batch_flags.res)
+							{
+								int code = StartEditor(EditorMode.BatchDialogOMF, TEMP_FILE_NAME, "null", batch_flags.GetFlags(dbg_window), batch_flags.scale);
+								if (code == 0)
+									AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
+								else
+									AutoClosingMessageBox.Show($"Batch convert completed with errors.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+							}
+						}
+					}
+					break;
 			}
 		}
 
@@ -1539,7 +1456,7 @@ namespace Object_tool
 		private void FlagsHelpButton_Click(object sender, EventArgs e)
 		{
 			MessageBox.Show("Motion export:\nДанные флаги влияют на компресиию анимаций при экспортировании в OMF.\n1. 8 bit - ТЧ Формат\n2. 16 bit - ЗП Формат\n" + (DEVELOPER_MODE ? "3. No compress - экспортирует анимации без сжатия\n" : "") +
-				(DEVELOPER_MODE ? "4." : "3.") + " Use build-in motions - при активации анимации загруженные в object будут использоваться вместо моушн референсов для экспортов и сохранений, при деактивации встроенные анимации будут игнорироваться.\n\n" +
+				(DEVELOPER_MODE ? "4." : "3.") + " Use build-in motions - при активации, анимации загруженные в object будут использоваться вместо моушн референсов для всевозможных экспортов. При деактивации встроенные анимации будут игнорироваться и будут использованы моушн референсы.\n\n" +
 				"Model export:\n" +
 				"1. Make progressive meshes - создает прогрессивные меши при экспорте OGF. Это динамическая детализация модели (lod'ы), чаще используется для мировых объектов.\n" +
 				"2. Make stripify meshes - оптимизация vertex'ов и face'ов у мешей которая портила сетку, раньше стояла по дефолту в SDK и использовалась для оптимизации мешей под старый DirectX и видеокарты. Сейчас же надобности в данном флаге нет.\n" +
@@ -1586,18 +1503,6 @@ namespace Object_tool
 		{
 			MessageBox.Show($"Vertex count: {vertex_count}\nFace count: {face_count}\nSurface count: {surface_count}\nJoints count: {joints_count}", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
-		private void ClearUI()
-        {
-			BonesPage.Controls.Clear();
-		}
-
-		private void objectToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			if (OpenObjectDialog.ShowDialog() == DialogResult.OK)
-            {
-				OpenFile(OpenObjectDialog.FileName);
-			}
-		}
 
 		private void IndexChanged(object sender, EventArgs e)
 		{
@@ -1618,28 +1523,11 @@ namespace Object_tool
 			}
 		}
 
-		private void allNoneToolStripMenuItem_Click(object sender, EventArgs e)
+		private void SwitchShapeType(object sender, EventArgs e)
 		{
-			SwitchShapeType(0);
-		}
+			ToolStripItem Item = sender as ToolStripItem;
+			int type = Convert.ToInt32(Item.Tag.ToString().Split('_')[1]);
 
-		private void allBoxToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			SwitchShapeType(1);
-		}
-
-		private void allSphereToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			SwitchShapeType(2);
-		}
-
-		private void allCylinderToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			SwitchShapeType(3);
-		}
-
-		private void SwitchShapeType(ushort type)
-		{
 			int shapes_count = (shapes != null ? shapes.Count : 0);
 			for (int i = 0; i < shapes_count; i++)
 			{
@@ -1647,7 +1535,7 @@ namespace Object_tool
 				shape.bone_id = shapes[i].bone_id;
 				shape.bone_flags = shapes[i].bone_flags;
 				shape.bone_name = shapes[i].bone_name;
-				shape.bone_type = type;
+				shape.bone_type = (ushort)type;
 				shapes[i] = shape;
 
 				ComboBox ShapeType = BonesPage.Controls[i].Controls[4] as ComboBox;
@@ -1664,15 +1552,6 @@ namespace Object_tool
             {
 				CopyObjectParams(Dialog.FileName);
             }
-		}
-
-		private void objectToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-			if (SaveObjectDialog.ShowDialog() == DialogResult.OK)
-			{
-				SaveObjectDialog.InitialDirectory = "";
-				FastSaveObject(SaveObjectDialog.FileName);
-			}
 		}
 
 		private void FastSaveObject(string filename)
@@ -2057,6 +1936,99 @@ namespace Object_tool
 		private void UserDataTextChanged(object sender, EventArgs e)
 		{
 			userDataToolStripMenuItem1.Enabled = IsTextCorrect((sender as RichTextBox).Text) && UserDataTextBox.Enabled;
+		}
+
+		private void InitDialogs()
+        {
+			string old_filename = FILE_NAME;
+			if (IsOgfMode)
+				FILE_NAME = Environment.GetCommandLineArgs()[3];
+
+			SaveOgfDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
+			SaveOgfDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + ".ogf";
+
+			SaveOmfDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
+			SaveOmfDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + ".omf";
+
+			SaveSklsDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
+			SaveSklsDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + ".skls";
+
+			SaveBonesDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
+			SaveBonesDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + ".bones";
+
+			SaveObjDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
+			SaveObjDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + ".obj";
+
+			SaveBonePartsDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
+			SaveBonePartsDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + "_boneparts.ltx";
+
+			SaveCppDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
+			SaveCppDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + "_cpp.ltx";
+
+			SaveMotionRefsDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
+			SaveMotionRefsDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + "_refs.ltx";
+
+			SaveUserDataDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
+			SaveUserDataDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + "_userdata.ltx";
+
+			SaveSklDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
+
+			SaveDmDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
+			SaveDmDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + ".dm";
+
+			SaveObjectDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
+			SaveObjectDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + ".object";
+
+			SaveOgfLodDialog.InitialDirectory = FILE_NAME.Substring(0, FILE_NAME.LastIndexOf('\\'));
+			SaveOgfLodDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + "_lod.ogf";
+
+			FILE_NAME = old_filename;
+		}
+
+		private void InitUI()
+        {
+			bool has_motions = MotionCount() > 0;
+			bool has_bones = HasBones();
+
+			DeletesklsToolStripMenuItem.Enabled = has_motions;
+			SaveSklsToolStripMenuItem.Enabled = has_motions;
+			sklToolStripMenuItem.Enabled = has_motions;
+			oMFToolStripMenuItem.Enabled = has_motions;
+			saveToolStripMenuItem.Enabled = !IsOgfMode;
+			exportToolStripMenuItem.Enabled = true;
+			deleteToolStripMenuItem.Enabled = true;
+			sklSklsToolStripMenuItem.Enabled = has_bones;
+			bonesToolStripMenuItem.Enabled = has_bones;
+			oGFToolStripMenuItem.Enabled = !IsOgfMode;
+			objToolStripMenuItem.Enabled = !IsOgfMode;
+			objectToolStripMenuItem.Enabled = !IsOgfMode;
+			dMToolStripMenuItem.Enabled = !IsOgfMode;
+			bonesPartsToolStripMenuItem.Enabled = has_bones;
+			cToolStripMenuItem.Enabled = !IsOgfMode;
+			StripifyMeshes.Enabled = has_bones;
+			bonesToolStripMenuItem1.Enabled = has_bones;
+			bonesPartsToolStripMenuItem1.Enabled = has_bones;
+			bonesPartsToDefaultToolStripMenuItem.Enabled = has_bones;
+			ObjectScaleTextBox.Enabled = has_bones && !IsOgfMode;
+			ScaleCenterOfMassCheckBox.Enabled = has_bones && !IsOgfMode;
+			ObjectScaleLabel.Enabled = has_bones && !IsOgfMode;
+			MotionRefsBox.Enabled = has_bones;
+			UserDataTextBox.Enabled = has_bones;
+			LodTextBox.Enabled = has_bones;
+			motionRefsToolStripMenuItem.Enabled = has_bones && !IsOgfMode;
+			userDataToolStripMenuItem.Enabled = has_bones && !IsOgfMode;
+			ModelFlagsGroupBox.Enabled = !IsOgfMode;
+			FlagsGroupBox.Enabled = true;
+			generateLodToolStripMenuItem.Enabled = !IsOgfMode;
+			objectInfoToolStripMenuItem.Enabled = !IsOgfMode;
+			importObjectParamsToolStripMenuItem.Enabled = !IsOgfMode;
+
+			if (IsOgfMode)
+			{
+				TabControl.Controls.Clear();
+				TabControl.Controls.Add(FlagsPage);
+				TabControl.Controls.Add(MotionPage);
+			}
 		}
 
 		private void CreateShapeGroupBox(int idx, ShapeEditType shape)

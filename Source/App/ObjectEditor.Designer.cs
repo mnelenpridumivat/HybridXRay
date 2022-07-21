@@ -215,43 +215,49 @@ namespace Object_tool
             // 
             this.objectToolStripMenuItem.Name = "objectToolStripMenuItem";
             this.objectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.objectToolStripMenuItem.Tag = "LoadObject";
             this.objectToolStripMenuItem.Text = "Object";
-            this.objectToolStripMenuItem.Click += new System.EventHandler(this.objectToolStripMenuItem_Click);
+            this.objectToolStripMenuItem.Click += new System.EventHandler(this.RunSDK_Click);
             // 
             // sklSklsToolStripMenuItem
             // 
             this.sklSklsToolStripMenuItem.Name = "sklSklsToolStripMenuItem";
             this.sklSklsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.sklSklsToolStripMenuItem.Tag = "LoadSkls";
             this.sklSklsToolStripMenuItem.Text = "Skl\\Skls";
-            this.sklSklsToolStripMenuItem.Click += new System.EventHandler(this.LoadSkls_Click);
+            this.sklSklsToolStripMenuItem.Click += new System.EventHandler(this.RunSDK_Click);
             // 
             // bonesToolStripMenuItem
             // 
             this.bonesToolStripMenuItem.Name = "bonesToolStripMenuItem";
             this.bonesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.bonesToolStripMenuItem.Tag = "LoadBones";
             this.bonesToolStripMenuItem.Text = "Bones";
-            this.bonesToolStripMenuItem.Click += new System.EventHandler(this.bonesToolStripMenuItem_Click);
+            this.bonesToolStripMenuItem.Click += new System.EventHandler(this.RunSDK_Click);
             // 
             // bonesPartsToolStripMenuItem
             // 
             this.bonesPartsToolStripMenuItem.Name = "bonesPartsToolStripMenuItem";
             this.bonesPartsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.bonesPartsToolStripMenuItem.Tag = "LoadBoneParts";
             this.bonesPartsToolStripMenuItem.Text = "Bone parts";
-            this.bonesPartsToolStripMenuItem.Click += new System.EventHandler(this.bonesPartsToolStripMenuItem_Click);
+            this.bonesPartsToolStripMenuItem.Click += new System.EventHandler(this.RunSDK_Click);
             // 
             // motionRefsToolStripMenuItem
             // 
             this.motionRefsToolStripMenuItem.Name = "motionRefsToolStripMenuItem";
             this.motionRefsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.motionRefsToolStripMenuItem.Tag = "LoadMotionRefs";
             this.motionRefsToolStripMenuItem.Text = "Motion Refs";
-            this.motionRefsToolStripMenuItem.Click += new System.EventHandler(this.motionRefsToolStripMenuItem_Click);
+            this.motionRefsToolStripMenuItem.Click += new System.EventHandler(this.RunSDK_Click);
             // 
             // userDataToolStripMenuItem
             // 
             this.userDataToolStripMenuItem.Name = "userDataToolStripMenuItem";
             this.userDataToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.userDataToolStripMenuItem.Tag = "LoadUserData";
             this.userDataToolStripMenuItem.Text = "User Data";
-            this.userDataToolStripMenuItem.Click += new System.EventHandler(this.userDataToolStripMenuItem_Click);
+            this.userDataToolStripMenuItem.Click += new System.EventHandler(this.RunSDK_Click);
             // 
             // saveToolStripMenuItem
             // 
@@ -268,37 +274,42 @@ namespace Object_tool
             // objectToolStripMenuItem1
             // 
             this.objectToolStripMenuItem1.Name = "objectToolStripMenuItem1";
-            this.objectToolStripMenuItem1.Size = new System.Drawing.Size(130, 22);
+            this.objectToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.objectToolStripMenuItem1.Tag = "SaveObject";
             this.objectToolStripMenuItem1.Text = "Object";
-            this.objectToolStripMenuItem1.Click += new System.EventHandler(this.objectToolStripMenuItem1_Click);
+            this.objectToolStripMenuItem1.Click += new System.EventHandler(this.RunSDK_Click);
             // 
             // sklToolStripMenuItem
             // 
             this.sklToolStripMenuItem.Name = "sklToolStripMenuItem";
-            this.sklToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.sklToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.sklToolStripMenuItem.Tag = "SaveSkl";
             this.sklToolStripMenuItem.Text = "Skl";
-            this.sklToolStripMenuItem.Click += new System.EventHandler(this.sklToolStripMenuItem_Click);
+            this.sklToolStripMenuItem.Click += new System.EventHandler(this.RunSDK_Click);
             // 
             // SaveSklsToolStripMenuItem
             // 
             this.SaveSklsToolStripMenuItem.Name = "SaveSklsToolStripMenuItem";
-            this.SaveSklsToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.SaveSklsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.SaveSklsToolStripMenuItem.Tag = "SaveSkls";
             this.SaveSklsToolStripMenuItem.Text = "Skls";
-            this.SaveSklsToolStripMenuItem.Click += new System.EventHandler(this.SaveMotionsButton_Click);
+            this.SaveSklsToolStripMenuItem.Click += new System.EventHandler(this.RunSDK_Click);
             // 
             // bonesToolStripMenuItem1
             // 
             this.bonesToolStripMenuItem1.Name = "bonesToolStripMenuItem1";
-            this.bonesToolStripMenuItem1.Size = new System.Drawing.Size(130, 22);
+            this.bonesToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.bonesToolStripMenuItem1.Tag = "SaveBones";
             this.bonesToolStripMenuItem1.Text = "Bones";
-            this.bonesToolStripMenuItem1.Click += new System.EventHandler(this.bonesToolStripMenuItem1_Click);
+            this.bonesToolStripMenuItem1.Click += new System.EventHandler(this.RunSDK_Click);
             // 
             // bonesPartsToolStripMenuItem1
             // 
             this.bonesPartsToolStripMenuItem1.Name = "bonesPartsToolStripMenuItem1";
-            this.bonesPartsToolStripMenuItem1.Size = new System.Drawing.Size(130, 22);
+            this.bonesPartsToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.bonesPartsToolStripMenuItem1.Tag = "SaveBoneParts";
             this.bonesPartsToolStripMenuItem1.Text = "Bone parts";
-            this.bonesPartsToolStripMenuItem1.Click += new System.EventHandler(this.bonesPartsToolStripMenuItem1_Click);
+            this.bonesPartsToolStripMenuItem1.Click += new System.EventHandler(this.RunSDK_Click);
             // 
             // exportToolStripMenuItem
             // 
@@ -317,30 +328,34 @@ namespace Object_tool
             // oGFToolStripMenuItem
             // 
             this.oGFToolStripMenuItem.Name = "oGFToolStripMenuItem";
-            this.oGFToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.oGFToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.oGFToolStripMenuItem.Tag = "ExportOGF";
             this.oGFToolStripMenuItem.Text = "OGF";
-            this.oGFToolStripMenuItem.Click += new System.EventHandler(this.ExportOGF_Click);
+            this.oGFToolStripMenuItem.Click += new System.EventHandler(this.RunSDK_Click);
             // 
             // oMFToolStripMenuItem
             // 
             this.oMFToolStripMenuItem.Name = "oMFToolStripMenuItem";
-            this.oMFToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.oMFToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.oMFToolStripMenuItem.Tag = "ExportOMF";
             this.oMFToolStripMenuItem.Text = "OMF";
-            this.oMFToolStripMenuItem.Click += new System.EventHandler(this.ExportOMF_Click);
+            this.oMFToolStripMenuItem.Click += new System.EventHandler(this.RunSDK_Click);
             // 
             // objToolStripMenuItem
             // 
             this.objToolStripMenuItem.Name = "objToolStripMenuItem";
-            this.objToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.objToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.objToolStripMenuItem.Tag = "ExportOBJ";
             this.objToolStripMenuItem.Text = "Obj";
-            this.objToolStripMenuItem.Click += new System.EventHandler(this.objToolStripMenuItem_Click);
+            this.objToolStripMenuItem.Click += new System.EventHandler(this.RunSDK_Click);
             // 
             // dMToolStripMenuItem
             // 
             this.dMToolStripMenuItem.Name = "dMToolStripMenuItem";
-            this.dMToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.dMToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.dMToolStripMenuItem.Tag = "ExportDM";
             this.dMToolStripMenuItem.Text = "DM";
-            this.dMToolStripMenuItem.Click += new System.EventHandler(this.dMToolStripMenuItem_Click_1);
+            this.dMToolStripMenuItem.Click += new System.EventHandler(this.RunSDK_Click);
             // 
             // cToolStripMenuItem
             // 
@@ -351,57 +366,64 @@ namespace Object_tool
             this.vertexNormalsToolStripMenuItem,
             this.normalsToolStripMenuItem});
             this.cToolStripMenuItem.Name = "cToolStripMenuItem";
-            this.cToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.cToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.cToolStripMenuItem.Text = "C++";
             // 
             // allInfoToolStripMenuItem
             // 
             this.allInfoToolStripMenuItem.Name = "allInfoToolStripMenuItem";
-            this.allInfoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.allInfoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.allInfoToolStripMenuItem.Tag = "ExportCpp_0";
             this.allInfoToolStripMenuItem.Text = "All info";
-            this.allInfoToolStripMenuItem.Click += new System.EventHandler(this.allInfoToolStripMenuItem_Click);
+            this.allInfoToolStripMenuItem.Click += new System.EventHandler(this.RunSDK_Click);
             // 
             // vertexToolStripMenuItem
             // 
             this.vertexToolStripMenuItem.Name = "vertexToolStripMenuItem";
-            this.vertexToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.vertexToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.vertexToolStripMenuItem.Tag = "ExportCpp_1";
             this.vertexToolStripMenuItem.Text = "Vertex";
-            this.vertexToolStripMenuItem.Click += new System.EventHandler(this.vertexToolStripMenuItem_Click);
+            this.vertexToolStripMenuItem.Click += new System.EventHandler(this.RunSDK_Click);
             // 
             // facesToolStripMenuItem
             // 
             this.facesToolStripMenuItem.Name = "facesToolStripMenuItem";
-            this.facesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.facesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.facesToolStripMenuItem.Tag = "ExportCpp_2";
             this.facesToolStripMenuItem.Text = "Faces";
-            this.facesToolStripMenuItem.Click += new System.EventHandler(this.facesToolStripMenuItem_Click);
+            this.facesToolStripMenuItem.Click += new System.EventHandler(this.RunSDK_Click);
             // 
             // vertexNormalsToolStripMenuItem
             // 
             this.vertexNormalsToolStripMenuItem.Name = "vertexNormalsToolStripMenuItem";
-            this.vertexNormalsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.vertexNormalsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.vertexNormalsToolStripMenuItem.Tag = "ExportCpp_3";
             this.vertexNormalsToolStripMenuItem.Text = "Vertex normals";
-            this.vertexNormalsToolStripMenuItem.Click += new System.EventHandler(this.vertexNormalsToolStripMenuItem_Click);
+            this.vertexNormalsToolStripMenuItem.Click += new System.EventHandler(this.RunSDK_Click);
             // 
             // normalsToolStripMenuItem
             // 
             this.normalsToolStripMenuItem.Name = "normalsToolStripMenuItem";
-            this.normalsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.normalsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.normalsToolStripMenuItem.Tag = "ExportCpp_4";
             this.normalsToolStripMenuItem.Text = "Normals";
-            this.normalsToolStripMenuItem.Click += new System.EventHandler(this.normalsToolStripMenuItem_Click);
+            this.normalsToolStripMenuItem.Click += new System.EventHandler(this.RunSDK_Click);
             // 
             // motionRefsToolStripMenuItem1
             // 
             this.motionRefsToolStripMenuItem1.Name = "motionRefsToolStripMenuItem1";
-            this.motionRefsToolStripMenuItem1.Size = new System.Drawing.Size(138, 22);
+            this.motionRefsToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.motionRefsToolStripMenuItem1.Tag = "ExportMotionRefs";
             this.motionRefsToolStripMenuItem1.Text = "Motion Refs";
-            this.motionRefsToolStripMenuItem1.Click += new System.EventHandler(this.motionRefsToolStripMenuItem1_Click);
+            this.motionRefsToolStripMenuItem1.Click += new System.EventHandler(this.RunSDK_Click);
             // 
             // userDataToolStripMenuItem1
             // 
             this.userDataToolStripMenuItem1.Name = "userDataToolStripMenuItem1";
-            this.userDataToolStripMenuItem1.Size = new System.Drawing.Size(138, 22);
+            this.userDataToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.userDataToolStripMenuItem1.Tag = "ExportUserData";
             this.userDataToolStripMenuItem1.Text = "User Data";
-            this.userDataToolStripMenuItem1.Click += new System.EventHandler(this.userDataToolStripMenuItem1_Click);
+            this.userDataToolStripMenuItem1.Click += new System.EventHandler(this.RunSDK_Click);
             // 
             // deleteToolStripMenuItem
             // 
@@ -416,15 +438,17 @@ namespace Object_tool
             // 
             this.DeletesklsToolStripMenuItem.Name = "DeletesklsToolStripMenuItem";
             this.DeletesklsToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.DeletesklsToolStripMenuItem.Tag = "DeleteSkls";
             this.DeletesklsToolStripMenuItem.Text = "Skls";
-            this.DeletesklsToolStripMenuItem.Click += new System.EventHandler(this.DeleteMotionsButton_Click);
+            this.DeletesklsToolStripMenuItem.Click += new System.EventHandler(this.RunSDK_Click);
             // 
             // bonesPartsToDefaultToolStripMenuItem
             // 
             this.bonesPartsToDefaultToolStripMenuItem.Name = "bonesPartsToDefaultToolStripMenuItem";
             this.bonesPartsToDefaultToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.bonesPartsToDefaultToolStripMenuItem.Tag = "ResetBoneParts";
             this.bonesPartsToDefaultToolStripMenuItem.Text = "Bone parts to default";
-            this.bonesPartsToDefaultToolStripMenuItem.Click += new System.EventHandler(this.bonesPartsToDefaultToolStripMenuItem_Click);
+            this.bonesPartsToDefaultToolStripMenuItem.Click += new System.EventHandler(this.RunSDK_Click);
             // 
             // batchConvertToolStripMenuItem
             // 
@@ -440,9 +464,10 @@ namespace Object_tool
             // fromLtxToolStripMenuItem
             // 
             this.fromLtxToolStripMenuItem.Name = "fromLtxToolStripMenuItem";
-            this.fromLtxToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.fromLtxToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.fromLtxToolStripMenuItem.Tag = "BatchLtx";
             this.fromLtxToolStripMenuItem.Text = "From Ltx";
-            this.fromLtxToolStripMenuItem.Click += new System.EventHandler(this.fromLtxToolStripMenuItem_Click);
+            this.fromLtxToolStripMenuItem.Click += new System.EventHandler(this.RunSDK_Click);
             // 
             // fromDialogToolStripMenuItem
             // 
@@ -450,22 +475,24 @@ namespace Object_tool
             this.oGFToolStripMenuItem1,
             this.oMFToolStripMenuItem1});
             this.fromDialogToolStripMenuItem.Name = "fromDialogToolStripMenuItem";
-            this.fromDialogToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.fromDialogToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.fromDialogToolStripMenuItem.Text = "From File Dialog";
             // 
             // oGFToolStripMenuItem1
             // 
             this.oGFToolStripMenuItem1.Name = "oGFToolStripMenuItem1";
-            this.oGFToolStripMenuItem1.Size = new System.Drawing.Size(115, 22);
+            this.oGFToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.oGFToolStripMenuItem1.Tag = "BatchFilesToOGF";
             this.oGFToolStripMenuItem1.Text = "To OGF";
-            this.oGFToolStripMenuItem1.Click += new System.EventHandler(this.oGFToolStripMenuItem1_Click);
+            this.oGFToolStripMenuItem1.Click += new System.EventHandler(this.RunSDK_Click);
             // 
             // oMFToolStripMenuItem1
             // 
             this.oMFToolStripMenuItem1.Name = "oMFToolStripMenuItem1";
-            this.oMFToolStripMenuItem1.Size = new System.Drawing.Size(115, 22);
+            this.oMFToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.oMFToolStripMenuItem1.Tag = "BatchFilesToOMF";
             this.oMFToolStripMenuItem1.Text = "To OMF";
-            this.oMFToolStripMenuItem1.Click += new System.EventHandler(this.oMFToolStripMenuItem1_Click);
+            this.oMFToolStripMenuItem1.Click += new System.EventHandler(this.RunSDK_Click);
             // 
             // fromFolderDialogToolStripMenuItem
             // 
@@ -473,27 +500,29 @@ namespace Object_tool
             this.toOGFToolStripMenuItem,
             this.toOMFToolStripMenuItem});
             this.fromFolderDialogToolStripMenuItem.Name = "fromFolderDialogToolStripMenuItem";
-            this.fromFolderDialogToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.fromFolderDialogToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.fromFolderDialogToolStripMenuItem.Text = "From Folder Dialog";
             // 
             // toOGFToolStripMenuItem
             // 
             this.toOGFToolStripMenuItem.Name = "toOGFToolStripMenuItem";
-            this.toOGFToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.toOGFToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.toOGFToolStripMenuItem.Tag = "BatchFoldersToOGF";
             this.toOGFToolStripMenuItem.Text = "To OGF";
-            this.toOGFToolStripMenuItem.Click += new System.EventHandler(this.toOGFToolStripMenuItem_Click);
+            this.toOGFToolStripMenuItem.Click += new System.EventHandler(this.RunSDK_Click);
             // 
             // toOMFToolStripMenuItem
             // 
             this.toOMFToolStripMenuItem.Name = "toOMFToolStripMenuItem";
-            this.toOMFToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.toOMFToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.toOMFToolStripMenuItem.Tag = "BatchFoldersToOMF";
             this.toOMFToolStripMenuItem.Text = "To OMF";
-            this.toOMFToolStripMenuItem.Click += new System.EventHandler(this.toOMFToolStripMenuItem_Click);
+            this.toOMFToolStripMenuItem.Click += new System.EventHandler(this.RunSDK_Click);
             // 
             // BatchHelpToolStripMenuItem
             // 
             this.BatchHelpToolStripMenuItem.Name = "BatchHelpToolStripMenuItem";
-            this.BatchHelpToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.BatchHelpToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.BatchHelpToolStripMenuItem.Text = "Batch Help";
             this.BatchHelpToolStripMenuItem.Click += new System.EventHandler(this.ltxHelpToolStripMenuItem_Click);
             // 
@@ -556,9 +585,10 @@ namespace Object_tool
             // generateShapesToolStripMenuItem1
             // 
             this.generateShapesToolStripMenuItem1.Name = "generateShapesToolStripMenuItem1";
-            this.generateShapesToolStripMenuItem1.Size = new System.Drawing.Size(161, 22);
+            this.generateShapesToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.generateShapesToolStripMenuItem1.Tag = "GenerateShapes";
             this.generateShapesToolStripMenuItem1.Text = "Generate Shapes";
-            this.generateShapesToolStripMenuItem1.Click += new System.EventHandler(this.generateShapesToolStripMenuItem_Click);
+            this.generateShapesToolStripMenuItem1.Click += new System.EventHandler(this.RunSDK_Click);
             // 
             // typeHelperToolStripMenuItem1
             // 
@@ -568,43 +598,48 @@ namespace Object_tool
             this.allSphereToolStripMenuItem,
             this.allCylinderToolStripMenuItem});
             this.typeHelperToolStripMenuItem1.Name = "typeHelperToolStripMenuItem1";
-            this.typeHelperToolStripMenuItem1.Size = new System.Drawing.Size(161, 22);
+            this.typeHelperToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.typeHelperToolStripMenuItem1.Text = "Type helper";
             // 
             // allNoneToolStripMenuItem
             // 
             this.allNoneToolStripMenuItem.Name = "allNoneToolStripMenuItem";
-            this.allNoneToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.allNoneToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.allNoneToolStripMenuItem.Tag = "Type_0";
             this.allNoneToolStripMenuItem.Text = "All None";
-            this.allNoneToolStripMenuItem.Click += new System.EventHandler(this.allNoneToolStripMenuItem_Click);
+            this.allNoneToolStripMenuItem.Click += new System.EventHandler(this.SwitchShapeType);
             // 
             // allBoxToolStripMenuItem
             // 
             this.allBoxToolStripMenuItem.Name = "allBoxToolStripMenuItem";
-            this.allBoxToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.allBoxToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.allBoxToolStripMenuItem.Tag = "Type_1";
             this.allBoxToolStripMenuItem.Text = "All Box";
-            this.allBoxToolStripMenuItem.Click += new System.EventHandler(this.allBoxToolStripMenuItem_Click);
+            this.allBoxToolStripMenuItem.Click += new System.EventHandler(this.SwitchShapeType);
             // 
             // allSphereToolStripMenuItem
             // 
             this.allSphereToolStripMenuItem.Name = "allSphereToolStripMenuItem";
-            this.allSphereToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.allSphereToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.allSphereToolStripMenuItem.Tag = "Type_2";
             this.allSphereToolStripMenuItem.Text = "All Sphere";
-            this.allSphereToolStripMenuItem.Click += new System.EventHandler(this.allSphereToolStripMenuItem_Click);
+            this.allSphereToolStripMenuItem.Click += new System.EventHandler(this.SwitchShapeType);
             // 
             // allCylinderToolStripMenuItem
             // 
             this.allCylinderToolStripMenuItem.Name = "allCylinderToolStripMenuItem";
-            this.allCylinderToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.allCylinderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.allCylinderToolStripMenuItem.Tag = "Type_3";
             this.allCylinderToolStripMenuItem.Text = "All Cylinder";
-            this.allCylinderToolStripMenuItem.Click += new System.EventHandler(this.allCylinderToolStripMenuItem_Click);
+            this.allCylinderToolStripMenuItem.Click += new System.EventHandler(this.SwitchShapeType);
             // 
             // generateLodToolStripMenuItem
             // 
             this.generateLodToolStripMenuItem.Name = "generateLodToolStripMenuItem";
             this.generateLodToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.generateLodToolStripMenuItem.Tag = "GenerateLod";
             this.generateLodToolStripMenuItem.Text = "Generate lod";
-            this.generateLodToolStripMenuItem.Click += new System.EventHandler(this.generateLodToolStripMenuItem_Click);
+            this.generateLodToolStripMenuItem.Click += new System.EventHandler(this.RunSDK_Click);
             // 
             // importObjectParamsToolStripMenuItem
             // 
