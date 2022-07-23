@@ -193,12 +193,12 @@ namespace Object_tool
 			FILE_NAME = filename;
 			StatusFile.Text = FILE_NAME.Substring(FILE_NAME.LastIndexOf('\\') + 1);
 
-			InitDialogs();
-			InitUI();
-
 			string TempFile = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + $"\\temp\\{StatusFile.Text}";
 			File.Copy(FILE_NAME, TempFile, true);
 			TEMP_FILE_NAME = TempFile;
+
+			InitDialogs();
+			InitUI();
 
 			ParseMotions();
 			LoadData();
@@ -888,18 +888,19 @@ namespace Object_tool
 			using (var r = new BinaryReader(new FileStream(FileName, FileMode.Open)))
 			{
 				xr_loader.SetStream(r.BaseStream);
+				xr_loader.SetData(xr_loader.find_and_return_chunk_in_chunk((int)OBJECT.EOBJ_CHUNK_OBJECT_BODY, false, true));
 
-				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_LODS, true, true)) // Импортируем LOD
+				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_LODS, false, true)) // Импортируем LOD
 				{
 					LodTextBox.Text = xr_loader.read_stringData();
 				}
 
-				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_CLASSSCRIPT, true, true)) // Импортируем UserData
+				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_CLASSSCRIPT, false, true)) // Импортируем UserData
 				{
 					UserDataTextBox.Text = xr_loader.read_stringZ();
 				}
 
-				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SMOTIONS3, true, true)) // Импортируем Моушн рефы
+				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SMOTIONS3, false, true)) // Импортируем Моушн рефы
 				{
 					List<string> refs = new List<string>();
 					uint count = xr_loader.ReadUInt32();
@@ -909,7 +910,7 @@ namespace Object_tool
 					}
 					MotionRefsBox.Lines = refs.ToArray();
 				}
-				else if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SMOTIONS2, true, true))
+				else if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SMOTIONS2, false, true))
 				{
 					string motions = xr_loader.read_stringZ();
 
@@ -934,7 +935,7 @@ namespace Object_tool
 					MotionRefsBox.Lines = refs.ToArray();
 				}
 
-				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SURFACES3, true, true))
+				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SURFACES3, false, true))
 				{
 					uint surf_count = xr_loader.ReadUInt32();
 					if (surface_count == surf_count && MessageBox.Show("Import textures and shaders path?\nThey may have different positions", "Object Editor", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
@@ -958,7 +959,7 @@ namespace Object_tool
 						}
 					}
 				}
-				else if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SURFACES2, true, true))
+				else if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SURFACES2, false, true))
 				{
 					uint surf_count = xr_loader.ReadUInt32();
 					if (surface_count == surf_count && MessageBox.Show("Import textures and shaders path?\nThey may have different positions", "Object Editor", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
@@ -981,7 +982,7 @@ namespace Object_tool
 						}
 					}
 				}
-				else if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SURFACES, true, true))
+				else if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SURFACES, false, true))
 				{
 					uint surf_count = xr_loader.ReadUInt32();
 					if (surface_count == surf_count && MessageBox.Show("Import textures and shaders path?\nThey may have different positions", "Object Editor", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
@@ -1041,7 +1042,7 @@ namespace Object_tool
 						if (shapes.Count <= chunk) break;
 					}
 				}
-				else if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_BONES, true, true))
+				else if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_BONES, false, true))
 				{
 					uint size = xr_loader.ReadUInt32();
 
@@ -1083,18 +1084,19 @@ namespace Object_tool
 			using (var r = new BinaryReader(new FileStream(TEMP_FILE_NAME, FileMode.Open)))
 			{
 				xr_loader.SetStream(r.BaseStream);
+				xr_loader.SetData(xr_loader.find_and_return_chunk_in_chunk((int)OBJECT.EOBJ_CHUNK_OBJECT_BODY, false, true));
 
-				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_LODS, true, true))
+				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_LODS, false, true))
 				{
 					LodTextBox.Text = xr_loader.read_stringData();
 				}
 
-				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_CLASSSCRIPT, true, true))
+				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_CLASSSCRIPT, false, true))
 				{
 					UserDataTextBox.Text = xr_loader.read_stringZ();
 				}
 
-				if (xr_loader.find_chunkSize((int)OBJECT.EOBJ_CHUNK_ACTORTRANSFORM, true, true) > 24)
+				if (xr_loader.find_chunkSize((int)OBJECT.EOBJ_CHUNK_ACTORTRANSFORM, false, true) > 24)
 				{
 					xr_loader.ReadBytes(12);
 					xr_loader.ReadBytes(12);
@@ -1104,7 +1106,7 @@ namespace Object_tool
 					ScaleCenterOfMassCheckBox.Checked = Convert.ToBoolean(chk);
 				}
 
-				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SMOTIONS3, true, true))
+				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SMOTIONS3, false, true))
 				{
 					List<string> refs = new List<string>();
 					uint count = xr_loader.ReadUInt32();
@@ -1114,7 +1116,7 @@ namespace Object_tool
 					}
 					MotionRefsBox.Lines = refs.ToArray();
 				}
-				else if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SMOTIONS2, true, true))
+				else if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SMOTIONS2, false, true))
 				{
 					string motions = xr_loader.read_stringZ();
 
@@ -1143,7 +1145,7 @@ namespace Object_tool
 				SplitNormalsChbx.Checked = false;
 				normalsToolStripMenuItem.Enabled = false;
 
-				if (xr_loader.SetData(xr_loader.find_and_return_chunk_in_chunk((int)OBJECT.EOBJ_CHUNK_EDITMESHES, true, true)))
+				if (xr_loader.SetData(xr_loader.find_and_return_chunk_in_chunk((int)OBJECT.EOBJ_CHUNK_EDITMESHES, false, true)))
 				{
 					int id = 0;
 					uint size;
@@ -1181,7 +1183,7 @@ namespace Object_tool
 				surfaces = new List<Surface>();
 				Surface surface = new Surface();
 
-				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SURFACES3, true, true))
+				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SURFACES3, false, true))
 				{
 					surface_count = xr_loader.ReadUInt32();
 					for (int i = 0; i < surface_count; i++)
@@ -1200,7 +1202,7 @@ namespace Object_tool
 						CreateMaterialGroupBox(i, name);
 					}
 				}
-				else if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SURFACES2, true, true))
+				else if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SURFACES2, false, true))
 				{
 					surface_count = xr_loader.ReadUInt32();
 					for (int i = 0; i < surface_count; i++)
@@ -1218,7 +1220,7 @@ namespace Object_tool
 						CreateMaterialGroupBox(i, name);
 					}
 				}
-				else if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SURFACES, true, true))
+				else if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SURFACES, false, true))
 				{
 					surface_count = xr_loader.ReadUInt32();
 					for (int i = 0; i < surface_count; i++)
@@ -1239,7 +1241,7 @@ namespace Object_tool
 				xr_loader.SetStream(r.BaseStream);
 
 				shapes = new List<ShapeEditType>();
-				bool B_CHUNK = xr_loader.SetData(xr_loader.find_and_return_chunk_in_chunk((int)OBJECT.EOBJ_CHUNK_BONES2, true, true));
+				bool B_CHUNK = xr_loader.SetData(xr_loader.find_and_return_chunk_in_chunk((int)OBJECT.EOBJ_CHUNK_BONES2, false, true));
 				if (B_CHUNK)
 				{
 					int chunk = 0;
@@ -1270,7 +1272,7 @@ namespace Object_tool
 						xr_loader.SetStream(temp);
 					}
 				}
-				else if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_BONES, true, true))
+				else if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_BONES, false, true))
 				{
 					uint size = xr_loader.ReadUInt32();
 					for (int i = 0; i < size; i++)
@@ -1302,8 +1304,9 @@ namespace Object_tool
 			using (var r = new BinaryReader(new FileStream(TEMP_FILE_NAME, FileMode.Open)))
 			{
 				xr_loader.SetStream(r.BaseStream);
+				xr_loader.SetData(xr_loader.find_and_return_chunk_in_chunk((int)OBJECT.EOBJ_CHUNK_OBJECT_BODY, false, true));
 
-				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SMOTIONS, true, true))
+				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SMOTIONS, false, true))
 					count = xr_loader.ReadUInt32();
 			}
 			return count;
@@ -1329,8 +1332,9 @@ namespace Object_tool
 			using (var r = new BinaryReader(new FileStream(TEMP_FILE_NAME, FileMode.Open)))
 			{
 				xr_loader.SetStream(r.BaseStream);
+				xr_loader.SetData(xr_loader.find_and_return_chunk_in_chunk((int)OBJECT.EOBJ_CHUNK_OBJECT_BODY, false, true));
 
-				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SMOTIONS, true, true))
+				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SMOTIONS, false, true))
 				{
 					uint count = xr_loader.ReadUInt32();
 					MotionTextBox.Clear();
@@ -1446,8 +1450,9 @@ namespace Object_tool
 			using (var r = new BinaryReader(new FileStream(TEMP_FILE_NAME, FileMode.Open)))
 			{
 				xr_loader.SetStream(r.BaseStream);
+				xr_loader.SetData(xr_loader.find_and_return_chunk_in_chunk((int)OBJECT.EOBJ_CHUNK_OBJECT_BODY, false, true));
 
-				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_BONES2, true, true) || xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_BONES, true, true))
+				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_BONES2, false, true) || xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_BONES, false, true))
 					return true;
 			}
 			return false;
