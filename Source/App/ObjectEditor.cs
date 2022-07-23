@@ -2382,5 +2382,10 @@ namespace Object_tool
 			box.Controls.Add(ShaderLabel);
 			box.Controls.Add(ShaderTextBox);
 		}
+
+		public void Msg(string text)
+		{
+			MessageBox.Show(text);
+		}
 	}
 }
