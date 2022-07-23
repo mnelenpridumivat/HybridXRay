@@ -157,6 +157,7 @@ namespace Object_tool
             chunk_pos = 0;
 
             if (reset) reader.BaseStream.Position = 0;
+            if (skip) ReadInt64();
 
             while (reader.BaseStream.Position < reader.BaseStream.Length)
             {
