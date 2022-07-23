@@ -66,6 +66,28 @@ namespace Object_tool
         BONE_CHUNK_IK_JOINT_FRICTION=	0x0010
     };
 
+    public enum MTL
+    {
+        GAMEMTL_CURRENT_VERSION		=	0x0001,
+        GAMEMTLS_CHUNK_VERSION      =  	0x1000,
+        GAMEMTLS_CHUNK_AUTOINC	    =   0x1001,
+        GAMEMTLS_CHUNK_MTLS	        =	0x1002,
+        GAMEMTLS_CHUNK_MTLS_PAIR    =   0x1003,
+        GAMEMTL_CHUNK_MAIN	        =	0x1000,
+        GAMEMTL_CHUNK_FLAGS	        =	0x1001,
+        GAMEMTL_CHUNK_PHYSICS       = 	0x1002,
+        GAMEMTL_CHUNK_FACTORS       = 	0x1003,
+        GAMEMTL_CHUNK_FLOTATION   	=	0x1004,
+        GAMEMTL_CHUNK_DESC			=	0x1005,
+        GAMEMTL_CHUNK_INJURIOUS		=	0x1006,
+        GAMEMTL_CHUNK_DENSITY		=	0x1007,
+        GAMEMTL_CHUNK_FACTORS_MP    =   0x1008,
+        GAMEMTLPAIR_CHUNK_PAIR   	=	0x1000,
+        GAMEMTLPAIR_CHUNK_BREAKING  = 	0x1002,
+        GAMEMTLPAIR_CHUNK_STEP   	=	0x1003,
+        GAMEMTLPAIR_CHUNK_COLLIDE	=  	0x1005
+    }
+
     public class XRayLoader
     {
         public long chunk_pos = 0;

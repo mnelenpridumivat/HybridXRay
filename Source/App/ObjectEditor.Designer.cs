@@ -144,6 +144,9 @@ namespace Object_tool
             this.OpenMotionRefsDialog = new System.Windows.Forms.OpenFileDialog();
             this.SaveUserDataDialog = new System.Windows.Forms.SaveFileDialog();
             this.SaveMotionRefsDialog = new System.Windows.Forms.SaveFileDialog();
+            this.loadXrToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gameMtlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.OpenXrDialog = new System.Windows.Forms.OpenFileDialog();
             this.MenuPanel.SuspendLayout();
             this.StatusPanel.SuspendLayout();
             this.FlagsPage.SuspendLayout();
@@ -545,7 +548,8 @@ namespace Object_tool
             this.shapeParamsToolStripMenuItem,
             this.generateLodToolStripMenuItem,
             this.importObjectParamsToolStripMenuItem,
-            this.loadScriptToolStripMenuItem});
+            this.loadScriptToolStripMenuItem,
+            this.loadXrToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
@@ -1127,6 +1131,25 @@ namespace Object_tool
             // 
             this.SaveMotionRefsDialog.Filter = "Ltx file|*.ltx|Txt file|*.txt";
             // 
+            // loadXrToolStripMenuItem
+            // 
+            this.loadXrToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.gameMtlToolStripMenuItem});
+            this.loadXrToolStripMenuItem.Name = "loadXrToolStripMenuItem";
+            this.loadXrToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.loadXrToolStripMenuItem.Text = "Load Xr";
+            // 
+            // gameMtlToolStripMenuItem
+            // 
+            this.gameMtlToolStripMenuItem.Name = "gameMtlToolStripMenuItem";
+            this.gameMtlToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.gameMtlToolStripMenuItem.Text = "GameMtl";
+            this.gameMtlToolStripMenuItem.Click += new System.EventHandler(this.gameMtlToolStripMenuItem_Click);
+            // 
+            // OpenXrDialog
+            // 
+            this.OpenXrDialog.Filter = "Xr file|*.xr";
+            // 
             // Object_Editor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -1284,6 +1307,9 @@ namespace Object_tool
         private System.Windows.Forms.ToolStripMenuItem importObjectParamsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadScriptToolStripMenuItem;
         private System.Windows.Forms.CheckBox BuildInMotionsExport;
+        private System.Windows.Forms.ToolStripMenuItem loadXrToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem gameMtlToolStripMenuItem;
+        private System.Windows.Forms.OpenFileDialog OpenXrDialog;
     }
 }
 

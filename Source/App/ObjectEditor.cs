@@ -77,8 +77,6 @@ namespace Object_tool
 		public string script = "null";
 		public string SCRIPT_FOLDER = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\scripts\\";
 
-		public int cpp_mode = 0;
-
 		// Info
 		public uint vertex_count = 0;
 		public uint face_count = 0;
@@ -87,6 +85,10 @@ namespace Object_tool
 
 		// Input
 		public bool bKeyIsDown = false;
+
+		// Other
+		public int cpp_mode = 0;
+		public string[] game_materials = { };
 
 		public Object_Editor()
 		{
@@ -124,10 +126,14 @@ namespace Object_tool
 			batch_source = new List<string>();
 
 			string file_path = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\Settings.ini";
-			Settings = new IniFile(file_path, "[settings]\ndeveloper=0\ndebug=0");
+			Settings = new IniFile(file_path, "[settings]\ndeveloper=0\ndebug=0\ngame_mtl=\nshaders=");
 
 			DEVELOPER_MODE = Convert.ToBoolean(Convert.ToUInt16(Settings.ReadDef("developer", "settings", "0")));
 			DEBUG_MODE = Convert.ToBoolean(Convert.ToUInt16(Settings.ReadDef("debug", "settings", "0")));
+
+			string game_mtl = Settings.Read("game_mtl", "settings");
+			if (File.Exists(game_mtl))
+				game_materials = GameMtlParser(game_mtl);
 
 #if DEBUG
 			DEVELOPER_MODE = true;
@@ -208,9 +214,7 @@ namespace Object_tool
 			if (shapes != null)
 			{
 				for (int i = 0; i < shapes.Count; i++)
-				{
 					CreateShapeGroupBox(i, shapes[i]);
-				}
 			}
 
 			IndexChanged(null, null);
@@ -1490,6 +1494,58 @@ namespace Object_tool
 			return false;
 		}
 
+		private string[] GameMtlParser(string filename)
+        {
+			List<string> materials = new List<string>();
+
+			var xr_loader = new XRayLoader();
+
+			using (var r = new BinaryReader(new FileStream(filename, FileMode.Open)))
+			{
+				xr_loader.SetStream(r.BaseStream);
+				xr_loader.SetData(xr_loader.find_and_return_chunk_in_chunk((int)MTL.GAMEMTLS_CHUNK_MTLS, false, true));
+
+				int id = 0;
+				uint size;
+
+				while (true)
+				{
+					if (!xr_loader.find_chunk(id)) break;
+
+					Stream temp = xr_loader.reader.BaseStream;
+
+					if (!xr_loader.SetData(xr_loader.find_and_return_chunk_in_chunk(id, false, true))) break;
+
+					size = xr_loader.find_chunkSize((int)MTL.GAMEMTL_CHUNK_MAIN);
+					if (size == 0) break;
+					xr_loader.ReadBytes(4);
+					materials.Add(xr_loader.read_stringZ());
+
+					id++;
+					xr_loader.SetStream(temp);
+				}
+			}
+			string[] ret = materials.ToArray();
+			Array.Sort(ret);
+			return ret;
+        }
+
+		private void gameMtlToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (OpenXrDialog.ShowDialog() == DialogResult.OK)
+			{
+				Settings.Write("game_mtl", OpenXrDialog.FileName, "settings");
+				game_materials = GameMtlParser(OpenXrDialog.FileName);
+
+				if (shapes != null)
+				{
+					BonesPage.Controls.Clear();
+					for (int i = 0; i < shapes.Count; i++)
+						CreateShapeGroupBox(i, shapes[i]);
+				}
+			}
+		}
+
 		private void FlagsHelpButton_Click(object sender, EventArgs e)
 		{
 			MessageBox.Show("Motion export:\nДанные флаги влияют на компресиию анимаций при экспортировании в OMF.\n1. 8 bit - ТЧ Формат\n2. 16 bit - ЗП Формат\n" + (DEVELOPER_MODE ? "3. No compress - экспортирует анимации без сжатия\n" : "") +
@@ -1673,7 +1729,7 @@ namespace Object_tool
 
 		private void MaterialTextChanged(object sender, EventArgs e)
 		{
-			TextBox curBox = sender as TextBox;
+			Control curBox = sender as Control;
 			int idx = Convert.ToInt32(curBox.Name.ToString().Split('_')[1]);
 			shapes[idx].material = curBox.Text;
 		}
@@ -2198,13 +2254,37 @@ namespace Object_tool
 			MaterialLabel.Location = new System.Drawing.Point(135, 45);
 			MaterialLabel.Anchor = AnchorStyles.Left;
 
-			var MateriaTextBox = new TextBox();
-			MateriaTextBox.Name = "MaterialTextBox_" + idx;
-			MateriaTextBox.Text = shape.material;
-			MateriaTextBox.Size = new System.Drawing.Size(155, 17);
-			MateriaTextBox.Location = new System.Drawing.Point(200, 43);
-			MateriaTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-			MateriaTextBox.TextChanged += new EventHandler(this.MaterialTextChanged);
+			var MateriaBox = new Control();
+			if (game_materials.Count() == 0)
+			{
+				var MateriaTextBox = new TextBox();
+				MateriaTextBox.Name = "MaterialTextBox_" + idx;
+				MateriaTextBox.Text = shape.material;
+				MateriaTextBox.Size = new System.Drawing.Size(155, 17);
+				MateriaTextBox.Location = new System.Drawing.Point(200, 43);
+				MateriaTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+				MateriaTextBox.TextChanged += new EventHandler(this.MaterialTextChanged);
+
+				MateriaBox = MateriaTextBox;
+			}
+			else
+            {
+				var MateriaTextBox = new ComboBox();
+				MateriaTextBox.Name = "MaterialTextBox_" + idx;
+				MateriaTextBox.Text = shape.material;
+				MateriaTextBox.Size = new System.Drawing.Size(155, 17);
+				MateriaTextBox.Location = new System.Drawing.Point(200, 43);
+				MateriaTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+				MateriaTextBox.Items.AddRange(game_materials);
+				MateriaTextBox.DropDownStyle = ComboBoxStyle.DropDownList;
+				TypeComboBox.SelectedIndexChanged += new System.EventHandler(this.MaterialTextChanged);
+				if (MateriaTextBox.Items.Contains(shape.material))
+					MateriaTextBox.SelectedIndex = MateriaTextBox.Items.IndexOf(shape.material);
+				else
+					MateriaTextBox.Text = shape.material;
+
+				MateriaBox = MateriaTextBox;
+			}
 
 			var MassLabel = new Label();
 			MassLabel.Name = "MassLbl_" + idx;
@@ -2230,7 +2310,7 @@ namespace Object_tool
 			box.Controls.Add(TypeComboBox);
 			box.Controls.Add(TypeLabel);
 			box.Controls.Add(MaterialLabel);
-			box.Controls.Add(MateriaTextBox);
+			box.Controls.Add(MateriaBox);
 			box.Controls.Add(MassLabel);
 			box.Controls.Add(MassTextBox);
 		}
@@ -2276,7 +2356,7 @@ namespace Object_tool
 			if (surfaces[idx].texture.LastIndexOf('.') != -1)
 			{
 				string format = surfaces[idx].texture.Substring(surfaces[idx].texture.LastIndexOf('.') + 1, surfaces[idx].texture.Length - surfaces[idx].texture.LastIndexOf('.') - 1);
-				if (format.Length == 3) // Хз нужно ли или нет, но у основных форматов длинна названяи в 3 символа, пусть будет проверкой
+				if (format.Length == 3) // Хз нужно ли или нет, но у основных форматов длинна названия в 3 символа, пусть будет проверкой
 					texture_path = surfaces[idx].texture.Substring(0, surfaces[idx].texture.LastIndexOf('.'));
 			}
 			TextureTextBox.Text = texture_path;
@@ -2302,5 +2382,5 @@ namespace Object_tool
 			box.Controls.Add(ShaderLabel);
 			box.Controls.Add(ShaderTextBox);
 		}
-    }
+	}
 }
