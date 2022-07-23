@@ -1040,6 +1040,18 @@ namespace Object_tool
 							chbx4.Checked = (shapes[chunk].bone_flags & (1 << 3)) == (1 << 3);
 						}
 
+						if (xr_loader.find_chunk((int)BONE.BONE_CHUNK_MATERIAL, false, true))
+						{
+							(BonesPage.Controls[chunk].Controls[7] as TextBox).Text = shapes[chunk].material = xr_loader.read_stringZ();
+						}
+
+						if (xr_loader.find_chunk((int)BONE.BONE_CHUNK_MASS, false, true))
+						{
+							shapes[chunk].mass = xr_loader.ReadFloat();
+							TextBox textBox = BonesPage.Controls[chunk].Controls[9] as TextBox;
+							textBox.Text = shapes[chunk].mass.ToString();
+						}
+
 						chunk++;
 						xr_loader.SetStream(temp);
 
@@ -1058,6 +1070,8 @@ namespace Object_tool
 							shapes[i].bone_type = 0;
 							shapes[i].bone_name = xr_loader.read_stringZ();
 							shapes[i].bone_id = (ushort)i;
+							shapes[i].material = "default_object";
+							shapes[i].mass = 10.0f;
 							xr_loader.read_stringZ();
 							xr_loader.read_stringZ();
 							xr_loader.ReadBytes(12);
