@@ -38,9 +38,12 @@ xr_vector<CEditableObject::ShapeEditType> LoadShapes(char** args, int count)
         third.erase(0, third.find_last_of("-") + 1);
         shape.bone_flags.assign(atoi(third.c_str()));
 
-        vec.push_back(shape);
-
         iReaderPos++;
+
+        shape.material = args[iReaderPos]; iReaderPos++;
+        shape.mass = (float)atof(args[iReaderPos]); iReaderPos++;
+
+        vec.push_back(shape);
     }
 
     return vec;

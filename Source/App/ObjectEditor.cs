@@ -46,6 +46,8 @@ namespace Object_tool
 			public ushort bone_type;
 			public ushort bone_flags;
 			public string bone_name;
+			public string material;
+			public float  mass;
 		};
 
 		public class Surface
@@ -238,6 +240,8 @@ namespace Object_tool
 				for (int i = 0; i < shapes.Count; i++)
 				{
 					args += $" \"{shapes[i].bone_id}-{shapes[i].bone_type}-{shapes[i].bone_flags}\"";
+					args += $" \"{shapes[i].material}\"";
+					args += $" {shapes[i].mass}";
 				}
 			}
 
@@ -1262,10 +1266,20 @@ namespace Object_tool
 							shape.bone_name = xr_loader.read_stringZ();
 						}
 
+						if (xr_loader.find_chunk((int)BONE.BONE_CHUNK_MATERIAL, false, true))
+						{
+							shape.material = xr_loader.read_stringZ();
+						}
+
 						if (xr_loader.find_chunk((int)BONE.BONE_CHUNK_SHAPE, false, true))
 						{
 							shape.bone_type = (ushort)xr_loader.ReadUInt16();
 							shape.bone_flags = (ushort)xr_loader.ReadUInt16();
+						}
+
+						if (xr_loader.find_chunk((int)BONE.BONE_CHUNK_MASS, false, true))
+						{
+							shape.mass = xr_loader.ReadFloat();
 						}
 
 						shapes.Add(shape);
@@ -1284,6 +1298,8 @@ namespace Object_tool
 						shape.bone_type = 0;
 						shape.bone_name = xr_loader.read_stringZ();
 						shape.bone_id = (ushort)i;
+						shape.material = "default_object";
+						shape.mass = 10.0f;
 						xr_loader.read_stringZ();
 						xr_loader.read_stringZ();
 						xr_loader.ReadBytes(12);
@@ -1585,15 +1601,7 @@ namespace Object_tool
 			}
         }
 
-        private void ScaleKeyPress(object sender, KeyPressEventArgs e)
-        {
-			if (!(Char.IsDigit(e.KeyChar)) && !((e.KeyChar == '.') && (ObjectScaleTextBox.Text.IndexOf(".") == -1) &&(ObjectScaleTextBox.Text.Length != 0)))
-			{
-				if (e.KeyChar != (char)Keys.Back) e.Handled = true;
-			}
-		}
-
-		private void ScaleTextChanged(object sender, EventArgs e)
+		private void FloatTextChanged(object sender, EventArgs e, ref float val)
 		{
 			if (bKeyIsDown)
 			{
@@ -1601,6 +1609,18 @@ namespace Object_tool
 
 				if (curBox.Text.Length == 0)
 					return;
+
+				int len = curBox.Text.Contains(".") ? 9 : 8;
+
+				while (curBox.Text.Length >= len)
+				{
+					if (curBox.SelectionStart < 1)
+						curBox.SelectionStart = curBox.Text.Length;
+
+					int tmp = curBox.SelectionStart;
+					curBox.Text = curBox.Text.Remove(curBox.Text.Length - 1, 1);
+					curBox.SelectionStart = tmp;
+				}
 
 				string number_mask = @"^-[0-9.]*$";
 				int temp = curBox.SelectionStart;
@@ -1610,11 +1630,11 @@ namespace Object_tool
 				try
 				{
 					Convert.ToSingle(curBox.Text);
-					model_scale = Convert.ToSingle(curBox.Text);
+					val = Convert.ToSingle(curBox.Text);
 				}
 				catch (Exception)
 				{
-					curBox.Text = model_scale.ToString();
+					curBox.Text = val.ToString();
 
 					if (curBox.SelectionStart < 1)
 						curBox.SelectionStart = curBox.Text.Length;
@@ -1625,12 +1645,40 @@ namespace Object_tool
 			}
 		}
 
-        private void ScaleKeyDown(object sender, KeyEventArgs e)
-        {
+		private void ScaleTextChanged(object sender, EventArgs e)
+		{
+			FloatTextChanged(sender, e, ref model_scale);
+		}
+
+		private void MassTextChanged(object sender, EventArgs e)
+		{
+			TextBox curBox = sender as TextBox;
+			int idx = Convert.ToInt32(curBox.Name.ToString().Split('_')[1]);
+			FloatTextChanged(sender, e, ref shapes[idx].mass);
+		}
+
+		private void MaterialTextChanged(object sender, EventArgs e)
+		{
+			TextBox curBox = sender as TextBox;
+			int idx = Convert.ToInt32(curBox.Name.ToString().Split('_')[1]);
+			shapes[idx].material = curBox.Text;
+		}
+
+		private void TextBoxKeyDown(object sender, KeyEventArgs e)
+		{
 			bKeyIsDown = true;
 		}
 
-        private void openLogToolStripMenuItem_Click(object sender, EventArgs e)
+		private void TextBoxKeyPress(object sender, KeyPressEventArgs e)
+		{
+			TextBox textBox = sender as TextBox;
+			if (!(Char.IsDigit(e.KeyChar)) && !((e.KeyChar == '.') && (textBox.Text.IndexOf(".") == -1) &&(textBox.Text.Length != 0)))
+			{
+				if (e.KeyChar != (char)Keys.Back) e.Handled = true;
+			}
+		}
+
+		private void openLogToolStripMenuItem_Click(object sender, EventArgs e)
         {
 			string log = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\engine.log";
 			if (File.Exists(log))
@@ -1816,6 +1864,27 @@ namespace Object_tool
 		}
 
 		private void ComboBoxIndexChanged(object sender, EventArgs e)
+		{
+			ComboBox curBox = sender as ComboBox;
+
+			string currentField = curBox.Name.ToString().Split('_')[0];
+			int idx = Convert.ToInt32(curBox.Name.ToString().Split('_')[1]);
+
+			ShapeEditType shape = new ShapeEditType();
+
+			switch (currentField)
+			{
+				case "cbxType":
+					shape.bone_id = shapes[idx].bone_id;
+					shape.bone_type = (ushort)curBox.SelectedIndex;
+					shape.bone_name = shapes[idx].bone_name;
+					shape.bone_flags = shapes[idx].bone_flags;
+					shapes[idx] = shape;
+					break;
+			}
+		}
+
+		private void TextBoxTextChanged(object sender, EventArgs e)
 		{
 			ComboBox curBox = sender as ComboBox;
 
@@ -2057,7 +2126,7 @@ namespace Object_tool
 			NoPickableCheckBoxBox.Text = "No Pickable";
 			NoPickableCheckBoxBox.Size = new System.Drawing.Size(130, 23);
 			NoPickableCheckBoxBox.Location = new System.Drawing.Point(6, 15);
-			NoPickableCheckBoxBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+			NoPickableCheckBoxBox.Anchor = AnchorStyles.Left | AnchorStyles.Top;
 			NoPickableCheckBoxBox.Checked = (shape.bone_flags & (1 << 0)) == (1 << 0);
 			NoPickableCheckBoxBox.CheckedChanged += new System.EventHandler(this.CheckBoxCheckedChanged);
 
@@ -2066,39 +2135,40 @@ namespace Object_tool
 			NoPhysicsCheckBoxBox.Text = "No Physics";
 			NoPhysicsCheckBoxBox.Size = new System.Drawing.Size(100, 23);
 			NoPhysicsCheckBoxBox.Location = new System.Drawing.Point(6, 35);
-			NoPhysicsCheckBoxBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+			NoPhysicsCheckBoxBox.Anchor = AnchorStyles.Left | AnchorStyles.Top;
 			NoPhysicsCheckBoxBox.Checked = (shape.bone_flags & (1 << 1)) == (1 << 1);
 			NoPhysicsCheckBoxBox.CheckedChanged += new System.EventHandler(this.CheckBoxCheckedChanged);
 
 			var RemoveAfterBreakCheckBoxBox = new CheckBox();
 			RemoveAfterBreakCheckBoxBox.Name = "chbxRemoveAfterBreakCheckBoxBox_" + idx;
 			RemoveAfterBreakCheckBoxBox.Text = "Remove After Break";
-			RemoveAfterBreakCheckBoxBox.Size = new System.Drawing.Size(160, 23);
+			RemoveAfterBreakCheckBoxBox.Size = new System.Drawing.Size(132, 23);
 			RemoveAfterBreakCheckBoxBox.Location = new System.Drawing.Point(6, 55);
-			RemoveAfterBreakCheckBoxBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+			RemoveAfterBreakCheckBoxBox.Anchor = AnchorStyles.Left | AnchorStyles.Top;
 			RemoveAfterBreakCheckBoxBox.Checked = (shape.bone_flags & (1 << 2)) == (1 << 2);
 			RemoveAfterBreakCheckBoxBox.CheckedChanged += new System.EventHandler(this.CheckBoxCheckedChanged);
 
 			var NoFogColliderCheckBoxBox = new CheckBox();
 			NoFogColliderCheckBoxBox.Name = "chbxNoFogColliderCheckBox_" + idx;
 			NoFogColliderCheckBoxBox.Text = "No Fog Collider ";
-			NoFogColliderCheckBoxBox.Size = new System.Drawing.Size(140, 23);
+			NoFogColliderCheckBoxBox.Size = new System.Drawing.Size(120, 23);
 			NoFogColliderCheckBoxBox.Location = new System.Drawing.Point(6, 75);
-			NoFogColliderCheckBoxBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+			NoFogColliderCheckBoxBox.Anchor = AnchorStyles.Left | AnchorStyles.Top;
 			NoFogColliderCheckBoxBox.Checked = (shape.bone_flags & (1 << 3)) == (1 << 3);
 			NoFogColliderCheckBoxBox.CheckedChanged += new System.EventHandler(this.CheckBoxCheckedChanged);
 
 			var TypeLabel = new Label();
 			TypeLabel.Name = "TypeLbl_" + idx;
-			TypeLabel.Text = "Shape type: ";
-			TypeLabel.Location = new System.Drawing.Point(180, 18);
-			TypeLabel.Anchor = AnchorStyles.Right;
+			TypeLabel.Text = "Shape type:";
+			TypeLabel.Size = new System.Drawing.Size(70, 17);
+			TypeLabel.Location = new System.Drawing.Point(135, 18);
+			TypeLabel.Anchor = AnchorStyles.Left;
 
 			var TypeComboBox = new ComboBox();
 			TypeComboBox.Name = "cbxType_" + idx;
-			TypeComboBox.Size = new System.Drawing.Size(107, 23);
-			TypeComboBox.Location = new System.Drawing.Point(245, 15);
-			TypeComboBox.Anchor = AnchorStyles.Right;
+			TypeComboBox.Size = new System.Drawing.Size(155, 23);
+			TypeComboBox.Location = new System.Drawing.Point(200, 15);
+			TypeComboBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
 			TypeComboBox.Items.Add("None");
 			TypeComboBox.Items.Add("Box");
 			TypeComboBox.Items.Add("Sphere");
@@ -2107,12 +2177,48 @@ namespace Object_tool
 			TypeComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
 			TypeComboBox.SelectedIndexChanged += new System.EventHandler(this.ComboBoxIndexChanged);
 
+			var MaterialLabel = new Label();
+			MaterialLabel.Name = "MaterialLbl_" + idx;
+			MaterialLabel.Text = "Material:";
+			MaterialLabel.Size = new System.Drawing.Size(50, 17);
+			MaterialLabel.Location = new System.Drawing.Point(135, 45);
+			MaterialLabel.Anchor = AnchorStyles.Left;
+
+			var MateriaTextBox = new TextBox();
+			MateriaTextBox.Name = "MaterialTextBox_" + idx;
+			MateriaTextBox.Text = shape.material;
+			MateriaTextBox.Size = new System.Drawing.Size(155, 17);
+			MateriaTextBox.Location = new System.Drawing.Point(200, 43);
+			MateriaTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+			MateriaTextBox.TextChanged += new EventHandler(this.MaterialTextChanged);
+
+			var MassLabel = new Label();
+			MassLabel.Name = "MassLbl_" + idx;
+			MassLabel.Text = "Mass:";
+			MassLabel.Size = new System.Drawing.Size(50, 17);
+			MassLabel.Location = new System.Drawing.Point(135, 72);
+			MassLabel.Anchor = AnchorStyles.Left;
+
+			var MassTextBox = new TextBox();
+			MassTextBox.Name = "MassTextBox_" + idx;
+			MassTextBox.Text = shape.mass.ToString();
+			MassTextBox.Size = new System.Drawing.Size(155, 17);
+			MassTextBox.Location = new System.Drawing.Point(200, 70);
+			MassTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+			MassTextBox.KeyDown += new KeyEventHandler(this.TextBoxKeyDown);
+			MassTextBox.KeyPress += new KeyPressEventHandler(this.TextBoxKeyPress);
+			MassTextBox.TextChanged += new EventHandler(this.MassTextChanged);
+
 			box.Controls.Add(NoPickableCheckBoxBox);
 			box.Controls.Add(NoPhysicsCheckBoxBox);
 			box.Controls.Add(RemoveAfterBreakCheckBoxBox);
 			box.Controls.Add(NoFogColliderCheckBoxBox);
 			box.Controls.Add(TypeComboBox);
 			box.Controls.Add(TypeLabel);
+			box.Controls.Add(MaterialLabel);
+			box.Controls.Add(MateriaTextBox);
+			box.Controls.Add(MassLabel);
+			box.Controls.Add(MassTextBox);
 		}
 
 		private void CreateMaterialGroupBox(int idx, string name)

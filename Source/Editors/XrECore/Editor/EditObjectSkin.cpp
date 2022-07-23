@@ -358,6 +358,8 @@ bool CEditableObject::ChangeBoneShapeTypes(xr_vector<ShapeEditType> types)
     {
         m_Bones[types[i].bone_id]->shape.type = types[i].bone_type;
         m_Bones[types[i].bone_id]->shape.flags = types[i].bone_flags;
+        m_Bones[types[i].bone_id]->mass = types[i].mass;
+        m_Bones[types[i].bone_id]->game_mtl = types[i].material;
     }
     return true;
 }

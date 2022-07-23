@@ -407,6 +407,8 @@ public:
         u16 bone_id;
         u8 bone_type;
         Flags16 bone_flags;
+        shared_str material;
+        float mass;
     };
 
     // contains methods
