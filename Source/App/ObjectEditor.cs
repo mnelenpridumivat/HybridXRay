@@ -149,6 +149,9 @@ namespace Object_tool
 			showWindowToolStripMenuItem.Enabled = false;
 #endif
 
+			if (USE_OLD_BONES)
+				BonesPage.Controls.Clear();
+
 			if (System.Diagnostics.Debugger.IsAttached)
             {
 				DEVELOPER_MODE = true;
