@@ -2299,7 +2299,7 @@ namespace Object_tool
 			NoPickableCheckBoxBox.Text = "No Pickable";
 			NoPickableCheckBoxBox.Size = new System.Drawing.Size(130, 23);
 			NoPickableCheckBoxBox.Location = new System.Drawing.Point(6, 15);
-			NoPickableCheckBoxBox.Anchor = AnchorStyles.Left | AnchorStyles.Top;
+			NoPickableCheckBoxBox.Anchor = AnchorStyles.Left;
 			NoPickableCheckBoxBox.Checked = (shape.bone_flags & (1 << 0)) == (1 << 0);
 			NoPickableCheckBoxBox.CheckedChanged += new System.EventHandler(this.CheckBoxCheckedChanged);
 
@@ -2308,7 +2308,7 @@ namespace Object_tool
 			NoPhysicsCheckBoxBox.Text = "No Physics";
 			NoPhysicsCheckBoxBox.Size = new System.Drawing.Size(100, 23);
 			NoPhysicsCheckBoxBox.Location = new System.Drawing.Point(6, 35);
-			NoPhysicsCheckBoxBox.Anchor = AnchorStyles.Left | AnchorStyles.Top;
+			NoPhysicsCheckBoxBox.Anchor = AnchorStyles.Left;
 			NoPhysicsCheckBoxBox.Checked = (shape.bone_flags & (1 << 1)) == (1 << 1);
 			NoPhysicsCheckBoxBox.CheckedChanged += new System.EventHandler(this.CheckBoxCheckedChanged);
 
@@ -2317,7 +2317,7 @@ namespace Object_tool
 			RemoveAfterBreakCheckBoxBox.Text = "Remove After Break";
 			RemoveAfterBreakCheckBoxBox.Size = new System.Drawing.Size(132, 23);
 			RemoveAfterBreakCheckBoxBox.Location = new System.Drawing.Point(6, 55);
-			RemoveAfterBreakCheckBoxBox.Anchor = AnchorStyles.Left | AnchorStyles.Top;
+			RemoveAfterBreakCheckBoxBox.Anchor = AnchorStyles.Left;
 			RemoveAfterBreakCheckBoxBox.Checked = (shape.bone_flags & (1 << 2)) == (1 << 2);
 			RemoveAfterBreakCheckBoxBox.CheckedChanged += new System.EventHandler(this.CheckBoxCheckedChanged);
 
@@ -2326,7 +2326,7 @@ namespace Object_tool
 			NoFogColliderCheckBoxBox.Text = "No Fog Collider ";
 			NoFogColliderCheckBoxBox.Size = new System.Drawing.Size(120, 23);
 			NoFogColliderCheckBoxBox.Location = new System.Drawing.Point(6, 75);
-			NoFogColliderCheckBoxBox.Anchor = AnchorStyles.Left | AnchorStyles.Top;
+			NoFogColliderCheckBoxBox.Anchor = AnchorStyles.Left;
 			NoFogColliderCheckBoxBox.Checked = (shape.bone_flags & (1 << 3)) == (1 << 3);
 			NoFogColliderCheckBoxBox.CheckedChanged += new System.EventHandler(this.CheckBoxCheckedChanged);
 
@@ -2446,7 +2446,7 @@ namespace Object_tool
 			TextureLabel.Name = "TextureLabel_" + idx;
 			TextureLabel.Size = new System.Drawing.Size(46, 23);
 			TextureLabel.Location = new System.Drawing.Point(5, 32);
-			TextureLabel.Anchor = AnchorStyles.Left | AnchorStyles.Top;
+			TextureLabel.Anchor = AnchorStyles.Left;
 
 			var TextureTextBox = new TextBox();
 			TextureTextBox.Name = "TextureTextBox_" + idx;
@@ -2469,7 +2469,7 @@ namespace Object_tool
 			ShaderLabel.Name = "ShaderLabel_" + idx;
 			ShaderLabel.Size = new System.Drawing.Size(46, 23);
 			ShaderLabel.Location = new System.Drawing.Point(5, 60);
-			ShaderLabel.Anchor = AnchorStyles.Left | AnchorStyles.Top;
+			ShaderLabel.Anchor = AnchorStyles.Left;
 
 			var ShaderTextBox = new TextBox();
 			ShaderTextBox.Name = "ShaderTextBox_" + idx;
