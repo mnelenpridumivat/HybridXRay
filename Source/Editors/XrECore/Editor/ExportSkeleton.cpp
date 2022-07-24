@@ -401,7 +401,7 @@ void CExportSkeleton::SSplit::Save(IWriter& F)
 
 void CExportSkeleton::SSplit::MakeProgressive()
 {
-    std::cout << "..Make progressive" << std::endl;
+    Msg("..Make progressive");
 	VIPM_Init	();
     for (SkelVertIt vert_it=m_Verts.begin(); vert_it!=m_Verts.end(); vert_it++)
     	VIPM_AppendVertex(vert_it->offs,vert_it->uv);
@@ -439,7 +439,7 @@ void CExportSkeleton::SSplit::MakeProgressive()
 
 void CExportSkeleton::SSplit::MakeStripify()
 {
-    std::cout << "..Make stripify" << std::endl;
+    Msg("..Make stripify");
 //	int ccc 	= xrSimulate	((u16*)&m_Faces.front(),m_Faces.size()*3,24);
 //	Log("SRC:",ccc);
 	// alternative stripification - faces
@@ -570,7 +570,7 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
 
     R_ASSERT(m_Source->IsDynamic()&&m_Source->IsSkeleton());
 
-    std::cout << "..Prepare skeleton geometry" << std::endl;
+    Msg("..Prepare skeleton geometry");
 
     bool bBreakable		= false;
     U16Vec   			bone_brk_parts(m_Source->BoneCount());
@@ -591,12 +591,12 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
     }
     
     bool bRes			= true;
-    std::cout << "..Split meshes" << std::endl; 
+    Msg("..Split meshes"); 
 
     U16Vec				tmp_bone_lst;
 
     if (m_Source->m_objectFlags.is(CEditableObject::eoOptimizeSurf))
-        std::cout << "..Optimize surfaces" << std::endl;
+        Msg("..Optimize surfaces");
 
     for(EditMeshIt mesh_it=m_Source->FirstMesh();mesh_it!=m_Source->LastMesh();mesh_it++)
     {
@@ -733,19 +733,20 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
         MESH->UnloadFNormals();
 	}
 
-    std::cout << "..Calculate TB" << std::endl; 
+    Msg("..Calculate TB"); 
 
-        Msg				("Split statistic:");
-        for (int k=0; k<(int)m_Splits.size(); k++)
-        {
+    Msg				("Split statistic:");
+    for (int k=0; k<(int)m_Splits.size(); k++)
+    {
     // check splits
-          if (bRes)
-          {
+         if (bRes)
+         {
               if (!m_Splits[k].valid())
               {
                   ELog.Msg		(mtError,"Empty split found (Shader/Texture: %s/%s). Removed.",*m_Splits[k].m_Shader,*m_Splits[k].m_Texture);
                   m_Splits.erase	(m_Splits.begin()+k); k--;
-              }else
+              }
+              else
               {
                   SSplit& split	= m_Splits[k];
                   std::sort		(split.m_UsedBones.begin(),split.m_UsedBones.end());
@@ -754,15 +755,15 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
                   Msg				(" - Split %d: [Bones: %d, Links: %d, Faces: %d, Verts: %d, BrPart: %d, Shader/Texture: '%s'/'%s']",k,split.m_UsedBones.size(),split.m_SkeletonLinkType,split.getTS(),split.getVS(),split.m_PartID,*m_Splits[k].m_Shader,*m_Splits[k].m_Texture);
               }
          }
-       }
-        // calculate TB
-        for (SplitIt split_it=m_Splits.begin(); split_it!=m_Splits.end(); split_it++)
-        {
-            split_it->CalculateTB();
-        }
+    }
+    // calculate TB
+    for (SplitIt split_it=m_Splits.begin(); split_it!=m_Splits.end(); split_it++)
+    {
+        split_it->CalculateTB();
+    }
 
-        // compute bounding
-        ComputeBounding	();
+    // compute bounding
+    ComputeBounding	();
 
     // restore active motion       6
     m_Source->SetActiveSMotion(active_motion);
@@ -792,7 +793,7 @@ bool CExportSkeleton::ExportGeometry(IWriter& F, u8 infl)
 {
 	if (!PrepareGeometry(infl)) return false;
 
-    std::cout << "..Export skeleton geometry" << std::endl;
+    Msg("..Export skeleton geometry");
 
 	// fill per bone vertices
     BoneVec& bones 			= m_Source->Bones();
@@ -841,7 +842,7 @@ bool CExportSkeleton::ExportGeometry(IWriter& F, u8 infl)
     // OGF_CHILDREN
     F.open_chunk	(OGF_CHILDREN);
     int chield=0;
-    std::cout << "..Export children" << std::endl;
+    Msg("..Export children");
     for (auto split_it=m_Splits.begin(); split_it!=m_Splits.end(); split_it++){
 	    F.open_chunk(chield++);
         split_it->Save(F);
@@ -865,7 +866,7 @@ bool CExportSkeleton::ExportGeometry(IWriter& F, u8 infl)
     bool bRes = true;
                     
     F.open_chunk(OGF_S_IKDATA);
-    std::cout << "..Export bones" << std::endl;
+    Msg("..Export bones");
     for (auto bone_it = m_Source->FirstBone(); bone_it != m_Source->LastBone(); ++bone_it, ++bone_idx)
         if (!(*bone_it)->ExportOGF(F, m_Source->a_vScale, m_Source->a_vAdjustMass))
             bRes = false;
@@ -946,7 +947,7 @@ bool CExportSkeleton::ExportMotionKeys(IWriter& F)
      	return !!m_Source->m_SMotionRefs.size();
     }
 
-	std::cout << "..Export skeleton motions keys" << std::endl;
+    Msg("..Export skeleton motions keys");
     // mem active motion
     CSMotion* active_motion=m_Source->ResetSAnimation();
 
@@ -964,9 +965,9 @@ bool CExportSkeleton::ExportMotionKeys(IWriter& F)
     mGT.mul                    (mTranslate,mRotate);
 
     if (g_force16BitTransformQuant)
-        std::cout << "..Export 16 bit motions" << std::endl;
+        Msg("..Export 16 bit motions");
     else if (g_forceFloatTransformQuant)
-        std::cout << "..Export no compress motions" << std::endl;
+        Msg("..Export no compress motions");
 
     for (SMotionIt motion_it=m_Source->FirstSMotion(); motion_it!=m_Source->LastSMotion(); motion_it++, smot++)
     {
@@ -1219,7 +1220,7 @@ bool CExportSkeleton::ExportMotionDefs(IWriter& F)
     	ELog.Msg(mtError,"Object doesn't have any motion or motion refs.");
     	return false;
     }
-    std::cout << "..Export skeleton motions defs" << std::endl;
+    Msg("..Export skeleton motions defs");
     bool bRes=true;
 
     if (m_Source->m_SMotionRefs.size())

@@ -141,20 +141,20 @@ xr_vector<shared_str> LoadStringVector(char** args, int count)
 int main(int argc, char** argv)
 {
     unsigned int start_time = clock();
-    Core._initialize("Actor", ELogCallback,1, "",true, IsDebuggerPresent() || (atoi(argv[4]) & exfDbgWindow));
+    Core._initialize("Actor", ELogCallback,1, "",true, true);
     unsigned int end_time = clock();
     double seconds = (double)(end_time - start_time) / CLOCKS_PER_SEC;
     Msg("Core init time: %f", seconds);
 
-    std::cout << "[Arg debugger]" << std::endl;
-    std::cout << "Arg count: " << argc << std::endl;
+    Msg("[Arg debugger]");
+    Msg("Arg count: %d", argc);
     int size = 0;
     for (int i = 0; i < argc; i++)
     {
         shared_str arg = argv[i];
         size += arg.size();
     }
-    std::cout << "Arg size: " << size << std::endl;
+    Msg("Arg size: %d", size);
 
     // Program params
     int ret_code = 0;
@@ -242,7 +242,7 @@ int main(int argc, char** argv)
 
     if (mode != BatchLtx && mode != BatchDialogOGF && mode != BatchDialogOMF)
     {
-        std::cout << "Import object" << std::endl;
+        Msg("Import object");
         ATools->LoadScale(object_path.c_str(), scale, (flags & exfScaleCenterMass));
 
         ATools->CurrentObject()->ChangeSurfaceFlags(pSurfaces);
@@ -262,7 +262,7 @@ int main(int argc, char** argv)
         if (!ATools->BonePartsExist() && mode != 9)
         {
             ATools->ToDefaultBoneParts(ATools->CurrentObject());
-            std::cout << "Can't find bone parts, reset to default." << std::endl;
+            Msg("Can't find bone parts, reset to default.");
         }
 
         ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoProgressive, (flags & exfMakeProgressive));
@@ -287,14 +287,12 @@ int main(int argc, char** argv)
     {
         case ExportOGF:
         {
-            std::cout << "Export OGF" << std::endl;
             if (!ATools->ExportOGF(second_file_path.c_str()))
                 ret_code = -1;
         }break;
         case ExportOMF:
         {
             ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoExpBuildinMots, FALSE);
-            std::cout << "Export OMF" << std::endl;
             if (!ATools->ExportOMF(second_file_path.c_str()))
                 ret_code = -1;
         }break;
@@ -384,7 +382,6 @@ int main(int argc, char** argv)
             ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoHQExportPlus, FALSE);
             ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoProgressive, (lod_flags & exfMakeProgressive));
             ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoStripify, FALSE); // Крашит
-            std::cout << "Export Lod" << std::endl;
             Msg("Lod quality: %f", g_EpsSkelPositionDelta);
             if (!ATools->ExportOGF(second_file_path.c_str()))
                 ret_code = -1;

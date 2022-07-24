@@ -1854,8 +1854,6 @@ namespace Object_tool
 			if (File.Exists(log))
 			{
 				System.Diagnostics.Process proc = System.Diagnostics.Process.Start("notepad.exe", log);
-				proc.WaitForExit();
-				proc.Close();
 			}
 			else
 				AutoClosingMessageBox.Show("Can't find log.", "", 1000, MessageBoxIcon.Error);
