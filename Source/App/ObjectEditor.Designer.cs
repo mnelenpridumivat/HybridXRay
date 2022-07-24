@@ -89,6 +89,8 @@ namespace Object_tool
             this.generateLodToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importObjectParamsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadScriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadXrToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gameMtlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.objectInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.debugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -144,8 +146,6 @@ namespace Object_tool
             this.OpenMotionRefsDialog = new System.Windows.Forms.OpenFileDialog();
             this.SaveUserDataDialog = new System.Windows.Forms.SaveFileDialog();
             this.SaveMotionRefsDialog = new System.Windows.Forms.SaveFileDialog();
-            this.loadXrToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.gameMtlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenXrDialog = new System.Windows.Forms.OpenFileDialog();
             this.MenuPanel.SuspendLayout();
             this.StatusPanel.SuspendLayout();
@@ -659,6 +659,21 @@ namespace Object_tool
             this.loadScriptToolStripMenuItem.Text = "Load Script";
             this.loadScriptToolStripMenuItem.Click += new System.EventHandler(this.LoadScriptClicked);
             // 
+            // loadXrToolStripMenuItem
+            // 
+            this.loadXrToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.gameMtlToolStripMenuItem});
+            this.loadXrToolStripMenuItem.Name = "loadXrToolStripMenuItem";
+            this.loadXrToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.loadXrToolStripMenuItem.Text = "Load Xr";
+            // 
+            // gameMtlToolStripMenuItem
+            // 
+            this.gameMtlToolStripMenuItem.Name = "gameMtlToolStripMenuItem";
+            this.gameMtlToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.gameMtlToolStripMenuItem.Text = "GameMtl";
+            this.gameMtlToolStripMenuItem.Click += new System.EventHandler(this.gameMtlToolStripMenuItem_Click);
+            // 
             // objectInfoToolStripMenuItem
             // 
             this.objectInfoToolStripMenuItem.Name = "objectInfoToolStripMenuItem";
@@ -1130,21 +1145,6 @@ namespace Object_tool
             // SaveMotionRefsDialog
             // 
             this.SaveMotionRefsDialog.Filter = "Ltx file|*.ltx|Txt file|*.txt";
-            // 
-            // loadXrToolStripMenuItem
-            // 
-            this.loadXrToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.gameMtlToolStripMenuItem});
-            this.loadXrToolStripMenuItem.Name = "loadXrToolStripMenuItem";
-            this.loadXrToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
-            this.loadXrToolStripMenuItem.Text = "Load Xr";
-            // 
-            // gameMtlToolStripMenuItem
-            // 
-            this.gameMtlToolStripMenuItem.Name = "gameMtlToolStripMenuItem";
-            this.gameMtlToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.gameMtlToolStripMenuItem.Text = "GameMtl";
-            this.gameMtlToolStripMenuItem.Click += new System.EventHandler(this.gameMtlToolStripMenuItem_Click);
             // 
             // OpenXrDialog
             // 

@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
-
+using System.Threading;
 
 namespace Object_tool
 {
@@ -55,6 +55,7 @@ namespace Object_tool
 			public uint flags;
 			public string texture;
 			public string shader;
+			public string name;
 		};
 
 		// File sytem
@@ -208,14 +209,16 @@ namespace Object_tool
 			InitDialogs();
 			InitUI();
 
-			ParseMotions();
 			LoadData();
 
-			if (shapes != null)
-			{
-				for (int i = 0; i < shapes.Count; i++)
-					CreateShapeGroupBox(i, shapes[i]);
-			}
+			Thread MotionsThread = new Thread(ParseMotions);
+			MotionsThread.Start();
+
+			Thread SurfaceThread = new Thread(InitSurfaceUI);
+			SurfaceThread.Start();
+
+			Thread BoneThread = new Thread(InitBoneUI);
+			BoneThread.Start();
 
 			IndexChanged(null, null);
 
@@ -1211,7 +1214,7 @@ namespace Object_tool
 					surface_count = xr_loader.ReadUInt32();
 					for (int i = 0; i < surface_count; i++)
 					{
-						string name = xr_loader.read_stringZ(); // Name
+						surface.name = xr_loader.read_stringZ(); // Name
 						surface.shader = xr_loader.read_stringZ(); // Shader
 						xr_loader.read_stringZ(); // Shader XRLC
 						xr_loader.read_stringZ(); // GameMtl
@@ -1222,7 +1225,6 @@ namespace Object_tool
 						xr_loader.ReadUInt32();   // TC count
 
 						surfaces.Add(surface);
-						CreateMaterialGroupBox(i, name);
 					}
 				}
 				else if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SURFACES2, !FindBody, true))
@@ -1230,7 +1232,7 @@ namespace Object_tool
 					surface_count = xr_loader.ReadUInt32();
 					for (int i = 0; i < surface_count; i++)
 					{
-						string name = xr_loader.read_stringZ(); // Name
+						surface.name = xr_loader.read_stringZ(); // Name
 						surface.shader = xr_loader.read_stringZ(); // Shader
 						xr_loader.read_stringZ(); // Shader XRLC
 						surface.texture = xr_loader.read_stringZ(); // Texture
@@ -1240,7 +1242,6 @@ namespace Object_tool
 						xr_loader.ReadUInt32();   // TC count
 
 						surfaces.Add(surface);
-						CreateMaterialGroupBox(i, name);
 					}
 				}
 				else if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SURFACES, !FindBody, true))
@@ -1248,7 +1249,7 @@ namespace Object_tool
 					surface_count = xr_loader.ReadUInt32();
 					for (int i = 0; i < surface_count; i++)
 					{
-						string name = xr_loader.read_stringZ(); // Name
+						surface.name = xr_loader.read_stringZ(); // Name
 						surface.shader = xr_loader.read_stringZ(); // Shader
 						surface.flags = xr_loader.ReadByte();     // Flags
 						xr_loader.ReadUInt32();   // FVF
@@ -1257,7 +1258,6 @@ namespace Object_tool
 						xr_loader.read_stringZ(); // VMap
 
 						surfaces.Add(surface);
-						CreateMaterialGroupBox(i, name);
 					}
 				}
 
@@ -1990,7 +1990,9 @@ namespace Object_tool
 					fileToolStripMenuItem.ShowDropDown();
 					loadToolStripMenuItem.ShowDropDown();
 					break;
-				case Keys.F5: FastSaveObject(FILE_NAME); break;
+				case Keys.F5:
+					FastSaveObject(FILE_NAME); 
+					break;
 				case Keys.F6:
 					fileToolStripMenuItem.ShowDropDown();
 					saveToolStripMenuItem.ShowDropDown();
@@ -2129,6 +2131,24 @@ namespace Object_tool
 			SaveOgfLodDialog.FileName = StatusFile.Text.Substring(0, StatusFile.Text.LastIndexOf('.')) + "_lod.ogf";
 
 			FILE_NAME = old_filename;
+		}
+
+		private void InitBoneUI()
+        {
+			if (shapes != null)
+			{
+				for (int i = 0; i < shapes.Count; i++)
+					CreateShapeGroupBox(i, shapes[i]);
+			}
+		}
+
+		private void InitSurfaceUI()
+		{
+			if (surfaces != null)
+			{
+				for (int i = 0; i < surfaces.Count; i++)
+					CreateMaterialGroupBox(i, surfaces[i].name);
+			}
 		}
 
 		private void InitUI()
