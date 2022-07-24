@@ -77,6 +77,7 @@ namespace Object_tool
 		public bool IsOgfMode = false;
 		public string script = "null";
 		public string SCRIPT_FOLDER = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\scripts\\";
+		public bool USE_OLD_BONES = true;
 
 		// Info
 		public uint vertex_count = 0;
@@ -86,6 +87,8 @@ namespace Object_tool
 
 		// Input
 		public bool bKeyIsDown = false;
+		Size CurrentSize = new Size();
+		Size BoneSize = new Size();
 
 		// Other
 		public int cpp_mode = 0;
@@ -95,6 +98,8 @@ namespace Object_tool
 		public Object_Editor()
 		{
 			InitializeComponent();
+			CurrentSize = this.MinimumSize;
+			BoneSize = this.MaximumSize;
 			System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
 			shapeParamsToolStripMenuItem.Enabled = false;
 			surfaceParamsToolStripMenuItem.Enabled = false;
@@ -199,7 +204,8 @@ namespace Object_tool
 			if (!Directory.Exists(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp"))
 				Directory.CreateDirectory(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp");
 
-			BonesPage.Controls.Clear();
+			if (USE_OLD_BONES)
+				BonesPage.Controls.Clear();
 			FILE_NAME = filename;
 			StatusFile.Text = FILE_NAME.Substring(FILE_NAME.LastIndexOf('\\') + 1);
 
@@ -218,8 +224,19 @@ namespace Object_tool
 			Thread SurfaceThread = new Thread(InitSurfaceUI);
 			SurfaceThread.Start();
 
-			Thread BoneThread = new Thread(InitBoneUI);
-			BoneThread.Start();
+			if (USE_OLD_BONES)
+            {
+				Thread BoneThread = new Thread(InitBoneUI);
+				BoneThread.Start();
+			}
+            else
+            {
+				if (shapes != null)
+				{
+					for (int i = 0; i < shapes.Count; i++)
+						BonesList.Items.Add(shapes[i].bone_name);
+				}
+			}
 
 			IndexChanged(null, null);
 
@@ -1684,9 +1701,17 @@ namespace Object_tool
 				case "BonesPage":
 					int shapes_count = (shapes != null ? shapes.Count : 0);
 					shapeParamsToolStripMenuItem.Enabled = shapes_count > 0;
+					if (!USE_OLD_BONES)
+						this.Size = BoneSize;
 					break;
 				case "SurfacesPage":
 					surfaceParamsToolStripMenuItem.Enabled = true;
+					if (!USE_OLD_BONES)
+						this.Size = CurrentSize;
+					break;
+				default:
+					if (!USE_OLD_BONES)
+						this.Size = CurrentSize;
 					break;
 			}
 		}
@@ -1806,7 +1831,7 @@ namespace Object_tool
 		{
 			Control curBox = sender as Control;
 			int idx = Convert.ToInt32(curBox.Name.ToString().Split('_')[1]);
-			shapes[idx].material = curBox.Text;
+			shapes[idx].material = GetCorrectString(curBox.Text);
 		}
 
 		private void TextBoxKeyDown(object sender, KeyEventArgs e)
@@ -2323,7 +2348,7 @@ namespace Object_tool
 
 			var NoFogColliderCheckBoxBox = new CheckBox();
 			NoFogColliderCheckBoxBox.Name = "chbxNoFogColliderCheckBox_" + idx;
-			NoFogColliderCheckBoxBox.Text = "No Fog Collider ";
+			NoFogColliderCheckBoxBox.Text = "No Fog Collider";
 			NoFogColliderCheckBoxBox.Size = new System.Drawing.Size(120, 23);
 			NoFogColliderCheckBoxBox.Location = new System.Drawing.Point(6, 75);
 			NoFogColliderCheckBoxBox.Anchor = AnchorStyles.Left;
@@ -2489,6 +2514,19 @@ namespace Object_tool
 		public void Msg(string text)
 		{
 			MessageBox.Show(text);
+		}
+
+		private void PageResize(object sender, EventArgs e)
+		{
+			switch (TabControl.Controls[TabControl.SelectedIndex].Name)
+			{
+				case "BonesPage":
+					BoneSize = this.Size;
+					break;
+				default:
+					CurrentSize = this.Size;
+					break;
+			}
 		}
     }
 }
