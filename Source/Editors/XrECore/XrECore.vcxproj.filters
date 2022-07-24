@@ -16,6 +16,9 @@
     <Filter Include="Render\Interface">
       <UniqueIdentifier>{acae559e-c3ca-49c5-a2db-95a29e68ed5c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Tools">
+      <UniqueIdentifier>{de2d6d35-c4e3-4e23-bf2b-7e802b8984fb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WildMagic\WmlMath.cpp">
@@ -448,6 +451,39 @@
     <ClCompile Include="..\XrEngine\xrbone.cpp" />
     <ClCompile Include="..\XrEngine\BoneEditor.cpp" />
     <ClCompile Include="..\XrEngine\fmesh.cpp" />
+    <ClCompile Include="Editor\Tools\CreateDX.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\Tools\ETools.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\Tools\ETools_cm.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\Tools\Intersect.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\Tools\object.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\Tools\object_sliding.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\Tools\ogg_enc.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\Tools\optimize_vertex_order.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\Tools\platform.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\Tools\PropSlimTools.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\Tools\resample.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WildMagic\WmlMath.h">
@@ -604,9 +640,6 @@
     <ClInclude Include="Editor\device.h">
       <Filter>Editor</Filter>
     </ClInclude>
-    <ClInclude Include="Editor\D3DX_Wrapper.h">
-      <Filter>Editor</Filter>
-    </ClInclude>
     <ClInclude Include="Editor\D3DUtils.h">
       <Filter>Editor</Filter>
     </ClInclude>
@@ -707,6 +740,42 @@
     <ClInclude Include="..\XrEngine\SkeletonMotions.h" />
     <ClInclude Include="..\XrEngine\stdafx.h" />
     <ClInclude Include="..\XrEngine\vis_common.h" />
+    <ClInclude Include="Editor\Tools\ArbitraryList.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\Tools\BinaryHeap.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\Tools\D3DX_Wrapper.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\Tools\DLink.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\Tools\ETools.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\Tools\mesh.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\Tools\object.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\Tools\object_sliding.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\Tools\platform.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\Tools\PropSlimTools.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\Tools\quad.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\Tools\resample.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="WildMagic\WmlMath.inl">

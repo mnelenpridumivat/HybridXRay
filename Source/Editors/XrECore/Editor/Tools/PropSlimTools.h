@@ -1,17 +1,6 @@
 #ifndef PropSlimToolsH
 #define PropSlimToolsH
 
-#ifndef _MAYA_EXPORT
-
-	#ifdef XRETOOLS_EXPORTS
-		#define ETOOLS_API __declspec( dllexport )
-	#else
-		#define ETOOLS_API __declspec( dllimport )
-	#endif
-#else
-	#define ETOOLS_API
-#endif
-
 #include "ArbitraryList.h"
 
 #pragma pack(push,1)
@@ -37,11 +26,11 @@ struct VIPM_Result
 };
 
 extern "C" {
-	ETOOLS_API void			  VIPM_Init			();
-	ETOOLS_API void			  VIPM_AppendVertex	(const Fvector3& pt, const Fvector2& uv);
-	ETOOLS_API void			  VIPM_AppendFace		(u16 v0, u16 v1, u16 v2);
-	ETOOLS_API VIPM_Result*	  VIPM_Convert			(u32 max_sliding_window=u32(-1), float error_tolerance=0.1f, u32 optimize_vertex_order=1);
-	ETOOLS_API void			  VIPM_Destroy			();
+	void			  VIPM_Init			();
+	void			  VIPM_AppendVertex	(const Fvector3& pt, const Fvector2& uv);
+	void			  VIPM_AppendFace		(u16 v0, u16 v1, u16 v2);
+	VIPM_Result*	  VIPM_Convert			(u32 max_sliding_window=u32(-1), float error_tolerance=0.1f, u32 optimize_vertex_order=1);
+	void			  VIPM_Destroy			();
 };
 
 #endif // PropSlimToolsH

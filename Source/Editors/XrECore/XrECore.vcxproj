@@ -137,6 +137,17 @@
     <ClCompile Include="Editor\PhysicsShellHolderEditorBase.cpp" />
     <ClCompile Include="Editor\render.cpp" />
     <ClCompile Include="Editor\TLSPRITE.CPP" />
+    <ClCompile Include="Editor\Tools\CreateDX.cpp" />
+    <ClCompile Include="Editor\Tools\ETools.cpp" />
+    <ClCompile Include="Editor\Tools\ETools_cm.cpp" />
+    <ClCompile Include="Editor\Tools\Intersect.cpp" />
+    <ClCompile Include="Editor\Tools\object.cpp" />
+    <ClCompile Include="Editor\Tools\object_sliding.cpp" />
+    <ClCompile Include="Editor\Tools\ogg_enc.cpp" />
+    <ClCompile Include="Editor\Tools\optimize_vertex_order.cpp" />
+    <ClCompile Include="Editor\Tools\platform.cpp" />
+    <ClCompile Include="Editor\Tools\PropSlimTools.cpp" />
+    <ClCompile Include="Editor\Tools\resample.cpp" />
     <ClCompile Include="Editor\UI_Camera.cpp" />
     <ClCompile Include="Editor\ui_main.cpp" />
     <ClCompile Include="Editor\UI_MainCommand.cpp" />
@@ -234,7 +245,6 @@
     <ClInclude Include="Editor\ArbitraryList.h" />
     <ClInclude Include="Editor\ColorPicker.h" />
     <ClInclude Include="Editor\D3DUtils.h" />
-    <ClInclude Include="Editor\D3DX_Wrapper.h" />
     <ClInclude Include="Editor\device.h" />
     <ClInclude Include="Editor\du_box.h" />
     <ClInclude Include="Editor\du_cone.h" />
@@ -263,6 +273,18 @@
     <ClInclude Include="Editor\SkeletonFace.h" />
     <ClInclude Include="Editor\SkeletonVert.h" />
     <ClInclude Include="Editor\TLSPRITE.h" />
+    <ClInclude Include="Editor\Tools\ArbitraryList.h" />
+    <ClInclude Include="Editor\Tools\BinaryHeap.h" />
+    <ClInclude Include="Editor\Tools\D3DX_Wrapper.h" />
+    <ClInclude Include="Editor\Tools\DLink.h" />
+    <ClInclude Include="Editor\Tools\ETools.h" />
+    <ClInclude Include="Editor\Tools\mesh.h" />
+    <ClInclude Include="Editor\Tools\object.h" />
+    <ClInclude Include="Editor\Tools\object_sliding.h" />
+    <ClInclude Include="Editor\Tools\platform.h" />
+    <ClInclude Include="Editor\Tools\PropSlimTools.h" />
+    <ClInclude Include="Editor\Tools\quad.h" />
+    <ClInclude Include="Editor\Tools\resample.h" />
     <ClInclude Include="Editor\UI_Camera.h" />
     <ClInclude Include="Editor\ui_main.h" />
     <ClInclude Include="Editor\UI_MainCommand.h" />
@@ -326,8 +348,8 @@
     <ProjectReference Include="..\FreeMagic\FreeMagic.vcxproj">
       <Project>{dcc5b76d-be13-4d1f-be14-75d0fa678340}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\XrETools\XrETools.vcxproj">
-      <Project>{fb040f9f-8344-43da-a4d6-1c8a9d5dbc59}</Project>
+    <ProjectReference Include="..\XrQSlim\XrQSlim.vcxproj">
+      <Project>{f4cd3b2b-16e4-47ef-80a9-b7d20dfc3713}</Project>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -403,7 +425,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PreprocessorDefinitions>;WIN32;_DEBUG;XRECORE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>./;../../XrCore;../../XrRender\Private;../../XrRender\Public;..\FreeMagic;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./;../../XrCore;../../XrRender\Private;../../XrRender\Public;..\FreeMagic;..\xrQSlim;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
@@ -418,7 +440,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PreprocessorDefinitions>;_DEBUG;XRECORE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>./;../../XrCore;../../XrRender\Private;../../XrRender\Public;..\FreeMagic;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./;../../XrCore;../../XrRender\Private;../../XrRender\Public;..\FreeMagic;..\xrQSlim;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
@@ -435,7 +457,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>;WIN32;NDEBUG;XRECORE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>./;../../XrCore;../../XrRender\Private;../../XrRender\Public;..\FreeMagic;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./;../../XrCore;../../XrRender\Private;../../XrRender\Public;..\FreeMagic;..\xrQSlim;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
@@ -454,7 +476,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>;NDEBUG;XRECORE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>./;../../XrCore;../../XrRender\Private;../../XrRender\Public;..\FreeMagic;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./;../../XrCore;../../XrRender\Private;../../XrRender\Public;..\FreeMagic;..\xrQSlim;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>

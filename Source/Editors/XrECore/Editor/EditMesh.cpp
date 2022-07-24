@@ -13,7 +13,6 @@
 #include "itterate_adjacents.h"
 #include "itterate_adjacents_dynamic.h"
 #	include "UI_ToolsCustom.h"
-#include "..\XrETools\ETools.h"
 
 CEditableMesh::~CEditableMesh(){
 	Clear();

@@ -8,7 +8,7 @@
 #include "UI_Main.h"
 #include "d3dutils.h"
 #include "PSLibrary.h"
-#include "..\XrETools\ETools.h"
+
 TUI* 	UI			= 0;
 
 TUI::TUI()

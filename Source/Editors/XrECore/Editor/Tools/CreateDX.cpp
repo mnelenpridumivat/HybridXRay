@@ -8,12 +8,12 @@
 // misc
 
 extern "C"{ 
-	ETOOLS_API UINT WINAPI D3DX_GetDriverLevel(LPDIRECT3DDEVICE9 pDevice)
+	UINT WINAPI D3DX_GetDriverLevel(LPDIRECT3DDEVICE9 pDevice)
 	{
 		return D3DXGetDriverLevel(pDevice);
 	}
 	
-	ETOOLS_API HRESULT WINAPI	
+	HRESULT WINAPI	
 		D3DX_GetImageInfoFromFileInMemory(
 		LPCVOID					pSrcData, 
 		UINT					SrcDataSize, 
@@ -22,7 +22,7 @@ extern "C"{
 		return D3DXGetImageInfoFromFileInMemory(pSrcData, SrcDataSize, pSrcInfo);
 	}
 	
-	ETOOLS_API HRESULT WINAPI
+	HRESULT WINAPI
 		D3DX_CreateCubeTextureFromFileInMemoryEx(
 		LPDIRECT3DDEVICE9       pDevice,
 		LPCVOID                 pSrcData,
@@ -45,7 +45,7 @@ extern "C"{
 			ppCubeTexture);
 	}
 
-	ETOOLS_API HRESULT WINAPI
+	HRESULT WINAPI
 		D3DX_CreateTextureFromFileInMemoryEx(
 		LPDIRECT3DDEVICE9         pDevice,
 		LPCVOID                   pSrcData,
@@ -69,7 +69,7 @@ extern "C"{
 			ppTexture);
 	}
 
-	ETOOLS_API HRESULT WINAPI
+	HRESULT WINAPI
 		D3DX_CreateTexture(
 		LPDIRECT3DDEVICE9         pDevice,
 		UINT                      Width,
@@ -83,7 +83,7 @@ extern "C"{
 		return D3DXCreateTexture( pDevice, Width, Height, MipLevels, Usage, Format, Pool, ppTexture);
 	}
 
-	ETOOLS_API HRESULT WINAPI
+	HRESULT WINAPI
 		D3DX_ComputeNormalMap(
 		LPDIRECT3DTEXTURE9 pTexture,
 		LPDIRECT3DTEXTURE9 pSrcTexture,
@@ -95,7 +95,7 @@ extern "C"{
 		return D3DXComputeNormalMap( pTexture, pSrcTexture, pSrcPalette, Flags, Channel, Amplitude);
 	}
 
-	ETOOLS_API HRESULT WINAPI
+	HRESULT WINAPI
 		D3DX_LoadSurfaceFromSurface(
 		LPDIRECT3DSURFACE9        pDestSurface,
 		CONST PALETTEENTRY*       pDestPalette,
@@ -109,7 +109,7 @@ extern "C"{
 		return D3DXLoadSurfaceFromSurface(pDestSurface, pDestPalette, pDestRect, pSrcSurface, pSrcPalette, pSrcRect, Filter, ColorKey);
 	}
 
-	ETOOLS_API HRESULT WINAPI
+	HRESULT WINAPI
 		D3DX_CompileShader(
 		LPCSTR                          pSrcData,
 		UINT                            SrcDataLen,
@@ -127,7 +127,7 @@ extern "C"{
 			pTarget, Flags, ppShader, ppErrorMsgs, ppConstantTable);
 	}
 
-	ETOOLS_API HRESULT WINAPI
+	HRESULT WINAPI
 		D3DX_CompileShaderFromFile(
 		LPCSTR                          pSrcFile,
 		CONST D3DXMACRO*                pDefines,
@@ -144,7 +144,7 @@ extern "C"{
 			Flags, ppShader, ppErrorMsgs, ppConstantTable);
 	}
 
-	ETOOLS_API HRESULT WINAPI
+	HRESULT WINAPI
 		D3DX_FindShaderComment(
 		CONST DWORD*                    pFunction,
 		DWORD                           FourCC,
@@ -154,7 +154,7 @@ extern "C"{
 		return D3DXFindShaderComment(pFunction, FourCC, ppData, pSizeInBytes);
 	}
 
-	ETOOLS_API HRESULT WINAPI
+	HRESULT WINAPI
 		D3DX_DeclaratorFromFVF(
 		DWORD							FVF,
 		D3DVERTEXELEMENT9				pDeclarator[MAX_FVF_DECL_SIZE])
@@ -162,7 +162,7 @@ extern "C"{
 		return D3DXDeclaratorFromFVF(FVF,pDeclarator);
 	}
 
-	ETOOLS_API UINT WINAPI 
+	UINT WINAPI 
 		D3DX_GetDeclVertexSize(
 		CONST D3DVERTEXELEMENT9*		pDecl,
 		DWORD							Stream)
@@ -170,24 +170,24 @@ extern "C"{
 		return D3DXGetDeclVertexSize(pDecl,Stream);
 	}
 
-	ETOOLS_API UINT WINAPI 
+	UINT WINAPI 
 		D3DX_GetDeclLength(
 		CONST D3DVERTEXELEMENT9 *pDecl)
 	{
 		return D3DXGetDeclLength(pDecl);
 	}
 
-	ETOOLS_API UINT WINAPI
+	UINT WINAPI
 		D3DX_GetFVFVertexSize(DWORD FVF)
 	{
 		return D3DXGetFVFVertexSize(FVF);
 	}
 
-	ETOOLS_API const char*  WINAPI DX_GetErrorDescription(HRESULT hr)
+	const char*  WINAPI DX_GetErrorDescription(HRESULT hr)
 	{
-		return DXGetErrorDescription(hr);
+		return "Error not interpreted";
 	}
-	ETOOLS_API D3DXMATRIX* WINAPI 
+	D3DXMATRIX* WINAPI 
 		D3DX_MatrixInverse(          
 		D3DXMATRIX *pOut,
 		FLOAT *pDeterminant,
@@ -196,7 +196,7 @@ extern "C"{
 		return D3DXMatrixInverse(pOut, pDeterminant,pM);
 	}
 
-	ETOOLS_API D3DXMATRIX* WINAPI
+	D3DXMATRIX* WINAPI
 		D3DX_MatrixTranspose(          
 		D3DXMATRIX *pOut,
 		CONST D3DXMATRIX *pM)
@@ -204,7 +204,7 @@ extern "C"{
 		return D3DXMatrixTranspose(pOut, pM);
 	}
 
-	ETOOLS_API D3DXPLANE* WINAPI
+	D3DXPLANE* WINAPI
 		D3DX_PlaneNormalize(          
 		D3DXPLANE *pOut,
 		CONST D3DXPLANE *pP)
@@ -212,7 +212,7 @@ extern "C"{
 		return D3DXPlaneNormalize(pOut, pP);
 	}
 
-	ETOOLS_API D3DXPLANE* WINAPI
+	D3DXPLANE* WINAPI
 		D3DX_PlaneTransform(          
 		D3DXPLANE *pOut,
 		CONST D3DXPLANE *pP,
@@ -221,7 +221,7 @@ extern "C"{
 		return D3DXPlaneTransform(pOut, pP, pM);
 	}
 
-	ETOOLS_API HRESULT WINAPI
+	HRESULT WINAPI
 		D3DX_OptimizeFaces(
 		LPCVOID pIndices,
 		UINT NumFaces,
@@ -232,7 +232,7 @@ extern "C"{
 		return D3DXOptimizeFaces(pIndices, NumFaces, NumVertices, Indices32Bit, pFaceRemap);
 	}
 
-	ETOOLS_API HRESULT WINAPI
+	HRESULT WINAPI
 		D3DX_OptimizeVertices(
 		LPCVOID pIndices,
 		UINT NumFaces,
