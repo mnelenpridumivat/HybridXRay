@@ -109,6 +109,18 @@ namespace Object_tool
 				if (curBox.Text.Length == 0)
 					return;
 
+				int len = curBox.Text.Contains(".") ? 9 : 8;
+
+				while (curBox.Text.Length >= len)
+				{
+					if (curBox.SelectionStart < 1)
+						curBox.SelectionStart = curBox.Text.Length;
+
+					int tmp = curBox.SelectionStart;
+					curBox.Text = curBox.Text.Remove(curBox.Text.Length - 1, 1);
+					curBox.SelectionStart = tmp;
+				}
+
 				string number_mask = @"^-[0-9.]*$";
 				int temp = curBox.SelectionStart;
 				string mask = number_mask;
