@@ -110,6 +110,9 @@ namespace Object_tool
             this.SaveBonePartsDialog = new System.Windows.Forms.SaveFileDialog();
             this.BonesPage = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.textBox11 = new System.Windows.Forms.TextBox();
+            this.textBox14 = new System.Windows.Forms.TextBox();
             this.textBox12 = new System.Windows.Forms.TextBox();
             this.textBox13 = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
@@ -128,8 +131,11 @@ namespace Object_tool
             this.DeleteBoneButton = new System.Windows.Forms.Button();
             this.AddBoneButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.textBox3 = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.textBox4 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.textBox5 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
@@ -179,12 +185,6 @@ namespace Object_tool
             this.SaveUserDataDialog = new System.Windows.Forms.SaveFileDialog();
             this.SaveMotionRefsDialog = new System.Windows.Forms.SaveFileDialog();
             this.OpenXrDialog = new System.Windows.Forms.OpenFileDialog();
-            this.textBox6 = new System.Windows.Forms.TextBox();
-            this.textBox11 = new System.Windows.Forms.TextBox();
-            this.textBox14 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
             this.MenuPanel.SuspendLayout();
             this.StatusPanel.SuspendLayout();
             this.BonesPage.SuspendLayout();
@@ -858,6 +858,27 @@ namespace Object_tool
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Bone";
             // 
+            // textBox6
+            // 
+            this.textBox6.Location = new System.Drawing.Point(221, 154);
+            this.textBox6.Name = "textBox6";
+            this.textBox6.Size = new System.Drawing.Size(62, 20);
+            this.textBox6.TabIndex = 28;
+            // 
+            // textBox11
+            // 
+            this.textBox11.Location = new System.Drawing.Point(221, 128);
+            this.textBox11.Name = "textBox11";
+            this.textBox11.Size = new System.Drawing.Size(62, 20);
+            this.textBox11.TabIndex = 27;
+            // 
+            // textBox14
+            // 
+            this.textBox14.Location = new System.Drawing.Point(221, 102);
+            this.textBox14.Name = "textBox14";
+            this.textBox14.Size = new System.Drawing.Size(62, 20);
+            this.textBox14.TabIndex = 26;
+            // 
             // textBox12
             // 
             this.textBox12.Location = new System.Drawing.Point(90, 154);
@@ -1016,6 +1037,13 @@ namespace Object_tool
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Joint";
             // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(83, 116);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(61, 20);
+            this.textBox3.TabIndex = 31;
+            // 
             // label5
             // 
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -1027,6 +1055,13 @@ namespace Object_tool
             this.label5.TabIndex = 14;
             this.label5.Text = "Damping Factor:";
             // 
+            // textBox4
+            // 
+            this.textBox4.Location = new System.Drawing.Point(83, 93);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.Size = new System.Drawing.Size(61, 20);
+            this.textBox4.TabIndex = 30;
+            // 
             // label4
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -1037,6 +1072,13 @@ namespace Object_tool
             this.label4.Size = new System.Drawing.Size(73, 13);
             this.label4.TabIndex = 13;
             this.label4.Text = "Spring Factor:";
+            // 
+            // textBox5
+            // 
+            this.textBox5.Location = new System.Drawing.Point(83, 70);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.Size = new System.Drawing.Size(61, 20);
+            this.textBox5.TabIndex = 29;
             // 
             // label3
             // 
@@ -1168,7 +1210,7 @@ namespace Object_tool
             this.FlagsPage.Controls.Add(this.FlagsGroupBox);
             this.FlagsPage.Location = new System.Drawing.Point(4, 25);
             this.FlagsPage.Name = "FlagsPage";
-            this.FlagsPage.Size = new System.Drawing.Size(532, 560);
+            this.FlagsPage.Size = new System.Drawing.Size(369, 177);
             this.FlagsPage.TabIndex = 0;
             this.FlagsPage.Text = "Flags";
             this.FlagsPage.UseVisualStyleBackColor = true;
@@ -1185,7 +1227,7 @@ namespace Object_tool
             this.FlagsGroupBox.Controls.Add(this.ObjectScaleTextBox);
             this.FlagsGroupBox.Location = new System.Drawing.Point(0, 0);
             this.FlagsGroupBox.Name = "FlagsGroupBox";
-            this.FlagsGroupBox.Size = new System.Drawing.Size(532, 560);
+            this.FlagsGroupBox.Size = new System.Drawing.Size(369, 177);
             this.FlagsGroupBox.TabIndex = 16;
             this.FlagsGroupBox.TabStop = false;
             this.FlagsGroupBox.Text = "Edit export flags";
@@ -1200,7 +1242,7 @@ namespace Object_tool
             this.MotionFlagsGroupBox.Controls.Add(this.Anims16Bit);
             this.MotionFlagsGroupBox.Location = new System.Drawing.Point(6, 15);
             this.MotionFlagsGroupBox.Name = "MotionFlagsGroupBox";
-            this.MotionFlagsGroupBox.Size = new System.Drawing.Size(338, 109);
+            this.MotionFlagsGroupBox.Size = new System.Drawing.Size(175, 109);
             this.MotionFlagsGroupBox.TabIndex = 22;
             this.MotionFlagsGroupBox.TabStop = false;
             this.MotionFlagsGroupBox.Text = "Motion export";
@@ -1259,7 +1301,7 @@ namespace Object_tool
             this.ModelFlagsGroupBox.Controls.Add(this.HQGeometryPlus);
             this.ModelFlagsGroupBox.Controls.Add(this.ProgressiveMeshes);
             this.ModelFlagsGroupBox.Controls.Add(this.checkBox2);
-            this.ModelFlagsGroupBox.Location = new System.Drawing.Point(351, 15);
+            this.ModelFlagsGroupBox.Location = new System.Drawing.Point(188, 15);
             this.ModelFlagsGroupBox.Name = "ModelFlagsGroupBox";
             this.ModelFlagsGroupBox.Size = new System.Drawing.Size(175, 156);
             this.ModelFlagsGroupBox.TabIndex = 21;
@@ -1357,7 +1399,7 @@ namespace Object_tool
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ObjectScaleTextBox.Location = new System.Drawing.Point(78, 128);
             this.ObjectScaleTextBox.Name = "ObjectScaleTextBox";
-            this.ObjectScaleTextBox.Size = new System.Drawing.Size(266, 20);
+            this.ObjectScaleTextBox.Size = new System.Drawing.Size(103, 20);
             this.ObjectScaleTextBox.TabIndex = 16;
             this.ObjectScaleTextBox.Text = "1";
             this.ObjectScaleTextBox.TextChanged += new System.EventHandler(this.ScaleTextChanged);
@@ -1533,48 +1575,6 @@ namespace Object_tool
             // OpenXrDialog
             // 
             this.OpenXrDialog.Filter = "Xr file|*.xr";
-            // 
-            // textBox6
-            // 
-            this.textBox6.Location = new System.Drawing.Point(221, 154);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(62, 20);
-            this.textBox6.TabIndex = 28;
-            // 
-            // textBox11
-            // 
-            this.textBox11.Location = new System.Drawing.Point(221, 128);
-            this.textBox11.Name = "textBox11";
-            this.textBox11.Size = new System.Drawing.Size(62, 20);
-            this.textBox11.TabIndex = 27;
-            // 
-            // textBox14
-            // 
-            this.textBox14.Location = new System.Drawing.Point(221, 102);
-            this.textBox14.Name = "textBox14";
-            this.textBox14.Size = new System.Drawing.Size(62, 20);
-            this.textBox14.TabIndex = 26;
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(83, 116);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(61, 20);
-            this.textBox3.TabIndex = 31;
-            // 
-            // textBox4
-            // 
-            this.textBox4.Location = new System.Drawing.Point(83, 93);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(61, 20);
-            this.textBox4.TabIndex = 30;
-            // 
-            // textBox5
-            // 
-            this.textBox5.Location = new System.Drawing.Point(83, 70);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(61, 20);
-            this.textBox5.TabIndex = 29;
             // 
             // Object_Editor
             // 
