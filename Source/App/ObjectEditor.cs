@@ -930,6 +930,7 @@ namespace Object_tool
 								source_folder = source_folder.Substring(0, source_folder.LastIndexOf('\\'));
 								batch_source.Add(source_folder);
 								string[] files = DirSearch(OpenBatchFoldersDialog.FileNames[i]);
+								files = SortFormat(files, "object");
 								batch_files.Add(files);
 							}
 
@@ -963,6 +964,7 @@ namespace Object_tool
 								source_folder = source_folder.Substring(0, source_folder.LastIndexOf('\\'));
 								batch_source.Add(source_folder);
 								string[] files = DirSearch(OpenBatchFoldersDialog.FileNames[i]);
+								files = SortFormat(files, "object");
 								batch_files.Add(files);
 							}
 
@@ -1930,6 +1932,19 @@ namespace Object_tool
 			catch (System.Exception excpt)
 			{
 				MessageBox.Show(excpt.Message);
+			}
+
+			return files.ToArray();
+		}
+
+		private string[] SortFormat(string[] source, string format)
+		{
+			List<string> files = new List<string>();
+
+			foreach (string s in source)
+            {
+				if (Path.GetExtension(s) == "." + format)
+					files.Add(s);
 			}
 
 			return files.ToArray();

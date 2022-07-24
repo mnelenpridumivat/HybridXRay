@@ -293,6 +293,7 @@ void CActorTools::ZoomObject(BOOL bSelOnly)
 
 bool CActorTools::Load(LPCSTR obj_name)
 {
+    Msg("Import object [%s]", obj_name);
     xr_string 		full_name;
     full_name = obj_name;
 
@@ -316,6 +317,7 @@ bool CActorTools::Load(LPCSTR obj_name)
 
 bool CActorTools::LoadScale(LPCSTR obj_name, float scale, bool scale_mass)
 {
+    Msg("Import object [%s]", obj_name);
     xr_string 		full_name;
     full_name = obj_name;
 

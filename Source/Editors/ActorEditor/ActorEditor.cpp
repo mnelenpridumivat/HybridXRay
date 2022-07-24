@@ -242,7 +242,6 @@ int main(int argc, char** argv)
 
     if (mode != BatchLtx && mode != BatchDialogOGF && mode != BatchDialogOMF)
     {
-        Msg("Import object");
         ATools->LoadScale(object_path.c_str(), scale, (flags & exfScaleCenterMass));
 
         ATools->CurrentObject()->ChangeSurfaceFlags(pSurfaces);

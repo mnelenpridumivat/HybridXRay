@@ -392,7 +392,8 @@ IReader*	IReader::open_chunk_iterator	(u32& ID, IReader* _prev)
 
 void	IReader::r	(void *p,int cnt)
 {
-	VERIFY			(Pos+cnt<=Size);
+	if (!(Pos + cnt <= Size))
+		Msg("Error r! Pos+cnt<=Size");
 	CopyMemory		(p,pointer(),cnt);
 	advance			(cnt);
 #ifdef DEBUG
@@ -421,6 +422,10 @@ IC u32	IReader::advance_term_string()
 		}
 	}
     return sz;
+}
+void IReader::MsgE(LPCSTR str)
+{
+	Msg(str);
 }
 void	IReader::r_string	(char *dest, u32 tgt_sz)
 {
