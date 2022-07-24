@@ -1143,14 +1143,13 @@ namespace Object_tool
 
 						if (xr_loader.find_chunk((int)BONE.BONE_CHUNK_MATERIAL, false, true))
 						{
-							(BonesPage.Controls[chunk].Controls[7] as TextBox).Text = shapes[chunk].material = xr_loader.read_stringZ();
+							BonesPage.Controls[chunk].Controls[7].Text = shapes[chunk].material = xr_loader.read_stringZ();
 						}
 
 						if (xr_loader.find_chunk((int)BONE.BONE_CHUNK_MASS, false, true))
 						{
 							shapes[chunk].mass = xr_loader.ReadFloat();
-							TextBox textBox = BonesPage.Controls[chunk].Controls[9] as TextBox;
-							textBox.Text = shapes[chunk].mass.ToString();
+							BonesPage.Controls[chunk].Controls[9].Text = shapes[chunk].mass.ToString();
 						}
 
 						chunk++;

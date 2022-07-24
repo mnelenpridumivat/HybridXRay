@@ -733,8 +733,6 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
         MESH->UnloadFNormals();
 	}
 
-    Msg("..Calculate TB"); 
-
     Msg				("Split statistic:");
     for (int k=0; k<(int)m_Splits.size(); k++)
     {
@@ -757,6 +755,7 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
          }
     }
     // calculate TB
+    Msg("..Calculate TB"); 
     for (SplitIt split_it=m_Splits.begin(); split_it!=m_Splits.end(); split_it++)
     {
         split_it->CalculateTB();
