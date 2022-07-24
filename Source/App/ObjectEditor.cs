@@ -90,6 +90,7 @@ namespace Object_tool
 		// Other
 		public int cpp_mode = 0;
 		public string[] game_materials = { };
+		public Thread SdkThread = null;
 
 		public Object_Editor()
 		{
@@ -404,8 +405,20 @@ namespace Object_tool
 			return flags;
         }
 
+		private bool CheckThread()
+        {
+			if (SdkThread != null && SdkThread.ThreadState != ThreadState.Stopped)
+			{
+				AutoClosingMessageBox.Show("Wait for another process to complete.", "", 800, MessageBoxIcon.Information);
+				return false;
+			}
+			return true;
+		}
+
 		private void RunSDK_Click(object sender, EventArgs e)
 		{
+			if (!CheckThread()) return;
+
 			ToolStripItem Item = sender as ToolStripItem;
 			string currentField = Item.Tag.ToString();
 			int idx = 0;
@@ -428,7 +441,9 @@ namespace Object_tool
 						if (SaveObjectDialog.ShowDialog() == DialogResult.OK)
 						{
 							SaveObjectDialog.InitialDirectory = "";
-							FastSaveObject(SaveObjectDialog.FileName);
+
+							SdkThread = new Thread(() => { FastSaveObject(SaveObjectDialog.FileName); });
+							SdkThread.Start();
 						}
 					}
 					break;
@@ -438,16 +453,19 @@ namespace Object_tool
 						{
 							SaveOgfDialog.InitialDirectory = "";
 
-							int code = StartEditor(EditorMode.ExportOGF, TEMP_FILE_NAME, SaveOgfDialog.FileName);
-							if (code == 0)
-								AutoClosingMessageBox.Show("Model successfully exported.", "", 1000, MessageBoxIcon.Information);
-							else
-							{
-								if (code == 1)
-									MessageBox.Show("Can't export model.\nPlease, disable HQ Geometry+ flag.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+							SdkThread = new Thread(() => {
+								int code = StartEditor(EditorMode.ExportOGF, TEMP_FILE_NAME, SaveOgfDialog.FileName);
+								if (code == 0)
+									AutoClosingMessageBox.Show("Model successfully exported.", "", 1000, MessageBoxIcon.Information);
 								else
-									AutoClosingMessageBox.Show($"Can't export model.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
-							}
+								{
+									if (code == 1)
+										MessageBox.Show("Can't export model.\nPlease, disable HQ Geometry+ flag.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+									else
+										AutoClosingMessageBox.Show($"Can't export model.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+								}
+							});
+							SdkThread.Start();
 						}
 					}
 					break;
@@ -457,11 +475,14 @@ namespace Object_tool
 						{
 							SaveOmfDialog.InitialDirectory = "";
 
-							int code = StartEditor(EditorMode.ExportOMF, TEMP_FILE_NAME, SaveOmfDialog.FileName);
-							if (code == 0)
-								AutoClosingMessageBox.Show("Motions successfully exported.", "", 1000, MessageBoxIcon.Information);
-							else
-								AutoClosingMessageBox.Show($"Can't export motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+							SdkThread = new Thread(() => {
+								int code = StartEditor(EditorMode.ExportOMF, TEMP_FILE_NAME, SaveOmfDialog.FileName);
+								if (code == 0)
+									AutoClosingMessageBox.Show("Motions successfully exported.", "", 1000, MessageBoxIcon.Information);
+								else
+									AutoClosingMessageBox.Show($"Can't export motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+							});
+							SdkThread.Start();
 						}
 					}
 					break;
@@ -469,37 +490,43 @@ namespace Object_tool
                     {
 						if (OpenSklsDialog.ShowDialog() == DialogResult.OK)
 						{
-							int code = StartEditor(EditorMode.LoadMotions, TEMP_FILE_NAME);
-							if (code == 0)
-							{
-								AutoClosingMessageBox.Show("Motions successfully loaded.", "", 1000, MessageBoxIcon.Information);
-								DeletesklsToolStripMenuItem.Enabled = true;
-								SaveSklsToolStripMenuItem.Enabled = true;
-								sklToolStripMenuItem.Enabled = true;
-								oMFToolStripMenuItem.Enabled = true;
-							}
-							else
-								AutoClosingMessageBox.Show($"Can't load motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+							SdkThread = new Thread(() => {
+								int code = StartEditor(EditorMode.LoadMotions, TEMP_FILE_NAME);
+								if (code == 0)
+								{
+									AutoClosingMessageBox.Show("Motions successfully loaded.", "", 1000, MessageBoxIcon.Information);
+									DeletesklsToolStripMenuItem.Enabled = true;
+									SaveSklsToolStripMenuItem.Enabled = true;
+									sklToolStripMenuItem.Enabled = true;
+									oMFToolStripMenuItem.Enabled = true;
+								}
+								else
+									AutoClosingMessageBox.Show($"Can't load motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 
-							ParseMotions();
+								ParseMotions();
+							});
+							SdkThread.Start();
 						}
 					}
 					break;
 				case "DeleteSkls":
                     {
-						int code = StartEditor(EditorMode.DeleteMotions, TEMP_FILE_NAME);
-						if (code == 0)
-						{
-							AutoClosingMessageBox.Show("Motions successfully deleted.", "", 1000, MessageBoxIcon.Information);
-							DeletesklsToolStripMenuItem.Enabled = false;
-							SaveSklsToolStripMenuItem.Enabled = false;
-							sklToolStripMenuItem.Enabled = false;
-							oMFToolStripMenuItem.Enabled = false;
+						SdkThread = new Thread(() => {
+							int code = StartEditor(EditorMode.DeleteMotions, TEMP_FILE_NAME);
+							if (code == 0)
+							{
+								AutoClosingMessageBox.Show("Motions successfully deleted.", "", 1000, MessageBoxIcon.Information);
+								DeletesklsToolStripMenuItem.Enabled = false;
+								SaveSklsToolStripMenuItem.Enabled = false;
+								sklToolStripMenuItem.Enabled = false;
+								oMFToolStripMenuItem.Enabled = false;
 
-							ParseMotions();
-						}
-						else
-							AutoClosingMessageBox.Show($"Can't delete motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+								ParseMotions();
+							}
+							else
+								AutoClosingMessageBox.Show($"Can't delete motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+						});
+						SdkThread.Start();
 					}
 					break;
 				case "SaveSkls":
@@ -508,11 +535,14 @@ namespace Object_tool
 						{
 							SaveSklsDialog.InitialDirectory = "";
 
-							int code = StartEditor(EditorMode.SaveSklsMotions, TEMP_FILE_NAME, SaveSklsDialog.FileName);
-							if (code == 0)
-								AutoClosingMessageBox.Show("Motions successfully saved.", "", 1000, MessageBoxIcon.Information);
-							else
-								AutoClosingMessageBox.Show($"Can't save motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+							SdkThread = new Thread(() => {
+								int code = StartEditor(EditorMode.SaveSklsMotions, TEMP_FILE_NAME, SaveSklsDialog.FileName);
+								if (code == 0)
+									AutoClosingMessageBox.Show("Motions successfully saved.", "", 1000, MessageBoxIcon.Information);
+								else
+									AutoClosingMessageBox.Show($"Can't save motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+							});
+							SdkThread.Start();
 						}
 					}
 					break;
@@ -522,11 +552,14 @@ namespace Object_tool
 						{
 							SaveSklDialog.InitialDirectory = "";
 
-							int code = StartEditor(EditorMode.SaveSklMotions, TEMP_FILE_NAME, SaveSklDialog.FileName);
-							if (code == 0)
-								AutoClosingMessageBox.Show("Motions successfully saved.", "", 1000, MessageBoxIcon.Information);
-							else
-								AutoClosingMessageBox.Show($"Can't save motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+							SdkThread = new Thread(() => {
+								int code = StartEditor(EditorMode.SaveSklMotions, TEMP_FILE_NAME, SaveSklDialog.FileName);
+								if (code == 0)
+									AutoClosingMessageBox.Show("Motions successfully saved.", "", 1000, MessageBoxIcon.Information);
+								else
+									AutoClosingMessageBox.Show($"Can't save motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+							});
+							SdkThread.Start();
 						}
 					}
 					break;
@@ -534,11 +567,14 @@ namespace Object_tool
 					{
 						if (OpenBonesDialog.ShowDialog() == DialogResult.OK)
 						{
-							int code = StartEditor(EditorMode.LoadBones, TEMP_FILE_NAME, OpenBonesDialog.FileName);
-							if (code == 0)
-								AutoClosingMessageBox.Show("Bone data successfully loaded.", "", 1000, MessageBoxIcon.Information);
-							else
-								AutoClosingMessageBox.Show($"Failed to load bone data.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+							SdkThread = new Thread(() => {
+								int code = StartEditor(EditorMode.LoadBones, TEMP_FILE_NAME, OpenBonesDialog.FileName);
+								if (code == 0)
+									AutoClosingMessageBox.Show("Bone data successfully loaded.", "", 1000, MessageBoxIcon.Information);
+								else
+									AutoClosingMessageBox.Show($"Failed to load bone data.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+							});
+							SdkThread.Start();
 						}
 					}
 					break;
@@ -548,11 +584,14 @@ namespace Object_tool
 						{
 							SaveBonesDialog.InitialDirectory = "";
 
-							int code = StartEditor(EditorMode.SaveBones, TEMP_FILE_NAME, SaveBonesDialog.FileName);
-							if (code == 0)
-								AutoClosingMessageBox.Show("Bone data successfully saved.", "", 1000, MessageBoxIcon.Information);
-							else
-								AutoClosingMessageBox.Show($"Failed to save bone data.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+							SdkThread = new Thread(() => {
+								int code = StartEditor(EditorMode.SaveBones, TEMP_FILE_NAME, SaveBonesDialog.FileName);
+								if (code == 0)
+									AutoClosingMessageBox.Show("Bone data successfully saved.", "", 1000, MessageBoxIcon.Information);
+								else
+									AutoClosingMessageBox.Show($"Failed to save bone data.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+							});
+							SdkThread.Start();
 						}
 					}
 					break;
@@ -562,32 +601,41 @@ namespace Object_tool
 						{
 							SaveObjDialog.InitialDirectory = "";
 
-							int code = StartEditor(EditorMode.ExportOBJ, TEMP_FILE_NAME, SaveObjDialog.FileName);
-							if (code == 0)
-								AutoClosingMessageBox.Show("Model successfully saved.", "", 1000, MessageBoxIcon.Information);
-							else
-								AutoClosingMessageBox.Show($"Failed to save model.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+							SdkThread = new Thread(() => {
+								int code = StartEditor(EditorMode.ExportOBJ, TEMP_FILE_NAME, SaveObjDialog.FileName);
+								if (code == 0)
+									AutoClosingMessageBox.Show("Model successfully saved.", "", 1000, MessageBoxIcon.Information);
+								else
+									AutoClosingMessageBox.Show($"Failed to save model.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+							});
+							SdkThread.Start();
 						}
 					}
 					break;
 				case "GenerateShapes":
 					{
-						int code = StartEditor(EditorMode.GenerateShape, TEMP_FILE_NAME);
-						if (code == 0)
-							AutoClosingMessageBox.Show("Bone shapes successfully generated.", "", 1000, MessageBoxIcon.Information);
-						else
-							AutoClosingMessageBox.Show($"Can't generate bone shapes.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+						SdkThread = new Thread(() => {
+							int code = StartEditor(EditorMode.GenerateShape, TEMP_FILE_NAME);
+							if (code == 0)
+								AutoClosingMessageBox.Show("Bone shapes successfully generated.", "", 1000, MessageBoxIcon.Information);
+							else
+								AutoClosingMessageBox.Show($"Can't generate bone shapes.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+						});
+						SdkThread.Start();
 					}
 					break;
 				case "LoadBoneParts":
 					{
 						if (OpenLtxDialog.ShowDialog() == DialogResult.OK)
 						{
-							int code = StartEditor(EditorMode.LoadBoneParts, TEMP_FILE_NAME, OpenLtxDialog.FileName);
-							if (code == 0)
-								AutoClosingMessageBox.Show("Bone parts successfully loaded.", "", 1000, MessageBoxIcon.Information);
-							else
-								AutoClosingMessageBox.Show($"Failed to load bone parts.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+							SdkThread = new Thread(() => {
+								int code = StartEditor(EditorMode.LoadBoneParts, TEMP_FILE_NAME, OpenLtxDialog.FileName);
+								if (code == 0)
+									AutoClosingMessageBox.Show("Bone parts successfully loaded.", "", 1000, MessageBoxIcon.Information);
+								else
+									AutoClosingMessageBox.Show($"Failed to load bone parts.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+							});
+							SdkThread.Start();
 						}
 					}
 					break;
@@ -597,21 +645,27 @@ namespace Object_tool
 						{
 							SaveBonePartsDialog.InitialDirectory = "";
 
-							int code = StartEditor(EditorMode.SaveBoneParts, TEMP_FILE_NAME, SaveBonePartsDialog.FileName);
-							if (code == 0)
-								AutoClosingMessageBox.Show("Bone parts successfully saved.", "", 1000, MessageBoxIcon.Information);
-							else
-								AutoClosingMessageBox.Show($"Failed to saved bone parts.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+							SdkThread = new Thread(() => {
+								int code = StartEditor(EditorMode.SaveBoneParts, TEMP_FILE_NAME, SaveBonePartsDialog.FileName);
+								if (code == 0)
+									AutoClosingMessageBox.Show("Bone parts successfully saved.", "", 1000, MessageBoxIcon.Information);
+								else
+									AutoClosingMessageBox.Show($"Failed to saved bone parts.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+							});
+							SdkThread.Start();
 						}
 					}
 					break;
 				case "ResetBoneParts":
 					{
-						int code = StartEditor(EditorMode.ToDefaultBoneParts, TEMP_FILE_NAME);
-						if (code == 0)
-							AutoClosingMessageBox.Show("Bone parts successfully reseted to default.", "", 1000, MessageBoxIcon.Information);
-						else
-							AutoClosingMessageBox.Show($"Failed to reset bone parts to default.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+						SdkThread = new Thread(() => {
+							int code = StartEditor(EditorMode.ToDefaultBoneParts, TEMP_FILE_NAME);
+							if (code == 0)
+								AutoClosingMessageBox.Show("Bone parts successfully reseted to default.", "", 1000, MessageBoxIcon.Information);
+							else
+								AutoClosingMessageBox.Show($"Failed to reset bone parts to default.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+						});
+						SdkThread.Start();
 					}
 					break;
 				case "ExportDM":
@@ -620,24 +674,27 @@ namespace Object_tool
 						{
 							SaveDmDialog.InitialDirectory = "";
 
-							int code = StartEditor(EditorMode.ExportDM, TEMP_FILE_NAME, SaveDmDialog.FileName);
-							if (code == 0)
-								AutoClosingMessageBox.Show("Model successfully saved.", "", 1000, MessageBoxIcon.Information);
-							else
-							{
-								switch (code)
+							SdkThread = new Thread(() => {
+								int code = StartEditor(EditorMode.ExportDM, TEMP_FILE_NAME, SaveDmDialog.FileName);
+								if (code == 0)
+									AutoClosingMessageBox.Show("Model successfully saved.", "", 1000, MessageBoxIcon.Information);
+								else
 								{
-									case 1:
-										AutoClosingMessageBox.Show($"Failed to save detail model. Object must contain 1 material.", "", GetErrorTime(), MessageBoxIcon.Error);
-										break;
-									case 2:
-										AutoClosingMessageBox.Show($"Failed to save detail model. Object must contain 1 mesh.", "", GetErrorTime(), MessageBoxIcon.Error);
-										break;
-									default:
-										AutoClosingMessageBox.Show($"Failed to save detail model.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
-										break;
+									switch (code)
+									{
+										case 1:
+											AutoClosingMessageBox.Show($"Failed to save detail model. Object must contain 1 material.", "", GetErrorTime(), MessageBoxIcon.Error);
+											break;
+										case 2:
+											AutoClosingMessageBox.Show($"Failed to save detail model. Object must contain 1 mesh.", "", GetErrorTime(), MessageBoxIcon.Error);
+											break;
+										default:
+											AutoClosingMessageBox.Show($"Failed to save detail model.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+											break;
+									}
 								}
-							}
+							});
+							SdkThread.Start();
 						}
 					}
 					break;
@@ -657,19 +714,22 @@ namespace Object_tool
 							{
 								SaveOgfLodDialog.InitialDirectory = "";
 
-								int code = StartEditor(EditorMode.GenerateLod, TEMP_FILE_NAME, SaveOgfLodDialog.FileName);
-								if (code == 0)
-								{
-									AutoClosingMessageBox.Show("Lod successfully generated.", "", 1000, MessageBoxIcon.Information);
-
-									if (SaveOgfLodDialog.FileName.Contains("meshes") && LodTextBox.Enabled)
+								SdkThread = new Thread(() => {
+									int code = StartEditor(EditorMode.GenerateLod, TEMP_FILE_NAME, SaveOgfLodDialog.FileName);
+									if (code == 0)
 									{
-										string lod_path = SaveOgfLodDialog.FileName.Substring(SaveOgfLodDialog.FileName.LastIndexOf("meshes") + 7);
-										LodTextBox.Text = lod_path;
+										AutoClosingMessageBox.Show("Lod successfully generated.", "", 1000, MessageBoxIcon.Information);
+
+										if (SaveOgfLodDialog.FileName.Contains("meshes") && LodTextBox.Enabled)
+										{
+											string lod_path = SaveOgfLodDialog.FileName.Substring(SaveOgfLodDialog.FileName.LastIndexOf("meshes") + 7);
+											LodTextBox.Text = lod_path;
+										}
 									}
-								}
-								else
-									AutoClosingMessageBox.Show($"Failed to generate lod.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+									else
+										AutoClosingMessageBox.Show($"Failed to generate lod.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+								});
+								SdkThread.Start();
 							}
 						}
 					}
@@ -680,12 +740,15 @@ namespace Object_tool
 						{
 							SaveCppDialog.InitialDirectory = "";
 
-							cpp_mode = idx;
-							int code = StartEditor(EditorMode.SaveCpp, TEMP_FILE_NAME, SaveCppDialog.FileName);
-							if (code == 0)
-								AutoClosingMessageBox.Show("Model data successfully exported.", "", 1000, MessageBoxIcon.Information);
-							else
-								AutoClosingMessageBox.Show($"Failed to export model data.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+							SdkThread = new Thread(() => {
+								cpp_mode = idx;
+								int code = StartEditor(EditorMode.SaveCpp, TEMP_FILE_NAME, SaveCppDialog.FileName);
+								if (code == 0)
+									AutoClosingMessageBox.Show("Model data successfully exported.", "", 1000, MessageBoxIcon.Information);
+								else
+									AutoClosingMessageBox.Show($"Failed to export model data.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+							});
+							SdkThread.Start();
 						}
 					}
 					break;
@@ -799,11 +862,14 @@ namespace Object_tool
 
 							if (batch_flags.res)
 							{
-								int code = StartEditor(EditorMode.BatchDialogOGF, TEMP_FILE_NAME, "null", batch_flags.GetFlags(dbg_window), batch_flags.scale);
-								if (code == 0)
-									AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
-								else
-									AutoClosingMessageBox.Show($"Batch convert completed with errors.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+								SdkThread = new Thread(() => {
+									int code = StartEditor(EditorMode.BatchDialogOGF, TEMP_FILE_NAME, "null", batch_flags.GetFlags(dbg_window), batch_flags.scale);
+									if (code == 0)
+										AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
+									else
+										AutoClosingMessageBox.Show($"Batch convert completed with errors.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+								});
+								SdkThread.Start();
 							}
 						}
 					}
@@ -819,11 +885,14 @@ namespace Object_tool
 
 							if (batch_flags.res)
 							{
-								int code = StartEditor(EditorMode.BatchDialogOMF, TEMP_FILE_NAME, "null", batch_flags.GetFlags(dbg_window), batch_flags.scale);
-								if (code == 0)
-									AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
-								else
-									AutoClosingMessageBox.Show($"Batch convert completed with errors.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+								SdkThread = new Thread(() => {
+									int code = StartEditor(EditorMode.BatchDialogOMF, TEMP_FILE_NAME, "null", batch_flags.GetFlags(dbg_window), batch_flags.scale);
+									if (code == 0)
+										AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
+									else
+										AutoClosingMessageBox.Show($"Batch convert completed with errors.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+								});
+								SdkThread.Start();
 							}
 						}
 					}
@@ -849,11 +918,14 @@ namespace Object_tool
 
 							if (batch_flags.res)
 							{
-								int code = StartEditor(EditorMode.BatchDialogOGF, TEMP_FILE_NAME, "null", batch_flags.GetFlags(dbg_window), batch_flags.scale);
-								if (code == 0)
-									AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
-								else
-									AutoClosingMessageBox.Show($"Batch convert completed with errors.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+								SdkThread = new Thread(() => {
+									int code = StartEditor(EditorMode.BatchDialogOGF, TEMP_FILE_NAME, "null", batch_flags.GetFlags(dbg_window), batch_flags.scale);
+									if (code == 0)
+										AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
+									else
+										AutoClosingMessageBox.Show($"Batch convert completed with errors.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+								});
+								SdkThread.Start();
 							}
 						}
 					}
@@ -879,11 +951,14 @@ namespace Object_tool
 
 							if (batch_flags.res)
 							{
-								int code = StartEditor(EditorMode.BatchDialogOMF, TEMP_FILE_NAME, "null", batch_flags.GetFlags(dbg_window), batch_flags.scale);
-								if (code == 0)
-									AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
-								else
-									AutoClosingMessageBox.Show($"Batch convert completed with errors.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+								SdkThread = new Thread(() => {
+									int code = StartEditor(EditorMode.BatchDialogOMF, TEMP_FILE_NAME, "null", batch_flags.GetFlags(dbg_window), batch_flags.scale);
+									if (code == 0)
+										AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
+									else
+										AutoClosingMessageBox.Show($"Batch convert completed with errors.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+								});
+								SdkThread.Start();
 							}
 						}
 					}
@@ -1978,7 +2053,12 @@ namespace Object_tool
 		private void EditorKeyDown(object sender, KeyEventArgs e)
 		{
 			if (e.Control && e.KeyCode == Keys.S)
-				FastSaveObject(FILE_NAME);
+			{
+				if (!CheckThread()) return;
+
+				SdkThread = new Thread(() => { FastSaveObject(FILE_NAME); });
+				SdkThread.Start();
+			}
 
 			switch (e.KeyData)
 			{
@@ -1991,7 +2071,10 @@ namespace Object_tool
 					loadToolStripMenuItem.ShowDropDown();
 					break;
 				case Keys.F5:
-					FastSaveObject(FILE_NAME); 
+					if (!CheckThread()) return;
+
+					SdkThread = new Thread(() => { FastSaveObject(FILE_NAME); });
+					SdkThread.Start();
 					break;
 				case Keys.F6:
 					fileToolStripMenuItem.ShowDropDown();
@@ -2407,5 +2490,5 @@ namespace Object_tool
 		{
 			MessageBox.Show(text);
 		}
-	}
+    }
 }
