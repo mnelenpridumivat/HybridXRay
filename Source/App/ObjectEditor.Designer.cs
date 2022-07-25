@@ -1294,6 +1294,7 @@ namespace Object_tool
             this.SplitNormalsChbx.TabIndex = 22;
             this.SplitNormalsChbx.Text = "Use split normals";
             this.SplitNormalsChbx.UseVisualStyleBackColor = true;
+            this.SplitNormalsChbx.CheckedChanged += new System.EventHandler(this.SplitNormalsChbx_CheckedChanged);
             // 
             // StripifyMeshes
             // 
@@ -1490,7 +1491,7 @@ namespace Object_tool
             this.LodPage.Controls.Add(this.label1);
             this.LodPage.Location = new System.Drawing.Point(4, 25);
             this.LodPage.Name = "LodPage";
-            this.LodPage.Size = new System.Drawing.Size(369, 229);
+            this.LodPage.Size = new System.Drawing.Size(369, 230);
             this.LodPage.TabIndex = 5;
             this.LodPage.Text = "Lod";
             // 
