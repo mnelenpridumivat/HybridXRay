@@ -1210,6 +1210,7 @@ namespace Object_tool
 		private void LoadData()
 		{
 			var xr_loader = new XRayLoader();
+			SmoothCoP.Checked = true;
 
 			using (var r = new BinaryReader(new FileStream(TEMP_FILE_NAME, FileMode.Open)))
 			{
@@ -1269,6 +1270,8 @@ namespace Object_tool
 						refs.Add(motion);
 
 					MotionRefsBox.Lines = refs.ToArray();
+
+					SmoothSoC.Checked = true;
 				}
 
 				SplitNormalsChbx.Enabled = false;
