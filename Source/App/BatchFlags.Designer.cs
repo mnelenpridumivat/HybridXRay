@@ -48,10 +48,12 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.SmoothCoP = new System.Windows.Forms.RadioButton();
             this.SmoothSoC = new System.Windows.Forms.RadioButton();
+            this.ScaleGroupBox = new System.Windows.Forms.GroupBox();
             this.FlagsGroupBox.SuspendLayout();
             this.ModelFlagsGroupBox.SuspendLayout();
             this.MotionFlagsGroupBox.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.ScaleGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // FlagsGroupBox
@@ -59,12 +61,10 @@
             this.FlagsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.FlagsGroupBox.Controls.Add(this.ScaleGroupBox);
             this.FlagsGroupBox.Controls.Add(this.ModelFlagsGroupBox);
             this.FlagsGroupBox.Controls.Add(this.button1);
             this.FlagsGroupBox.Controls.Add(this.MotionFlagsGroupBox);
-            this.FlagsGroupBox.Controls.Add(this.ObjectScaleLabel);
-            this.FlagsGroupBox.Controls.Add(this.ScaleCenterOfMassCheckBox);
-            this.FlagsGroupBox.Controls.Add(this.ObjectScaleTextBox);
             this.FlagsGroupBox.Location = new System.Drawing.Point(12, 12);
             this.FlagsGroupBox.Name = "FlagsGroupBox";
             this.FlagsGroupBox.Size = new System.Drawing.Size(354, 256);
@@ -197,6 +197,7 @@
             // AnimsNoCompress
             // 
             this.AnimsNoCompress.AutoSize = true;
+            this.AnimsNoCompress.Checked = true;
             this.AnimsNoCompress.Location = new System.Drawing.Point(8, 65);
             this.AnimsNoCompress.Name = "AnimsNoCompress";
             this.AnimsNoCompress.Size = new System.Drawing.Size(87, 17);
@@ -218,19 +219,17 @@
             // Anims16Bit
             // 
             this.Anims16Bit.AutoSize = true;
-            this.Anims16Bit.Checked = true;
             this.Anims16Bit.Location = new System.Drawing.Point(8, 42);
             this.Anims16Bit.Name = "Anims16Bit";
             this.Anims16Bit.Size = new System.Drawing.Size(51, 17);
             this.Anims16Bit.TabIndex = 9;
-            this.Anims16Bit.TabStop = true;
             this.Anims16Bit.Text = "16 bit";
             this.Anims16Bit.UseVisualStyleBackColor = true;
             // 
             // ObjectScaleLabel
             // 
             this.ObjectScaleLabel.AutoSize = true;
-            this.ObjectScaleLabel.Location = new System.Drawing.Point(3, 135);
+            this.ObjectScaleLabel.Location = new System.Drawing.Point(5, 22);
             this.ObjectScaleLabel.Name = "ObjectScaleLabel";
             this.ObjectScaleLabel.Size = new System.Drawing.Size(69, 13);
             this.ObjectScaleLabel.TabIndex = 18;
@@ -241,7 +240,7 @@
             this.ScaleCenterOfMassCheckBox.AutoSize = true;
             this.ScaleCenterOfMassCheckBox.Checked = true;
             this.ScaleCenterOfMassCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ScaleCenterOfMassCheckBox.Location = new System.Drawing.Point(6, 158);
+            this.ScaleCenterOfMassCheckBox.Location = new System.Drawing.Point(8, 45);
             this.ScaleCenterOfMassCheckBox.Name = "ScaleCenterOfMassCheckBox";
             this.ScaleCenterOfMassCheckBox.Size = new System.Drawing.Size(125, 17);
             this.ScaleCenterOfMassCheckBox.TabIndex = 17;
@@ -252,9 +251,9 @@
             // 
             this.ObjectScaleTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ObjectScaleTextBox.Location = new System.Drawing.Point(78, 132);
+            this.ObjectScaleTextBox.Location = new System.Drawing.Point(80, 19);
             this.ObjectScaleTextBox.Name = "ObjectScaleTextBox";
-            this.ObjectScaleTextBox.Size = new System.Drawing.Size(88, 20);
+            this.ObjectScaleTextBox.Size = new System.Drawing.Size(73, 20);
             this.ObjectScaleTextBox.TabIndex = 16;
             this.ObjectScaleTextBox.Text = "1";
             this.ObjectScaleTextBox.TextChanged += new System.EventHandler(this.ScaleTextChanged);
@@ -294,6 +293,18 @@
             this.SmoothSoC.Text = "SoC";
             this.SmoothSoC.UseVisualStyleBackColor = true;
             // 
+            // ScaleGroupBox
+            // 
+            this.ScaleGroupBox.Controls.Add(this.ObjectScaleTextBox);
+            this.ScaleGroupBox.Controls.Add(this.ScaleCenterOfMassCheckBox);
+            this.ScaleGroupBox.Controls.Add(this.ObjectScaleLabel);
+            this.ScaleGroupBox.Location = new System.Drawing.Point(6, 127);
+            this.ScaleGroupBox.Name = "ScaleGroupBox";
+            this.ScaleGroupBox.Size = new System.Drawing.Size(160, 96);
+            this.ScaleGroupBox.TabIndex = 25;
+            this.ScaleGroupBox.TabStop = false;
+            this.ScaleGroupBox.Text = "Scale";
+            // 
             // BatchFlags
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -306,13 +317,14 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "BatchFlags";
             this.FlagsGroupBox.ResumeLayout(false);
-            this.FlagsGroupBox.PerformLayout();
             this.ModelFlagsGroupBox.ResumeLayout(false);
             this.ModelFlagsGroupBox.PerformLayout();
             this.MotionFlagsGroupBox.ResumeLayout(false);
             this.MotionFlagsGroupBox.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.ScaleGroupBox.ResumeLayout(false);
+            this.ScaleGroupBox.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -339,5 +351,6 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.RadioButton SmoothCoP;
         private System.Windows.Forms.RadioButton SmoothSoC;
+        private System.Windows.Forms.GroupBox ScaleGroupBox;
     }
 }

@@ -21,15 +21,15 @@ namespace Object_tool
         {
             InitializeComponent();
 
-			if (dev_mode)
-            {
-				AnimsNoCompress.Visible = true;
-				AnimsNoCompress.Checked = true;
-			}
-			else
+			if (!dev_mode)
             {
 				AnimsNoCompress.Visible = false;
 				Anims16Bit.Checked = true;
+
+				BuildInMotionsExport.Location = AnimsNoCompress.Location;
+				MotionFlagsGroupBox.Size = new Size(new Point(MotionFlagsGroupBox.Size.Width, MotionFlagsGroupBox.Size.Height - 22));
+				ScaleGroupBox.Location = new Point(ScaleGroupBox.Location.X, ScaleGroupBox.Location.Y - 22);
+				ScaleGroupBox.Size = new Size(new Point(ScaleGroupBox.Size.Width, ScaleGroupBox.Size.Height + 22));
 			}
         }
 

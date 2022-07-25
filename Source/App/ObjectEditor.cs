@@ -114,9 +114,7 @@ namespace Object_tool
 			MotionRefsBox.Enabled = false;
 			UserDataTextBox.Enabled = false;
 			LodTextBox.Enabled = false;
-			ObjectScaleTextBox.Enabled = false;
-			ScaleCenterOfMassCheckBox.Enabled = false;
-			ObjectScaleLabel.Enabled = false;
+			ScaleGroupBox.Enabled = false;
 			motionRefsToolStripMenuItem.Enabled = false;
 			userDataToolStripMenuItem.Enabled = false;
 			motionRefsToolStripMenuItem1.Enabled = false;
@@ -163,6 +161,14 @@ namespace Object_tool
 			debugToolStripMenuItem.Visible = DEBUG_MODE;
 			AnimsNoCompress.Visible = DEVELOPER_MODE;
 			AnimsNoCompress.Checked = DEVELOPER_MODE;
+
+			if (!DEVELOPER_MODE)
+            {
+				BuildInMotionsExport.Location = AnimsNoCompress.Location;
+				MotionFlagsGroupBox.Size = new Size(new Point(MotionFlagsGroupBox.Size.Width, MotionFlagsGroupBox.Size.Height - 22));
+				ScaleGroupBox.Location = new Point(ScaleGroupBox.Location.X, ScaleGroupBox.Location.Y - 22);
+				ScaleGroupBox.Size = new Size(new Point(ScaleGroupBox.Size.Width, ScaleGroupBox.Size.Height + 22));
+			}
 
 			// Init scripts
 			if (File.Exists(SCRIPT_FOLDER + "main.script"))
@@ -1460,11 +1466,7 @@ namespace Object_tool
 			MotionRefsTextChanged(MotionRefsBox, null);
 
 			if (IsOgfMode)
-			{
-				ObjectScaleTextBox.Enabled = has_bones && hasmot;
-				ScaleCenterOfMassCheckBox.Enabled = has_bones && hasmot;
-				ObjectScaleLabel.Enabled = has_bones && hasmot;
-			}
+				ScaleGroupBox.Enabled = has_bones && hasmot;
 
 			using (var r = new BinaryReader(new FileStream(TEMP_FILE_NAME, FileMode.Open)))
 			{
@@ -2303,9 +2305,7 @@ namespace Object_tool
 			bonesToolStripMenuItem1.Enabled = has_bones;
 			bonesPartsToolStripMenuItem1.Enabled = has_bones;
 			bonesPartsToDefaultToolStripMenuItem.Enabled = has_bones;
-			ObjectScaleTextBox.Enabled = has_bones && !IsOgfMode;
-			ScaleCenterOfMassCheckBox.Enabled = has_bones && !IsOgfMode;
-			ObjectScaleLabel.Enabled = has_bones && !IsOgfMode;
+			ScaleGroupBox.Enabled = has_bones && !IsOgfMode;
 			MotionRefsBox.Enabled = has_bones;
 			UserDataTextBox.Enabled = has_bones;
 			LodTextBox.Enabled = has_bones;
