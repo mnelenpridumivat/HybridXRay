@@ -185,6 +185,9 @@ namespace Object_tool
             this.SaveUserDataDialog = new System.Windows.Forms.SaveFileDialog();
             this.SaveMotionRefsDialog = new System.Windows.Forms.SaveFileDialog();
             this.OpenXrDialog = new System.Windows.Forms.OpenFileDialog();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.SmoothSoC = new System.Windows.Forms.RadioButton();
+            this.SmoothCoP = new System.Windows.Forms.RadioButton();
             this.MenuPanel.SuspendLayout();
             this.StatusPanel.SuspendLayout();
             this.BonesPage.SuspendLayout();
@@ -200,6 +203,7 @@ namespace Object_tool
             this.MotionRefsPage.SuspendLayout();
             this.UserDataPage.SuspendLayout();
             this.LodPage.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // OpenObjectDialog
@@ -758,7 +762,7 @@ namespace Object_tool
             this.StatusPanel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileLabel,
             this.StatusFile});
-            this.StatusPanel.Location = new System.Drawing.Point(0, 236);
+            this.StatusPanel.Location = new System.Drawing.Point(0, 289);
             this.StatusPanel.Name = "StatusPanel";
             this.StatusPanel.Size = new System.Drawing.Size(401, 22);
             this.StatusPanel.TabIndex = 31;
@@ -823,7 +827,7 @@ namespace Object_tool
             this.BonesPage.Controls.Add(this.BonesList);
             this.BonesPage.Location = new System.Drawing.Point(4, 25);
             this.BonesPage.Name = "BonesPage";
-            this.BonesPage.Size = new System.Drawing.Size(369, 177);
+            this.BonesPage.Size = new System.Drawing.Size(369, 229);
             this.BonesPage.TabIndex = 2;
             this.BonesPage.Text = "Bones";
             this.BonesPage.UseVisualStyleBackColor = true;
@@ -1205,7 +1209,7 @@ namespace Object_tool
             this.FlagsPage.Controls.Add(this.FlagsGroupBox);
             this.FlagsPage.Location = new System.Drawing.Point(4, 25);
             this.FlagsPage.Name = "FlagsPage";
-            this.FlagsPage.Size = new System.Drawing.Size(369, 177);
+            this.FlagsPage.Size = new System.Drawing.Size(369, 230);
             this.FlagsPage.TabIndex = 0;
             this.FlagsPage.Text = "Flags";
             this.FlagsPage.UseVisualStyleBackColor = true;
@@ -1222,7 +1226,7 @@ namespace Object_tool
             this.FlagsGroupBox.Controls.Add(this.ObjectScaleTextBox);
             this.FlagsGroupBox.Location = new System.Drawing.Point(0, 0);
             this.FlagsGroupBox.Name = "FlagsGroupBox";
-            this.FlagsGroupBox.Size = new System.Drawing.Size(369, 177);
+            this.FlagsGroupBox.Size = new System.Drawing.Size(369, 230);
             this.FlagsGroupBox.TabIndex = 16;
             this.FlagsGroupBox.TabStop = false;
             this.FlagsGroupBox.Text = "Edit export flags";
@@ -1237,7 +1241,7 @@ namespace Object_tool
             this.MotionFlagsGroupBox.Controls.Add(this.Anims16Bit);
             this.MotionFlagsGroupBox.Location = new System.Drawing.Point(6, 15);
             this.MotionFlagsGroupBox.Name = "MotionFlagsGroupBox";
-            this.MotionFlagsGroupBox.Size = new System.Drawing.Size(175, 109);
+            this.MotionFlagsGroupBox.Size = new System.Drawing.Size(175, 110);
             this.MotionFlagsGroupBox.TabIndex = 22;
             this.MotionFlagsGroupBox.TabStop = false;
             this.MotionFlagsGroupBox.Text = "Motion export";
@@ -1290,6 +1294,7 @@ namespace Object_tool
             // ModelFlagsGroupBox
             // 
             this.ModelFlagsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ModelFlagsGroupBox.Controls.Add(this.groupBox3);
             this.ModelFlagsGroupBox.Controls.Add(this.SplitNormalsChbx);
             this.ModelFlagsGroupBox.Controls.Add(this.StripifyMeshes);
             this.ModelFlagsGroupBox.Controls.Add(this.HQGeometry);
@@ -1298,7 +1303,7 @@ namespace Object_tool
             this.ModelFlagsGroupBox.Controls.Add(this.checkBox2);
             this.ModelFlagsGroupBox.Location = new System.Drawing.Point(188, 15);
             this.ModelFlagsGroupBox.Name = "ModelFlagsGroupBox";
-            this.ModelFlagsGroupBox.Size = new System.Drawing.Size(175, 156);
+            this.ModelFlagsGroupBox.Size = new System.Drawing.Size(175, 209);
             this.ModelFlagsGroupBox.TabIndex = 21;
             this.ModelFlagsGroupBox.TabStop = false;
             this.ModelFlagsGroupBox.Text = "Model export";
@@ -1370,7 +1375,7 @@ namespace Object_tool
             // ObjectScaleLabel
             // 
             this.ObjectScaleLabel.AutoSize = true;
-            this.ObjectScaleLabel.Location = new System.Drawing.Point(3, 131);
+            this.ObjectScaleLabel.Location = new System.Drawing.Point(4, 134);
             this.ObjectScaleLabel.Name = "ObjectScaleLabel";
             this.ObjectScaleLabel.Size = new System.Drawing.Size(69, 13);
             this.ObjectScaleLabel.TabIndex = 18;
@@ -1381,7 +1386,7 @@ namespace Object_tool
             this.ScaleCenterOfMassCheckBox.AutoSize = true;
             this.ScaleCenterOfMassCheckBox.Checked = true;
             this.ScaleCenterOfMassCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ScaleCenterOfMassCheckBox.Location = new System.Drawing.Point(6, 154);
+            this.ScaleCenterOfMassCheckBox.Location = new System.Drawing.Point(7, 157);
             this.ScaleCenterOfMassCheckBox.Name = "ScaleCenterOfMassCheckBox";
             this.ScaleCenterOfMassCheckBox.Size = new System.Drawing.Size(125, 17);
             this.ScaleCenterOfMassCheckBox.TabIndex = 17;
@@ -1392,9 +1397,9 @@ namespace Object_tool
             // 
             this.ObjectScaleTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ObjectScaleTextBox.Location = new System.Drawing.Point(78, 128);
+            this.ObjectScaleTextBox.Location = new System.Drawing.Point(79, 131);
             this.ObjectScaleTextBox.Name = "ObjectScaleTextBox";
-            this.ObjectScaleTextBox.Size = new System.Drawing.Size(103, 20);
+            this.ObjectScaleTextBox.Size = new System.Drawing.Size(102, 20);
             this.ObjectScaleTextBox.TabIndex = 16;
             this.ObjectScaleTextBox.Text = "1";
             this.ObjectScaleTextBox.TextChanged += new System.EventHandler(this.ScaleTextChanged);
@@ -1417,7 +1422,7 @@ namespace Object_tool
             this.TabControl.Location = new System.Drawing.Point(12, 27);
             this.TabControl.Name = "TabControl";
             this.TabControl.SelectedIndex = 0;
-            this.TabControl.Size = new System.Drawing.Size(377, 206);
+            this.TabControl.Size = new System.Drawing.Size(377, 259);
             this.TabControl.TabIndex = 10;
             this.TabControl.SelectedIndexChanged += new System.EventHandler(this.IndexChanged);
             this.TabControl.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EditorKeyDown);
@@ -1428,7 +1433,7 @@ namespace Object_tool
             this.SurfacesPage.AutoScroll = true;
             this.SurfacesPage.Location = new System.Drawing.Point(4, 25);
             this.SurfacesPage.Name = "SurfacesPage";
-            this.SurfacesPage.Size = new System.Drawing.Size(369, 177);
+            this.SurfacesPage.Size = new System.Drawing.Size(369, 229);
             this.SurfacesPage.TabIndex = 3;
             this.SurfacesPage.Text = "Surfaces";
             this.SurfacesPage.UseVisualStyleBackColor = true;
@@ -1438,7 +1443,7 @@ namespace Object_tool
             this.MotionPage.Controls.Add(this.MotionTextBox);
             this.MotionPage.Location = new System.Drawing.Point(4, 25);
             this.MotionPage.Name = "MotionPage";
-            this.MotionPage.Size = new System.Drawing.Size(369, 177);
+            this.MotionPage.Size = new System.Drawing.Size(369, 229);
             this.MotionPage.TabIndex = 4;
             this.MotionPage.Text = "Motions";
             this.MotionPage.UseVisualStyleBackColor = true;
@@ -1460,7 +1465,7 @@ namespace Object_tool
             this.MotionRefsPage.Controls.Add(this.MotionRefsBox);
             this.MotionRefsPage.Location = new System.Drawing.Point(4, 25);
             this.MotionRefsPage.Name = "MotionRefsPage";
-            this.MotionRefsPage.Size = new System.Drawing.Size(369, 177);
+            this.MotionRefsPage.Size = new System.Drawing.Size(369, 229);
             this.MotionRefsPage.TabIndex = 7;
             this.MotionRefsPage.Text = "Motion Refs";
             this.MotionRefsPage.UseVisualStyleBackColor = true;
@@ -1483,7 +1488,7 @@ namespace Object_tool
             this.UserDataPage.Controls.Add(this.UserDataTextBox);
             this.UserDataPage.Location = new System.Drawing.Point(4, 25);
             this.UserDataPage.Name = "UserDataPage";
-            this.UserDataPage.Size = new System.Drawing.Size(369, 177);
+            this.UserDataPage.Size = new System.Drawing.Size(369, 229);
             this.UserDataPage.TabIndex = 6;
             this.UserDataPage.Text = "UserData";
             this.UserDataPage.UseVisualStyleBackColor = true;
@@ -1508,7 +1513,7 @@ namespace Object_tool
             this.LodPage.Controls.Add(this.label1);
             this.LodPage.Location = new System.Drawing.Point(4, 25);
             this.LodPage.Name = "LodPage";
-            this.LodPage.Size = new System.Drawing.Size(369, 177);
+            this.LodPage.Size = new System.Drawing.Size(369, 229);
             this.LodPage.TabIndex = 5;
             this.LodPage.Text = "Lod";
             // 
@@ -1571,12 +1576,45 @@ namespace Object_tool
             // 
             this.OpenXrDialog.Filter = "Xr file|*.xr";
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.SmoothCoP);
+            this.groupBox3.Controls.Add(this.SmoothSoC);
+            this.groupBox3.Location = new System.Drawing.Point(6, 158);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(163, 44);
+            this.groupBox3.TabIndex = 23;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Smooth Type";
+            // 
+            // SmoothSoC
+            // 
+            this.SmoothSoC.AutoSize = true;
+            this.SmoothSoC.Location = new System.Drawing.Point(24, 19);
+            this.SmoothSoC.Name = "SmoothSoC";
+            this.SmoothSoC.Size = new System.Drawing.Size(45, 17);
+            this.SmoothSoC.TabIndex = 0;
+            this.SmoothSoC.Text = "SoC";
+            this.SmoothSoC.UseVisualStyleBackColor = true;
+            // 
+            // SmoothCoP
+            // 
+            this.SmoothCoP.AutoSize = true;
+            this.SmoothCoP.Checked = true;
+            this.SmoothCoP.Location = new System.Drawing.Point(75, 19);
+            this.SmoothCoP.Name = "SmoothCoP";
+            this.SmoothCoP.Size = new System.Drawing.Size(64, 17);
+            this.SmoothCoP.TabIndex = 1;
+            this.SmoothCoP.TabStop = true;
+            this.SmoothCoP.Text = "CS\\CoP";
+            this.SmoothCoP.UseVisualStyleBackColor = true;
+            // 
             // Object_Editor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(401, 258);
+            this.ClientSize = new System.Drawing.Size(401, 311);
             this.Controls.Add(this.StatusPanel);
             this.Controls.Add(this.TabControl);
             this.Controls.Add(this.MenuPanel);
@@ -1584,7 +1622,7 @@ namespace Object_tool
             this.MainMenuStrip = this.MenuPanel;
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(580, 680);
-            this.MinimumSize = new System.Drawing.Size(417, 297);
+            this.MinimumSize = new System.Drawing.Size(417, 350);
             this.Name = "Object_Editor";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Object Editor";
@@ -1614,6 +1652,8 @@ namespace Object_tool
             this.UserDataPage.ResumeLayout(false);
             this.LodPage.ResumeLayout(false);
             this.LodPage.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1776,6 +1816,9 @@ namespace Object_tool
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.RadioButton SmoothCoP;
+        private System.Windows.Forms.RadioButton SmoothSoC;
     }
 }
 

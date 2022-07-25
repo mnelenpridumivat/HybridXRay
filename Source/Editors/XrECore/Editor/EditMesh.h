@@ -219,7 +219,7 @@ class ECORE_API CEditableMesh {
 public:
 	static 			BOOL m_bDraftMeshMode;
     void 			GenerateFNormals	();
-    void 			GenerateVNormals	(const Fmatrix* parent_xform, bool force = false);
+    void 			GenerateVNormals	(bool force = false);
     void            GenerateSVertices	(u32 influence);
 	void 			GenerateAdjacency	();
 	void 			AssignMesh			(shared_str to_bone);

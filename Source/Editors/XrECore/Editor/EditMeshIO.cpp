@@ -198,7 +198,8 @@ bool CEditableMesh::LoadMesh(IReader& F){
 			if ((*vm_it)->polymap)
 				F.r		((*vm_it)->getPIdata(), (*vm_it)->PIdatasize());
 		}
-	}else
+	}
+	else
 	{
 		if(F.find_chunk(EMESH_CHUNK_VMAPS_1))
 		{
@@ -212,7 +213,8 @@ bool CEditableMesh::LoadMesh(IReader& F){
 				(*vm_it)->resize(F.r_u32());
 				F.r			((*vm_it)->getVMdata(), (*vm_it)->VMdatasize() );
 			}
-		}else
+		}
+		else
 		{
 			R_ASSERT(F.find_chunk(EMESH_CHUNK_VMAPS_0));
 			m_VMaps.resize	(F.r_u32());
@@ -229,10 +231,6 @@ bool CEditableMesh::LoadMesh(IReader& F){
 		// update vmaps
 		RebuildVMaps();
 	}
-
-#if 1
-    	GenerateCFModel();       
-#endif
 
 	return 			true;
 }

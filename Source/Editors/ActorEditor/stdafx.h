@@ -28,6 +28,7 @@ enum EExportFlags
     exfMakeStripify	    = (1<<7),	
     exfSplitNormals	    = (1<<8),	
     exfExportBuildInMots= (1<<9),	
+    exfSoCSmooth        = (1<<10),	
 };
 
 enum EditorMode

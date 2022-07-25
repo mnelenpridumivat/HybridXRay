@@ -67,6 +67,9 @@ namespace Object_tool
 			if (BuildInMotionsExport.Checked)
 				flags |= (1 << 9);
 
+			if (SmoothSoC.Checked)
+				flags |= (1 << 10);
+
 			return flags;
 		}
 

@@ -604,7 +604,7 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
 
         CEditableMesh* MESH 							= *mesh_it;
         // generate vertex offset
-        MESH->GenerateVNormals							(0);
+        MESH->GenerateVNormals							();
         MESH->GenerateFNormals							();
         MESH->GenerateSVertices							(influence);
 

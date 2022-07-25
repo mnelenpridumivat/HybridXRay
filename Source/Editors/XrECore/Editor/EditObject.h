@@ -197,7 +197,7 @@ public:
         eoHQExportPlus  = (1<<6),           
         eoOptimizeSurf  = (1<<7),   
         eoStripify      = (1<<8),
-        eoLod           = (1<<9),
+        eoSoCSmooth     = (1<<9),
         eoNormals       = (1<<10),
         eoExpBuildinMots= (1<<11),
 		eoFORCE32		= u32(-1)           

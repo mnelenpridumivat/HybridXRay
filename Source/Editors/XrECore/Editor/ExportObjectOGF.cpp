@@ -285,7 +285,7 @@ bool CExportObjectOGF::PrepareMESH(CEditableMesh* MESH)
 {
 //        // generate normals
 	bool bResult = true;
-    MESH->GenerateVNormals(0);
+    MESH->GenerateVNormals();
     // fill faces
     for (SurfFacesPairIt sp_it=MESH->m_SurfFaces.begin(); sp_it!=MESH->m_SurfFaces.end(); ++sp_it)
 	{

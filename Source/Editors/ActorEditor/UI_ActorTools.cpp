@@ -518,7 +518,7 @@ bool CActorTools::ExportCPP(LPCSTR name, int mode)
         for (EditMeshIt m_it = meshes.begin(); m_it != meshes.end(); m_it++)
         {
             CEditableMesh* mesh = *m_it;
-            mesh->GenerateVNormals(0, true);
+            mesh->GenerateVNormals(true);
             const st_Face* faces = mesh->GetFaces();
             const Fvector* verts = mesh->GetVertices();
             const Fvector* vnormals = mesh->GetVNormals();
@@ -744,6 +744,7 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, shared_str script)
                 O->m_objectFlags.set(CEditableObject::eoOptimizeSurf, (flags & exfOptimizeSurfaces));
                 O->m_objectFlags.set(CEditableObject::eoHQExportPlus, (flags & exfHQGeometryPlus));
                 O->m_objectFlags.set(CEditableObject::eoExpBuildinMots, (flags & exfExportBuildInMots));
+                O->m_objectFlags.set(CEditableObject::eoSoCSmooth, (flags & exfSoCSmooth));
                 O->m_EditorScript = script;
                 O->InitScript();
 
@@ -910,6 +911,7 @@ bool CActorTools::BatchConvertDialogOGF(xr_vector<BatchFiles> files, shared_str 
                 O->m_objectFlags.set(CEditableObject::eoOptimizeSurf, (flags & exfOptimizeSurfaces));
                 O->m_objectFlags.set(CEditableObject::eoHQExportPlus, (flags & exfHQGeometryPlus));
                 O->m_objectFlags.set(CEditableObject::eoExpBuildinMots, (flags & exfExportBuildInMots));
+                O->m_objectFlags.set(CEditableObject::eoSoCSmooth, (flags & exfSoCSmooth));
                 O->m_EditorScript = script;
                 O->InitScript();
 

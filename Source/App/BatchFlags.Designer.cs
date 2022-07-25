@@ -45,9 +45,13 @@
             this.ObjectScaleLabel = new System.Windows.Forms.Label();
             this.ScaleCenterOfMassCheckBox = new System.Windows.Forms.CheckBox();
             this.ObjectScaleTextBox = new System.Windows.Forms.TextBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.SmoothCoP = new System.Windows.Forms.RadioButton();
+            this.SmoothSoC = new System.Windows.Forms.RadioButton();
             this.FlagsGroupBox.SuspendLayout();
             this.ModelFlagsGroupBox.SuspendLayout();
             this.MotionFlagsGroupBox.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // FlagsGroupBox
@@ -63,7 +67,7 @@
             this.FlagsGroupBox.Controls.Add(this.ObjectScaleTextBox);
             this.FlagsGroupBox.Location = new System.Drawing.Point(12, 12);
             this.FlagsGroupBox.Name = "FlagsGroupBox";
-            this.FlagsGroupBox.Size = new System.Drawing.Size(354, 208);
+            this.FlagsGroupBox.Size = new System.Drawing.Size(354, 256);
             this.FlagsGroupBox.TabIndex = 17;
             this.FlagsGroupBox.TabStop = false;
             this.FlagsGroupBox.Text = "Edit export flags";
@@ -71,6 +75,7 @@
             // ModelFlagsGroupBox
             // 
             this.ModelFlagsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ModelFlagsGroupBox.Controls.Add(this.groupBox3);
             this.ModelFlagsGroupBox.Controls.Add(this.SplitNormalsChbx);
             this.ModelFlagsGroupBox.Controls.Add(this.StripifyMeshes);
             this.ModelFlagsGroupBox.Controls.Add(this.HQGeometry);
@@ -79,7 +84,7 @@
             this.ModelFlagsGroupBox.Controls.Add(this.checkBox2);
             this.ModelFlagsGroupBox.Location = new System.Drawing.Point(172, 15);
             this.ModelFlagsGroupBox.Name = "ModelFlagsGroupBox";
-            this.ModelFlagsGroupBox.Size = new System.Drawing.Size(175, 156);
+            this.ModelFlagsGroupBox.Size = new System.Drawing.Size(175, 208);
             this.ModelFlagsGroupBox.TabIndex = 24;
             this.ModelFlagsGroupBox.TabStop = false;
             this.ModelFlagsGroupBox.Text = "Model export";
@@ -154,7 +159,7 @@
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(6, 179);
+            this.button1.Location = new System.Drawing.Point(6, 227);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(342, 23);
             this.button1.TabIndex = 23;
@@ -256,11 +261,44 @@
             this.ObjectScaleTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ScaleKeyDown);
             this.ObjectScaleTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ScaleKeyPress);
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.SmoothCoP);
+            this.groupBox3.Controls.Add(this.SmoothSoC);
+            this.groupBox3.Location = new System.Drawing.Point(6, 158);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(163, 44);
+            this.groupBox3.TabIndex = 24;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Smooth Type";
+            // 
+            // SmoothCoP
+            // 
+            this.SmoothCoP.AutoSize = true;
+            this.SmoothCoP.Checked = true;
+            this.SmoothCoP.Location = new System.Drawing.Point(75, 19);
+            this.SmoothCoP.Name = "SmoothCoP";
+            this.SmoothCoP.Size = new System.Drawing.Size(64, 17);
+            this.SmoothCoP.TabIndex = 1;
+            this.SmoothCoP.TabStop = true;
+            this.SmoothCoP.Text = "CS\\CoP";
+            this.SmoothCoP.UseVisualStyleBackColor = true;
+            // 
+            // SmoothSoC
+            // 
+            this.SmoothSoC.AutoSize = true;
+            this.SmoothSoC.Location = new System.Drawing.Point(24, 19);
+            this.SmoothSoC.Name = "SmoothSoC";
+            this.SmoothSoC.Size = new System.Drawing.Size(45, 17);
+            this.SmoothSoC.TabIndex = 0;
+            this.SmoothSoC.Text = "SoC";
+            this.SmoothSoC.UseVisualStyleBackColor = true;
+            // 
             // BatchFlags
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(378, 232);
+            this.ClientSize = new System.Drawing.Size(378, 280);
             this.Controls.Add(this.FlagsGroupBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximizeBox = false;
@@ -273,6 +311,8 @@
             this.ModelFlagsGroupBox.PerformLayout();
             this.MotionFlagsGroupBox.ResumeLayout(false);
             this.MotionFlagsGroupBox.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -296,5 +336,8 @@
         private System.Windows.Forms.CheckBox ProgressiveMeshes;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox BuildInMotionsExport;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.RadioButton SmoothCoP;
+        private System.Windows.Forms.RadioButton SmoothSoC;
     }
 }
