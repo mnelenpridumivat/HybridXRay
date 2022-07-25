@@ -614,14 +614,14 @@ namespace Object_tool
             // enableAll2SidedToolStripMenuItem
             // 
             this.enableAll2SidedToolStripMenuItem.Name = "enableAll2SidedToolStripMenuItem";
-            this.enableAll2SidedToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.enableAll2SidedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.enableAll2SidedToolStripMenuItem.Text = "Enable all 2 sided";
             this.enableAll2SidedToolStripMenuItem.Click += new System.EventHandler(this.enableAll2SidedToolStripMenuItem_Click);
             // 
             // disableAll2SidedToolStripMenuItem
             // 
             this.disableAll2SidedToolStripMenuItem.Name = "disableAll2SidedToolStripMenuItem";
-            this.disableAll2SidedToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.disableAll2SidedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.disableAll2SidedToolStripMenuItem.Text = "Disable all 2 sided";
             this.disableAll2SidedToolStripMenuItem.Click += new System.EventHandler(this.disableAll2SidedToolStripMenuItem_Click);
             // 
@@ -1377,7 +1377,7 @@ namespace Object_tool
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ObjectScaleTextBox.Location = new System.Drawing.Point(78, 16);
             this.ObjectScaleTextBox.Name = "ObjectScaleTextBox";
-            this.ObjectScaleTextBox.Size = new System.Drawing.Size(77, 20);
+            this.ObjectScaleTextBox.Size = new System.Drawing.Size(91, 20);
             this.ObjectScaleTextBox.TabIndex = 16;
             this.ObjectScaleTextBox.Text = "1";
             this.ObjectScaleTextBox.TextChanged += new System.EventHandler(this.ScaleTextChanged);
@@ -1612,6 +1612,8 @@ namespace Object_tool
             // 
             // ScaleGroupBox
             // 
+            this.ScaleGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.ScaleGroupBox.Controls.Add(this.ObjectScaleLabel);
             this.ScaleGroupBox.Controls.Add(this.ObjectScaleTextBox);
             this.ScaleGroupBox.Controls.Add(this.ScaleCenterOfMassCheckBox);

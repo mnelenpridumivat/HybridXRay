@@ -74,7 +74,8 @@
             // 
             // ModelFlagsGroupBox
             // 
-            this.ModelFlagsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ModelFlagsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.ModelFlagsGroupBox.Controls.Add(this.groupBox3);
             this.ModelFlagsGroupBox.Controls.Add(this.SplitNormalsChbx);
             this.ModelFlagsGroupBox.Controls.Add(this.StripifyMeshes);
@@ -295,6 +296,9 @@
             // 
             // ScaleGroupBox
             // 
+            this.ScaleGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.ScaleGroupBox.Controls.Add(this.ObjectScaleTextBox);
             this.ScaleGroupBox.Controls.Add(this.ScaleCenterOfMassCheckBox);
             this.ScaleGroupBox.Controls.Add(this.ObjectScaleLabel);
