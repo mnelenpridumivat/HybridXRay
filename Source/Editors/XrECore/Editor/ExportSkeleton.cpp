@@ -941,7 +941,7 @@ struct bm_item{
 
 bool CExportSkeleton::ExportMotionKeys(IWriter& F)
 {
-    if (!!m_Source->m_SMotionRefs.size()||(m_Source->SMotionCount()<1)){
+    if (!m_Source->m_objectFlags.is(CEditableObject::eoExpBuildinMots) || (m_Source->SMotionCount()<1)){
     	Msg("!..Object doesn't have own motion");
      	return !!m_Source->m_SMotionRefs.size();
     }
@@ -1222,7 +1222,7 @@ bool CExportSkeleton::ExportMotionDefs(IWriter& F)
     Msg("..Export skeleton motions defs");
     bool bRes=true;
 
-    if (m_Source->m_SMotionRefs.size())
+    if (!m_Source->m_objectFlags.is(CEditableObject::eoExpBuildinMots))
     {
         ExportMotionRefs(F);
     }
@@ -1327,15 +1327,8 @@ bool CExportSkeleton::ExportMotionRefs(IWriter& F)
 
 bool CExportSkeleton::ExportMotions(IWriter& F)
 {
-    if (m_Source->m_objectFlags.is(CEditableObject::eoExpBuildinMots))
-    {
-        if (!ExportMotionKeys(F)) 	return false;
-        if (!ExportMotionDefs(F)) 	return false;
-    }
-    else
-    {
-        ExportMotionRefs(F);
-    }
+    if (!ExportMotionKeys(F)) 	return false;
+    if (!ExportMotionDefs(F)) 	return false;
     return true;
 }
 //----------------------------------------------------

@@ -250,18 +250,13 @@ int main(int argc, char** argv)
         ATools->CurrentObject()->GetClassScript() = userdata.c_str();
         ATools->CurrentObject()->m_EditorScript = custom_script;
 
-        if (ATools->CurrentObject()->SMotionCount() == 0 || !(flags & exfExportBuildInMots) || mode == SaveObject)
-        {
-            if (!IsDebuggerPresent())
-                ATools->CurrentObject()->m_SMotionRefs = pMotionRefs;
-        }
-        else
-            ATools->CurrentObject()->m_SMotionRefs.clear();
+        if (!IsDebuggerPresent())
+            ATools->CurrentObject()->m_SMotionRefs = pMotionRefs;
 
-        if (!ATools->BonePartsExist() && mode != 9)
+        if (!ATools->BonePartsExist())
         {
             ATools->ToDefaultBoneParts(ATools->CurrentObject());
-            Msg("Can't find bone parts, reset to default.");
+            Msg("Import: Can't find bone parts, reset to default.");
         }
 
         ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoProgressive, (flags & exfMakeProgressive));
@@ -291,7 +286,7 @@ int main(int argc, char** argv)
         }break;
         case ExportOMF:
         {
-            ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoExpBuildinMots, FALSE);
+            ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoExpBuildinMots, TRUE);
             if (!ATools->ExportOMF(second_file_path.c_str()))
                 ret_code = -1;
         }break;
