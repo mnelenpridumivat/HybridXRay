@@ -830,9 +830,6 @@ namespace Object_tool
             // 
             // groupBox2
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.textBox6);
             this.groupBox2.Controls.Add(this.textBox11);
             this.groupBox2.Controls.Add(this.textBox14);
@@ -853,7 +850,7 @@ namespace Object_tool
             this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Location = new System.Drawing.Point(232, 155);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(127, 0);
+            this.groupBox2.Size = new System.Drawing.Size(290, 183);
             this.groupBox2.TabIndex = 11;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Bone";
@@ -1000,7 +997,7 @@ namespace Object_tool
             // DeleteBoneButton
             // 
             this.DeleteBoneButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DeleteBoneButton.Location = new System.Drawing.Point(116, 138);
+            this.DeleteBoneButton.Location = new System.Drawing.Point(116, 476);
             this.DeleteBoneButton.Name = "DeleteBoneButton";
             this.DeleteBoneButton.Size = new System.Drawing.Size(110, 36);
             this.DeleteBoneButton.TabIndex = 10;
@@ -1010,7 +1007,7 @@ namespace Object_tool
             // AddBoneButton
             // 
             this.AddBoneButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.AddBoneButton.Location = new System.Drawing.Point(0, 138);
+            this.AddBoneButton.Location = new System.Drawing.Point(0, 476);
             this.AddBoneButton.Name = "AddBoneButton";
             this.AddBoneButton.Size = new System.Drawing.Size(110, 36);
             this.AddBoneButton.TabIndex = 9;
@@ -1032,16 +1029,16 @@ namespace Object_tool
             this.groupBox1.Controls.Add(this.checkBox6);
             this.groupBox1.Location = new System.Drawing.Point(370, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(0, 145);
+            this.groupBox1.Size = new System.Drawing.Size(142, 145);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Joint";
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(83, 116);
+            this.textBox3.Location = new System.Drawing.Point(87, 116);
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(61, 20);
+            this.textBox3.Size = new System.Drawing.Size(58, 20);
             this.textBox3.TabIndex = 31;
             // 
             // label5
@@ -1057,9 +1054,9 @@ namespace Object_tool
             // 
             // textBox4
             // 
-            this.textBox4.Location = new System.Drawing.Point(83, 93);
+            this.textBox4.Location = new System.Drawing.Point(87, 93);
             this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(61, 20);
+            this.textBox4.Size = new System.Drawing.Size(58, 20);
             this.textBox4.TabIndex = 30;
             // 
             // label4
@@ -1075,9 +1072,9 @@ namespace Object_tool
             // 
             // textBox5
             // 
-            this.textBox5.Location = new System.Drawing.Point(83, 70);
+            this.textBox5.Location = new System.Drawing.Point(87, 70);
             this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(61, 20);
+            this.textBox5.Size = new System.Drawing.Size(58, 20);
             this.textBox5.TabIndex = 29;
             // 
             // label3
@@ -1112,7 +1109,7 @@ namespace Object_tool
             "Joint",
             "Wheel",
             "Slider"});
-            this.comboBox2.Location = new System.Drawing.Point(37, 43);
+            this.comboBox2.Location = new System.Drawing.Point(38, 43);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(107, 21);
             this.comboBox2.TabIndex = 1;
@@ -1197,12 +1194,10 @@ namespace Object_tool
             // 
             // BonesList
             // 
-            this.BonesList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
             this.BonesList.FormattingEnabled = true;
             this.BonesList.Location = new System.Drawing.Point(0, 4);
             this.BonesList.Name = "BonesList";
-            this.BonesList.Size = new System.Drawing.Size(226, 121);
+            this.BonesList.Size = new System.Drawing.Size(226, 511);
             this.BonesList.TabIndex = 0;
             // 
             // FlagsPage

@@ -1303,13 +1303,13 @@ namespace Object_tool
 				FindBody = xr_loader.SetData(xr_loader.find_and_return_chunk_in_chunk((int)OBJECT.EOBJ_CHUNK_OBJECT_BODY, false, true));
 
 				surfaces = new List<Surface>();
-				Surface surface = new Surface();
 
 				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SURFACES3, !FindBody, true))
 				{
 					surface_count = xr_loader.ReadUInt32();
 					for (int i = 0; i < surface_count; i++)
 					{
+						Surface surface = new Surface();
 						surface.name = xr_loader.read_stringZ(); // Name
 						surface.shader = xr_loader.read_stringZ(); // Shader
 						xr_loader.read_stringZ(); // Shader XRLC
@@ -1328,6 +1328,7 @@ namespace Object_tool
 					surface_count = xr_loader.ReadUInt32();
 					for (int i = 0; i < surface_count; i++)
 					{
+						Surface surface = new Surface();
 						surface.name = xr_loader.read_stringZ(); // Name
 						surface.shader = xr_loader.read_stringZ(); // Shader
 						xr_loader.read_stringZ(); // Shader XRLC
@@ -1345,6 +1346,7 @@ namespace Object_tool
 					surface_count = xr_loader.ReadUInt32();
 					for (int i = 0; i < surface_count; i++)
 					{
+						Surface surface = new Surface();
 						surface.name = xr_loader.read_stringZ(); // Name
 						surface.shader = xr_loader.read_stringZ(); // Shader
 						surface.flags = xr_loader.ReadByte();     // Flags
@@ -2270,7 +2272,7 @@ namespace Object_tool
 			if (surfaces != null)
 			{
 				for (int i = 0; i < surfaces.Count; i++)
-					CreateMaterialGroupBox(i, surfaces[i].name);
+					CreateMaterialGroupBox(i);
 			}
 		}
 
@@ -2458,12 +2460,12 @@ namespace Object_tool
 			box.Controls.Add(MassTextBox);
 		}
 
-		private void CreateMaterialGroupBox(int idx, string name)
+		private void CreateMaterialGroupBox(int idx)
 		{
 			var GroupBox = new GroupBox();
 			GroupBox.Location = new System.Drawing.Point(3, 3 + 114 * idx);
 			GroupBox.Size = new System.Drawing.Size(362, 108);
-			GroupBox.Text = name;
+			GroupBox.Text = surfaces[idx].name;
 			GroupBox.Name = "MaterialGrpBox_" + idx;
 			GroupBox.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
 			CreateMaterialFlags(idx, GroupBox);
