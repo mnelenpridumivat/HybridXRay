@@ -255,7 +255,10 @@ void CExportSkeleton::SSplit::Save(IWriter& F)
 
     // Vertices
     F.open_chunk		(OGF_VERTICES);
-	F.w_u32			    (m_SkeletonLinkType);
+    if (m_bSoC)
+        F.w_u32         (m_SkeletonLinkType == 2 ? OGF_VERTEXFORMAT_FVF_2L : OGF_VERTEXFORMAT_FVF_1L);
+    else
+        F.w_u32			(m_SkeletonLinkType);
     F.w_u32				(m_Verts.size());
 
     if (!m_bSoC)
@@ -1463,10 +1466,25 @@ bool CExportSkeleton::ExportMotionRefs(IWriter& F)
 {
     if (m_Source->m_SMotionRefs.size())
     {
-        F.open_chunk(OGF_S_MOTION_REFS2);
-        F.w_u32(m_Source->m_SMotionRefs.size());
-        for (u32 i = 0; i < m_Source->m_SMotionRefs.size(); ++i)
-            F.w_stringZ(m_Source->m_SMotionRefs[i].c_str());
+        if (m_Source->m_objectFlags.is(CEditableObject::eoSoCInfluence))
+        {
+            F.open_chunk(OGF_S_MOTION_REFS);
+
+            xr_string refs = m_Source->m_SMotionRefs[0].c_str();
+            for (u32 i = 1; i < m_Source->m_SMotionRefs.size(); ++i)
+            {
+                refs += ",";
+                refs += m_Source->m_SMotionRefs[i].c_str();
+            }
+            F.w_stringZ(refs);
+        }
+        else
+        {
+            F.open_chunk(OGF_S_MOTION_REFS2);
+            F.w_u32(m_Source->m_SMotionRefs.size());
+            for (u32 i = 0; i < m_Source->m_SMotionRefs.size(); ++i)
+                F.w_stringZ(m_Source->m_SMotionRefs[i].c_str());
+        }
 
         F.close_chunk();
     }

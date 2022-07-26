@@ -70,6 +70,7 @@ namespace Object_tool
 		public bool DEVELOPER_MODE = false;
 		public bool DEBUG_MODE = false;
 		public bool SOC_DEFAULTS = false;
+		public bool USE_MT_LOAD = true;
 		IniFile Settings = null;
 		FolderSelectDialog SaveSklDialog = null;
 		FolderSelectDialog OpenBatchOutDialog = null;
@@ -78,7 +79,7 @@ namespace Object_tool
 		public bool IsOgfMode = false;
 		public string script = "null";
 		public string SCRIPT_FOLDER = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\scripts\\";
-		public bool USE_OLD_BONES = true;
+		public bool USE_OLD_BONES = false;
 		public int WorkersCount = 1;
 
 		// Info
@@ -135,11 +136,12 @@ namespace Object_tool
 			batch_source = new List<string>();
 
 			string file_path = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\Settings.ini";
-			Settings = new IniFile(file_path, "[settings]\ndeveloper=0\ndebug=0\ngame_mtl=\nshaders=\nsoc_defaults=0");
+			Settings = new IniFile(file_path, "[settings]\ndeveloper=0\ndebug=0\ngame_mtl=\nshaders=\nsoc_defaults=0\nmt_load=0");
 
 			DEVELOPER_MODE = Convert.ToBoolean(Convert.ToUInt16(Settings.ReadDef("developer", "settings", "0")));
 			DEBUG_MODE = Convert.ToBoolean(Convert.ToUInt16(Settings.ReadDef("debug", "settings", "0")));
 			SOC_DEFAULTS = Convert.ToBoolean(Convert.ToUInt16(Settings.ReadDef("soc_defaults", "settings", "0")));
+			USE_MT_LOAD = Convert.ToBoolean(Convert.ToUInt16(Settings.ReadDef("mt_load", "settings", "0")));
 
 			if (SOC_DEFAULTS)
 			{
@@ -240,7 +242,7 @@ namespace Object_tool
 
 			LoadData();
 
-			if (WorkersCount >= 4)
+			if (WorkersCount >= 4 && USE_MT_LOAD)
 			{
 				Thread MotionsThread = new Thread(ParseMotions);
 				MotionsThread.Start();
@@ -248,7 +250,7 @@ namespace Object_tool
 			else
 				ParseMotions();
 
-			if (WorkersCount >= 3)
+			if (WorkersCount >= 3 && USE_MT_LOAD)
 			{
 				Thread SurfaceThread = new Thread(InitSurfaceUI);
 				SurfaceThread.Start();
@@ -258,8 +260,13 @@ namespace Object_tool
 
 			if (USE_OLD_BONES)
             {
-				SdkThread = new Thread(InitBoneUI);
-				SdkThread.Start();
+				if (USE_MT_LOAD)
+				{
+					SdkThread = new Thread(InitBoneUI);
+					SdkThread.Start();
+				}
+				else
+					InitBoneUI();
 			}
             else
             {
