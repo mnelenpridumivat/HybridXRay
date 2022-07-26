@@ -79,7 +79,7 @@ namespace Object_tool
 		public bool IsOgfMode = false;
 		public string script = "null";
 		public string SCRIPT_FOLDER = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\scripts\\";
-		public bool USE_OLD_BONES = false;
+		public bool USE_OLD_BONES = true;
 		public int WorkersCount = 1;
 
 		// Info
