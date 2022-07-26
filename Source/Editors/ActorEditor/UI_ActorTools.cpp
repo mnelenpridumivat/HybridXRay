@@ -814,6 +814,8 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, shared_str script, float sc
                 Msg(".Converting '%s' <-> '%s'", it->first.c_str(), it->second.c_str());
                 CEditableObject* O = xr_new<CEditableObject>("convert");
                 BOOL res = O->Load(src_name);
+                O->a_vScale = scale;
+                O->a_vAdjustMass = (flags & exfScaleCenterMass);
 
                 if (O->BonePartCount() == 0)
                 {
