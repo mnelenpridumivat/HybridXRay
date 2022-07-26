@@ -943,7 +943,7 @@ bool CExportSkeleton::ExportMotionKeys(IWriter& F)
 {
     if (!m_Source->m_objectFlags.is(CEditableObject::eoExpBuildinMots) || (m_Source->SMotionCount()<1)){
     	Msg("!..Object doesn't have own motion");
-     	return !!m_Source->m_SMotionRefs.size();
+     	return true;
     }
 
     Msg("..Export skeleton motions keys");
@@ -1219,15 +1219,17 @@ bool CExportSkeleton::ExportMotionDefs(IWriter& F)
     	ELog.Msg(mtError,"Object doesn't have any motion or motion refs.");
     	return false;
     }
-    Msg("..Export skeleton motions defs");
+
     bool bRes=true;
 
-    if (!m_Source->m_objectFlags.is(CEditableObject::eoExpBuildinMots))
+    if (!m_Source->m_objectFlags.is(CEditableObject::eoExpBuildinMots) || m_Source->SMotionCount() < 1)
     {
+        Msg("..Export skeleton motions refs");
         ExportMotionRefs(F);
     }
     else
     {
+        Msg("..Export skeleton motions defs");
         // save smparams
         F.open_chunk	(OGF_S_SMPARAMS);
         F.w_u16			(xrOGF_SMParamsVersion);
@@ -1327,6 +1329,7 @@ bool CExportSkeleton::ExportMotionRefs(IWriter& F)
 
 bool CExportSkeleton::ExportMotions(IWriter& F)
 {
+    Msg("Is Animated: %d", m_Source->IsAnimated());
     if (!ExportMotionKeys(F)) 	return false;
     if (!ExportMotionDefs(F)) 	return false;
     return true;

@@ -374,3 +374,11 @@ void CEditableObject::InitScript()
         }
     }
 }
+
+bool CEditableObject::IsAnimated()	
+{
+    if (m_objectFlags.is(eoExpBuildinMots))
+        return !!SMotionCount() || !!m_SMotionRefs.size();
+    else
+        return !!m_SMotionRefs.size();
+}

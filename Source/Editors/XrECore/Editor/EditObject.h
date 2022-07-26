@@ -293,7 +293,7 @@ public:
     IC SMotionIt	LastSMotion				()	{return m_SMotions.end();}
 	SMotionVec&		SMotions				()	{return m_SMotions;}
     IC int			SMotionCount 			()	{return m_SMotions.size();}
-    IC bool			IsAnimated	 			()	{return SMotionCount() || m_SMotionRefs.size();}
+    IC bool			IsAnimated	 			();
     IC void			SkeletonPlay 			()	{m_SMParam.Play();}
     IC void			SkeletonStop 			()	{m_SMParam.Stop();}
     IC void			SkeletonPause 			(bool val)	{m_SMParam.Pause(val);}
