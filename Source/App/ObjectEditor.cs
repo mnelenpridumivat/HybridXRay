@@ -230,7 +230,7 @@ namespace Object_tool
 
 			LoadData();
 
-			if (WorkersCount >= 5)
+			if (WorkersCount >= 4)
 			{
 				Thread MotionsThread = new Thread(ParseMotions);
 				MotionsThread.Start();
@@ -238,7 +238,7 @@ namespace Object_tool
 			else
 				ParseMotions();
 
-			if (WorkersCount >= 4)
+			if (WorkersCount >= 3)
 			{
 				Thread SurfaceThread = new Thread(InitSurfaceUI);
 				SurfaceThread.Start();
@@ -248,13 +248,8 @@ namespace Object_tool
 
 			if (USE_OLD_BONES)
             {
-				if (WorkersCount >= 3)
-				{
-					Thread BoneThread = new Thread(InitBoneUI);
-					BoneThread.Start();
-				}
-				else
-					InitBoneUI();
+				SdkThread = new Thread(InitBoneUI);
+				SdkThread.Start();
 			}
             else
             {
