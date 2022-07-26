@@ -701,7 +701,7 @@ void CActorTools::RealGenerateLOD(bool hq)
 {
 }
 
-bool CActorTools::BatchConvert(LPCSTR fn, int flags, shared_str script)
+bool CActorTools::BatchConvert(LPCSTR fn, int flags, shared_str script, float scale)
 {
     bool bRes = false;
     CInifile* ini = CInifile::Create(fn); VERIFY(ini);
@@ -732,6 +732,8 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, shared_str script)
                 Msg(".Converting '%s' <-> '%s'", it->first.c_str(), it->second.c_str());
                 CEditableObject* O = xr_new<CEditableObject>("convert");
                 BOOL res = O->Load(src_name);
+                O->a_vScale = scale;
+                O->a_vAdjustMass = (flags & exfScaleCenterMass);
 
                 if (O->BonePartCount() == 0)
                 {
@@ -863,7 +865,7 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, shared_str script)
     return bRes;
 }
 
-bool CActorTools::BatchConvertDialogOGF(xr_vector<BatchFiles> files, shared_str out, int flags, shared_str script)
+bool CActorTools::BatchConvertDialogOGF(xr_vector<BatchFiles> files, shared_str out, int flags, shared_str script, float scale)
 {
     bool bRes = true;
     bool FileMode = (files.size() == 1 && files[0].source_folder == "null");
@@ -899,6 +901,8 @@ bool CActorTools::BatchConvertDialogOGF(xr_vector<BatchFiles> files, shared_str 
             {
                 CEditableObject* O = xr_new<CEditableObject>("convert");
                 BOOL res = O->Load(src_name);
+                O->a_vScale = scale;
+                O->a_vAdjustMass = (flags & exfScaleCenterMass);
 
                 if (O->BonePartCount() == 0)
                 {
@@ -941,7 +945,7 @@ bool CActorTools::BatchConvertDialogOGF(xr_vector<BatchFiles> files, shared_str 
     return bRes;
 }
 
-bool CActorTools::BatchConvertDialogOMF(xr_vector<BatchFiles> files, shared_str out, int flags, shared_str script)
+bool CActorTools::BatchConvertDialogOMF(xr_vector<BatchFiles> files, shared_str out, int flags, shared_str script, float scale)
 {
     bool bRes = true;
     bool FileMode = (files.size() == 1 && files[0].source_folder == "null");
@@ -977,6 +981,8 @@ bool CActorTools::BatchConvertDialogOMF(xr_vector<BatchFiles> files, shared_str 
             {
                 CEditableObject* O = xr_new<CEditableObject>("convert");
                 BOOL res = O->Load(src_name);
+                O->a_vScale = scale;
+                O->a_vAdjustMass = (flags & exfScaleCenterMass);
 
                 O->m_objectFlags.set(CEditableObject::eoExpBuildinMots, FALSE);
                 O->m_EditorScript = script;
