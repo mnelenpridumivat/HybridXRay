@@ -257,7 +257,7 @@ int main(int argc, char** argv)
         if (!IsDebuggerPresent())
             ATools->CurrentObject()->m_SMotionRefs = pMotionRefs;
 
-        if (!ATools->BonePartsExist())
+        if (!ATools->BonePartsExist() && ATools->CurrentObject()->IsSkeleton())
         {
             ATools->ToDefaultBoneParts(ATools->CurrentObject());
             Msg("Import: Can't find bone parts, reset to default.");

@@ -735,7 +735,7 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, shared_str script, float sc
                 O->a_vScale = scale;
                 O->a_vAdjustMass = (flags & exfScaleCenterMass);
 
-                if (O->BonePartCount() == 0)
+                if (O->BonePartCount() == 0 && O->IsSkeleton())
                 {
                     ATools->ToDefaultBoneParts(O);
                     Msg("Can't find bone parts, reset to default.");
@@ -817,7 +817,7 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, shared_str script, float sc
                 O->a_vScale = scale;
                 O->a_vAdjustMass = (flags & exfScaleCenterMass);
 
-                if (O->BonePartCount() == 0)
+                if (O->BonePartCount() == 0 && O->IsSkeleton())
                 {
                     ATools->ToDefaultBoneParts(O);
                     Msg("Can't find bone parts, reset to default.");
@@ -906,7 +906,7 @@ bool CActorTools::BatchConvertDialogOGF(xr_vector<BatchFiles> files, shared_str 
                 O->a_vScale = scale;
                 O->a_vAdjustMass = (flags & exfScaleCenterMass);
 
-                if (O->BonePartCount() == 0)
+                if (O->BonePartCount() == 0 && O->IsSkeleton())
                 {
                     ATools->ToDefaultBoneParts(O);
                     Msg("Can't find bone parts, reset to default.");
@@ -990,7 +990,7 @@ bool CActorTools::BatchConvertDialogOMF(xr_vector<BatchFiles> files, shared_str 
                 O->m_EditorScript = script;
                 O->InitScript();
 
-                if (O->BonePartCount() == 0)
+                if (O->BonePartCount() == 0 && O->IsSkeleton())
                 {
                     ATools->ToDefaultBoneParts(O);
                     Msg("Can't find bone parts, reset to default.");
