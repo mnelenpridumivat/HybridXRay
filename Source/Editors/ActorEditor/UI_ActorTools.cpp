@@ -909,8 +909,7 @@ bool CActorTools::Import(LPCSTR initial, LPCSTR obj_name)
 
 bool CActorTools::ExportOGF(LPCSTR name)
 {
-    VERIFY(m_bReady);
-    if (m_pEditObject && m_pEditObject->ExportOGF(name, 4))
+    if (m_pEditObject && m_pEditObject->ExportOGF(name, (m_pEditObject->m_objectFlags.is(CEditableObject::eoSoCInfluence) ? 2 : 4)))
         return true;
     return false;
 }
@@ -1196,7 +1195,7 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, float scale)
                 O->a_vScale          = scale;
                 O->a_vAdjustMass     = (flags & m_pEditObject->a_vAdjustMass);
                 if (res)
-                    res = O->ExportOGF(tgt_name, 4);
+                    res = O->ExportOGF(tgt_name, (O->m_objectFlags.is(CEditableObject::eoSoCInfluence) ? 2 : 4));
                 Log(res ? ".OK" : "!.FAILED");
                 xr_delete(O);
             }

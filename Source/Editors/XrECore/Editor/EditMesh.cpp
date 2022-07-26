@@ -138,7 +138,8 @@ void CEditableMesh::GenerateFNormals()
     // face normals
     for (u32 k = 0; k < m_FaceCount; k++)
         m_FaceNormals[k].mknormal(
-            m_Vertices[m_Faces[k].pv[0].pindex], m_Vertices[m_Faces[k].pv[1].pindex],
+            m_Vertices[m_Faces[k].pv[0].pindex],
+            m_Vertices[m_Faces[k].pv[1].pindex],
             m_Vertices[m_Faces[k].pv[2].pindex]);
 }
 // BOOL CEditableMesh::m_bDraftMeshMode = FALSE;

@@ -1036,30 +1036,30 @@ void CActorTools::FillObjectProperties(PropItemVec& items, LPCSTR pref, ListItem
 
     if (m_pEditObjectType & CEditableObject::eoDynamic)
     {
-        auto FlagOpt1 = PHelper().CreateFlag32(items, "Object\\Flags\\Optimize:\\Make progressive meshes", &m_pEditObject->m_objectFlags, CEditableObject::eoProgressive);
+        auto FlagOpt1 = PHelper().CreateFlag32(items, "Object\\Model export\\Optimize:\\Make progressive meshes", &m_pEditObject->m_objectFlags, CEditableObject::eoProgressive);
         FlagOpt1->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
-        auto FlagOpt2 = PHelper().CreateFlag32(items, "Object\\Flags\\Optimize:\\Make stripify meshes", &m_pEditObject->m_objectFlags, CEditableObject::eoStripify);
+        auto FlagOpt2 = PHelper().CreateFlag32(items, "Object\\Model export\\Optimize:\\Make stripify meshes", &m_pEditObject->m_objectFlags, CEditableObject::eoStripify);
         FlagOpt2->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
 
-        PHelper().CreateFlag32(items, "Object\\Flags\\Optimize:\\Optimize surfaces", &m_pEditObject->m_objectFlags, CEditableObject::eoOptimizeSurf);
+        PHelper().CreateFlag32(items, "Object\\Model export\\Optimize:\\Optimize surfaces", &m_pEditObject->m_objectFlags, CEditableObject::eoOptimizeSurf);
 
-        auto FlagHQ1 = PHelper().CreateFlag32(items, "Object\\Flags\\Optimize:\\HQ Geometry", &m_pEditObject->m_objectFlags, CEditableObject::eoHQExport);
+        auto FlagHQ1 = PHelper().CreateFlag32(items, "Object\\Model export\\Optimize:\\HQ Geometry", &m_pEditObject->m_objectFlags, CEditableObject::eoHQExport);
         FlagHQ1->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
-        auto FlagHQ2 = PHelper().CreateFlag32(items, "Object\\Flags\\Optimize:\\HQ Geometry Plus", &m_pEditObject->m_objectFlags,  CEditableObject::eoHQExportPlus);
+        auto FlagHQ2 = PHelper().CreateFlag32(items, "Object\\Model export\\Optimize:\\HQ Geometry Plus", &m_pEditObject->m_objectFlags,  CEditableObject::eoHQExportPlus);
         FlagHQ2->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
 
-        auto FlagSM1 = PHelper().CreateFlag32(items, "Object\\Flags\\Smooth Type:\\Use split normals", &m_pEditObject->m_objectFlags, CEditableObject::eoNormals);
+        auto FlagSM1 = PHelper().CreateFlag32(items, "Object\\Model export\\Smooth Type:\\Use split normals", &m_pEditObject->m_objectFlags, CEditableObject::eoNormals);
         FlagSM1->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
-        auto FlagSM2 = PHelper().CreateFlag32(items, "Object\\Flags\\Smooth Type:\\Smooth CS/CoP", &m_pEditObject->m_objectFlags, CEditableObject::eoCoPSmooth);
+        auto FlagSM2 = PHelper().CreateFlag32(items, "Object\\Model export\\Smooth Type:\\Smooth CS/CoP", &m_pEditObject->m_objectFlags, CEditableObject::eoCoPSmooth);
         FlagSM2->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
-        auto FlagSM3 = PHelper().CreateFlag32(items, "Object\\Flags\\Smooth Type:\\Smooth SoC", &m_pEditObject->m_objectFlags, CEditableObject::eoSoCSmooth);
+        auto FlagSM3 = PHelper().CreateFlag32(items, "Object\\Model export\\Smooth Type:\\Smooth SoC", &m_pEditObject->m_objectFlags, CEditableObject::eoSoCSmooth);
         FlagSM3->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
+
+        PHelper().CreateFlag32(items, "Object\\Model export\\SoC bone export", &m_pEditObject->m_objectFlags, CEditableObject::eoSoCInfluence);
     }
     else if (m_pEditObjectType & CEditableObject::eoMultipleUsage)
     {
-        PHelper()
-            .CreateFlag32(items, "Object\\Flags\\Using LOD", &m_pEditObject->m_objectFlags, CEditableObject::eoUsingLOD)
-            ->OnChangeEvent.bind(this, &CActorTools::OnUsingLodFlagChange);
+        PHelper().CreateFlag32(items, "Object\\Flags\\Using LOD", &m_pEditObject->m_objectFlags, CEditableObject::eoUsingLOD)->OnChangeEvent.bind(this, &CActorTools::OnUsingLodFlagChange);
     }
 
     V = PHelper().CreateVector(items, "Object\\Transform\\Position", &m_pEditObject->a_vPosition, -10000, 10000, 0.01, 2);
@@ -1102,7 +1102,7 @@ void CActorTools::OnChangeFlag(PropValue* sender)
     const auto flag = dynamic_cast<Flag32Value*>(sender);
 
     // HQ Geometry / HQ Geometry+
-    const bool changingHqGeom = !strcmp(flag->Owner()->Key(), "Object\\Flags\\Optimize:\\HQ Geometry");
+    const bool changingHqGeom = !strcmp(flag->Owner()->Key(), "Object\\Model export\\Optimize:\\HQ Geometry");
     const auto hqFlag         = CEditableObject::eoHQExport;
     const auto hq2Flag        = CEditableObject::eoHQExportPlus;
 
@@ -1117,7 +1117,7 @@ void CActorTools::OnChangeFlag(PropValue* sender)
             m_pEditObject->m_objectFlags.set(hqFlag, FALSE);
     }
     // Make progressive / Make stripify
-    const bool changingProgressive = !strcmp(flag->Owner()->Key(), "Object\\Flags\\Optimize:\\Make progressive meshes");
+    const bool changingProgressive = !strcmp(flag->Owner()->Key(), "Object\\Model export\\Optimize:\\Make progressive meshes");
     const auto ProgFlag            = CEditableObject::eoProgressive;
     const auto Prog2Flag           = CEditableObject::eoStripify;
 
@@ -1132,9 +1132,9 @@ void CActorTools::OnChangeFlag(PropValue* sender)
             m_pEditObject->m_objectFlags.set(ProgFlag, FALSE);
     }
     // split normals / CS/CoP Smooth / SoC Smooth
-    const bool changingNormals = !strcmp(flag->Owner()->Key(), "Object\\Flags\\Smooth Type:\\Use split normals");
-    const bool changingCoP     = !strcmp(flag->Owner()->Key(), "Object\\Flags\\Smooth Type:\\Smooth CS/CoP");
-    const bool changingSoC     = !strcmp(flag->Owner()->Key(), "Object\\Flags\\Smooth Type:\\Smooth SoC");
+    const bool changingNormals = !strcmp(flag->Owner()->Key(), "Object\\Model export\\Smooth Type:\\Use split normals");
+    const bool changingCoP     = !strcmp(flag->Owner()->Key(), "Object\\Model export\\Smooth Type:\\Smooth CS/CoP");
+    const bool changingSoC     = !strcmp(flag->Owner()->Key(), "Object\\Model export\\Smooth Type:\\Smooth SoC");
     const auto Smooth1Flag     = CEditableObject::eoNormals;
     const auto Smooth2Flag     = CEditableObject::eoCoPSmooth;
     const auto Smooth3Flag     = CEditableObject::eoSoCSmooth;

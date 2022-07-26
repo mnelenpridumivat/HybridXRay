@@ -127,6 +127,7 @@ CExportSkeleton::SSplit::SSplit(CSurface* surf, const Fbox& bb, u16 part): CSkel
     m_Texture          = surf->m_Texture;
     m_PartID           = part;
     m_id               = surf->m_id;
+    m_bSoC             = FALSE;
 }
 //----------------------------------------------------
 
@@ -259,95 +260,135 @@ void CExportSkeleton::SSplit::Save(IWriter& F)
 
     // Vertices
     F.open_chunk(OGF_VERTICES);
-    F.w_u32(m_SkeletonLinkType);
+    if (m_bSoC)
+        F.w_u32(m_SkeletonLinkType == 2 ? OGF_VERTEXFORMAT_FVF_2L : OGF_VERTEXFORMAT_FVF_1L);
+    else
+        F.w_u32(m_SkeletonLinkType);
     F.w_u32(m_Verts.size());
 
-    if (m_SkeletonLinkType == 1)
+    if (!m_bSoC)
     {
-        for (SkelVertIt v_it = m_Verts.begin(); v_it != m_Verts.end(); ++v_it)
+        if (m_SkeletonLinkType == 1)
         {
-            SSkelVert& pV = *v_it;
-            pV.sort_by_weight();
-            F.w(&pV.offs, sizeof(Fvector));     // position (offset)
-            F.w(&pV.norm, sizeof(Fvector));     // normal
-            F.w(&pV.tang, sizeof(Fvector));     // T
-            F.w(&pV.binorm, sizeof(Fvector));   // B
-            F.w(&pV.uv, sizeof(Fvector2));      // tu,tv
-            F.w_u32(pV.bones[0].id);
-        }
-    }
-    else if (m_SkeletonLinkType == 2)
-    {
-        for (SkelVertIt v_it = m_Verts.begin(); v_it != m_Verts.end(); v_it++)
-        {
-            SSkelVert& pV = *v_it;
-            pV.sort_by_weight();
-            float _weight_b0 = 0.0f;
-
-            // write vertex
-            F.w_u16(pV.bones[0].id);
-
-            if (pV.bones.size() == 2)
+            for (SkelVertIt v_it = m_Verts.begin(); v_it != m_Verts.end(); ++v_it)
             {
-                F.w_u16(pV.bones[1].id);
-                _weight_b0 = pV.bones[1].w / (pV.bones[0].w + pV.bones[1].w);
+                SSkelVert& pV = *v_it;
+                pV.sort_by_weight();
+                F.w(&pV.offs, sizeof(Fvector));     // position (offset)
+                F.w(&pV.norm, sizeof(Fvector));     // normal
+                F.w(&pV.tang, sizeof(Fvector));     // T
+                F.w(&pV.binorm, sizeof(Fvector));   // B
+                F.w(&pV.uv, sizeof(Fvector2));      // tu,tv
+                F.w_u32(pV.bones[0].id);
             }
-            else
+        }
+        else if (m_SkeletonLinkType == 2)
+        {
+            for (SkelVertIt v_it = m_Verts.begin(); v_it != m_Verts.end(); v_it++)
             {
+                SSkelVert& pV = *v_it;
+                pV.sort_by_weight();
+                float _weight_b0 = 0.0f;
+
+                // write vertex
                 F.w_u16(pV.bones[0].id);
-                //.                Log				("filling up foo-bone");
-                _weight_b0 = 1.0f;
-            }
 
-            F.w(&pV.offs, sizeof(Fvector));     // position (offset)
-            F.w(&pV.norm, sizeof(Fvector));     // normal
-            F.w(&pV.tang, sizeof(Fvector));     // T
-            F.w(&pV.binorm, sizeof(Fvector));   // B
-            F.w_float(_weight_b0);
-            F.w(&pV.uv, sizeof(Fvector2));      // tu,tv
-        }
-    }
-    else if (m_SkeletonLinkType == 3 || m_SkeletonLinkType == 4)
-    {
-        for (SkelVertIt v_it = m_Verts.begin(); v_it != m_Verts.end(); v_it++)
-        {
-            SSkelVert& pV = *v_it;
-            pV.sort_by_weight();
-            u32 i = 0;
-
-            u32 _bones = pV.bones.size();
-            R_ASSERT(m_SkeletonLinkType >= pV.bones.size());
-            for (i = 0; i < m_SkeletonLinkType; ++i)
-            {
-                if (i < _bones)
+                if (pV.bones.size() == 2)
                 {
-                    F.w_u16(pV.bones[i].id);
+                    F.w_u16(pV.bones[1].id);
+                    _weight_b0 = pV.bones[1].w / (pV.bones[0].w + pV.bones[1].w);
                 }
                 else
                 {
                     F.w_u16(pV.bones[0].id);
-                    //                	Log				("filling up foo-bone");
+                    // Log("filling up foo-bone");
+                    _weight_b0 = 1.0f;
                 }
+
+                F.w(&pV.offs, sizeof(Fvector));     // position (offset)
+                F.w(&pV.norm, sizeof(Fvector));     // normal
+                F.w(&pV.tang, sizeof(Fvector));     // T
+                F.w(&pV.binorm, sizeof(Fvector));   // B
+                F.w_float(_weight_b0);
+                F.w(&pV.uv, sizeof(Fvector2));      // tu,tv
             }
-
-            // write vertex
-            F.w(&pV.offs, sizeof(Fvector));     // position (offset)
-            F.w(&pV.norm, sizeof(Fvector));     // normal
-            F.w(&pV.tang, sizeof(Fvector));     // T
-            F.w(&pV.binorm, sizeof(Fvector));   // B
-
-            for (i = 0; i < m_SkeletonLinkType - 1; ++i)
+        }
+        else if (m_SkeletonLinkType == 3 || m_SkeletonLinkType == 4)
+        {
+            for (SkelVertIt v_it = m_Verts.begin(); v_it != m_Verts.end(); v_it++)
             {
-                if (i < _bones)
+                SSkelVert& pV = *v_it;
+                pV.sort_by_weight();
+                u32 i = 0;
+
+                u32 _bones = pV.bones.size();
+                R_ASSERT(m_SkeletonLinkType >= pV.bones.size());
+                for (i = 0; i < m_SkeletonLinkType; ++i)
                 {
-                    F.w_float(pV.bones[i].w);
+                    if (i < _bones)
+                    {
+                        F.w_u16(pV.bones[i].id);
+                    }
+                    else
+                    {
+                        F.w_u16(pV.bones[0].id);
+                        // Log("filling up foo-bone");
+                    }
                 }
-                else
+
+                // write vertex
+                F.w(&pV.offs, sizeof(Fvector));     // position (offset)
+                F.w(&pV.norm, sizeof(Fvector));     // normal
+                F.w(&pV.tang, sizeof(Fvector));     // T
+                F.w(&pV.binorm, sizeof(Fvector));   // B
+
+                for (i = 0; i < m_SkeletonLinkType - 1; ++i)
                 {
-                    F.w_float(0.0f);
+                    if (i < _bones)
+                    {
+                        F.w_float(pV.bones[i].w);
+                    }
+                    else
+                    {
+                        F.w_float(0.0f);
+                    }
                 }
+                F.w(&pV.uv, sizeof(Fvector2));		// tu,tv
             }
-            F.w(&pV.uv, sizeof(Fvector2));   // tu,tv
+        }
+    }
+    else
+    {
+        if (m_SkeletonLinkType == 2)
+        {
+            for (SkelVertIt v_it = m_Verts.begin(); v_it != m_Verts.end(); v_it++)
+            {
+                SSkelVert& pV = *v_it;
+                pV.sort_by_weight();
+                // write vertex
+                F.w_u16(pV.bones[0].id);
+                F.w_u16(pV.bones[1].id);
+                F.w(&pV.offs, sizeof(Fvector));		// position (offset)
+                F.w(&pV.norm, sizeof(Fvector));		// normal
+                F.w(&pV.tang, sizeof(Fvector));		// T        
+                F.w(&pV.binorm, sizeof(Fvector));	// B        
+                F.w_float(pV.bones[1].w / (pV.bones[0].w + pV.bones[1].w));	// SV.w	= wb[1].weight/(wb[0].weight+wb[1].weight);
+                F.w(&pV.uv, sizeof(Fvector2));		// tu,tv
+            }
+        }
+        else
+        {
+            for (SkelVertIt v_it = m_Verts.begin(); v_it != m_Verts.end(); v_it++)
+            {
+                SSkelVert& pV = *v_it;
+                pV.sort_by_weight();
+                F.w(&pV.offs, sizeof(Fvector));		// position (offset)
+                F.w(&pV.norm, sizeof(Fvector));		// normal
+                F.w(&pV.tang, sizeof(Fvector));		// T        
+                F.w(&pV.binorm, sizeof(Fvector));	// B        
+                F.w(&pV.uv, sizeof(Fvector2));		// tu,tv
+                F.w_u32(pV.bones[0].id);
+            }
         }
     }
 
@@ -650,13 +691,19 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
         }
 
         // fill faces
+
+        if (influence == 4)
+            Msg("Export as CoP");
+        else
+            Msg("Export as SoC");
+
         for (SurfFacesPairIt sp_it = MESH->m_SurfFaces.begin(); sp_it != MESH->m_SurfFaces.end(); sp_it++)
         {
             if (!bRes)
                 break;
-            IntVec&   face_lst = sp_it->second;
-            CSurface* surf     = sp_it->first;
-            u32       dwTexCnt = ((surf->_FVF() & D3DFVF_TEXCOUNT_MASK) >> D3DFVF_TEXCOUNT_SHIFT);
+            IntVec& face_lst = sp_it->second;
+            CSurface* surf = sp_it->first;
+            u32 dwTexCnt = ((surf->_FVF() & D3DFVF_TEXCOUNT_MASK) >> D3DFVF_TEXCOUNT_SHIFT);
             R_ASSERT(dwTexCnt == 1);
 
             for (IntIt f_it = face_lst.begin(); f_it != face_lst.end(); f_it++)
@@ -672,6 +719,9 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
                     link_type = _max(link_type, MESH->m_SVertices[f_idx * 3 + 2].bones.size());
                     VERIFY(link_type > 0 && link_type <= (u32)influence);
 
+                    if (influence == 2)
+                        link_type = 1;
+
                     for (int k = 0; k < 3; k++)
                     {
                         st_SVert& sv = MESH->m_SVertices[f_idx * 3 + k];
@@ -680,7 +730,7 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
                         Fvector offs = sv.offs;
                         offs.mul(m_Source->a_vScale);
 
-                        if (link_type == 1)
+                        if ((influence == 2 ? (sv.bones.size() == 1) : (link_type == 1)))
                         {
                             st_SVert::bone b[2];
                             b[0].id = sv.bones[0].id;
@@ -690,23 +740,47 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
                             v[k].set(offs, sv.norm, sv.uv, 2, b);
                             tmp_bone_lst.push_back(sv.bones[0].id);
                         }
-                        else if (link_type == 2)
+                        else if (influence == 2)
                         {
+                            if (fsimilar(sv.bones[1].w, 0.f, EPS_L))
+                            {
+                                v[k].set(offs, sv.norm, sv.uv, (u8)sv.bones.size(), sv.bones.begin());
+                                tmp_bone_lst.push_back(sv.bones[0].id);
+                            }
+                            else if (fsimilar(sv.bones[0].w, 0.f, EPS_L))
+                            {
+                                std::swap(sv.bones[0], sv.bones[1]);
+                                v[k].set(offs, sv.norm, sv.uv, (u8)sv.bones.size(), sv.bones.begin());
+                                tmp_bone_lst.push_back(sv.bones[1].id);
+                            }
+                            else
+                            {
+                                link_type = 2;
+                                v[k].set(offs, sv.norm, sv.uv, (u8)sv.bones.size(), sv.bones.begin());
+                                tmp_bone_lst.push_back(sv.bones[0].id);
+                                tmp_bone_lst.push_back(sv.bones[1].id);
+                            }
+                        }
+                        else
+                        {
+                            if (link_type == 2)
+                            {
+                                {
+                                    v[k].set(offs, sv.norm, sv.uv, (u8)sv.bones.size(), sv.bones.begin());
+
+                                    for (u32 i = 0; i < sv.bones.size(); ++i)
+                                    {
+                                        tmp_bone_lst.push_back(sv.bones[i].id);
+                                    }
+                                }
+                            }
+                            else if (link_type == 4 || link_type == 3)
                             {
                                 v[k].set(offs, sv.norm, sv.uv, (u8)sv.bones.size(), sv.bones.begin());
 
                                 for (u32 i = 0; i < sv.bones.size(); ++i)
-                                {
                                     tmp_bone_lst.push_back(sv.bones[i].id);
-                                }
                             }
-                        }
-                        else if (link_type == 4 || link_type == 3)
-                        {
-                            v[k].set(offs, sv.norm, sv.uv, (u8)sv.bones.size(), sv.bones.begin());
-
-                            for (u32 i = 0; i < sv.bones.size(); ++i)
-                                tmp_bone_lst.push_back(sv.bones[i].id);
                         }
                     }
                     u16 bone_brk_part = 0;
@@ -715,16 +789,18 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
                         std::sort(tmp_bone_lst.begin(), tmp_bone_lst.end());
                         U16It ne = std::unique(tmp_bone_lst.begin(), tmp_bone_lst.end());
                         tmp_bone_lst.erase(ne, tmp_bone_lst.end());
-                        U16It tit     = tmp_bone_lst.begin();
+                        U16It tit = tmp_bone_lst.begin();
                         bone_brk_part = bone_brk_parts[*tit];
                         tit++;
 
                         for (; tit != tmp_bone_lst.end(); tit++)
+                        {
                             if (bone_brk_part != bone_brk_parts[*tit])
                             {
                                 ELog.Msg(mtError, "Can't export object as breakable. Object have N-Link face(s).");
                                 bRes = false;
                             }
+                        }
                     }
                     // find split
                     int mtl_idx = FindSplit(surf->m_ShaderName, surf->m_Texture, bone_brk_part, surf->m_id);
@@ -737,12 +813,19 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
                         box.xform(m_Source->GetBox(), mScale);
 
                         m_Splits.push_back(SSplit(surf, box, bone_brk_part));
-                        mtl_idx                              = m_Splits.size() - 1;
+                        mtl_idx = m_Splits.size() - 1;
                         m_Splits[mtl_idx].m_SkeletonLinkType = 0;
                     }
 
-                    SSplit& cur_split            = m_Splits[mtl_idx];
-                    cur_split.m_SkeletonLinkType = _max(link_type, cur_split.m_SkeletonLinkType);
+                    SSplit& cur_split = m_Splits[mtl_idx];
+
+                    if (influence == 4)
+                        cur_split.m_SkeletonLinkType = _max(link_type, cur_split.m_SkeletonLinkType);
+                    else
+                    {
+                        cur_split.m_bSoC             = TRUE;
+                        cur_split.m_SkeletonLinkType = link_type;
+                    }
 
                     cur_split.m_UsedBones.insert(cur_split.m_UsedBones.end(), tmp_bone_lst.begin(), tmp_bone_lst.end());
 
