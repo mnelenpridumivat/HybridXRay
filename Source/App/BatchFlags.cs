@@ -70,6 +70,9 @@ namespace Object_tool
 			if (SmoothSoC.Checked)
 				flags |= (1 << 10);
 
+			if (SoCInfluence.Checked)
+				flags |= (1 << 11);
+
 			return flags;
 		}
 

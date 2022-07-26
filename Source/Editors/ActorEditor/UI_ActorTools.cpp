@@ -490,7 +490,7 @@ bool CActorTools::Import(LPCSTR initial, LPCSTR obj_name)
 
 bool CActorTools::ExportOGF(LPCSTR name)
 {
-    if (m_pEditObject && m_pEditObject->ExportOGF(name, 4)) return true;
+    if (m_pEditObject && m_pEditObject->ExportOGF(name, (m_pEditObject->m_objectFlags.is(CEditableObject::eoSoCInfluence) ? 2 : 4))) return true;
     return false;
 }
 
@@ -747,6 +747,7 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, shared_str script, float sc
                 O->m_objectFlags.set(CEditableObject::eoHQExportPlus, (flags & exfHQGeometryPlus));
                 O->m_objectFlags.set(CEditableObject::eoExpBuildinMots, (flags & exfExportBuildInMots));
                 O->m_objectFlags.set(CEditableObject::eoSoCSmooth, (flags & exfSoCSmooth));
+                O->m_objectFlags.set(CEditableObject::eoSoCInfluence, (flags & exfSoCInfluence));
                 O->m_EditorScript = script;
                 O->InitScript();
 
@@ -776,7 +777,7 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, shared_str script, float sc
                 if (O->SMotionCount() > 0)
                     O->m_SMotionRefs.clear();
 
-                if (res) res = O->ExportOGF(tgt_name, 4);
+                if (res) res = O->ExportOGF(tgt_name, (O->m_objectFlags.is(CEditableObject::eoSoCInfluence) ? 2 : 4));
                 Log(res ? ".OK" : "!.FAILED");
                 xr_delete(O);
             }
@@ -918,6 +919,7 @@ bool CActorTools::BatchConvertDialogOGF(xr_vector<BatchFiles> files, shared_str 
                 O->m_objectFlags.set(CEditableObject::eoHQExportPlus, (flags & exfHQGeometryPlus));
                 O->m_objectFlags.set(CEditableObject::eoExpBuildinMots, (flags & exfExportBuildInMots));
                 O->m_objectFlags.set(CEditableObject::eoSoCSmooth, (flags & exfSoCSmooth));
+                O->m_objectFlags.set(CEditableObject::eoSoCInfluence, (flags & exfSoCInfluence));
                 O->m_EditorScript = script;
                 O->InitScript();
 
@@ -933,7 +935,7 @@ bool CActorTools::BatchConvertDialogOGF(xr_vector<BatchFiles> files, shared_str 
                 if (O->SMotionCount() > 0 && (flags & exfExportBuildInMots))
                     O->m_SMotionRefs.clear();
 
-                if (res) res = O->ExportOGF(tgt_name, 4);
+                if (res) res = O->ExportOGF(tgt_name, (O->m_objectFlags.is(CEditableObject::eoSoCInfluence) ? 2 : 4));
                 Log(res ? ".OK" : "!.FAILED");
                 xr_delete(O);
             }

@@ -200,6 +200,7 @@ public:
         eoSoCSmooth     = (1<<9),
         eoNormals       = (1<<10),
         eoExpBuildinMots= (1<<11),
+        eoSoCInfluence  = (1<<12),
 		eoFORCE32		= u32(-1)           
     };
     IC BOOL			IsDynamic				(){return m_objectFlags.is(eoDynamic);}

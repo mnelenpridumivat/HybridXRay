@@ -270,6 +270,7 @@ int main(int argc, char** argv)
         ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoNormals, (flags & exfSplitNormals));
         ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoExpBuildinMots, (flags & exfExportBuildInMots));
         ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoSoCSmooth, (flags & exfSoCSmooth));
+        ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoSoCInfluence, (flags & exfSoCInfluence));
         ATools->CurrentObject()->InitScript();
     }
 

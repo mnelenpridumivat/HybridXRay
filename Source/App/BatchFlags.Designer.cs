@@ -29,7 +29,14 @@
         private void InitializeComponent()
         {
             this.FlagsGroupBox = new System.Windows.Forms.GroupBox();
+            this.ScaleGroupBox = new System.Windows.Forms.GroupBox();
+            this.ObjectScaleTextBox = new System.Windows.Forms.TextBox();
+            this.ScaleCenterOfMassCheckBox = new System.Windows.Forms.CheckBox();
+            this.ObjectScaleLabel = new System.Windows.Forms.Label();
             this.ModelFlagsGroupBox = new System.Windows.Forms.GroupBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.SmoothCoP = new System.Windows.Forms.RadioButton();
+            this.SmoothSoC = new System.Windows.Forms.RadioButton();
             this.SplitNormalsChbx = new System.Windows.Forms.CheckBox();
             this.StripifyMeshes = new System.Windows.Forms.CheckBox();
             this.HQGeometry = new System.Windows.Forms.RadioButton();
@@ -42,18 +49,12 @@
             this.AnimsNoCompress = new System.Windows.Forms.RadioButton();
             this.Anims8Bit = new System.Windows.Forms.RadioButton();
             this.Anims16Bit = new System.Windows.Forms.RadioButton();
-            this.ObjectScaleLabel = new System.Windows.Forms.Label();
-            this.ScaleCenterOfMassCheckBox = new System.Windows.Forms.CheckBox();
-            this.ObjectScaleTextBox = new System.Windows.Forms.TextBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.SmoothCoP = new System.Windows.Forms.RadioButton();
-            this.SmoothSoC = new System.Windows.Forms.RadioButton();
-            this.ScaleGroupBox = new System.Windows.Forms.GroupBox();
+            this.SoCInfluence = new System.Windows.Forms.CheckBox();
             this.FlagsGroupBox.SuspendLayout();
-            this.ModelFlagsGroupBox.SuspendLayout();
-            this.MotionFlagsGroupBox.SuspendLayout();
-            this.groupBox3.SuspendLayout();
             this.ScaleGroupBox.SuspendLayout();
+            this.ModelFlagsGroupBox.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.MotionFlagsGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // FlagsGroupBox
@@ -72,6 +73,56 @@
             this.FlagsGroupBox.TabStop = false;
             this.FlagsGroupBox.Text = "Edit export flags";
             // 
+            // ScaleGroupBox
+            // 
+            this.ScaleGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ScaleGroupBox.Controls.Add(this.SoCInfluence);
+            this.ScaleGroupBox.Controls.Add(this.ObjectScaleTextBox);
+            this.ScaleGroupBox.Controls.Add(this.ScaleCenterOfMassCheckBox);
+            this.ScaleGroupBox.Controls.Add(this.ObjectScaleLabel);
+            this.ScaleGroupBox.Location = new System.Drawing.Point(6, 127);
+            this.ScaleGroupBox.Name = "ScaleGroupBox";
+            this.ScaleGroupBox.Size = new System.Drawing.Size(160, 96);
+            this.ScaleGroupBox.TabIndex = 25;
+            this.ScaleGroupBox.TabStop = false;
+            this.ScaleGroupBox.Text = "Dynamic params";
+            // 
+            // ObjectScaleTextBox
+            // 
+            this.ObjectScaleTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ObjectScaleTextBox.Location = new System.Drawing.Point(80, 19);
+            this.ObjectScaleTextBox.Name = "ObjectScaleTextBox";
+            this.ObjectScaleTextBox.Size = new System.Drawing.Size(73, 20);
+            this.ObjectScaleTextBox.TabIndex = 16;
+            this.ObjectScaleTextBox.Text = "1";
+            this.ObjectScaleTextBox.TextChanged += new System.EventHandler(this.ScaleTextChanged);
+            this.ObjectScaleTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ScaleKeyDown);
+            this.ObjectScaleTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ScaleKeyPress);
+            // 
+            // ScaleCenterOfMassCheckBox
+            // 
+            this.ScaleCenterOfMassCheckBox.AutoSize = true;
+            this.ScaleCenterOfMassCheckBox.Checked = true;
+            this.ScaleCenterOfMassCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ScaleCenterOfMassCheckBox.Location = new System.Drawing.Point(8, 45);
+            this.ScaleCenterOfMassCheckBox.Name = "ScaleCenterOfMassCheckBox";
+            this.ScaleCenterOfMassCheckBox.Size = new System.Drawing.Size(125, 17);
+            this.ScaleCenterOfMassCheckBox.TabIndex = 17;
+            this.ScaleCenterOfMassCheckBox.Text = "Scale center of mass";
+            this.ScaleCenterOfMassCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // ObjectScaleLabel
+            // 
+            this.ObjectScaleLabel.AutoSize = true;
+            this.ObjectScaleLabel.Location = new System.Drawing.Point(5, 22);
+            this.ObjectScaleLabel.Name = "ObjectScaleLabel";
+            this.ObjectScaleLabel.Size = new System.Drawing.Size(69, 13);
+            this.ObjectScaleLabel.TabIndex = 18;
+            this.ObjectScaleLabel.Text = "Object scale:";
+            // 
             // ModelFlagsGroupBox
             // 
             this.ModelFlagsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -89,6 +140,39 @@
             this.ModelFlagsGroupBox.TabIndex = 24;
             this.ModelFlagsGroupBox.TabStop = false;
             this.ModelFlagsGroupBox.Text = "Model export";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.SmoothCoP);
+            this.groupBox3.Controls.Add(this.SmoothSoC);
+            this.groupBox3.Location = new System.Drawing.Point(6, 158);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(163, 44);
+            this.groupBox3.TabIndex = 24;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Smooth Type";
+            // 
+            // SmoothCoP
+            // 
+            this.SmoothCoP.AutoSize = true;
+            this.SmoothCoP.Checked = true;
+            this.SmoothCoP.Location = new System.Drawing.Point(75, 19);
+            this.SmoothCoP.Name = "SmoothCoP";
+            this.SmoothCoP.Size = new System.Drawing.Size(64, 17);
+            this.SmoothCoP.TabIndex = 1;
+            this.SmoothCoP.TabStop = true;
+            this.SmoothCoP.Text = "CS\\CoP";
+            this.SmoothCoP.UseVisualStyleBackColor = true;
+            // 
+            // SmoothSoC
+            // 
+            this.SmoothSoC.AutoSize = true;
+            this.SmoothSoC.Location = new System.Drawing.Point(24, 19);
+            this.SmoothSoC.Name = "SmoothSoC";
+            this.SmoothSoC.Size = new System.Drawing.Size(45, 17);
+            this.SmoothSoC.TabIndex = 0;
+            this.SmoothSoC.Text = "SoC";
+            this.SmoothSoC.UseVisualStyleBackColor = true;
             // 
             // SplitNormalsChbx
             // 
@@ -227,87 +311,15 @@
             this.Anims16Bit.Text = "16 bit";
             this.Anims16Bit.UseVisualStyleBackColor = true;
             // 
-            // ObjectScaleLabel
+            // SoCInfluence
             // 
-            this.ObjectScaleLabel.AutoSize = true;
-            this.ObjectScaleLabel.Location = new System.Drawing.Point(5, 22);
-            this.ObjectScaleLabel.Name = "ObjectScaleLabel";
-            this.ObjectScaleLabel.Size = new System.Drawing.Size(69, 13);
-            this.ObjectScaleLabel.TabIndex = 18;
-            this.ObjectScaleLabel.Text = "Object scale:";
-            // 
-            // ScaleCenterOfMassCheckBox
-            // 
-            this.ScaleCenterOfMassCheckBox.AutoSize = true;
-            this.ScaleCenterOfMassCheckBox.Checked = true;
-            this.ScaleCenterOfMassCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ScaleCenterOfMassCheckBox.Location = new System.Drawing.Point(8, 45);
-            this.ScaleCenterOfMassCheckBox.Name = "ScaleCenterOfMassCheckBox";
-            this.ScaleCenterOfMassCheckBox.Size = new System.Drawing.Size(125, 17);
-            this.ScaleCenterOfMassCheckBox.TabIndex = 17;
-            this.ScaleCenterOfMassCheckBox.Text = "Scale center of mass";
-            this.ScaleCenterOfMassCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // ObjectScaleTextBox
-            // 
-            this.ObjectScaleTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ObjectScaleTextBox.Location = new System.Drawing.Point(80, 19);
-            this.ObjectScaleTextBox.Name = "ObjectScaleTextBox";
-            this.ObjectScaleTextBox.Size = new System.Drawing.Size(73, 20);
-            this.ObjectScaleTextBox.TabIndex = 16;
-            this.ObjectScaleTextBox.Text = "1";
-            this.ObjectScaleTextBox.TextChanged += new System.EventHandler(this.ScaleTextChanged);
-            this.ObjectScaleTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ScaleKeyDown);
-            this.ObjectScaleTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ScaleKeyPress);
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.SmoothCoP);
-            this.groupBox3.Controls.Add(this.SmoothSoC);
-            this.groupBox3.Location = new System.Drawing.Point(6, 158);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(163, 44);
-            this.groupBox3.TabIndex = 24;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Smooth Type";
-            // 
-            // SmoothCoP
-            // 
-            this.SmoothCoP.AutoSize = true;
-            this.SmoothCoP.Checked = true;
-            this.SmoothCoP.Location = new System.Drawing.Point(75, 19);
-            this.SmoothCoP.Name = "SmoothCoP";
-            this.SmoothCoP.Size = new System.Drawing.Size(64, 17);
-            this.SmoothCoP.TabIndex = 1;
-            this.SmoothCoP.TabStop = true;
-            this.SmoothCoP.Text = "CS\\CoP";
-            this.SmoothCoP.UseVisualStyleBackColor = true;
-            // 
-            // SmoothSoC
-            // 
-            this.SmoothSoC.AutoSize = true;
-            this.SmoothSoC.Location = new System.Drawing.Point(24, 19);
-            this.SmoothSoC.Name = "SmoothSoC";
-            this.SmoothSoC.Size = new System.Drawing.Size(45, 17);
-            this.SmoothSoC.TabIndex = 0;
-            this.SmoothSoC.Text = "SoC";
-            this.SmoothSoC.UseVisualStyleBackColor = true;
-            // 
-            // ScaleGroupBox
-            // 
-            this.ScaleGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ScaleGroupBox.Controls.Add(this.ObjectScaleTextBox);
-            this.ScaleGroupBox.Controls.Add(this.ScaleCenterOfMassCheckBox);
-            this.ScaleGroupBox.Controls.Add(this.ObjectScaleLabel);
-            this.ScaleGroupBox.Location = new System.Drawing.Point(6, 127);
-            this.ScaleGroupBox.Name = "ScaleGroupBox";
-            this.ScaleGroupBox.Size = new System.Drawing.Size(160, 96);
-            this.ScaleGroupBox.TabIndex = 25;
-            this.ScaleGroupBox.TabStop = false;
-            this.ScaleGroupBox.Text = "Scale";
+            this.SoCInfluence.AutoSize = true;
+            this.SoCInfluence.Location = new System.Drawing.Point(8, 68);
+            this.SoCInfluence.Name = "SoCInfluence";
+            this.SoCInfluence.Size = new System.Drawing.Size(139, 17);
+            this.SoCInfluence.TabIndex = 20;
+            this.SoCInfluence.Text = "SoC influence (2 bones)";
+            this.SoCInfluence.UseVisualStyleBackColor = true;
             // 
             // BatchFlags
             // 
@@ -321,14 +333,14 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "BatchFlags";
             this.FlagsGroupBox.ResumeLayout(false);
-            this.ModelFlagsGroupBox.ResumeLayout(false);
-            this.ModelFlagsGroupBox.PerformLayout();
-            this.MotionFlagsGroupBox.ResumeLayout(false);
-            this.MotionFlagsGroupBox.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
             this.ScaleGroupBox.ResumeLayout(false);
             this.ScaleGroupBox.PerformLayout();
+            this.ModelFlagsGroupBox.ResumeLayout(false);
+            this.ModelFlagsGroupBox.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.MotionFlagsGroupBox.ResumeLayout(false);
+            this.MotionFlagsGroupBox.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -356,5 +368,6 @@
         private System.Windows.Forms.RadioButton SmoothCoP;
         private System.Windows.Forms.RadioButton SmoothSoC;
         private System.Windows.Forms.GroupBox ScaleGroupBox;
+        private System.Windows.Forms.CheckBox SoCInfluence;
     }
 }

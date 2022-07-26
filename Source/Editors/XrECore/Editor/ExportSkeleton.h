@@ -142,6 +142,7 @@ protected:
         Fbox			m_Box;
         U16Vec			m_UsedBones;
         u16             m_id;
+        BOOL            m_bSoC;
 
         // Progressive
 		ArbitraryList<VIPM_SWR>	m_SWR;// The records of the collapses.

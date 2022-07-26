@@ -117,7 +117,7 @@ namespace Object_tool
 			MotionRefsBox.Enabled = false;
 			UserDataTextBox.Enabled = false;
 			LodTextBox.Enabled = false;
-			ScaleGroupBox.Enabled = false;
+			DynamicGroupBox.Enabled = false;
 			motionRefsToolStripMenuItem.Enabled = false;
 			userDataToolStripMenuItem.Enabled = false;
 			motionRefsToolStripMenuItem1.Enabled = false;
@@ -169,8 +169,8 @@ namespace Object_tool
             {
 				BuildInMotionsExport.Location = AnimsNoCompress.Location;
 				MotionFlagsGroupBox.Size = new Size(new Point(MotionFlagsGroupBox.Size.Width, MotionFlagsGroupBox.Size.Height - 22));
-				ScaleGroupBox.Location = new Point(ScaleGroupBox.Location.X, ScaleGroupBox.Location.Y - 22);
-				ScaleGroupBox.Size = new Size(new Point(ScaleGroupBox.Size.Width, ScaleGroupBox.Size.Height + 22));
+				DynamicGroupBox.Location = new Point(DynamicGroupBox.Location.X, DynamicGroupBox.Location.Y - 22);
+				DynamicGroupBox.Size = new Size(new Point(DynamicGroupBox.Size.Width, DynamicGroupBox.Size.Height + 22));
 			}
 
 			// Init scripts
@@ -446,6 +446,9 @@ namespace Object_tool
 
 			if (SmoothSoC.Checked)
 				flags |= (1 << 10);
+
+			if (SoCInfluence.Checked)
+				flags |= (1 << 11);
 
 			return flags;
         }
@@ -1485,7 +1488,7 @@ namespace Object_tool
 			MotionRefsTextChanged(MotionRefsBox, null);
 
 			if (IsOgfMode)
-				ScaleGroupBox.Enabled = has_bones && hasmot;
+				DynamicGroupBox.Enabled = has_bones && hasmot;
 
 			using (var r = new BinaryReader(new FileStream(TEMP_FILE_NAME, FileMode.Open)))
 			{
@@ -2331,7 +2334,7 @@ namespace Object_tool
 			bonesToolStripMenuItem1.Enabled = has_bones;
 			bonesPartsToolStripMenuItem1.Enabled = has_bones;
 			bonesPartsToDefaultToolStripMenuItem.Enabled = has_bones;
-			ScaleGroupBox.Enabled = has_bones && !IsOgfMode;
+			DynamicGroupBox.Enabled = has_bones && !IsOgfMode;
 			MotionRefsBox.Enabled = has_bones;
 			UserDataTextBox.Enabled = has_bones;
 			LodTextBox.Enabled = has_bones;

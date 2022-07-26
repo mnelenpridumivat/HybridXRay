@@ -29,6 +29,7 @@ enum EExportFlags
     exfSplitNormals	    = (1<<8),	
     exfExportBuildInMots= (1<<9),	
     exfSoCSmooth        = (1<<10),	
+    exfSoCInfluence     = (1<<11),	
 };
 
 enum EditorMode
