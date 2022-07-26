@@ -175,6 +175,7 @@ int main(int argc, char** argv)
     shared_str batch_out = "";
     int cpp_export_mode = 0;
     shared_str custom_script = "";
+    shared_str source_object = "";
     // End of program params
 
     if (!IsDebuggerPresent())
@@ -202,6 +203,7 @@ int main(int argc, char** argv)
         batch_out = argv[iReaderPos]; iReaderPos++;
         cpp_export_mode = atoi(argv[iReaderPos]); iReaderPos++;
         custom_script = argv[iReaderPos]; iReaderPos++;
+        source_object = argv[iReaderPos]; iReaderPos++;
         // End of program params
     }
     else
@@ -250,6 +252,7 @@ int main(int argc, char** argv)
         ATools->CurrentObject()->m_LODs = lod_path;
         ATools->CurrentObject()->GetClassScript() = userdata.c_str();
         ATools->CurrentObject()->m_EditorScript = custom_script;
+        ATools->CurrentObject()->m_LibName = source_object.c_str();
 
         if (!IsDebuggerPresent())
             ATools->CurrentObject()->m_SMotionRefs = pMotionRefs;

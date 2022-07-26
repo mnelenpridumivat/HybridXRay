@@ -365,6 +365,9 @@ namespace Object_tool
 			// Ёкспорт скрипта
 			args += $" \"{script}\"";
 
+			// Ёкспорт названи€ ориг модели
+			args += $" \"{FILE_NAME}\"";
+
 			int exit_code = RunCompiller(args);
 			if (File.Exists(object_path + "_temp.userdata"))
 				File.Delete(object_path + "_temp.userdata");

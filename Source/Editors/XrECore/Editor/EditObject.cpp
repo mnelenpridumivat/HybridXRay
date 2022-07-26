@@ -242,11 +242,11 @@ void CEditableObject::PrepareOGFDesc(ogf_desc& desc)
 void CEditableObject::SetVersionToCurrent(BOOL bCreate, BOOL bModif)
 {
 	string512			tmp;
-	if (bCreate){
+	if (bCreate || m_CreateName == "" || m_CreateName == NULL || m_CreateName == "unknown"){
 		m_CreateName	= strconcat(sizeof(tmp),tmp,"\\\\",Core.CompName,"\\",Core.UserName);
 		m_CreateTime	= time(NULL);
 	}
-	if (bModif){
+	if (bModif || m_ModifName == "" || m_ModifName == NULL || m_ModifName == "unknown") {
 		m_ModifName		= strconcat(sizeof(tmp),tmp,"\\\\",Core.CompName,"\\",Core.UserName);
 		m_ModifTime		= time(NULL);
 	}

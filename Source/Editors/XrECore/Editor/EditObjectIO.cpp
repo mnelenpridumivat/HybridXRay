@@ -440,6 +440,8 @@ bool CEditableObject::Load(IReader& F)
                 F.r_stringZ		(m_ModifName);
                 F.r				(&m_ModifTime,sizeof(m_ModifTime));
             }
+
+            SetVersionToCurrent	(FALSE, FALSE);
 	
             ResetSAnimation();
         }
