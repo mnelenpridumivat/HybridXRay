@@ -823,7 +823,7 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, shared_str script, float sc
                     Msg("Can't find bone parts, reset to default.");
                 }
 
-                O->m_objectFlags.set(CEditableObject::eoExpBuildinMots, FALSE);
+                O->m_objectFlags.set(CEditableObject::eoExpBuildinMots, TRUE);
                 O->m_EditorScript = script;
                 O->InitScript();
 
@@ -986,7 +986,7 @@ bool CActorTools::BatchConvertDialogOMF(xr_vector<BatchFiles> files, shared_str 
                 O->a_vScale = scale;
                 O->a_vAdjustMass = (flags & exfScaleCenterMass);
 
-                O->m_objectFlags.set(CEditableObject::eoExpBuildinMots, FALSE);
+                O->m_objectFlags.set(CEditableObject::eoExpBuildinMots, TRUE);
                 O->m_EditorScript = script;
                 O->InitScript();
 
