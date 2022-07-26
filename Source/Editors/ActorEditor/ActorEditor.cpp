@@ -391,17 +391,17 @@ int main(int argc, char** argv)
         }break;
         case BatchLtx:
         {
-            if (!ATools->BatchConvert(second_file_path.c_str(), flags, custom_script))
+            if (!ATools->BatchConvert(second_file_path.c_str(), flags, custom_script, scale))
                 ret_code = -1;
         }break;
         case BatchDialogOGF:
         {
-            if (!ATools->BatchConvertDialogOGF(pBatchFiles, batch_out, flags, custom_script))
+            if (!ATools->BatchConvertDialogOGF(pBatchFiles, batch_out, flags, custom_script, scale))
                 ret_code = -1;
         }break;
         case BatchDialogOMF:
         {
-            if (!ATools->BatchConvertDialogOMF(pBatchFiles, batch_out, flags, custom_script))
+            if (!ATools->BatchConvertDialogOMF(pBatchFiles, batch_out, flags, custom_script, scale))
                 ret_code = -1;
         }break;
     }
