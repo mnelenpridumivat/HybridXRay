@@ -69,6 +69,7 @@ namespace Object_tool
 		public int lod_flags = 0;
 		public bool DEVELOPER_MODE = false;
 		public bool DEBUG_MODE = false;
+		public bool SOC_DEFAULTS = false;
 		IniFile Settings = null;
 		FolderSelectDialog SaveSklDialog = null;
 		FolderSelectDialog OpenBatchOutDialog = null;
@@ -134,12 +135,21 @@ namespace Object_tool
 			batch_source = new List<string>();
 
 			string file_path = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\Settings.ini";
-			Settings = new IniFile(file_path, "[settings]\ndeveloper=0\ndebug=0\ngame_mtl=\nshaders=");
+			Settings = new IniFile(file_path, "[settings]\ndeveloper=0\ndebug=0\ngame_mtl=\nshaders=\nsoc_defaults=0");
 
 			DEVELOPER_MODE = Convert.ToBoolean(Convert.ToUInt16(Settings.ReadDef("developer", "settings", "0")));
 			DEBUG_MODE = Convert.ToBoolean(Convert.ToUInt16(Settings.ReadDef("debug", "settings", "0")));
+			SOC_DEFAULTS = Convert.ToBoolean(Convert.ToUInt16(Settings.ReadDef("soc_defaults", "settings", "0")));
 
-			string game_mtl = Settings.Read("game_mtl", "settings");
+			if (SOC_DEFAULTS)
+			{
+				SoCInfluence.Checked = true;
+				if (!DEVELOPER_MODE)
+					Anims8Bit.Checked = true;
+				SmoothSoC.Checked = true;
+			}
+
+			string game_mtl = Settings.ReadDef("game_mtl", "settings", "");
 			if (File.Exists(game_mtl))
 				game_materials = GameMtlParser(game_mtl);
 
@@ -885,7 +895,7 @@ namespace Object_tool
 					{
 						if (OpenBatchLtxDialog.ShowDialog() == DialogResult.OK)
 						{
-							BatchFlags batch_flags = new BatchFlags(DEVELOPER_MODE);
+							BatchFlags batch_flags = new BatchFlags(DEVELOPER_MODE, SOC_DEFAULTS);
 							batch_flags.ShowDialog();
 
 							if (batch_flags.res)
@@ -903,7 +913,7 @@ namespace Object_tool
 					{
 						if (OpenBatchDialog.ShowDialog() == DialogResult.OK && OpenBatchOutDialog.ShowDialog())
 						{
-							BatchFlags batch_flags = new BatchFlags(DEVELOPER_MODE);
+							BatchFlags batch_flags = new BatchFlags(DEVELOPER_MODE, SOC_DEFAULTS);
 							batch_flags.ShowDialog();
 
 							batch_files.Add(OpenBatchDialog.FileNames);
@@ -926,7 +936,7 @@ namespace Object_tool
 					{
 						if (OpenBatchDialog.ShowDialog() == DialogResult.OK && OpenBatchOutDialog.ShowDialog())
 						{
-							BatchFlags batch_flags = new BatchFlags(DEVELOPER_MODE);
+							BatchFlags batch_flags = new BatchFlags(DEVELOPER_MODE, SOC_DEFAULTS);
 							batch_flags.ShowDialog();
 
 							batch_files.Add(OpenBatchDialog.FileNames);
@@ -952,7 +962,7 @@ namespace Object_tool
 
 						if (OpenBatchFoldersDialog.ShowDialog() && OpenBatchOutDialog.ShowDialog())
 						{
-							BatchFlags batch_flags = new BatchFlags(DEVELOPER_MODE);
+							BatchFlags batch_flags = new BatchFlags(DEVELOPER_MODE, SOC_DEFAULTS);
 							batch_flags.ShowDialog();
 
 							for (int i = 0; i < OpenBatchFoldersDialog.FileNames.Count(); i++)
@@ -986,7 +996,7 @@ namespace Object_tool
 
 						if (OpenBatchFoldersDialog.ShowDialog() && OpenBatchOutDialog.ShowDialog())
 						{
-							BatchFlags batch_flags = new BatchFlags(DEVELOPER_MODE);
+							BatchFlags batch_flags = new BatchFlags(DEVELOPER_MODE, SOC_DEFAULTS);
 							batch_flags.ShowDialog();
 
 							for (int i = 0; i < OpenBatchFoldersDialog.FileNames.Count(); i++)
@@ -1229,7 +1239,6 @@ namespace Object_tool
 		private void LoadData()
 		{
 			var xr_loader = new XRayLoader();
-			SmoothCoP.Checked = true;
 
 			using (var r = new BinaryReader(new FileStream(TEMP_FILE_NAME, FileMode.Open)))
 			{
@@ -1265,6 +1274,7 @@ namespace Object_tool
 						refs.Add(xr_loader.read_stringZ());
 					}
 					MotionRefsBox.Lines = refs.ToArray();
+					SmoothCoP.Checked = true;
 				}
 				else if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SMOTIONS2, !FindBody, true))
 				{

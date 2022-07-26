@@ -17,7 +17,7 @@ namespace Object_tool
 		private bool bKeyIsDown = false;
 		public float scale = 1.0f;
 
-		public BatchFlags(bool dev_mode)
+		public BatchFlags(bool dev_mode, bool soc)
         {
             InitializeComponent();
 
@@ -30,8 +30,12 @@ namespace Object_tool
 				MotionFlagsGroupBox.Size = new Size(new Point(MotionFlagsGroupBox.Size.Width, MotionFlagsGroupBox.Size.Height - 22));
 				ScaleGroupBox.Location = new Point(ScaleGroupBox.Location.X, ScaleGroupBox.Location.Y - 22);
 				ScaleGroupBox.Size = new Size(new Point(ScaleGroupBox.Size.Width, ScaleGroupBox.Size.Height + 22));
+				Anims8Bit.Checked = soc;
 			}
-        }
+
+			SoCInfluence.Checked = soc;
+			SmoothSoC.Checked = soc;
+		}
 
 		public int GetFlags(bool dbg_window)
 		{
