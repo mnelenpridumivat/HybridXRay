@@ -78,6 +78,7 @@ namespace Object_tool
 		public string script = "null";
 		public string SCRIPT_FOLDER = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\scripts\\";
 		public bool USE_OLD_BONES = true;
+		public int WorkersCount = 1;
 
 		// Info
 		public uint vertex_count = 0;
@@ -98,6 +99,8 @@ namespace Object_tool
 		public Object_Editor()
 		{
 			InitializeComponent();
+
+			WorkersCount = Environment.ProcessorCount;
 			CurrentSize = this.MinimumSize;
 			BoneSize = this.MaximumSize;
 			System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
@@ -227,16 +230,31 @@ namespace Object_tool
 
 			LoadData();
 
-			Thread MotionsThread = new Thread(ParseMotions);
-			MotionsThread.Start();
+			if (WorkersCount >= 5)
+			{
+				Thread MotionsThread = new Thread(ParseMotions);
+				MotionsThread.Start();
+			}
+			else
+				ParseMotions();
 
-			Thread SurfaceThread = new Thread(InitSurfaceUI);
-			SurfaceThread.Start();
+			if (WorkersCount >= 4)
+			{
+				Thread SurfaceThread = new Thread(InitSurfaceUI);
+				SurfaceThread.Start();
+			}
+			else
+				InitSurfaceUI();
 
 			if (USE_OLD_BONES)
             {
-				Thread BoneThread = new Thread(InitBoneUI);
-				BoneThread.Start();
+				if (WorkersCount >= 3)
+				{
+					Thread BoneThread = new Thread(InitBoneUI);
+					BoneThread.Start();
+				}
+				else
+					InitBoneUI();
 			}
             else
             {
