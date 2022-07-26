@@ -140,6 +140,7 @@ xr_vector<shared_str> LoadStringVector(char** args, int count)
 
 int main(int argc, char** argv)
 {
+    std::cout << "Start init Core" << std::endl;
     unsigned int start_time = clock();
     Core._initialize("Actor", ELogCallback,1, "",true, true);
     unsigned int end_time = clock();

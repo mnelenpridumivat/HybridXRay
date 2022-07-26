@@ -104,11 +104,13 @@ namespace CPU
 		SetPriorityClass		(GetCurrentProcess(),REALTIME_PRIORITY_CLASS);
 
 		// Detect Freq
-		dwTest	= timeGetTime();
-		do { dwStart = timeGetTime(); } while (dwTest==dwStart);
-		start	= GetCLK();
-		while (timeGetTime()-dwStart<1000) ;
-		end		= GetCLK();
+		//dwTest	= timeGetTime();
+		//do { dwStart = timeGetTime(); } while (dwTest==dwStart);
+		//start	= GetCLK();
+		//while (timeGetTime()-dwStart<1000) ;
+		//end		= GetCLK();
+		start = 95214890496515;
+		end = 95218780203440;
 		clk_per_second = end-start;
 
 		// Detect RDTSC Overhead
