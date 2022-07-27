@@ -40,11 +40,11 @@ namespace Object_tool
 
 	public partial class Object_Editor : Form
 	{
-		public class ShapeEditType
+		public class Bone
 		{
 			public ushort bone_id;
-			public ushort bone_type;
-			public ushort bone_flags;
+			public ushort shape_type;
+			public ushort shape_flags;
 			public string bone_name;
 			public string material;
 			public float  mass;
@@ -62,7 +62,7 @@ namespace Object_tool
 		public string FILE_NAME = "";
 		public string TEMP_FILE_NAME = "";
 		public bool dbg_window = false;
-		public List<ShapeEditType> shapes;
+		public List<Bone> bones;
 		public List<Surface> surfaces;
 		public float model_scale = 1.0f;
 		public float lod_quality = 0.5f;
@@ -272,10 +272,10 @@ namespace Object_tool
 			}
             else
             {
-				if (shapes != null)
+				if (bones != null)
 				{
-					for (int i = 0; i < shapes.Count; i++)
-						BonesList.Items.Add(shapes[i].bone_name);
+					for (int i = 0; i < bones.Count; i++)
+						BonesList.Items.Add(bones[i].bone_name);
 				}
 			}
 
@@ -296,18 +296,18 @@ namespace Object_tool
 				scale = model_scale;
 			}
 
-			int shapes_count = (shapes != null ? shapes.Count : 0);
+			int shapes_count = (bones != null ? bones.Count : 0);
 			int surfaces_count = (surfaces != null ? surfaces.Count : 0);
 			string args = $"{(int)mode} \"{object_path}\" \"{second_path}\" {flags} {scale} {shapes_count} {surfaces_count} {OpenSklsDialog.FileNames.Count()}";
 
 			// Ёкспортируем шейпы
 			if (shapes_count > 0)
 			{
-				for (int i = 0; i < shapes.Count; i++)
+				for (int i = 0; i < bones.Count; i++)
 				{
-					args += $" \"{shapes[i].bone_id}-{shapes[i].bone_type}-{shapes[i].bone_flags}\"";
-					args += $" \"{shapes[i].material}\"";
-					args += $" {shapes[i].mass}";
+					args += $" \"{bones[i].bone_id}-{bones[i].shape_type}-{bones[i].shape_flags}\"";
+					args += $" \"{bones[i].material}\"";
+					args += $" {bones[i].mass}";
 				}
 			}
 
@@ -1175,53 +1175,53 @@ namespace Object_tool
 
 						if (xr_loader.find_chunk((int)BONE.BONE_CHUNK_SHAPE, false, true))
 						{
-							shapes[chunk].bone_type = (ushort)xr_loader.ReadUInt16();
-							shapes[chunk].bone_flags = (ushort)xr_loader.ReadUInt16();
+							bones[chunk].shape_type = (ushort)xr_loader.ReadUInt16();
+							bones[chunk].shape_flags = (ushort)xr_loader.ReadUInt16();
 
 							ComboBox cb = BonesPage.Controls[chunk].Controls[4] as ComboBox;
-							cb.SelectedIndex = shapes[chunk].bone_type;
+							cb.SelectedIndex = bones[chunk].shape_type;
 
 							CheckBox chbx1 = BonesPage.Controls[chunk].Controls[0] as CheckBox;
-							chbx1.Checked = (shapes[chunk].bone_flags & (1 << 0)) == (1 << 0);
+							chbx1.Checked = (bones[chunk].shape_flags & (1 << 0)) == (1 << 0);
 							CheckBox chbx2 = BonesPage.Controls[chunk].Controls[1] as CheckBox;
-							chbx2.Checked = (shapes[chunk].bone_flags & (1 << 1)) == (1 << 1);
+							chbx2.Checked = (bones[chunk].shape_flags & (1 << 1)) == (1 << 1);
 							CheckBox chbx3 = BonesPage.Controls[chunk].Controls[2] as CheckBox;
-							chbx3.Checked = (shapes[chunk].bone_flags & (1 << 2)) == (1 << 2);
+							chbx3.Checked = (bones[chunk].shape_flags & (1 << 2)) == (1 << 2);
 							CheckBox chbx4 = BonesPage.Controls[chunk].Controls[3] as CheckBox;
-							chbx4.Checked = (shapes[chunk].bone_flags & (1 << 3)) == (1 << 3);
+							chbx4.Checked = (bones[chunk].shape_flags & (1 << 3)) == (1 << 3);
 						}
 
 						if (xr_loader.find_chunk((int)BONE.BONE_CHUNK_MATERIAL, false, true))
 						{
-							BonesPage.Controls[chunk].Controls[7].Text = shapes[chunk].material = xr_loader.read_stringZ();
+							BonesPage.Controls[chunk].Controls[7].Text = bones[chunk].material = xr_loader.read_stringZ();
 						}
 
 						if (xr_loader.find_chunk((int)BONE.BONE_CHUNK_MASS, false, true))
 						{
-							shapes[chunk].mass = xr_loader.ReadFloat();
-							BonesPage.Controls[chunk].Controls[9].Text = shapes[chunk].mass.ToString();
+							bones[chunk].mass = xr_loader.ReadFloat();
+							BonesPage.Controls[chunk].Controls[9].Text = bones[chunk].mass.ToString();
 						}
 
 						chunk++;
 						xr_loader.SetStream(temp);
 
-						if (shapes.Count <= chunk) break;
+						if (bones.Count <= chunk) break;
 					}
 				}
 				else if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_BONES, !FindBody, true))
 				{
 					uint size = xr_loader.ReadUInt32();
 
-					if (size == shapes.Count)
+					if (size == bones.Count)
 					{
 						for (int i = 0; i < size; i++)
 						{
-							shapes[i].bone_flags = 0;
-							shapes[i].bone_type = 0;
-							shapes[i].bone_name = xr_loader.read_stringZ();
-							shapes[i].bone_id = (ushort)i;
-							shapes[i].material = "default_object";
-							shapes[i].mass = 10.0f;
+							bones[i].shape_flags = 0;
+							bones[i].shape_type = 0;
+							bones[i].bone_name = xr_loader.read_stringZ();
+							bones[i].bone_id = (ushort)i;
+							bones[i].material = "default_object";
+							bones[i].mass = 10.0f;
 							xr_loader.read_stringZ();
 							xr_loader.read_stringZ();
 							xr_loader.ReadBytes(12);
@@ -1229,16 +1229,16 @@ namespace Object_tool
 							xr_loader.ReadFloat();
 
 							ComboBox cb = BonesPage.Controls[i].Controls[4] as ComboBox;
-							cb.SelectedIndex = shapes[i].bone_type;
+							cb.SelectedIndex = bones[i].shape_type;
 
 							CheckBox chbx1 = BonesPage.Controls[i].Controls[0] as CheckBox;
-							chbx1.Checked = (shapes[i].bone_flags & (1 << 0)) == (1 << 0);
+							chbx1.Checked = (bones[i].shape_flags & (1 << 0)) == (1 << 0);
 							CheckBox chbx2 = BonesPage.Controls[i].Controls[1] as CheckBox;
-							chbx2.Checked = (shapes[i].bone_flags & (1 << 1)) == (1 << 1);
+							chbx2.Checked = (bones[i].shape_flags & (1 << 1)) == (1 << 1);
 							CheckBox chbx3 = BonesPage.Controls[i].Controls[2] as CheckBox;
-							chbx3.Checked = (shapes[i].bone_flags & (1 << 2)) == (1 << 2);
+							chbx3.Checked = (bones[i].shape_flags & (1 << 2)) == (1 << 2);
 							CheckBox chbx4 = BonesPage.Controls[i].Controls[3] as CheckBox;
-							chbx4.Checked = (shapes[i].bone_flags & (1 << 3)) == (1 << 3);
+							chbx4.Checked = (bones[i].shape_flags & (1 << 3)) == (1 << 3);
 						}
 					}
 				}
@@ -1412,7 +1412,7 @@ namespace Object_tool
 				xr_loader.SetStream(r.BaseStream);
 				FindBody = xr_loader.SetData(xr_loader.find_and_return_chunk_in_chunk((int)OBJECT.EOBJ_CHUNK_OBJECT_BODY, false, true));
 
-				shapes = new List<ShapeEditType>();
+				bones = new List<Bone>();
 				bool B_CHUNK = xr_loader.SetData(xr_loader.find_and_return_chunk_in_chunk((int)OBJECT.EOBJ_CHUNK_BONES2, !FindBody, true));
 				if (B_CHUNK)
 				{
@@ -1424,31 +1424,31 @@ namespace Object_tool
 
 						if (!xr_loader.SetData(xr_loader.find_and_return_chunk_in_chunk(chunk, false, true))) break;
 
-						ShapeEditType shape = new ShapeEditType();
-						shape.bone_id = (ushort)chunk;
+						Bone bone = new Bone();
+						bone.bone_id = (ushort)chunk;
 
 						if (xr_loader.find_chunk((int)BONE.BONE_CHUNK_DEF, false, true))
 						{
-							shape.bone_name = xr_loader.read_stringZ();
+							bone.bone_name = xr_loader.read_stringZ();
 						}
 
 						if (xr_loader.find_chunk((int)BONE.BONE_CHUNK_MATERIAL, false, true))
 						{
-							shape.material = xr_loader.read_stringZ();
+							bone.material = xr_loader.read_stringZ();
 						}
 
 						if (xr_loader.find_chunk((int)BONE.BONE_CHUNK_SHAPE, false, true))
 						{
-							shape.bone_type = (ushort)xr_loader.ReadUInt16();
-							shape.bone_flags = (ushort)xr_loader.ReadUInt16();
+							bone.shape_type = (ushort)xr_loader.ReadUInt16();
+							bone.shape_flags = (ushort)xr_loader.ReadUInt16();
 						}
 
 						if (xr_loader.find_chunk((int)BONE.BONE_CHUNK_MASS, false, true))
 						{
-							shape.mass = xr_loader.ReadFloat();
+							bone.mass = xr_loader.ReadFloat();
 						}
 
-						shapes.Add(shape);
+						bones.Add(bone);
 
 						chunk++;
 						xr_loader.SetStream(temp);
@@ -1459,24 +1459,24 @@ namespace Object_tool
 					uint size = xr_loader.ReadUInt32();
 					for (int i = 0; i < size; i++)
 					{
-						ShapeEditType shape = new ShapeEditType();
-						shape.bone_flags = 0;
-						shape.bone_type = 0;
-						shape.bone_name = xr_loader.read_stringZ();
-						shape.bone_id = (ushort)i;
-						shape.material = "default_object";
-						shape.mass = 10.0f;
+						Bone bone = new Bone();
+						bone.shape_flags = 0;
+						bone.shape_type = 0;
+						bone.bone_name = xr_loader.read_stringZ();
+						bone.bone_id = (ushort)i;
+						bone.material = "default_object";
+						bone.mass = 10.0f;
 						xr_loader.read_stringZ();
 						xr_loader.read_stringZ();
 						xr_loader.ReadBytes(12);
 						xr_loader.ReadBytes(12);
 						xr_loader.ReadFloat();
 
-						shapes.Add(shape);
+						bones.Add(bone);
 					}
 				}
 
-				joints_count = (uint)shapes.Count;
+				joints_count = (uint)bones.Count;
 			}
 		}
 
@@ -1681,11 +1681,11 @@ namespace Object_tool
 				pSettings.Save("GameMtlPath", OpenXrDialog.FileName);
 				game_materials = GameMtlParser(OpenXrDialog.FileName);
 
-				if (shapes != null)
+				if (bones != null)
 				{
 					BonesPage.Controls.Clear();
-					for (int i = 0; i < shapes.Count; i++)
-						CreateShapeGroupBox(i, shapes[i]);
+					for (int i = 0; i < bones.Count; i++)
+						CreateShapeGroupBox(i, bones[i]);
 				}
 			}
 		}
@@ -1754,7 +1754,7 @@ namespace Object_tool
 			switch (TabControl.Controls[TabControl.SelectedIndex].Name)
 			{
 				case "BonesPage":
-					int shapes_count = (shapes != null ? shapes.Count : 0);
+					int shapes_count = (bones != null ? bones.Count : 0);
 					shapeParamsToolStripMenuItem.Enabled = shapes_count > 0;
 					if (!USE_OLD_BONES)
 						this.Size = BoneSize;
@@ -1776,16 +1776,10 @@ namespace Object_tool
 			ToolStripItem Item = sender as ToolStripItem;
 			int type = Convert.ToInt32(Item.Tag.ToString().Split('_')[1]);
 
-			int shapes_count = (shapes != null ? shapes.Count : 0);
+			int shapes_count = (bones != null ? bones.Count : 0);
 			for (int i = 0; i < shapes_count; i++)
 			{
-				ShapeEditType shape = new ShapeEditType();
-				shape.bone_id = shapes[i].bone_id;
-				shape.bone_flags = shapes[i].bone_flags;
-				shape.bone_name = shapes[i].bone_name;
-				shape.bone_type = (ushort)type;
-				shapes[i] = shape;
-
+				bones[i].shape_type = (ushort)type;
 				ComboBox ShapeType = BonesPage.Controls[i].Controls[4] as ComboBox;
 				ShapeType.SelectedIndex = type;
 			}
@@ -1882,14 +1876,14 @@ namespace Object_tool
 		{
 			TextBox curBox = sender as TextBox;
 			int idx = Convert.ToInt32(curBox.Name.ToString().Split('_')[1]);
-			FloatTextChanged(sender, e, ref shapes[idx].mass);
+			FloatTextChanged(sender, e, ref bones[idx].mass);
 		}
 
 		private void MaterialTextChanged(object sender, EventArgs e)
 		{
 			Control curBox = sender as Control;
 			int idx = Convert.ToInt32(curBox.Name.ToString().Split('_')[1]);
-			shapes[idx].material = GetCorrectString(curBox.Text);
+			bones[idx].material = GetCorrectString(curBox.Text);
 		}
 
 		private void TextBoxKeyDown(object sender, KeyEventArgs e)
@@ -1930,11 +1924,7 @@ namespace Object_tool
 		{
 			for (int i = 0; i < surfaces.Count; i++)
 			{
-				Surface surface = new Surface();
-				surface.flags = 1;
-				surface.texture = surfaces[i].texture;
-				surface.shader = surfaces[i].shader;
-				surfaces[i] = surface;
+				surfaces[i].flags = 1;
 
 				CheckBox TwoSided = SurfacesPage.Controls[i].Controls[0] as CheckBox;
 				TwoSided.Checked = (surfaces[i].flags == 1);
@@ -1945,11 +1935,7 @@ namespace Object_tool
 		{
 			for (int i = 0; i < surfaces.Count; i++)
 			{
-				Surface surface = new Surface();
-				surface.flags = 0;
-				surface.texture = surfaces[i].texture;
-				surface.shader = surfaces[i].shader;
-				surfaces[i] = surface;
+				surfaces[i].flags = 0;
 
 				CheckBox TwoSided = SurfacesPage.Controls[i].Controls[0] as CheckBox;
 				TwoSided.Checked = (surfaces[i].flags == 1);
@@ -2013,20 +1999,13 @@ namespace Object_tool
 			string currentField = curBox.Name.ToString().Split('_')[0];
 			int idx = Convert.ToInt32(curBox.Name.ToString().Split('_')[1]);
 
-			Surface surface = new Surface();
 			switch (currentField)
 			{
 				case "TextureTextBox":
-					surface.flags = surfaces[idx].flags;
-					surface.texture = curBox.Text;
-					surface.shader = surfaces[idx].shader;
-					surfaces[idx] = surface;
+					surfaces[idx].texture = curBox.Text;
 					break;
 				case "ShaderTextBox":
-					surface.flags = surfaces[idx].flags;
-					surface.texture = surfaces[idx].texture;
-					surface.shader = curBox.Text;
-					surfaces[idx] = surface;
+					surfaces[idx].shader = curBox.Text;
 					break;
 			}
 		}
@@ -2060,44 +2039,22 @@ namespace Object_tool
 			string currentField = curBox.Name.ToString().Split('_')[0];
 			int idx = Convert.ToInt32(curBox.Name.ToString().Split('_')[1]);
 
-			Surface surface = new Surface();
-			ShapeEditType shape = new ShapeEditType();
-
 			switch (currentField)
 			{
 				case "chbx2sided":
-					surface.flags = (uint)(curBox.Checked ? 1 : 0);
-					surface.texture = surfaces[idx].texture;
-					surface.shader = surfaces[idx].shader;
-					surfaces[idx] = surface;
+					surfaces[idx].flags = (uint)(curBox.Checked ? 1 : 0);
 					break;
 				case "chbxNoPickable":
-					shape.bone_id = shapes[idx].bone_id;
-					shape.bone_type = shapes[idx].bone_type;
-					shape.bone_name = shapes[idx].bone_name;
-					shape.bone_flags = (ushort)BitSet(shapes[idx].bone_flags, (1 << 0), curBox.Checked);
-					shapes[idx] = shape;
+					bones[idx].shape_flags = (ushort)BitSet(bones[idx].shape_flags, (1 << 0), curBox.Checked);
 					break;
 				case "chbxNoPhysics":
-					shape.bone_id = shapes[idx].bone_id;
-					shape.bone_type = shapes[idx].bone_type;
-					shape.bone_name = shapes[idx].bone_name;
-					shape.bone_flags = (ushort)BitSet(shapes[idx].bone_flags, (1 << 1), curBox.Checked);
-					shapes[idx] = shape;
+					bones[idx].shape_flags = (ushort)BitSet(bones[idx].shape_flags, (1 << 1), curBox.Checked);
 					break;
 				case "chbxRemoveAfterBreakCheckBoxBox":
-					shape.bone_id = shapes[idx].bone_id;
-					shape.bone_type = shapes[idx].bone_type;
-					shape.bone_name = shapes[idx].bone_name;
-					shape.bone_flags = (ushort)BitSet(shapes[idx].bone_flags, (1 << 2), curBox.Checked);
-					shapes[idx] = shape;
+					bones[idx].shape_flags = (ushort)BitSet(bones[idx].shape_flags, (1 << 2), curBox.Checked);
 					break;
 				case "chbxNoFogColliderCheckBox":
-					shape.bone_id = shapes[idx].bone_id;
-					shape.bone_type = shapes[idx].bone_type;
-					shape.bone_name = shapes[idx].bone_name;
-					shape.bone_flags = (ushort)BitSet(shapes[idx].bone_flags, (1 << 3), curBox.Checked);
-					shapes[idx] = shape;
+					bones[idx].shape_flags = (ushort)BitSet(bones[idx].shape_flags, (1 << 3), curBox.Checked);
 					break;
 			}
 		}
@@ -2109,16 +2066,10 @@ namespace Object_tool
 			string currentField = curBox.Name.ToString().Split('_')[0];
 			int idx = Convert.ToInt32(curBox.Name.ToString().Split('_')[1]);
 
-			ShapeEditType shape = new ShapeEditType();
-
 			switch (currentField)
 			{
 				case "cbxType":
-					shape.bone_id = shapes[idx].bone_id;
-					shape.bone_type = (ushort)curBox.SelectedIndex;
-					shape.bone_name = shapes[idx].bone_name;
-					shape.bone_flags = shapes[idx].bone_flags;
-					shapes[idx] = shape;
+					bones[idx].shape_type = (ushort)curBox.SelectedIndex;
 					break;
 			}
 		}
@@ -2130,16 +2081,10 @@ namespace Object_tool
 			string currentField = curBox.Name.ToString().Split('_')[0];
 			int idx = Convert.ToInt32(curBox.Name.ToString().Split('_')[1]);
 
-			ShapeEditType shape = new ShapeEditType();
-
 			switch (currentField)
 			{
 				case "cbxType":
-					shape.bone_id = shapes[idx].bone_id;
-					shape.bone_type = (ushort)curBox.SelectedIndex;
-					shape.bone_name = shapes[idx].bone_name;
-					shape.bone_flags = shapes[idx].bone_flags;
-					shapes[idx] = shape;
+					bones[idx].shape_type = (ushort)curBox.SelectedIndex;
 					break;
 			}
 		}
@@ -2318,10 +2263,10 @@ namespace Object_tool
 
 		private void InitBoneUI()
         {
-			if (shapes != null)
+			if (bones != null)
 			{
-				for (int i = 0; i < shapes.Count; i++)
-					CreateShapeGroupBox(i, shapes[i]);
+				for (int i = 0; i < bones.Count; i++)
+					CreateShapeGroupBox(i, bones[i]);
 			}
 		}
 
@@ -2378,19 +2323,19 @@ namespace Object_tool
 			}
 		}
 
-		private void CreateShapeGroupBox(int idx, ShapeEditType shape)
+		private void CreateShapeGroupBox(int idx, Bone bone)
 		{
 			var GroupBox = new GroupBox();
 			GroupBox.Location = new System.Drawing.Point(3, 3 + 106 * idx);
 			GroupBox.Size = new System.Drawing.Size(362, 100);
-			GroupBox.Text = "Bone name: " + shape.bone_name;
+			GroupBox.Text = "Bone name: " + bone.bone_name;
 			GroupBox.Name = "ShapeGrpBox_" + idx;
 			GroupBox.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
-			CreateShapeFlags(idx, GroupBox, shape);
+			CreateShapeFlags(idx, GroupBox, bone);
 			BonesPage.Controls.Add(GroupBox);
 		}
 
-		private void CreateShapeFlags(int idx, GroupBox box, ShapeEditType shape)
+		private void CreateShapeFlags(int idx, GroupBox box, Bone bone)
 		{
 			var NoPickableCheckBoxBox = new CheckBox();
 			NoPickableCheckBoxBox.Name = "chbxNoPickable_" + idx;
@@ -2398,7 +2343,7 @@ namespace Object_tool
 			NoPickableCheckBoxBox.Size = new System.Drawing.Size(130, 23);
 			NoPickableCheckBoxBox.Location = new System.Drawing.Point(6, 15);
 			NoPickableCheckBoxBox.Anchor = AnchorStyles.Left;
-			NoPickableCheckBoxBox.Checked = (shape.bone_flags & (1 << 0)) == (1 << 0);
+			NoPickableCheckBoxBox.Checked = (bone.shape_flags & (1 << 0)) == (1 << 0);
 			NoPickableCheckBoxBox.CheckedChanged += new System.EventHandler(this.CheckBoxCheckedChanged);
 
 			var NoPhysicsCheckBoxBox = new CheckBox();
@@ -2407,7 +2352,7 @@ namespace Object_tool
 			NoPhysicsCheckBoxBox.Size = new System.Drawing.Size(100, 23);
 			NoPhysicsCheckBoxBox.Location = new System.Drawing.Point(6, 35);
 			NoPhysicsCheckBoxBox.Anchor = AnchorStyles.Left;
-			NoPhysicsCheckBoxBox.Checked = (shape.bone_flags & (1 << 1)) == (1 << 1);
+			NoPhysicsCheckBoxBox.Checked = (bone.shape_flags & (1 << 1)) == (1 << 1);
 			NoPhysicsCheckBoxBox.CheckedChanged += new System.EventHandler(this.CheckBoxCheckedChanged);
 
 			var RemoveAfterBreakCheckBoxBox = new CheckBox();
@@ -2416,7 +2361,7 @@ namespace Object_tool
 			RemoveAfterBreakCheckBoxBox.Size = new System.Drawing.Size(132, 23);
 			RemoveAfterBreakCheckBoxBox.Location = new System.Drawing.Point(6, 55);
 			RemoveAfterBreakCheckBoxBox.Anchor = AnchorStyles.Left;
-			RemoveAfterBreakCheckBoxBox.Checked = (shape.bone_flags & (1 << 2)) == (1 << 2);
+			RemoveAfterBreakCheckBoxBox.Checked = (bone.shape_flags & (1 << 2)) == (1 << 2);
 			RemoveAfterBreakCheckBoxBox.CheckedChanged += new System.EventHandler(this.CheckBoxCheckedChanged);
 
 			var NoFogColliderCheckBoxBox = new CheckBox();
@@ -2425,7 +2370,7 @@ namespace Object_tool
 			NoFogColliderCheckBoxBox.Size = new System.Drawing.Size(120, 23);
 			NoFogColliderCheckBoxBox.Location = new System.Drawing.Point(6, 75);
 			NoFogColliderCheckBoxBox.Anchor = AnchorStyles.Left;
-			NoFogColliderCheckBoxBox.Checked = (shape.bone_flags & (1 << 3)) == (1 << 3);
+			NoFogColliderCheckBoxBox.Checked = (bone.shape_flags & (1 << 3)) == (1 << 3);
 			NoFogColliderCheckBoxBox.CheckedChanged += new System.EventHandler(this.CheckBoxCheckedChanged);
 
 			var TypeLabel = new Label();
@@ -2444,7 +2389,7 @@ namespace Object_tool
 			TypeComboBox.Items.Add("Box");
 			TypeComboBox.Items.Add("Sphere");
 			TypeComboBox.Items.Add("Cylinder");
-			TypeComboBox.SelectedIndex = shape.bone_type;
+			TypeComboBox.SelectedIndex = bone.shape_flags;
 			TypeComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
 			TypeComboBox.SelectedIndexChanged += new System.EventHandler(this.ComboBoxIndexChanged);
 
@@ -2460,7 +2405,7 @@ namespace Object_tool
 			{
 				var MateriaTextBox = new TextBox();
 				MateriaTextBox.Name = "MaterialTextBox_" + idx;
-				MateriaTextBox.Text = shape.material;
+				MateriaTextBox.Text = bone.material;
 				MateriaTextBox.Size = new System.Drawing.Size(155, 17);
 				MateriaTextBox.Location = new System.Drawing.Point(200, 43);
 				MateriaTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
@@ -2472,17 +2417,17 @@ namespace Object_tool
             {
 				var MateriaTextBox = new ComboBox();
 				MateriaTextBox.Name = "MaterialTextBox_" + idx;
-				MateriaTextBox.Text = shape.material;
+				MateriaTextBox.Text = bone.material;
 				MateriaTextBox.Size = new System.Drawing.Size(155, 17);
 				MateriaTextBox.Location = new System.Drawing.Point(200, 43);
 				MateriaTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
 				MateriaTextBox.Items.AddRange(game_materials);
 				MateriaTextBox.DropDownStyle = ComboBoxStyle.DropDownList;
-				TypeComboBox.SelectedIndexChanged += new System.EventHandler(this.MaterialTextChanged);
-				if (MateriaTextBox.Items.Contains(shape.material))
-					MateriaTextBox.SelectedIndex = MateriaTextBox.Items.IndexOf(shape.material);
+				MateriaTextBox.SelectedIndexChanged += new System.EventHandler(this.MaterialTextChanged);
+				if (MateriaTextBox.Items.Contains(bone.material))
+					MateriaTextBox.SelectedIndex = MateriaTextBox.Items.IndexOf(bone.material);
 				else
-					MateriaTextBox.Text = shape.material;
+					MateriaTextBox.Text = bone.material;
 
 				MateriaBox = MateriaTextBox;
 			}
@@ -2496,7 +2441,7 @@ namespace Object_tool
 
 			var MassTextBox = new TextBox();
 			MassTextBox.Name = "MassTextBox_" + idx;
-			MassTextBox.Text = shape.mass.ToString();
+			MassTextBox.Text = bone.mass.ToString();
 			MassTextBox.Size = new System.Drawing.Size(155, 17);
 			MassTextBox.Location = new System.Drawing.Point(200, 70);
 			MassTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
