@@ -94,6 +94,7 @@ namespace Object_tool
 		public string[] game_materials = { };
 		public Thread SdkThread = null;
 		public bool MT_LOAD = false;
+		public bool NORMALS_DEFAULT = true;
 
 		public Object_Editor()
 		{
@@ -146,7 +147,7 @@ namespace Object_tool
 			pSettings.Load(StripifyMeshes);
 			pSettings.Load(OptimizeSurfaces);
 			pSettings.Load(SoCInfluence);
-			pSettings.Load(SplitNormalsChbx, true);
+			pSettings.LoadState("SplitNormalsChbx", ref NORMALS_DEFAULT, true);
 			pSettings.Load(BuildInMotionsExport, true);
 			pSettings.Load(SmoothSoC);
 			pSettings.Load(SmoothCoP, true);
@@ -1340,7 +1341,7 @@ namespace Object_tool
 						if (!SplitNormalsChbx.Enabled && xr_loader.find_chunk((int)MESH.EMESH_CHUNK_NORMALS, false, true))
 						{
 							SplitNormalsChbx.Enabled = true;
-							SplitNormalsChbx.Checked = true;
+							SplitNormalsChbx.Checked = NORMALS_DEFAULT;
 							normalsToolStripMenuItem.Enabled = true;
 						}
 
