@@ -127,6 +127,7 @@ namespace Object_tool
 			SplitNormalsChbx.Enabled = false;
 			normalsToolStripMenuItem.Enabled = false;
 			importObjectParamsToolStripMenuItem.Enabled = false;
+			saveToolStripMenuItem1.Enabled = false;
 
 			SaveSklDialog = new FolderSelectDialog();
 			OpenBatchOutDialog = new FolderSelectDialog();
@@ -1677,10 +1678,14 @@ namespace Object_tool
 
 		private void gameMtlToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (OpenXrDialog.ShowDialog() == DialogResult.OK)
+			OpenFileDialog ofd = new OpenFileDialog();
+			ofd.FileName = "";
+			ofd.Filter = "Xr file|*.xr";
+
+			if (ofd.ShowDialog() == DialogResult.OK)
 			{
-				pSettings.Save("GameMtlPath", OpenXrDialog.FileName);
-				game_materials = GameMtlParser(OpenXrDialog.FileName);
+				pSettings.Save("GameMtlPath", ofd.FileName);
+				game_materials = GameMtlParser(ofd.FileName);
 
 				if (bones != null)
 				{
@@ -2092,14 +2097,6 @@ namespace Object_tool
 
 		private void EditorKeyDown(object sender, KeyEventArgs e)
 		{
-			if (e.Control && e.KeyCode == Keys.S)
-			{
-				if (!CheckThread()) return;
-
-				SdkThread = new Thread(() => { FastSaveObject(FILE_NAME); });
-				SdkThread.Start();
-			}
-
 			switch (e.KeyData)
 			{
 				case Keys.F3:
@@ -2121,6 +2118,14 @@ namespace Object_tool
 					saveToolStripMenuItem.ShowDropDown();
 					break;
 			}
+		}
+
+		private void saveToolStripMenuItem1_Click(object sender, EventArgs e)
+		{
+			if (!CheckThread()) return;
+
+			SdkThread = new Thread(() => { FastSaveObject(FILE_NAME); });
+			SdkThread.Start();
 		}
 
 		private int BitSet(int flags, int mask, bool bvalue)
@@ -2315,6 +2320,7 @@ namespace Object_tool
 			generateLodToolStripMenuItem.Enabled = !IsOgfMode;
 			objectInfoToolStripMenuItem.Enabled = !IsOgfMode;
 			importObjectParamsToolStripMenuItem.Enabled = !IsOgfMode;
+			saveToolStripMenuItem1.Enabled = !IsOgfMode;
 
 			if (IsOgfMode)
 			{
@@ -2390,7 +2396,7 @@ namespace Object_tool
 			TypeComboBox.Items.Add("Box");
 			TypeComboBox.Items.Add("Sphere");
 			TypeComboBox.Items.Add("Cylinder");
-			TypeComboBox.SelectedIndex = bone.shape_flags;
+			TypeComboBox.SelectedIndex = bone.shape_type;
 			TypeComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
 			TypeComboBox.SelectedIndexChanged += new System.EventHandler(this.ComboBoxIndexChanged);
 
