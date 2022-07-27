@@ -67,11 +67,7 @@ namespace Object_tool
 		public float model_scale = 1.0f;
 		public float lod_quality = 0.5f;
 		public int lod_flags = 0;
-		public bool DEVELOPER_MODE = false;
-		public bool DEBUG_MODE = false;
-		public bool SOC_DEFAULTS = false;
-		public bool USE_MT_LOAD = true;
-		IniFile Settings = null;
+		EditorSettings pSettings = null;
 		FolderSelectDialog SaveSklDialog = null;
 		FolderSelectDialog OpenBatchOutDialog = null;
         List<string[]> batch_files = null;
@@ -97,6 +93,7 @@ namespace Object_tool
 		public int cpp_mode = 0;
 		public string[] game_materials = { };
 		public Thread SdkThread = null;
+		public bool MT_LOAD = false;
 
 		public Object_Editor()
 		{
@@ -136,28 +133,36 @@ namespace Object_tool
 			batch_source = new List<string>();
 
 			string file_path = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\Settings.ini";
-			Settings = new IniFile(file_path, "[settings]\ndeveloper=0\ndebug=0\ngame_mtl=\nshaders=\nsoc_defaults=0\nmt_load=0");
+			pSettings = new EditorSettings(file_path);
 
-			DEVELOPER_MODE = Convert.ToBoolean(Convert.ToUInt16(Settings.ReadDef("developer", "settings", "0")));
-			DEBUG_MODE = Convert.ToBoolean(Convert.ToUInt16(Settings.ReadDef("debug", "settings", "0")));
-			SOC_DEFAULTS = Convert.ToBoolean(Convert.ToUInt16(Settings.ReadDef("soc_defaults", "settings", "0")));
-			USE_MT_LOAD = Convert.ToBoolean(Convert.ToUInt16(Settings.ReadDef("mt_load", "settings", "0")));
+			bool NoCompress = false;
+			bool Debug = false;
+			string gamemtl = "";
+			pSettings.LoadText("GameMtlPath", ref gamemtl);
+			pSettings.LoadState("NoCompress", ref NoCompress);
+			pSettings.LoadState("Debug", ref Debug);
+			pSettings.LoadState("MtLoad", ref MT_LOAD);
+			pSettings.Load(ProgressiveMeshes);
+			pSettings.Load(StripifyMeshes);
+			pSettings.Load(OptimizeSurfaces);
+			pSettings.Load(SoCInfluence);
+			pSettings.Load(SplitNormalsChbx, true);
+			pSettings.Load(BuildInMotionsExport, true);
+			pSettings.Load(SmoothSoC);
+			pSettings.Load(SmoothCoP, true);
+			pSettings.Load(Anims8Bit);
+			pSettings.Load(Anims16Bit, !NoCompress);
+			pSettings.Load(AnimsNoCompress, NoCompress);
+			pSettings.Load(HQGeometry);
+			pSettings.Load(HQGeometryPlus, true);
+			pSettings.Load(ScaleCenterOfMassCheckBox, true);
 
-			if (SOC_DEFAULTS)
-			{
-				SoCInfluence.Checked = true;
-				if (!DEVELOPER_MODE)
-					Anims8Bit.Checked = true;
-				SmoothSoC.Checked = true;
-			}
-
-			string game_mtl = Settings.ReadDef("game_mtl", "settings", "");
-			if (File.Exists(game_mtl))
-				game_materials = GameMtlParser(game_mtl);
+			if (File.Exists(gamemtl))
+				game_materials = GameMtlParser(gamemtl);
 
 #if DEBUG
-			DEVELOPER_MODE = true;
-			DEBUG_MODE = true;
+			Debug = true;
+			NoCompress = true;
 			dbg_window = true;
 			showWindowToolStripMenuItem.Enabled = false;
 #endif
@@ -167,18 +172,15 @@ namespace Object_tool
 
 			if (System.Diagnostics.Debugger.IsAttached)
             {
-				DEVELOPER_MODE = true;
-				DEBUG_MODE = true;
 				dbg_window = true;
 				showWindowToolStripMenuItem.Enabled = false;
 			}
 
-			debugToolStripMenuItem.Visible = DEBUG_MODE;
-			AnimsNoCompress.Visible = DEVELOPER_MODE;
-			AnimsNoCompress.Checked = DEVELOPER_MODE;
+			debugToolStripMenuItem.Visible = Debug;
 
-			if (!DEVELOPER_MODE)
+			if (!NoCompress)
             {
+				AnimsNoCompress.Visible = false;
 				BuildInMotionsExport.Location = AnimsNoCompress.Location;
 				MotionFlagsGroupBox.Size = new Size(new Point(MotionFlagsGroupBox.Size.Width, MotionFlagsGroupBox.Size.Height - 22));
 				DynamicGroupBox.Location = new Point(DynamicGroupBox.Location.X, DynamicGroupBox.Location.Y - 22);
@@ -242,7 +244,7 @@ namespace Object_tool
 
 			LoadData();
 
-			if (WorkersCount >= 4 && USE_MT_LOAD)
+			if (WorkersCount >= 4 && MT_LOAD)
 			{
 				Thread MotionsThread = new Thread(ParseMotions);
 				MotionsThread.Start();
@@ -250,7 +252,7 @@ namespace Object_tool
 			else
 				ParseMotions();
 
-			if (WorkersCount >= 3 && USE_MT_LOAD)
+			if (WorkersCount >= 3 && MT_LOAD)
 			{
 				Thread SurfaceThread = new Thread(InitSurfaceUI);
 				SurfaceThread.Start();
@@ -260,7 +262,7 @@ namespace Object_tool
 
 			if (USE_OLD_BONES)
             {
-				if (USE_MT_LOAD)
+				if (MT_LOAD)
 				{
 					SdkThread = new Thread(InitBoneUI);
 					SdkThread.Start();
@@ -440,7 +442,7 @@ namespace Object_tool
 			if (ProgressiveMeshes.Checked)
 				flags |= (1 << 2);
 
-			if (checkBox2.Checked)
+			if (OptimizeSurfaces.Checked)
 				flags |= (1 << 3);
 
 			if (dbg_window)
@@ -902,7 +904,7 @@ namespace Object_tool
 					{
 						if (OpenBatchLtxDialog.ShowDialog() == DialogResult.OK)
 						{
-							BatchFlags batch_flags = new BatchFlags(DEVELOPER_MODE, SOC_DEFAULTS);
+							BatchFlags batch_flags = new BatchFlags(pSettings);
 							batch_flags.ShowDialog();
 
 							if (batch_flags.res)
@@ -920,7 +922,7 @@ namespace Object_tool
 					{
 						if (OpenBatchDialog.ShowDialog() == DialogResult.OK && OpenBatchOutDialog.ShowDialog())
 						{
-							BatchFlags batch_flags = new BatchFlags(DEVELOPER_MODE, SOC_DEFAULTS);
+							BatchFlags batch_flags = new BatchFlags(pSettings);
 							batch_flags.ShowDialog();
 
 							batch_files.Add(OpenBatchDialog.FileNames);
@@ -943,7 +945,7 @@ namespace Object_tool
 					{
 						if (OpenBatchDialog.ShowDialog() == DialogResult.OK && OpenBatchOutDialog.ShowDialog())
 						{
-							BatchFlags batch_flags = new BatchFlags(DEVELOPER_MODE, SOC_DEFAULTS);
+							BatchFlags batch_flags = new BatchFlags(pSettings);
 							batch_flags.ShowDialog();
 
 							batch_files.Add(OpenBatchDialog.FileNames);
@@ -969,7 +971,7 @@ namespace Object_tool
 
 						if (OpenBatchFoldersDialog.ShowDialog() && OpenBatchOutDialog.ShowDialog())
 						{
-							BatchFlags batch_flags = new BatchFlags(DEVELOPER_MODE, SOC_DEFAULTS);
+							BatchFlags batch_flags = new BatchFlags(pSettings);
 							batch_flags.ShowDialog();
 
 							for (int i = 0; i < OpenBatchFoldersDialog.FileNames.Count(); i++)
@@ -1003,7 +1005,7 @@ namespace Object_tool
 
 						if (OpenBatchFoldersDialog.ShowDialog() && OpenBatchOutDialog.ShowDialog())
 						{
-							BatchFlags batch_flags = new BatchFlags(DEVELOPER_MODE, SOC_DEFAULTS);
+							BatchFlags batch_flags = new BatchFlags(pSettings);
 							batch_flags.ShowDialog();
 
 							for (int i = 0; i < OpenBatchFoldersDialog.FileNames.Count(); i++)
@@ -1676,7 +1678,7 @@ namespace Object_tool
 		{
 			if (OpenXrDialog.ShowDialog() == DialogResult.OK)
 			{
-				Settings.Write("game_mtl", OpenXrDialog.FileName, "settings");
+				pSettings.Save("GameMtlPath", OpenXrDialog.FileName);
 				game_materials = GameMtlParser(OpenXrDialog.FileName);
 
 				if (shapes != null)
@@ -1690,8 +1692,8 @@ namespace Object_tool
 
 		private void FlagsHelpButton_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Motion export:\nДанные флаги влияют на компресиию анимаций при экспортировании в OMF.\n1. 8 bit - ТЧ Формат\n2. 16 bit - ЗП Формат\n" + (DEVELOPER_MODE ? "3. No compress - экспортирует анимации без сжатия\n" : "") +
-				(DEVELOPER_MODE ? "4." : "3.") + " Use build-in motions - при активации, анимации загруженные в object будут использоваться вместо моушн референсов для всевозможных экспортов. При деактивации встроенные анимации будут игнорироваться и будут использованы моушн референсы.\n\n" +
+			MessageBox.Show("Motion export:\nДанные флаги влияют на компресиию анимаций при экспортировании в OMF.\n1. 8 bit - ТЧ Формат\n2. 16 bit - ЗП Формат\n" + (AnimsNoCompress.Visible ? "3. No compress - экспортирует анимации без сжатия\n" : "") +
+				(AnimsNoCompress.Visible ? "4." : "3.") + " Use build-in motions - при активации, анимации загруженные в object будут использоваться вместо моушн референсов для всевозможных экспортов. При деактивации встроенные анимации будут игнорироваться и будут использованы моушн референсы.\n\n" +
 				"Model export:\n" +
 				"1. Make progressive meshes - создает прогрессивные меши при экспорте OGF. Это динамическая детализация модели (lod'ы), чаще используется для мировых объектов.\n" +
 				"2. Make stripify meshes - оптимизация vertex'ов и face'ов у мешей которая портила сетку, раньше стояла по дефолту в SDK и использовалась для оптимизации мешей под старый DirectX и видеокарты. Сейчас же надобности в данном флаге нет.\n" +
@@ -1701,7 +1703,7 @@ namespace Object_tool
 				"Smooth Type определяет тип сглаживания модели при экспорте моделей.\nSoC: #1\nCS\\CoP: #2\n\n" +
 				"Dynamic params:\n" +
 				"Object scale - изменяет размер объекта при экспорте, влияет на размер модели и размер анимаций.\nScale center of mass - при активации во время экспорта с измененным размером объекта будут пересчитаны центры массы коллизии под новый размер.\n" +
-				"SoC Influence - модель будет экспортированна с максимум двумя костями привязанными к полигону. Использовать только для ТЧ движков!\n\n" +
+				"SoC bone influence - модель будет экспортированна с максимум двумя костями привязанными к полигону. Использовать только для ТЧ движков!\n\n" +
 				"Surface params:\n" +
 				"1. Surface->2 Sided - после экспорта OGF модель будет отрисовываться с наружной и внутренней стороны, в 2 раза увеличивает колличество полигонов у модели.\n\n" +
 				"Shape params (Bones):\n" +
@@ -1802,9 +1804,12 @@ namespace Object_tool
 
 		private void FastSaveObject(string filename)
         {
-			StartEditor(EditorMode.SaveObject, TEMP_FILE_NAME);
-			File.Copy(TEMP_FILE_NAME, filename, true);
-			AutoClosingMessageBox.Show("Object successfully saved.", "", 1000, MessageBoxIcon.Information);
+			if (TEMP_FILE_NAME != "")
+			{
+				StartEditor(EditorMode.SaveObject, TEMP_FILE_NAME);
+				File.Copy(TEMP_FILE_NAME, filename, true);
+				AutoClosingMessageBox.Show("Object successfully saved.", "", 1000, MessageBoxIcon.Information);
+			}
 		}
 
         private void ClosingForm(object sender, FormClosingEventArgs e)
@@ -1954,14 +1959,14 @@ namespace Object_tool
 		private string GetRetCode(int code)
 		{
 			string ret = "";
-			if (DEBUG_MODE)
+			if (debugToolStripMenuItem.Visible)
 				ret += "\nExit code: " + code.ToString();
 			return ret;
 		}
 
 		private int GetErrorTime()
 		{
-			if (DEBUG_MODE)
+			if (debugToolStripMenuItem.Visible)
 				return 15000;
 			return 1000;
 		}
@@ -2594,6 +2599,37 @@ namespace Object_tool
 				default:
 					CurrentSize = this.Size;
 					break;
+			}
+		}
+
+		private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Settings ProgramSettings = new Settings(this.pSettings, this, this);
+			ProgramSettings.ShowDialog();
+
+			string game_mtl = "";
+			pSettings.Load("GameMtlPath", ref game_mtl);
+			if (File.Exists(game_mtl))
+				game_materials = GameMtlParser(game_mtl);
+		}
+
+		public void SyncCompressUI(bool visible)
+        {
+			if (AnimsNoCompress.Visible && !visible) // disable
+			{
+				AnimsNoCompress.Visible = false;
+				BuildInMotionsExport.Location = AnimsNoCompress.Location;
+				MotionFlagsGroupBox.Size = new Size(new Point(MotionFlagsGroupBox.Size.Width, MotionFlagsGroupBox.Size.Height - 22));
+				DynamicGroupBox.Location = new Point(DynamicGroupBox.Location.X, DynamicGroupBox.Location.Y - 22);
+				DynamicGroupBox.Size = new Size(new Point(DynamicGroupBox.Size.Width, DynamicGroupBox.Size.Height + 22));
+			}
+			else if (!AnimsNoCompress.Visible && visible) // enable
+			{
+				AnimsNoCompress.Visible = true;
+				BuildInMotionsExport.Location = new Point(6, 88);
+				MotionFlagsGroupBox.Size = new Size(new Point(MotionFlagsGroupBox.Size.Width, MotionFlagsGroupBox.Size.Height + 22));
+				DynamicGroupBox.Location = new Point(DynamicGroupBox.Location.X, DynamicGroupBox.Location.Y + 22);
+				DynamicGroupBox.Size = new Size(new Point(DynamicGroupBox.Size.Width, DynamicGroupBox.Size.Height - 22));
 			}
 		}
     }

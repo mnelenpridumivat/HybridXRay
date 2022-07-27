@@ -96,6 +96,7 @@ namespace Object_tool
             this.openLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.StatusPanel = new System.Windows.Forms.StatusStrip();
             this.FileLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.StatusFile = new System.Windows.Forms.ToolStripStatusLabel();
@@ -150,6 +151,7 @@ namespace Object_tool
             this.FlagsPage = new System.Windows.Forms.TabPage();
             this.FlagsGroupBox = new System.Windows.Forms.GroupBox();
             this.DynamicGroupBox = new System.Windows.Forms.GroupBox();
+            this.SoCInfluence = new System.Windows.Forms.CheckBox();
             this.ObjectScaleLabel = new System.Windows.Forms.Label();
             this.ObjectScaleTextBox = new System.Windows.Forms.TextBox();
             this.ScaleCenterOfMassCheckBox = new System.Windows.Forms.CheckBox();
@@ -167,7 +169,7 @@ namespace Object_tool
             this.HQGeometry = new System.Windows.Forms.RadioButton();
             this.HQGeometryPlus = new System.Windows.Forms.RadioButton();
             this.ProgressiveMeshes = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.OptimizeSurfaces = new System.Windows.Forms.CheckBox();
             this.TabControl = new System.Windows.Forms.TabControl();
             this.SurfacesPage = new System.Windows.Forms.TabPage();
             this.MotionPage = new System.Windows.Forms.TabPage();
@@ -189,7 +191,6 @@ namespace Object_tool
             this.SaveUserDataDialog = new System.Windows.Forms.SaveFileDialog();
             this.SaveMotionRefsDialog = new System.Windows.Forms.SaveFileDialog();
             this.OpenXrDialog = new System.Windows.Forms.OpenFileDialog();
-            this.SoCInfluence = new System.Windows.Forms.CheckBox();
             this.MenuPanel.SuspendLayout();
             this.StatusPanel.SuspendLayout();
             this.BonesPage.SuspendLayout();
@@ -229,7 +230,8 @@ namespace Object_tool
             this.toolsToolStripMenuItem,
             this.objectInfoToolStripMenuItem,
             this.debugToolStripMenuItem,
-            this.helpToolStripMenuItem});
+            this.helpToolStripMenuItem,
+            this.settingsToolStripMenuItem});
             this.MenuPanel.Location = new System.Drawing.Point(0, 0);
             this.MenuPanel.Name = "MenuPanel";
             this.MenuPanel.Size = new System.Drawing.Size(401, 24);
@@ -760,6 +762,13 @@ namespace Object_tool
             this.helpToolStripMenuItem.Text = "Help";
             this.helpToolStripMenuItem.Click += new System.EventHandler(this.FlagsHelpButton_Click);
             // 
+            // settingsToolStripMenuItem
+            // 
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+            this.settingsToolStripMenuItem.Text = "Settings";
+            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
+            // 
             // StatusPanel
             // 
             this.StatusPanel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1004,7 +1013,7 @@ namespace Object_tool
             // DeleteBoneButton
             // 
             this.DeleteBoneButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DeleteBoneButton.Location = new System.Drawing.Point(116, 761);
+            this.DeleteBoneButton.Location = new System.Drawing.Point(116, 1046);
             this.DeleteBoneButton.Name = "DeleteBoneButton";
             this.DeleteBoneButton.Size = new System.Drawing.Size(110, 36);
             this.DeleteBoneButton.TabIndex = 10;
@@ -1014,7 +1023,7 @@ namespace Object_tool
             // AddBoneButton
             // 
             this.AddBoneButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.AddBoneButton.Location = new System.Drawing.Point(0, 761);
+            this.AddBoneButton.Location = new System.Drawing.Point(0, 1046);
             this.AddBoneButton.Name = "AddBoneButton";
             this.AddBoneButton.Size = new System.Drawing.Size(110, 36);
             this.AddBoneButton.TabIndex = 9;
@@ -1036,7 +1045,7 @@ namespace Object_tool
             this.groupBox1.Controls.Add(this.checkBox6);
             this.groupBox1.Location = new System.Drawing.Point(370, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(295, 145);
+            this.groupBox1.Size = new System.Drawing.Size(448, 145);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Joint";
@@ -1247,6 +1256,16 @@ namespace Object_tool
             this.DynamicGroupBox.TabStop = false;
             this.DynamicGroupBox.Text = "Dynamic params";
             // 
+            // SoCInfluence
+            // 
+            this.SoCInfluence.AutoSize = true;
+            this.SoCInfluence.Location = new System.Drawing.Point(6, 65);
+            this.SoCInfluence.Name = "SoCInfluence";
+            this.SoCInfluence.Size = new System.Drawing.Size(166, 17);
+            this.SoCInfluence.TabIndex = 19;
+            this.SoCInfluence.Text = "SoC bone influence (2 bones)";
+            this.SoCInfluence.UseVisualStyleBackColor = true;
+            // 
             // ObjectScaleLabel
             // 
             this.ObjectScaleLabel.AutoSize = true;
@@ -1350,7 +1369,7 @@ namespace Object_tool
             this.ModelFlagsGroupBox.Controls.Add(this.HQGeometry);
             this.ModelFlagsGroupBox.Controls.Add(this.HQGeometryPlus);
             this.ModelFlagsGroupBox.Controls.Add(this.ProgressiveMeshes);
-            this.ModelFlagsGroupBox.Controls.Add(this.checkBox2);
+            this.ModelFlagsGroupBox.Controls.Add(this.OptimizeSurfaces);
             this.ModelFlagsGroupBox.Location = new System.Drawing.Point(188, 15);
             this.ModelFlagsGroupBox.Name = "ModelFlagsGroupBox";
             this.ModelFlagsGroupBox.Size = new System.Drawing.Size(175, 209);
@@ -1446,15 +1465,15 @@ namespace Object_tool
             this.ProgressiveMeshes.UseVisualStyleBackColor = true;
             this.ProgressiveMeshes.CheckedChanged += new System.EventHandler(this.ProgressiveMeshes_CheckedChanged);
             // 
-            // checkBox2
+            // OptimizeSurfaces
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(6, 112);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(109, 17);
-            this.checkBox2.TabIndex = 14;
-            this.checkBox2.Text = "Optimize surfaces";
-            this.checkBox2.UseVisualStyleBackColor = true;
+            this.OptimizeSurfaces.AutoSize = true;
+            this.OptimizeSurfaces.Location = new System.Drawing.Point(6, 112);
+            this.OptimizeSurfaces.Name = "OptimizeSurfaces";
+            this.OptimizeSurfaces.Size = new System.Drawing.Size(109, 17);
+            this.OptimizeSurfaces.TabIndex = 14;
+            this.OptimizeSurfaces.Text = "Optimize surfaces";
+            this.OptimizeSurfaces.UseVisualStyleBackColor = true;
             // 
             // TabControl
             // 
@@ -1626,16 +1645,6 @@ namespace Object_tool
             // 
             this.OpenXrDialog.Filter = "Xr file|*.xr";
             // 
-            // SoCInfluence
-            // 
-            this.SoCInfluence.AutoSize = true;
-            this.SoCInfluence.Location = new System.Drawing.Point(6, 65);
-            this.SoCInfluence.Name = "SoCInfluence";
-            this.SoCInfluence.Size = new System.Drawing.Size(139, 17);
-            this.SoCInfluence.TabIndex = 19;
-            this.SoCInfluence.Text = "SoC influence (2 bones)";
-            this.SoCInfluence.UseVisualStyleBackColor = true;
-            // 
             // Object_Editor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -1736,7 +1745,7 @@ namespace Object_tool
         private System.Windows.Forms.RadioButton HQGeometry;
         private System.Windows.Forms.RadioButton HQGeometryPlus;
         private System.Windows.Forms.CheckBox ProgressiveMeshes;
-        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.CheckBox OptimizeSurfaces;
         private System.Windows.Forms.Label ObjectScaleLabel;
         private System.Windows.Forms.CheckBox ScaleCenterOfMassCheckBox;
         private System.Windows.Forms.TextBox ObjectScaleTextBox;
@@ -1849,6 +1858,7 @@ namespace Object_tool
         private System.Windows.Forms.CheckBox BuildInMotionsExport;
         private System.Windows.Forms.GroupBox DynamicGroupBox;
         private System.Windows.Forms.CheckBox SoCInfluence;
+        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
     }
 }
 

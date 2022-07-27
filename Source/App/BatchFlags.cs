@@ -17,24 +17,35 @@ namespace Object_tool
 		private bool bKeyIsDown = false;
 		public float scale = 1.0f;
 
-		public BatchFlags(bool dev_mode, bool soc)
+		public BatchFlags(EditorSettings editorSettings)
         {
             InitializeComponent();
 
-			if (!dev_mode)
+			bool NoCompress = false;
+			editorSettings.LoadState("NoCompress", ref NoCompress);
+			editorSettings.Load(ProgressiveMeshes);
+			editorSettings.Load(StripifyMeshes);
+			editorSettings.Load(OptimizeSurfaces);
+			editorSettings.Load(SoCInfluence);
+			editorSettings.Load(SplitNormalsChbx, true);
+			editorSettings.Load(BuildInMotionsExport, true);
+			editorSettings.Load(SmoothSoC);
+			editorSettings.Load(SmoothCoP, true);
+			editorSettings.Load(Anims8Bit);
+			editorSettings.Load(Anims16Bit, !NoCompress);
+			editorSettings.Load(AnimsNoCompress, NoCompress);
+			editorSettings.Load(HQGeometry);
+			editorSettings.Load(HQGeometryPlus, true);
+			editorSettings.Load(ScaleCenterOfMassCheckBox, true);
+
+			if (!NoCompress)
             {
 				AnimsNoCompress.Visible = false;
-				Anims16Bit.Checked = true;
-
 				BuildInMotionsExport.Location = AnimsNoCompress.Location;
 				MotionFlagsGroupBox.Size = new Size(new Point(MotionFlagsGroupBox.Size.Width, MotionFlagsGroupBox.Size.Height - 22));
-				ScaleGroupBox.Location = new Point(ScaleGroupBox.Location.X, ScaleGroupBox.Location.Y - 22);
-				ScaleGroupBox.Size = new Size(new Point(ScaleGroupBox.Size.Width, ScaleGroupBox.Size.Height + 22));
-				Anims8Bit.Checked = soc;
+				DynamicGroupBox.Location = new Point(DynamicGroupBox.Location.X, DynamicGroupBox.Location.Y - 22);
+				DynamicGroupBox.Size = new Size(new Point(DynamicGroupBox.Size.Width, DynamicGroupBox.Size.Height + 22));
 			}
-
-			SoCInfluence.Checked = soc;
-			SmoothSoC.Checked = soc;
 		}
 
 		public int GetFlags(bool dbg_window)
@@ -50,7 +61,7 @@ namespace Object_tool
 			if (ProgressiveMeshes.Checked)
 				flags |= (1 << 2);
 
-			if (checkBox2.Checked)
+			if (OptimizeSurfaces.Checked)
 				flags |= (1 << 3);
 
 			if (dbg_window)

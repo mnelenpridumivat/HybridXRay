@@ -29,7 +29,8 @@
         private void InitializeComponent()
         {
             this.FlagsGroupBox = new System.Windows.Forms.GroupBox();
-            this.ScaleGroupBox = new System.Windows.Forms.GroupBox();
+            this.DynamicGroupBox = new System.Windows.Forms.GroupBox();
+            this.SoCInfluence = new System.Windows.Forms.CheckBox();
             this.ObjectScaleTextBox = new System.Windows.Forms.TextBox();
             this.ScaleCenterOfMassCheckBox = new System.Windows.Forms.CheckBox();
             this.ObjectScaleLabel = new System.Windows.Forms.Label();
@@ -42,16 +43,15 @@
             this.HQGeometry = new System.Windows.Forms.RadioButton();
             this.HQGeometryPlus = new System.Windows.Forms.RadioButton();
             this.ProgressiveMeshes = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.OptimizeSurfaces = new System.Windows.Forms.CheckBox();
             this.button1 = new System.Windows.Forms.Button();
             this.MotionFlagsGroupBox = new System.Windows.Forms.GroupBox();
             this.BuildInMotionsExport = new System.Windows.Forms.CheckBox();
             this.AnimsNoCompress = new System.Windows.Forms.RadioButton();
             this.Anims8Bit = new System.Windows.Forms.RadioButton();
             this.Anims16Bit = new System.Windows.Forms.RadioButton();
-            this.SoCInfluence = new System.Windows.Forms.CheckBox();
             this.FlagsGroupBox.SuspendLayout();
-            this.ScaleGroupBox.SuspendLayout();
+            this.DynamicGroupBox.SuspendLayout();
             this.ModelFlagsGroupBox.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.MotionFlagsGroupBox.SuspendLayout();
@@ -62,7 +62,7 @@
             this.FlagsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.FlagsGroupBox.Controls.Add(this.ScaleGroupBox);
+            this.FlagsGroupBox.Controls.Add(this.DynamicGroupBox);
             this.FlagsGroupBox.Controls.Add(this.ModelFlagsGroupBox);
             this.FlagsGroupBox.Controls.Add(this.button1);
             this.FlagsGroupBox.Controls.Add(this.MotionFlagsGroupBox);
@@ -73,21 +73,31 @@
             this.FlagsGroupBox.TabStop = false;
             this.FlagsGroupBox.Text = "Edit export flags";
             // 
-            // ScaleGroupBox
+            // DynamicGroupBox
             // 
-            this.ScaleGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.DynamicGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ScaleGroupBox.Controls.Add(this.SoCInfluence);
-            this.ScaleGroupBox.Controls.Add(this.ObjectScaleTextBox);
-            this.ScaleGroupBox.Controls.Add(this.ScaleCenterOfMassCheckBox);
-            this.ScaleGroupBox.Controls.Add(this.ObjectScaleLabel);
-            this.ScaleGroupBox.Location = new System.Drawing.Point(6, 127);
-            this.ScaleGroupBox.Name = "ScaleGroupBox";
-            this.ScaleGroupBox.Size = new System.Drawing.Size(160, 96);
-            this.ScaleGroupBox.TabIndex = 25;
-            this.ScaleGroupBox.TabStop = false;
-            this.ScaleGroupBox.Text = "Dynamic params";
+            this.DynamicGroupBox.Controls.Add(this.SoCInfluence);
+            this.DynamicGroupBox.Controls.Add(this.ObjectScaleTextBox);
+            this.DynamicGroupBox.Controls.Add(this.ScaleCenterOfMassCheckBox);
+            this.DynamicGroupBox.Controls.Add(this.ObjectScaleLabel);
+            this.DynamicGroupBox.Location = new System.Drawing.Point(6, 127);
+            this.DynamicGroupBox.Name = "DynamicGroupBox";
+            this.DynamicGroupBox.Size = new System.Drawing.Size(160, 96);
+            this.DynamicGroupBox.TabIndex = 25;
+            this.DynamicGroupBox.TabStop = false;
+            this.DynamicGroupBox.Text = "Dynamic params";
+            // 
+            // SoCInfluence
+            // 
+            this.SoCInfluence.AutoSize = true;
+            this.SoCInfluence.Location = new System.Drawing.Point(8, 68);
+            this.SoCInfluence.Name = "SoCInfluence";
+            this.SoCInfluence.Size = new System.Drawing.Size(139, 17);
+            this.SoCInfluence.TabIndex = 20;
+            this.SoCInfluence.Text = "SoC influence (2 bones)";
+            this.SoCInfluence.UseVisualStyleBackColor = true;
             // 
             // ObjectScaleTextBox
             // 
@@ -133,7 +143,7 @@
             this.ModelFlagsGroupBox.Controls.Add(this.HQGeometry);
             this.ModelFlagsGroupBox.Controls.Add(this.HQGeometryPlus);
             this.ModelFlagsGroupBox.Controls.Add(this.ProgressiveMeshes);
-            this.ModelFlagsGroupBox.Controls.Add(this.checkBox2);
+            this.ModelFlagsGroupBox.Controls.Add(this.OptimizeSurfaces);
             this.ModelFlagsGroupBox.Location = new System.Drawing.Point(172, 15);
             this.ModelFlagsGroupBox.Name = "ModelFlagsGroupBox";
             this.ModelFlagsGroupBox.Size = new System.Drawing.Size(175, 208);
@@ -230,15 +240,15 @@
             this.ProgressiveMeshes.UseVisualStyleBackColor = true;
             this.ProgressiveMeshes.CheckedChanged += new System.EventHandler(this.ProgressiveMeshes_CheckedChanged);
             // 
-            // checkBox2
+            // OptimizeSurfaces
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(6, 112);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(109, 17);
-            this.checkBox2.TabIndex = 14;
-            this.checkBox2.Text = "Optimize surfaces";
-            this.checkBox2.UseVisualStyleBackColor = true;
+            this.OptimizeSurfaces.AutoSize = true;
+            this.OptimizeSurfaces.Location = new System.Drawing.Point(6, 112);
+            this.OptimizeSurfaces.Name = "OptimizeSurfaces";
+            this.OptimizeSurfaces.Size = new System.Drawing.Size(109, 17);
+            this.OptimizeSurfaces.TabIndex = 14;
+            this.OptimizeSurfaces.Text = "Optimize surfaces";
+            this.OptimizeSurfaces.UseVisualStyleBackColor = true;
             // 
             // button1
             // 
@@ -311,16 +321,6 @@
             this.Anims16Bit.Text = "16 bit";
             this.Anims16Bit.UseVisualStyleBackColor = true;
             // 
-            // SoCInfluence
-            // 
-            this.SoCInfluence.AutoSize = true;
-            this.SoCInfluence.Location = new System.Drawing.Point(8, 68);
-            this.SoCInfluence.Name = "SoCInfluence";
-            this.SoCInfluence.Size = new System.Drawing.Size(139, 17);
-            this.SoCInfluence.TabIndex = 20;
-            this.SoCInfluence.Text = "SoC influence (2 bones)";
-            this.SoCInfluence.UseVisualStyleBackColor = true;
-            // 
             // BatchFlags
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -333,8 +333,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "BatchFlags";
             this.FlagsGroupBox.ResumeLayout(false);
-            this.ScaleGroupBox.ResumeLayout(false);
-            this.ScaleGroupBox.PerformLayout();
+            this.DynamicGroupBox.ResumeLayout(false);
+            this.DynamicGroupBox.PerformLayout();
             this.ModelFlagsGroupBox.ResumeLayout(false);
             this.ModelFlagsGroupBox.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -362,12 +362,12 @@
         private System.Windows.Forms.RadioButton HQGeometry;
         private System.Windows.Forms.RadioButton HQGeometryPlus;
         private System.Windows.Forms.CheckBox ProgressiveMeshes;
-        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.CheckBox OptimizeSurfaces;
         private System.Windows.Forms.CheckBox BuildInMotionsExport;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.RadioButton SmoothCoP;
         private System.Windows.Forms.RadioButton SmoothSoC;
-        private System.Windows.Forms.GroupBox ScaleGroupBox;
+        private System.Windows.Forms.GroupBox DynamicGroupBox;
         private System.Windows.Forms.CheckBox SoCInfluence;
     }
 }

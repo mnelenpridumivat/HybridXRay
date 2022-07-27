@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.IO;
 
 public class AutoClosingMessageBox
@@ -54,7 +55,111 @@ namespace Object_tool
         }
     }
 
-    class IniFile   // revision 11
+    public class EditorSettings
+    {
+        private IniFile pSettings = null;
+        private string sMainSect = "settings";
+
+        public EditorSettings(string IniPath = null)
+        {
+            pSettings = new IniFile(IniPath);
+        }
+
+        public EditorSettings(string IniPath = null, string init_write = null)
+        {
+            pSettings = new IniFile(IniPath, init_write);
+        }
+
+        public void Save(CheckBox box)
+        {
+            pSettings.Write(box.Name, Convert.ToUInt16(box.Checked).ToString(), "settings");
+        }
+
+        public void Save(RadioButton box)
+        {
+            pSettings.Write(box.Name, Convert.ToUInt16(box.Checked).ToString(), "settings");
+        }
+
+        public void Save(TextBox box)
+        {
+            pSettings.Write(box.Name, box.Text, "settings");
+        }
+
+        public void Save(string key, bool var)
+        {
+            pSettings.Write(key, Convert.ToUInt16(var).ToString(), "settings");
+        }
+
+        public void Save(string key, string var)
+        {
+            pSettings.Write(key, var, "settings");
+        }
+
+        public void Save(LinkLabel box)
+        {
+            pSettings.Write(box.Name, Convert.ToUInt16(box.LinkVisited).ToString(), "settings");
+        }
+
+        public bool Load(CheckBox box, bool def = false)
+        {
+            box.Checked = Convert.ToBoolean(Convert.ToUInt16(pSettings.ReadDef(box.Name, sMainSect, Convert.ToUInt16(def).ToString())));
+            return box.Checked;
+        }
+
+        public bool Load(RadioButton box, bool def = false)
+        {
+            box.Checked = Convert.ToBoolean(Convert.ToUInt16(pSettings.ReadDef(box.Name, sMainSect, Convert.ToUInt16(def).ToString())));
+            return box.Checked;
+        }
+
+        public void Load(TextBox box, string def = "")
+        {
+            box.Text = pSettings.ReadDef(box.Name, sMainSect, def);
+        }
+
+        public bool Load(string key, ref bool var, bool def = false)
+        {
+            var = Convert.ToBoolean(Convert.ToUInt16(pSettings.ReadDef(key, sMainSect, Convert.ToUInt16(def).ToString())));
+            return var;
+        }
+
+        public void Load(string key, ref string var, string def = "")
+        {
+            var = pSettings.ReadDef(key, sMainSect, def);
+        }
+
+        public bool Load(string name, CheckBox box, bool def = false)
+        {
+            box.Checked = Convert.ToBoolean(Convert.ToUInt16(pSettings.ReadDef(name, sMainSect, Convert.ToUInt16(def).ToString())));
+            return box.Checked;
+        }
+
+        public bool Load(string name, RadioButton box, bool def = false)
+        {
+            box.Checked = Convert.ToBoolean(Convert.ToUInt16(pSettings.ReadDef(name, sMainSect, Convert.ToUInt16(def).ToString())));
+            return box.Checked;
+        }
+
+        public bool Load(LinkLabel box, bool def = false)
+        {
+            box.LinkVisited = Convert.ToBoolean(Convert.ToUInt16(pSettings.ReadDef(box.Name, sMainSect, Convert.ToUInt16(def).ToString())));
+            return box.LinkVisited;
+        }
+
+        public bool LoadState(string name, ref bool state, bool def = false)
+        {
+            state = Convert.ToBoolean(Convert.ToUInt16(pSettings.ReadDef(name, sMainSect, Convert.ToUInt16(def).ToString())));
+            return state;
+        }
+
+        public string LoadText(string name, ref string text, string def = "")
+        {
+            text = pSettings.ReadDef(name, sMainSect, def);
+            return text;
+        }
+    }
+
+    public class IniFile   // revision 11
     {
         private FileInfo Ini;
         private string EXE = Assembly.GetExecutingAssembly().GetName().Name;
@@ -67,23 +172,20 @@ namespace Object_tool
 
         public IniFile(string IniPath = null)
         {
+            if (!File.Exists(IniPath))
+                File.Create(IniPath);
+
             string file_name = (IniPath ?? EXE + ".ini");
             Ini = new FileInfo(file_name);
-            if (!Ini.Exists)
-                Ini.Create();
         }
 
-        public IniFile(string IniPath = null, string init_write = null)
+        public IniFile(string IniPath = null, string init_write = "")
         {
+            if (!File.Exists(IniPath))
+                File.WriteAllText(IniPath, init_write);
+
             string file_name = (IniPath ?? EXE + ".ini");
             Ini = new FileInfo(file_name);
-            if (!Ini.Exists)
-            {
-                if (init_write != null)
-                    File.WriteAllText(file_name, init_write);
-                else
-                    Ini.Create();
-            }
         }
 
         public string Read(string Key, string Section = null)
