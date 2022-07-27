@@ -664,214 +664,151 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
 
 		// fill faces
 
-        if (influence == 4) // cop
-        {
+        if (influence == 4)
             Msg("Export as CoP");
-            for (SurfFacesPairIt sp_it = MESH->m_SurfFaces.begin(); sp_it != MESH->m_SurfFaces.end(); sp_it++)
+        else
+            Msg("Export as SoC");
+
+        for (SurfFacesPairIt sp_it = MESH->m_SurfFaces.begin(); sp_it != MESH->m_SurfFaces.end(); sp_it++)
+        {
+            if (!bRes)	break;
+            IntVec& face_lst = sp_it->second;
+            CSurface* surf = sp_it->first;
+            u32 dwTexCnt = ((surf->_FVF() & D3DFVF_TEXCOUNT_MASK) >> D3DFVF_TEXCOUNT_SHIFT);
+            R_ASSERT(dwTexCnt == 1);
+
+            for (IntIt f_it = face_lst.begin(); f_it != face_lst.end(); f_it++)
             {
-                if (!bRes)	break;
-                IntVec& face_lst = sp_it->second;
-                CSurface* surf = sp_it->first;
-                u32 dwTexCnt = ((surf->_FVF() & D3DFVF_TEXCOUNT_MASK) >> D3DFVF_TEXCOUNT_SHIFT);
-                R_ASSERT(dwTexCnt == 1);
+                if (!bRes)								break;
+                int f_idx = *f_it;
 
-                for (IntIt f_it = face_lst.begin(); f_it != face_lst.end(); f_it++)
                 {
-                    if (!bRes)								break;
-                    int f_idx = *f_it;
+                    SSkelVert 							v[3];
+                    tmp_bone_lst.clear_not_free();
+                    u32 			link_type = _max(MESH->m_SVertices[f_idx * 3 + 0].bones.size(), MESH->m_SVertices[f_idx * 3 + 1].bones.size());
+                    link_type = _max(link_type, MESH->m_SVertices[f_idx * 3 + 2].bones.size());
 
+                    VERIFY(link_type > 0 && link_type <= (u32)influence);
+
+                    if (influence == 2)
+                        link_type = 1;
+
+                    for (int k = 0; k < 3; k++)
                     {
-                        SSkelVert 							v[3];
-                        tmp_bone_lst.clear_not_free();
-                        u32 			link_type = _max(MESH->m_SVertices[f_idx * 3 + 0].bones.size(), MESH->m_SVertices[f_idx * 3 + 1].bones.size());
-                        link_type = _max(link_type, MESH->m_SVertices[f_idx * 3 + 2].bones.size());
-                        VERIFY(link_type > 0 && link_type <= (u32)influence);
+                        st_SVert& sv = MESH->m_SVertices[f_idx * 3 + k];
+                        VERIFY(sv.bones.size() > 0 && (u8)sv.bones.size() <= influence);
 
-                        for (int k = 0; k < 3; k++)
+                        Fvector offs = sv.offs;
+                        offs.mul(m_Source->a_vScale);
+
+                        if ((influence == 2 ? (sv.bones.size() == 1) : (link_type == 1)))
                         {
-                            st_SVert& sv = MESH->m_SVertices[f_idx * 3 + k];
-                            VERIFY(sv.bones.size() > 0 && (u8)sv.bones.size() <= influence);
-
-                            Fvector offs = sv.offs;
-                            offs.mul(m_Source->a_vScale);
-
-                            if (link_type == 1)
+                            st_SVert::bone 				b[2];
+                            b[0].id = sv.bones[0].id;
+                            b[1].id = sv.bones[0].id;
+                            b[0].w = 1.f;
+                            b[1].w = 0.f;
+                            v[k].set(offs, sv.norm, sv.uv, 2, b);
+                            tmp_bone_lst.push_back(sv.bones[0].id);
+                        }
+                        else if (influence == 2)
+                        {
+                            if (fsimilar(sv.bones[1].w, 0.f, EPS_L))
                             {
-                                st_SVert::bone 				b[2];
-                                b[0].id = sv.bones[0].id;
-                                b[1].id = sv.bones[0].id;
-                                b[0].w = 1.f;
-                                b[1].w = 0.f;
-                                v[k].set(offs, sv.norm, sv.uv, 2, b);
+                                v[k].set(offs, sv.norm, sv.uv, (u8)sv.bones.size(), sv.bones.begin());
                                 tmp_bone_lst.push_back(sv.bones[0].id);
                             }
+                            else if (fsimilar(sv.bones[0].w, 0.f, EPS_L))
+                            {
+                                std::swap(sv.bones[0], sv.bones[1]);
+                                v[k].set(offs, sv.norm, sv.uv, (u8)sv.bones.size(), sv.bones.begin());
+                                tmp_bone_lst.push_back(sv.bones[1].id);
+                            }
                             else
-                                if (link_type == 2)
+                            {
+                                link_type = 2;
+                                v[k].set(offs, sv.norm, sv.uv, (u8)sv.bones.size(), sv.bones.begin());
+                                tmp_bone_lst.push_back(sv.bones[0].id);
+                                tmp_bone_lst.push_back(sv.bones[1].id);
+                            }
+                        }
+                        else
+                        {
+                            if (link_type == 2)
+                            {
                                 {
-                                    {
-                                        v[k].set(offs, sv.norm, sv.uv, (u8)sv.bones.size(), sv.bones.begin());
+                                    v[k].set(offs, sv.norm, sv.uv, (u8)sv.bones.size(), sv.bones.begin());
 
-                                        for (u32 i = 0; i < sv.bones.size(); ++i)
-                                        {
-                                            tmp_bone_lst.push_back(sv.bones[i].id);
-                                        }
+                                    for (u32 i = 0; i < sv.bones.size(); ++i)
+                                    {
+                                        tmp_bone_lst.push_back(sv.bones[i].id);
                                     }
                                 }
-                                else
-                                    if (link_type == 4 || link_type == 3)
-                                    {
-                                        v[k].set(offs, sv.norm, sv.uv, (u8)sv.bones.size(), sv.bones.begin());
+                            }
+                            else if (link_type == 4 || link_type == 3)
+                            {
+                                v[k].set(offs, sv.norm, sv.uv, (u8)sv.bones.size(), sv.bones.begin());
 
-                                        for (u32 i = 0; i < sv.bones.size(); ++i)
-                                            tmp_bone_lst.push_back(sv.bones[i].id);
-                                    }
-                        }
-                        u16 bone_brk_part = 0;
-                        if (bBreakable)
-                        {
-                            std::sort(tmp_bone_lst.begin(), tmp_bone_lst.end());
-                            U16It ne = std::unique(tmp_bone_lst.begin(), tmp_bone_lst.end());
-                            tmp_bone_lst.erase(ne, tmp_bone_lst.end());
-                            U16It tit = tmp_bone_lst.begin();
-                            bone_brk_part = bone_brk_parts[*tit];
-                            tit++;
-
-                            for (; tit != tmp_bone_lst.end(); tit++)
-                                if (bone_brk_part != bone_brk_parts[*tit])
-                                {
-                                    ELog.Msg(mtError, "Can't export object as breakable. Object have N-Link face(s).");
-                                    bRes = false;
-                                }
-                        }
-                        // find split
-                        int mtl_idx = FindSplit(surf->m_ShaderName, surf->m_Texture, bone_brk_part, surf->m_id);
-                        if (mtl_idx < 0)
-                        {
-                            Fmatrix mScale;
-                            mScale.scale(m_Source->a_vScale, m_Source->a_vScale, m_Source->a_vScale);
-
-                            Fbox box;
-                            box.xform(m_Source->GetBox(), mScale);
-
-                            m_Splits.push_back(SSplit(surf, box, bone_brk_part));
-                            mtl_idx = m_Splits.size() - 1;
-                            m_Splits[mtl_idx].m_SkeletonLinkType = 0;
-                        }
-
-                        SSplit& cur_split = m_Splits[mtl_idx];
-                        cur_split.m_SkeletonLinkType = _max(link_type, cur_split.m_SkeletonLinkType);
-
-
-                        cur_split.m_UsedBones.insert(cur_split.m_UsedBones.end(), tmp_bone_lst.begin(), tmp_bone_lst.end());
-
-                        // append face
-                        cur_split.add_face(v[0], v[1], v[2], m_Source->m_objectFlags.is(CEditableObject::eoHQExportPlus));
-
-                        if (surf->m_Flags.is(CSurface::sf2Sided))
-                        {
-                            v[0].norm.invert();
-                            v[1].norm.invert();
-                            v[2].norm.invert();
-                            cur_split.add_face(v[0], v[2], v[1], m_Source->m_objectFlags.is(CEditableObject::eoHQExportPlus));
+                                for (u32 i = 0; i < sv.bones.size(); ++i)
+                                    tmp_bone_lst.push_back(sv.bones[i].id);
+                            }
                         }
                     }
-                }
-            }
-        }
-        else // soc
-        {
-            Msg("Export as SoC");
-            U16Vec				tmp_bone_list;
-            for (SurfFacesPairIt sp_it = MESH->m_SurfFaces.begin(); sp_it != MESH->m_SurfFaces.end(); sp_it++)
-            {
-                if (!bRes)	break;
-                IntVec& face_lst = sp_it->second;
-                CSurface* surf = sp_it->first;
-                u32 dwTexCnt = ((surf->_FVF()&D3DFVF_TEXCOUNT_MASK) >> D3DFVF_TEXCOUNT_SHIFT);
-                R_ASSERT(dwTexCnt == 1);
-                for (IntIt f_it = face_lst.begin(); f_it != face_lst.end(); f_it++)
-                {
-                    if (!bRes)break;
-                    int f_idx = *f_it;
-                    // case 2 links
-                    if (influence <= 2)
+                    u16 bone_brk_part = 0;
+                    if (bBreakable)
                     {
-                        BOOL b2Link = FALSE;
-                        SSkelVert v[3];
-                        tmp_bone_list.clear_not_free();
-                        for (int k = 0; k < 3; k++)
+                        std::sort(tmp_bone_lst.begin(), tmp_bone_lst.end());
+                        U16It ne = std::unique(tmp_bone_lst.begin(), tmp_bone_lst.end());
+                        tmp_bone_lst.erase(ne, tmp_bone_lst.end());
+                        U16It tit = tmp_bone_lst.begin();
+                        bone_brk_part = bone_brk_parts[*tit];
+                        tit++;
+
+                        for (; tit != tmp_bone_lst.end(); tit++)
                         {
-                            st_SVert& 		sv = MESH->m_SVertices[f_idx * 3 + k];
-                            VERIFY(sv.bones.size()>0 && (u8)sv.bones.size() <= influence);
-                            if (sv.bones.size() == 1)
+                            if (bone_brk_part != bone_brk_parts[*tit])
                             {
-                                st_SVert::bone b[2];
-                                b[0].id = b[1].id = sv.bones[0].id;
-                                b[0].w = 1.f;
-                                b[1].w = 0.f;
-                                v[k].set(sv.offs, sv.norm, sv.uv, 2, b);
-                                tmp_bone_list.push_back(sv.bones[0].id);
-                            }
-                            else
-                            {
-                                if (fsimilar(sv.bones[1].w, 0.f, EPS_L))
-                                {
-                                    v[k].set(sv.offs, sv.norm, sv.uv, (u8)sv.bones.size(), sv.bones.begin());
-                                    tmp_bone_list.push_back(sv.bones[0].id);
-                                }
-                                else if (fsimilar(sv.bones[0].w, 0.f, EPS_L))
-                                {
-                                    std::swap(sv.bones[0], sv.bones[1]);
-                                    v[k].set(sv.offs, sv.norm, sv.uv, (u8)sv.bones.size(), sv.bones.begin());
-                                    tmp_bone_list.push_back(sv.bones[1].id);
-                                }
-                                else
-                                {
-                                    b2Link = TRUE;
-                                    v[k].set(sv.offs, sv.norm, sv.uv, (u8)sv.bones.size(), sv.bones.begin());
-                                    tmp_bone_list.push_back(sv.bones[0].id);
-                                    tmp_bone_list.push_back(sv.bones[1].id);
-                                }
+                                ELog.Msg(mtError, "Can't export object as breakable. Object have N-Link face(s).");
+                                bRes = false;
                             }
                         }
-                        u16 bone_brk_part = 0;
-                        if (bBreakable)
-                        {
-                            std::sort(tmp_bone_list.begin(), tmp_bone_list.end());
-                            U16It ne = std::unique(tmp_bone_list.begin(), tmp_bone_list.end());
-                            tmp_bone_list.erase(ne, tmp_bone_list.end());
-                            U16It tit = tmp_bone_list.begin();
-                            bone_brk_part = bone_brk_parts[*tit]; tit++;
-                            for (; tit != tmp_bone_list.end(); tit++)
-                                if (bone_brk_part != bone_brk_parts[*tit])
-                                {
-                                    ELog.Msg(mtError, "Can't export object as breakable. Object have N-Link face(s).");
-                                    bRes = false;
-                                }
-                        }
-                        // find split
-                        int mtl_idx = FindSplit(surf->m_ShaderName, surf->m_Texture, bone_brk_part, surf->m_id);
-                        if (mtl_idx < 0)
-                        {
-                            m_Splits.push_back(SSplit(surf, m_Source->GetBox(), bone_brk_part));
-                            mtl_idx = m_Splits.size() - 1;
-                        }
-                        SSplit& split = m_Splits[mtl_idx];
-                        split.m_bSoC = TRUE;
+                    }
+                    // find split
+                    int mtl_idx = FindSplit(surf->m_ShaderName, surf->m_Texture, bone_brk_part, surf->m_id);
+                    if (mtl_idx < 0)
+                    {
+                        Fmatrix mScale;
+                        mScale.scale(m_Source->a_vScale, m_Source->a_vScale, m_Source->a_vScale);
 
-                        if (b2Link)
-                            split.m_SkeletonLinkType = 2;
-                        else
-                            split.m_SkeletonLinkType = 1;
+                        Fbox box;
+                        box.xform(m_Source->GetBox(), mScale);
 
-                        split.m_UsedBones.insert(split.m_UsedBones.end(), tmp_bone_list.begin(), tmp_bone_list.end());
-                        // append face
-                        split.add_face(v[0], v[1], v[2], m_Source->m_objectFlags.is(CEditableObject::eoHQExportPlus));
-                        if (surf->m_Flags.is(CSurface::sf2Sided))
-                        {
-                            v[0].norm.invert(); v[1].norm.invert(); v[2].norm.invert();
-                            split.add_face(v[0], v[2], v[1], m_Source->m_objectFlags.is(CEditableObject::eoHQExportPlus));
-                        }
+                        m_Splits.push_back(SSplit(surf, box, bone_brk_part));
+                        mtl_idx = m_Splits.size() - 1;
+                        m_Splits[mtl_idx].m_SkeletonLinkType = 0;
+                    }
+
+                    SSplit& cur_split = m_Splits[mtl_idx];
+
+                    if (influence == 4)
+                        cur_split.m_SkeletonLinkType = _max(link_type, cur_split.m_SkeletonLinkType);
+                    else
+                    {
+                        cur_split.m_bSoC = TRUE;
+                        cur_split.m_SkeletonLinkType = link_type;
+                    }
+
+                    cur_split.m_UsedBones.insert(cur_split.m_UsedBones.end(), tmp_bone_lst.begin(), tmp_bone_lst.end());
+
+                    // append face
+                    cur_split.add_face(v[0], v[1], v[2], m_Source->m_objectFlags.is(CEditableObject::eoHQExportPlus));
+
+                    if (surf->m_Flags.is(CSurface::sf2Sided))
+                    {
+                        v[0].norm.invert();
+                        v[1].norm.invert();
+                        v[2].norm.invert();
+                        cur_split.add_face(v[0], v[2], v[1], m_Source->m_objectFlags.is(CEditableObject::eoHQExportPlus));
                     }
                 }
             }
