@@ -1013,7 +1013,7 @@ namespace Object_tool
             // DeleteBoneButton
             // 
             this.DeleteBoneButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DeleteBoneButton.Location = new System.Drawing.Point(116, 1046);
+            this.DeleteBoneButton.Location = new System.Drawing.Point(116, 1331);
             this.DeleteBoneButton.Name = "DeleteBoneButton";
             this.DeleteBoneButton.Size = new System.Drawing.Size(110, 36);
             this.DeleteBoneButton.TabIndex = 10;
@@ -1023,7 +1023,7 @@ namespace Object_tool
             // AddBoneButton
             // 
             this.AddBoneButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.AddBoneButton.Location = new System.Drawing.Point(0, 1046);
+            this.AddBoneButton.Location = new System.Drawing.Point(0, 1331);
             this.AddBoneButton.Name = "AddBoneButton";
             this.AddBoneButton.Size = new System.Drawing.Size(110, 36);
             this.AddBoneButton.TabIndex = 9;
@@ -1045,7 +1045,7 @@ namespace Object_tool
             this.groupBox1.Controls.Add(this.checkBox6);
             this.groupBox1.Location = new System.Drawing.Point(370, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(448, 145);
+            this.groupBox1.Size = new System.Drawing.Size(601, 145);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Joint";
@@ -1261,9 +1261,9 @@ namespace Object_tool
             this.SoCInfluence.AutoSize = true;
             this.SoCInfluence.Location = new System.Drawing.Point(6, 65);
             this.SoCInfluence.Name = "SoCInfluence";
-            this.SoCInfluence.Size = new System.Drawing.Size(166, 17);
+            this.SoCInfluence.Size = new System.Drawing.Size(105, 17);
             this.SoCInfluence.TabIndex = 19;
-            this.SoCInfluence.Text = "SoC bone influence (2 bones)";
+            this.SoCInfluence.Text = "SoC bone export";
             this.SoCInfluence.UseVisualStyleBackColor = true;
             // 
             // ObjectScaleLabel

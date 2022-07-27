@@ -94,9 +94,9 @@
             this.SoCInfluence.AutoSize = true;
             this.SoCInfluence.Location = new System.Drawing.Point(8, 68);
             this.SoCInfluence.Name = "SoCInfluence";
-            this.SoCInfluence.Size = new System.Drawing.Size(139, 17);
+            this.SoCInfluence.Size = new System.Drawing.Size(105, 17);
             this.SoCInfluence.TabIndex = 20;
-            this.SoCInfluence.Text = "SoC influence (2 bones)";
+            this.SoCInfluence.Text = "SoC bone export";
             this.SoCInfluence.UseVisualStyleBackColor = true;
             // 
             // ObjectScaleTextBox
