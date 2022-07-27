@@ -191,6 +191,8 @@ namespace Object_tool
             this.SaveUserDataDialog = new System.Windows.Forms.SaveFileDialog();
             this.SaveMotionRefsDialog = new System.Windows.Forms.SaveFileDialog();
             this.OpenXrDialog = new System.Windows.Forms.OpenFileDialog();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.MenuPanel.SuspendLayout();
             this.StatusPanel.SuspendLayout();
             this.BonesPage.SuspendLayout();
@@ -208,6 +210,8 @@ namespace Object_tool
             this.MotionRefsPage.SuspendLayout();
             this.UserDataPage.SuspendLayout();
             this.LodPage.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // OpenObjectDialog
@@ -774,7 +778,7 @@ namespace Object_tool
             this.StatusPanel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileLabel,
             this.StatusFile});
-            this.StatusPanel.Location = new System.Drawing.Point(0, 289);
+            this.StatusPanel.Location = new System.Drawing.Point(0, 293);
             this.StatusPanel.Name = "StatusPanel";
             this.StatusPanel.Size = new System.Drawing.Size(401, 22);
             this.StatusPanel.TabIndex = 31;
@@ -1013,7 +1017,7 @@ namespace Object_tool
             // DeleteBoneButton
             // 
             this.DeleteBoneButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DeleteBoneButton.Location = new System.Drawing.Point(116, 1331);
+            this.DeleteBoneButton.Location = new System.Drawing.Point(116, 1616);
             this.DeleteBoneButton.Name = "DeleteBoneButton";
             this.DeleteBoneButton.Size = new System.Drawing.Size(110, 36);
             this.DeleteBoneButton.TabIndex = 10;
@@ -1023,7 +1027,7 @@ namespace Object_tool
             // AddBoneButton
             // 
             this.AddBoneButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.AddBoneButton.Location = new System.Drawing.Point(0, 1331);
+            this.AddBoneButton.Location = new System.Drawing.Point(0, 1616);
             this.AddBoneButton.Name = "AddBoneButton";
             this.AddBoneButton.Size = new System.Drawing.Size(110, 36);
             this.AddBoneButton.TabIndex = 9;
@@ -1045,7 +1049,7 @@ namespace Object_tool
             this.groupBox1.Controls.Add(this.checkBox6);
             this.groupBox1.Location = new System.Drawing.Point(370, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(601, 145);
+            this.groupBox1.Size = new System.Drawing.Size(754, 145);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Joint";
@@ -1221,7 +1225,7 @@ namespace Object_tool
             this.FlagsPage.Controls.Add(this.FlagsGroupBox);
             this.FlagsPage.Location = new System.Drawing.Point(4, 25);
             this.FlagsPage.Name = "FlagsPage";
-            this.FlagsPage.Size = new System.Drawing.Size(369, 230);
+            this.FlagsPage.Size = new System.Drawing.Size(369, 234);
             this.FlagsPage.TabIndex = 0;
             this.FlagsPage.Text = "Flags";
             this.FlagsPage.UseVisualStyleBackColor = true;
@@ -1231,27 +1235,24 @@ namespace Object_tool
             this.FlagsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.FlagsGroupBox.Controls.Add(this.DynamicGroupBox);
-            this.FlagsGroupBox.Controls.Add(this.MotionFlagsGroupBox);
-            this.FlagsGroupBox.Controls.Add(this.ModelFlagsGroupBox);
+            this.FlagsGroupBox.Controls.Add(this.tableLayoutPanel1);
             this.FlagsGroupBox.Location = new System.Drawing.Point(0, 0);
             this.FlagsGroupBox.Name = "FlagsGroupBox";
-            this.FlagsGroupBox.Size = new System.Drawing.Size(369, 230);
+            this.FlagsGroupBox.Size = new System.Drawing.Size(369, 234);
             this.FlagsGroupBox.TabIndex = 16;
             this.FlagsGroupBox.TabStop = false;
             this.FlagsGroupBox.Text = "Edit export flags";
             // 
             // DynamicGroupBox
             // 
-            this.DynamicGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.DynamicGroupBox.Controls.Add(this.SoCInfluence);
             this.DynamicGroupBox.Controls.Add(this.ObjectScaleLabel);
             this.DynamicGroupBox.Controls.Add(this.ObjectScaleTextBox);
             this.DynamicGroupBox.Controls.Add(this.ScaleCenterOfMassCheckBox);
-            this.DynamicGroupBox.Location = new System.Drawing.Point(6, 127);
+            this.DynamicGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
+            this.DynamicGroupBox.Location = new System.Drawing.Point(3, 119);
             this.DynamicGroupBox.Name = "DynamicGroupBox";
-            this.DynamicGroupBox.Size = new System.Drawing.Size(175, 97);
+            this.DynamicGroupBox.Size = new System.Drawing.Size(175, 93);
             this.DynamicGroupBox.TabIndex = 23;
             this.DynamicGroupBox.TabStop = false;
             this.DynamicGroupBox.Text = "Dynamic params";
@@ -1277,11 +1278,9 @@ namespace Object_tool
             // 
             // ObjectScaleTextBox
             // 
-            this.ObjectScaleTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.ObjectScaleTextBox.Location = new System.Drawing.Point(78, 16);
             this.ObjectScaleTextBox.Name = "ObjectScaleTextBox";
-            this.ObjectScaleTextBox.Size = new System.Drawing.Size(91, 20);
+            this.ObjectScaleTextBox.Size = new System.Drawing.Size(89, 20);
             this.ObjectScaleTextBox.TabIndex = 16;
             this.ObjectScaleTextBox.Text = "1";
             this.ObjectScaleTextBox.TextChanged += new System.EventHandler(this.ScaleTextChanged);
@@ -1302,13 +1301,12 @@ namespace Object_tool
             // 
             // MotionFlagsGroupBox
             // 
-            this.MotionFlagsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.MotionFlagsGroupBox.Controls.Add(this.BuildInMotionsExport);
             this.MotionFlagsGroupBox.Controls.Add(this.AnimsNoCompress);
             this.MotionFlagsGroupBox.Controls.Add(this.Anims8Bit);
             this.MotionFlagsGroupBox.Controls.Add(this.Anims16Bit);
-            this.MotionFlagsGroupBox.Location = new System.Drawing.Point(6, 15);
+            this.MotionFlagsGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MotionFlagsGroupBox.Location = new System.Drawing.Point(3, 3);
             this.MotionFlagsGroupBox.Name = "MotionFlagsGroupBox";
             this.MotionFlagsGroupBox.Size = new System.Drawing.Size(175, 110);
             this.MotionFlagsGroupBox.TabIndex = 22;
@@ -1362,7 +1360,6 @@ namespace Object_tool
             // 
             // ModelFlagsGroupBox
             // 
-            this.ModelFlagsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ModelFlagsGroupBox.Controls.Add(this.SmoothTypeGroupBox);
             this.ModelFlagsGroupBox.Controls.Add(this.SplitNormalsChbx);
             this.ModelFlagsGroupBox.Controls.Add(this.StripifyMeshes);
@@ -1370,9 +1367,10 @@ namespace Object_tool
             this.ModelFlagsGroupBox.Controls.Add(this.HQGeometryPlus);
             this.ModelFlagsGroupBox.Controls.Add(this.ProgressiveMeshes);
             this.ModelFlagsGroupBox.Controls.Add(this.OptimizeSurfaces);
-            this.ModelFlagsGroupBox.Location = new System.Drawing.Point(188, 15);
+            this.ModelFlagsGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
+            this.ModelFlagsGroupBox.Location = new System.Drawing.Point(184, 3);
             this.ModelFlagsGroupBox.Name = "ModelFlagsGroupBox";
-            this.ModelFlagsGroupBox.Size = new System.Drawing.Size(175, 209);
+            this.ModelFlagsGroupBox.Size = new System.Drawing.Size(176, 209);
             this.ModelFlagsGroupBox.TabIndex = 21;
             this.ModelFlagsGroupBox.TabStop = false;
             this.ModelFlagsGroupBox.Text = "Model export";
@@ -1491,7 +1489,7 @@ namespace Object_tool
             this.TabControl.Location = new System.Drawing.Point(12, 27);
             this.TabControl.Name = "TabControl";
             this.TabControl.SelectedIndex = 0;
-            this.TabControl.Size = new System.Drawing.Size(377, 259);
+            this.TabControl.Size = new System.Drawing.Size(377, 263);
             this.TabControl.TabIndex = 10;
             this.TabControl.SelectedIndexChanged += new System.EventHandler(this.IndexChanged);
             this.TabControl.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EditorKeyDown);
@@ -1645,12 +1643,43 @@ namespace Object_tool
             // 
             this.OpenXrDialog.Filter = "Xr file|*.xr";
             // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.ModelFlagsGroupBox, 1, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 16);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(363, 215);
+            this.tableLayoutPanel1.TabIndex = 24;
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 1;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Controls.Add(this.DynamicGroupBox, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.MotionFlagsGroupBox, 0, 0);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 2;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(181, 215);
+            this.tableLayoutPanel2.TabIndex = 0;
+            // 
             // Object_Editor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(401, 311);
+            this.ClientSize = new System.Drawing.Size(401, 315);
             this.Controls.Add(this.StatusPanel);
             this.Controls.Add(this.TabControl);
             this.Controls.Add(this.MenuPanel);
@@ -1658,7 +1687,7 @@ namespace Object_tool
             this.MainMenuStrip = this.MenuPanel;
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(580, 680);
-            this.MinimumSize = new System.Drawing.Size(417, 350);
+            this.MinimumSize = new System.Drawing.Size(417, 354);
             this.Name = "Object_Editor";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Object Editor";
@@ -1691,6 +1720,8 @@ namespace Object_tool
             this.UserDataPage.ResumeLayout(false);
             this.LodPage.ResumeLayout(false);
             this.LodPage.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1859,6 +1890,8 @@ namespace Object_tool
         private System.Windows.Forms.GroupBox DynamicGroupBox;
         private System.Windows.Forms.CheckBox SoCInfluence;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
     }
 }
 
