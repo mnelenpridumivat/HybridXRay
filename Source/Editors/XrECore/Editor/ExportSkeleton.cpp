@@ -11,6 +11,8 @@
 #include "..\xrEngine\bone.h"
 #include "..\xrEngine\SkeletonMotions.h"
 #include "..\xrEngine\motion.h"
+#include "tbb/parallel_for.h" 
+#include "tbb/blocked_range.h"
 
 //#include "library.h"
 
@@ -594,6 +596,7 @@ IC void BuildGroups(CBone* B, U16Vec& tgt, u16 id, u16& last_id)
     for (BoneIt bone_it=B->children.begin(); bone_it!=B->children.end(); bone_it++)
     	BuildGroups	(*bone_it,tgt,id,last_id);
 }
+
 #define TO_STRING(x) #x
 bool CExportSkeleton::PrepareGeometry(u8 influence)
 {
@@ -836,16 +839,18 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
                   std::sort		(split.m_UsedBones.begin(),split.m_UsedBones.end());
                   U16It ne		= std::unique(split.m_UsedBones.begin(),split.m_UsedBones.end());
                   split.m_UsedBones.erase	(ne,split.m_UsedBones.end());
-                  Msg				(" - Split %d: [Bones: %d, Links: %d, Faces: %d, Verts: %d, BrPart: %d, Shader/Texture: '%s'/'%s']",k,split.m_UsedBones.size(),split.m_SkeletonLinkType,split.getTS(),split.getVS(),split.m_PartID,*m_Splits[k].m_Shader,*m_Splits[k].m_Texture);
+                  Msg(" - Split %d: [Bones: %d, Links: %d, Faces: %d, Verts: %d, BrPart: %d, Shader/Texture: '%s'/'%s']",k,split.m_UsedBones.size(),split.m_SkeletonLinkType,split.getTS(),split.getVS(),split.m_PartID,*m_Splits[k].m_Shader,*m_Splits[k].m_Texture);
               }
          }
     }
     // calculate TB
-    Msg("..Calculate TB"); 
-    for (SplitIt split_it=m_Splits.begin(); split_it!=m_Splits.end(); split_it++)
+    Msg("..MT Calculate TB"); 
+
+    FOR_START(u32, 0, m_Splits.size(), it)
     {
-        split_it->CalculateTB();
+        m_Splits[it].CalculateTB();
     }
+    FOR_END
 
     // compute bounding
     ComputeBounding	();

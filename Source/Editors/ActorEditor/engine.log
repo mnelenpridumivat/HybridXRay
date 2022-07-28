@@ -1,0 +1,103 @@
+* Detected CPU:  [], F0/M0/S0, 3889.00 mhz, 47-clk 'rdtsc'
+* CPU features: RDTSC, MMX, SSE
+* CPU threads: 16
+
+Initializing File System...
+'xrCore' build 0, (null)
+
+CRT heap 0xf91e0000
+Process heap 0xf91e0000
+Core init time: 0.003000
+[Arg debugger]
+Arg count: 6
+Arg size: 110
+Import object [H:\test\ak_soc.object]
+Import: Can't find bone parts, reset to default.
+Export [H:\EXPORT\ak_shoc.ogf] to OGF
+..Prepare skeleton geometry
+Bone: wpn_body - Part: 0
+Bone: bolt - Part: 0
+Bone: bullet - Part: 0
+Bone: bullet2 - Part: 0
+Bone: fics - Part: 0
+Bone: flash - Part: 0
+Bone: light - Part: 0
+Bone: foregrip - Part: 0
+Bone: foregrip_rail - Part: 0
+Bone: handler - Part: 0
+Bone: handler2 - Part: 0
+Bone: handler3 - Part: 0
+Bone: knife - Part: 0
+Bone: laser - Part: 0
+Bone: line - Part: 0
+Bone: line2 - Part: 0
+Bone: lastochka - Part: 0
+Bone: launcher_gp30 - Part: 0
+Bone: grenade_gp30_blue - Part: 0
+Bone: grenade_gp30_red - Part: 0
+Bone: launcher_gp30_scope - Part: 0
+Bone: mag30 - Part: 0
+Bone: mag45 - Part: 0
+Bone: mag45_black - Part: 0
+Bone: mag60 - Part: 0
+Bone: mag75 - Part: 0
+Bone: planka - Part: 0
+Bone: sight2 - Part: 0
+Bone: pred - Part: 0
+Bone: prujina - Part: 0
+Bone: scoba - Part: 0
+Bone: scope2 - Part: 0
+Bone: metka2 - Part: 0
+Bone: scope3 - Part: 0
+Bone: metka3 - Part: 0
+Bone: scope_cobra - Part: 0
+Bone: metka_cobra - Part: 0
+Bone: scope_kashtan - Part: 0
+Bone: metka_kashtan - Part: 0
+Bone: scope_nv_assault - Part: 0
+Bone: metka_nv_assault - Part: 0
+Bone: scope_nv_sniper - Part: 0
+Bone: metka_nv_sniper - Part: 0
+Bone: scope_pka - Part: 0
+Bone: lense_pka - Part: 0
+Bone: metka_pka - Part: 0
+Bone: scope_pso_assault - Part: 0
+Bone: metka_pso_assault - Part: 0
+Bone: scope_pso_sniper - Part: 0
+Bone: metka_pso_sniper - Part: 0
+Bone: scope_rakurs - Part: 0
+Bone: metka_rakurs - Part: 0
+Bone: shell - Part: 0
+Bone: sight - Part: 0
+Bone: spusk - Part: 0
+Bone: tilnik - Part: 0
+Bone: wpn_launcher - Part: 0
+Bone: grenade_blue - Part: 0
+Bone: grenade_red - Part: 0
+Bone: launcher_scope - Part: 0
+Bone: wpn_scope - Part: 0
+Bone: wpn_silencer - Part: 0
+..Split meshes
+!Invalid smooth group found (Maya type). Object: ''. Vertex: [0.09, -0.08, 0.68]
+!Invalid smooth group found (Maya type). Object: ''. Vertex: [0.10, -0.08, 0.68]
+!Invalid smooth group found (Maya type). Object: ''. Vertex: [0.09, -0.08, 0.68]
+!Invalid smooth group found (Maya type). Object: ''. Vertex: [0.07, -0.09, 0.51]
+!Invalid smooth group found (Maya type). Object: ''. Vertex: [0.07, -0.09, 0.27]
+!Invalid smooth group found (Maya type). Object: ''. Vertex: [0.07, -0.09, 0.31]
+Export smooth groups
+Export as CoP
+Split statistic:
+ - Split 0: [Bones: 1, Links: 1, Faces: 7240, Verts: 13012, BrPart: 0, Shader/Texture: 'models\weapons'/'wpn\eft\ak74\body_diff']
+ - Split 1: [Bones: 1, Links: 1, Faces: 56, Verts: 80, BrPart: 0, Shader/Texture: 'models\weapons'/'wpn\aksu\pistolgrip_ak_bakeli']
+ - Split 2: [Bones: 1, Links: 1, Faces: 3632, Verts: 6678, BrPart: 0, Shader/Texture: 'models\weapons'/'wpn\eft\ak74\kolodka_diff']
+ - Split 3: [Bones: 4, Links: 1, Faces: 18083, Verts: 33654, BrPart: 0, Shader/Texture: 'models\weapons'/'wpn\eft\ak74\body_diff']
+ - Split 4: [Bones: 3, Links: 1, Faces: 688, Verts: 1408, BrPart: 0, Shader/Texture: 'models\weapons'/'wpn\aksu\ammo_5x45']
+ - Split 5: [Bones: 1, Links: 1, Faces: 2659, Verts: 4891, BrPart: 0, Shader/Texture: 'models\weapons'/'wpn\eft\ak74\bolt_diff']
+ - Split 6: [Bones: 1, Links: 1, Faces: 1284, Verts: 2381, BrPart: 0, Shader/Texture: 'models\weapons'/'wpn\eft\ak74\muzzle_diff']
+..Calculate TB
+..Export skeleton geometry
+..Export children
+..Export bones
+Is Animated: 1
+!..Object doesn't have own motion
+..Export skeleton motions refs
