@@ -117,14 +117,14 @@ namespace Object_tool
 			MotionRefsBox.Enabled = false;
 			UserDataTextBox.Enabled = false;
 			LodTextBox.Enabled = false;
-			DynamicGroupBox.Enabled = false;
+			ScaleGroupBox.Enabled = false;
 			motionRefsToolStripMenuItem.Enabled = false;
 			userDataToolStripMenuItem.Enabled = false;
 			motionRefsToolStripMenuItem1.Enabled = false;
 			userDataToolStripMenuItem1.Enabled = false;
 			generateLodToolStripMenuItem.Enabled = false;
 			objectInfoToolStripMenuItem.Enabled = false;
-			SplitNormalsChbx.Enabled = false;
+			UseSplitNormals.Enabled = false;
 			normalsToolStripMenuItem.Enabled = false;
 			importObjectParamsToolStripMenuItem.Enabled = false;
 			saveToolStripMenuItem1.Enabled = false;
@@ -185,8 +185,8 @@ namespace Object_tool
 				AnimsNoCompress.Visible = false;
 				BuildInMotionsExport.Location = AnimsNoCompress.Location;
 				MotionFlagsGroupBox.Size = new Size(new Point(MotionFlagsGroupBox.Size.Width, MotionFlagsGroupBox.Size.Height - 22));
-				DynamicGroupBox.Location = new Point(DynamicGroupBox.Location.X, DynamicGroupBox.Location.Y - 22);
-				DynamicGroupBox.Size = new Size(new Point(DynamicGroupBox.Size.Width, DynamicGroupBox.Size.Height + 22));
+				ScaleGroupBox.Location = new Point(ScaleGroupBox.Location.X, ScaleGroupBox.Location.Y - 22);
+				ScaleGroupBox.Size = new Size(new Point(ScaleGroupBox.Size.Width, ScaleGroupBox.Size.Height + 22));
 			}
 
 			// Init scripts
@@ -459,7 +459,7 @@ namespace Object_tool
 			if (StripifyMeshes.Checked)
 				flags |= (1 << 7);
 
-			if (SplitNormalsChbx.Checked)
+			if (UseSplitNormals.Checked)
 				flags |= (1 << 8);
 
 			if (BuildInMotionsExport.Checked)
@@ -1250,6 +1250,7 @@ namespace Object_tool
 		private void LoadData()
 		{
 			var xr_loader = new XRayLoader();
+			bool SmoothChanged = false;
 
 			using (var r = new BinaryReader(new FileStream(TEMP_FILE_NAME, FileMode.Open)))
 			{
@@ -1286,6 +1287,7 @@ namespace Object_tool
 					}
 					MotionRefsBox.Lines = refs.ToArray();
 					SmoothCoP.Checked = true;
+					SmoothChanged = true;
 				}
 				else if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SMOTIONS2, !FindBody, true))
 				{
@@ -1310,12 +1312,12 @@ namespace Object_tool
 						refs.Add(motion);
 
 					MotionRefsBox.Lines = refs.ToArray();
-
 					SmoothSoC.Checked = true;
+					SmoothChanged = true;
 				}
 
-				SplitNormalsChbx.Enabled = false;
-				SplitNormalsChbx.Checked = false;
+				UseSplitNormals.Enabled = false;
+				UseSplitNormals.Checked = false;
 				normalsToolStripMenuItem.Enabled = false;
 
 				if (xr_loader.SetData(xr_loader.find_and_return_chunk_in_chunk((int)OBJECT.EOBJ_CHUNK_EDITMESHES, !FindBody, true)))
@@ -1339,11 +1341,12 @@ namespace Object_tool
 						if (size == 0) break;
 						face_count += xr_loader.ReadUInt32();
 
-						if (!SplitNormalsChbx.Enabled && xr_loader.find_chunk((int)MESH.EMESH_CHUNK_NORMALS, false, true))
+						if (!UseSplitNormals.Enabled && xr_loader.find_chunk((int)MESH.EMESH_CHUNK_NORMALS, false, true))
 						{
-							SplitNormalsChbx.Enabled = true;
-							SplitNormalsChbx.Checked = NORMALS_DEFAULT;
+							UseSplitNormals.Enabled = true;
+							UseSplitNormals.Checked = NORMALS_DEFAULT;
 							normalsToolStripMenuItem.Enabled = true;
+							SmoothChanged = NORMALS_DEFAULT;
 						}
 
 						id++;
@@ -1479,6 +1482,13 @@ namespace Object_tool
 				}
 
 				joints_count = (uint)bones.Count;
+
+				if (!SmoothChanged)
+                {
+					pSettings.Load(SmoothSoC);
+					pSettings.Load(SmoothCoP, true);
+				}
+
 			}
 		}
 
@@ -1509,7 +1519,7 @@ namespace Object_tool
 			MotionRefsTextChanged(MotionRefsBox, null);
 
 			if (IsOgfMode)
-				DynamicGroupBox.Enabled = has_bones && hasmot;
+				ScaleGroupBox.Enabled = has_bones && hasmot;
 
 			using (var r = new BinaryReader(new FileStream(TEMP_FILE_NAME, FileMode.Open)))
 			{
@@ -1704,9 +1714,8 @@ namespace Object_tool
 				"1. Make progressive meshes - создает прогрессивные меши при экспорте OGF. Это динамическая детализация модели (lod'ы), чаще используется для мировых объектов.\n" +
 				"2. Make stripify meshes - оптимизация vertex'ов и face'ов у мешей которая портила сетку, раньше стояла по дефолту в SDK и использовалась для оптимизации мешей под старый DirectX и видеокарты. Сейчас же надобности в данном флаге нет.\n" +
 				"3. Optimize surfaces - при включении объединяет меши с одинаковыми названиями текстур и шейдеров как и любой SDK. В данном эдиторе появилась возможность отключить это для последующих изменений через OGF Editor.\n" +
-                "4. Use split normals - активируется только при наличии оригинальных нормалей у модели, которые экспортируют специальные плагины. При включении модель будет экспортированна с оригинальными нормалями модели, иначе со стандартными Smooth Groups\n" +
-                "5. HQ Geometry+ - при активации компилятор будет экспортировать модель без оптимизаций vertex'ов и face'ов. \n" +
-				"Smooth Type определяет тип сглаживания модели при экспорте моделей.\nSoC: #1\nCS\\CoP: #2\n\n" +
+                "4. HQ Geometry+ - при активации компилятор будет экспортировать модель без оптимизаций vertex'ов и face'ов. \n" +
+				"Smooth Type определяет тип сглаживания модели при экспорте моделей.\nSoC: #1\nCS\\CoP: #2\nNormals - использует оригинальные Split нормали\n\n" +
 				"Dynamic params:\n" +
 				"Object scale - изменяет размер объекта при экспорте, влияет на размер модели и размер анимаций.\nScale center of mass - при активации во время экспорта с измененным размером объекта будут пересчитаны центры массы коллизии под новый размер.\n" +
 				"SoC bone export - модель будет экспортированна с максимум двумя костями привязанными к полигону. Использовать только для ТЧ движков!\n\n" +
@@ -2309,7 +2318,7 @@ namespace Object_tool
 			bonesToolStripMenuItem1.Enabled = has_bones;
 			bonesPartsToolStripMenuItem1.Enabled = has_bones;
 			bonesPartsToDefaultToolStripMenuItem.Enabled = has_bones;
-			DynamicGroupBox.Enabled = has_bones && !IsOgfMode;
+			ScaleGroupBox.Enabled = !IsOgfMode;
 			MotionRefsBox.Enabled = has_bones;
 			UserDataTextBox.Enabled = has_bones;
 			LodTextBox.Enabled = has_bones;
@@ -2561,6 +2570,7 @@ namespace Object_tool
 
 			string game_mtl = "";
 			pSettings.Load("GameMtlPath", ref game_mtl);
+			pSettings.LoadState("SplitNormalsChbx", ref NORMALS_DEFAULT, true);
 			if (File.Exists(game_mtl))
 				game_materials = GameMtlParser(game_mtl);
 		}
@@ -2572,16 +2582,16 @@ namespace Object_tool
 				AnimsNoCompress.Visible = false;
 				BuildInMotionsExport.Location = AnimsNoCompress.Location;
 				MotionFlagsGroupBox.Size = new Size(new Point(MotionFlagsGroupBox.Size.Width, MotionFlagsGroupBox.Size.Height - 22));
-				DynamicGroupBox.Location = new Point(DynamicGroupBox.Location.X, DynamicGroupBox.Location.Y - 22);
-				DynamicGroupBox.Size = new Size(new Point(DynamicGroupBox.Size.Width, DynamicGroupBox.Size.Height + 22));
+				ScaleGroupBox.Location = new Point(ScaleGroupBox.Location.X, ScaleGroupBox.Location.Y - 22);
+				ScaleGroupBox.Size = new Size(new Point(ScaleGroupBox.Size.Width, ScaleGroupBox.Size.Height + 22));
 			}
 			else if (!AnimsNoCompress.Visible && visible) // enable
 			{
 				AnimsNoCompress.Visible = true;
 				BuildInMotionsExport.Location = new Point(6, 88);
 				MotionFlagsGroupBox.Size = new Size(new Point(MotionFlagsGroupBox.Size.Width, MotionFlagsGroupBox.Size.Height + 22));
-				DynamicGroupBox.Location = new Point(DynamicGroupBox.Location.X, DynamicGroupBox.Location.Y + 22);
-				DynamicGroupBox.Size = new Size(new Point(DynamicGroupBox.Size.Width, DynamicGroupBox.Size.Height - 22));
+				ScaleGroupBox.Location = new Point(ScaleGroupBox.Location.X, ScaleGroupBox.Location.Y + 22);
+				ScaleGroupBox.Size = new Size(new Point(ScaleGroupBox.Size.Width, ScaleGroupBox.Size.Height - 22));
 			}
 		}
     }

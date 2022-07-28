@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.FlagsGroupBox = new System.Windows.Forms.GroupBox();
-            this.DynamicGroupBox = new System.Windows.Forms.GroupBox();
+            this.ScaleGroupBox = new System.Windows.Forms.GroupBox();
             this.SoCInfluence = new System.Windows.Forms.CheckBox();
             this.ObjectScaleTextBox = new System.Windows.Forms.TextBox();
             this.ScaleCenterOfMassCheckBox = new System.Windows.Forms.CheckBox();
@@ -51,7 +51,7 @@
             this.Anims8Bit = new System.Windows.Forms.RadioButton();
             this.Anims16Bit = new System.Windows.Forms.RadioButton();
             this.FlagsGroupBox.SuspendLayout();
-            this.DynamicGroupBox.SuspendLayout();
+            this.ScaleGroupBox.SuspendLayout();
             this.ModelFlagsGroupBox.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.MotionFlagsGroupBox.SuspendLayout();
@@ -62,37 +62,36 @@
             this.FlagsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.FlagsGroupBox.Controls.Add(this.DynamicGroupBox);
+            this.FlagsGroupBox.Controls.Add(this.ScaleGroupBox);
             this.FlagsGroupBox.Controls.Add(this.ModelFlagsGroupBox);
             this.FlagsGroupBox.Controls.Add(this.button1);
             this.FlagsGroupBox.Controls.Add(this.MotionFlagsGroupBox);
             this.FlagsGroupBox.Location = new System.Drawing.Point(12, 12);
             this.FlagsGroupBox.Name = "FlagsGroupBox";
-            this.FlagsGroupBox.Size = new System.Drawing.Size(354, 256);
+            this.FlagsGroupBox.Size = new System.Drawing.Size(354, 275);
             this.FlagsGroupBox.TabIndex = 17;
             this.FlagsGroupBox.TabStop = false;
             this.FlagsGroupBox.Text = "Edit export flags";
             // 
-            // DynamicGroupBox
+            // ScaleGroupBox
             // 
-            this.DynamicGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.ScaleGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.DynamicGroupBox.Controls.Add(this.SoCInfluence);
-            this.DynamicGroupBox.Controls.Add(this.ObjectScaleTextBox);
-            this.DynamicGroupBox.Controls.Add(this.ScaleCenterOfMassCheckBox);
-            this.DynamicGroupBox.Controls.Add(this.ObjectScaleLabel);
-            this.DynamicGroupBox.Location = new System.Drawing.Point(6, 127);
-            this.DynamicGroupBox.Name = "DynamicGroupBox";
-            this.DynamicGroupBox.Size = new System.Drawing.Size(160, 96);
-            this.DynamicGroupBox.TabIndex = 25;
-            this.DynamicGroupBox.TabStop = false;
-            this.DynamicGroupBox.Text = "Dynamic params";
+            this.ScaleGroupBox.Controls.Add(this.ObjectScaleTextBox);
+            this.ScaleGroupBox.Controls.Add(this.ScaleCenterOfMassCheckBox);
+            this.ScaleGroupBox.Controls.Add(this.ObjectScaleLabel);
+            this.ScaleGroupBox.Location = new System.Drawing.Point(6, 127);
+            this.ScaleGroupBox.Name = "ScaleGroupBox";
+            this.ScaleGroupBox.Size = new System.Drawing.Size(160, 115);
+            this.ScaleGroupBox.TabIndex = 25;
+            this.ScaleGroupBox.TabStop = false;
+            this.ScaleGroupBox.Text = "Scale";
             // 
             // SoCInfluence
             // 
             this.SoCInfluence.AutoSize = true;
-            this.SoCInfluence.Location = new System.Drawing.Point(8, 68);
+            this.SoCInfluence.Location = new System.Drawing.Point(6, 157);
             this.SoCInfluence.Name = "SoCInfluence";
             this.SoCInfluence.Size = new System.Drawing.Size(105, 17);
             this.SoCInfluence.TabIndex = 20;
@@ -137,6 +136,7 @@
             // 
             this.ModelFlagsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.ModelFlagsGroupBox.Controls.Add(this.SoCInfluence);
             this.ModelFlagsGroupBox.Controls.Add(this.groupBox3);
             this.ModelFlagsGroupBox.Controls.Add(this.SplitNormalsChbx);
             this.ModelFlagsGroupBox.Controls.Add(this.StripifyMeshes);
@@ -146,7 +146,7 @@
             this.ModelFlagsGroupBox.Controls.Add(this.OptimizeSurfaces);
             this.ModelFlagsGroupBox.Location = new System.Drawing.Point(172, 15);
             this.ModelFlagsGroupBox.Name = "ModelFlagsGroupBox";
-            this.ModelFlagsGroupBox.Size = new System.Drawing.Size(175, 208);
+            this.ModelFlagsGroupBox.Size = new System.Drawing.Size(175, 227);
             this.ModelFlagsGroupBox.TabIndex = 24;
             this.ModelFlagsGroupBox.TabStop = false;
             this.ModelFlagsGroupBox.Text = "Model export";
@@ -155,7 +155,7 @@
             // 
             this.groupBox3.Controls.Add(this.SmoothCoP);
             this.groupBox3.Controls.Add(this.SmoothSoC);
-            this.groupBox3.Location = new System.Drawing.Point(6, 158);
+            this.groupBox3.Location = new System.Drawing.Point(6, 177);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(163, 44);
             this.groupBox3.TabIndex = 24;
@@ -254,7 +254,7 @@
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(6, 227);
+            this.button1.Location = new System.Drawing.Point(6, 246);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(342, 23);
             this.button1.TabIndex = 23;
@@ -325,7 +325,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(378, 280);
+            this.ClientSize = new System.Drawing.Size(378, 299);
             this.Controls.Add(this.FlagsGroupBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximizeBox = false;
@@ -333,8 +333,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "BatchFlags";
             this.FlagsGroupBox.ResumeLayout(false);
-            this.DynamicGroupBox.ResumeLayout(false);
-            this.DynamicGroupBox.PerformLayout();
+            this.ScaleGroupBox.ResumeLayout(false);
+            this.ScaleGroupBox.PerformLayout();
             this.ModelFlagsGroupBox.ResumeLayout(false);
             this.ModelFlagsGroupBox.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -367,7 +367,7 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.RadioButton SmoothCoP;
         private System.Windows.Forms.RadioButton SmoothSoC;
-        private System.Windows.Forms.GroupBox DynamicGroupBox;
+        private System.Windows.Forms.GroupBox ScaleGroupBox;
         private System.Windows.Forms.CheckBox SoCInfluence;
     }
 }
