@@ -587,7 +587,7 @@ bool CActorTools::ExportDM(LPCSTR name)
 {
     if (m_pEditObject) {
         EDetail DM;
-        if (!DM.Update(m_pEditObject->GetName())) return false;
+        if (!DM.Update(m_pEditObject->GetName(), m_pEditObject->a_vScale)) return false;
         DM.Export(name);
         return true;
     }

@@ -14,7 +14,7 @@
 
 #define DETOBJ_VERSION 				0x0001
 //------------------------------------------------------------------------------
-void EDetail::EVertexIn::remapUV(const fvfVertexIn& src, const Fvector2& offs, const Fvector2& scale, bool bRotate)
+void EDetail::EVertexIn::remapUV(const fvfVertexIn& src)
 {
     P.set		(src.P);
 }
@@ -107,7 +107,7 @@ IC BOOL isEqual(U16Vec& ind, u16 v[3])
     return false;
 }
 
-bool EDetail::Update	(LPCSTR name)
+bool EDetail::Update	(LPCSTR name, float scale)
 {
 	m_sRefs				= name;
     // update link
@@ -149,10 +149,11 @@ bool EDetail::Update	(LPCSTR name)
     u32 idx			= 0;
     for (u32 f_id=0; f_id<M->GetFCount(); f_id++)
     {
-      const  st_Face& F 	= M->GetFaces()[f_id];
+        const  st_Face& F 	= M->GetFaces()[f_id];
     	u16 ind[3];
-    	for (int k=0; k<3; k++,idx++){
-            const Fvector& P  = M->GetVertices()[F.pv[k].pindex];
+    	for (int k=0; k<3; k++,idx++)
+        {
+            Fvector P  = M->GetVertices()[F.pv[k].pindex];
             st_VMapPt&vm= M->GetVMRefs()[F.pv[k].vmref].pts[0];
             Fvector2& uv= M->GetVMaps()[vm.vmap_index]->getUV(vm.index);
         	ind[k]		= _AddVert	(P,uv.x,uv.y);
@@ -168,7 +169,7 @@ bool EDetail::Update	(LPCSTR name)
 	indices				= (u16*)xr_malloc(number_indices*sizeof(u16));
     Memory.mem_copy		(indices,inds.data(),number_indices*sizeof(u16));
 
-	bv_bb.getsphere		(bv_sphere.P,bv_sphere.R);
+    bv_bb.getsphere		(bv_sphere.P,bv_sphere.R);
 
    // OnDeviceCreate		();
 
@@ -203,7 +204,7 @@ bool EDetail::Load(IReader& F)
     	m_Flags.assign	(F.r_u32());
 
     // update object
-    return 				Update(buf);
+    return 				Update(buf, 1.0f);
 }
 
 void EDetail::Save(IWriter& F)
@@ -235,7 +236,7 @@ void EDetail::Save(IWriter& F)
     F.close_chunk		();
 }
 
-void EDetail::Export(IWriter& F, LPCSTR tex_name, const Fvector2& offs, const Fvector2& scale, bool rot)
+void EDetail::Export(IWriter& F, LPCSTR tex_name)
 {
 	R_ASSERT			(m_pRefs);
     CSurface* surf		= *m_pRefs->FirstSurface();
@@ -253,7 +254,7 @@ void EDetail::Export(IWriter& F, LPCSTR tex_name, const Fvector2& offs, const Fv
 
     // remap UV
     EVertexIn* rm_vertices = xr_alloc<EVertexIn>(number_vertices);
-    for (u32 k=0; k<number_vertices; k++) rm_vertices[k].remapUV(vertices[k],offs,scale,rot);
+    for (u32 k=0; k<number_vertices; k++) rm_vertices[k].remapUV(vertices[k]);
     
     F.w					(rm_vertices, 	number_vertices*sizeof(fvfVertexIn));
     F.w					(indices, 		number_indices*sizeof(WORD));
@@ -266,12 +267,13 @@ void EDetail::Export(LPCSTR name)
     CSurface* surf		= *m_pRefs->FirstSurface();
 	R_ASSERT			(surf);
     IWriter* F 			= FS.w_open(name);
-    if (F){
-        Fvector2 offs	= {0,0};
-        Fvector2 scale	= {1,1};
-        Export			(*F,surf->_Texture(),offs,scale,false);
+    if (F)
+    {
+        Export			(*F,surf->_Texture());
         FS.w_close		(F);
-    }else{
+    }
+    else
+    {
         Log				("!Can't export detail:",name);
     }
 }
