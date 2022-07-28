@@ -8,4 +8,5 @@
 
 #include "xrCore.h"
 #include "xrCore_platform.h"
+#include "Utils.hpp"
 //.#include "../../Include/xrAPI/xrAPI.h"

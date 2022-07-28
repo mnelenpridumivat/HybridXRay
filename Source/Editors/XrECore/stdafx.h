@@ -6,6 +6,7 @@
 #include <d3d9.h>
 #include "directx\d3dx9.h"
 #include "..\..\XrRender\Private\xrD3dDefs.h"
+#include "../XrCore/Utils.hpp"
 
 #include <dinput.h>
 // #include <dsound.h>

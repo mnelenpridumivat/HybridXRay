@@ -11,6 +11,8 @@
 #include "bone.h"
 #include "SkeletonMotions.h"
 #include "motion.h"
+#include "tbb/parallel_for.h" 
+#include "tbb/blocked_range.h"
 
 // #include "library.h"
 
@@ -602,6 +604,7 @@ IC void BuildGroups(CBone* B, U16Vec& tgt, u16 id, u16& last_id)
     for (BoneIt bone_it = B->children.begin(); bone_it != B->children.end(); bone_it++)
         BuildGroups(*bone_it, tgt, id, last_id);
 }
+
 #define TO_STRING(x) #x
 bool CExportSkeleton::PrepareGeometry(u8 influence)
 {
@@ -878,15 +881,17 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
         }
     }
     // calculate TB
-    Msg("..Calculate TB"); 
-    for (SplitIt split_it = m_Splits.begin(); split_it != m_Splits.end(); split_it++)
+    Msg("..MT Calculate TB"); 
+
+    FOR_START(u32, 0, m_Splits.size(), it)
     {
-        split_it->CalculateTB();
+        m_Splits[it].CalculateTB();
 
 #if 1
         pb->Inc();
 #endif
     }
+    FOR_END
 
 #if 1
     pb->Inc();
