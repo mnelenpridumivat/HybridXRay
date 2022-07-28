@@ -140,12 +140,11 @@ xr_vector<shared_str> LoadStringVector(char** args, int count)
 
 int main(int argc, char** argv)
 {
-    std::cout << "Start init Core" << std::endl;
+    std::cout << "Starting init Core" << std::endl;
     unsigned int start_time = clock();
     Core._initialize("Actor", ELogCallback,1, "",true, true);
     unsigned int end_time = clock();
     double seconds = (double)(end_time - start_time) / CLOCKS_PER_SEC;
-    Msg("Core init time: %f", seconds);
 
     Msg("[Arg debugger]");
     Msg("Arg count: %d", argc);
@@ -156,6 +155,13 @@ int main(int argc, char** argv)
         size += arg.size();
     }
     Msg("Arg size: %d", size);
+
+    if (argc == 1)
+    {
+        Msg("Please, run Object tool.exe");
+        system("pause");
+        return 0;
+    }
 
     // Program params
     int ret_code = 0;

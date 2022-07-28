@@ -415,7 +415,7 @@ namespace Object_tool
 
 		private int RunCompiller(string args)
 		{
-			string exe_path = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\ActorEditor.exe";
+			string exe_path = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\Object Editor.exe";
 			if (File.Exists(exe_path))
 			{
 				CheckTempFileExist();
@@ -432,7 +432,7 @@ namespace Object_tool
 			}
 			else
 			{
-				MessageBox.Show("Can't find ActorEditor.exe", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show("Can't find Object Editor.exe", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return -1;
 			}
 		}
