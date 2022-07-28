@@ -297,6 +297,7 @@
     <ClInclude Include="Engine\nv_mathdecl.h" />
     <ClInclude Include="Engine\Texture.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="VisualLog.h" />
     <ClInclude Include="WildMagic\WmlApprGaussPointsFit3.h" />
     <ClInclude Include="WildMagic\WmlBox3.h" />
     <ClInclude Include="WildMagic\WmlContBox3.h" />

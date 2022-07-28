@@ -4,7 +4,8 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include <ctime>    
+#include <ctime>   
+#include "../XrECore/VisualLog.h"
 
 // argv[1] - mode
 // argv[2] - object
@@ -18,7 +19,7 @@ extern ECORE_API float g_EpsSkelPositionDelta;
 
 int iReaderPos = 0;
 
-xr_vector<CEditableObject::ShapeEditType> LoadShapes(char** args, int count)
+xr_vector<CEditableObject::ShapeEditType> LoadShapes(xr_vector<LPCSTR> args, int count)
 {
     xr_vector<CEditableObject::ShapeEditType> vec;
 
@@ -49,7 +50,7 @@ xr_vector<CEditableObject::ShapeEditType> LoadShapes(char** args, int count)
     return vec;
 }
 
-xr_vector<CEditableObject::SurfaceParams> LoadSurfaces(char** args, int count)
+xr_vector<CEditableObject::SurfaceParams> LoadSurfaces(xr_vector<LPCSTR> args, int count)
 {
     xr_vector<CEditableObject::SurfaceParams> vec;
 
@@ -90,7 +91,7 @@ xr_vector<CEditableObject::SurfaceParams> LoadSurfaces(char** args, int count)
     return vec;
 }
 
-xr_vector<CActorTools::BatchFiles> LoadBatchFiles(char** args, int count)
+xr_vector<CActorTools::BatchFiles> LoadBatchFiles(xr_vector<LPCSTR> args, int count)
 {
     xr_vector<CActorTools::BatchFiles> batch_files;
     if (count > 0) // Режим папок
@@ -125,7 +126,7 @@ xr_vector<CActorTools::BatchFiles> LoadBatchFiles(char** args, int count)
     return batch_files;
 }
 
-xr_vector<shared_str> LoadStringVector(char** args, int count)
+xr_vector<shared_str> LoadStringVector(xr_vector<LPCSTR> args, int count)
 {
     xr_vector<shared_str> vec;
 
@@ -138,20 +139,48 @@ xr_vector<shared_str> LoadStringVector(char** args, int count)
     return vec;
 }
 
+bool generate_commands = false;
+bool load_commands = false;
+
 int main(int argc, char** argv)
 {
     std::cout << "Starting init Core" << std::endl;
-    unsigned int start_time = clock();
     Core._initialize("Actor", ELogCallback,1, "",true, true);
-    unsigned int end_time = clock();
-    double seconds = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+
+    xr_vector<LPCSTR> args;
+
+    for (int i = 0; i < argc; i++)
+        args.push_back(argv[i]);
+
+    if (generate_commands)
+    {
+        std::ofstream commands;
+        commands.open("debug_commands.txt"); 
+
+        for (int i = 0; i < argc; i++)
+            commands << args[i] << std::endl;
+        commands.close();
+    }
+    else if (load_commands)
+    {
+        std::string line;
+        std::ifstream file;
+        file.open("debug_commands.txt");
+        argc = 0;
+        while (std::getline(file, line))
+        {
+            args[argc] = line.c_str();
+            argc++;
+        }
+        file.close();
+    }
 
     Msg("[Arg debugger]");
     Msg("Arg count: %d", argc);
     int size = 0;
     for (int i = 0; i < argc; i++)
     {
-        shared_str arg = argv[i];
+        shared_str arg = args[i];
         size += arg.size();
     }
     Msg("Arg size: %d", size);
@@ -184,40 +213,40 @@ int main(int argc, char** argv)
     shared_str source_object = "";
     // End of program params
 
-    if (!IsDebuggerPresent())
+    if (!IsDebuggerPresent() || load_commands)
     {
         // Program params
-        mode = atoi(argv[1]);
-        object_path = argv[2];
-        second_file_path = argv[3];
-        flags = atoi(argv[4]);
-        scale = atof(argv[5]);
-        int shapes_count = atoi(argv[6]);
-        int surfaces_count = atoi(argv[7]);
-        int loaded_skls_count = atoi(argv[8]);
+        mode = atoi(args[1]);
+        object_path = args[2];
+        second_file_path = args[3];
+        flags = atoi(args[4]);
+        scale = atof(args[5]);
+        int shapes_count = atoi(args[6]);
+        int surfaces_count = atoi(args[7]);
+        int loaded_skls_count = atoi(args[8]);
         iReaderPos = 9;
-        pShapes = LoadShapes(argv, shapes_count);
-        pSurfaces = LoadSurfaces(argv, surfaces_count);
-        pLoadedAnims = LoadStringVector(argv, loaded_skls_count);
-        lod_quality = atof(argv[iReaderPos]); iReaderPos++;
-        lod_flags = atoi(argv[iReaderPos]); iReaderPos++;
-        lod_path = argv[iReaderPos]; iReaderPos++;
-        int motion_refs_count = atoi(argv[iReaderPos]); iReaderPos++;
-        pMotionRefs = LoadStringVector(argv, motion_refs_count);
-        int batch_files_count = atoi(argv[iReaderPos]); iReaderPos++;
-        pBatchFiles = LoadBatchFiles(argv, batch_files_count);
-        batch_out = argv[iReaderPos]; iReaderPos++;
-        cpp_export_mode = atoi(argv[iReaderPos]); iReaderPos++;
-        custom_script = argv[iReaderPos]; iReaderPos++;
-        source_object = argv[iReaderPos]; iReaderPos++;
+        pShapes = LoadShapes(args, shapes_count);
+        pSurfaces = LoadSurfaces(args, surfaces_count);
+        pLoadedAnims = LoadStringVector(args, loaded_skls_count);
+        lod_quality = atof(args[iReaderPos]); iReaderPos++;
+        lod_flags = atoi(args[iReaderPos]); iReaderPos++;
+        lod_path = args[iReaderPos]; iReaderPos++;
+        int motion_refs_count = atoi(args[iReaderPos]); iReaderPos++;
+        pMotionRefs = LoadStringVector(args, motion_refs_count);
+        int batch_files_count = atoi(args[iReaderPos]); iReaderPos++;
+        pBatchFiles = LoadBatchFiles(args, batch_files_count);
+        batch_out = args[iReaderPos]; iReaderPos++;
+        cpp_export_mode = atoi(args[iReaderPos]); iReaderPos++;
+        custom_script = args[iReaderPos]; iReaderPos++;
+        source_object = args[iReaderPos]; iReaderPos++;
         // End of program params
     }
     else
     {
         // Program params
         mode = ExportOGF;
-        object_path = "H:\\test\\ak_soc.object";
-        second_file_path = "H:\\EXPORT\\ak_shoc.ogf";
+        object_path = "H:\\test\\error\\wpn_m4.object";
+        second_file_path = "H:\\test\\error\\wpn_m4.ogf";
         flags = exfHQGeometryPlus;
         //custom_script = "G:\\projects\\ValeroK\\xrExportTool\\bin\\x64\\Release\\scripts\\delete_unused_gunslinger_bones.script";
         // End of program params

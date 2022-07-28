@@ -48,6 +48,16 @@ namespace Object_tool
 			public string bone_name;
 			public string material;
 			public float  mass;
+
+			public Bone()
+            {
+				bone_id = 0;
+				shape_type = 0;
+				shape_flags = 0;
+				bone_name = "Error! Not loaded!";
+				material = "Error! Not loaded!";
+				mass = 0.0f;
+			}
 		};
 
 		public class Surface
@@ -56,6 +66,14 @@ namespace Object_tool
 			public string texture;
 			public string shader;
 			public string name;
+
+			public Surface()
+            {
+				flags = 0;
+				texture = "Error! Not loaded!";
+				shader = "Error! Not loaded!";
+				name = "Error! Not loaded!";
+			}
 		};
 
 		// File sytem
@@ -251,30 +269,24 @@ namespace Object_tool
 
 			LoadData();
 
-			if (WorkersCount >= 4 && MT_LOAD)
-			{
-				Thread MotionsThread = new Thread(ParseMotions);
-				MotionsThread.Start();
-			}
-			else
-				ParseMotions();
+			ParseMotions();
 
-			if (WorkersCount >= 3 && MT_LOAD)
-			{
-				Thread SurfaceThread = new Thread(InitSurfaceUI);
-				SurfaceThread.Start();
-			}
-			else
+			//if (WorkersCount >= 3 && MT_LOAD)
+			//{
+			//	Thread SurfaceThread = new Thread(InitSurfaceUI);
+			//	SurfaceThread.Start();
+			//}
+			//else
 				InitSurfaceUI();
 
 			if (USE_OLD_BONES)
             {
-				if (MT_LOAD)
-				{
-					SdkThread = new Thread(InitBoneUI);
-					SdkThread.Start();
-				}
-				else
+				//if (MT_LOAD)
+				//{
+				//	SdkThread = new Thread(InitBoneUI);
+				//	SdkThread.Start();
+				//}
+				//else
 					InitBoneUI();
 			}
             else
@@ -408,6 +420,7 @@ namespace Object_tool
 			args += $" \"{FILE_NAME}\"";
 
 			int exit_code = RunCompiller(args);
+
 			if (File.Exists(object_path + "_temp.userdata"))
 				File.Delete(object_path + "_temp.userdata");
 			return exit_code;
@@ -426,8 +439,31 @@ namespace Object_tool
 				EditorProcess.StartInfo.CreateNoWindow = !dbg_window;
 				EditorProcess.StartInfo.UseShellExecute = dbg_window;
 				EditorProcess.Start();
-				EditorProcess.WaitForExit();
+
+				LogTextBox.Text = "";
+				string log = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\visual_log.log";
+				if (File.Exists(log))
+					File.Delete(log);
+				Thread LogThread = new Thread(() =>
+                {
+                    while (true)
+                    {
+                        if (File.Exists(log))
+                            LogTextBox.Text = File.ReadAllText(log);
+                        Thread.Sleep(100);
+                    }
+                });
+                LogThread.Start();
+
+                EditorProcess.WaitForExit();
 				EditorWorking = false;
+				LogThread.Abort();
+
+				if (File.Exists(log))
+				{
+					LogTextBox.Text = File.ReadAllText(log);
+					File.Delete(log);
+				}
 				return EditorProcess.ExitCode;
 			}
 			else

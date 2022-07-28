@@ -776,6 +776,7 @@
     <ClInclude Include="Editor\Tools\resample.h">
       <Filter>Tools</Filter>
     </ClInclude>
+    <ClInclude Include="VisualLog.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="WildMagic\WmlMath.inl">

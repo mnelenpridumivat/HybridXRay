@@ -13,6 +13,7 @@
 #include "..\xrEngine\motion.h"
 #include "tbb/parallel_for.h" 
 #include "tbb/blocked_range.h"
+#include "..\XrECore\VisualLog.h"
 
 //#include "library.h"
 
@@ -448,6 +449,7 @@ void CExportSkeleton::SSplit::Save(IWriter& F)
 void CExportSkeleton::SSplit::MakeProgressive()
 {
     Msg("..Make progressive");
+    WriteLog("..Make progressive");
 	VIPM_Init	();
     for (SkelVertIt vert_it=m_Verts.begin(); vert_it!=m_Verts.end(); vert_it++)
     	VIPM_AppendVertex(vert_it->offs,vert_it->uv);
@@ -477,6 +479,7 @@ void CExportSkeleton::SSplit::MakeProgressive()
             m_SWR[swr_idx]	= R->swr_records[swr_idx];
 	}else{
     	Log("!..Can't make progressive.");
+        WriteLog("!..Can't make progressive");
     }
     
     // cleanup
@@ -486,6 +489,7 @@ void CExportSkeleton::SSplit::MakeProgressive()
 void CExportSkeleton::SSplit::MakeStripify()
 {
     Msg("..Make stripify");
+    WriteLog("..Make stripify");
 //	int ccc 	= xrSimulate	((u16*)&m_Faces.front(),m_Faces.size()*3,24);
 //	Log("SRC:",ccc);
 	// alternative stripification - faces
@@ -618,6 +622,7 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
     R_ASSERT(m_Source->IsDynamic()&&m_Source->IsSkeleton());
 
     Msg("..Prepare skeleton geometry");
+    WriteLog("..Prepare skeleton geometry");
 
     bool bBreakable		= false;
     U16Vec   			bone_brk_parts(m_Source->BoneCount());
@@ -638,13 +643,17 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
     }
     
     bool bRes			= true;
-    Msg("..Split meshes"); 
 
     U16Vec				tmp_bone_lst;
 
     if (m_Source->m_objectFlags.is(CEditableObject::eoOptimizeSurf))
+    {
         Msg("..Optimize surfaces");
+        WriteLog("..Optimize surfaces");
+    }
 
+    Msg("..Split meshes"); 
+    WriteLog("..Split meshes");
     for(EditMeshIt mesh_it=m_Source->FirstMesh();mesh_it!=m_Source->LastMesh();mesh_it++)
     {
     	if (!bRes)		break;
@@ -668,9 +677,15 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
 		// fill faces
 
         if (influence == 4)
+        {
             Msg("Export as CoP");
+            WriteLog("..Export as CoP");
+        }
         else
+        {
             Msg("Export as SoC");
+            WriteLog("..Export as SoC");
+        }
 
         for (SurfFacesPairIt sp_it = MESH->m_SurfFaces.begin(); sp_it != MESH->m_SurfFaces.end(); sp_it++)
         {
@@ -845,6 +860,7 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
     }
     // calculate TB
     Msg("..MT Calculate TB"); 
+    WriteLog("..MT Calculate TB");
 
     FOR_START(u32, 0, m_Splits.size(), it)
     {
@@ -884,6 +900,7 @@ bool CExportSkeleton::ExportGeometry(IWriter& F, u8 infl)
 	if (!PrepareGeometry(infl)) return false;
 
     Msg("..Export skeleton geometry");
+    WriteLog("..Export skeleton geometry");
 
 	// fill per bone vertices
     BoneVec& bones 			= m_Source->Bones();
@@ -933,6 +950,7 @@ bool CExportSkeleton::ExportGeometry(IWriter& F, u8 infl)
     F.open_chunk	(OGF_CHILDREN);
     int chield=0;
     Msg("..Export children");
+    WriteLog("..Export children");
     for (auto split_it=m_Splits.begin(); split_it!=m_Splits.end(); split_it++){
 	    F.open_chunk(chield++);
         split_it->Save(F);
@@ -957,6 +975,7 @@ bool CExportSkeleton::ExportGeometry(IWriter& F, u8 infl)
                     
     F.open_chunk(OGF_S_IKDATA);
     Msg("..Export bones");
+    WriteLog("..Export bones");
     for (auto bone_it = m_Source->FirstBone(); bone_it != m_Source->LastBone(); ++bone_it, ++bone_idx)
         if (!(*bone_it)->ExportOGF(F, m_Source->a_vScale, m_Source->a_vAdjustMass))
             bRes = false;
@@ -1038,6 +1057,7 @@ bool CExportSkeleton::ExportMotionKeys(IWriter& F)
     }
 
     Msg("..Export skeleton motions keys");
+    WriteLog("..Export skeleton motions keys");
     // mem active motion
     CSMotion* active_motion=m_Source->ResetSAnimation();
 
@@ -1055,9 +1075,17 @@ bool CExportSkeleton::ExportMotionKeys(IWriter& F)
     mGT.mul                    (mTranslate,mRotate);
 
     if (g_force16BitTransformQuant)
+    {
         Msg("..Export 16 bit motions");
+        WriteLog("..Export 16 bit motionss");
+    }
     else if (g_forceFloatTransformQuant)
-        Msg("..Export no compress motions");
+    {
+        Msg("..Export no compressed motions");
+        WriteLog("..Export no compressed motions");
+    }
+    else
+        WriteLog("..Export 8 bit motions");
 
     for (SMotionIt motion_it=m_Source->FirstSMotion(); motion_it!=m_Source->LastSMotion(); motion_it++, smot++)
     {
@@ -1316,11 +1344,13 @@ bool CExportSkeleton::ExportMotionDefs(IWriter& F)
     if (!m_Source->m_objectFlags.is(CEditableObject::eoExpBuildinMots) || m_Source->SMotionCount() < 1)
     {
         Msg("..Export skeleton motions refs");
+        WriteLog("..Export skeleton motions refs");
         ExportMotionRefs(F);
     }
     else
     {
         Msg("..Export skeleton motions defs");
+        WriteLog("..Export skeleton motions defs");
         // save smparams
         F.open_chunk	(OGF_S_SMPARAMS);
         F.w_u16			(xrOGF_SMParamsVersion);
@@ -1435,7 +1465,6 @@ bool CExportSkeleton::ExportMotionRefs(IWriter& F)
 
 bool CExportSkeleton::ExportMotions(IWriter& F)
 {
-    Msg("Is Animated: %d", m_Source->IsAnimated());
     if (!ExportMotionKeys(F)) 	return false;
     if (!ExportMotionDefs(F)) 	return false;
     return true;
