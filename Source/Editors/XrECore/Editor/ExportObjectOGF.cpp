@@ -7,6 +7,7 @@
 #include "..\xrEngine\fmesh.h"
 #include "..\xrEngine\bone.h"
 #include "..\xrEngine\motion.h"
+#include "tbb\parallel_for.h"
 
 #if 1
 #include "ui_main.h"
@@ -398,8 +399,11 @@ bool CExportObjectOGF::Prepare(bool gen_tb, CEditableMesh* mesh)
     // calculate TB
     if (gen_tb)
 	{
-        for (SplitIt split_it=m_Splits.begin(); split_it!=m_Splits.end(); ++split_it)
-            (*split_it)->CalculateTB();
+        FOR_START(u32, 0, m_Splits.size(), it)
+        {
+            m_Splits[it]->CalculateTB();
+        }
+        FOR_END
 //        Log				("Time B: ",T.GetElapsed_sec());
     }
 
