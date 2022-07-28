@@ -1273,6 +1273,7 @@ namespace Object_tool
 				if (B_CHUNK)
 				{
 					int chunk = 0;
+					uint size;
 
 					while (true)
 					{
@@ -1280,34 +1281,31 @@ namespace Object_tool
 
 						if (!xr_loader.SetData(xr_loader.find_and_return_chunk_in_chunk(chunk, false, true))) break;
 
-						if (xr_loader.find_chunk((int)BONE.BONE_CHUNK_SHAPE, false, true))
-						{
-							bones[chunk].shape_type = (ushort)xr_loader.ReadUInt16();
-							bones[chunk].shape_flags = (ushort)xr_loader.ReadUInt16();
+						size = xr_loader.find_chunkSize((int)BONE.BONE_CHUNK_SHAPE, false, true);
+						if (size == 0) break;
+						bones[chunk].shape_type = (ushort)xr_loader.ReadUInt16();
+						bones[chunk].shape_flags = (ushort)xr_loader.ReadUInt16();
 
-							ComboBox cb = BonesPage.Controls[chunk].Controls[4] as ComboBox;
-							cb.SelectedIndex = bones[chunk].shape_type;
+						ComboBox cb = BonesPage.Controls[chunk].Controls[4] as ComboBox;
+						cb.SelectedIndex = bones[chunk].shape_type;
 
-							CheckBox chbx1 = BonesPage.Controls[chunk].Controls[0] as CheckBox;
-							chbx1.Checked = (bones[chunk].shape_flags & (1 << 0)) == (1 << 0);
-							CheckBox chbx2 = BonesPage.Controls[chunk].Controls[1] as CheckBox;
-							chbx2.Checked = (bones[chunk].shape_flags & (1 << 1)) == (1 << 1);
-							CheckBox chbx3 = BonesPage.Controls[chunk].Controls[2] as CheckBox;
-							chbx3.Checked = (bones[chunk].shape_flags & (1 << 2)) == (1 << 2);
-							CheckBox chbx4 = BonesPage.Controls[chunk].Controls[3] as CheckBox;
-							chbx4.Checked = (bones[chunk].shape_flags & (1 << 3)) == (1 << 3);
-						}
+						CheckBox chbx1 = BonesPage.Controls[chunk].Controls[0] as CheckBox;
+						chbx1.Checked = (bones[chunk].shape_flags & (1 << 0)) == (1 << 0);
+						CheckBox chbx2 = BonesPage.Controls[chunk].Controls[1] as CheckBox;
+						chbx2.Checked = (bones[chunk].shape_flags & (1 << 1)) == (1 << 1);
+						CheckBox chbx3 = BonesPage.Controls[chunk].Controls[2] as CheckBox;
+						chbx3.Checked = (bones[chunk].shape_flags & (1 << 2)) == (1 << 2);
+						CheckBox chbx4 = BonesPage.Controls[chunk].Controls[3] as CheckBox;
+						chbx4.Checked = (bones[chunk].shape_flags & (1 << 3)) == (1 << 3);
 
-						if (xr_loader.find_chunk((int)BONE.BONE_CHUNK_MATERIAL, false, true))
-						{
-							BonesPage.Controls[chunk].Controls[7].Text = bones[chunk].material = xr_loader.read_stringZ();
-						}
+						size = xr_loader.find_chunkSize((int)BONE.BONE_CHUNK_MATERIAL, false, true);
+						if (size == 0) break;
+						BonesPage.Controls[chunk].Controls[7].Text = bones[chunk].material = xr_loader.read_stringZ();
 
-						if (xr_loader.find_chunk((int)BONE.BONE_CHUNK_MASS, false, true))
-						{
-							bones[chunk].mass = xr_loader.ReadFloat();
-							BonesPage.Controls[chunk].Controls[9].Text = bones[chunk].mass.ToString();
-						}
+						size = xr_loader.find_chunkSize((int)BONE.BONE_CHUNK_MASS, false, true);
+						if (size == 0) break;
+						bones[chunk].mass = xr_loader.ReadFloat();
+						BonesPage.Controls[chunk].Controls[9].Text = bones[chunk].mass.ToString();
 
 						chunk++;
 						xr_loader.SetStream(temp);
@@ -1527,6 +1525,7 @@ namespace Object_tool
 				if (B_CHUNK)
 				{
 					int chunk = 0;
+					uint size;
 
 					while (true)
 					{
@@ -1537,26 +1536,22 @@ namespace Object_tool
 						Bone bone = new Bone();
 						bone.bone_id = (ushort)chunk;
 
-						if (xr_loader.find_chunk((int)BONE.BONE_CHUNK_DEF, false, true))
-						{
-							bone.bone_name = xr_loader.read_stringZ();
-						}
+						size = xr_loader.find_chunkSize((int)BONE.BONE_CHUNK_DEF, false, true);
+						if (size == 0) break;
+						bone.bone_name = xr_loader.read_stringZ();
 
-						if (xr_loader.find_chunk((int)BONE.BONE_CHUNK_MATERIAL, false, true))
-						{
-							bone.material = xr_loader.read_stringZ();
-						}
+						size = xr_loader.find_chunkSize((int)BONE.BONE_CHUNK_MATERIAL, false, true);
+						if (size == 0) break;
+						bone.material = xr_loader.read_stringZ();
 
-						if (xr_loader.find_chunk((int)BONE.BONE_CHUNK_SHAPE, false, true))
-						{
-							bone.shape_type = (ushort)xr_loader.ReadUInt16();
-							bone.shape_flags = (ushort)xr_loader.ReadUInt16();
-						}
+						size = xr_loader.find_chunkSize((int)BONE.BONE_CHUNK_SHAPE, false, true);
+						if (size == 0) break;
+						bone.shape_type = (ushort)xr_loader.ReadUInt16();
+						bone.shape_flags = (ushort)xr_loader.ReadUInt16();
 
-						if (xr_loader.find_chunk((int)BONE.BONE_CHUNK_MASS, false, true))
-						{
-							bone.mass = xr_loader.ReadFloat();
-						}
+						size = xr_loader.find_chunkSize((int)BONE.BONE_CHUNK_MASS, false, true);
+						if (size == 0) break;
+						bone.mass = xr_loader.ReadFloat();
 
 						bones.Add(bone);
 
