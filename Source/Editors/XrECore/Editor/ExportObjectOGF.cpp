@@ -7,6 +7,7 @@
 #include "fmesh.h"
 #include "bone.h"
 #include "motion.h"
+#include "tbb\parallel_for.h"
 
 #if 1
 #include "std_classes.h"
@@ -427,9 +428,12 @@ bool CExportObjectOGF::Prepare(bool gen_tb, CEditableMesh* mesh)
     // calculate TB
     if (gen_tb)
     {
-        for (SplitIt split_it = m_Splits.begin(); split_it != m_Splits.end(); ++split_it)
-            (*split_it)->CalculateTB();
-        //        Log				("Time B: ",T.GetElapsed_sec());
+        FOR_START(u32, 0, m_Splits.size(), it)
+        {
+            m_Splits[it]->CalculateTB();
+        }
+        FOR_END
+        // Log("Time B: ",T.GetElapsed_sec());
     }
 
     // fill per bone vertices
