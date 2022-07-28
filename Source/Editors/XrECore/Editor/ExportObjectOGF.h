@@ -6,6 +6,7 @@
 #include "PropSlimTools.h"
 //---------------------------------------------------------------------------
 const int clpOGFMX = 48, clpOGFMY=16, clpOGFMZ=48;
+extern ECORE_API float g_EpsSkelPositionDelta;
 //---------------------------------------------------------------------------
 // refs
 class CEditableObject;
@@ -35,13 +36,13 @@ struct SOGFVert{
 	}
 	BOOL	similar_pos(SOGFVert& V)
 	{
-        return P.similar(V.P,EPS);
+        return P.similar(V.P,g_EpsSkelPositionDelta);
     }
 	BOOL	similar(SOGFVert& V)
 	{
-        if (!P.similar	(V.P,EPS))	return FALSE;
+        if (!P.similar	(V.P,g_EpsSkelPositionDelta))	return FALSE;
         if (!UV.similar	(V.UV,EPS_S))	return FALSE;
-		if (!N.similar	(V.N,EPS))	return FALSE;
+		if (!N.similar	(V.N,g_EpsSkelPositionDelta))	return FALSE;
 		return TRUE;
 	}
 };

@@ -664,7 +664,7 @@ namespace Object_tool
 						}
 					}
 					break;
-				case "SaveObj":
+				case "ExportOBJ":
 					{
 						if (SaveObjDialog.ShowDialog() == DialogResult.OK)
 						{
