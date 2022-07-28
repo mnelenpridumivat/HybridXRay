@@ -30,7 +30,10 @@ namespace Object_tool
             ofd.Filter = "Xr file|*.xr";
 
             if (ofd.ShowDialog() == DialogResult.OK)
+            {
                 GameMtlPath.Text = ofd.FileName;
+                Editor.ReloadGameMtl(GameMtlPath.Text);
+            }
         }
 
         private void SaveParams(object sender, FormClosingEventArgs e)

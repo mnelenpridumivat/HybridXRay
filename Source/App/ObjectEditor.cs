@@ -95,15 +95,19 @@ namespace Object_tool
 		public Thread SdkThread = null;
 		public bool MT_LOAD = false;
 		public bool NORMALS_DEFAULT = true;
+		System.Diagnostics.Process EditorProcess = null;
+		public bool EditorWorking = false;
+		public bool EditorKilled = false;
 
 		public Object_Editor()
 		{
 			InitializeComponent();
 
+			EditorProcess = new System.Diagnostics.Process();
 			WorkersCount = Environment.ProcessorCount;
 			CurrentSize = this.MinimumSize;
 			BoneSize = this.MaximumSize;
-			System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
+			Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
 			shapeParamsToolStripMenuItem.Enabled = false;
 			surfaceParamsToolStripMenuItem.Enabled = false;
 			saveToolStripMenuItem.Enabled = false;
@@ -128,6 +132,7 @@ namespace Object_tool
 			normalsToolStripMenuItem.Enabled = false;
 			importObjectParamsToolStripMenuItem.Enabled = false;
 			saveToolStripMenuItem1.Enabled = false;
+			generateShapesToolStripMenuItem.Enabled = false;
 
 			SaveSklDialog = new FolderSelectDialog();
 			OpenBatchOutDialog = new FolderSelectDialog();
@@ -414,15 +419,16 @@ namespace Object_tool
 			if (File.Exists(exe_path))
 			{
 				CheckTempFileExist();
-				System.Diagnostics.Process proc = new System.Diagnostics.Process();
-				proc.StartInfo.FileName = exe_path;
-				proc.StartInfo.WorkingDirectory = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\'));
-				proc.StartInfo.Arguments = args;
-				proc.StartInfo.CreateNoWindow = !dbg_window;
-				proc.StartInfo.UseShellExecute = dbg_window;
-				proc.Start();
-				proc.WaitForExit();
-				return proc.ExitCode;
+				EditorWorking = true;
+				EditorProcess.StartInfo.FileName = exe_path;
+				EditorProcess.StartInfo.WorkingDirectory = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\'));
+				EditorProcess.StartInfo.Arguments = args;
+				EditorProcess.StartInfo.CreateNoWindow = !dbg_window;
+				EditorProcess.StartInfo.UseShellExecute = dbg_window;
+				EditorProcess.Start();
+				EditorProcess.WaitForExit();
+				EditorWorking = false;
+				return EditorProcess.ExitCode;
 			}
 			else
 			{
@@ -524,14 +530,17 @@ namespace Object_tool
 
 							SdkThread = new Thread(() => {
 								int code = StartEditor(EditorMode.ExportOGF, TEMP_FILE_NAME, SaveOgfDialog.FileName);
-								if (code == 0)
-									AutoClosingMessageBox.Show("Model successfully exported.", "", 1000, MessageBoxIcon.Information);
-								else
+								if (!EditorKilled)
 								{
-									if (code == 1)
-										MessageBox.Show("Can't export model.\nPlease, disable HQ Geometry+ flag.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+									if (code == 0)
+										AutoClosingMessageBox.Show("Model successfully exported.", "", 1000, MessageBoxIcon.Information);
 									else
-										AutoClosingMessageBox.Show($"Can't export model.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+									{
+										if (code == 1)
+											MessageBox.Show("Can't export model.\nPlease, disable HQ Geometry+ flag.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+										else
+											AutoClosingMessageBox.Show($"Can't export model.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+									}
 								}
 							});
 							SdkThread.Start();
@@ -546,10 +555,13 @@ namespace Object_tool
 
 							SdkThread = new Thread(() => {
 								int code = StartEditor(EditorMode.ExportOMF, TEMP_FILE_NAME, SaveOmfDialog.FileName);
-								if (code == 0)
-									AutoClosingMessageBox.Show("Motions successfully exported.", "", 1000, MessageBoxIcon.Information);
-								else
-									AutoClosingMessageBox.Show($"Can't export motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+								if (!EditorKilled)
+								{
+									if (code == 0)
+										AutoClosingMessageBox.Show("Motions successfully exported.", "", 1000, MessageBoxIcon.Information);
+									else
+										AutoClosingMessageBox.Show($"Can't export motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+								}
 							});
 							SdkThread.Start();
 						}
@@ -561,18 +573,21 @@ namespace Object_tool
 						{
 							SdkThread = new Thread(() => {
 								int code = StartEditor(EditorMode.LoadMotions, TEMP_FILE_NAME);
-								if (code == 0)
+								if (!EditorKilled)
 								{
-									AutoClosingMessageBox.Show("Motions successfully loaded.", "", 1000, MessageBoxIcon.Information);
-									DeletesklsToolStripMenuItem.Enabled = true;
-									SaveSklsToolStripMenuItem.Enabled = true;
-									sklToolStripMenuItem.Enabled = true;
-									oMFToolStripMenuItem.Enabled = true;
-								}
-								else
-									AutoClosingMessageBox.Show($"Can't load motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+									if (code == 0)
+									{
+										AutoClosingMessageBox.Show("Motions successfully loaded.", "", 1000, MessageBoxIcon.Information);
+										DeletesklsToolStripMenuItem.Enabled = true;
+										SaveSklsToolStripMenuItem.Enabled = true;
+										sklToolStripMenuItem.Enabled = true;
+										oMFToolStripMenuItem.Enabled = true;
+									}
+									else
+										AutoClosingMessageBox.Show($"Can't load motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 
-								ParseMotions();
+									ParseMotions();
+								}
 							});
 							SdkThread.Start();
 						}
@@ -582,18 +597,21 @@ namespace Object_tool
                     {
 						SdkThread = new Thread(() => {
 							int code = StartEditor(EditorMode.DeleteMotions, TEMP_FILE_NAME);
-							if (code == 0)
+							if (!EditorKilled)
 							{
-								AutoClosingMessageBox.Show("Motions successfully deleted.", "", 1000, MessageBoxIcon.Information);
-								DeletesklsToolStripMenuItem.Enabled = false;
-								SaveSklsToolStripMenuItem.Enabled = false;
-								sklToolStripMenuItem.Enabled = false;
-								oMFToolStripMenuItem.Enabled = false;
+								if (code == 0)
+								{
+									AutoClosingMessageBox.Show("Motions successfully deleted.", "", 1000, MessageBoxIcon.Information);
+									DeletesklsToolStripMenuItem.Enabled = false;
+									SaveSklsToolStripMenuItem.Enabled = false;
+									sklToolStripMenuItem.Enabled = false;
+									oMFToolStripMenuItem.Enabled = false;
 
-								ParseMotions();
+									ParseMotions();
+								}
+								else
+									AutoClosingMessageBox.Show($"Can't delete motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 							}
-							else
-								AutoClosingMessageBox.Show($"Can't delete motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 						});
 						SdkThread.Start();
 					}
@@ -606,10 +624,13 @@ namespace Object_tool
 
 							SdkThread = new Thread(() => {
 								int code = StartEditor(EditorMode.SaveSklsMotions, TEMP_FILE_NAME, SaveSklsDialog.FileName);
-								if (code == 0)
-									AutoClosingMessageBox.Show("Motions successfully saved.", "", 1000, MessageBoxIcon.Information);
-								else
-									AutoClosingMessageBox.Show($"Can't save motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+								if (!EditorKilled)
+								{
+									if (code == 0)
+										AutoClosingMessageBox.Show("Motions successfully saved.", "", 1000, MessageBoxIcon.Information);
+									else
+										AutoClosingMessageBox.Show($"Can't save motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+								}
 							});
 							SdkThread.Start();
 						}
@@ -623,10 +644,13 @@ namespace Object_tool
 
 							SdkThread = new Thread(() => {
 								int code = StartEditor(EditorMode.SaveSklMotions, TEMP_FILE_NAME, SaveSklDialog.FileName);
-								if (code == 0)
-									AutoClosingMessageBox.Show("Motions successfully saved.", "", 1000, MessageBoxIcon.Information);
-								else
-									AutoClosingMessageBox.Show($"Can't save motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+								if (!EditorKilled)
+								{
+									if (code == 0)
+										AutoClosingMessageBox.Show("Motions successfully saved.", "", 1000, MessageBoxIcon.Information);
+									else
+										AutoClosingMessageBox.Show($"Can't save motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+								}
 							});
 							SdkThread.Start();
 						}
@@ -638,10 +662,13 @@ namespace Object_tool
 						{
 							SdkThread = new Thread(() => {
 								int code = StartEditor(EditorMode.LoadBones, TEMP_FILE_NAME, OpenBonesDialog.FileName);
-								if (code == 0)
-									AutoClosingMessageBox.Show("Bone data successfully loaded.", "", 1000, MessageBoxIcon.Information);
-								else
-									AutoClosingMessageBox.Show($"Failed to load bone data.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+								if (!EditorKilled)
+								{
+									if (code == 0)
+										AutoClosingMessageBox.Show("Bone data successfully loaded.", "", 1000, MessageBoxIcon.Information);
+									else
+										AutoClosingMessageBox.Show($"Failed to load bone data.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+								}
 							});
 							SdkThread.Start();
 						}
@@ -655,10 +682,13 @@ namespace Object_tool
 
 							SdkThread = new Thread(() => {
 								int code = StartEditor(EditorMode.SaveBones, TEMP_FILE_NAME, SaveBonesDialog.FileName);
-								if (code == 0)
-									AutoClosingMessageBox.Show("Bone data successfully saved.", "", 1000, MessageBoxIcon.Information);
-								else
-									AutoClosingMessageBox.Show($"Failed to save bone data.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+								if (!EditorKilled)
+								{
+									if (code == 0)
+										AutoClosingMessageBox.Show("Bone data successfully saved.", "", 1000, MessageBoxIcon.Information);
+									else
+										AutoClosingMessageBox.Show($"Failed to save bone data.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+								}
 							});
 							SdkThread.Start();
 						}
@@ -672,10 +702,13 @@ namespace Object_tool
 
 							SdkThread = new Thread(() => {
 								int code = StartEditor(EditorMode.ExportOBJ, TEMP_FILE_NAME, SaveObjDialog.FileName);
-								if (code == 0)
-									AutoClosingMessageBox.Show("Model successfully saved.", "", 1000, MessageBoxIcon.Information);
-								else
-									AutoClosingMessageBox.Show($"Failed to save model.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+								if (!EditorKilled)
+								{
+									if (code == 0)
+										AutoClosingMessageBox.Show("Model successfully saved.", "", 1000, MessageBoxIcon.Information);
+									else
+										AutoClosingMessageBox.Show($"Failed to save model.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+								}
 							});
 							SdkThread.Start();
 						}
@@ -685,10 +718,13 @@ namespace Object_tool
 					{
 						SdkThread = new Thread(() => {
 							int code = StartEditor(EditorMode.GenerateShape, TEMP_FILE_NAME);
-							if (code == 0)
-								AutoClosingMessageBox.Show("Bone shapes successfully generated.", "", 1000, MessageBoxIcon.Information);
-							else
-								AutoClosingMessageBox.Show($"Can't generate bone shapes.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+							if (!EditorKilled)
+							{
+								if (code == 0)
+									AutoClosingMessageBox.Show("Bone shapes successfully generated.", "", 1000, MessageBoxIcon.Information);
+								else
+									AutoClosingMessageBox.Show($"Can't generate bone shapes.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+							}
 						});
 						SdkThread.Start();
 					}
@@ -699,10 +735,13 @@ namespace Object_tool
 						{
 							SdkThread = new Thread(() => {
 								int code = StartEditor(EditorMode.LoadBoneParts, TEMP_FILE_NAME, OpenLtxDialog.FileName);
-								if (code == 0)
-									AutoClosingMessageBox.Show("Bone parts successfully loaded.", "", 1000, MessageBoxIcon.Information);
-								else
-									AutoClosingMessageBox.Show($"Failed to load bone parts.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+								if (!EditorKilled)
+								{
+									if (code == 0)
+										AutoClosingMessageBox.Show("Bone parts successfully loaded.", "", 1000, MessageBoxIcon.Information);
+									else
+										AutoClosingMessageBox.Show($"Failed to load bone parts.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+								}
 							});
 							SdkThread.Start();
 						}
@@ -716,10 +755,13 @@ namespace Object_tool
 
 							SdkThread = new Thread(() => {
 								int code = StartEditor(EditorMode.SaveBoneParts, TEMP_FILE_NAME, SaveBonePartsDialog.FileName);
-								if (code == 0)
-									AutoClosingMessageBox.Show("Bone parts successfully saved.", "", 1000, MessageBoxIcon.Information);
-								else
-									AutoClosingMessageBox.Show($"Failed to saved bone parts.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+								if (!EditorKilled)
+								{
+									if (code == 0)
+										AutoClosingMessageBox.Show("Bone parts successfully saved.", "", 1000, MessageBoxIcon.Information);
+									else
+										AutoClosingMessageBox.Show($"Failed to saved bone parts.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+								}
 							});
 							SdkThread.Start();
 						}
@@ -729,10 +771,13 @@ namespace Object_tool
 					{
 						SdkThread = new Thread(() => {
 							int code = StartEditor(EditorMode.ToDefaultBoneParts, TEMP_FILE_NAME);
-							if (code == 0)
-								AutoClosingMessageBox.Show("Bone parts successfully reseted to default.", "", 1000, MessageBoxIcon.Information);
-							else
-								AutoClosingMessageBox.Show($"Failed to reset bone parts to default.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+							if (!EditorKilled)
+							{
+								if (code == 0)
+									AutoClosingMessageBox.Show("Bone parts successfully reseted to default.", "", 1000, MessageBoxIcon.Information);
+								else
+									AutoClosingMessageBox.Show($"Failed to reset bone parts to default.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+							}
 						});
 						SdkThread.Start();
 					}
@@ -745,21 +790,24 @@ namespace Object_tool
 
 							SdkThread = new Thread(() => {
 								int code = StartEditor(EditorMode.ExportDM, TEMP_FILE_NAME, SaveDmDialog.FileName);
-								if (code == 0)
-									AutoClosingMessageBox.Show("Model successfully saved.", "", 1000, MessageBoxIcon.Information);
-								else
+								if (!EditorKilled)
 								{
-									switch (code)
+									if (code == 0)
+										AutoClosingMessageBox.Show("Model successfully saved.", "", 1000, MessageBoxIcon.Information);
+									else
 									{
-										case 1:
-											AutoClosingMessageBox.Show($"Failed to save detail model. Object must contain 1 material.", "", GetErrorTime(), MessageBoxIcon.Error);
-											break;
-										case 2:
-											AutoClosingMessageBox.Show($"Failed to save detail model. Object must contain 1 mesh.", "", GetErrorTime(), MessageBoxIcon.Error);
-											break;
-										default:
-											AutoClosingMessageBox.Show($"Failed to save detail model.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
-											break;
+										switch (code)
+										{
+											case 1:
+												AutoClosingMessageBox.Show($"Failed to save detail model. Object must contain 1 material.", "", GetErrorTime(), MessageBoxIcon.Error);
+												break;
+											case 2:
+												AutoClosingMessageBox.Show($"Failed to save detail model. Object must contain 1 mesh.", "", GetErrorTime(), MessageBoxIcon.Error);
+												break;
+											default:
+												AutoClosingMessageBox.Show($"Failed to save detail model.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+												break;
+										}
 									}
 								}
 							});
@@ -785,18 +833,21 @@ namespace Object_tool
 
 								SdkThread = new Thread(() => {
 									int code = StartEditor(EditorMode.GenerateLod, TEMP_FILE_NAME, SaveOgfLodDialog.FileName);
-									if (code == 0)
+									if (!EditorKilled)
 									{
-										AutoClosingMessageBox.Show("Lod successfully generated.", "", 1000, MessageBoxIcon.Information);
-
-										if (SaveOgfLodDialog.FileName.Contains("meshes") && LodTextBox.Enabled)
+										if (code == 0)
 										{
-											string lod_path = SaveOgfLodDialog.FileName.Substring(SaveOgfLodDialog.FileName.LastIndexOf("meshes") + 7);
-											LodTextBox.Text = lod_path;
+											AutoClosingMessageBox.Show("Lod successfully generated.", "", 1000, MessageBoxIcon.Information);
+
+											if (SaveOgfLodDialog.FileName.Contains("meshes") && LodTextBox.Enabled)
+											{
+												string lod_path = SaveOgfLodDialog.FileName.Substring(SaveOgfLodDialog.FileName.LastIndexOf("meshes") + 7);
+												LodTextBox.Text = lod_path;
+											}
 										}
+										else
+											AutoClosingMessageBox.Show($"Failed to generate lod.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 									}
-									else
-										AutoClosingMessageBox.Show($"Failed to generate lod.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 								});
 								SdkThread.Start();
 							}
@@ -812,10 +863,13 @@ namespace Object_tool
 							SdkThread = new Thread(() => {
 								cpp_mode = idx;
 								int code = StartEditor(EditorMode.SaveCpp, TEMP_FILE_NAME, SaveCppDialog.FileName);
-								if (code == 0)
-									AutoClosingMessageBox.Show("Model data successfully exported.", "", 1000, MessageBoxIcon.Information);
-								else
-									AutoClosingMessageBox.Show($"Failed to export model data.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+								if (!EditorKilled)
+								{
+									if (code == 0)
+										AutoClosingMessageBox.Show("Model data successfully exported.", "", 1000, MessageBoxIcon.Information);
+									else
+										AutoClosingMessageBox.Show($"Failed to export model data.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+								}
 							});
 							SdkThread.Start();
 						}
@@ -912,10 +966,13 @@ namespace Object_tool
 							if (batch_flags.res)
 							{
 								int code = StartEditor(EditorMode.BatchLtx, TEMP_FILE_NAME, OpenBatchLtxDialog.FileName, batch_flags.GetFlags(dbg_window), batch_flags.scale);
-								if (code == 0)
-									AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
-								else
-									AutoClosingMessageBox.Show($"Batch convert failed.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+								if (!EditorKilled)
+								{
+									if (code == 0)
+										AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
+									else
+										AutoClosingMessageBox.Show($"Batch convert failed.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+								}
 							}
 						}
 					}
@@ -933,10 +990,13 @@ namespace Object_tool
 							{
 								SdkThread = new Thread(() => {
 									int code = StartEditor(EditorMode.BatchDialogOGF, TEMP_FILE_NAME, "null", batch_flags.GetFlags(dbg_window), batch_flags.scale);
-									if (code == 0)
-										AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
-									else
-										AutoClosingMessageBox.Show($"Batch convert completed with errors.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+									if (!EditorKilled)
+									{
+										if (code == 0)
+											AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
+										else
+											AutoClosingMessageBox.Show($"Batch convert completed with errors.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+									}
 								});
 								SdkThread.Start();
 							}
@@ -956,10 +1016,13 @@ namespace Object_tool
 							{
 								SdkThread = new Thread(() => {
 									int code = StartEditor(EditorMode.BatchDialogOMF, TEMP_FILE_NAME, "null", batch_flags.GetFlags(dbg_window), batch_flags.scale);
-									if (code == 0)
-										AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
-									else
-										AutoClosingMessageBox.Show($"Batch convert completed with errors.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+									if (!EditorKilled)
+									{
+										if (code == 0)
+											AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
+										else
+											AutoClosingMessageBox.Show($"Batch convert completed with errors.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+									}
 								});
 								SdkThread.Start();
 							}
@@ -990,10 +1053,13 @@ namespace Object_tool
 							{
 								SdkThread = new Thread(() => {
 									int code = StartEditor(EditorMode.BatchDialogOGF, TEMP_FILE_NAME, "null", batch_flags.GetFlags(dbg_window), batch_flags.scale);
-									if (code == 0)
-										AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
-									else
-										AutoClosingMessageBox.Show($"Batch convert completed with errors.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+									if (!EditorKilled)
+									{
+										if (code == 0)
+											AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
+										else
+											AutoClosingMessageBox.Show($"Batch convert completed with errors.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+									}
 								});
 								SdkThread.Start();
 							}
@@ -1024,10 +1090,13 @@ namespace Object_tool
 							{
 								SdkThread = new Thread(() => {
 									int code = StartEditor(EditorMode.BatchDialogOMF, TEMP_FILE_NAME, "null", batch_flags.GetFlags(dbg_window), batch_flags.scale);
-									if (code == 0)
-										AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
-									else
-										AutoClosingMessageBox.Show($"Batch convert completed with errors.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+									if (!EditorKilled)
+									{
+										if (code == 0)
+											AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
+										else
+											AutoClosingMessageBox.Show($"Batch convert completed with errors.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+									}
 								});
 								SdkThread.Start();
 							}
@@ -1686,72 +1755,16 @@ namespace Object_tool
 			return ret;
         }
 
-		private void gameMtlToolStripMenuItem_Click(object sender, EventArgs e)
+		public void ReloadGameMtl(string filename)
 		{
-			OpenFileDialog ofd = new OpenFileDialog();
-			ofd.FileName = "";
-			ofd.Filter = "Xr file|*.xr";
-
-			if (ofd.ShowDialog() == DialogResult.OK)
-			{
-				pSettings.Save("GameMtlPath", ofd.FileName);
-				game_materials = GameMtlParser(ofd.FileName);
-
-				if (bones != null)
-				{
-					BonesPage.Controls.Clear();
-					for (int i = 0; i < bones.Count; i++)
-						CreateShapeGroupBox(i, bones[i]);
-				}
-			}
-		}
-
-		private void FlagsHelpButton_Click(object sender, EventArgs e)
-		{
-			MessageBox.Show("Motion export:\nДанные флаги влияют на компресиию анимаций при экспортировании в OMF.\n1. 8 bit - ТЧ Формат\n2. 16 bit - ЗП Формат\n" + (AnimsNoCompress.Visible ? "3. No compress - экспортирует анимации без сжатия\n" : "") +
-				(AnimsNoCompress.Visible ? "4." : "3.") + " Use build-in motions - при активации, анимации загруженные в object будут использоваться вместо моушн референсов для всевозможных экспортов. При деактивации встроенные анимации будут игнорироваться и будут использованы моушн референсы.\n\n" +
-				"Model export:\n" +
-				"1. Make progressive meshes - создает прогрессивные меши при экспорте OGF. Это динамическая детализация модели (lod'ы), чаще используется для мировых объектов.\n" +
-				"2. Make stripify meshes - оптимизация vertex'ов и face'ов у мешей которая портила сетку, раньше стояла по дефолту в SDK и использовалась для оптимизации мешей под старый DirectX и видеокарты. Сейчас же надобности в данном флаге нет.\n" +
-				"3. Optimize surfaces - при включении объединяет меши с одинаковыми названиями текстур и шейдеров как и любой SDK. В данном эдиторе появилась возможность отключить это для последующих изменений через OGF Editor.\n" +
-                "4. HQ Geometry+ - при активации компилятор будет экспортировать модель без оптимизаций vertex'ов и face'ов. \n" +
-				"Smooth Type определяет тип сглаживания модели при экспорте моделей.\nSoC: #1\nCS\\CoP: #2\nNormals - использует оригинальные Split нормали\n\n" +
-				"Dynamic params:\n" +
-				"Object scale - изменяет размер объекта при экспорте, влияет на размер модели и размер анимаций.\nScale center of mass - при активации во время экспорта с измененным размером объекта будут пересчитаны центры массы коллизии под новый размер.\n" +
-				"SoC bone export - модель будет экспортированна с максимум двумя костями привязанными к полигону. Использовать только для ТЧ движков!\n\n" +
-				"Surface params:\n" +
-				"1. Surface->2 Sided - после экспорта OGF модель будет отрисовываться с наружной и внутренней стороны, в 2 раза увеличивает колличество полигонов у модели.\n\n" +
-				"Shape params (Bones):\n" +
-				"1. No Pickable - при активации Ray Query лучи, хит wallmark'и будут пропускать данный элемент.\n" +
-				"2. Remove After Break - при активации у всех костей, после спавна объекта начнется таймер \"remove_time\" из конфига, при истечении которого объект удалится.\n" +
-				"3. No Physics - при активации движок игнорирует физику шейпа.\n" +
-				"4. No Fog Collider - при активации Volumetric fog будет игнорировать данный элемент.\n\n" +
-				"Для создания коллизии с нуля нужно настроить Shape type параметры у каждой кости (можно воспользоваться Tools->Shape Params->Type helper) и далее нажать Tools->Shape Params->Generate Shapes.\nЕсли коллизия уже была сгенерирована, то Shape type можно менять без повторной генерации коллизии.\n\n" +
-				"Tools->Surface Params и Tools->Shape Params активируются при выборе соответствующей вкладки в программе.\n\n" + 
-				"Для создания lod модели нужно нажать Tools->Generate lod, появится окно с настройкой детализации лода, после нажатия кнопки Append сгенерируется lod модель. Если она была сохранена в геймдату игры, то референс лода автоматически пропишестя в текщую модель, иначе его нужно будет прописывать вручную.\n\n" +
-				"Хоткеи:\nF3 - Экспорт\nF4 - Загрузка\nF5, Ctrl+S - Быстрое сохранение .object\nF6 - Сохранение"
-				, "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
-		}
-
-		private void ltxHelpToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			MessageBox.Show("Batch Converter создан для массового экспорта моделей и анимаций.\nВ данной программе имеется 2 режима: From Ltx и From Dialog.\n\n" +
-				"From Ltx - Пример ltx конфига:\n\n" +
-				"[ogf] ; секция из которой будут экспортироватсья ogf модели\n" +
-                "test.object = test.ogf ; test.object из папки с ltx будет экспортирован в test.ogf\n" +
-				"test2 = test3 ; можно указывать без форматов файлов, все равно будет работать\n" +
-                "test\\test3 = test\\test3 ; так же можно прописывать папки\n\n" +
-                "[omf] ; секция из которой будут экспортироваться omf анимации\n" +
-                "test.object = test.omf ; встроенные анимации из test.object будут экспортированны в test.omf\n" +
-				"test\\test = test\\test ; все так же можно прописывать без указания формата и в папках\n\n" +
-                "[skls_skl] ; новая секция которая есть только в Object Editor, подгружает анимации в модели перед экспортом\n" +
-				"test.object = test1.skl, test\\test2.skls, test3.skl ; все анимации из списка будут загружены в test.object перед экспортом в ogf и omf\n" +
-				"test = test1, test\\test2, test3 ; указание без форматов и расположение в папках так же работает, программа будет искать анимации в skls и skl формате\n\n" +
-                "From Dialog - принцип работы:\n" +
-				"Object будет экспортирован в выбранный вами формат во вкладке From Dialog\nПри экспорте программа будет искать skls анимации лежащие рядом с ним с таким же названием что и у object, и при нахождении загрузит их в модель перед экспортом.\n\n" +
-                "При выборе From File Dialog откроется окно выбора файлов, после выбора необходимых моделей откроется окно выбора папки куда будут сохранены все выбранные модели.\n" +
-				"При выборе From Folder Dialog откроется окно выбора папок, после выбора папок с моделями откроется окно выбора папки куда будут сохранены все выбранные папки с моделями внутри."
-			, "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			 game_materials = GameMtlParser(filename);
+			 
+			 if (bones != null)
+			 {
+			 	 BonesPage.Controls.Clear();
+			 	 for (int i = 0; i < bones.Count; i++)
+			 		 CreateShapeGroupBox(i, bones[i]);
+			 }
 		}
 
 		private void objectInfoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1763,19 +1776,13 @@ namespace Object_tool
 		{
 			if (TabControl.SelectedIndex < 0 || !FlagsGroupBox.Enabled) return;
 
-			shapeParamsToolStripMenuItem.Enabled = false;
-			surfaceParamsToolStripMenuItem.Enabled = false;
-
 			switch (TabControl.Controls[TabControl.SelectedIndex].Name)
 			{
 				case "BonesPage":
-					int shapes_count = (bones != null ? bones.Count : 0);
-					shapeParamsToolStripMenuItem.Enabled = shapes_count > 0;
 					if (!USE_OLD_BONES)
 						this.Size = BoneSize;
 					break;
 				case "SurfacesPage":
-					surfaceParamsToolStripMenuItem.Enabled = true;
 					if (!USE_OLD_BONES)
 						this.Size = CurrentSize;
 					break;
@@ -1816,8 +1823,11 @@ namespace Object_tool
 			if (TEMP_FILE_NAME != "")
 			{
 				StartEditor(EditorMode.SaveObject, TEMP_FILE_NAME);
-				File.Copy(TEMP_FILE_NAME, filename, true);
-				AutoClosingMessageBox.Show("Object successfully saved.", "", 1000, MessageBoxIcon.Information);
+				if (!EditorKilled)
+				{
+					File.Copy(TEMP_FILE_NAME, filename, true);
+					AutoClosingMessageBox.Show("Object successfully saved.", "", 1000, MessageBoxIcon.Information);
+				}
 			}
 		}
 
@@ -1825,9 +1835,15 @@ namespace Object_tool
         {
 			if (Directory.Exists(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp"))
 				Directory.Delete(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp", true);
+
+			if (EditorWorking)
+			{
+				EditorKilled = true;
+				EditorProcess.Kill();
+			}
 		}
 
-		private void CheckTempFileExist()
+        private void CheckTempFileExist()
         {
 			if (!File.Exists(TEMP_FILE_NAME) && File.Exists(FILE_NAME))
             {
@@ -2330,6 +2346,9 @@ namespace Object_tool
 			objectInfoToolStripMenuItem.Enabled = !IsOgfMode;
 			importObjectParamsToolStripMenuItem.Enabled = !IsOgfMode;
 			saveToolStripMenuItem1.Enabled = !IsOgfMode;
+			shapeParamsToolStripMenuItem.Enabled = !IsOgfMode && has_bones;
+			generateShapesToolStripMenuItem.Enabled = !IsOgfMode && has_bones;
+			surfaceParamsToolStripMenuItem.Enabled = !IsOgfMode;
 
 			if (IsOgfMode)
 			{
@@ -2573,6 +2592,10 @@ namespace Object_tool
 			pSettings.LoadState("SplitNormalsChbx", ref NORMALS_DEFAULT, true);
 			if (File.Exists(game_mtl))
 				game_materials = GameMtlParser(game_mtl);
+
+			bool Debug = false;
+			pSettings.LoadState("Debug", ref Debug);
+			debugToolStripMenuItem.Visible = Debug;
 		}
 
 		public void SyncCompressUI(bool visible)
@@ -2593,6 +2616,116 @@ namespace Object_tool
 				ScaleGroupBox.Location = new Point(ScaleGroupBox.Location.X, ScaleGroupBox.Location.Y + 22);
 				ScaleGroupBox.Size = new Size(new Point(ScaleGroupBox.Size.Width, ScaleGroupBox.Size.Height - 22));
 			}
+		}
+
+        private void modelExportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			MessageBox.Show(
+			"1. Make progressive meshes - создает прогрессивные меши при экспорте OGF. Это динамическая детализация модели (lod'ы), чаще используется для мировых объектов.\n" +
+			"2. Make stripify meshes - оптимизация vertex'ов и face'ов у мешей которая портила сетку, раньше стояла по дефолту в SDK и использовалась для оптимизации мешей под старый DirectX и видеокарты. Сейчас же надобности в данном флаге нет.\n" +
+			"3. Optimize surfaces - при включении объединяет меши с одинаковыми названиями текстур и шейдеров как и любой SDK. В данном эдиторе появилась возможность отключить это для последующих изменений через OGF Editor.\n" +
+			"4. HQ Geometry+ - при активации компилятор будет экспортировать модель без оптимизаций vertex'ов и face'ов. \n" +
+			"5. SoC bone export - при экспорте динамического OGF, на полигон будут влиять максимум 2 кости. При отключении будет включено CoP влияние в 4 кости (не поддерживается в SoC).\n" +
+			"6. Smooth Type определяет тип сглаживания при экспорте моделей.\n1) SoC: #1\n2) CS\\CoP: #2\n3) Normals: использует оригинальные Split нормали, новый формат."
+			, "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+        private void motionExportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			MessageBox.Show(
+			"1. 8 bit - SoC Формат, плохое качество.\n2. 16 bit - CoP Формат, хорошее качество.\n" + (AnimsNoCompress.Visible ? "3. No compress - Новый формат без сжатия, лучшее качество.\n" : "") +
+			(AnimsNoCompress.Visible ? "4." : "3.") + " Use build-in motions - При активации программа будет использовать загруженные анимации вместо моушн референсов, если анимаций нет то будут использованы референсы, если таковы есть. При деактивации загруженные анимации будут игнорированы. Влияет на всё кроме сохранения object."
+			, "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+        private void scaleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			MessageBox.Show(
+			"1. Object scale - изменяет размер экспортированных OGF, OMF и Obj.\n" +
+			"2. Scale center of mass - при активации центр массы кости будет пересчитан под новый размер."
+			, "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+        private void bonesToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+			MessageBox.Show(
+			"1. No Pickable - при активации Ray Query лучи, хит wallmark'и будут пропускать данный элемент.\n" +
+			"2. Remove After Break - при активации у всех костей, после спавна объекта начнется таймер \"remove_time\" из конфига, при истечении которого объект удалится.\n" +
+			"3. No Physics - при активации движок игнорирует физику шейпа.\n" +
+			"4. No Fog Collider - при активации Volumetric fog будет игнорировать данный элемент.\n" +
+			"5. Material - определяет материал кости при ударах\\столкновениях итд. который влияет на звук и партиклы.\n" +
+			"6. Mass - масса кости."
+			, "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+        private void surfacesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			MessageBox.Show(
+			"1. Surface->2 Sided - после экспорта OGF, Obj модель будет отрисовываться с наружной и внутренней стороны, в 2 раза увеличивает колличество полигонов у модели."
+			, "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+        private void otherToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			MessageBox.Show(
+			"Для создания lod модели нужно нажать Tools->Generate lod, появится окно с настройкой детализации лода, после нажатия кнопки Append сгенерируется lod модель. Если она была сохранена в геймдату игры, то референс лода автоматически пропишестя в текщую модель, иначе его нужно будет прописывать вручную."
+			, "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+        private void hotkeysToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			MessageBox.Show(
+			"F3 - Экспорт\nF4 - Загрузка\nF5, Ctrl+S - Быстрое сохранение .object\nF6 - Сохранение"
+			, "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+        private void ltxToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			MessageBox.Show("Batch Converter создан для массового экспорта моделей и анимаций.\nВ данной программе имеется 3 режима: From Ltx, From File Dialog и From Folder Dialog.\n\n" +
+			"From Ltx - Пример ltx конфига:\n\n" +
+			"[ogf] ; секция из которой будут экспортироватсья ogf модели\n" +
+			"test.object = test.ogf ; test.object из папки где находится ltx будет экспортирован в test.ogf\n" +
+			"test2 = test3 ; можно указывать без форматов файлов, все равно будет работать\n" +
+			"test\\test3 = test\\test3 ; так же можно прописывать папки\n\n" +
+			"[omf] ; секция из которой будут экспортироваться omf анимации\n" +
+			"test.object = test.omf ; встроенные анимации из test.object будут экспортированны в test.omf\n" +
+			"test\\test = test\\test ; все так же можно прописывать без указания формата и в папках\n\n" +
+			"[skls_skl] ; новая секция которая есть только в Object Editor, подгружает анимации в модели перед экспортом\n" +
+			"test.object = test1.skl, test\\test2.skls, test3.skl ; все анимации из списка будут загружены в test.object перед экспортом в ogf и omf\n" +
+			"test = test1, test\\test2, test3 ; указание без форматов и расположение в папках так же работает, программа будет искать анимации в skls и skl формате"
+		, "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+        private void dialogsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			MessageBox.Show("Batch Converter создан для массового экспорта моделей и анимаций.\nВ данной программе имеется 3 режима: From Ltx, From File Dialog и From Folder Dialog.\n\n" +
+			"From Dialog - принцип работы:\n" +
+			"Object будет экспортирован в выбранный вами формат.\nПри экспорте программа будет искать skls анимации лежащие рядом с ним с таким же названием что и у object, и при нахождении загрузит их в модель перед экспортом.\n\n" +
+			"При выборе From File Dialog откроется окно выбора файлов, после выбора необходимых моделей откроется окно выбора папки куда будут сохранены все выбранные модели.\n" +
+			"При выборе From Folder Dialog откроется окно выбора папок, после выбора папок с моделями откроется окно выбора папки куда будут сохранены все выбранные папки с моделями внутри."
+			, "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+        private void settingsToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+			MessageBox.Show(
+			"В меню настроек можно установить дефолтные значения параметров при первом запуске программы, а так же активировать дополнительные функции.\n\n" +
+            "Presets - выставит вам параметры для комфортной работы с выбранной игрой из трилогии.\n" +
+            "Use split normals - будет выставлять Smooth Type на Normals при наличии этих нормалей. При деактивации активировать нормали нужно будет вручную.\n\n" +
+            "Настройки программы:\n" +
+            "1. MT Load - активирует многопоточную загрузку object что значительно ускоряет отклик программы. Однако может странно вести себя на слабых ПК. Использует от 2 до 4 потоков, зависит от их наличия.\n" +
+			"2. Use No Compress motions - активирует новый параметр компрессии анимаций, выбрав который анимации будут экспортированы без сжатия. Требует наличие коммита из STCoP WP\n" +
+			"3. Program debugging - активирует вкладку с кнопками для отладки.\n" +
+			"4. Game Mtl path - при выборе gamemtl.xr во вкладке Bones можно будет выбрать и применить материал из gamemtl.\n\n" +
+            "Остальные параметры вы могли встречать в первых 3х пунктах в Help."
+			, "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+        private void shapesGenerateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			MessageBox.Show(
+			"Для создания коллизии с нуля нужно настроить Shape type параметры у каждой кости если таковы были не настроены (можно воспользоваться Tools->Shape Params) и далее нажать Tools->Generate Shapes.\nЕсли коллизия уже была сгенерирована, то Shape type можно менять без повторной генерации коллизии."
+			, "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
     }
 }
