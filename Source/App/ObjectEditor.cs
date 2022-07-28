@@ -271,23 +271,23 @@ namespace Object_tool
 
 			ParseMotions();
 
-			//if (WorkersCount >= 3 && MT_LOAD)
-			//{
-			//	Thread SurfaceThread = new Thread(InitSurfaceUI);
-			//	SurfaceThread.Start();
-			//}
-			//else
-				InitSurfaceUI();
+            if (WorkersCount >= 3 && MT_LOAD)
+            {
+                Thread SurfaceThread = new Thread(InitSurfaceUI);
+                SurfaceThread.Start();
+            }
+            else
+                InitSurfaceUI();
 
 			if (USE_OLD_BONES)
             {
-				//if (MT_LOAD)
-				//{
-				//	SdkThread = new Thread(InitBoneUI);
-				//	SdkThread.Start();
-				//}
-				//else
-					InitBoneUI();
+                if (MT_LOAD)
+                {
+                    SdkThread = new Thread(InitBoneUI);
+                    SdkThread.Start();
+                }
+                else
+                    InitBoneUI();
 			}
             else
             {
