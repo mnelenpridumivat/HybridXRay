@@ -121,6 +121,7 @@ namespace Object_tool
 		{
 			InitializeComponent();
 
+			this.Size = this.MinimumSize;
 			EditorProcess = new System.Diagnostics.Process();
 			WorkersCount = Environment.ProcessorCount;
 			CurrentSize = this.MinimumSize;

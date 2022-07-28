@@ -280,6 +280,7 @@ int main(int argc, char** argv)
 
     if (mode != BatchLtx && mode != BatchDialogOGF && mode != BatchDialogOMF)
     {
+        WriteLog("..Import object");
         ATools->LoadScale(object_path.c_str(), scale, (flags & exfScaleCenterMass));
 
         ATools->CurrentObject()->ChangeSurfaceFlags(pSurfaces);
@@ -296,6 +297,7 @@ int main(int argc, char** argv)
         {
             ATools->ToDefaultBoneParts(ATools->CurrentObject());
             Msg("Import: Can't find bone parts, reset to default.");
+            WriteLog("!..Import: Can't find bone parts, reset to default.");
         }
 
         ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoProgressive, (flags & exfMakeProgressive));
@@ -323,23 +325,27 @@ int main(int argc, char** argv)
         {
             if (!ATools->ExportOGF(second_file_path.c_str()))
                 ret_code = -1;
+            WriteLog("..OGF exported");
         }break;
         case ExportOMF:
         {
             ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoExpBuildinMots, TRUE);
             if (!ATools->ExportOMF(second_file_path.c_str()))
                 ret_code = -1;
+            WriteLog("..OMF exported");
         }break;
         case GenerateShape:
         {
             if (!ATools->CurrentObject()->GenerateBoneShape(false) || !ATools->Save(object_path.c_str()))
                 ret_code = -1;
+            WriteLog("..Shapes generated");
         }break;
         case DeleteMotions:
         {
             ATools->CurrentObject()->ClearSMotions();
             if (!ATools->Save(object_path.c_str()))
                 ret_code = -1;
+            WriteLog("..Object saved");
         }break;
         case LoadMotions:
         {
@@ -354,56 +360,67 @@ int main(int argc, char** argv)
 
             if (!res)
                 ret_code = -1;
+            WriteLog("..Motions loaded");
         }break;
         case SaveSklsMotions:
         {
             if (!ATools->SaveMotions(second_file_path.c_str(), false))
                 ret_code = -1;
+            WriteLog("..Motions saved");
         }break;
         case LoadBones:
         {
             if (!ATools->LoadBoneData(second_file_path.c_str()) || !ATools->Save(object_path.c_str()))
                 ret_code = -1;
+            WriteLog("..Bones loaded");
         }break;
         case SaveBones:
         {
             if (!ATools->SaveBoneData(second_file_path.c_str()))
                 ret_code = -1;
+            WriteLog("..Bones saved");
         }break;
         case ExportOBJ:
         {
             if (!ATools->ExportOBJ(second_file_path.c_str()))
                 ret_code = -1;
+            WriteLog("..OBJ exported");
         }break;
         case ExportDM:
         {
             if (!ATools->ExportDM(second_file_path.c_str()))
                 ret_code = -1;
+            WriteLog("..DM exported");
         }break;
         case SaveObject:
         {
             if (!ATools->Save(object_path.c_str()))
                 ret_code = -1;
+            WriteLog("..Object saved");
         }break;
         case LoadBoneParts:
         {
             if (!ATools->LoadBoneParts(second_file_path.c_str()) || !ATools->Save(object_path.c_str()))
                 ret_code = -1;
+            WriteLog("..Bone parts loaded");
         }break;
         case SaveBoneParts:
         {
             if (!ATools->SaveBoneParts(second_file_path.c_str()))
                 ret_code = -1;
+            WriteLog("..Bone parts saved");
         }break;
         case ToDefaultBoneParts:
         {
             if (!ATools->ToDefaultBoneParts(ATools->CurrentObject()) || !ATools->Save(object_path.c_str()))
                 ret_code = -1;
+            WriteLog("..Bone parts reseted to default");
         }break;
         case SaveSklMotions:
         {
             if (!ATools->SaveMotions(second_file_path.c_str(), true))
                 ret_code = -1;
+            WriteLog("..Motions saved");
         }break;
         case GenerateLod:
         {
@@ -419,26 +436,31 @@ int main(int argc, char** argv)
             Msg("Lod quality: %f", g_EpsSkelPositionDelta);
             if (!ATools->ExportOGF(second_file_path.c_str()))
                 ret_code = -1;
+            WriteLog("..Lod exported");
         }break;
         case SaveCpp:
         {
             if (!ATools->ExportCPP(second_file_path.c_str(), cpp_export_mode))
                 ret_code = -1;
+            WriteLog("..Cpp saved");
         }break;
         case BatchLtx:
         {
             if (!ATools->BatchConvert(second_file_path.c_str(), flags, custom_script, scale))
                 ret_code = -1;
+            WriteLog("..Batch end");
         }break;
         case BatchDialogOGF:
         {
             if (!ATools->BatchConvertDialogOGF(pBatchFiles, batch_out, flags, custom_script, scale))
                 ret_code = -1;
+            WriteLog("..Batch end");
         }break;
         case BatchDialogOMF:
         {
             if (!ATools->BatchConvertDialogOMF(pBatchFiles, batch_out, flags, custom_script, scale))
                 ret_code = -1;
+            WriteLog("..Batch end");
         }break;
     }
 

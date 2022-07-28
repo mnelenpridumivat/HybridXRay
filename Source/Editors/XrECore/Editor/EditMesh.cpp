@@ -13,6 +13,7 @@
 #include "itterate_adjacents.h"
 #include "itterate_adjacents_dynamic.h"
 #	include "UI_ToolsCustom.h"
+#include "..\XrECore\VisualLog.h"
 
 CEditableMesh::~CEditableMesh(){
 	Clear();
@@ -154,6 +155,7 @@ void CEditableMesh::GenerateVNormals(bool force)
 				else
 				{
 					Msg("!Invalid smooth group found (Maya type). Object: '%s'. Vertex: [%3.2f, %3.2f, %3.2f]",m_Parent->GetName(),VPUSH(m_Vertices[m_Faces[f_i].pv[k].pindex]));
+					WriteLog("!Invalid smooth group found (Maya type). Object: '%s'. Vertex: [%3.2f, %3.2f, %3.2f]",m_Parent->GetName(),VPUSH(m_Vertices[m_Faces[f_i].pv[k].pindex]));
 					N.set(m_FaceNormals[a_lst.front()]);
 				}
 			}
@@ -183,6 +185,7 @@ void CEditableMesh::GenerateVNormals(bool force)
 						else
 						{
 							Msg("!Invalid smooth group found (MAX type). Object: '%s'. Vertex: [%3.2f, %3.2f, %3.2f]", m_Parent->GetName(), VPUSH(m_Vertices[m_Faces[f_i].pv[k].pindex]));
+							WriteLog("!Invalid smooth group found (MAX type). Object: '%s'. Vertex: [%3.2f, %3.2f, %3.2f]", m_Parent->GetName(), VPUSH(m_Vertices[m_Faces[f_i].pv[k].pindex]));
 							N.set(m_FaceNormals[a_lst.front()]);
 						}
 					}
@@ -219,6 +222,7 @@ void CEditableMesh::GenerateVNormals(bool force)
 						else
 						{
 							Msg("!Invalid smooth group found (Maya type). Object: '%s'. Vertex: [%3.2f, %3.2f, %3.2f]", m_Parent->GetName(), VPUSH(m_Vertices[m_Faces[f_i].pv[k].pindex]));
+							WriteLog("!Invalid smooth group found (Maya type). Object: '%s'. Vertex: [%3.2f, %3.2f, %3.2f]", m_Parent->GetName(), VPUSH(m_Vertices[m_Faces[f_i].pv[k].pindex]));
 							N.set(m_FaceNormals[a_lst.front()]);
 						}
 					}
@@ -259,9 +263,15 @@ void CEditableMesh::GenerateSVertices(u32 influence)
 	GenerateVNormals	();
 
 	if(m_Normals && m_Parent->m_objectFlags.is(CEditableObject::eoNormals)) 
-		Log("Export custom normals");
+	{
+		Log("..Export custom normals");
+		WriteLog("..Export custom normals");
+	}
 	else
-		Log("Export smooth groups");
+	{
+		Log("..Export smooth groups");
+		WriteLog("..Export smooth groups");
+	}
 
 	xr_vector<ReMap> ReAssignMap;
 

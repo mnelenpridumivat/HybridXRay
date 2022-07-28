@@ -8,6 +8,7 @@
 #include "..\xrEngine\bone.h"
 #include "..\xrEngine\motion.h"
 #include "tbb\parallel_for.h"
+#include "..\XrECore\VisualLog.h"
 
 #if 1
 #include "ui_main.h"
@@ -218,6 +219,7 @@ void CObjectOGFCollectorPacked::MakeProgressive()
 
 	}else{
     	Log("!..Can't make progressive.");
+        WriteLog("!..Can't make progressive.");
     }
     
     // cleanup
@@ -287,6 +289,18 @@ bool CExportObjectOGF::PrepareMESH(CEditableMesh* MESH)
 //        // generate normals
 	bool bResult = true;
     MESH->GenerateVNormals();
+
+    if(MESH->m_Normals && m_Source->m_objectFlags.is(CEditableObject::eoNormals)) 
+    {
+        Log("..Export custom normals");
+        WriteLog("..Export custom normals");
+    }
+    else
+    {
+        Log("..Export smooth groups");
+        WriteLog("..Export smooth groups");
+    }
+
     // fill faces
     for (SurfFacesPairIt sp_it=MESH->m_SurfFaces.begin(); sp_it!=MESH->m_SurfFaces.end(); ++sp_it)
 	{
@@ -312,11 +326,6 @@ bool CExportObjectOGF::PrepareMESH(CEditableMesh* MESH)
         if (0==split->m_CurrentPart) 
 			split->AppendPart(	(elapsed_faces>0xffff) ? 0xffff : elapsed_faces,
 								(elapsed_faces>0xffff) ? 0xffff : elapsed_faces);
-
-        if(MESH->m_Normals && m_Source->m_objectFlags.is(CEditableObject::eoNormals)) 
-            Log("Export custom normals");
-        else
-            Log("Export smooth groups");
             
         do{
             for (IntIt f_it=face_lst.begin(); f_it!=face_lst.end(); ++f_it)
@@ -523,6 +532,7 @@ bool CExportObjectOGF::ExportAsSimple(IWriter& F)
 
 bool CExportObjectOGF::ExportAsWavefrontOBJ(IWriter& F, LPCSTR fn)
 {
+    WriteLog("..Prepare OBJ");
 	if (!Prepare(false,NULL)) 
 		return false;
 

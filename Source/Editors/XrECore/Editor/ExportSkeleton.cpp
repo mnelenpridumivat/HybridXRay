@@ -838,6 +838,7 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
 	}
 
     Msg				("Split statistic:");
+    WriteLog		("Split statistic:");
     for (int k=0; k<(int)m_Splits.size(); k++)
     {
     // check splits
@@ -855,6 +856,7 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
                   U16It ne		= std::unique(split.m_UsedBones.begin(),split.m_UsedBones.end());
                   split.m_UsedBones.erase	(ne,split.m_UsedBones.end());
                   Msg(" - Split %d: [Bones: %d, Links: %d, Faces: %d, Verts: %d, BrPart: %d, Shader/Texture: '%s'/'%s']",k,split.m_UsedBones.size(),split.m_SkeletonLinkType,split.getTS(),split.getVS(),split.m_PartID,*m_Splits[k].m_Shader,*m_Splits[k].m_Texture);
+                  WriteLog(" - Split %d: [Links: %d, Faces: %d, Verts: %d, Texture: '%s']",k,split.m_SkeletonLinkType,split.getTS(),split.getVS(),*m_Splits[k].m_Texture);
               }
          }
     }
@@ -869,6 +871,8 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
     FOR_END
 
     // compute bounding
+    Msg("..Compute Bounding"); 
+    WriteLog("..Compute Bounding");
     ComputeBounding	();
 
     // restore active motion       6
