@@ -2027,7 +2027,7 @@ namespace Object_tool
 
 		private string GetTime()
 		{
-			string ret = $" Time: {Math.Round((EditorProcess.ExitTime - EditorProcess.StartTime).TotalSeconds, 3)}";
+			string ret = $" Time: {Math.Round((EditorProcess.ExitTime - EditorProcess.StartTime).TotalSeconds, 3)} sec.";
 			return ret;
 		}
 
