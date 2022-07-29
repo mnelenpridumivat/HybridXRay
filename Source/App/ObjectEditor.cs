@@ -2427,6 +2427,12 @@ namespace Object_tool
 			surface_count = 0;
 			joints_count = 0;
 
+			SurfacesPage.Controls.Clear();
+			BonesPage.Controls.Clear();
+			MotionRefsBox.Clear();
+			UserDataTextBox.Clear();
+			LodTextBox.Clear();
+
 			if (IsOgfMode)
 			{
 				TabControl.Controls.Clear();
