@@ -9,6 +9,7 @@
 #include "EditMesh.h"
 #include "..\xrEngine\bone.h"
 #include "..\xrEngine\motion.h"
+#include "..\XrECore\VisualLog.h"
 
  #include "exportskeleton.h"
  #include "exportobjectOGF.h"
@@ -16,7 +17,7 @@
 #if 1
  #include "Shader.h"
 
-bool CEditableObject::Load(const char* fname)
+bool CEditableObject::Load(const char* fname, LPCSTR source)
 {
 	if (FS.exist(fname))
 	{
@@ -24,6 +25,7 @@ bool CEditableObject::Load(const char* fname)
         IReader* F 		= FS.r_open			(fname); 		R_ASSERT(F);
         IReader* OBJ 	= F->open_chunk		(EOBJ_CHUNK_OBJECT_BODY);
         R_ASSERT2		(OBJ,"Corrupted file.");
+        WriteLog("..Import object '%s'", source);
         bool bRes 		= Load(*OBJ);
         OBJ->close();
         FS.r_close(F);
@@ -31,7 +33,16 @@ bool CEditableObject::Load(const char* fname)
 		{ 
             m_LoadName 		= fname;
             m_ObjectVersion = age; 
+            m_LibName = source;
         }
+
+        if (!BonePartsExist() && IsSkeleton())
+        {
+            ToDefaultBoneParts();
+            Msg("Import: Can't find bone parts, reset to default.");
+            WriteLog("!..Import: Can't find bone parts, reset to default.");
+        }
+
         return bRes;
     }
     return false;
@@ -457,6 +468,7 @@ bool CEditableObject::Load(IReader& F)
 bool CEditableObject::ExportOGF(LPCSTR fn, u8 infl)
 {
     Msg("Export [%s]", fn);
+    WriteLog("Export [%s]", fn);
 	UpdateBox		();
 	CMemoryWriter	F;
 
@@ -470,6 +482,7 @@ bool CEditableObject::ExportOGF(LPCSTR fn, u8 infl)
 bool CEditableObject::ExportOMF(LPCSTR fn)
 {
     Msg("Export [%s]", fn);
+    WriteLog("Export [%s]", fn);
 	UpdateBox		();
 	CMemoryWriter	F;
     if (PrepareOMF(F))
@@ -482,6 +495,7 @@ bool CEditableObject::ExportOMF(LPCSTR fn)
 bool CEditableObject::ExportOBJ(LPCSTR fn)
 {
     Msg("Export [%s]", fn);
+    WriteLog("Export [%s]", fn);
 	UpdateBox			();
     CExportObjectOGF E(this);
 	CMemoryWriter F;

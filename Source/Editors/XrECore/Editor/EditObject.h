@@ -389,7 +389,7 @@ public:
 
     // load/save methods
 	bool 			Reload					();
-	bool 			Load					(LPCSTR fname);
+	bool 			Load					(LPCSTR fname, LPCSTR source = "");
 	bool 			Save					(LPCSTR fname);
   	bool 			Load					(IReader&);
 	void 			Save					(IWriter&);
@@ -524,6 +524,25 @@ private:
    	virtual	IKinematics*	 	_BCL	ObjectKinematics		()				 										{ return this;}
     int m_FaceCount;
     int m_VertexCount;
+
+public:
+    bool                LoadBoneParts           (LPCSTR full_name);
+    bool                SaveBoneParts           (LPCSTR full_name);
+    bool                ToDefaultBoneParts      ();
+    bool                UpdateBoneParts         ();
+    bool                PrepareBoneParts        ();
+    bool                BonePartsExist          ();
+
+    struct ItemList
+    {
+        ItemList(shared_str Name) :name(Name),  select(false) {}
+        ItemList() :select(false) {}
+        shared_str name;
+        bool select;
+    };
+
+    xr_vector<ItemList> m_List[4];
+    string_path         m_Name[4];
 
 };
 //----------------------------------------------------

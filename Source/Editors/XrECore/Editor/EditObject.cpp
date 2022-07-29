@@ -382,3 +382,146 @@ bool CEditableObject::IsAnimated()
     else
         return !!m_SMotionRefs.size();
 }
+
+bool CEditableObject::LoadBoneParts(LPCSTR full_name)
+{
+    PrepareBoneParts();
+
+    if (FS.exist(full_name)) 
+    {
+        for (int k = 0; k < 4; k++) { m_List[k].clear(); m_Name[k][0] = 0; }
+        CInifile ini(full_name, TRUE, TRUE, FALSE);
+        string64		buff;
+        for (int i = 0; i < 4; ++i)
+        {
+            sprintf(buff, "part_%d", i);
+            sprintf(m_Name[i], "%s", ini.r_string(buff, "partition_name"));
+            CInifile::Sect& S = ini.r_section(buff);
+            CInifile::SectCIt it = S.Data.begin();
+            CInifile::SectCIt e = S.Data.end();
+            for (; it != e; ++it)
+            {
+                if (0 != stricmp(it->first.c_str(), "partition_name"))
+                {
+                    m_List[i].push_back(it->first);
+                }
+            }
+        }
+    }
+    return UpdateBoneParts();
+}
+
+bool CEditableObject::SaveBoneParts(LPCSTR full_name)
+{
+    PrepareBoneParts();
+
+    CInifile ini(full_name, FALSE, FALSE, TRUE);
+    string64		buff;
+    for (int i = 0; i < 4; ++i)
+    {
+        sprintf(buff, "part_%d", i);
+        ini.w_string(buff, "partition_name", m_Name[i]);
+        for (auto node : m_List[i])
+        {
+            ini.w_string(buff, node.name.c_str(), NULL);
+        }
+    }
+    return true;
+}
+
+bool CEditableObject::ToDefaultBoneParts()
+{
+    PrepareBoneParts();
+
+    for (int k = 0; k < 4; k++) { m_List[k].clear(); m_Name[k][0] = 0; }
+    xr_strcpy(m_Name[0], "default");
+    for (BoneIt it = FirstBone(); it != LastBone(); it++)
+    {
+        m_List[0].push_back((*it)->Name());
+    }
+    return UpdateBoneParts();
+}
+
+bool CEditableObject::UpdateBoneParts()
+{
+    for (int k = 0; k < 4; k++)
+    {
+        if (m_List[k].size()&&!xr_strlen(m_Name[k])) 
+        {
+            ELog.DlgMsg(mtError, "Verify parts name.");
+            return false;
+        }
+        for (int i = 0; i < 4; i++)
+        {
+            if (i == k)continue;
+            if (!m_List[k].size()) continue;
+            string_path Name[2];
+            xr_strcpy(Name[0], m_Name[k]);
+            xr_strcpy(Name[1], m_Name[i]);
+            _strupr_s(Name[0]); _strupr_s(Name[1]);
+            if (xr_strcmp(Name[0], Name[1])==0)
+            {
+                ELog.DlgMsg(mtError, "Unique name required.");
+                return false;
+            }
+        }
+    }
+
+    // verify
+    U8Vec b_use(BoneCount(), 0);
+    for (int k = 0; k < 4; k++)
+    {
+        if (m_List[k].size())
+        {
+            for (auto node : m_List[k])
+            {
+                b_use[FindBoneByNameIdx(node.name.c_str())]++;
+            }
+
+        }
+
+    }
+    for (U8It u_it = b_use.begin(); u_it != b_use.end(); u_it++)
+    {
+        if (*u_it != 1)
+        {
+            ELog.DlgMsg(mtError, "Invalid bone part found (missing or duplicate bones).");
+            return false;
+        }
+    }
+    // save    
+    m_BoneParts.clear();
+    for (int k = 0; k < 4; k++) 
+    {
+        if (m_List[k].size())
+        {
+            m_BoneParts.push_back(SBonePart());
+            SBonePart& BP = m_BoneParts.back();
+            BP.alias = m_Name[k];
+            for (auto node : m_List[k])
+            {
+                BP.bones.push_back(node.name);
+            }
+
+        }
+    }
+
+    return true;
+}
+
+bool CEditableObject::PrepareBoneParts()
+{
+    for (int k = 0; k < 4; k++) { m_List[k].clear(); m_Name[k][0] = 0; }
+    for (BPIt it = m_BoneParts.begin(); it != m_BoneParts.end(); it++) 
+    {
+        xr_strcpy(m_Name[it - m_BoneParts.begin()], it->alias.c_str());
+        for (RStringVecIt w_it = it->bones.begin(); w_it != it->bones.end(); w_it++)
+            m_List[it - m_BoneParts.begin()].push_back(*w_it);
+    }
+    return true;
+}
+
+bool CEditableObject::BonePartsExist()
+{
+    return m_BoneParts.size() > 0;
+}

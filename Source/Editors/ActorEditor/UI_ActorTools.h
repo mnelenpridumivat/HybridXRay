@@ -216,7 +216,7 @@ public:
     virtual void		ZoomObject			(BOOL bSelOnly);
 
     virtual bool		Load				(LPCSTR name);
-    virtual bool		LoadScale			(LPCSTR name, float scale, bool scale_mass);
+    virtual bool		LoadScale			(LPCSTR name, float scale, bool scale_mass, LPCSTR source = "");
     virtual bool		Save				(LPCSTR name, bool bInternal=false);
     virtual void		Reload				();
     
@@ -300,27 +300,6 @@ public:
     void				DestroyPhysicsWorld		( );
 
     virtual bool		GetSelectionPosition	(Fmatrix& result);
-
-    bool                LoadBoneParts           (LPCSTR full_name);
-    bool                SaveBoneParts           (LPCSTR full_name);
-    bool                ToDefaultBoneParts      (CEditableObject* object);
-    bool                UpdateBoneParts         (CEditableObject* object);
-    bool                PrepareBoneParts        (CEditableObject* object);
-    bool                BonePartsExist          ();
-
-    struct ItemList
-    {
-        ItemList(shared_str Name) :name(Name),  select(false) {}
-        ItemList() :select(false) {}
-        shared_str name;
-        bool select;
-    };
-
-    xr_vector<ItemList> m_List[4];
-    string_path         m_Name[4];
-
-
-
 
     // commands
 	CCommandVar			CommandClear		(CCommandVar p1, CCommandVar p2);

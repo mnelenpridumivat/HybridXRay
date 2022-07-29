@@ -104,6 +104,7 @@ xr_vector<CActorTools::BatchFiles> LoadBatchFiles(xr_vector<LPCSTR> args, int co
 
             for (int i = 0; i < cnt; i++)
             {
+                Msg("push %s", args[iReaderPos]);
                 file.files.push_back(args[iReaderPos]); iReaderPos++;
             }
 
@@ -118,6 +119,7 @@ xr_vector<CActorTools::BatchFiles> LoadBatchFiles(xr_vector<LPCSTR> args, int co
         file.source_folder = "null";
         for (int i = 0; i < cnt; i++)
         {
+            Msg("push %s", args[iReaderPos]);
             file.files.push_back(args[iReaderPos]); iReaderPos++;
         }
         batch_files.push_back(file);
@@ -163,16 +165,23 @@ int main(int argc, char** argv)
     }
     else if (load_commands)
     {
-        std::string line;
-        std::ifstream file;
-        file.open("debug_commands.txt");
-        argc = 0;
-        while (std::getline(file, line))
+        std::ifstream file("G:\\projects\\ValeroK\\xrExportTool\\bin\\x64\\Release\\debug_commands.txt");
+        Msg("Start loading txt commands");
+
+        if (file.is_open())
         {
-            args[argc] = line.c_str();
-            argc++;
+            std::string line;
+            file.open("debug_commands.txt");
+            argc = 0;
+            args.clear();
+            while (std::getline(file, line))
+            {
+                Msg("load %s", line.c_str());
+                args.push_back(line.c_str());
+                argc++;
+            }
+            file.close();
         }
-        file.close();
     }
 
     Msg("[Arg debugger]");
@@ -234,12 +243,18 @@ int main(int argc, char** argv)
         int motion_refs_count = atoi(args[iReaderPos]); iReaderPos++;
         pMotionRefs = LoadStringVector(args, motion_refs_count);
         int batch_files_count = atoi(args[iReaderPos]); iReaderPos++;
+        Msg("batch count %d", batch_files_count);
         pBatchFiles = LoadBatchFiles(args, batch_files_count);
         batch_out = args[iReaderPos]; iReaderPos++;
         cpp_export_mode = atoi(args[iReaderPos]); iReaderPos++;
         custom_script = args[iReaderPos]; iReaderPos++;
         source_object = args[iReaderPos]; iReaderPos++;
         // End of program params
+
+        if (load_commands)
+        {
+            system("pause");
+        }
     }
     else
     {
@@ -280,25 +295,16 @@ int main(int argc, char** argv)
 
     if (mode != BatchLtx && mode != BatchDialogOGF && mode != BatchDialogOMF)
     {
-        WriteLog("..Import object");
-        ATools->LoadScale(object_path.c_str(), scale, (flags & exfScaleCenterMass));
+        ATools->LoadScale(object_path.c_str(), scale, (flags & exfScaleCenterMass), source_object.c_str());
 
         ATools->CurrentObject()->ChangeSurfaceFlags(pSurfaces);
         ATools->CurrentObject()->ChangeBoneShapeTypes(pShapes);
         ATools->CurrentObject()->m_LODs = lod_path;
         ATools->CurrentObject()->GetClassScript() = userdata.c_str();
         ATools->CurrentObject()->m_EditorScript = custom_script;
-        ATools->CurrentObject()->m_LibName = source_object.c_str();
 
         if (!IsDebuggerPresent())
             ATools->CurrentObject()->m_SMotionRefs = pMotionRefs;
-
-        if (!ATools->BonePartsExist() && ATools->CurrentObject()->IsSkeleton())
-        {
-            ATools->ToDefaultBoneParts(ATools->CurrentObject());
-            Msg("Import: Can't find bone parts, reset to default.");
-            WriteLog("!..Import: Can't find bone parts, reset to default.");
-        }
 
         ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoProgressive, (flags & exfMakeProgressive));
         ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoStripify, (flags & exfMakeStripify));
@@ -400,19 +406,19 @@ int main(int argc, char** argv)
         }break;
         case LoadBoneParts:
         {
-            if (!ATools->LoadBoneParts(second_file_path.c_str()) || !ATools->Save(object_path.c_str()))
+            if (!ATools->CurrentObject()->LoadBoneParts(second_file_path.c_str()) || !ATools->Save(object_path.c_str()))
                 ret_code = -1;
             WriteLog("..Bone parts loaded");
         }break;
         case SaveBoneParts:
         {
-            if (!ATools->SaveBoneParts(second_file_path.c_str()))
+            if (!ATools->CurrentObject()->SaveBoneParts(second_file_path.c_str()))
                 ret_code = -1;
             WriteLog("..Bone parts saved");
         }break;
         case ToDefaultBoneParts:
         {
-            if (!ATools->ToDefaultBoneParts(ATools->CurrentObject()) || !ATools->Save(object_path.c_str()))
+            if (!ATools->CurrentObject()->ToDefaultBoneParts() || !ATools->Save(object_path.c_str()))
                 ret_code = -1;
             WriteLog("..Bone parts reseted to default");
         }break;

@@ -7,6 +7,7 @@
 #include "..\XrECore\Editor\EditMesh.h"
 #include "KinematicAnimatedDefs.h"
 #include "SkeletonAnimated.h"
+#include "../XrECore/VisualLog.h"
 CActorTools*	ATools=(CActorTools*)Tools;
 //------------------------------------------------------------------------------
 #define CHECK_SNAP(R,A,C){ R+=A; if(fabsf(R)>=C){ A=snapto(R,C); R=0; }else{A=0;}}
@@ -315,14 +316,14 @@ bool CActorTools::Load(LPCSTR obj_name)
     return false;
 }
 
-bool CActorTools::LoadScale(LPCSTR obj_name, float scale, bool scale_mass)
+bool CActorTools::LoadScale(LPCSTR obj_name, float scale, bool scale_mass, LPCSTR source)
 {
     Msg("Import object [%s]", obj_name);
     xr_string 		full_name;
     full_name = obj_name;
 
     CEditableObject* O = xr_new<CEditableObject>(obj_name);
-    if (FS.exist(full_name.c_str()) && O->Load(full_name.c_str())) 
+    if (FS.exist(full_name.c_str()) && O->Load(full_name.c_str(), source)) 
     {
         full_name += ".ogf";
         xr_delete(m_pEditObject);
@@ -731,15 +732,9 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, shared_str script, float sc
             {
                 Msg(".Converting '%s' <-> '%s'", it->first.c_str(), it->second.c_str());
                 CEditableObject* O = xr_new<CEditableObject>("convert");
-                BOOL res = O->Load(src_name);
+                BOOL res = O->Load(src_name, src_name);
                 O->a_vScale = scale;
                 O->a_vAdjustMass = (flags & exfScaleCenterMass);
-
-                if (O->BonePartCount() == 0 && O->IsSkeleton())
-                {
-                    ATools->ToDefaultBoneParts(O);
-                    Msg("Can't find bone parts, reset to default.");
-                }
 
                 O->m_objectFlags.set(CEditableObject::eoProgressive, (flags & exfMakeProgressive));
                 O->m_objectFlags.set(CEditableObject::eoStripify, (flags & exfMakeStripify));
@@ -770,12 +765,13 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, shared_str script, float sc
                         if (!FS.exist(skls_name))
                             Log("!Can't find anim:", skls_name);
                         else
+                        {
+                            Msg("..Append motion '%s'", skls_name);
+                            WriteLog("..Append motion '%s'", skls_name);
                             O->AppendSMotion(skls_name);
+                        }
                     }
                 }
-
-                if (O->SMotionCount() > 0)
-                    O->m_SMotionRefs.clear();
 
                 if (res) res = O->ExportOGF(tgt_name, (O->m_objectFlags.is(CEditableObject::eoSoCInfluence) ? 2 : 4));
                 Log(res ? ".OK" : "!.FAILED");
@@ -814,15 +810,9 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, shared_str script, float sc
             {
                 Msg(".Converting '%s' <-> '%s'", it->first.c_str(), it->second.c_str());
                 CEditableObject* O = xr_new<CEditableObject>("convert");
-                BOOL res = O->Load(src_name);
+                BOOL res = O->Load(src_name, src_name);
                 O->a_vScale = scale;
                 O->a_vAdjustMass = (flags & exfScaleCenterMass);
-
-                if (O->BonePartCount() == 0 && O->IsSkeleton())
-                {
-                    ATools->ToDefaultBoneParts(O);
-                    Msg("Can't find bone parts, reset to default.");
-                }
 
                 O->m_objectFlags.set(CEditableObject::eoExpBuildinMots, TRUE);
                 O->m_EditorScript = script;
@@ -847,12 +837,13 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, shared_str script, float sc
                         if (!FS.exist(skls_name))
                             Log("!Can't find anim:", skls_name);
                         else
+                        {
+                            Msg("..Append motion '%s'", skls_name);
+                            WriteLog("..Append motion '%s'", skls_name);
                             O->AppendSMotion(skls_name);
+                        }
                     }
                 }
-
-                if (O->SMotionCount() > 0 && (flags & exfExportBuildInMots))
-                    O->m_SMotionRefs.clear();
 
                 if (res) res = O->ExportOMF(tgt_name);
                 Log(res ? ".OK" : "!.FAILED");
@@ -878,7 +869,7 @@ bool CActorTools::BatchConvertDialogOGF(xr_vector<BatchFiles> files, shared_str 
         Msg("Start converting %d items...", files[i].files.size());
         for (int j = 0; j < files[i].files.size(); j++)
         {
-            string_path 		src_name;
+            Msg("Start converting [%s]", files[i].files[j].c_str());
             string_path 		tgt_name;
 
             std::string tgt = out.c_str();
@@ -896,22 +887,15 @@ bool CActorTools::BatchConvertDialogOGF(xr_vector<BatchFiles> files, shared_str 
                 tgt += fname;
             }
 
-            xr_sprintf(src_name, "%s", files[i].files[j].c_str());
             xr_sprintf(tgt_name, "%s", tgt.c_str());
 
             strcpy(tgt_name, EFS.ChangeFileExt(tgt_name, ".ogf").c_str());
-            if (FS.exist(src_name))
+            if (FS.exist(files[i].files[j].c_str()))
             {
                 CEditableObject* O = xr_new<CEditableObject>("convert");
-                BOOL res = O->Load(src_name);
+                BOOL res = O->Load(files[i].files[j].c_str(), files[i].files[j].c_str());
                 O->a_vScale = scale;
                 O->a_vAdjustMass = (flags & exfScaleCenterMass);
-
-                if (O->BonePartCount() == 0 && O->IsSkeleton())
-                {
-                    ATools->ToDefaultBoneParts(O);
-                    Msg("Can't find bone parts, reset to default.");
-                }
 
                 O->m_objectFlags.set(CEditableObject::eoProgressive, (flags & exfMakeProgressive));
                 O->m_objectFlags.set(CEditableObject::eoStripify, (flags & exfMakeStripify));
@@ -923,17 +907,22 @@ bool CActorTools::BatchConvertDialogOGF(xr_vector<BatchFiles> files, shared_str 
                 O->m_EditorScript = script;
                 O->InitScript();
 
-                shared_str skls_name = EFS.ChangeFileExt(src_name, ".skls").c_str();
+                shared_str skls_name = EFS.ChangeFileExt(files[i].files[j].c_str(), ".skls").c_str();
 
                 if (FS.exist(skls_name.c_str()))
+                {
+                    Msg("..Append motion '%s'", skls_name.c_str());
+                    WriteLog("..Append motion '%s'", skls_name.c_str());
                     O->AppendSMotion(skls_name.c_str());
+                }
 
-                skls_name = EFS.ChangeFileExt(src_name, ".skl").c_str();
+                skls_name = EFS.ChangeFileExt(files[i].files[j].c_str(), ".skl").c_str();
                 if (FS.exist(skls_name.c_str()))
+                {
+                    Msg("..Append motion '%s'", skls_name.c_str());
+                    WriteLog("..Append motion '%s'", skls_name.c_str());
                     O->AppendSMotion(skls_name.c_str());
-
-                if (O->SMotionCount() > 0 && (flags & exfExportBuildInMots))
-                    O->m_SMotionRefs.clear();
+                }
 
                 if (res) res = O->ExportOGF(tgt_name, (O->m_objectFlags.is(CEditableObject::eoSoCInfluence) ? 2 : 4));
                 Log(res ? ".OK" : "!.FAILED");
@@ -959,7 +948,7 @@ bool CActorTools::BatchConvertDialogOMF(xr_vector<BatchFiles> files, shared_str 
         Msg("Start converting %d items...", files[i].files.size());
         for (int j = 0; j < files[i].files.size(); j++)
         {
-            string_path 		src_name;
+            Msg("Start converting [%s]", files[i].files[j].c_str());
             string_path 		tgt_name;
 
             std::string tgt = out.c_str();
@@ -977,14 +966,13 @@ bool CActorTools::BatchConvertDialogOMF(xr_vector<BatchFiles> files, shared_str 
                 tgt += fname;
             }
 
-            xr_sprintf(src_name, "%s", files[i].files[j].c_str());
             xr_sprintf(tgt_name, "%s", tgt.c_str());
 
             strcpy(tgt_name, EFS.ChangeFileExt(tgt_name, ".omf").c_str());
-            if (FS.exist(src_name))
+            if (FS.exist(files[i].files[j].c_str()))
             {
                 CEditableObject* O = xr_new<CEditableObject>("convert");
-                BOOL res = O->Load(src_name);
+                BOOL res = O->Load(files[i].files[j].c_str(), files[i].files[j].c_str());
                 O->a_vScale = scale;
                 O->a_vAdjustMass = (flags & exfScaleCenterMass);
 
@@ -992,23 +980,22 @@ bool CActorTools::BatchConvertDialogOMF(xr_vector<BatchFiles> files, shared_str 
                 O->m_EditorScript = script;
                 O->InitScript();
 
-                if (O->BonePartCount() == 0 && O->IsSkeleton())
+                shared_str skls_name = EFS.ChangeFileExt(files[i].files[j].c_str(), ".skls").c_str();
+
+                if (FS.exist(skls_name.c_str()))
                 {
-                    ATools->ToDefaultBoneParts(O);
-                    Msg("Can't find bone parts, reset to default.");
+                    Msg("..Append motion '%s'", skls_name.c_str());
+                    WriteLog("..Append motion '%s'", skls_name.c_str());
+                    O->AppendSMotion(skls_name.c_str());
                 }
 
-                shared_str skls_name = EFS.ChangeFileExt(src_name, ".skls").c_str();
-
+                skls_name = EFS.ChangeFileExt(files[i].files[j].c_str(), ".skl").c_str();
                 if (FS.exist(skls_name.c_str()))
+                {
+                    Msg("..Append motion '%s'", skls_name.c_str());
+                    WriteLog("..Append motion '%s'", skls_name.c_str());
                     O->AppendSMotion(skls_name.c_str());
-
-                skls_name = EFS.ChangeFileExt(src_name, ".skl").c_str();
-                if (FS.exist(skls_name.c_str()))
-                    O->AppendSMotion(skls_name.c_str());
-
-                if (O->SMotionCount() > 0 && (flags & exfExportBuildInMots))
-                    O->m_SMotionRefs.clear();
+                }
 
                 if (res) res = O->ExportOMF(tgt_name);
                 Log(res ? ".OK" : "!.FAILED");
@@ -1051,149 +1038,6 @@ bool CActorTools::GetSelectionPosition(Fmatrix& result)
 {
     result = m_AVTransform;
     return true;
-}
-
-bool CActorTools::LoadBoneParts(LPCSTR full_name)
-{
-    PrepareBoneParts(m_pEditObject);
-
-    if (FS.exist(full_name)) 
-    {
-        for (int k = 0; k < 4; k++) { m_List[k].clear(); m_Name[k][0] = 0; }
-        CInifile ini(full_name, TRUE, TRUE, FALSE);
-        string64		buff;
-        for (int i = 0; i < 4; ++i)
-        {
-            sprintf(buff, "part_%d", i);
-            sprintf(m_Name[i], "%s", ini.r_string(buff, "partition_name"));
-            CInifile::Sect& S = ini.r_section(buff);
-            CInifile::SectCIt it = S.Data.begin();
-            CInifile::SectCIt e = S.Data.end();
-            for (; it != e; ++it)
-            {
-                if (0 != stricmp(it->first.c_str(), "partition_name"))
-                {
-                    m_List[i].push_back(it->first);
-                }
-            }
-        }
-    }
-    return UpdateBoneParts(m_pEditObject);
-}
-
-bool CActorTools::SaveBoneParts(LPCSTR full_name)
-{
-    PrepareBoneParts(m_pEditObject);
-
-    CInifile ini(full_name, FALSE, FALSE, TRUE);
-    string64		buff;
-    for (int i = 0; i < 4; ++i)
-    {
-        sprintf(buff, "part_%d", i);
-        ini.w_string(buff, "partition_name", m_Name[i]);
-        for (auto node : m_List[i])
-        {
-            ini.w_string(buff, node.name.c_str(), NULL);
-        }
-    }
-    return true;
-}
-
-bool CActorTools::ToDefaultBoneParts(CEditableObject* object)
-{
-    PrepareBoneParts(object);
-
-    for (int k = 0; k < 4; k++) { m_List[k].clear(); m_Name[k][0] = 0; }
-    xr_strcpy(m_Name[0], "default");
-    for (BoneIt it = object->FirstBone(); it != object->LastBone(); it++)
-    {
-        m_List[0].push_back((*it)->Name());
-    }
-    return UpdateBoneParts(object);
-}
-
-bool CActorTools::UpdateBoneParts(CEditableObject* object)
-{
-    for (int k = 0; k < 4; k++)
-    {
-        if (m_List[k].size()&&!xr_strlen(m_Name[k])) 
-        {
-            ELog.DlgMsg(mtError, "Verify parts name.");
-            return false;
-        }
-        for (int i = 0; i < 4; i++)
-        {
-            if (i == k)continue;
-            if (!m_List[k].size()) continue;
-            string_path Name[2];
-            xr_strcpy(Name[0], m_Name[k]);
-            xr_strcpy(Name[1], m_Name[i]);
-            _strupr_s(Name[0]); _strupr_s(Name[1]);
-            if (xr_strcmp(Name[0], Name[1])==0)
-            {
-                ELog.DlgMsg(mtError, "Unique name required.");
-                return false;
-            }
-        }
-    }
-
-    // verify
-    U8Vec b_use(object->BoneCount(), 0);
-    for (int k = 0; k < 4; k++)
-    {
-        if (m_List[k].size())
-        {
-            for (auto node : m_List[k])
-            {
-                b_use[object->FindBoneByNameIdx(node.name.c_str())]++;
-            }
-
-        }
-
-    }
-    for (U8It u_it = b_use.begin(); u_it != b_use.end(); u_it++)
-    {
-        if (*u_it != 1)
-        {
-            ELog.DlgMsg(mtError, "Invalid bone part found (missing or duplicate bones).");
-            return false;
-        }
-    }
-    // save    
-    object->m_BoneParts.clear();
-    for (int k = 0; k < 4; k++) 
-    {
-        if (m_List[k].size())
-        {
-            object->m_BoneParts.push_back(SBonePart());
-            SBonePart& BP = object->m_BoneParts.back();
-            BP.alias = m_Name[k];
-            for (auto node : m_List[k])
-            {
-                BP.bones.push_back(node.name);
-            }
-
-        }
-    }
-
-    return true;
-}
-
-bool CActorTools::PrepareBoneParts(CEditableObject* object)
-{
-    for (int k = 0; k < 4; k++) { m_List[k].clear(); m_Name[k][0] = 0; }
-    for (BPIt it = object->m_BoneParts.begin(); it != object->m_BoneParts.end(); it++) 
-    {
-        xr_strcpy(m_Name[it - object->m_BoneParts.begin()], it->alias.c_str());
-        for (RStringVecIt w_it = it->bones.begin(); w_it != it->bones.end(); w_it++)
-            m_List[it - object->m_BoneParts.begin()].push_back(*w_it);
-    }
-    return true;
-}
-
-bool CActorTools::BonePartsExist()
-{
-    return m_pEditObject->m_BoneParts.size() > 0;
 }
 
 void PreviewModel::OnCreate()

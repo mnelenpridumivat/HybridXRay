@@ -406,7 +406,10 @@ namespace Object_tool
 				args += $" {batch_files.Count}";
 				for (int i = 0; i < batch_files.Count; i++)
 				{
-					args += $" \"{batch_files[i]}\"";
+					for (int cnt = 0; cnt < batch_files[i].Count(); cnt++)
+					{
+						args += $" \"{batch_files[i][cnt]}\"";
+					}
 				}
 			}
             args += $" \"{OpenBatchOutDialog.FileName}\"";
@@ -470,7 +473,15 @@ namespace Object_tool
 				if (ALLOW_LOG)
 					LogThread.Abort();
 
-				if (File.Exists(log))
+				if (EditorProcess.ExitCode < -100 || EditorProcess.ExitCode > 100) // 100% Error
+                {
+					log = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\engine.log";
+					if (File.Exists(log))
+					{
+						LogTextBox.Text += "\n\nERROR LOG:\n\n" + File.ReadAllText(log);
+					}
+				}
+				else if (File.Exists(log))
 				{
 					LogTextBox.Text = File.ReadAllText(log);
 					File.Delete(log);
@@ -1224,8 +1235,7 @@ namespace Object_tool
 							xr_loader.ReadUInt32();   // FVF
 							xr_loader.ReadUInt32();   // TC count
 
-							CheckBox chbx = SurfacesPage.Controls[i].Controls[0] as CheckBox;
-							chbx.Checked = (surfaces[i].flags == 1);
+							(SurfacesPage.Controls[i].Controls[0] as CheckBox).Checked = (surfaces[i].flags == 1);
 							SurfacesPage.Controls[i].Controls[2].Text = surfaces[i].texture;
 							SurfacesPage.Controls[i].Controls[4].Text = surfaces[i].shader;
 						}
@@ -1247,8 +1257,7 @@ namespace Object_tool
 							xr_loader.ReadUInt32();   // FVF
 							xr_loader.ReadUInt32();   // TC count
 
-							CheckBox chbx = SurfacesPage.Controls[i].Controls[0] as CheckBox;
-							chbx.Checked = (surfaces[i].flags == 1);
+							(SurfacesPage.Controls[i].Controls[0] as CheckBox).Checked = (surfaces[i].flags == 1);
 							SurfacesPage.Controls[i].Controls[2].Text = surfaces[i].texture;
 							SurfacesPage.Controls[i].Controls[4].Text = surfaces[i].shader;
 						}
@@ -1269,8 +1278,7 @@ namespace Object_tool
 							surfaces[i].texture = xr_loader.read_stringZ(); // Texture
 							xr_loader.read_stringZ(); // VMap
 
-							CheckBox chbx = SurfacesPage.Controls[i].Controls[0] as CheckBox;
-							chbx.Checked = (surfaces[i].flags == 1);
+							(SurfacesPage.Controls[i].Controls[0] as CheckBox).Checked = (surfaces[i].flags == 1);
 							SurfacesPage.Controls[i].Controls[2].Text = surfaces[i].texture;
 							SurfacesPage.Controls[i].Controls[4].Text = surfaces[i].shader;
 						}
@@ -1297,17 +1305,12 @@ namespace Object_tool
 						bones[chunk].shape_type = (ushort)xr_loader.ReadUInt16();
 						bones[chunk].shape_flags = (ushort)xr_loader.ReadUInt16();
 
-						ComboBox cb = BonesPage.Controls[chunk].Controls[4] as ComboBox;
-						cb.SelectedIndex = bones[chunk].shape_type;
+						(BonesPage.Controls[chunk].Controls[4] as ComboBox).SelectedIndex = bones[chunk].shape_type;
 
-						CheckBox chbx1 = BonesPage.Controls[chunk].Controls[0] as CheckBox;
-						chbx1.Checked = (bones[chunk].shape_flags & (1 << 0)) == (1 << 0);
-						CheckBox chbx2 = BonesPage.Controls[chunk].Controls[1] as CheckBox;
-						chbx2.Checked = (bones[chunk].shape_flags & (1 << 1)) == (1 << 1);
-						CheckBox chbx3 = BonesPage.Controls[chunk].Controls[2] as CheckBox;
-						chbx3.Checked = (bones[chunk].shape_flags & (1 << 2)) == (1 << 2);
-						CheckBox chbx4 = BonesPage.Controls[chunk].Controls[3] as CheckBox;
-						chbx4.Checked = (bones[chunk].shape_flags & (1 << 3)) == (1 << 3);
+						(BonesPage.Controls[chunk].Controls[0] as CheckBox).Checked = (bones[chunk].shape_flags & (1 << 0)) == (1 << 0);
+						(BonesPage.Controls[chunk].Controls[1] as CheckBox).Checked = (bones[chunk].shape_flags & (1 << 1)) == (1 << 1);
+						(BonesPage.Controls[chunk].Controls[2] as CheckBox).Checked = (bones[chunk].shape_flags & (1 << 2)) == (1 << 2);
+						(BonesPage.Controls[chunk].Controls[3] as CheckBox).Checked = (bones[chunk].shape_flags & (1 << 3)) == (1 << 3);
 
 						size = xr_loader.find_chunkSize((int)BONE.BONE_CHUNK_MATERIAL, false, true);
 						if (size == 0) break;
@@ -1344,17 +1347,15 @@ namespace Object_tool
 							xr_loader.ReadBytes(12);
 							xr_loader.ReadFloat();
 
-							ComboBox cb = BonesPage.Controls[i].Controls[4] as ComboBox;
-							cb.SelectedIndex = bones[i].shape_type;
+							(BonesPage.Controls[i].Controls[4] as ComboBox).SelectedIndex = bones[i].shape_type;
 
-							CheckBox chbx1 = BonesPage.Controls[i].Controls[0] as CheckBox;
-							chbx1.Checked = (bones[i].shape_flags & (1 << 0)) == (1 << 0);
-							CheckBox chbx2 = BonesPage.Controls[i].Controls[1] as CheckBox;
-							chbx2.Checked = (bones[i].shape_flags & (1 << 1)) == (1 << 1);
-							CheckBox chbx3 = BonesPage.Controls[i].Controls[2] as CheckBox;
-							chbx3.Checked = (bones[i].shape_flags & (1 << 2)) == (1 << 2);
-							CheckBox chbx4 = BonesPage.Controls[i].Controls[3] as CheckBox;
-							chbx4.Checked = (bones[i].shape_flags & (1 << 3)) == (1 << 3);
+							(BonesPage.Controls[i].Controls[0] as CheckBox).Checked = (bones[i].shape_flags & (1 << 0)) == (1 << 0);
+							(BonesPage.Controls[i].Controls[1] as CheckBox).Checked = (bones[i].shape_flags & (1 << 1)) == (1 << 1);
+							(BonesPage.Controls[i].Controls[2] as CheckBox).Checked = (bones[i].shape_flags & (1 << 2)) == (1 << 2);
+							(BonesPage.Controls[i].Controls[3] as CheckBox).Checked = (bones[i].shape_flags & (1 << 3)) == (1 << 3);
+
+							BonesPage.Controls[i].Controls[7].Text = bones[i].material = xr_loader.read_stringZ();
+							BonesPage.Controls[i].Controls[9].Text = bones[i].mass.ToString();
 						}
 					}
 				}
@@ -1844,8 +1845,7 @@ namespace Object_tool
 			for (int i = 0; i < shapes_count; i++)
 			{
 				bones[i].shape_type = (ushort)type;
-				ComboBox ShapeType = BonesPage.Controls[i].Controls[4] as ComboBox;
-				ShapeType.SelectedIndex = type;
+				(BonesPage.Controls[i].Controls[4] as ComboBox).SelectedIndex = type;
 			}
 		}
 
@@ -1977,9 +1977,7 @@ namespace Object_tool
         {
 			string log = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\engine.log";
 			if (File.Exists(log))
-			{
-				System.Diagnostics.Process proc = System.Diagnostics.Process.Start("notepad.exe", log);
-			}
+				System.Diagnostics.Process.Start("notepad.exe", log);
 			else
 				AutoClosingMessageBox.Show("Can't find log.", "", 1000, MessageBoxIcon.Error);
 		}
@@ -1998,9 +1996,7 @@ namespace Object_tool
 			for (int i = 0; i < surfaces.Count; i++)
 			{
 				surfaces[i].flags = 1;
-
-				CheckBox TwoSided = SurfacesPage.Controls[i].Controls[0] as CheckBox;
-				TwoSided.Checked = (surfaces[i].flags == 1);
+				(SurfacesPage.Controls[i].Controls[0] as CheckBox).Checked = true;
 			}
 		}
 
@@ -2009,9 +2005,7 @@ namespace Object_tool
 			for (int i = 0; i < surfaces.Count; i++)
 			{
 				surfaces[i].flags = 0;
-
-				CheckBox TwoSided = SurfacesPage.Controls[i].Controls[0] as CheckBox;
-				TwoSided.Checked = (surfaces[i].flags == 1);
+				(SurfacesPage.Controls[i].Controls[0] as CheckBox).Checked = true;
 			}
 		}
 
