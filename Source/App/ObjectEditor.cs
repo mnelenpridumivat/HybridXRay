@@ -470,7 +470,7 @@ namespace Object_tool
 									LogTextBox.SelectionStart = LogTextBox.TextLength;
 									LogTextBox.ScrollToCaret();
 								}
-								Thread.Sleep(100);
+								Thread.Sleep(250);
 							}
 						});
 						LogThread.Start();
@@ -1181,6 +1181,7 @@ namespace Object_tool
 					}
 					break;
 			}
+			EditorKilled = false;
 		}
 
 		private void CopyObjectParams(string FileName)
@@ -2203,6 +2204,12 @@ namespace Object_tool
 
 		private void EditorKeyDown(object sender, KeyEventArgs e)
 		{
+			if (e.Control && e.KeyCode == Keys.Delete && EditorWorking)
+			{
+				EditorKilled = true;
+				EditorProcess.Kill();
+			}
+
 			switch (e.KeyData)
 			{
 				case Keys.F3:
@@ -2222,6 +2229,13 @@ namespace Object_tool
 				case Keys.F6:
 					fileToolStripMenuItem.ShowDropDown();
 					saveToolStripMenuItem.ShowDropDown();
+					break;
+				case Keys.F7:
+					if (e.Control)
+					{
+						EditorKilled = true;
+						EditorProcess.Kill();
+					}
 					break;
 			}
 		}
@@ -2769,7 +2783,7 @@ namespace Object_tool
         private void hotkeysToolStripMenuItem_Click(object sender, EventArgs e)
         {
 			MessageBox.Show(
-			"F3 - Экспорт\nF4 - Загрузка\nF5, Ctrl+S - Быстрое сохранение .object\nF6 - Сохранение"
+			"F3 - Экспорт\nF4 - Загрузка\nF5, Ctrl+S - Быстрое сохранение .object\nF6 - Сохранение\nCtrl+Del - Закрытие текущего процесса"
 			, "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
