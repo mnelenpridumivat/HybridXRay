@@ -15,7 +15,6 @@
 #include "tbb/parallel_for.h" 
 #include "tbb/blocked_range.h"
 #endif
-#include "..\XrECore\VisualLog.h"
 
 //#include "library.h"
 

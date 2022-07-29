@@ -11,7 +11,6 @@
 #include "tbb/parallel_for.h" 
 #include "tbb/blocked_range.h"
 #endif
-#include "..\XrECore\VisualLog.h"
 
 #if 1
 #include "ui_main.h"
