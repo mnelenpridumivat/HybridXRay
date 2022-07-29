@@ -8,7 +8,7 @@
 #include "bone.h"
 #include "motion.h"
 #if !defined(_DEBUG) && defined(_WIN64)
-#include "tbb/parallel_for.h" 
+#include "tbb/parallel_for.h"
 #include "tbb/blocked_range.h"
 #endif
 
@@ -243,6 +243,38 @@ void CObjectOGFCollectorPacked::MakeProgressive()
     Msg("+ ..Progressive end");
 }
 
+void CObjectOGFCollectorPacked::MakeStripify()
+{
+    Msg("# ..Make stripify");
+    // alternative stripification - faces
+    {
+        DWORD*  remap = xr_alloc<DWORD>(m_Faces.size());
+        HRESULT rhr   = D3DXOptimizeFaces(&m_Faces.front(), m_Faces.size(), m_Verts.size(), FALSE, remap);
+        R_CHK(rhr);
+        OGFFaceVec _source = m_Faces;
+        for (u32 it = 0; it < _source.size(); it++)
+            m_Faces[it] = _source[remap[it]];
+
+        xr_free(remap);
+    }
+    // alternative stripification - vertices
+    {
+        DWORD*  remap = xr_alloc<DWORD>(m_Verts.size());
+        HRESULT rhr   = D3DXOptimizeVertices(&m_Faces.front(), m_Faces.size(), m_Verts.size(), FALSE, remap);
+        R_CHK(rhr);
+        OGFVertVec _source = m_Verts;
+
+        for (u32 vit = 0; vit < _source.size(); vit++)
+            m_Verts[remap[vit]] = _source[vit];
+
+        for (u32 fit = 0; fit < (u32)m_Faces.size(); ++fit)
+            for (u32 j = 0; j < 3; j++)
+                m_Faces[fit].v[j] = remap[m_Faces[fit].v[j]];
+
+        xr_free(remap);
+    }
+}
+
 void CObjectOGFCollectorPacked::OptimizeTextureCoordinates()
 {
     // Optimize texture coordinates
@@ -279,6 +311,12 @@ void CExportObjectOGF::SSplit::MakeProgressive()
 {
     for (COGFCPIt it = m_Parts.begin(); it != m_Parts.end(); ++it)
         (*it)->MakeProgressive();
+}
+
+void CExportObjectOGF::SSplit::MakeStripify()
+{
+    for (COGFCPIt it = m_Parts.begin(); it != m_Parts.end(); ++it)
+        (*it)->MakeStripify();
 }
 
 CExportObjectOGF::CExportObjectOGF(CEditableObject* object)
@@ -344,8 +382,7 @@ bool CExportObjectOGF::PrepareMESH(CEditableMesh* MESH)
         const bool b2sided = !!surf->m_Flags.is(CSurface::sf2Sided);
 
         if (0 == split->m_CurrentPart)
-            split->AppendPart((elapsed_faces > 0xffff) ? 0xffff : elapsed_faces,
-                              (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces);
+            split->AppendPart((elapsed_faces > 0xffff) ? 0xffff : elapsed_faces, (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces);
 
         do
         {
@@ -381,7 +418,7 @@ bool CExportObjectOGF::PrepareMESH(CEditableMesh* MESH)
 
                         if (MESH->m_Normals && m_Source->m_objectFlags.is(CEditableObject::eoNormals))
                             v[k].set(offset, MESH->m_Normals[norm_id], *uv);
-                        else 
+                        else
                             v[k].set(offset, MESH->m_VertexNormals[norm_id], *uv);
                     }
                     --elapsed_faces;
@@ -398,8 +435,9 @@ bool CExportObjectOGF::PrepareMESH(CEditableMesh* MESH)
                     }
                 }
                 if (bNewPart && (elapsed_faces > 0))
-                    split->AppendPart((elapsed_faces > 0xffff) ? 0xffff : elapsed_faces,
-                                      (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces);
+                    split->AppendPart(
+                        (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces,
+                        (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces);
             }
         } while (elapsed_faces > 0);
     }
@@ -449,7 +487,7 @@ bool CExportObjectOGF::Prepare(bool gen_tb, CEditableMesh* mesh)
     // fill per bone vertices
     if (m_Source->m_objectFlags.is(CEditableObject::eoProgressive))
     {
-        if (m_Splits.size() > 1) // MT
+        if (m_Splits.size() > 1)   // MT
         {
             FOR_START(u32, 0, m_Splits.size(), it)
                 m_Splits[it]->MakeProgressive();
@@ -458,6 +496,21 @@ bool CExportObjectOGF::Prepare(bool gen_tb, CEditableMesh* mesh)
         else if (m_Splits.size() == 1)
             m_Splits[0]->MakeProgressive();
     }
+    else if (m_Source->m_objectFlags.is(CEditableObject::eoStripify))
+    {
+        if (m_Splits.size() > 1)   // MT
+        {
+#if !defined(_DEBUG) && defined(_WIN64)
+            Msg("# ..MT Calculate Stripify");
+#endif
+            FOR_START(u32, 0, m_Splits.size(), it)
+                m_Splits[it]->MakeStripify();
+            FOR_END
+        }
+        else if (m_Splits.size() == 1)
+            m_Splits[0]->MakeStripify();
+    }
+
     // Compute bounding...
     ComputeBounding();
     Msg("# ..Compute Bounding");

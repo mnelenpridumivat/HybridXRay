@@ -83,6 +83,7 @@ public:
     CObjectOGFCollectorPacked(const Fbox& bb, int apx_vertices, int apx_faces);
     void    CalculateTB();
     void    MakeProgressive();
+    void    MakeStripify();
     IC bool check(SOGFFace& F)
     {
         if ((F.v[0] == F.v[1]) || (F.v[0] == F.v[2]) || (F.v[1] == F.v[2]))
@@ -162,6 +163,7 @@ class ECORE_API CExportObjectOGF
         }
 
         void MakeProgressive();
+        void MakeStripify();
         SSplit(CSurface* surf, const Fbox& bb);
         ~SSplit();
         void ComputeBounding()
