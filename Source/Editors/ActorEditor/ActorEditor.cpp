@@ -104,7 +104,6 @@ xr_vector<CActorTools::BatchFiles> LoadBatchFiles(xr_vector<LPCSTR> args, int co
 
             for (int i = 0; i < cnt; i++)
             {
-                Msg("push %s", args[iReaderPos]);
                 file.files.push_back(args[iReaderPos]); iReaderPos++;
             }
 
@@ -119,7 +118,6 @@ xr_vector<CActorTools::BatchFiles> LoadBatchFiles(xr_vector<LPCSTR> args, int co
         file.source_folder = "null";
         for (int i = 0; i < cnt; i++)
         {
-            Msg("push %s", args[iReaderPos]);
             file.files.push_back(args[iReaderPos]); iReaderPos++;
         }
         batch_files.push_back(file);
@@ -243,7 +241,6 @@ int main(int argc, char** argv)
         int motion_refs_count = atoi(args[iReaderPos]); iReaderPos++;
         pMotionRefs = LoadStringVector(args, motion_refs_count);
         int batch_files_count = atoi(args[iReaderPos]); iReaderPos++;
-        Msg("batch count %d", batch_files_count);
         pBatchFiles = LoadBatchFiles(args, batch_files_count);
         batch_out = args[iReaderPos]; iReaderPos++;
         cpp_export_mode = atoi(args[iReaderPos]); iReaderPos++;
