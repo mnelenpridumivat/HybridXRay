@@ -93,7 +93,6 @@ namespace Object_tool
 		public bool IsOgfMode = false;
 		public string script = "null";
 		public string SCRIPT_FOLDER = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\scripts\\";
-		public int WorkersCount = 1;
 
 		// Info
 		public uint vertex_count = 0;
@@ -110,7 +109,6 @@ namespace Object_tool
 		public int cpp_mode = 0;
 		public string[] game_materials = { };
 		public Thread SdkThread = null;
-		public bool MT_LOAD = false;
 		public bool NORMALS_DEFAULT = true;
 		System.Diagnostics.Process EditorProcess = null;
 		public bool EditorWorking = false;
@@ -127,7 +125,6 @@ namespace Object_tool
 
 			this.Size = this.MinimumSize;
 			EditorProcess = new System.Diagnostics.Process();
-			WorkersCount = Environment.ProcessorCount;
 			CurrentSize = this.MinimumSize;
 			BoneSize = this.MaximumSize;
 			Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
@@ -171,7 +168,6 @@ namespace Object_tool
 			pSettings.LoadText("GameMtlPath", ref gamemtl);
 			pSettings.LoadState("NoCompress", ref NoCompress);
 			pSettings.LoadState("Debug", ref Debug);
-			pSettings.LoadState("MtLoad", ref MT_LOAD);
 			pSettings.Load(ProgressiveMeshes);
 			pSettings.Load(StripifyMeshes);
 			pSettings.Load(OptimizeSurfaces);
@@ -273,28 +269,14 @@ namespace Object_tool
 
 			InitDialogs();
 			InitUI();
-
 			LoadData();
-
 			ParseMotions();
 
-            if (WorkersCount >= 3 && MT_LOAD)
-            {
-                Thread SurfaceThread = new Thread(InitSurfaceUI);
-                SurfaceThread.Start();
-            }
-            else
-                InitSurfaceUI();
+            InitSurfaceUI();
 
 			if (USE_OLD_BONES)
             {
-                if (MT_LOAD)
-                {
-                    SdkThread = new Thread(InitBoneUI);
-                    SdkThread.Start();
-                }
-                else
-                    InitBoneUI();
+				InitBoneUI();
 			}
             else
             {

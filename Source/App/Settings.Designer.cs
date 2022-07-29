@@ -32,6 +32,10 @@
             this.NoCompress = new System.Windows.Forms.CheckBox();
             this.Debug = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.ScaleCenterOfMassCheckBox = new System.Windows.Forms.CheckBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.HQGeometryPlus = new System.Windows.Forms.RadioButton();
+            this.HQGeometry = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.DefaultsCoP = new System.Windows.Forms.RadioButton();
             this.DefaultsSoC = new System.Windows.Forms.RadioButton();
@@ -48,28 +52,22 @@
             this.OptimizeSurfaces = new System.Windows.Forms.CheckBox();
             this.StripifyMeshes = new System.Windows.Forms.CheckBox();
             this.ProgressiveMeshes = new System.Windows.Forms.CheckBox();
-            this.MtLoad = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.GameMtlPath = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.NoCompressLinkLabel = new System.Windows.Forms.LinkLabel();
-            this.label2 = new System.Windows.Forms.Label();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.HQGeometry = new System.Windows.Forms.RadioButton();
-            this.HQGeometryPlus = new System.Windows.Forms.RadioButton();
-            this.ScaleCenterOfMassCheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.MotionFlagsGroupBox.SuspendLayout();
             this.SmoothTypeGroupBox.SuspendLayout();
-            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // NoCompress
             // 
             this.NoCompress.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.NoCompress.AutoSize = true;
-            this.NoCompress.Location = new System.Drawing.Point(19, 267);
+            this.NoCompress.Location = new System.Drawing.Point(19, 242);
             this.NoCompress.Name = "NoCompress";
             this.NoCompress.Size = new System.Drawing.Size(253, 17);
             this.NoCompress.TabIndex = 0;
@@ -81,7 +79,7 @@
             // 
             this.Debug.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.Debug.AutoSize = true;
-            this.Debug.Location = new System.Drawing.Point(19, 290);
+            this.Debug.Location = new System.Drawing.Point(19, 265);
             this.Debug.Name = "Debug";
             this.Debug.Size = new System.Drawing.Size(118, 17);
             this.Debug.TabIndex = 1;
@@ -106,6 +104,54 @@
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Default Params";
+            // 
+            // ScaleCenterOfMassCheckBox
+            // 
+            this.ScaleCenterOfMassCheckBox.AutoSize = true;
+            this.ScaleCenterOfMassCheckBox.Checked = true;
+            this.ScaleCenterOfMassCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ScaleCenterOfMassCheckBox.Location = new System.Drawing.Point(6, 193);
+            this.ScaleCenterOfMassCheckBox.Name = "ScaleCenterOfMassCheckBox";
+            this.ScaleCenterOfMassCheckBox.Size = new System.Drawing.Size(125, 17);
+            this.ScaleCenterOfMassCheckBox.TabIndex = 29;
+            this.ScaleCenterOfMassCheckBox.Text = "Scale center of mass";
+            this.ScaleCenterOfMassCheckBox.UseVisualStyleBackColor = true;
+            this.ScaleCenterOfMassCheckBox.CheckedChanged += new System.EventHandler(this.SyncForm);
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.HQGeometryPlus);
+            this.groupBox3.Controls.Add(this.HQGeometry);
+            this.groupBox3.Location = new System.Drawing.Point(180, 171);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(175, 44);
+            this.groupBox3.TabIndex = 28;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Export Quality";
+            // 
+            // HQGeometryPlus
+            // 
+            this.HQGeometryPlus.AutoSize = true;
+            this.HQGeometryPlus.Checked = true;
+            this.HQGeometryPlus.Location = new System.Drawing.Point(82, 20);
+            this.HQGeometryPlus.Name = "HQGeometryPlus";
+            this.HQGeometryPlus.Size = new System.Drawing.Size(47, 17);
+            this.HQGeometryPlus.TabIndex = 1;
+            this.HQGeometryPlus.TabStop = true;
+            this.HQGeometryPlus.Text = "HQ+";
+            this.HQGeometryPlus.UseVisualStyleBackColor = true;
+            this.HQGeometryPlus.CheckedChanged += new System.EventHandler(this.SyncForm);
+            // 
+            // HQGeometry
+            // 
+            this.HQGeometry.AutoSize = true;
+            this.HQGeometry.Location = new System.Drawing.Point(31, 20);
+            this.HQGeometry.Name = "HQGeometry";
+            this.HQGeometry.Size = new System.Drawing.Size(41, 17);
+            this.HQGeometry.TabIndex = 0;
+            this.HQGeometry.Text = "HQ";
+            this.HQGeometry.UseVisualStyleBackColor = true;
+            this.HQGeometry.CheckedChanged += new System.EventHandler(this.SyncForm);
             // 
             // groupBox2
             // 
@@ -298,22 +344,11 @@
             this.ProgressiveMeshes.CheckedChanged += new System.EventHandler(this.SyncForm);
             this.ProgressiveMeshes.CheckStateChanged += new System.EventHandler(this.ProgressiveCheck);
             // 
-            // MtLoad
-            // 
-            this.MtLoad.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.MtLoad.AutoSize = true;
-            this.MtLoad.Location = new System.Drawing.Point(19, 244);
-            this.MtLoad.Name = "MtLoad";
-            this.MtLoad.Size = new System.Drawing.Size(69, 17);
-            this.MtLoad.TabIndex = 3;
-            this.MtLoad.Text = "MT Load";
-            this.MtLoad.UseVisualStyleBackColor = true;
-            // 
             // label1
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(17, 314);
+            this.label1.Location = new System.Drawing.Point(17, 289);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(79, 13);
             this.label1.TabIndex = 4;
@@ -322,7 +357,7 @@
             // GameMtlPath
             // 
             this.GameMtlPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.GameMtlPath.Location = new System.Drawing.Point(102, 311);
+            this.GameMtlPath.Location = new System.Drawing.Point(102, 286);
             this.GameMtlPath.Name = "GameMtlPath";
             this.GameMtlPath.Size = new System.Drawing.Size(234, 20);
             this.GameMtlPath.TabIndex = 5;
@@ -330,7 +365,7 @@
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button1.Location = new System.Drawing.Point(342, 309);
+            this.button1.Location = new System.Drawing.Point(342, 284);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(42, 23);
             this.button1.TabIndex = 6;
@@ -342,7 +377,7 @@
             // 
             this.NoCompressLinkLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.NoCompressLinkLabel.AutoSize = true;
-            this.NoCompressLinkLabel.Location = new System.Drawing.Point(272, 268);
+            this.NoCompressLinkLabel.Location = new System.Drawing.Point(272, 243);
             this.NoCompressLinkLabel.Name = "NoCompressLinkLabel";
             this.NoCompressLinkLabel.Size = new System.Drawing.Size(57, 13);
             this.NoCompressLinkLabel.TabIndex = 7;
@@ -350,75 +385,15 @@
             this.NoCompressLinkLabel.Text = "View code";
             this.NoCompressLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
-            // label2
-            // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(80, 245);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(106, 13);
-            this.label2.TabIndex = 8;
-            this.label2.Text = "- Can crash in old PC";
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.HQGeometryPlus);
-            this.groupBox3.Controls.Add(this.HQGeometry);
-            this.groupBox3.Location = new System.Drawing.Point(180, 171);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(175, 44);
-            this.groupBox3.TabIndex = 28;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Export Quality";
-            // 
-            // HQGeometry
-            // 
-            this.HQGeometry.AutoSize = true;
-            this.HQGeometry.Location = new System.Drawing.Point(31, 20);
-            this.HQGeometry.Name = "HQGeometry";
-            this.HQGeometry.Size = new System.Drawing.Size(41, 17);
-            this.HQGeometry.TabIndex = 0;
-            this.HQGeometry.Text = "HQ";
-            this.HQGeometry.UseVisualStyleBackColor = true;
-            this.HQGeometry.CheckedChanged += new System.EventHandler(this.SyncForm);
-            // 
-            // HQGeometryPlus
-            // 
-            this.HQGeometryPlus.AutoSize = true;
-            this.HQGeometryPlus.Checked = true;
-            this.HQGeometryPlus.Location = new System.Drawing.Point(82, 20);
-            this.HQGeometryPlus.Name = "HQGeometryPlus";
-            this.HQGeometryPlus.Size = new System.Drawing.Size(47, 17);
-            this.HQGeometryPlus.TabIndex = 1;
-            this.HQGeometryPlus.TabStop = true;
-            this.HQGeometryPlus.Text = "HQ+";
-            this.HQGeometryPlus.UseVisualStyleBackColor = true;
-            this.HQGeometryPlus.CheckedChanged += new System.EventHandler(this.SyncForm);
-            // 
-            // ScaleCenterOfMassCheckBox
-            // 
-            this.ScaleCenterOfMassCheckBox.AutoSize = true;
-            this.ScaleCenterOfMassCheckBox.Checked = true;
-            this.ScaleCenterOfMassCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ScaleCenterOfMassCheckBox.Location = new System.Drawing.Point(6, 193);
-            this.ScaleCenterOfMassCheckBox.Name = "ScaleCenterOfMassCheckBox";
-            this.ScaleCenterOfMassCheckBox.Size = new System.Drawing.Size(125, 17);
-            this.ScaleCenterOfMassCheckBox.TabIndex = 29;
-            this.ScaleCenterOfMassCheckBox.Text = "Scale center of mass";
-            this.ScaleCenterOfMassCheckBox.UseVisualStyleBackColor = true;
-            this.ScaleCenterOfMassCheckBox.CheckedChanged += new System.EventHandler(this.SyncForm);
-            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(386, 334);
-            this.Controls.Add(this.label2);
+            this.ClientSize = new System.Drawing.Size(386, 309);
             this.Controls.Add(this.NoCompressLinkLabel);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.GameMtlPath);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.MtLoad);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.Debug);
             this.Controls.Add(this.NoCompress);
@@ -431,14 +406,14 @@
             this.Load += new System.EventHandler(this.Settings_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.MotionFlagsGroupBox.ResumeLayout(false);
             this.MotionFlagsGroupBox.PerformLayout();
             this.SmoothTypeGroupBox.ResumeLayout(false);
             this.SmoothTypeGroupBox.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -451,7 +426,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.RadioButton DefaultsCoP;
         private System.Windows.Forms.RadioButton DefaultsSoC;
-        private System.Windows.Forms.CheckBox MtLoad;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox GameMtlPath;
         private System.Windows.Forms.Button button1;
@@ -468,7 +442,6 @@
         private System.Windows.Forms.RadioButton Anims8Bit;
         private System.Windows.Forms.RadioButton Anims16Bit;
         private System.Windows.Forms.CheckBox SoCInfluence;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.CheckBox SplitNormalsChbx;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;

@@ -42,7 +42,6 @@ namespace Object_tool
             pSettings.Save(Debug);
             pSettings.Save(DefaultsCoP);
             pSettings.Save(DefaultsSoC);
-            pSettings.Save(MtLoad);
             pSettings.Save(GameMtlPath);
             pSettings.Save(ProgressiveMeshes);
             pSettings.Save(StripifyMeshes);
@@ -67,7 +66,6 @@ namespace Object_tool
             pSettings.Load(Debug);
             pSettings.Load(DefaultsCoP, true);
             pSettings.Load(DefaultsSoC);
-            pSettings.Load(MtLoad);
             pSettings.Load(GameMtlPath);
             pSettings.Load(ProgressiveMeshes);
             pSettings.Load(StripifyMeshes);
