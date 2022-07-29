@@ -467,8 +467,8 @@ bool CEditableObject::Load(IReader& F)
 
 bool CEditableObject::ExportOGF(LPCSTR fn, u8 infl)
 {
-    Msg("Export [%s]", fn);
-    WriteLog("Export [%s]", fn);
+    Msg("..Export [%s]", fn);
+    WriteLog("..Export [%s]", fn);
 	UpdateBox		();
 	CMemoryWriter	F;
 
@@ -481,8 +481,8 @@ bool CEditableObject::ExportOGF(LPCSTR fn, u8 infl)
 //------------------------------------------------------------------------------
 bool CEditableObject::ExportOMF(LPCSTR fn)
 {
-    Msg("Export [%s]", fn);
-    WriteLog("Export [%s]", fn);
+    Msg("..Export [%s]", fn);
+    WriteLog("..Export [%s]", fn);
 	UpdateBox		();
 	CMemoryWriter	F;
     if (PrepareOMF(F))
@@ -494,8 +494,8 @@ bool CEditableObject::ExportOMF(LPCSTR fn)
 //------------------------------------------------------------------------------
 bool CEditableObject::ExportOBJ(LPCSTR fn)
 {
-    Msg("Export [%s]", fn);
-    WriteLog("Export [%s]", fn);
+    Msg("..Export [%s]", fn);
+    WriteLog("..Export [%s]", fn);
 	UpdateBox			();
     CExportObjectOGF E(this);
 	CMemoryWriter F;
