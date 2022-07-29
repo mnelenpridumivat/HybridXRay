@@ -93,7 +93,6 @@ namespace Object_tool
 		public bool IsOgfMode = false;
 		public string script = "null";
 		public string SCRIPT_FOLDER = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\scripts\\";
-		public bool USE_OLD_BONES = true;
 		public int WorkersCount = 1;
 
 		// Info
@@ -116,6 +115,10 @@ namespace Object_tool
 		System.Diagnostics.Process EditorProcess = null;
 		public bool EditorWorking = false;
 		public bool EditorKilled = false;
+
+		// Settings
+		public bool USE_OLD_BONES = true;
+		public bool ALLOW_LOG = true;
 
 		public Object_Editor()
 		{
@@ -445,20 +448,27 @@ namespace Object_tool
 				string log = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\visual_log.log";
 				if (File.Exists(log))
 					File.Delete(log);
-				Thread LogThread = new Thread(() =>
-                {
-                    while (true)
-                    {
-                        if (File.Exists(log))
-                            LogTextBox.Text = File.ReadAllText(log);
-                        Thread.Sleep(100);
-                    }
-                });
-                LogThread.Start();
+
+				Thread LogThread = null;
+				if (ALLOW_LOG)
+				{
+					LogThread = new Thread(() =>
+					{
+						while (true)
+						{
+							if (File.Exists(log))
+								LogTextBox.Text = File.ReadAllText(log);
+							Thread.Sleep(100);
+						}
+					});
+					LogThread.Start();
+				}
 
                 EditorProcess.WaitForExit();
 				EditorWorking = false;
-				LogThread.Abort();
+
+				if (ALLOW_LOG)
+					LogThread.Abort();
 
 				if (File.Exists(log))
 				{
