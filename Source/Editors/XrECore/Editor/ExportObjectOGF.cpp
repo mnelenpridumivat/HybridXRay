@@ -440,6 +440,9 @@ bool CExportObjectOGF::Prepare(bool gen_tb, CEditableMesh* mesh)
 	{
         if (m_Splits.size() > 1) // MT
         {
+#if !defined(_DEBUG) && defined(_WIN64) 
+            WriteLog("..MT Calculate Progressive");
+#endif
             FOR_START(u32, 0, m_Splits.size(), it)
                 m_Splits[it]->MakeProgressive();
             FOR_END

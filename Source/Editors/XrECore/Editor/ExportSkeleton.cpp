@@ -931,6 +931,9 @@ bool CExportSkeleton::ExportGeometry(IWriter& F, u8 infl)
     {
         if (m_Splits.size() > 1) // MT
         {
+#if !defined(_DEBUG) && defined(_WIN64) 
+            WriteLog("..MT Calculate Progressive");
+#endif
             FOR_START(u32, 0, m_Splits.size(), it)
                 m_Splits[it].MakeProgressive();
             FOR_END
@@ -942,6 +945,9 @@ bool CExportSkeleton::ExportGeometry(IWriter& F, u8 infl)
     {
         if (m_Splits.size() > 1) // MT
         {
+#if !defined(_DEBUG) && defined(_WIN64) 
+            WriteLog("..MT Calculate Stripify");
+#endif
             FOR_START(u32, 0, m_Splits.size(), it)
                 m_Splits[it].MakeStripify();
             FOR_END

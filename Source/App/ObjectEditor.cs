@@ -482,7 +482,7 @@ namespace Object_tool
 					{
 						LogTextBox.Text = File.ReadAllText(log);
 						LogTextBox.Text += "\n" + GetTime();
-						LogTextBox.SelectionStart = LogTextBox.TextLength;
+						LogTextBox.SelectionStart = LogTextBox.TextLength - 1;
 						LogTextBox.ScrollToCaret();
 						File.Delete(log);
 					}
