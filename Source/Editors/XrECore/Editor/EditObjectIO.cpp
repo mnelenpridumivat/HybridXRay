@@ -26,6 +26,7 @@ bool CEditableObject::Load(const char* fname)
         R_ASSERT(F);
         IReader* OBJ = F->open_chunk(EOBJ_CHUNK_OBJECT_BODY);
         R_ASSERT2(OBJ, "Corrupted file.");
+        ELog.Msg(mtInformation, "\n..Import object '%s'", fname);
         bool bRes = Load(*OBJ);
         OBJ->close();
         FS.r_close(F);

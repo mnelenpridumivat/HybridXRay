@@ -94,7 +94,7 @@ public:
     {
         if (!hq && ((v0.P.similar(v1.P, EPS) || v0.P.similar(v2.P, EPS) || v1.P.similar(v2.P, EPS))))
         {
-            ELog.Msg(mtError, "Degenerate face found. Removed.");
+            ELog.Msg(mtError, "..Degenerate face found. Removed.");
             return true;
         }
         SOGFFace F;
@@ -107,7 +107,7 @@ public:
             m_Faces.push_back(F);
         else
         {
-            ELog.Msg(mtError, "Duplicate(degenerate) face found. Removed.");
+            ELog.Msg(mtError, "..Duplicate(degenerate) face found. Removed.");
             return true;
         }
         return true;
