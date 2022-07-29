@@ -460,7 +460,11 @@ namespace Object_tool
 						while (true)
 						{
 							if (File.Exists(log))
+							{
 								LogTextBox.Text = File.ReadAllText(log);
+								LogTextBox.SelectionStart = LogTextBox.TextLength;
+								LogTextBox.ScrollToCaret();
+							}
 							Thread.Sleep(100);
 						}
 					});
@@ -479,11 +483,15 @@ namespace Object_tool
 					if (File.Exists(log))
 					{
 						LogTextBox.Text += "\n\nERROR LOG:\n\n" + File.ReadAllText(log);
+						LogTextBox.SelectionStart = LogTextBox.TextLength;
+						LogTextBox.ScrollToCaret();
 					}
 				}
 				else if (File.Exists(log))
 				{
 					LogTextBox.Text = File.ReadAllText(log);
+					LogTextBox.SelectionStart = LogTextBox.TextLength;
+					LogTextBox.ScrollToCaret();
 					File.Delete(log);
 				}
 				return EditorProcess.ExitCode;
