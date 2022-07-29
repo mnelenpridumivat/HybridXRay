@@ -239,6 +239,39 @@ void CObjectOGFCollectorPacked::MakeProgressive()
     WriteLog("..Progressive end");
 }
 
+void CObjectOGFCollectorPacked::MakeStripify()
+{
+    Msg("..Make stripify");
+    WriteLog("..Make stripify");
+    // alternative stripification - faces
+    {
+        DWORD*		remap	= xr_alloc<DWORD>		(m_Faces.size());
+        HRESULT		rhr		= D3DXOptimizeFaces		(&m_Faces.front(),m_Faces.size(),m_Verts.size(),FALSE,remap);
+        R_CHK		(rhr);
+        OGFFaceVec	_source	= m_Faces;
+        for (u32 it=0; it<_source.size(); it++)
+            m_Faces[it] = _source[remap[it]];
+
+        xr_free		(remap);
+    }
+    // alternative stripification - vertices
+    {
+        DWORD*		remap	= xr_alloc<DWORD>		(m_Verts.size());
+        HRESULT		rhr		= D3DXOptimizeVertices	(&m_Faces.front(),m_Faces.size(),m_Verts.size(),FALSE,remap);
+        R_CHK		(rhr);
+        OGFVertVec	_source = m_Verts;
+
+        for(u32 vit=0; vit<_source.size(); vit++)
+            m_Verts[remap[vit]]		= _source[vit];
+
+        for(u32 fit=0; fit<(u32)m_Faces.size(); ++fit)
+            for (u32 j=0; j<3; j++)
+                m_Faces[fit].v[j]= remap[m_Faces[fit].v[j]];
+
+        xr_free		(remap);
+    }
+}
+
 void CObjectOGFCollectorPacked:: OptimizeTextureCoordinates()
 {
     // Optimize texture coordinates
@@ -275,6 +308,12 @@ void CExportObjectOGF::SSplit::MakeProgressive()
 {
 	for (COGFCPIt it=m_Parts.begin(); it!=m_Parts.end(); ++it)
     	(*it)->MakeProgressive();
+}
+
+void CExportObjectOGF::SSplit::MakeStripify()
+{
+    for (COGFCPIt it=m_Parts.begin(); it!=m_Parts.end(); ++it)
+        (*it)->MakeStripify();
 }
 
 CExportObjectOGF::CExportObjectOGF(CEditableObject* object)
@@ -449,6 +488,20 @@ bool CExportObjectOGF::Prepare(bool gen_tb, CEditableMesh* mesh)
         }
         else if (m_Splits.size() == 1)
             m_Splits[0]->MakeProgressive();
+    }
+    else if (m_Source->m_objectFlags.is(CEditableObject::eoStripify))
+    {
+        if (m_Splits.size() > 1) // MT
+        {
+#if !defined(_DEBUG) && defined(_WIN64) 
+            WriteLog("..MT Calculate Stripify");
+#endif
+            FOR_START(u32, 0, m_Splits.size(), it)
+                m_Splits[it]->MakeStripify();
+            FOR_END
+        }
+        else if (m_Splits.size() == 1)
+            m_Splits[0]->MakeStripify();
     }
 
 	// Compute bounding...

@@ -2407,7 +2407,6 @@ namespace Object_tool
 			dMToolStripMenuItem.Enabled = !IsOgfMode;
 			bonesPartsToolStripMenuItem.Enabled = has_bones;
 			cToolStripMenuItem.Enabled = !IsOgfMode;
-			StripifyMeshes.Enabled = has_bones;
 			bonesToolStripMenuItem1.Enabled = has_bones;
 			bonesPartsToolStripMenuItem1.Enabled = has_bones;
 			bonesPartsToDefaultToolStripMenuItem.Enabled = has_bones;
