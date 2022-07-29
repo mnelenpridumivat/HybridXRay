@@ -7,7 +7,10 @@
 #include "..\xrEngine\fmesh.h"
 #include "..\xrEngine\bone.h"
 #include "..\xrEngine\motion.h"
-#include "tbb\parallel_for.h"
+#if !defined(_DEBUG) && defined(_WIN64) 
+#include "tbb/parallel_for.h" 
+#include "tbb/blocked_range.h"
+#endif
 #include "..\XrECore\VisualLog.h"
 
 #if 1
@@ -411,8 +414,13 @@ bool CExportObjectOGF::Prepare(bool gen_tb, CEditableMesh* mesh)
     // calculate TB
     if (gen_tb)
 	{
+#if !defined(_DEBUG) && defined(_WIN64) 
         Msg("..MT Calculate TB"); 
         WriteLog("..MT Calculate TB");
+#else
+        Msg("..Calculate TB"); 
+        WriteLog("..Calculate TB");
+#endif
         FOR_START(u32, 0, m_Splits.size(), it)
         {
             m_Splits[it]->CalculateTB();
