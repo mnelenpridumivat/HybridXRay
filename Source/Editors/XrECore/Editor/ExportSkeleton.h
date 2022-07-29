@@ -173,7 +173,7 @@ protected:
             }
         }
 
-        bool GetVertexBound         () { return m_Verts.size() < u16(-1); }
+        bool GetVertexBound         () { return m_Verts.size() < 60000; }
     };
 	DEFINE_VECTOR		(SSplit,SplitVec,SplitIt);
 	SplitVec			m_Splits;
