@@ -8,6 +8,10 @@
 #include "KinematicAnimatedDefs.h"
 #include "SkeletonAnimated.h"
 #include "../XrECore/VisualLog.h"
+#if !defined(_DEBUG) && defined(_WIN64) 
+#include "tbb/parallel_for.h" 
+#include "tbb/blocked_range.h"
+#endif
 CActorTools*	ATools=(CActorTools*)Tools;
 //------------------------------------------------------------------------------
 #define CHECK_SNAP(R,A,C){ R+=A; if(fabsf(R)>=C){ A=snapto(R,C); R=0; }else{A=0;}}
@@ -16,6 +20,7 @@ ECORE_API void ShapeRotate(CBone& Bone, const Fvector& _amount);
 ECORE_API void ShapeMove(CBone& Bone, const Fvector& _amount);
 ECORE_API void BoneRotate(CBone& Bone, const Fvector& _axis, float angle);
 
+extern ECORE_API BOOL g_BatchWorking;
 
 void EngineModel::DeleteVisual		()
 {
@@ -702,8 +707,15 @@ void CActorTools::RealGenerateLOD(bool hq)
 {
 }
 
+struct NewBatch
+{
+    LPCSTR file;
+    shared_str source;
+};
+
 bool CActorTools::BatchConvert(LPCSTR fn, int flags, shared_str script, float scale)
 {
+    g_BatchWorking = true;
     bool bRes = false;
     CInifile* ini = CInifile::Create(fn); VERIFY(ini);
     if (ini->section_exist("ogf"))
@@ -711,7 +723,8 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, shared_str script, float sc
         bRes = true;
         CInifile::Sect& sect = ini->r_section("ogf");
         Msg("Start converting %d items...", sect.Data.size());
-        for (auto it = sect.Data.begin(); it != sect.Data.end(); it++) 
+
+        FOR_START(u32, 0, sect.Data.size(), i)
         {
             string_path 		src_name;
             string_path 		tgt_name;
@@ -719,9 +732,9 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, shared_str script, float sc
             std::string folder = fn;
             folder = folder.substr(0, folder.find_last_of("\\") + 1);
             std::string tgt = folder, src = folder;
-            src += it->first.c_str();
+            src += sect.Data[i].first.c_str();
             tgt += "meshes\\";
-            tgt += it->second.c_str();
+            tgt += sect.Data[i].second.c_str();
 
             xr_sprintf(src_name, "%s", src.c_str());
             xr_sprintf(tgt_name, "%s", tgt.c_str());
@@ -730,7 +743,7 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, shared_str script, float sc
             strcpy(tgt_name, EFS.ChangeFileExt(tgt_name, ".ogf").c_str());
             if (FS.exist(src_name))
             {
-                Msg(".Converting '%s' <-> '%s'", it->first.c_str(), it->second.c_str());
+                Msg(".Converting '%s' <-> '%s'", sect.Data[i].first.c_str(), sect.Data[i].second.c_str());
                 CEditableObject* O = xr_new<CEditableObject>("convert");
                 BOOL res = O->Load(src_name, src_name);
                 O->a_vScale = scale;
@@ -746,10 +759,10 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, shared_str script, float sc
                 O->m_EditorScript = script;
                 O->InitScript();
 
-                if (ini->section_exist("skls_skl") && ini->line_exist("skls_skl", it->first.c_str()))
+                if (ini->section_exist("skls_skl") && ini->line_exist("skls_skl", sect.Data[i].first.c_str()))
                 {
                     string_path skls_name;
-                    shared_str anim_to_load = ini->r_string("skls_skl", it->first.c_str());
+                    shared_str anim_to_load = ini->r_string("skls_skl", sect.Data[i].first.c_str());
 
                     for (int i = 0; i < _GetItemCount(anim_to_load.c_str()); i++)
                     {
@@ -779,17 +792,18 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, shared_str script, float sc
             }
             else 
             {
-                Log("!Invalid source file name:", it->first.c_str());
+                Log("!Invalid source file name:", sect.Data[i].first.c_str());
                 bRes = false;
             }
         }
+        FOR_END
     }
     if (ini->section_exist("omf"))
     {
         bRes = true;
         CInifile::Sect& sect = ini->r_section("omf");
         Msg("Start converting %d items...", sect.Data.size());
-        for (auto it = sect.Data.begin(); it != sect.Data.end(); ++it)
+        FOR_START(u32, 0, sect.Data.size(), i)
         {
             string_path 		src_name;
             string_path 		tgt_name;
@@ -797,9 +811,9 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, shared_str script, float sc
             std::string folder = fn;
             folder = folder.substr(0, folder.find_last_of("\\") + 1);
             std::string tgt = folder, src = folder;
-            src += it->first.c_str();
+            src += sect.Data[i].first.c_str();
             tgt += "meshes\\";
-            tgt += it->second.c_str();
+            tgt += sect.Data[i].second.c_str();
 
             xr_sprintf(src_name, "%s", src.c_str());
             xr_sprintf(tgt_name, "%s", tgt.c_str());
@@ -808,7 +822,7 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, shared_str script, float sc
             strcpy(tgt_name, EFS.ChangeFileExt(tgt_name, ".omf").c_str());
             if (FS.exist(src_name))
             {
-                Msg(".Converting '%s' <-> '%s'", it->first.c_str(), it->second.c_str());
+                Msg(".Converting '%s' <-> '%s'", sect.Data[i].first.c_str(), sect.Data[i].second.c_str());
                 CEditableObject* O = xr_new<CEditableObject>("convert");
                 BOOL res = O->Load(src_name, src_name);
                 O->a_vScale = scale;
@@ -818,10 +832,10 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, shared_str script, float sc
                 O->m_EditorScript = script;
                 O->InitScript();
 
-                if (ini->section_exist("skls_skl") && ini->line_exist("skls_skl", it->first.c_str()))
+                if (ini->section_exist("skls_skl") && ini->line_exist("skls_skl", sect.Data[i].first.c_str()))
                 {
                     string_path skls_name;
-                    shared_str anim_to_load = ini->r_string("skls_skl", it->first.c_str());
+                    shared_str anim_to_load = ini->r_string("skls_skl", sect.Data[i].first.c_str());
 
                     for (int i = 0; i < _GetItemCount(anim_to_load.c_str()); i++)
                     {
@@ -851,162 +865,185 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, shared_str script, float sc
             }
             else 
             {
-                Log("!Invalid source file name:", it->first.c_str());
+                Log("!Invalid source file name:", sect.Data[i].first.c_str());
                 bRes = false;
             }
         }
+        FOR_END
     }
     return bRes;
 }
 
 bool CActorTools::BatchConvertDialogOGF(xr_vector<BatchFiles> files, shared_str out, int flags, shared_str script, float scale)
 {
+    g_BatchWorking = true;
     bool bRes = true;
     bool FileMode = (files.size() == 1 && files[0].source_folder == "null");
 
+    xr_vector<NewBatch> all_batch_files;
     for (int i = 0; i < files.size(); i++)
     {
-        Msg("Start converting %d items...", files[i].files.size());
         for (int j = 0; j < files[i].files.size(); j++)
         {
-            Msg("Start converting [%s]", files[i].files[j].c_str());
-            string_path 		tgt_name;
-
-            std::string tgt = out.c_str();
-
-            if (FileMode)
-            {
-                const char* pFname;
-                pFname = strrchr(files[i].files[j].c_str(), '\\');
-                tgt += pFname;
-            }
-            else
-            {
-                std::string fname = files[i].files[j].c_str();
-                fname.erase(0, files[i].source_folder.size());
-                tgt += fname;
-            }
-
-            xr_sprintf(tgt_name, "%s", tgt.c_str());
-
-            strcpy(tgt_name, EFS.ChangeFileExt(tgt_name, ".ogf").c_str());
-            if (FS.exist(files[i].files[j].c_str()))
-            {
-                CEditableObject* O = xr_new<CEditableObject>("convert");
-                BOOL res = O->Load(files[i].files[j].c_str(), files[i].files[j].c_str());
-                O->a_vScale = scale;
-                O->a_vAdjustMass = (flags & exfScaleCenterMass);
-
-                O->m_objectFlags.set(CEditableObject::eoProgressive, (flags & exfMakeProgressive));
-                O->m_objectFlags.set(CEditableObject::eoStripify, (flags & exfMakeStripify));
-                O->m_objectFlags.set(CEditableObject::eoOptimizeSurf, (flags & exfOptimizeSurfaces));
-                O->m_objectFlags.set(CEditableObject::eoHQExportPlus, (flags & exfHQGeometryPlus));
-                O->m_objectFlags.set(CEditableObject::eoExpBuildinMots, (flags & exfExportBuildInMots));
-                O->m_objectFlags.set(CEditableObject::eoSoCSmooth, (flags & exfSoCSmooth));
-                O->m_objectFlags.set(CEditableObject::eoSoCInfluence, (flags & exfSoCInfluence));
-                O->m_EditorScript = script;
-                O->InitScript();
-
-                shared_str skls_name = EFS.ChangeFileExt(files[i].files[j].c_str(), ".skls").c_str();
-
-                if (FS.exist(skls_name.c_str()))
-                {
-                    Msg("..Append motion '%s'", skls_name.c_str());
-                    WriteLog("..Append motion '%s'", skls_name.c_str());
-                    O->AppendSMotion(skls_name.c_str());
-                }
-
-                skls_name = EFS.ChangeFileExt(files[i].files[j].c_str(), ".skl").c_str();
-                if (FS.exist(skls_name.c_str()))
-                {
-                    Msg("..Append motion '%s'", skls_name.c_str());
-                    WriteLog("..Append motion '%s'", skls_name.c_str());
-                    O->AppendSMotion(skls_name.c_str());
-                }
-
-                if (res) res = O->ExportOGF(tgt_name, (O->m_objectFlags.is(CEditableObject::eoSoCInfluence) ? 2 : 4));
-                Log(res ? ".OK" : "!.FAILED");
-                xr_delete(O);
-            }
-            else
-            {
-                bRes = false;
-            }
+            NewBatch file;
+            file.file = files[i].files[j].c_str();
+            file.source = files[i].source_folder.c_str();
+            all_batch_files.push_back(file);
         }
     }
+
+    Msg("Start converting %d items...", all_batch_files.size());
+    FOR_START(u32, 0, all_batch_files.size(), i)
+    {
+        Msg("Start converting [%s]", all_batch_files[i].file);
+        string_path 		tgt_name;
+
+        std::string tgt = out.c_str();
+
+        if (FileMode)
+        {
+            const char* pFname;
+            pFname = strrchr(all_batch_files[i].file, '\\');
+            tgt += pFname;
+        }
+        else
+        {
+            std::string fname = all_batch_files[i].file;
+            fname.erase(0, all_batch_files[i].source.size());
+            tgt += fname;
+        }
+
+        xr_sprintf(tgt_name, "%s", tgt.c_str());
+
+        strcpy(tgt_name, EFS.ChangeFileExt(tgt_name, ".ogf").c_str());
+        if (FS.exist(all_batch_files[i].file))
+        {
+            CEditableObject* O = xr_new<CEditableObject>("convert");
+            BOOL res = O->Load(all_batch_files[i].file, all_batch_files[i].file);
+            O->a_vScale = scale;
+            O->a_vAdjustMass = (flags & exfScaleCenterMass);
+
+            O->m_objectFlags.set(CEditableObject::eoProgressive, (flags & exfMakeProgressive));
+            O->m_objectFlags.set(CEditableObject::eoStripify, (flags & exfMakeStripify));
+            O->m_objectFlags.set(CEditableObject::eoOptimizeSurf, (flags & exfOptimizeSurfaces));
+            O->m_objectFlags.set(CEditableObject::eoHQExportPlus, (flags & exfHQGeometryPlus));
+            O->m_objectFlags.set(CEditableObject::eoExpBuildinMots, (flags & exfExportBuildInMots));
+            O->m_objectFlags.set(CEditableObject::eoSoCSmooth, (flags & exfSoCSmooth));
+            O->m_objectFlags.set(CEditableObject::eoSoCInfluence, (flags & exfSoCInfluence));
+            O->m_EditorScript = script;
+            O->InitScript();
+
+            shared_str skls_name = EFS.ChangeFileExt(all_batch_files[i].file, ".skls").c_str();
+
+            if (FS.exist(skls_name.c_str()))
+            {
+                Msg("..Append motion '%s'", skls_name.c_str());
+                WriteLog("..Append motion '%s'", skls_name.c_str());
+                O->AppendSMotion(skls_name.c_str());
+            }
+
+            skls_name = EFS.ChangeFileExt(all_batch_files[i].file, ".skl").c_str();
+            if (FS.exist(skls_name.c_str()))
+            {
+                Msg("..Append motion '%s'", skls_name.c_str());
+                WriteLog("..Append motion '%s'", skls_name.c_str());
+                O->AppendSMotion(skls_name.c_str());
+            }
+
+            if (res) res = O->ExportOGF(tgt_name, (O->m_objectFlags.is(CEditableObject::eoSoCInfluence) ? 2 : 4));
+            Log(res ? ".OK" : "!.FAILED");
+            xr_delete(O);
+        }
+        else
+        {
+            bRes = false;
+        }
+    }
+    FOR_END
 
     return bRes;
 }
 
 bool CActorTools::BatchConvertDialogOMF(xr_vector<BatchFiles> files, shared_str out, int flags, shared_str script, float scale)
 {
+    g_BatchWorking = true;
     bool bRes = true;
     bool FileMode = (files.size() == 1 && files[0].source_folder == "null");
 
+    xr_vector<NewBatch> all_batch_files;
     for (int i = 0; i < files.size(); i++)
     {
-        Msg("Start converting %d items...", files[i].files.size());
         for (int j = 0; j < files[i].files.size(); j++)
         {
-            Msg("Start converting [%s]", files[i].files[j].c_str());
-            string_path 		tgt_name;
-
-            std::string tgt = out.c_str();
-
-            if (FileMode)
-            {
-                const char* pFname;
-                pFname = strrchr(files[i].files[j].c_str(), '\\');
-                tgt += pFname;
-            }
-            else
-            {
-                std::string fname = files[i].files[j].c_str();
-                fname.erase(0, files[i].source_folder.size());
-                tgt += fname;
-            }
-
-            xr_sprintf(tgt_name, "%s", tgt.c_str());
-
-            strcpy(tgt_name, EFS.ChangeFileExt(tgt_name, ".omf").c_str());
-            if (FS.exist(files[i].files[j].c_str()))
-            {
-                CEditableObject* O = xr_new<CEditableObject>("convert");
-                BOOL res = O->Load(files[i].files[j].c_str(), files[i].files[j].c_str());
-                O->a_vScale = scale;
-                O->a_vAdjustMass = (flags & exfScaleCenterMass);
-
-                O->m_objectFlags.set(CEditableObject::eoExpBuildinMots, TRUE);
-                O->m_EditorScript = script;
-                O->InitScript();
-
-                shared_str skls_name = EFS.ChangeFileExt(files[i].files[j].c_str(), ".skls").c_str();
-
-                if (FS.exist(skls_name.c_str()))
-                {
-                    Msg("..Append motion '%s'", skls_name.c_str());
-                    WriteLog("..Append motion '%s'", skls_name.c_str());
-                    O->AppendSMotion(skls_name.c_str());
-                }
-
-                skls_name = EFS.ChangeFileExt(files[i].files[j].c_str(), ".skl").c_str();
-                if (FS.exist(skls_name.c_str()))
-                {
-                    Msg("..Append motion '%s'", skls_name.c_str());
-                    WriteLog("..Append motion '%s'", skls_name.c_str());
-                    O->AppendSMotion(skls_name.c_str());
-                }
-
-                if (res) res = O->ExportOMF(tgt_name);
-                Log(res ? ".OK" : "!.FAILED");
-                xr_delete(O);
-            }
-            else
-            {
-                bRes = false;
-            }
+            NewBatch file;
+            file.file = files[i].files[j].c_str();
+            file.source = files[i].source_folder.c_str();
+            all_batch_files.push_back(file);
         }
     }
+
+    Msg("Start converting %d items...", all_batch_files.size());
+    FOR_START(u32, 0, all_batch_files.size(), i)
+    {
+        Msg("Start converting [%s]", all_batch_files[i].file);
+        string_path 		tgt_name;
+
+        std::string tgt = out.c_str();
+
+        if (FileMode)
+        {
+            const char* pFname;
+            pFname = strrchr(all_batch_files[i].file, '\\');
+            tgt += pFname;
+        }
+        else
+        {
+            std::string fname = all_batch_files[i].file;
+            fname.erase(0, all_batch_files[i].source.size());
+            tgt += fname;
+        }
+
+        xr_sprintf(tgt_name, "%s", tgt.c_str());
+
+        strcpy(tgt_name, EFS.ChangeFileExt(tgt_name, ".omf").c_str());
+        if (FS.exist(all_batch_files[i].file))
+        {
+            CEditableObject* O = xr_new<CEditableObject>("convert");
+            BOOL res = O->Load(all_batch_files[i].file, all_batch_files[i].file);
+            O->a_vScale = scale;
+            O->a_vAdjustMass = (flags & exfScaleCenterMass);
+
+            O->m_objectFlags.set(CEditableObject::eoExpBuildinMots, TRUE);
+            O->m_EditorScript = script;
+            O->InitScript();
+
+            shared_str skls_name = EFS.ChangeFileExt(all_batch_files[i].file, ".skls").c_str();
+
+            if (FS.exist(skls_name.c_str()))
+            {
+                Msg("..Append motion '%s'", skls_name.c_str());
+                WriteLog("..Append motion '%s'", skls_name.c_str());
+                O->AppendSMotion(skls_name.c_str());
+            }
+
+            skls_name = EFS.ChangeFileExt(all_batch_files[i].file, ".skl").c_str();
+            if (FS.exist(skls_name.c_str()))
+            {
+                Msg("..Append motion '%s'", skls_name.c_str());
+                WriteLog("..Append motion '%s'", skls_name.c_str());
+                O->AppendSMotion(skls_name.c_str());
+            }
+
+            if (res) res = O->ExportOMF(tgt_name);
+            Log(res ? ".OK" : "!.FAILED");
+            xr_delete(O);
+        }
+        else
+        {
+            bRes = false;
+        }
+    }
+    FOR_END
 
     return bRes;
 }

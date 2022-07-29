@@ -32,6 +32,7 @@
 ECORE_API BOOL g_force16BitTransformQuant = FALSE;
 ECORE_API BOOL g_forceFloatTransformQuant = FALSE;
 ECORE_API float g_EpsSkelPositionDelta = EPS;
+ECORE_API BOOL g_BatchWorking = FALSE;
 
 u16 CSkeletonCollectorPacked::VPack(SSkelVert& V)
 {
@@ -875,16 +876,32 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
     }
     // calculate TB
 #if !defined(_DEBUG) && defined(_WIN64) 
-    Msg("..MT Calculate TB"); 
-    WriteLog("..MT Calculate TB");
+    if (!g_BatchWorking)
+    {
+        Msg("..MT Calculate TB");
+        WriteLog("..MT Calculate TB");
+    }
+    else
+    {
+        Msg("..Calculate TB");
+        WriteLog("..Calculate TB");
+    }
 #else
     Msg("..Calculate TB"); 
     WriteLog("..Calculate TB");
 #endif
 
-    FOR_START(u32, 0, m_Splits.size(), it)
-        m_Splits[it].CalculateTB();
-    FOR_END
+    if (!g_BatchWorking)
+    {
+        FOR_START(u32, 0, m_Splits.size(), it)
+            m_Splits[it].CalculateTB();
+        FOR_END
+    }
+    else // Dont need mt for mt batch
+    {
+        for (u32 it = 0; it < m_Splits.size(); it++)
+            m_Splits[it].CalculateTB();
+    }
 
     // compute bounding
     Msg("..Compute Bounding"); 
@@ -932,11 +949,22 @@ bool CExportSkeleton::ExportGeometry(IWriter& F, u8 infl)
         if (m_Splits.size() > 1) // MT
         {
 #if !defined(_DEBUG) && defined(_WIN64) 
-            WriteLog("..MT Calculate Progressive");
+            if (!g_BatchWorking)
+                WriteLog("..MT Calculate Progressive");
+            else
+                WriteLog("..Calculate Progressive");
 #endif
-            FOR_START(u32, 0, m_Splits.size(), it)
-                m_Splits[it].MakeProgressive();
-            FOR_END
+            if (!g_BatchWorking)
+            {
+                FOR_START(u32, 0, m_Splits.size(), it)
+                    m_Splits[it].MakeProgressive();
+                FOR_END
+            }
+            else
+            {
+                for (u32 it = 0; it < m_Splits.size(); it++)
+                    m_Splits[it].MakeProgressive();
+            }
         }
         else if (m_Splits.size() == 1)
             m_Splits[0].MakeProgressive();
@@ -946,11 +974,22 @@ bool CExportSkeleton::ExportGeometry(IWriter& F, u8 infl)
         if (m_Splits.size() > 1) // MT
         {
 #if !defined(_DEBUG) && defined(_WIN64) 
-            WriteLog("..MT Calculate Stripify");
+            if (!g_BatchWorking)
+                WriteLog("..MT Calculate Stripify");
+            else
+                WriteLog("..Calculate Stripify");
 #endif
-            FOR_START(u32, 0, m_Splits.size(), it)
-                m_Splits[it].MakeStripify();
-            FOR_END
+            if (!g_BatchWorking)
+            {
+                FOR_START(u32, 0, m_Splits.size(), it)
+                    m_Splits[it].MakeStripify();
+                FOR_END
+            }
+            else
+            {
+                for (u32 it = 0; it < m_Splits.size(); it++)
+                    m_Splits[it].MakeStripify();
+            }
         }
         else if (m_Splits.size() == 1)
             m_Splits[0].MakeStripify();
