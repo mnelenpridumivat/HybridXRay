@@ -848,8 +848,8 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
          {
               if (!m_Splits[k].valid())
               {
-                  Msg("..Empty split found (Texture: %s/%s). Removed.",*m_Splits[k].m_Texture);
-                  WriteLog("..Empty split found (Texture: %s/%s). Removed.",*m_Splits[k].m_Texture);
+                  Msg("..Empty split found (Texture: %s). Removed.",*m_Splits[k].m_Texture);
+                  WriteLog("..Empty split found (Texture: %s). Removed.",*m_Splits[k].m_Texture);
                   m_Splits.erase	(m_Splits.begin()+k); k--;
               }
               else
