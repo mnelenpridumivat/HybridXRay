@@ -2398,6 +2398,11 @@ namespace Object_tool
 			generateShapesToolStripMenuItem.Enabled = !IsOgfMode && has_bones;
 			surfaceParamsToolStripMenuItem.Enabled = !IsOgfMode;
 
+			vertex_count = 0;
+			face_count = 0;
+			surface_count = 0;
+			joints_count = 0;
+
 			if (IsOgfMode)
 			{
 				TabControl.Controls.Clear();
