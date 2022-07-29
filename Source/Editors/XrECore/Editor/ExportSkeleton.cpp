@@ -11,8 +11,10 @@
 #include "bone.h"
 #include "SkeletonMotions.h"
 #include "motion.h"
+#if !defined(_DEBUG) && defined(_WIN64)
 #include "tbb/parallel_for.h" 
 #include "tbb/blocked_range.h"
+#endif
 
 // #include "library.h"
 
@@ -881,7 +883,11 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
         }
     }
     // calculate TB
-    Msg("..MT Calculate TB"); 
+#if !defined(_DEBUG) && defined(_WIN64)
+    ELog.Msg(mtInformation, "..MT Calculate TB");
+#else
+    ELog.Msg(mtInformation, "..MT Calculate TB");
+#endif
 
     FOR_START(u32, 0, m_Splits.size(), it)
     {

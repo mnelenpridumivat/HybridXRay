@@ -7,7 +7,10 @@
 #include "fmesh.h"
 #include "bone.h"
 #include "motion.h"
-#include "tbb\parallel_for.h"
+#if !defined(_DEBUG) && defined(_WIN64)
+#include "tbb/parallel_for.h" 
+#include "tbb/blocked_range.h"
+#endif
 
 #if 1
 #include "std_classes.h"
@@ -428,6 +431,11 @@ bool CExportObjectOGF::Prepare(bool gen_tb, CEditableMesh* mesh)
     // calculate TB
     if (gen_tb)
     {
+#if !defined(_DEBUG) && defined(_WIN64)
+        ELog.Msg(mtInformation, "..MT Calculate TB");
+#else
+        ELog.Msg(mtInformation, "..MT Calculate TB");
+#endif
         FOR_START(u32, 0, m_Splits.size(), it)
         {
             m_Splits[it]->CalculateTB();
