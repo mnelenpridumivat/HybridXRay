@@ -8,6 +8,10 @@
 #include "..\XrECore\Editor\EditMesh.h"
 #include "KinematicAnimatedDefs.h"
 #include "SkeletonAnimated.h"
+#if !defined(_DEBUG) && defined(_WIN64) 
+#include "tbb/parallel_for.h" 
+#include "tbb/blocked_range.h"
+#endif
 CActorTools* ATools = (CActorTools*)Tools;
 //------------------------------------------------------------------------------
 #define CHECK_SNAP(R, A, C)   \
@@ -27,6 +31,8 @@ CActorTools* ATools = (CActorTools*)Tools;
 ECORE_API void ShapeRotate(CBone& Bone, const Fvector& _amount);
 ECORE_API void ShapeMove(CBone& Bone, const Fvector& _amount);
 ECORE_API void BoneRotate(CBone& Bone, const Fvector& _axis, float angle);
+
+extern ECORE_API BOOL g_BatchWorking;
 
 void EngineModel::DeleteVisual()
 {
@@ -1169,8 +1175,15 @@ void CActorTools::RealGenerateLOD(bool hq)
     }
 }
 
+struct NewBatch
+{
+    LPCSTR file;
+    shared_str source;
+};
+
 bool CActorTools::BatchConvert(LPCSTR fn, int flags, float scale)
 {
+    g_BatchWorking = true;
     bool      bRes = true;
     CInifile* ini  = CInifile::Create(fn);
     VERIFY(ini);
@@ -1178,17 +1191,18 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, float scale)
     {
         CInifile::Sect& sect = ini->r_section("ogf");
         Msg("# Start converting %d items...", sect.Data.size());
-        for (auto it = sect.Data.begin(); it != sect.Data.end(); it++)
+
+        FOR_START(u32, 0, sect.Data.size(), i)
         {
             string_path src_name;
             string_path tgt_name;
-            FS.update_path(src_name, _objects_, it->first.c_str());
-            FS.update_path(tgt_name, _game_meshes_, it->second.c_str());
+            FS.update_path(src_name, _objects_, sect.Data[i].first.c_str());
+            FS.update_path(tgt_name, _game_meshes_, sect.Data[i].second.c_str());
             strcpy(src_name, EFS.ChangeFileExt(src_name, ".object").c_str());
             strcpy(tgt_name, EFS.ChangeFileExt(tgt_name, ".ogf").c_str());
             if (FS.exist(src_name))
             {
-                Msg("+ Converting '%s' <-> '%s'", it->first.c_str(), it->second.c_str());
+                Msg("+ Converting '%s' <-> '%s'", sect.Data[i].first.c_str(), sect.Data[i].second.c_str());
                 CEditableObject* O   = xr_new<CEditableObject>("convert");
                 BOOL             res = O->Load(src_name);
                 O->a_vScale          = scale;
@@ -1200,28 +1214,29 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, float scale)
             }
             else
             {
-                Log("! Invalid source file name:", it->first.c_str());
+                Log("! Invalid source file name:", sect.Data[i].first.c_str());
                 bRes = false;
             }
             if (UI->NeedAbort())
                 break;
         }
+        FOR_END
     }
     if (ini->section_exist("omf"))
     {
         CInifile::Sect& sect = ini->r_section("omf");
         Msg("# Start converting %d items...", sect.Data.size());
-        for (auto it = sect.Data.begin(); it != sect.Data.end(); ++it)
+        FOR_START(u32, 0, sect.Data.size(), i)
         {
             string_path src_name;
             string_path tgt_name;
-            FS.update_path(src_name, _objects_, it->first.c_str());
-            FS.update_path(tgt_name, _game_meshes_, it->second.c_str());
+            FS.update_path(src_name, _objects_, sect.Data[i].first.c_str());
+            FS.update_path(tgt_name, _game_meshes_, sect.Data[i].second.c_str());
             strcpy(src_name, EFS.ChangeFileExt(src_name, ".object").c_str());
             strcpy(tgt_name, EFS.ChangeFileExt(tgt_name, ".omf").c_str());
             if (FS.exist(src_name))
             {
-                Msg("+ Converting '%s' <-> '%s'", it->first.c_str(), it->second.c_str());
+                Msg("+ Converting '%s' <-> '%s'", sect.Data[i].first.c_str(), sect.Data[i].second.c_str());
                 CEditableObject* O   = xr_new<CEditableObject>("convert");
                 BOOL             res = O->Load(src_name);
                 O->a_vScale          = scale;
@@ -1233,12 +1248,13 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, float scale)
             }
             else
             {
-                Log("! Invalid source file name:", it->first.c_str());
+                Log("! Invalid source file name:", sect.Data[i].first.c_str());
                 bRes = false;
             }
             if (UI->NeedAbort())
                 break;
         }
+        FOR_END
     }
     return bRes;
 }

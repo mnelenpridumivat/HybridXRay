@@ -17,6 +17,8 @@
 #include "ui_main.h"
 #endif
 
+extern ECORE_API BOOL g_BatchWorking;
+
 CObjectOGFCollectorPacked::CObjectOGFCollectorPacked(const Fbox& bb, int apx_vertices, int apx_faces)
 {
     // Params
@@ -474,14 +476,24 @@ bool CExportObjectOGF::Prepare(bool gen_tb, CEditableMesh* mesh)
     if (gen_tb)
     {
 #if !defined(_DEBUG) && defined(_WIN64)
-        Msg("# ..MT Calculate TB");
+        if (!g_BatchWorking)
+            Msg("# ..MT Calculate TB");
+        else
+            Msg("# ..Calculate TB");
 #else
         Msg("# ..MT Calculate TB");
 #endif
-        FOR_START(u32, 0, m_Splits.size(), it)
-            m_Splits[it]->CalculateTB();
-        FOR_END
-        // Log("Time B: ",T.GetElapsed_sec());
+        if (!g_BatchWorking)
+        {
+            FOR_START(u32, 0, m_Splits.size(), it)
+                m_Splits[it]->CalculateTB();
+            FOR_END
+        }
+        else
+        {
+            for (u32 it = 0; it < m_Splits.size(); it++)
+                m_Splits[it]->CalculateTB();
+        }
     }
 
     // fill per bone vertices
@@ -489,9 +501,23 @@ bool CExportObjectOGF::Prepare(bool gen_tb, CEditableMesh* mesh)
     {
         if (m_Splits.size() > 1)   // MT
         {
-            FOR_START(u32, 0, m_Splits.size(), it)
-                m_Splits[it]->MakeProgressive();
-            FOR_END
+#if !defined(_DEBUG) && defined(_WIN64)
+            if (!g_BatchWorking)
+                Msg("# ..MT Calculate Progressive");
+            else
+                Msg("# ..Calculate Progressive");
+#endif
+            if (!g_BatchWorking)
+            {
+                FOR_START(u32, 0, m_Splits.size(), it)
+                    m_Splits[it]->MakeProgressive();
+                FOR_END
+            }
+            else
+            {
+                for (u32 it = 0; it < m_Splits.size(); it++)
+                    m_Splits[it]->MakeProgressive();
+            }
         }
         else if (m_Splits.size() == 1)
             m_Splits[0]->MakeProgressive();
@@ -501,11 +527,22 @@ bool CExportObjectOGF::Prepare(bool gen_tb, CEditableMesh* mesh)
         if (m_Splits.size() > 1)   // MT
         {
 #if !defined(_DEBUG) && defined(_WIN64)
-            Msg("# ..MT Calculate Stripify");
+            if (!g_BatchWorking)
+                Msg("# ..MT Calculate Stripify");
+            else
+                Msg("# ..Calculate Stripify");
 #endif
-            FOR_START(u32, 0, m_Splits.size(), it)
-                m_Splits[it]->MakeStripify();
-            FOR_END
+            if (!g_BatchWorking)
+            {
+                FOR_START(u32, 0, m_Splits.size(), it)
+                    m_Splits[it]->MakeStripify();
+                FOR_END
+            }
+            else
+            {
+                for (u32 it = 0; it < m_Splits.size(); it++)
+                    m_Splits[it]->MakeStripify();
+            }
         }
         else if (m_Splits.size() == 1)
             m_Splits[0]->MakeStripify();
