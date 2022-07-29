@@ -483,6 +483,7 @@ namespace Object_tool
 					if (File.Exists(log))
 					{
 						LogTextBox.Text += "\n\nERROR LOG:\n\n" + File.ReadAllText(log);
+						LogTextBox.Text += "\n" + GetTime();
 						LogTextBox.SelectionStart = LogTextBox.TextLength;
 						LogTextBox.ScrollToCaret();
 					}
@@ -490,6 +491,7 @@ namespace Object_tool
 				else if (File.Exists(log))
 				{
 					LogTextBox.Text = File.ReadAllText(log);
+					LogTextBox.Text += "\n" + GetTime();
 					LogTextBox.SelectionStart = LogTextBox.TextLength;
 					LogTextBox.ScrollToCaret();
 					File.Delete(log);
@@ -2027,8 +2029,28 @@ namespace Object_tool
 
 		private string GetTime()
 		{
-			string ret = $" Time: {Math.Round((EditorProcess.ExitTime - EditorProcess.StartTime).TotalSeconds, 3)} sec.";
-			return ret;
+			int minutes = 0;
+			int hours = 0;
+			double sec = Math.Round((EditorProcess.ExitTime - EditorProcess.StartTime).TotalSeconds, 3);
+
+			while (sec > 60.0)
+            {
+				minutes++;
+				sec -= 60.0;
+			}
+
+			while (minutes > 60)
+			{
+				hours++;
+				minutes -= 60;
+			}
+
+			if (minutes == 0)
+				return $" Time: {sec} sec.";
+			else if (hours == 0)
+				return $" Time: {minutes} min {sec} sec.";
+			else
+				return $" Time: {hours} hour {minutes} min {sec} sec.";
 		}
 
 		private int GetErrorTime()
