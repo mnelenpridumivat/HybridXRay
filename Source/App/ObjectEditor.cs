@@ -2404,6 +2404,7 @@ namespace Object_tool
 			GroupBox.Text = "Bone name: " + bone.bone_name;
 			GroupBox.Name = "ShapeGrpBox_" + idx;
 			GroupBox.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
+			GroupBox.Dock = DockStyle.Top;
 			CreateShapeFlags(idx, GroupBox, bone);
 			BonesPage.Controls.Add(GroupBox);
 		}
@@ -2542,6 +2543,7 @@ namespace Object_tool
 			GroupBox.Text = surfaces[idx].name;
 			GroupBox.Name = "MaterialGrpBox_" + idx;
 			GroupBox.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
+			GroupBox.Dock = DockStyle.Top;
 			CreateMaterialFlags(idx, GroupBox);
 			SurfacesPage.Controls.Add(GroupBox);
 		}
