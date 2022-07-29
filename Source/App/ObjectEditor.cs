@@ -116,8 +116,6 @@ namespace Object_tool
 
 		// Settings
 		public bool USE_OLD_BONES = true;
-		public bool ALLOW_LOG = true;
-		public bool DISABLE_LOG = false;
 
 		public Object_Editor()
 		{
@@ -191,8 +189,6 @@ namespace Object_tool
 			NoCompress = true;
 			dbg_window = true;
 			showWindowToolStripMenuItem.Enabled = false;
-			ALLOW_LOG = false; // Not stable
-			DISABLE_LOG = true; // Not stable
 #endif
 
 			if (USE_OLD_BONES)
@@ -433,59 +429,62 @@ namespace Object_tool
 				EditorProcess.Start();
 
 				string log = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\visual_log.log";
-				Thread LogThread = null;
-				if (!DISABLE_LOG)
-				{
+				this.Invoke((MethodInvoker)delegate () {
 					LogTextBox.Text = "";
-					if (File.Exists(log))
-						File.Delete(log);
+				});
+				if (File.Exists(log))
+					File.Delete(log);
 
-					if (ALLOW_LOG)
+				Thread LogThread = new Thread(() =>
+				{
+					string old_log = "";
+					while (true)
 					{
-						LogThread = new Thread(() =>
+						if (File.Exists(log))
 						{
-							while (true)
-							{
-								if (File.Exists(log))
-								{
-									LogTextBox.Text = File.ReadAllText(log);
-									LogTextBox.SelectionStart = LogTextBox.TextLength;
+							this.Invoke((MethodInvoker)delegate () {
+								old_log = LogTextBox.Text;
+								LogTextBox.Text = File.ReadAllText(log);
+
+								if (old_log != LogTextBox.Text)
+                                {
+									LogTextBox.SelectionStart = LogTextBox.Text.Length;
 									LogTextBox.ScrollToCaret();
 								}
-								Thread.Sleep(250);
-							}
-						});
-						LogThread.Start();
+							});
+						}
+						Thread.Sleep(200);
 					}
-				}
+				});
+				LogThread.Start();
 
                 EditorProcess.WaitForExit();
 				EditorWorking = false;
 
-				if (ALLOW_LOG && !DISABLE_LOG)
-					LogThread.Abort();
+				LogThread.Abort();
 
-				if (!DISABLE_LOG)
+				if (EditorProcess.ExitCode < -100 || EditorProcess.ExitCode > 100) // 100% Error
 				{
-					if (EditorProcess.ExitCode < -100 || EditorProcess.ExitCode > 100) // 100% Error
+					log = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\engine.log";
+					if (File.Exists(log))
 					{
-						log = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\engine.log";
-						if (File.Exists(log))
-						{
+						this.Invoke((MethodInvoker)delegate () {
 							LogTextBox.Text += "\n\nERROR LOG:\n\n" + File.ReadAllText(log);
 							LogTextBox.Text += "\n" + GetTime();
-							LogTextBox.SelectionStart = LogTextBox.TextLength;
+							LogTextBox.SelectionStart = LogTextBox.Text.Length;
 							LogTextBox.ScrollToCaret();
-						}
+						});
 					}
-					else if (File.Exists(log))
-					{
+				}
+				else if (File.Exists(log))
+				{
+					this.Invoke((MethodInvoker)delegate () {
 						LogTextBox.Text = File.ReadAllText(log);
 						LogTextBox.Text += "\n" + GetTime();
-						LogTextBox.SelectionStart = LogTextBox.TextLength - 1;
+						LogTextBox.SelectionStart = LogTextBox.Text.Length;
 						LogTextBox.ScrollToCaret();
-						File.Delete(log);
-					}
+					});
+					File.Delete(log);
 				}
 				return EditorProcess.ExitCode;
 			}
@@ -2816,5 +2815,5 @@ namespace Object_tool
 			"Для создания коллизии с нуля нужно настроить Shape type параметры у каждой кости если таковы были не настроены (можно воспользоваться Tools->Shape Params) и далее нажать Tools->Generate Shapes.\nЕсли коллизия уже была сгенерирована, то Shape type можно менять без повторной генерации коллизии."
 			, "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
-    }
+	}
 }
