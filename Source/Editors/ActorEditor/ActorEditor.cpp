@@ -469,5 +469,8 @@ int main(int argc, char** argv)
     if (flags & exfDbgWindow)
         system("pause");
 
+    if (ret_code != 0)
+        WriteLog("..Exit with error: %d", ret_code);
+
     return ret_code;
 }

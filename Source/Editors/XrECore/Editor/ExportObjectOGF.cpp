@@ -185,6 +185,8 @@ void CExportObjectOGF::SSplit::Save(IWriter& F, int& chunk_id)
 
 void CObjectOGFCollectorPacked::MakeProgressive()
 {
+    Msg("..Make progressive");
+    WriteLog("..Make progressive");
 	VIPM_Init	();
 
     for (OGFVertIt vert_it=m_Verts.begin(); vert_it!=m_Verts.end(); ++vert_it)
@@ -389,6 +391,7 @@ bool CExportObjectOGF::Prepare(bool gen_tb, CEditableMesh* mesh)
 {
     if( (m_Source->MeshCount() == 0) ) return false;
 
+    WriteLog("..Prepare geometry");
     bool bResult 		= true;
     if (mesh) 
 		bResult 		= PrepareMESH(mesh);
@@ -408,6 +411,8 @@ bool CExportObjectOGF::Prepare(bool gen_tb, CEditableMesh* mesh)
     // calculate TB
     if (gen_tb)
 	{
+        Msg("..MT Calculate TB"); 
+        WriteLog("..MT Calculate TB");
         FOR_START(u32, 0, m_Splits.size(), it)
         {
             m_Splits[it]->CalculateTB();
@@ -424,8 +429,11 @@ bool CExportObjectOGF::Prepare(bool gen_tb, CEditableMesh* mesh)
     }
 
 	// Compute bounding...
+    Msg("..Compute Bounding"); 
+    WriteLog("..Compute Bounding");
     ComputeBounding		();
 //    Log				("Time C: ",T.GetElapsed_sec());
+
     return				bResult;
 }
 

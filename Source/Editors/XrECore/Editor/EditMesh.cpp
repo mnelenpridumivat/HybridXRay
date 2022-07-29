@@ -154,8 +154,8 @@ void CEditableMesh::GenerateVNormals(bool force)
 				}
 				else
 				{
-					Msg("!Invalid smooth group found (Maya type). Object: '%s'. Vertex: [%3.2f, %3.2f, %3.2f]",m_Parent->GetName(),VPUSH(m_Vertices[m_Faces[f_i].pv[k].pindex]));
-					WriteLog("!Invalid smooth group found (Maya type). Object: '%s'. Vertex: [%3.2f, %3.2f, %3.2f]",m_Parent->GetName(),VPUSH(m_Vertices[m_Faces[f_i].pv[k].pindex]));
+					Msg("!..Invalid smooth group found (Maya type). Object: '%s'. Vertex: [%3.2f, %3.2f, %3.2f]",m_Parent->GetName(),VPUSH(m_Vertices[m_Faces[f_i].pv[k].pindex]));
+					WriteLog("!..Invalid smooth group found (Maya type). Vertex: [%3.2f, %3.2f, %3.2f]",VPUSH(m_Vertices[m_Faces[f_i].pv[k].pindex]));
 					N.set(m_FaceNormals[a_lst.front()]);
 				}
 			}
@@ -184,8 +184,8 @@ void CEditableMesh::GenerateVNormals(bool force)
 						}
 						else
 						{
-							Msg("!Invalid smooth group found (MAX type). Object: '%s'. Vertex: [%3.2f, %3.2f, %3.2f]", m_Parent->GetName(), VPUSH(m_Vertices[m_Faces[f_i].pv[k].pindex]));
-							WriteLog("!Invalid smooth group found (MAX type). Object: '%s'. Vertex: [%3.2f, %3.2f, %3.2f]", m_Parent->GetName(), VPUSH(m_Vertices[m_Faces[f_i].pv[k].pindex]));
+							Msg("!..Invalid smooth group found (MAX type). Object: '%s'. Vertex: [%3.2f, %3.2f, %3.2f]", m_Parent->GetName(), VPUSH(m_Vertices[m_Faces[f_i].pv[k].pindex]));
+							WriteLog("!..Invalid smooth group found (MAX type). Vertex: [%3.2f, %3.2f, %3.2f]", VPUSH(m_Vertices[m_Faces[f_i].pv[k].pindex]));
 							N.set(m_FaceNormals[a_lst.front()]);
 						}
 					}
@@ -221,8 +221,8 @@ void CEditableMesh::GenerateVNormals(bool force)
 						}
 						else
 						{
-							Msg("!Invalid smooth group found (Maya type). Object: '%s'. Vertex: [%3.2f, %3.2f, %3.2f]", m_Parent->GetName(), VPUSH(m_Vertices[m_Faces[f_i].pv[k].pindex]));
-							WriteLog("!Invalid smooth group found (Maya type). Object: '%s'. Vertex: [%3.2f, %3.2f, %3.2f]", m_Parent->GetName(), VPUSH(m_Vertices[m_Faces[f_i].pv[k].pindex]));
+							Msg("!..Invalid smooth group found (Maya type). Object: '%s'. Vertex: [%3.2f, %3.2f, %3.2f]", m_Parent->GetName(), VPUSH(m_Vertices[m_Faces[f_i].pv[k].pindex]));
+							WriteLog("!..Invalid smooth group found (Maya type). Vertex: [%3.2f, %3.2f, %3.2f]", VPUSH(m_Vertices[m_Faces[f_i].pv[k].pindex]));
 							N.set(m_FaceNormals[a_lst.front()]);
 						}
 					}
