@@ -190,15 +190,18 @@ void CObjectOGFCollectorPacked::MakeProgressive()
 {
     Msg("..Make progressive");
     WriteLog("..Make progressive");
-	VIPM_Init	();
+
+    VIPM* pVIPM = xr_new<VIPM>();
+
+    pVIPM->VIPM_Init	();
 
     for (OGFVertIt vert_it=m_Verts.begin(); vert_it!=m_Verts.end(); ++vert_it)
-    	VIPM_AppendVertex(vert_it->P,vert_it->UV);
+        pVIPM->VIPM_AppendVertex(vert_it->P,vert_it->UV);
 
     for (OGFFaceIt f_it=m_Faces.begin(); f_it!=m_Faces.end(); ++f_it)
-    	VIPM_AppendFace(f_it->v[0],f_it->v[1],f_it->v[2]);
+        pVIPM->VIPM_AppendFace(f_it->v[0],f_it->v[1],f_it->v[2]);
 
-    VIPM_Result* R = VIPM_Convert(u32(-1),1.f,1);
+    VIPM_Result* R = pVIPM->VIPM_Convert(u32(-1),1.f,1);
 
     if (R)
 	{
@@ -222,13 +225,19 @@ void CObjectOGFCollectorPacked::MakeProgressive()
         for (u32 swr_idx=0; swr_idx!=m_SWR.size(); ++swr_idx)
             m_SWR[swr_idx]	= R->swr_records[swr_idx];
 
-	}else{
+	}
+    else
+    {
     	Log("!..Can't make progressive.");
         WriteLog("!..Can't make progressive.");
     }
     
     // cleanup
-    VIPM_Destroy		();
+    pVIPM->VIPM_Destroy		();
+    xr_delete(pVIPM);
+
+    Msg("..Progressive end");
+    WriteLog("..Progressive end");
 }
 
 void CObjectOGFCollectorPacked:: OptimizeTextureCoordinates()
@@ -422,9 +431,7 @@ bool CExportObjectOGF::Prepare(bool gen_tb, CEditableMesh* mesh)
         WriteLog("..Calculate TB");
 #endif
         FOR_START(u32, 0, m_Splits.size(), it)
-        {
             m_Splits[it]->CalculateTB();
-        }
         FOR_END
 //        Log				("Time B: ",T.GetElapsed_sec());
     }
@@ -432,8 +439,14 @@ bool CExportObjectOGF::Prepare(bool gen_tb, CEditableMesh* mesh)
     // fill per bone vertices
 	if (m_Source->m_objectFlags.is(CEditableObject::eoProgressive))
 	{
-        for (SplitIt split_it=m_Splits.begin(); split_it!=m_Splits.end(); ++split_it)
-            (*split_it)->MakeProgressive();
+        if (m_Splits.size() > 1) // MT
+        {
+            FOR_START(u32, 0, m_Splits.size(), it)
+                m_Splits[it]->MakeProgressive();
+            FOR_END
+        }
+        else if (m_Splits.size() == 1)
+            m_Splits[0]->MakeProgressive();
     }
 
 	// Compute bounding...

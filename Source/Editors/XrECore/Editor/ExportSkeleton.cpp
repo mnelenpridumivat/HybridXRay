@@ -26,6 +26,7 @@
 #include "ui_main.h"
 #include "ui_toolscustom.h"
 #endif
+
 //#include "../../../xrRender/Private/SkeletonAnimated.h"
 
 
@@ -450,17 +451,21 @@ void CExportSkeleton::SSplit::Save(IWriter& F)
 
 void CExportSkeleton::SSplit::MakeProgressive()
 {
-    Msg("..Make progressive");
-    WriteLog("..Make progressive");
-	VIPM_Init	();
+    Msg("..Make progressive for '%s'", m_Texture.c_str());
+    WriteLog("..Make progressive for '%s'", m_Texture.c_str());
+
+    VIPM* pVIPM = xr_new<VIPM>();
+
+    pVIPM->VIPM_Init();
     for (SkelVertIt vert_it=m_Verts.begin(); vert_it!=m_Verts.end(); vert_it++)
-    	VIPM_AppendVertex(vert_it->offs,vert_it->uv);
+        pVIPM->VIPM_AppendVertex(vert_it->offs,vert_it->uv);
     for (SkelFaceIt f_it=m_Faces.begin(); f_it!=m_Faces.end(); f_it++)
-    	VIPM_AppendFace(f_it->v[0],f_it->v[1],f_it->v[2]);       
+        pVIPM->VIPM_AppendFace(f_it->v[0],f_it->v[1],f_it->v[2]);       
 
-    VIPM_Result* R = VIPM_Convert(u32(-1),1.f,1);
+    VIPM_Result* R = pVIPM->VIPM_Convert(u32(-1),1.f,1);
 
-    if (R){
+    if (R)
+    {
         // Permute vertices
         SkelVertVec temp_list = m_Verts;
         for(u32 i=0; i<temp_list.size(); i++)
@@ -468,7 +473,8 @@ void CExportSkeleton::SSplit::MakeProgressive()
     
         // Fill indices
         m_Faces.resize	(R->indices.size()/3);
-        for (u32 f_idx=0; f_idx<m_Faces.size(); f_idx++){
+        for (u32 f_idx=0; f_idx<m_Faces.size(); f_idx++)
+        {
             SSkelFace& F= m_Faces[f_idx];
             F.v[0]			= R->indices[f_idx*3+0];
             F.v[1]			= R->indices[f_idx*3+1];
@@ -479,13 +485,18 @@ void CExportSkeleton::SSplit::MakeProgressive()
         m_SWR.resize		(R->swr_records.size());
         for (u32 swr_idx=0; swr_idx!=m_SWR.size(); swr_idx++)
             m_SWR[swr_idx]	= R->swr_records[swr_idx];
-	}else{
+	}
+    else
+    {
     	Log("!..Can't make progressive.");
         WriteLog("!..Can't make progressive");
     }
     
+    Msg("..Progressive end for '%s'", m_Texture.c_str());
+    WriteLog("..Progressive end for '%s'", m_Texture.c_str());
     // cleanup
-    VIPM_Destroy		();
+    pVIPM->VIPM_Destroy		();
+    xr_delete(pVIPM);
 }
 
 void CExportSkeleton::SSplit::MakeStripify()
@@ -873,9 +884,7 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
 #endif
 
     FOR_START(u32, 0, m_Splits.size(), it)
-    {
         m_Splits[it].CalculateTB();
-    }
     FOR_END
 
     // compute bounding
@@ -919,14 +928,32 @@ bool CExportSkeleton::ExportGeometry(IWriter& F, u8 infl)
     xr_vector<FvectorVec>	bone_points;
 	bone_points.resize		(m_Source->BoneCount());
 
-    for (SplitIt split_it=m_Splits.begin(); split_it!=m_Splits.end(); ++split_it)
-	{
-		if (m_Source->m_objectFlags.is(CEditableObject::eoProgressive))
-        	split_it->MakeProgressive();
-        else if (m_Source->m_objectFlags.is(CEditableObject::eoStripify))
-        	split_it->MakeStripify();
+    if (m_Source->m_objectFlags.is(CEditableObject::eoProgressive))
+    {
+        if (m_Splits.size() > 1) // MT
+        {
+            FOR_START(u32, 0, m_Splits.size(), it)
+                m_Splits[it].MakeProgressive();
+            FOR_END
+        }
+        else if (m_Splits.size() == 1)
+            m_Splits[0].MakeProgressive();
+    }
+    else if (m_Source->m_objectFlags.is(CEditableObject::eoStripify))
+    {
+        if (m_Splits.size() > 1) // MT
+        {
+            FOR_START(u32, 0, m_Splits.size(), it)
+                m_Splits[it].MakeStripify();
+            FOR_END
+        }
+        else if (m_Splits.size() == 1)
+            m_Splits[0].MakeStripify();
+    }
 
-		SkelVertVec& lst = split_it->getV_Verts();
+    for (u32 it = 0; it < m_Splits.size(); ++it)
+	{
+		SkelVertVec& lst = m_Splits[it].getV_Verts();
         for (SkelVertIt sv_it=lst.begin(); sv_it!=lst.end(); sv_it++){
             bone_points[sv_it->bones[0].id].push_back(sv_it->offs);
 

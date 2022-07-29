@@ -3,6 +3,8 @@
 
 #include "ArbitraryList.h"
 
+class Object;
+class MeshPt;
 #pragma pack(push,1)
 struct VIPM_SWR
 {
@@ -25,12 +27,31 @@ struct VIPM_Result
 	}
 };
 
-extern "C" {
-	void			  VIPM_Init			();
-	void			  VIPM_AppendVertex	(const Fvector3& pt, const Fvector2& uv);
-	void			  VIPM_AppendFace		(u16 v0, u16 v1, u16 v2);
-	VIPM_Result*	  VIPM_Convert			(u32 max_sliding_window=u32(-1), float error_tolerance=0.1f, u32 optimize_vertex_order=1);
-	void			  VIPM_Destroy			();
+class VIPM
+{
+public:
+	VIPM()
+	{
+		g_pObject						= 0;
+		g_ppTempPts						= 0;
+		g_fSlidingWindowErrorTolerance	= 0.1f;
+		g_bOptimiseVertexOrder			= FALSE;
+		g_bMaxSlidingWindow				= u32(-1);
+		g_pResult						= 0;
+	}
+	Object*					g_pObject						;
+	ArbitraryList<MeshPt*>	g_ppTempPts						;
+	float					g_fSlidingWindowErrorTolerance	;
+	BOOL					g_bOptimiseVertexOrder			;
+	u32						g_bMaxSlidingWindow				;
+	VIPM_Result*			g_pResult						;
+
+	void			  VIPM_Init();
+	void			  VIPM_AppendVertex(const Fvector3& pt, const Fvector2& uv);
+	void			  VIPM_AppendFace(u16 v0, u16 v1, u16 v2);
+	void			  CalculateAllCollapses(Object* m_pObject, u32 max_sliding_window = u32(-1), float m_fSlidingWindowErrorTolerance = 1.0f);
+	VIPM_Result*	  VIPM_Convert(u32 max_sliding_window = u32(-1), float error_tolerance = 0.1f, u32 optimize_vertex_order = 1);
+	void			  VIPM_Destroy();
 };
 
 #endif // PropSlimToolsH

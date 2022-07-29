@@ -268,7 +268,6 @@
     <ClInclude Include="Editor\ParticleEffectActions.h" />
     <ClInclude Include="Editor\PhysicsShellHolderEditorBase.h" />
     <ClInclude Include="Editor\pick_defs.h" />
-    <ClInclude Include="Editor\PropSlimTools.h" />
     <ClInclude Include="Editor\render.h" />
     <ClInclude Include="Editor\SkeletonFace.h" />
     <ClInclude Include="Editor\SkeletonVert.h" />

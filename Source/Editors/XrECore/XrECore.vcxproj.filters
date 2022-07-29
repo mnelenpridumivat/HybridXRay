@@ -571,9 +571,6 @@
     <ClInclude Include="Editor\render.h">
       <Filter>Editor</Filter>
     </ClInclude>
-    <ClInclude Include="Editor\PropSlimTools.h">
-      <Filter>Editor</Filter>
-    </ClInclude>
     <ClInclude Include="Editor\pick_defs.h">
       <Filter>Editor</Filter>
     </ClInclude>
