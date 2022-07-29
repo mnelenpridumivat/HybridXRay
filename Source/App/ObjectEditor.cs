@@ -118,7 +118,7 @@ namespace Object_tool
 
 		// Settings
 		public bool USE_OLD_BONES = true;
-		public bool ALLOW_LOG = true;
+		public bool ALLOW_LOG = false;
 
 		public Object_Editor()
 		{
