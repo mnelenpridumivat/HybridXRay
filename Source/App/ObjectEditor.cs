@@ -130,7 +130,7 @@ namespace Object_tool
 			EditorProcess.StartInfo.RedirectStandardOutput = true;
 			EditorProcess.StartInfo.RedirectStandardError = true;
 
-			CurrentSize = this.MinimumSize;
+			CurrentSize = this.Size;
 			BoneSize = this.MaximumSize;
 			Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
 			shapeParamsToolStripMenuItem.Enabled = false;
@@ -2414,7 +2414,8 @@ namespace Object_tool
 			joints_count = 0;
 
 			SurfacesPage.Controls.Clear();
-			BonesPage.Controls.Clear();
+			if (USE_OLD_BONES)
+				BonesPage.Controls.Clear();
 			MotionRefsBox.Clear();
 			UserDataTextBox.Clear();
 			LodTextBox.Clear();

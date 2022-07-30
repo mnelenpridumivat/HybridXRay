@@ -204,6 +204,39 @@ namespace Object_tool
             this.OpenMotionRefsDialog = new System.Windows.Forms.OpenFileDialog();
             this.SaveUserDataDialog = new System.Windows.Forms.SaveFileDialog();
             this.SaveMotionRefsDialog = new System.Windows.Forms.SaveFileDialog();
+            this.Limits = new System.Windows.Forms.GroupBox();
+            this.AxisX = new System.Windows.Forms.GroupBox();
+            this.textBox15 = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.textBox16 = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.textBox17 = new System.Windows.Forms.TextBox();
+            this.textBox18 = new System.Windows.Forms.TextBox();
+            this.AxisY = new System.Windows.Forms.GroupBox();
+            this.textBox19 = new System.Windows.Forms.TextBox();
+            this.textBox20 = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.textBox21 = new System.Windows.Forms.TextBox();
+            this.label19 = new System.Windows.Forms.Label();
+            this.textBox22 = new System.Windows.Forms.TextBox();
+            this.label20 = new System.Windows.Forms.Label();
+            this.AxisZ = new System.Windows.Forms.GroupBox();
+            this.textBox23 = new System.Windows.Forms.TextBox();
+            this.textBox24 = new System.Windows.Forms.TextBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.textBox25 = new System.Windows.Forms.TextBox();
+            this.label23 = new System.Windows.Forms.Label();
+            this.textBox26 = new System.Windows.Forms.TextBox();
+            this.label24 = new System.Windows.Forms.Label();
+            this.Steer = new System.Windows.Forms.GroupBox();
+            this.textBox27 = new System.Windows.Forms.TextBox();
+            this.textBox28 = new System.Windows.Forms.TextBox();
+            this.label25 = new System.Windows.Forms.Label();
+            this.label26 = new System.Windows.Forms.Label();
             this.MenuPanel.SuspendLayout();
             this.StatusPanel.SuspendLayout();
             this.BonesPage.SuspendLayout();
@@ -224,6 +257,11 @@ namespace Object_tool
             this.MotionRefsPage.SuspendLayout();
             this.UserDataPage.SuspendLayout();
             this.LodPage.SuspendLayout();
+            this.Limits.SuspendLayout();
+            this.AxisX.SuspendLayout();
+            this.AxisY.SuspendLayout();
+            this.AxisZ.SuspendLayout();
+            this.Steer.SuspendLayout();
             this.SuspendLayout();
             // 
             // OpenObjectDialog
@@ -868,7 +906,7 @@ namespace Object_tool
             this.StatusPanel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileLabel,
             this.StatusFile});
-            this.StatusPanel.Location = new System.Drawing.Point(0, 414);
+            this.StatusPanel.Location = new System.Drawing.Point(0, 424);
             this.StatusPanel.Name = "StatusPanel";
             this.StatusPanel.Size = new System.Drawing.Size(439, 22);
             this.StatusPanel.TabIndex = 31;
@@ -925,6 +963,7 @@ namespace Object_tool
             // BonesPage
             // 
             this.BonesPage.AutoScroll = true;
+            this.BonesPage.Controls.Add(this.Limits);
             this.BonesPage.Controls.Add(this.groupBox2);
             this.BonesPage.Controls.Add(this.DeleteBoneButton);
             this.BonesPage.Controls.Add(this.AddBoneButton);
@@ -933,7 +972,7 @@ namespace Object_tool
             this.BonesPage.Controls.Add(this.BonesList);
             this.BonesPage.Location = new System.Drawing.Point(4, 25);
             this.BonesPage.Name = "BonesPage";
-            this.BonesPage.Size = new System.Drawing.Size(407, 355);
+            this.BonesPage.Size = new System.Drawing.Size(531, 665);
             this.BonesPage.TabIndex = 2;
             this.BonesPage.Text = "Bones";
             this.BonesPage.UseVisualStyleBackColor = true;
@@ -1106,7 +1145,7 @@ namespace Object_tool
             // 
             // DeleteBoneButton
             // 
-            this.DeleteBoneButton.Location = new System.Drawing.Point(7, 299);
+            this.DeleteBoneButton.Location = new System.Drawing.Point(3, 622);
             this.DeleteBoneButton.Name = "DeleteBoneButton";
             this.DeleteBoneButton.Size = new System.Drawing.Size(110, 36);
             this.DeleteBoneButton.TabIndex = 10;
@@ -1115,7 +1154,7 @@ namespace Object_tool
             // 
             // AddBoneButton
             // 
-            this.AddBoneButton.Location = new System.Drawing.Point(123, 293);
+            this.AddBoneButton.Location = new System.Drawing.Point(119, 622);
             this.AddBoneButton.Name = "AddBoneButton";
             this.AddBoneButton.Size = new System.Drawing.Size(110, 36);
             this.AddBoneButton.TabIndex = 9;
@@ -1124,8 +1163,6 @@ namespace Object_tool
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.textBox3);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.textBox4);
@@ -1135,9 +1172,9 @@ namespace Object_tool
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.comboBox2);
             this.groupBox1.Controls.Add(this.checkBox6);
-            this.groupBox1.Location = new System.Drawing.Point(40, 105);
+            this.groupBox1.Location = new System.Drawing.Point(370, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(235, 145);
+            this.groupBox1.Size = new System.Drawing.Size(152, 145);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Joint";
@@ -1303,9 +1340,9 @@ namespace Object_tool
             // BonesList
             // 
             this.BonesList.FormattingEnabled = true;
-            this.BonesList.Location = new System.Drawing.Point(0, 4);
+            this.BonesList.Location = new System.Drawing.Point(3, 4);
             this.BonesList.Name = "BonesList";
-            this.BonesList.Size = new System.Drawing.Size(226, 290);
+            this.BonesList.Size = new System.Drawing.Size(226, 615);
             this.BonesList.TabIndex = 0;
             // 
             // FlagsPage
@@ -1315,7 +1352,7 @@ namespace Object_tool
             this.FlagsPage.Controls.Add(this.FlagsGroupBox);
             this.FlagsPage.Location = new System.Drawing.Point(4, 25);
             this.FlagsPage.Name = "FlagsPage";
-            this.FlagsPage.Size = new System.Drawing.Size(407, 355);
+            this.FlagsPage.Size = new System.Drawing.Size(407, 356);
             this.FlagsPage.TabIndex = 0;
             this.FlagsPage.Text = "Flags";
             this.FlagsPage.UseVisualStyleBackColor = true;
@@ -1337,7 +1374,7 @@ namespace Object_tool
             this.LogTextBox.Location = new System.Drawing.Point(3, 252);
             this.LogTextBox.Name = "LogTextBox";
             this.LogTextBox.ReadOnly = true;
-            this.LogTextBox.Size = new System.Drawing.Size(401, 100);
+            this.LogTextBox.Size = new System.Drawing.Size(401, 101);
             this.LogTextBox.TabIndex = 17;
             this.LogTextBox.Text = "";
             // 
@@ -1654,7 +1691,7 @@ namespace Object_tool
             this.TabControl.Location = new System.Drawing.Point(12, 27);
             this.TabControl.Name = "TabControl";
             this.TabControl.SelectedIndex = 0;
-            this.TabControl.Size = new System.Drawing.Size(415, 384);
+            this.TabControl.Size = new System.Drawing.Size(415, 385);
             this.TabControl.TabIndex = 10;
             this.TabControl.SelectedIndexChanged += new System.EventHandler(this.IndexChanged);
             this.TabControl.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EditorKeyDown);
@@ -1665,7 +1702,7 @@ namespace Object_tool
             this.SurfacesPage.AutoScroll = true;
             this.SurfacesPage.Location = new System.Drawing.Point(4, 25);
             this.SurfacesPage.Name = "SurfacesPage";
-            this.SurfacesPage.Size = new System.Drawing.Size(407, 355);
+            this.SurfacesPage.Size = new System.Drawing.Size(531, 665);
             this.SurfacesPage.TabIndex = 3;
             this.SurfacesPage.Text = "Surfaces";
             this.SurfacesPage.UseVisualStyleBackColor = true;
@@ -1675,7 +1712,7 @@ namespace Object_tool
             this.MotionPage.Controls.Add(this.MotionTextBox);
             this.MotionPage.Location = new System.Drawing.Point(4, 25);
             this.MotionPage.Name = "MotionPage";
-            this.MotionPage.Size = new System.Drawing.Size(407, 355);
+            this.MotionPage.Size = new System.Drawing.Size(531, 665);
             this.MotionPage.TabIndex = 4;
             this.MotionPage.Text = "Motions";
             this.MotionPage.UseVisualStyleBackColor = true;
@@ -1688,7 +1725,7 @@ namespace Object_tool
             this.MotionTextBox.Location = new System.Drawing.Point(0, 0);
             this.MotionTextBox.Name = "MotionTextBox";
             this.MotionTextBox.ReadOnly = true;
-            this.MotionTextBox.Size = new System.Drawing.Size(407, 355);
+            this.MotionTextBox.Size = new System.Drawing.Size(531, 665);
             this.MotionTextBox.TabIndex = 0;
             this.MotionTextBox.Text = "";
             // 
@@ -1697,7 +1734,7 @@ namespace Object_tool
             this.MotionRefsPage.Controls.Add(this.MotionRefsBox);
             this.MotionRefsPage.Location = new System.Drawing.Point(4, 25);
             this.MotionRefsPage.Name = "MotionRefsPage";
-            this.MotionRefsPage.Size = new System.Drawing.Size(407, 355);
+            this.MotionRefsPage.Size = new System.Drawing.Size(531, 665);
             this.MotionRefsPage.TabIndex = 7;
             this.MotionRefsPage.Text = "Motion Refs";
             this.MotionRefsPage.UseVisualStyleBackColor = true;
@@ -1709,7 +1746,7 @@ namespace Object_tool
             | System.Windows.Forms.AnchorStyles.Right)));
             this.MotionRefsBox.Location = new System.Drawing.Point(0, 0);
             this.MotionRefsBox.Name = "MotionRefsBox";
-            this.MotionRefsBox.Size = new System.Drawing.Size(408, 355);
+            this.MotionRefsBox.Size = new System.Drawing.Size(531, 665);
             this.MotionRefsBox.TabIndex = 0;
             this.MotionRefsBox.Text = "";
             this.MotionRefsBox.TextChanged += new System.EventHandler(this.MotionRefsTextChanged);
@@ -1720,7 +1757,7 @@ namespace Object_tool
             this.UserDataPage.Controls.Add(this.UserDataTextBox);
             this.UserDataPage.Location = new System.Drawing.Point(4, 25);
             this.UserDataPage.Name = "UserDataPage";
-            this.UserDataPage.Size = new System.Drawing.Size(407, 355);
+            this.UserDataPage.Size = new System.Drawing.Size(531, 665);
             this.UserDataPage.TabIndex = 6;
             this.UserDataPage.Text = "User Data";
             this.UserDataPage.UseVisualStyleBackColor = true;
@@ -1732,7 +1769,7 @@ namespace Object_tool
             | System.Windows.Forms.AnchorStyles.Right)));
             this.UserDataTextBox.Location = new System.Drawing.Point(0, 0);
             this.UserDataTextBox.Name = "UserDataTextBox";
-            this.UserDataTextBox.Size = new System.Drawing.Size(408, 355);
+            this.UserDataTextBox.Size = new System.Drawing.Size(531, 665);
             this.UserDataTextBox.TabIndex = 0;
             this.UserDataTextBox.Text = "";
             this.UserDataTextBox.TextChanged += new System.EventHandler(this.UserDataTextChanged);
@@ -1745,7 +1782,7 @@ namespace Object_tool
             this.LodPage.Controls.Add(this.label1);
             this.LodPage.Location = new System.Drawing.Point(4, 25);
             this.LodPage.Name = "LodPage";
-            this.LodPage.Size = new System.Drawing.Size(407, 355);
+            this.LodPage.Size = new System.Drawing.Size(407, 356);
             this.LodPage.TabIndex = 5;
             this.LodPage.Text = "Lod Path";
             // 
@@ -1804,18 +1841,331 @@ namespace Object_tool
             // 
             this.SaveMotionRefsDialog.Filter = "Ltx file|*.ltx|Txt file|*.txt";
             // 
+            // Limits
+            // 
+            this.Limits.Controls.Add(this.Steer);
+            this.Limits.Controls.Add(this.AxisZ);
+            this.Limits.Controls.Add(this.AxisY);
+            this.Limits.Controls.Add(this.AxisX);
+            this.Limits.Location = new System.Drawing.Point(233, 345);
+            this.Limits.Name = "Limits";
+            this.Limits.Size = new System.Drawing.Size(289, 313);
+            this.Limits.TabIndex = 12;
+            this.Limits.TabStop = false;
+            this.Limits.Text = "Limits";
+            // 
+            // AxisX
+            // 
+            this.AxisX.Controls.Add(this.textBox18);
+            this.AxisX.Controls.Add(this.textBox17);
+            this.AxisX.Controls.Add(this.label16);
+            this.AxisX.Controls.Add(this.label15);
+            this.AxisX.Controls.Add(this.textBox15);
+            this.AxisX.Controls.Add(this.label13);
+            this.AxisX.Controls.Add(this.textBox16);
+            this.AxisX.Controls.Add(this.label14);
+            this.AxisX.Location = new System.Drawing.Point(7, 20);
+            this.AxisX.Name = "AxisX";
+            this.AxisX.Size = new System.Drawing.Size(275, 67);
+            this.AxisX.TabIndex = 0;
+            this.AxisX.TabStop = false;
+            this.AxisX.Text = "Axis X";
+            // 
+            // textBox15
+            // 
+            this.textBox15.Location = new System.Drawing.Point(203, 39);
+            this.textBox15.Name = "textBox15";
+            this.textBox15.Size = new System.Drawing.Size(66, 20);
+            this.textBox15.TabIndex = 35;
+            // 
+            // label13
+            // 
+            this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(120, 42);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(85, 13);
+            this.label13.TabIndex = 33;
+            this.label13.Text = "Damping Factor:";
+            // 
+            // textBox16
+            // 
+            this.textBox16.Location = new System.Drawing.Point(203, 16);
+            this.textBox16.Name = "textBox16";
+            this.textBox16.Size = new System.Drawing.Size(66, 20);
+            this.textBox16.TabIndex = 34;
+            // 
+            // label14
+            // 
+            this.label14.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(121, 19);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(73, 13);
+            this.label14.TabIndex = 32;
+            this.label14.Text = "Spring Factor:";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(10, 19);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(27, 13);
+            this.label15.TabIndex = 36;
+            this.label15.Text = "Min:";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(10, 42);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(30, 13);
+            this.label16.TabIndex = 37;
+            this.label16.Text = "Max:";
+            // 
+            // textBox17
+            // 
+            this.textBox17.Location = new System.Drawing.Point(43, 16);
+            this.textBox17.Name = "textBox17";
+            this.textBox17.Size = new System.Drawing.Size(66, 20);
+            this.textBox17.TabIndex = 38;
+            // 
+            // textBox18
+            // 
+            this.textBox18.Location = new System.Drawing.Point(43, 39);
+            this.textBox18.Name = "textBox18";
+            this.textBox18.Size = new System.Drawing.Size(66, 20);
+            this.textBox18.TabIndex = 39;
+            // 
+            // AxisY
+            // 
+            this.AxisY.Controls.Add(this.textBox19);
+            this.AxisY.Controls.Add(this.textBox20);
+            this.AxisY.Controls.Add(this.label17);
+            this.AxisY.Controls.Add(this.label18);
+            this.AxisY.Controls.Add(this.textBox21);
+            this.AxisY.Controls.Add(this.label19);
+            this.AxisY.Controls.Add(this.textBox22);
+            this.AxisY.Controls.Add(this.label20);
+            this.AxisY.Location = new System.Drawing.Point(6, 93);
+            this.AxisY.Name = "AxisY";
+            this.AxisY.Size = new System.Drawing.Size(275, 67);
+            this.AxisY.TabIndex = 40;
+            this.AxisY.TabStop = false;
+            this.AxisY.Text = "Axis Y";
+            // 
+            // textBox19
+            // 
+            this.textBox19.Location = new System.Drawing.Point(43, 39);
+            this.textBox19.Name = "textBox19";
+            this.textBox19.Size = new System.Drawing.Size(66, 20);
+            this.textBox19.TabIndex = 39;
+            // 
+            // textBox20
+            // 
+            this.textBox20.Location = new System.Drawing.Point(43, 16);
+            this.textBox20.Name = "textBox20";
+            this.textBox20.Size = new System.Drawing.Size(66, 20);
+            this.textBox20.TabIndex = 38;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(10, 42);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(30, 13);
+            this.label17.TabIndex = 37;
+            this.label17.Text = "Max:";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(10, 19);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(27, 13);
+            this.label18.TabIndex = 36;
+            this.label18.Text = "Min:";
+            // 
+            // textBox21
+            // 
+            this.textBox21.Location = new System.Drawing.Point(203, 39);
+            this.textBox21.Name = "textBox21";
+            this.textBox21.Size = new System.Drawing.Size(66, 20);
+            this.textBox21.TabIndex = 35;
+            // 
+            // label19
+            // 
+            this.label19.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(120, 42);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(85, 13);
+            this.label19.TabIndex = 33;
+            this.label19.Text = "Damping Factor:";
+            // 
+            // textBox22
+            // 
+            this.textBox22.Location = new System.Drawing.Point(203, 16);
+            this.textBox22.Name = "textBox22";
+            this.textBox22.Size = new System.Drawing.Size(66, 20);
+            this.textBox22.TabIndex = 34;
+            // 
+            // label20
+            // 
+            this.label20.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(121, 19);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(73, 13);
+            this.label20.TabIndex = 32;
+            this.label20.Text = "Spring Factor:";
+            // 
+            // AxisZ
+            // 
+            this.AxisZ.Controls.Add(this.textBox23);
+            this.AxisZ.Controls.Add(this.textBox24);
+            this.AxisZ.Controls.Add(this.label21);
+            this.AxisZ.Controls.Add(this.label22);
+            this.AxisZ.Controls.Add(this.textBox25);
+            this.AxisZ.Controls.Add(this.label23);
+            this.AxisZ.Controls.Add(this.textBox26);
+            this.AxisZ.Controls.Add(this.label24);
+            this.AxisZ.Location = new System.Drawing.Point(7, 166);
+            this.AxisZ.Name = "AxisZ";
+            this.AxisZ.Size = new System.Drawing.Size(275, 67);
+            this.AxisZ.TabIndex = 41;
+            this.AxisZ.TabStop = false;
+            this.AxisZ.Text = "Axis Z";
+            // 
+            // textBox23
+            // 
+            this.textBox23.Location = new System.Drawing.Point(43, 39);
+            this.textBox23.Name = "textBox23";
+            this.textBox23.Size = new System.Drawing.Size(66, 20);
+            this.textBox23.TabIndex = 39;
+            // 
+            // textBox24
+            // 
+            this.textBox24.Location = new System.Drawing.Point(43, 16);
+            this.textBox24.Name = "textBox24";
+            this.textBox24.Size = new System.Drawing.Size(66, 20);
+            this.textBox24.TabIndex = 38;
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(10, 42);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(30, 13);
+            this.label21.TabIndex = 37;
+            this.label21.Text = "Max:";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(10, 19);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(27, 13);
+            this.label22.TabIndex = 36;
+            this.label22.Text = "Min:";
+            // 
+            // textBox25
+            // 
+            this.textBox25.Location = new System.Drawing.Point(203, 39);
+            this.textBox25.Name = "textBox25";
+            this.textBox25.Size = new System.Drawing.Size(66, 20);
+            this.textBox25.TabIndex = 35;
+            // 
+            // label23
+            // 
+            this.label23.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(120, 42);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(85, 13);
+            this.label23.TabIndex = 33;
+            this.label23.Text = "Damping Factor:";
+            // 
+            // textBox26
+            // 
+            this.textBox26.Location = new System.Drawing.Point(203, 16);
+            this.textBox26.Name = "textBox26";
+            this.textBox26.Size = new System.Drawing.Size(66, 20);
+            this.textBox26.TabIndex = 34;
+            // 
+            // label24
+            // 
+            this.label24.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(121, 19);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(73, 13);
+            this.label24.TabIndex = 32;
+            this.label24.Text = "Spring Factor:";
+            // 
+            // Steer
+            // 
+            this.Steer.Controls.Add(this.textBox27);
+            this.Steer.Controls.Add(this.textBox28);
+            this.Steer.Controls.Add(this.label26);
+            this.Steer.Controls.Add(this.label25);
+            this.Steer.Location = new System.Drawing.Point(6, 239);
+            this.Steer.Name = "Steer";
+            this.Steer.Size = new System.Drawing.Size(275, 67);
+            this.Steer.TabIndex = 13;
+            this.Steer.TabStop = false;
+            this.Steer.Text = "Steer";
+            // 
+            // textBox27
+            // 
+            this.textBox27.Location = new System.Drawing.Point(44, 36);
+            this.textBox27.Name = "textBox27";
+            this.textBox27.Size = new System.Drawing.Size(225, 20);
+            this.textBox27.TabIndex = 43;
+            // 
+            // textBox28
+            // 
+            this.textBox28.Location = new System.Drawing.Point(44, 13);
+            this.textBox28.Name = "textBox28";
+            this.textBox28.Size = new System.Drawing.Size(225, 20);
+            this.textBox28.TabIndex = 42;
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(11, 39);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(30, 13);
+            this.label25.TabIndex = 41;
+            this.label25.Text = "Max:";
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(11, 16);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(27, 13);
+            this.label26.TabIndex = 40;
+            this.label26.Text = "Min:";
+            // 
             // Object_Editor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(439, 436);
+            this.ClientSize = new System.Drawing.Size(439, 446);
             this.Controls.Add(this.StatusPanel);
             this.Controls.Add(this.TabControl);
             this.Controls.Add(this.MenuPanel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.MenuPanel;
-            this.MinimumSize = new System.Drawing.Size(455, 354);
+            this.MinimumSize = new System.Drawing.Size(455, 363);
             this.Name = "Object_Editor";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Object Editor";
@@ -1852,6 +2202,15 @@ namespace Object_tool
             this.UserDataPage.ResumeLayout(false);
             this.LodPage.ResumeLayout(false);
             this.LodPage.PerformLayout();
+            this.Limits.ResumeLayout(false);
+            this.AxisX.ResumeLayout(false);
+            this.AxisX.PerformLayout();
+            this.AxisY.ResumeLayout(false);
+            this.AxisY.PerformLayout();
+            this.AxisZ.ResumeLayout(false);
+            this.AxisZ.PerformLayout();
+            this.Steer.ResumeLayout(false);
+            this.Steer.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2033,6 +2392,39 @@ namespace Object_tool
         private System.Windows.Forms.RichTextBox LogTextBox;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.GroupBox Limits;
+        private System.Windows.Forms.GroupBox AxisX;
+        private System.Windows.Forms.TextBox textBox15;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox textBox16;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TextBox textBox18;
+        private System.Windows.Forms.TextBox textBox17;
+        private System.Windows.Forms.GroupBox AxisY;
+        private System.Windows.Forms.TextBox textBox19;
+        private System.Windows.Forms.TextBox textBox20;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.TextBox textBox21;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.TextBox textBox22;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.GroupBox AxisZ;
+        private System.Windows.Forms.TextBox textBox23;
+        private System.Windows.Forms.TextBox textBox24;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.TextBox textBox25;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.TextBox textBox26;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.GroupBox Steer;
+        private System.Windows.Forms.TextBox textBox27;
+        private System.Windows.Forms.TextBox textBox28;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.Label label25;
     }
 }
 
