@@ -2167,10 +2167,17 @@ namespace Object_tool
 		{
 			if (e.Control && e.KeyCode == Keys.Delete && EditorWorking)
 			{
-				EditorKilled = true;
-				EditorProcess.Kill();
-				EditorWorking = false;
-				AutoClosingMessageBox.Show("Process Closed!", "", 1000, MessageBoxIcon.Information);
+				try
+				{
+					EditorKilled = true;
+					EditorProcess.Kill();
+					EditorWorking = false;
+					AutoClosingMessageBox.Show("Process Closed!", "", 1000, MessageBoxIcon.Information);
+				}
+				catch (Exception)
+                {
+					AutoClosingMessageBox.Show("Process not valid!", "", 1000, MessageBoxIcon.Information);
+				}
 			}
 
 			switch (e.KeyData)
