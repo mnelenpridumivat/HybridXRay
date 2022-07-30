@@ -434,16 +434,16 @@ namespace Object_tool
 					LogTextBox.ScrollToCaret();
 				});
                 CheckTempFileExist();
-				EditorWorking = true;
 				EditorProcess.StartInfo.FileName = exe_path;
 				EditorProcess.StartInfo.WorkingDirectory = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\'));
 				EditorProcess.StartInfo.Arguments = args;
                 EditorProcess.Start();
+				EditorWorking = true;
 				EditorProcess.BeginOutputReadLine();
 
 				EditorProcess.WaitForExit();
-				EditorProcess.CancelOutputRead();
 				EditorWorking = false;
+				EditorProcess.CancelOutputRead();
 
 				dLastTime = Math.Round((EditorProcess.ExitTime - EditorProcess.StartTime).TotalSeconds, 3);
 
