@@ -394,6 +394,7 @@ namespace Object_tool
 				args += $" {batch_files.Count}";
 				for (int i = 0; i < batch_files.Count; i++)
 				{
+					args += $" {batch_files[i].Count()}";
 					for (int cnt = 0; cnt < batch_files[i].Count(); cnt++)
 					{
 						args += $" \"{batch_files[i][cnt]}\"";

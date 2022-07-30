@@ -118,7 +118,11 @@ xr_vector<CActorTools::BatchFiles> LoadBatchFiles(xr_vector<LPCSTR> args, int co
         file.source_folder = "null";
         for (int i = 0; i < cnt; i++)
         {
-            file.files.push_back(args[iReaderPos]); iReaderPos++;
+            int cnt_2 = atoi(args[iReaderPos]); iReaderPos++;
+            for (int j = 0; j < cnt_2; j++)
+            {
+                file.files.push_back(args[iReaderPos]); iReaderPos++;
+            }
         }
         batch_files.push_back(file);
     }
