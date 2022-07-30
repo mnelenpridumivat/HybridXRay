@@ -691,13 +691,13 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
 
         if (influence == 4)
         {
-            Msg("Export as CoP");
-            WriteLog("..Export as CoP");
+            Msg("Export bones as CoP");
+            WriteLog("..Export bones as CoP");
         }
         else
         {
-            Msg("Export as SoC");
-            WriteLog("..Export as SoC");
+            Msg("Export bones as SoC");
+            WriteLog("..Export bones as SoC");
         }
 
         for (SurfFacesPairIt sp_it = MESH->m_SurfFaces.begin(); sp_it != MESH->m_SurfFaces.end(); sp_it++)

@@ -715,7 +715,7 @@ struct NewBatch
 
 bool CActorTools::BatchConvert(LPCSTR fn, int flags, shared_str script, float scale)
 {
-    g_BatchWorking = true;
+    g_BatchWorking = false;
     bool bRes = false;
     CInifile* ini = CInifile::Create(fn); VERIFY(ini);
     if (ini->section_exist("ogf"))
@@ -876,7 +876,7 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, shared_str script, float sc
 
 bool CActorTools::BatchConvertDialogOGF(xr_vector<BatchFiles> files, shared_str out, int flags, shared_str script, float scale)
 {
-    g_BatchWorking = true;
+    g_BatchWorking = false;
     bool bRes = true;
     bool FileMode = (files.size() == 1 && files[0].source_folder == "null");
 
@@ -966,7 +966,7 @@ bool CActorTools::BatchConvertDialogOGF(xr_vector<BatchFiles> files, shared_str 
 
 bool CActorTools::BatchConvertDialogOMF(xr_vector<BatchFiles> files, shared_str out, int flags, shared_str script, float scale)
 {
-    g_BatchWorking = true;
+    g_BatchWorking = false;
     bool bRes = true;
     bool FileMode = (files.size() == 1 && files[0].source_folder == "null");
 

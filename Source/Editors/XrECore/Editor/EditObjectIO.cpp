@@ -474,6 +474,7 @@ bool CEditableObject::ExportOGF(LPCSTR fn, u8 infl)
 
     if (PrepareOGF(F,infl,true,NULL))
 	{
+        WriteLog("..File [%s] exported", fn);
     	return F.save_to(fn);
     }
     return false;
@@ -487,6 +488,7 @@ bool CEditableObject::ExportOMF(LPCSTR fn)
 	CMemoryWriter	F;
     if (PrepareOMF(F))
 	{
+        WriteLog("..File [%s] exported", fn);
     	return F.save_to(fn);
     }
     return false;
@@ -501,6 +503,7 @@ bool CEditableObject::ExportOBJ(LPCSTR fn)
 	CMemoryWriter F;
     if (E.ExportAsWavefrontOBJ(F,fn))
 	{
+        WriteLog("..File [%s] exported", fn);
     	return F.save_to(fn);
     }
     return false;

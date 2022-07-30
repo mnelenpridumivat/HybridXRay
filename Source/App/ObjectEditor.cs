@@ -114,7 +114,7 @@ namespace Object_tool
 		System.Diagnostics.Process EditorProcess = null;
 		public bool EditorWorking = false;
 		public bool EditorKilled = false;
-		public static double EditorSeconds = 0.0;
+		public double dLastTime = 0.0;
 
 		// Settings
 		public bool USE_OLD_BONES = true;
@@ -445,18 +445,17 @@ namespace Object_tool
 				EditorProcess.CancelOutputRead();
 				EditorWorking = false;
 
-				EditorSeconds = Math.Round((EditorProcess.ExitTime - EditorProcess.StartTime).TotalSeconds, 3);
+				dLastTime = Math.Round((EditorProcess.ExitTime - EditorProcess.StartTime).TotalSeconds, 3);
 
-				int code = EditorProcess.ExitCode;
-                EditorProcess.Close();
-
-                this.Invoke((MethodInvoker)delegate ()
-                {
-                    LogTextBox.AppendText("\n" + GetTime());
+				this.Invoke((MethodInvoker)delegate ()
+				{
+					LogTextBox.AppendText("\n" + GetTime());
 					LogTextBox.SelectionStart = LogTextBox.Text.Length;
 					LogTextBox.ScrollToCaret();
 				});
 
+				int code = EditorProcess.ExitCode;
+                EditorProcess.Close();
                 return code;
 			}
 			else
@@ -468,7 +467,7 @@ namespace Object_tool
 
 		private void SortOutputHandler(object sendingProcess, DataReceivedEventArgs outLine)
 		{
-			if (!String.IsNullOrEmpty(outLine.Data))
+			if (outLine.Data != null)
 			{
 				this.Invoke((MethodInvoker)delegate () {
 					LogTextBox.AppendText(outLine.Data + "\n");
@@ -574,7 +573,7 @@ namespace Object_tool
 								if (!EditorKilled)
 								{
 									if (code == 0)
-										AutoClosingMessageBox.Show($"Model successfully exported.{GetTime()}", "", 1000, MessageBoxIcon.Information);
+										AutoClosingMessageBox.Show($"Model successfully exported. {GetTime()}", "", 1000, MessageBoxIcon.Information);
 									else
 									{
 										if (code == 1)
@@ -599,7 +598,7 @@ namespace Object_tool
 								if (!EditorKilled)
 								{
 									if (code == 0)
-										AutoClosingMessageBox.Show($"Motions successfully exported.{GetTime()}", "", 1000, MessageBoxIcon.Information);
+										AutoClosingMessageBox.Show($"Motions successfully exported. {GetTime()}", "", 1000, MessageBoxIcon.Information);
 									else
 										AutoClosingMessageBox.Show($"Can't export motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 								}
@@ -618,7 +617,7 @@ namespace Object_tool
 								{
 									if (code == 0)
 									{
-										AutoClosingMessageBox.Show($"Motions successfully loaded.{GetTime()}", "", 1000, MessageBoxIcon.Information);
+										AutoClosingMessageBox.Show($"Motions successfully loaded. {GetTime()}", "", 1000, MessageBoxIcon.Information);
 										DeletesklsToolStripMenuItem.Enabled = true;
 										SaveSklsToolStripMenuItem.Enabled = true;
 										sklToolStripMenuItem.Enabled = true;
@@ -642,7 +641,7 @@ namespace Object_tool
 							{
 								if (code == 0)
 								{
-									AutoClosingMessageBox.Show($"Motions successfully deleted.{GetTime()}", "", 1000, MessageBoxIcon.Information);
+									AutoClosingMessageBox.Show($"Motions successfully deleted. {GetTime()}", "", 1000, MessageBoxIcon.Information);
 									DeletesklsToolStripMenuItem.Enabled = false;
 									SaveSklsToolStripMenuItem.Enabled = false;
 									sklToolStripMenuItem.Enabled = false;
@@ -668,7 +667,7 @@ namespace Object_tool
 								if (!EditorKilled)
 								{
 									if (code == 0)
-										AutoClosingMessageBox.Show($"Motions successfully saved.{GetTime()}", "", 1000, MessageBoxIcon.Information);
+										AutoClosingMessageBox.Show($"Motions successfully saved. {GetTime()}", "", 1000, MessageBoxIcon.Information);
 									else
 										AutoClosingMessageBox.Show($"Can't save motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 								}
@@ -688,7 +687,7 @@ namespace Object_tool
 								if (!EditorKilled)
 								{
 									if (code == 0)
-										AutoClosingMessageBox.Show($"Motions successfully saved.{GetTime()}", "", 1000, MessageBoxIcon.Information);
+										AutoClosingMessageBox.Show($"Motions successfully saved. {GetTime()}", "", 1000, MessageBoxIcon.Information);
 									else
 										AutoClosingMessageBox.Show($"Can't save motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 								}
@@ -706,7 +705,7 @@ namespace Object_tool
 								if (!EditorKilled)
 								{
 									if (code == 0)
-										AutoClosingMessageBox.Show($"Bone data successfully loaded.{GetTime()}", "", 1000, MessageBoxIcon.Information);
+										AutoClosingMessageBox.Show($"Bone data successfully loaded. {GetTime()}", "", 1000, MessageBoxIcon.Information);
 									else
 										AutoClosingMessageBox.Show($"Failed to load bone data.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 								}
@@ -726,7 +725,7 @@ namespace Object_tool
 								if (!EditorKilled)
 								{
 									if (code == 0)
-										AutoClosingMessageBox.Show($"Bone data successfully saved.{GetTime()}", "", 1000, MessageBoxIcon.Information);
+										AutoClosingMessageBox.Show($"Bone data successfully saved. {GetTime()}", "", 1000, MessageBoxIcon.Information);
 									else
 										AutoClosingMessageBox.Show($"Failed to save bone data.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 								}
@@ -746,7 +745,7 @@ namespace Object_tool
 								if (!EditorKilled)
 								{
 									if (code == 0)
-										AutoClosingMessageBox.Show($"Model successfully saved.{GetTime()}", "", 1000, MessageBoxIcon.Information);
+										AutoClosingMessageBox.Show($"Model successfully saved. {GetTime()}", "", 1000, MessageBoxIcon.Information);
 									else
 										AutoClosingMessageBox.Show($"Failed to save model.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 								}
@@ -762,7 +761,7 @@ namespace Object_tool
 							if (!EditorKilled)
 							{
 								if (code == 0)
-									AutoClosingMessageBox.Show($"Bone shapes successfully generated.{GetTime()}", "", 1000, MessageBoxIcon.Information);
+									AutoClosingMessageBox.Show($"Bone shapes successfully generated. {GetTime()}", "", 1000, MessageBoxIcon.Information);
 								else
 									AutoClosingMessageBox.Show($"Can't generate bone shapes.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 							}
@@ -779,7 +778,7 @@ namespace Object_tool
 								if (!EditorKilled)
 								{
 									if (code == 0)
-										AutoClosingMessageBox.Show($"Bone parts successfully loaded.{GetTime()}", "", 1000, MessageBoxIcon.Information);
+										AutoClosingMessageBox.Show($"Bone parts successfully loaded. {GetTime()}", "", 1000, MessageBoxIcon.Information);
 									else
 										AutoClosingMessageBox.Show($"Failed to load bone parts.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 								}
@@ -799,7 +798,7 @@ namespace Object_tool
 								if (!EditorKilled)
 								{
 									if (code == 0)
-										AutoClosingMessageBox.Show($"Bone parts successfully saved.{GetTime()}", "", 1000, MessageBoxIcon.Information);
+										AutoClosingMessageBox.Show($"Bone parts successfully saved. {GetTime()}", "", 1000, MessageBoxIcon.Information);
 									else
 										AutoClosingMessageBox.Show($"Failed to saved bone parts.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 								}
@@ -815,7 +814,7 @@ namespace Object_tool
 							if (!EditorKilled)
 							{
 								if (code == 0)
-									AutoClosingMessageBox.Show($"Bone parts successfully reseted to default.{GetTime()}", "", 1000, MessageBoxIcon.Information);
+									AutoClosingMessageBox.Show($"Bone parts successfully reseted to default. {GetTime()}", "", 1000, MessageBoxIcon.Information);
 								else
 									AutoClosingMessageBox.Show($"Failed to reset bone parts to default.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 							}
@@ -834,7 +833,7 @@ namespace Object_tool
 								if (!EditorKilled)
 								{
 									if (code == 0)
-										AutoClosingMessageBox.Show($"Model successfully saved.{GetTime()}", "", 1000, MessageBoxIcon.Information);
+										AutoClosingMessageBox.Show($"Model successfully saved. {GetTime()}", "", 1000, MessageBoxIcon.Information);
 									else
 									{
 										switch (code)
@@ -878,7 +877,7 @@ namespace Object_tool
 									{
 										if (code == 0)
 										{
-											AutoClosingMessageBox.Show($"Lod successfully generated.{GetTime()}", "", 1000, MessageBoxIcon.Information);
+											AutoClosingMessageBox.Show($"Lod successfully generated. {GetTime()}", "", 1000, MessageBoxIcon.Information);
 
 											if (SaveOgfLodDialog.FileName.Contains("meshes") && LodTextBox.Enabled)
 											{
@@ -907,7 +906,7 @@ namespace Object_tool
 								if (!EditorKilled)
 								{
 									if (code == 0)
-										AutoClosingMessageBox.Show($"Model data successfully exported.{GetTime()}", "", 1000, MessageBoxIcon.Information);
+										AutoClosingMessageBox.Show($"Model data successfully exported. {GetTime()}", "", 1000, MessageBoxIcon.Information);
 									else
 										AutoClosingMessageBox.Show($"Failed to export model data.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 								}
@@ -1010,7 +1009,7 @@ namespace Object_tool
 								if (!EditorKilled)
 								{
 									if (code == 0)
-										AutoClosingMessageBox.Show($"Batch convert successful.{GetTime()}", "", 1000, MessageBoxIcon.Information);
+										AutoClosingMessageBox.Show($"Batch convert successful. {GetTime()}", "", 1000, MessageBoxIcon.Information);
 									else
 										AutoClosingMessageBox.Show($"Batch convert failed.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 								}
@@ -1034,7 +1033,7 @@ namespace Object_tool
 									if (!EditorKilled)
 									{
 										if (code == 0)
-											AutoClosingMessageBox.Show($"Batch convert successful.{GetTime()}", "", 1000, MessageBoxIcon.Information);
+											AutoClosingMessageBox.Show($"Batch convert successful. {GetTime()}", "", 1000, MessageBoxIcon.Information);
 										else
 											AutoClosingMessageBox.Show($"Batch convert completed with errors.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 									}
@@ -1060,7 +1059,7 @@ namespace Object_tool
 									if (!EditorKilled)
 									{
 										if (code == 0)
-											AutoClosingMessageBox.Show($"Batch convert successful.{GetTime()}", "", 1000, MessageBoxIcon.Information);
+											AutoClosingMessageBox.Show($"Batch convert successful. {GetTime()}", "", 1000, MessageBoxIcon.Information);
 										else
 											AutoClosingMessageBox.Show($"Batch convert completed with errors.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 									}
@@ -1097,7 +1096,7 @@ namespace Object_tool
 									if (!EditorKilled)
 									{
 										if (code == 0)
-											AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
+											AutoClosingMessageBox.Show($"Batch convert successful. {GetTime()}", "", 1000, MessageBoxIcon.Information);
 										else
 											AutoClosingMessageBox.Show($"Batch convert completed with errors.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 									}
@@ -1134,7 +1133,7 @@ namespace Object_tool
 									if (!EditorKilled)
 									{
 										if (code == 0)
-											AutoClosingMessageBox.Show("Batch convert successful.", "", 1000, MessageBoxIcon.Information);
+											AutoClosingMessageBox.Show($"Batch convert successful. {GetTime()}", "", 1000, MessageBoxIcon.Information);
 										else
 											AutoClosingMessageBox.Show($"Batch convert completed with errors.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 									}
@@ -2006,10 +2005,10 @@ namespace Object_tool
 			int minutes = 0;
 			int hours = 0;
 
-			while (EditorSeconds > 60.0)
+			while (dLastTime > 60.0)
             {
 				minutes++;
-				EditorSeconds -= 60.0;
+				dLastTime -= 60.0;
 			}
 
 			while (minutes > 60)
@@ -2019,11 +2018,11 @@ namespace Object_tool
 			}
 
 			if (minutes == 0)
-				return $" Time: {EditorSeconds} sec.";
+				return $"Time: {dLastTime} sec.";
 			else if (hours == 0)
-				return $" Time: {minutes} min {EditorSeconds} sec.";
+				return $"Time: {minutes} min {dLastTime} sec.";
 			else
-				return $" Time: {hours} hour {minutes} min {EditorSeconds} sec.";
+				return $"Time: {hours} hour {minutes} min {dLastTime} sec.";
 		}
 
 		private int GetErrorTime()
@@ -2172,6 +2171,7 @@ namespace Object_tool
 				EditorKilled = true;
 				EditorProcess.Kill();
 				EditorWorking = false;
+				AutoClosingMessageBox.Show("Process Closed!", "", 1000, MessageBoxIcon.Information);
 			}
 
 			switch (e.KeyData)
@@ -2193,13 +2193,6 @@ namespace Object_tool
 				case Keys.F6:
 					fileToolStripMenuItem.ShowDropDown();
 					saveToolStripMenuItem.ShowDropDown();
-					break;
-				case Keys.F7:
-					if (e.Control)
-					{
-						EditorKilled = true;
-						EditorProcess.Kill();
-					}
 					break;
 			}
 		}
