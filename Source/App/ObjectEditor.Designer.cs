@@ -1106,8 +1106,7 @@ namespace Object_tool
             // 
             // DeleteBoneButton
             // 
-            this.DeleteBoneButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DeleteBoneButton.Location = new System.Drawing.Point(116, 4724);
+            this.DeleteBoneButton.Location = new System.Drawing.Point(7, 299);
             this.DeleteBoneButton.Name = "DeleteBoneButton";
             this.DeleteBoneButton.Size = new System.Drawing.Size(110, 36);
             this.DeleteBoneButton.TabIndex = 10;
@@ -1116,8 +1115,7 @@ namespace Object_tool
             // 
             // AddBoneButton
             // 
-            this.AddBoneButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.AddBoneButton.Location = new System.Drawing.Point(0, 4724);
+            this.AddBoneButton.Location = new System.Drawing.Point(123, 293);
             this.AddBoneButton.Name = "AddBoneButton";
             this.AddBoneButton.Size = new System.Drawing.Size(110, 36);
             this.AddBoneButton.TabIndex = 9;
@@ -1137,9 +1135,9 @@ namespace Object_tool
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.comboBox2);
             this.groupBox1.Controls.Add(this.checkBox6);
-            this.groupBox1.Location = new System.Drawing.Point(370, 4);
+            this.groupBox1.Location = new System.Drawing.Point(40, 105);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(2431, 145);
+            this.groupBox1.Size = new System.Drawing.Size(235, 145);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Joint";
@@ -1307,7 +1305,7 @@ namespace Object_tool
             this.BonesList.FormattingEnabled = true;
             this.BonesList.Location = new System.Drawing.Point(0, 4);
             this.BonesList.Name = "BonesList";
-            this.BonesList.Size = new System.Drawing.Size(226, 511);
+            this.BonesList.Size = new System.Drawing.Size(226, 290);
             this.BonesList.TabIndex = 0;
             // 
             // FlagsPage
