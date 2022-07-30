@@ -49,15 +49,31 @@ namespace Object_tool
 			public string bone_name;
 			public string material;
 			public float  mass;
+			public ushort joint_type;
+			public Fvector position;
+			public Fvector rotation;
+			public Fvector center_of_mass;
+			public bool breakable;
+			public float spring;
+			public float damping;
+			public float friction;
 
 			public Bone()
             {
 				bone_id = 0;
 				shape_type = 0;
 				shape_flags = 0;
+				joint_type = 0;
 				bone_name = "Error! Not loaded!";
 				material = "Error! Not loaded!";
-				mass = 0.0f;
+				mass = 10.0f;
+				position = new Fvector();
+				rotation = new Fvector();
+				center_of_mass = new Fvector();
+				breakable = false;
+				spring = 0.0f;
+				damping = 0.0f;
+				friction = 0.0f;
 			}
 		};
 
@@ -276,19 +292,7 @@ namespace Object_tool
 			ParseMotions();
 
             InitSurfaceUI();
-
-			if (USE_OLD_BONES)
-            {
-				InitBoneUI();
-			}
-            else
-            {
-				if (bones != null)
-				{
-					for (int i = 0; i < bones.Count; i++)
-						BonesList.Items.Add(bones[i].bone_name);
-				}
-			}
+			InitBoneUI();
 
 			IndexChanged(null, null);
 
@@ -1544,9 +1548,29 @@ namespace Object_tool
 						bone.shape_type = (ushort)xr_loader.ReadUInt16();
 						bone.shape_flags = (ushort)xr_loader.ReadUInt16();
 
-						size = xr_loader.find_chunkSize((int)BONE.BONE_CHUNK_MASS, false, true);
+						if (xr_loader.find_chunk((int)BONE.BONE_CHUNK_MASS, false, true))
+						{
+							bone.mass = xr_loader.ReadFloat();
+							bone.center_of_mass.set(xr_loader.ReadVector());
+						}
+
+						size = xr_loader.find_chunkSize((int)BONE.BONE_CHUNK_BIND_POSE, false, true);
 						if (size == 0) break;
-						bone.mass = xr_loader.ReadFloat();
+						bone.position.set(xr_loader.ReadVector());
+						bone.rotation.set(xr_loader.ReadVector());
+
+						if (xr_loader.find_chunk((int)BONE.BONE_CHUNK_FLAGS, false, true))
+							bone.breakable = xr_loader.ReadUInt32() == 1;
+
+						size = xr_loader.find_chunkSize((int)BONE.BONE_CHUNK_IK_JOINT, false, true);
+						if (size == 0) break;
+						bone.joint_type = (ushort)xr_loader.ReadUInt32();
+						xr_loader.ReadBytes(16*3); // Ћимиты, добавлю позже
+						bone.spring = xr_loader.ReadFloat();
+						bone.damping = xr_loader.ReadFloat();
+
+						if (xr_loader.find_chunk((int)BONE.BONE_CHUNK_IK_JOINT_FRICTION, false, true))
+							bone.friction = xr_loader.ReadFloat();
 
 						bones.Add(bone);
 
@@ -2352,11 +2376,22 @@ namespace Object_tool
 		}
 
 		private void InitBoneUI()
-        {
+		{
 			if (bones != null)
 			{
-				for (int i = 0; i < bones.Count; i++)
-					CreateShapeGroupBox(i, bones[i]);
+				if (USE_OLD_BONES)
+				{
+					for (int i = 0; i < bones.Count; i++)
+						CreateShapeGroupBox(i, bones[i]);
+				}
+				else
+				{
+					for (int i = 0; i < bones.Count; i++)
+						BonesList.Items.Add(bones[i].bone_name);
+					BoneMaterial.Items.AddRange(game_materials);
+					if (BonesList.Items.Count > 0)
+						BonesList.SelectedIndex = 0;
+				}
 			}
 		}
 
@@ -2798,5 +2833,119 @@ namespace Object_tool
 			"ƒл€ создани€ коллизии с нул€ нужно настроить Shape type параметры у каждой кости если таковы были не настроены (можно воспользоватьс€ Tools->Shape Params) и далее нажать Tools->Generate Shapes.\n≈сли коллизи€ уже была сгенерирована, то Shape type можно мен€ть без повторной генерации коллизии."
 			, "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
-	}
+
+        private void BoneListIndexChanged(object sender, EventArgs e)
+        {
+			if (BonesList.SelectedIndex == -1) return;
+
+			Bone cur_bone = bones[BonesList.SelectedIndex];
+
+			NoPickable.Checked = (cur_bone.shape_flags & (1 << 0)) == (1 << 0);
+			NoPhysics.Checked = (cur_bone.shape_flags & (1 << 1)) == (1 << 1);
+			RemoveAfterBreak.Checked = (cur_bone.shape_flags & (1 << 2)) == (1 << 2);
+			NoFogCollider.Checked = (cur_bone.shape_flags & (1 << 3)) == (1 << 3);
+			ShapeType.SelectedIndex = cur_bone.shape_type;
+			BoneName.Text = cur_bone.bone_name;
+			BoneMaterial.Text = cur_bone.material;
+			BoneMass.Text = ((decimal)cur_bone.mass).ToString();
+			Breakable.Checked = cur_bone.breakable;
+			JointType.SelectedIndex = cur_bone.joint_type;
+			JointFriction.Text = ((decimal)cur_bone.friction).ToString();
+			JointSpring.Text = ((decimal)cur_bone.spring).ToString();
+			JointDamping.Text = ((decimal)cur_bone.damping).ToString();
+			PosX.Text = ((decimal)cur_bone.position.x).ToString();
+			PosY.Text = ((decimal)cur_bone.position.y).ToString();
+			PosZ.Text = ((decimal)cur_bone.position.z).ToString();
+			RotX.Text = ((decimal)cur_bone.rotation.x).ToString();
+			RotY.Text = ((decimal)cur_bone.rotation.y).ToString();
+			RotZ.Text = ((decimal)cur_bone.rotation.z).ToString();
+			MassX.Text = ((decimal)cur_bone.center_of_mass.x).ToString();
+			MassY.Text = ((decimal)cur_bone.center_of_mass.y).ToString();
+			MassZ.Text = ((decimal)cur_bone.center_of_mass.z).ToString();
+		}
+
+        private void JointType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+			if (JointType.SelectedIndex == -1) return;
+
+			switch (JointType.SelectedIndex)
+            {
+				case 0: // Rigid
+					LimitsBox.Enabled = false;
+					AxisX.Enabled = true;
+					AxisX.Text = "Axis X";
+					AxisY.Enabled = true;
+					AxisY.Text = "Axis Y";
+					AxisZ.Enabled = true;
+					Steer.Enabled = true;
+					JointFriction.Enabled = false;
+					JointFrictionLabel.Enabled = false;
+					JointSpring.Enabled = false;
+					JointSpringLabel.Enabled = false;
+					JointDamping.Enabled = false;
+					JointDampingLabel.Enabled = false;
+					break;
+				case 1: // Cloth
+					LimitsBox.Enabled = false;
+					AxisX.Enabled = true;
+					AxisX.Text = "Axis X";
+					AxisY.Enabled = true;
+					AxisY.Text = "Axis Y";
+					AxisZ.Enabled = true;
+					Steer.Enabled = true;
+					JointFriction.Enabled = true;
+					JointFrictionLabel.Enabled = true;
+					JointSpring.Enabled = true;
+					JointSpringLabel.Enabled = true;
+					JointDamping.Enabled = true;
+					JointDampingLabel.Enabled = true;
+					break;
+				case 2: // Joint
+					LimitsBox.Enabled = true;
+					AxisX.Enabled = true;
+					AxisX.Text = "Axis X";
+					AxisY.Enabled = true;
+					AxisY.Text = "Axis Y";
+					AxisZ.Enabled = true;
+					Steer.Enabled = false;
+					JointFriction.Enabled = true;
+					JointFrictionLabel.Enabled = true;
+					JointSpring.Enabled = true;
+					JointSpringLabel.Enabled = true;
+					JointDamping.Enabled = true;
+					JointDampingLabel.Enabled = true;
+					break;
+				case 3: // Wheel
+					LimitsBox.Enabled = true;
+					AxisX.Enabled = true;
+					AxisX.Text = "Axis X";
+					AxisY.Enabled = false;
+					AxisY.Text = "Axis Y";
+					AxisZ.Enabled = false;
+					Steer.Enabled = false;
+					JointFriction.Enabled = true;
+					JointFrictionLabel.Enabled = true;
+					JointSpring.Enabled = true;
+					JointSpringLabel.Enabled = true;
+					JointDamping.Enabled = true;
+					JointDampingLabel.Enabled = true;
+					break;
+				case 4: // Slider
+					LimitsBox.Enabled = true;
+					AxisX.Enabled = true;
+					AxisX.Text = "Slide Z";
+					AxisY.Enabled = true;
+					AxisY.Text = "Rotate Z";
+					AxisZ.Enabled = false;
+					Steer.Enabled = false;
+					JointFriction.Enabled = true;
+					JointFrictionLabel.Enabled = true;
+					JointSpring.Enabled = true;
+					JointSpringLabel.Enabled = true;
+					JointDamping.Enabled = true;
+					JointDampingLabel.Enabled = true;
+					break;
+			}
+		}
+    }
 }

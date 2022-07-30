@@ -119,43 +119,43 @@ namespace Object_tool
             this.OpenLtxDialog = new System.Windows.Forms.OpenFileDialog();
             this.SaveBonePartsDialog = new System.Windows.Forms.SaveFileDialog();
             this.BonesPage = new System.Windows.Forms.TabPage();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.textBox6 = new System.Windows.Forms.TextBox();
-            this.textBox11 = new System.Windows.Forms.TextBox();
-            this.textBox14 = new System.Windows.Forms.TextBox();
-            this.textBox12 = new System.Windows.Forms.TextBox();
-            this.textBox13 = new System.Windows.Forms.TextBox();
+            this.BoneBox = new System.Windows.Forms.GroupBox();
+            this.RotZ = new System.Windows.Forms.TextBox();
+            this.PosZ = new System.Windows.Forms.TextBox();
+            this.MassZ = new System.Windows.Forms.TextBox();
+            this.RotX = new System.Windows.Forms.TextBox();
+            this.RotY = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.textBox9 = new System.Windows.Forms.TextBox();
-            this.textBox10 = new System.Windows.Forms.TextBox();
+            this.PosX = new System.Windows.Forms.TextBox();
+            this.PosY = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.textBox8 = new System.Windows.Forms.TextBox();
-            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.MassX = new System.Windows.Forms.TextBox();
+            this.MassY = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.BoneMass = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.BoneMaterial = new System.Windows.Forms.ComboBox();
+            this.BoneName = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.DeleteBoneButton = new System.Windows.Forms.Button();
             this.AddBoneButton = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.JointBox = new System.Windows.Forms.GroupBox();
+            this.JointDamping = new System.Windows.Forms.TextBox();
+            this.JointDampingLabel = new System.Windows.Forms.Label();
+            this.JointSpring = new System.Windows.Forms.TextBox();
+            this.JointSpringLabel = new System.Windows.Forms.Label();
+            this.JointFriction = new System.Windows.Forms.TextBox();
+            this.JointFrictionLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.checkBox6 = new System.Windows.Forms.CheckBox();
+            this.JointType = new System.Windows.Forms.ComboBox();
+            this.Breakable = new System.Windows.Forms.CheckBox();
             this.ShapeBox = new System.Windows.Forms.GroupBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
-            this.checkBox5 = new System.Windows.Forms.CheckBox();
+            this.ShapeType = new System.Windows.Forms.ComboBox();
+            this.NoPickable = new System.Windows.Forms.CheckBox();
+            this.NoPhysics = new System.Windows.Forms.CheckBox();
+            this.RemoveAfterBreak = new System.Windows.Forms.CheckBox();
+            this.NoFogCollider = new System.Windows.Forms.CheckBox();
             this.BonesList = new System.Windows.Forms.ListBox();
             this.FlagsPage = new System.Windows.Forms.TabPage();
             this.label12 = new System.Windows.Forms.Label();
@@ -204,7 +204,7 @@ namespace Object_tool
             this.OpenMotionRefsDialog = new System.Windows.Forms.OpenFileDialog();
             this.SaveUserDataDialog = new System.Windows.Forms.SaveFileDialog();
             this.SaveMotionRefsDialog = new System.Windows.Forms.SaveFileDialog();
-            this.Limits = new System.Windows.Forms.GroupBox();
+            this.LimitsBox = new System.Windows.Forms.GroupBox();
             this.AxisX = new System.Windows.Forms.GroupBox();
             this.textBox15 = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
@@ -240,8 +240,8 @@ namespace Object_tool
             this.MenuPanel.SuspendLayout();
             this.StatusPanel.SuspendLayout();
             this.BonesPage.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.BoneBox.SuspendLayout();
+            this.JointBox.SuspendLayout();
             this.ShapeBox.SuspendLayout();
             this.FlagsPage.SuspendLayout();
             this.FlagsGroupBox.SuspendLayout();
@@ -257,7 +257,7 @@ namespace Object_tool
             this.MotionRefsPage.SuspendLayout();
             this.UserDataPage.SuspendLayout();
             this.LodPage.SuspendLayout();
-            this.Limits.SuspendLayout();
+            this.LimitsBox.SuspendLayout();
             this.AxisX.SuspendLayout();
             this.AxisY.SuspendLayout();
             this.AxisZ.SuspendLayout();
@@ -288,7 +288,7 @@ namespace Object_tool
             this.settingsToolStripMenuItem});
             this.MenuPanel.Location = new System.Drawing.Point(0, 0);
             this.MenuPanel.Name = "MenuPanel";
-            this.MenuPanel.Size = new System.Drawing.Size(439, 24);
+            this.MenuPanel.Size = new System.Drawing.Size(561, 24);
             this.MenuPanel.TabIndex = 11;
             this.MenuPanel.Text = "menuStrip1";
             // 
@@ -906,9 +906,9 @@ namespace Object_tool
             this.StatusPanel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileLabel,
             this.StatusFile});
-            this.StatusPanel.Location = new System.Drawing.Point(0, 424);
+            this.StatusPanel.Location = new System.Drawing.Point(0, 729);
             this.StatusPanel.Name = "StatusPanel";
-            this.StatusPanel.Size = new System.Drawing.Size(439, 22);
+            this.StatusPanel.Size = new System.Drawing.Size(561, 22);
             this.StatusPanel.TabIndex = 31;
             this.StatusPanel.Text = "statusStrip1";
             // 
@@ -963,81 +963,81 @@ namespace Object_tool
             // BonesPage
             // 
             this.BonesPage.AutoScroll = true;
-            this.BonesPage.Controls.Add(this.Limits);
-            this.BonesPage.Controls.Add(this.groupBox2);
+            this.BonesPage.Controls.Add(this.LimitsBox);
+            this.BonesPage.Controls.Add(this.BoneBox);
             this.BonesPage.Controls.Add(this.DeleteBoneButton);
             this.BonesPage.Controls.Add(this.AddBoneButton);
-            this.BonesPage.Controls.Add(this.groupBox1);
+            this.BonesPage.Controls.Add(this.JointBox);
             this.BonesPage.Controls.Add(this.ShapeBox);
             this.BonesPage.Controls.Add(this.BonesList);
             this.BonesPage.Location = new System.Drawing.Point(4, 25);
             this.BonesPage.Name = "BonesPage";
-            this.BonesPage.Size = new System.Drawing.Size(531, 665);
+            this.BonesPage.Size = new System.Drawing.Size(529, 661);
             this.BonesPage.TabIndex = 2;
             this.BonesPage.Text = "Bones";
             this.BonesPage.UseVisualStyleBackColor = true;
             // 
-            // groupBox2
+            // BoneBox
             // 
-            this.groupBox2.Controls.Add(this.textBox6);
-            this.groupBox2.Controls.Add(this.textBox11);
-            this.groupBox2.Controls.Add(this.textBox14);
-            this.groupBox2.Controls.Add(this.textBox12);
-            this.groupBox2.Controls.Add(this.textBox13);
-            this.groupBox2.Controls.Add(this.label11);
-            this.groupBox2.Controls.Add(this.textBox9);
-            this.groupBox2.Controls.Add(this.textBox10);
-            this.groupBox2.Controls.Add(this.label10);
-            this.groupBox2.Controls.Add(this.textBox8);
-            this.groupBox2.Controls.Add(this.textBox7);
-            this.groupBox2.Controls.Add(this.label9);
-            this.groupBox2.Controls.Add(this.textBox2);
-            this.groupBox2.Controls.Add(this.label8);
-            this.groupBox2.Controls.Add(this.label7);
-            this.groupBox2.Controls.Add(this.comboBox3);
-            this.groupBox2.Controls.Add(this.textBox1);
-            this.groupBox2.Controls.Add(this.label6);
-            this.groupBox2.Location = new System.Drawing.Point(232, 155);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(290, 183);
-            this.groupBox2.TabIndex = 11;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Bone";
+            this.BoneBox.Controls.Add(this.RotZ);
+            this.BoneBox.Controls.Add(this.PosZ);
+            this.BoneBox.Controls.Add(this.MassZ);
+            this.BoneBox.Controls.Add(this.RotX);
+            this.BoneBox.Controls.Add(this.RotY);
+            this.BoneBox.Controls.Add(this.label11);
+            this.BoneBox.Controls.Add(this.PosX);
+            this.BoneBox.Controls.Add(this.PosY);
+            this.BoneBox.Controls.Add(this.label10);
+            this.BoneBox.Controls.Add(this.MassX);
+            this.BoneBox.Controls.Add(this.MassY);
+            this.BoneBox.Controls.Add(this.label9);
+            this.BoneBox.Controls.Add(this.BoneMass);
+            this.BoneBox.Controls.Add(this.label8);
+            this.BoneBox.Controls.Add(this.label7);
+            this.BoneBox.Controls.Add(this.BoneMaterial);
+            this.BoneBox.Controls.Add(this.BoneName);
+            this.BoneBox.Controls.Add(this.label6);
+            this.BoneBox.Location = new System.Drawing.Point(232, 155);
+            this.BoneBox.Name = "BoneBox";
+            this.BoneBox.Size = new System.Drawing.Size(290, 183);
+            this.BoneBox.TabIndex = 11;
+            this.BoneBox.TabStop = false;
+            this.BoneBox.Text = "Bone";
             // 
-            // textBox6
+            // RotZ
             // 
-            this.textBox6.Location = new System.Drawing.Point(221, 154);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(62, 20);
-            this.textBox6.TabIndex = 28;
+            this.RotZ.Location = new System.Drawing.Point(221, 154);
+            this.RotZ.Name = "RotZ";
+            this.RotZ.Size = new System.Drawing.Size(62, 20);
+            this.RotZ.TabIndex = 28;
             // 
-            // textBox11
+            // PosZ
             // 
-            this.textBox11.Location = new System.Drawing.Point(221, 128);
-            this.textBox11.Name = "textBox11";
-            this.textBox11.Size = new System.Drawing.Size(62, 20);
-            this.textBox11.TabIndex = 27;
+            this.PosZ.Location = new System.Drawing.Point(221, 128);
+            this.PosZ.Name = "PosZ";
+            this.PosZ.Size = new System.Drawing.Size(62, 20);
+            this.PosZ.TabIndex = 27;
             // 
-            // textBox14
+            // MassZ
             // 
-            this.textBox14.Location = new System.Drawing.Point(221, 102);
-            this.textBox14.Name = "textBox14";
-            this.textBox14.Size = new System.Drawing.Size(62, 20);
-            this.textBox14.TabIndex = 26;
+            this.MassZ.Location = new System.Drawing.Point(221, 102);
+            this.MassZ.Name = "MassZ";
+            this.MassZ.Size = new System.Drawing.Size(62, 20);
+            this.MassZ.TabIndex = 26;
             // 
-            // textBox12
+            // RotX
             // 
-            this.textBox12.Location = new System.Drawing.Point(90, 154);
-            this.textBox12.Name = "textBox12";
-            this.textBox12.Size = new System.Drawing.Size(62, 20);
-            this.textBox12.TabIndex = 25;
+            this.RotX.Location = new System.Drawing.Point(90, 154);
+            this.RotX.Name = "RotX";
+            this.RotX.Size = new System.Drawing.Size(62, 20);
+            this.RotX.TabIndex = 25;
             // 
-            // textBox13
+            // RotY
             // 
-            this.textBox13.Location = new System.Drawing.Point(156, 154);
-            this.textBox13.Name = "textBox13";
-            this.textBox13.Size = new System.Drawing.Size(62, 20);
-            this.textBox13.TabIndex = 24;
+            this.RotY.Location = new System.Drawing.Point(156, 154);
+            this.RotY.Name = "RotY";
+            this.RotY.Size = new System.Drawing.Size(62, 20);
+            this.RotY.TabIndex = 24;
             // 
             // label11
             // 
@@ -1048,19 +1048,19 @@ namespace Object_tool
             this.label11.TabIndex = 22;
             this.label11.Text = "Rotation:";
             // 
-            // textBox9
+            // PosX
             // 
-            this.textBox9.Location = new System.Drawing.Point(90, 128);
-            this.textBox9.Name = "textBox9";
-            this.textBox9.Size = new System.Drawing.Size(62, 20);
-            this.textBox9.TabIndex = 21;
+            this.PosX.Location = new System.Drawing.Point(90, 128);
+            this.PosX.Name = "PosX";
+            this.PosX.Size = new System.Drawing.Size(62, 20);
+            this.PosX.TabIndex = 21;
             // 
-            // textBox10
+            // PosY
             // 
-            this.textBox10.Location = new System.Drawing.Point(156, 128);
-            this.textBox10.Name = "textBox10";
-            this.textBox10.Size = new System.Drawing.Size(62, 20);
-            this.textBox10.TabIndex = 20;
+            this.PosY.Location = new System.Drawing.Point(156, 128);
+            this.PosY.Name = "PosY";
+            this.PosY.Size = new System.Drawing.Size(62, 20);
+            this.PosY.TabIndex = 20;
             // 
             // label10
             // 
@@ -1071,19 +1071,19 @@ namespace Object_tool
             this.label10.TabIndex = 18;
             this.label10.Text = "Position:";
             // 
-            // textBox8
+            // MassX
             // 
-            this.textBox8.Location = new System.Drawing.Point(90, 102);
-            this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(62, 20);
-            this.textBox8.TabIndex = 17;
+            this.MassX.Location = new System.Drawing.Point(90, 102);
+            this.MassX.Name = "MassX";
+            this.MassX.Size = new System.Drawing.Size(62, 20);
+            this.MassX.TabIndex = 17;
             // 
-            // textBox7
+            // MassY
             // 
-            this.textBox7.Location = new System.Drawing.Point(156, 102);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(62, 20);
-            this.textBox7.TabIndex = 16;
+            this.MassY.Location = new System.Drawing.Point(156, 102);
+            this.MassY.Name = "MassY";
+            this.MassY.Size = new System.Drawing.Size(62, 20);
+            this.MassY.TabIndex = 16;
             // 
             // label9
             // 
@@ -1094,12 +1094,12 @@ namespace Object_tool
             this.label9.TabIndex = 9;
             this.label9.Text = "Center of mass:";
             // 
-            // textBox2
+            // BoneMass
             // 
-            this.textBox2.Location = new System.Drawing.Point(60, 75);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(223, 20);
-            this.textBox2.TabIndex = 5;
+            this.BoneMass.Location = new System.Drawing.Point(60, 75);
+            this.BoneMass.Name = "BoneMass";
+            this.BoneMass.Size = new System.Drawing.Size(223, 20);
+            this.BoneMass.TabIndex = 5;
             // 
             // label8
             // 
@@ -1119,20 +1119,20 @@ namespace Object_tool
             this.label7.TabIndex = 3;
             this.label7.Text = "Material:";
             // 
-            // comboBox3
+            // BoneMaterial
             // 
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(60, 44);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(223, 21);
-            this.comboBox3.TabIndex = 2;
+            this.BoneMaterial.FormattingEnabled = true;
+            this.BoneMaterial.Location = new System.Drawing.Point(60, 44);
+            this.BoneMaterial.Name = "BoneMaterial";
+            this.BoneMaterial.Size = new System.Drawing.Size(223, 21);
+            this.BoneMaterial.TabIndex = 2;
             // 
-            // textBox1
+            // BoneName
             // 
-            this.textBox1.Location = new System.Drawing.Point(60, 17);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(223, 20);
-            this.textBox1.TabIndex = 1;
+            this.BoneName.Location = new System.Drawing.Point(60, 17);
+            this.BoneName.Name = "BoneName";
+            this.BoneName.Size = new System.Drawing.Size(223, 20);
+            this.BoneName.TabIndex = 1;
             // 
             // label6
             // 
@@ -1161,77 +1161,77 @@ namespace Object_tool
             this.AddBoneButton.Text = "Add bone";
             this.AddBoneButton.UseVisualStyleBackColor = true;
             // 
-            // groupBox1
+            // JointBox
             // 
-            this.groupBox1.Controls.Add(this.textBox3);
-            this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.textBox4);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.textBox5);
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.comboBox2);
-            this.groupBox1.Controls.Add(this.checkBox6);
-            this.groupBox1.Location = new System.Drawing.Point(370, 4);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(152, 145);
-            this.groupBox1.TabIndex = 8;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Joint";
+            this.JointBox.Controls.Add(this.JointDamping);
+            this.JointBox.Controls.Add(this.JointDampingLabel);
+            this.JointBox.Controls.Add(this.JointSpring);
+            this.JointBox.Controls.Add(this.JointSpringLabel);
+            this.JointBox.Controls.Add(this.JointFriction);
+            this.JointBox.Controls.Add(this.JointFrictionLabel);
+            this.JointBox.Controls.Add(this.label2);
+            this.JointBox.Controls.Add(this.JointType);
+            this.JointBox.Controls.Add(this.Breakable);
+            this.JointBox.Location = new System.Drawing.Point(370, 4);
+            this.JointBox.Name = "JointBox";
+            this.JointBox.Size = new System.Drawing.Size(152, 145);
+            this.JointBox.TabIndex = 8;
+            this.JointBox.TabStop = false;
+            this.JointBox.Text = "Joint";
             // 
-            // textBox3
+            // JointDamping
             // 
-            this.textBox3.Location = new System.Drawing.Point(87, 116);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(58, 20);
-            this.textBox3.TabIndex = 31;
+            this.JointDamping.Location = new System.Drawing.Point(87, 116);
+            this.JointDamping.Name = "JointDamping";
+            this.JointDamping.Size = new System.Drawing.Size(58, 20);
+            this.JointDamping.TabIndex = 31;
             // 
-            // label5
+            // JointDampingLabel
             // 
-            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.JointDampingLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(3, 119);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(85, 13);
-            this.label5.TabIndex = 14;
-            this.label5.Text = "Damping Factor:";
+            this.JointDampingLabel.AutoSize = true;
+            this.JointDampingLabel.Location = new System.Drawing.Point(3, 119);
+            this.JointDampingLabel.Name = "JointDampingLabel";
+            this.JointDampingLabel.Size = new System.Drawing.Size(85, 13);
+            this.JointDampingLabel.TabIndex = 14;
+            this.JointDampingLabel.Text = "Damping Factor:";
             // 
-            // textBox4
+            // JointSpring
             // 
-            this.textBox4.Location = new System.Drawing.Point(87, 93);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(58, 20);
-            this.textBox4.TabIndex = 30;
+            this.JointSpring.Location = new System.Drawing.Point(87, 93);
+            this.JointSpring.Name = "JointSpring";
+            this.JointSpring.Size = new System.Drawing.Size(58, 20);
+            this.JointSpring.TabIndex = 30;
             // 
-            // label4
+            // JointSpringLabel
             // 
-            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.JointSpringLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 96);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(73, 13);
-            this.label4.TabIndex = 13;
-            this.label4.Text = "Spring Factor:";
+            this.JointSpringLabel.AutoSize = true;
+            this.JointSpringLabel.Location = new System.Drawing.Point(3, 96);
+            this.JointSpringLabel.Name = "JointSpringLabel";
+            this.JointSpringLabel.Size = new System.Drawing.Size(73, 13);
+            this.JointSpringLabel.TabIndex = 13;
+            this.JointSpringLabel.Text = "Spring Factor:";
             // 
-            // textBox5
+            // JointFriction
             // 
-            this.textBox5.Location = new System.Drawing.Point(87, 70);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(58, 20);
-            this.textBox5.TabIndex = 29;
+            this.JointFriction.Location = new System.Drawing.Point(87, 70);
+            this.JointFriction.Name = "JointFriction";
+            this.JointFriction.Size = new System.Drawing.Size(58, 20);
+            this.JointFriction.TabIndex = 29;
             // 
-            // label3
+            // JointFrictionLabel
             // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.JointFrictionLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 73);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(44, 13);
-            this.label3.TabIndex = 12;
-            this.label3.Text = "Friction:";
+            this.JointFrictionLabel.AutoSize = true;
+            this.JointFrictionLabel.Location = new System.Drawing.Point(3, 73);
+            this.JointFrictionLabel.Name = "JointFrictionLabel";
+            this.JointFrictionLabel.Size = new System.Drawing.Size(44, 13);
+            this.JointFrictionLabel.TabIndex = 12;
+            this.JointFrictionLabel.Text = "Friction:";
             // 
             // label2
             // 
@@ -1244,38 +1244,39 @@ namespace Object_tool
             this.label2.TabIndex = 11;
             this.label2.Text = "Type:";
             // 
-            // comboBox2
+            // JointType
             // 
-            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Items.AddRange(new object[] {
+            this.JointType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.JointType.FormattingEnabled = true;
+            this.JointType.Items.AddRange(new object[] {
             "Rigid",
             "Cloth",
             "Joint",
             "Wheel",
             "Slider"});
-            this.comboBox2.Location = new System.Drawing.Point(38, 43);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(107, 21);
-            this.comboBox2.TabIndex = 1;
+            this.JointType.Location = new System.Drawing.Point(38, 43);
+            this.JointType.Name = "JointType";
+            this.JointType.Size = new System.Drawing.Size(107, 21);
+            this.JointType.TabIndex = 1;
+            this.JointType.SelectedIndexChanged += new System.EventHandler(this.JointType_SelectedIndexChanged);
             // 
-            // checkBox6
+            // Breakable
             // 
-            this.checkBox6.AutoSize = true;
-            this.checkBox6.Location = new System.Drawing.Point(6, 19);
-            this.checkBox6.Name = "checkBox6";
-            this.checkBox6.Size = new System.Drawing.Size(74, 17);
-            this.checkBox6.TabIndex = 0;
-            this.checkBox6.Text = "Breakable";
-            this.checkBox6.UseVisualStyleBackColor = true;
+            this.Breakable.AutoSize = true;
+            this.Breakable.Location = new System.Drawing.Point(6, 19);
+            this.Breakable.Name = "Breakable";
+            this.Breakable.Size = new System.Drawing.Size(74, 17);
+            this.Breakable.TabIndex = 0;
+            this.Breakable.Text = "Breakable";
+            this.Breakable.UseVisualStyleBackColor = true;
             // 
             // ShapeBox
             // 
-            this.ShapeBox.Controls.Add(this.comboBox1);
-            this.ShapeBox.Controls.Add(this.checkBox1);
-            this.ShapeBox.Controls.Add(this.checkBox3);
-            this.ShapeBox.Controls.Add(this.checkBox4);
-            this.ShapeBox.Controls.Add(this.checkBox5);
+            this.ShapeBox.Controls.Add(this.ShapeType);
+            this.ShapeBox.Controls.Add(this.NoPickable);
+            this.ShapeBox.Controls.Add(this.NoPhysics);
+            this.ShapeBox.Controls.Add(this.RemoveAfterBreak);
+            this.ShapeBox.Controls.Add(this.NoFogCollider);
             this.ShapeBox.Location = new System.Drawing.Point(232, 4);
             this.ShapeBox.Name = "ShapeBox";
             this.ShapeBox.Size = new System.Drawing.Size(132, 145);
@@ -1283,59 +1284,59 @@ namespace Object_tool
             this.ShapeBox.TabStop = false;
             this.ShapeBox.Text = "Shape";
             // 
-            // comboBox1
+            // ShapeType
             // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
+            this.ShapeType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ShapeType.FormattingEnabled = true;
+            this.ShapeType.Items.AddRange(new object[] {
             "None",
             "Box",
             "Sphere",
             "Cylinder"});
-            this.comboBox1.Location = new System.Drawing.Point(7, 115);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(116, 21);
-            this.comboBox1.TabIndex = 5;
+            this.ShapeType.Location = new System.Drawing.Point(7, 115);
+            this.ShapeType.Name = "ShapeType";
+            this.ShapeType.Size = new System.Drawing.Size(116, 21);
+            this.ShapeType.TabIndex = 5;
             // 
-            // checkBox1
+            // NoPickable
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(8, 19);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(84, 17);
-            this.checkBox1.TabIndex = 1;
-            this.checkBox1.Text = "No Pickable";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.NoPickable.AutoSize = true;
+            this.NoPickable.Location = new System.Drawing.Point(8, 19);
+            this.NoPickable.Name = "NoPickable";
+            this.NoPickable.Size = new System.Drawing.Size(84, 17);
+            this.NoPickable.TabIndex = 1;
+            this.NoPickable.Text = "No Pickable";
+            this.NoPickable.UseVisualStyleBackColor = true;
             // 
-            // checkBox3
+            // NoPhysics
             // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(8, 43);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(79, 17);
-            this.checkBox3.TabIndex = 2;
-            this.checkBox3.Text = "No Physics";
-            this.checkBox3.UseVisualStyleBackColor = true;
+            this.NoPhysics.AutoSize = true;
+            this.NoPhysics.Location = new System.Drawing.Point(8, 43);
+            this.NoPhysics.Name = "NoPhysics";
+            this.NoPhysics.Size = new System.Drawing.Size(79, 17);
+            this.NoPhysics.TabIndex = 2;
+            this.NoPhysics.Text = "No Physics";
+            this.NoPhysics.UseVisualStyleBackColor = true;
             // 
-            // checkBox4
+            // RemoveAfterBreak
             // 
-            this.checkBox4.AutoSize = true;
-            this.checkBox4.Location = new System.Drawing.Point(8, 67);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(122, 17);
-            this.checkBox4.TabIndex = 3;
-            this.checkBox4.Text = "Remove After Break";
-            this.checkBox4.UseVisualStyleBackColor = true;
+            this.RemoveAfterBreak.AutoSize = true;
+            this.RemoveAfterBreak.Location = new System.Drawing.Point(8, 67);
+            this.RemoveAfterBreak.Name = "RemoveAfterBreak";
+            this.RemoveAfterBreak.Size = new System.Drawing.Size(122, 17);
+            this.RemoveAfterBreak.TabIndex = 3;
+            this.RemoveAfterBreak.Text = "Remove After Break";
+            this.RemoveAfterBreak.UseVisualStyleBackColor = true;
             // 
-            // checkBox5
+            // NoFogCollider
             // 
-            this.checkBox5.AutoSize = true;
-            this.checkBox5.Location = new System.Drawing.Point(8, 91);
-            this.checkBox5.Name = "checkBox5";
-            this.checkBox5.Size = new System.Drawing.Size(98, 17);
-            this.checkBox5.TabIndex = 4;
-            this.checkBox5.Text = "No Fog Collider";
-            this.checkBox5.UseVisualStyleBackColor = true;
+            this.NoFogCollider.AutoSize = true;
+            this.NoFogCollider.Location = new System.Drawing.Point(8, 91);
+            this.NoFogCollider.Name = "NoFogCollider";
+            this.NoFogCollider.Size = new System.Drawing.Size(98, 17);
+            this.NoFogCollider.TabIndex = 4;
+            this.NoFogCollider.Text = "No Fog Collider";
+            this.NoFogCollider.UseVisualStyleBackColor = true;
             // 
             // BonesList
             // 
@@ -1344,6 +1345,7 @@ namespace Object_tool
             this.BonesList.Name = "BonesList";
             this.BonesList.Size = new System.Drawing.Size(226, 615);
             this.BonesList.TabIndex = 0;
+            this.BonesList.SelectedIndexChanged += new System.EventHandler(this.BoneListIndexChanged);
             // 
             // FlagsPage
             // 
@@ -1352,7 +1354,7 @@ namespace Object_tool
             this.FlagsPage.Controls.Add(this.FlagsGroupBox);
             this.FlagsPage.Location = new System.Drawing.Point(4, 25);
             this.FlagsPage.Name = "FlagsPage";
-            this.FlagsPage.Size = new System.Drawing.Size(407, 356);
+            this.FlagsPage.Size = new System.Drawing.Size(529, 661);
             this.FlagsPage.TabIndex = 0;
             this.FlagsPage.Text = "Flags";
             this.FlagsPage.UseVisualStyleBackColor = true;
@@ -1374,7 +1376,7 @@ namespace Object_tool
             this.LogTextBox.Location = new System.Drawing.Point(3, 252);
             this.LogTextBox.Name = "LogTextBox";
             this.LogTextBox.ReadOnly = true;
-            this.LogTextBox.Size = new System.Drawing.Size(401, 101);
+            this.LogTextBox.Size = new System.Drawing.Size(523, 406);
             this.LogTextBox.TabIndex = 17;
             this.LogTextBox.Text = "";
             // 
@@ -1385,7 +1387,7 @@ namespace Object_tool
             this.FlagsGroupBox.Controls.Add(this.tableLayoutPanel1);
             this.FlagsGroupBox.Location = new System.Drawing.Point(0, 0);
             this.FlagsGroupBox.Name = "FlagsGroupBox";
-            this.FlagsGroupBox.Size = new System.Drawing.Size(407, 234);
+            this.FlagsGroupBox.Size = new System.Drawing.Size(529, 234);
             this.FlagsGroupBox.TabIndex = 16;
             this.FlagsGroupBox.TabStop = false;
             this.FlagsGroupBox.Text = "Edit export flags";
@@ -1403,7 +1405,7 @@ namespace Object_tool
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(401, 215);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(523, 215);
             this.tableLayoutPanel1.TabIndex = 24;
             // 
             // tableLayoutPanel2
@@ -1419,7 +1421,7 @@ namespace Object_tool
             this.tableLayoutPanel2.RowCount = 2;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(170, 215);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(222, 215);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // ScaleGroupBox
@@ -1430,7 +1432,7 @@ namespace Object_tool
             this.ScaleGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
             this.ScaleGroupBox.Location = new System.Drawing.Point(3, 119);
             this.ScaleGroupBox.Name = "ScaleGroupBox";
-            this.ScaleGroupBox.Size = new System.Drawing.Size(164, 93);
+            this.ScaleGroupBox.Size = new System.Drawing.Size(216, 93);
             this.ScaleGroupBox.TabIndex = 23;
             this.ScaleGroupBox.TabStop = false;
             this.ScaleGroupBox.Text = "Scale";
@@ -1450,7 +1452,7 @@ namespace Object_tool
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ObjectScaleTextBox.Location = new System.Drawing.Point(78, 16);
             this.ObjectScaleTextBox.Name = "ObjectScaleTextBox";
-            this.ObjectScaleTextBox.Size = new System.Drawing.Size(80, 20);
+            this.ObjectScaleTextBox.Size = new System.Drawing.Size(132, 20);
             this.ObjectScaleTextBox.TabIndex = 16;
             this.ObjectScaleTextBox.Text = "1";
             this.ObjectScaleTextBox.TextChanged += new System.EventHandler(this.ScaleTextChanged);
@@ -1478,7 +1480,7 @@ namespace Object_tool
             this.MotionFlagsGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MotionFlagsGroupBox.Location = new System.Drawing.Point(3, 3);
             this.MotionFlagsGroupBox.Name = "MotionFlagsGroupBox";
-            this.MotionFlagsGroupBox.Size = new System.Drawing.Size(164, 110);
+            this.MotionFlagsGroupBox.Size = new System.Drawing.Size(216, 110);
             this.MotionFlagsGroupBox.TabIndex = 22;
             this.MotionFlagsGroupBox.TabStop = false;
             this.MotionFlagsGroupBox.Text = "Motion export";
@@ -1538,9 +1540,9 @@ namespace Object_tool
             this.ModelFlagsGroupBox.Controls.Add(this.ProgressiveMeshes);
             this.ModelFlagsGroupBox.Controls.Add(this.OptimizeSurfaces);
             this.ModelFlagsGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
-            this.ModelFlagsGroupBox.Location = new System.Drawing.Point(173, 3);
+            this.ModelFlagsGroupBox.Location = new System.Drawing.Point(225, 3);
             this.ModelFlagsGroupBox.Name = "ModelFlagsGroupBox";
-            this.ModelFlagsGroupBox.Size = new System.Drawing.Size(225, 209);
+            this.ModelFlagsGroupBox.Size = new System.Drawing.Size(295, 209);
             this.ModelFlagsGroupBox.TabIndex = 21;
             this.ModelFlagsGroupBox.TabStop = false;
             this.ModelFlagsGroupBox.Text = "Model export";
@@ -1562,7 +1564,7 @@ namespace Object_tool
             this.SmoothTypeGroupBox.Controls.Add(this.tableLayoutPanel3);
             this.SmoothTypeGroupBox.Location = new System.Drawing.Point(6, 158);
             this.SmoothTypeGroupBox.Name = "SmoothTypeGroupBox";
-            this.SmoothTypeGroupBox.Size = new System.Drawing.Size(213, 44);
+            this.SmoothTypeGroupBox.Size = new System.Drawing.Size(283, 44);
             this.SmoothTypeGroupBox.TabIndex = 23;
             this.SmoothTypeGroupBox.TabStop = false;
             this.SmoothTypeGroupBox.Text = "Smooth Type";
@@ -1582,14 +1584,14 @@ namespace Object_tool
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(207, 25);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(277, 25);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
             // UseSplitNormals
             // 
             this.UseSplitNormals.AutoSize = true;
             this.UseSplitNormals.Dock = System.Windows.Forms.DockStyle.Left;
-            this.UseSplitNormals.Location = new System.Drawing.Point(141, 3);
+            this.UseSplitNormals.Location = new System.Drawing.Point(176, 3);
             this.UseSplitNormals.Name = "UseSplitNormals";
             this.UseSplitNormals.Size = new System.Drawing.Size(63, 19);
             this.UseSplitNormals.TabIndex = 2;
@@ -1602,7 +1604,7 @@ namespace Object_tool
             this.SmoothCoP.AutoSize = true;
             this.SmoothCoP.Checked = true;
             this.SmoothCoP.Dock = System.Windows.Forms.DockStyle.Left;
-            this.SmoothCoP.Location = new System.Drawing.Point(71, 3);
+            this.SmoothCoP.Location = new System.Drawing.Point(106, 3);
             this.SmoothCoP.Name = "SmoothCoP";
             this.SmoothCoP.Size = new System.Drawing.Size(64, 19);
             this.SmoothCoP.TabIndex = 1;
@@ -1614,7 +1616,7 @@ namespace Object_tool
             // 
             this.SmoothSoC.AutoSize = true;
             this.SmoothSoC.Dock = System.Windows.Forms.DockStyle.Right;
-            this.SmoothSoC.Location = new System.Drawing.Point(20, 3);
+            this.SmoothSoC.Location = new System.Drawing.Point(55, 3);
             this.SmoothSoC.Name = "SmoothSoC";
             this.SmoothSoC.Size = new System.Drawing.Size(45, 19);
             this.SmoothSoC.TabIndex = 0;
@@ -1691,7 +1693,7 @@ namespace Object_tool
             this.TabControl.Location = new System.Drawing.Point(12, 27);
             this.TabControl.Name = "TabControl";
             this.TabControl.SelectedIndex = 0;
-            this.TabControl.Size = new System.Drawing.Size(415, 385);
+            this.TabControl.Size = new System.Drawing.Size(537, 690);
             this.TabControl.TabIndex = 10;
             this.TabControl.SelectedIndexChanged += new System.EventHandler(this.IndexChanged);
             this.TabControl.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EditorKeyDown);
@@ -1702,7 +1704,7 @@ namespace Object_tool
             this.SurfacesPage.AutoScroll = true;
             this.SurfacesPage.Location = new System.Drawing.Point(4, 25);
             this.SurfacesPage.Name = "SurfacesPage";
-            this.SurfacesPage.Size = new System.Drawing.Size(531, 665);
+            this.SurfacesPage.Size = new System.Drawing.Size(529, 661);
             this.SurfacesPage.TabIndex = 3;
             this.SurfacesPage.Text = "Surfaces";
             this.SurfacesPage.UseVisualStyleBackColor = true;
@@ -1712,7 +1714,7 @@ namespace Object_tool
             this.MotionPage.Controls.Add(this.MotionTextBox);
             this.MotionPage.Location = new System.Drawing.Point(4, 25);
             this.MotionPage.Name = "MotionPage";
-            this.MotionPage.Size = new System.Drawing.Size(531, 665);
+            this.MotionPage.Size = new System.Drawing.Size(529, 661);
             this.MotionPage.TabIndex = 4;
             this.MotionPage.Text = "Motions";
             this.MotionPage.UseVisualStyleBackColor = true;
@@ -1725,7 +1727,7 @@ namespace Object_tool
             this.MotionTextBox.Location = new System.Drawing.Point(0, 0);
             this.MotionTextBox.Name = "MotionTextBox";
             this.MotionTextBox.ReadOnly = true;
-            this.MotionTextBox.Size = new System.Drawing.Size(531, 665);
+            this.MotionTextBox.Size = new System.Drawing.Size(529, 661);
             this.MotionTextBox.TabIndex = 0;
             this.MotionTextBox.Text = "";
             // 
@@ -1734,7 +1736,7 @@ namespace Object_tool
             this.MotionRefsPage.Controls.Add(this.MotionRefsBox);
             this.MotionRefsPage.Location = new System.Drawing.Point(4, 25);
             this.MotionRefsPage.Name = "MotionRefsPage";
-            this.MotionRefsPage.Size = new System.Drawing.Size(531, 665);
+            this.MotionRefsPage.Size = new System.Drawing.Size(529, 661);
             this.MotionRefsPage.TabIndex = 7;
             this.MotionRefsPage.Text = "Motion Refs";
             this.MotionRefsPage.UseVisualStyleBackColor = true;
@@ -1746,7 +1748,7 @@ namespace Object_tool
             | System.Windows.Forms.AnchorStyles.Right)));
             this.MotionRefsBox.Location = new System.Drawing.Point(0, 0);
             this.MotionRefsBox.Name = "MotionRefsBox";
-            this.MotionRefsBox.Size = new System.Drawing.Size(531, 665);
+            this.MotionRefsBox.Size = new System.Drawing.Size(529, 661);
             this.MotionRefsBox.TabIndex = 0;
             this.MotionRefsBox.Text = "";
             this.MotionRefsBox.TextChanged += new System.EventHandler(this.MotionRefsTextChanged);
@@ -1757,7 +1759,7 @@ namespace Object_tool
             this.UserDataPage.Controls.Add(this.UserDataTextBox);
             this.UserDataPage.Location = new System.Drawing.Point(4, 25);
             this.UserDataPage.Name = "UserDataPage";
-            this.UserDataPage.Size = new System.Drawing.Size(531, 665);
+            this.UserDataPage.Size = new System.Drawing.Size(529, 661);
             this.UserDataPage.TabIndex = 6;
             this.UserDataPage.Text = "User Data";
             this.UserDataPage.UseVisualStyleBackColor = true;
@@ -1769,7 +1771,7 @@ namespace Object_tool
             | System.Windows.Forms.AnchorStyles.Right)));
             this.UserDataTextBox.Location = new System.Drawing.Point(0, 0);
             this.UserDataTextBox.Name = "UserDataTextBox";
-            this.UserDataTextBox.Size = new System.Drawing.Size(531, 665);
+            this.UserDataTextBox.Size = new System.Drawing.Size(529, 661);
             this.UserDataTextBox.TabIndex = 0;
             this.UserDataTextBox.Text = "";
             this.UserDataTextBox.TextChanged += new System.EventHandler(this.UserDataTextChanged);
@@ -1782,7 +1784,7 @@ namespace Object_tool
             this.LodPage.Controls.Add(this.label1);
             this.LodPage.Location = new System.Drawing.Point(4, 25);
             this.LodPage.Name = "LodPage";
-            this.LodPage.Size = new System.Drawing.Size(407, 356);
+            this.LodPage.Size = new System.Drawing.Size(529, 661);
             this.LodPage.TabIndex = 5;
             this.LodPage.Text = "Lod Path";
             // 
@@ -1792,7 +1794,7 @@ namespace Object_tool
             | System.Windows.Forms.AnchorStyles.Right)));
             this.LodTextBox.Location = new System.Drawing.Point(6, 26);
             this.LodTextBox.Name = "LodTextBox";
-            this.LodTextBox.Size = new System.Drawing.Size(395, 20);
+            this.LodTextBox.Size = new System.Drawing.Size(517, 20);
             this.LodTextBox.TabIndex = 1;
             // 
             // label1
@@ -1841,18 +1843,18 @@ namespace Object_tool
             // 
             this.SaveMotionRefsDialog.Filter = "Ltx file|*.ltx|Txt file|*.txt";
             // 
-            // Limits
+            // LimitsBox
             // 
-            this.Limits.Controls.Add(this.Steer);
-            this.Limits.Controls.Add(this.AxisZ);
-            this.Limits.Controls.Add(this.AxisY);
-            this.Limits.Controls.Add(this.AxisX);
-            this.Limits.Location = new System.Drawing.Point(233, 345);
-            this.Limits.Name = "Limits";
-            this.Limits.Size = new System.Drawing.Size(289, 313);
-            this.Limits.TabIndex = 12;
-            this.Limits.TabStop = false;
-            this.Limits.Text = "Limits";
+            this.LimitsBox.Controls.Add(this.Steer);
+            this.LimitsBox.Controls.Add(this.AxisZ);
+            this.LimitsBox.Controls.Add(this.AxisY);
+            this.LimitsBox.Controls.Add(this.AxisX);
+            this.LimitsBox.Location = new System.Drawing.Point(233, 345);
+            this.LimitsBox.Name = "LimitsBox";
+            this.LimitsBox.Size = new System.Drawing.Size(289, 313);
+            this.LimitsBox.TabIndex = 12;
+            this.LimitsBox.TabStop = false;
+            this.LimitsBox.Text = "Limits";
             // 
             // AxisX
             // 
@@ -2159,7 +2161,7 @@ namespace Object_tool
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(439, 446);
+            this.ClientSize = new System.Drawing.Size(561, 751);
             this.Controls.Add(this.StatusPanel);
             this.Controls.Add(this.TabControl);
             this.Controls.Add(this.MenuPanel);
@@ -2176,10 +2178,10 @@ namespace Object_tool
             this.StatusPanel.ResumeLayout(false);
             this.StatusPanel.PerformLayout();
             this.BonesPage.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.BoneBox.ResumeLayout(false);
+            this.BoneBox.PerformLayout();
+            this.JointBox.ResumeLayout(false);
+            this.JointBox.PerformLayout();
             this.ShapeBox.ResumeLayout(false);
             this.ShapeBox.PerformLayout();
             this.FlagsPage.ResumeLayout(false);
@@ -2202,7 +2204,7 @@ namespace Object_tool
             this.UserDataPage.ResumeLayout(false);
             this.LodPage.ResumeLayout(false);
             this.LodPage.PerformLayout();
-            this.Limits.ResumeLayout(false);
+            this.LimitsBox.ResumeLayout(false);
             this.AxisX.ResumeLayout(false);
             this.AxisX.PerformLayout();
             this.AxisY.ResumeLayout(false);
@@ -2323,43 +2325,43 @@ namespace Object_tool
         private System.Windows.Forms.ToolStripMenuItem importObjectParamsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadScriptToolStripMenuItem;
         private System.Windows.Forms.ListBox BonesList;
-        private System.Windows.Forms.CheckBox checkBox5;
-        private System.Windows.Forms.CheckBox checkBox4;
-        private System.Windows.Forms.CheckBox checkBox3;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox NoFogCollider;
+        private System.Windows.Forms.CheckBox RemoveAfterBreak;
+        private System.Windows.Forms.CheckBox NoPhysics;
+        private System.Windows.Forms.CheckBox NoPickable;
         private System.Windows.Forms.GroupBox ShapeBox;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.ComboBox ShapeType;
+        private System.Windows.Forms.GroupBox JointBox;
         private System.Windows.Forms.Button DeleteBoneButton;
         private System.Windows.Forms.Button AddBoneButton;
-        private System.Windows.Forms.CheckBox checkBox6;
-        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.CheckBox Breakable;
+        private System.Windows.Forms.ComboBox JointType;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label JointDampingLabel;
+        private System.Windows.Forms.Label JointSpringLabel;
+        private System.Windows.Forms.Label JointFrictionLabel;
+        private System.Windows.Forms.GroupBox BoneBox;
+        private System.Windows.Forms.TextBox BoneName;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.ComboBox BoneMaterial;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox BoneMass;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox textBox8;
-        private System.Windows.Forms.TextBox textBox7;
-        private System.Windows.Forms.TextBox textBox12;
-        private System.Windows.Forms.TextBox textBox13;
+        private System.Windows.Forms.TextBox MassX;
+        private System.Windows.Forms.TextBox MassY;
+        private System.Windows.Forms.TextBox RotX;
+        private System.Windows.Forms.TextBox RotY;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TextBox textBox9;
-        private System.Windows.Forms.TextBox textBox10;
+        private System.Windows.Forms.TextBox PosX;
+        private System.Windows.Forms.TextBox PosY;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox textBox6;
-        private System.Windows.Forms.TextBox textBox11;
-        private System.Windows.Forms.TextBox textBox14;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox RotZ;
+        private System.Windows.Forms.TextBox PosZ;
+        private System.Windows.Forms.TextBox MassZ;
+        private System.Windows.Forms.TextBox JointDamping;
+        private System.Windows.Forms.TextBox JointSpring;
+        private System.Windows.Forms.TextBox JointFriction;
         private System.Windows.Forms.GroupBox SmoothTypeGroupBox;
         private System.Windows.Forms.RadioButton SmoothCoP;
         private System.Windows.Forms.RadioButton SmoothSoC;
@@ -2392,7 +2394,7 @@ namespace Object_tool
         private System.Windows.Forms.RichTextBox LogTextBox;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
-        private System.Windows.Forms.GroupBox Limits;
+        private System.Windows.Forms.GroupBox LimitsBox;
         private System.Windows.Forms.GroupBox AxisX;
         private System.Windows.Forms.TextBox textBox15;
         private System.Windows.Forms.Label label13;

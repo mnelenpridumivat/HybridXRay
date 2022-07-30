@@ -139,6 +139,15 @@ namespace Object_tool
             return reader.ReadBytes(count);
         }
 
+        public Fvector ReadVector()
+        {
+            Fvector vector = new Fvector();
+            vector.x = reader.ReadSingle();
+            vector.y = reader.ReadSingle();
+            vector.z = reader.ReadSingle();
+            return vector;
+        }
+
         public bool SetData(byte[] input)
         {
             if (input == null) return false;
