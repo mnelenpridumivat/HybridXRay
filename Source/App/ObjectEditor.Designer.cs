@@ -868,7 +868,7 @@ namespace Object_tool
             this.StatusPanel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileLabel,
             this.StatusFile});
-            this.StatusPanel.Location = new System.Drawing.Point(0, 359);
+            this.StatusPanel.Location = new System.Drawing.Point(0, 414);
             this.StatusPanel.Name = "StatusPanel";
             this.StatusPanel.Size = new System.Drawing.Size(439, 22);
             this.StatusPanel.TabIndex = 31;
@@ -933,7 +933,7 @@ namespace Object_tool
             this.BonesPage.Controls.Add(this.BonesList);
             this.BonesPage.Location = new System.Drawing.Point(4, 25);
             this.BonesPage.Name = "BonesPage";
-            this.BonesPage.Size = new System.Drawing.Size(407, 300);
+            this.BonesPage.Size = new System.Drawing.Size(407, 355);
             this.BonesPage.TabIndex = 2;
             this.BonesPage.Text = "Bones";
             this.BonesPage.UseVisualStyleBackColor = true;
@@ -1107,7 +1107,7 @@ namespace Object_tool
             // DeleteBoneButton
             // 
             this.DeleteBoneButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DeleteBoneButton.Location = new System.Drawing.Point(116, 4509);
+            this.DeleteBoneButton.Location = new System.Drawing.Point(116, 4724);
             this.DeleteBoneButton.Name = "DeleteBoneButton";
             this.DeleteBoneButton.Size = new System.Drawing.Size(110, 36);
             this.DeleteBoneButton.TabIndex = 10;
@@ -1117,7 +1117,7 @@ namespace Object_tool
             // AddBoneButton
             // 
             this.AddBoneButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.AddBoneButton.Location = new System.Drawing.Point(0, 4509);
+            this.AddBoneButton.Location = new System.Drawing.Point(0, 4724);
             this.AddBoneButton.Name = "AddBoneButton";
             this.AddBoneButton.Size = new System.Drawing.Size(110, 36);
             this.AddBoneButton.TabIndex = 9;
@@ -1139,7 +1139,7 @@ namespace Object_tool
             this.groupBox1.Controls.Add(this.checkBox6);
             this.groupBox1.Location = new System.Drawing.Point(370, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(2316, 145);
+            this.groupBox1.Size = new System.Drawing.Size(2431, 145);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Joint";
@@ -1317,7 +1317,7 @@ namespace Object_tool
             this.FlagsPage.Controls.Add(this.FlagsGroupBox);
             this.FlagsPage.Location = new System.Drawing.Point(4, 25);
             this.FlagsPage.Name = "FlagsPage";
-            this.FlagsPage.Size = new System.Drawing.Size(407, 300);
+            this.FlagsPage.Size = new System.Drawing.Size(407, 355);
             this.FlagsPage.TabIndex = 0;
             this.FlagsPage.Text = "Flags";
             this.FlagsPage.UseVisualStyleBackColor = true;
@@ -1339,7 +1339,7 @@ namespace Object_tool
             this.LogTextBox.Location = new System.Drawing.Point(3, 252);
             this.LogTextBox.Name = "LogTextBox";
             this.LogTextBox.ReadOnly = true;
-            this.LogTextBox.Size = new System.Drawing.Size(401, 45);
+            this.LogTextBox.Size = new System.Drawing.Size(401, 100);
             this.LogTextBox.TabIndex = 17;
             this.LogTextBox.Text = "";
             // 
@@ -1656,7 +1656,7 @@ namespace Object_tool
             this.TabControl.Location = new System.Drawing.Point(12, 27);
             this.TabControl.Name = "TabControl";
             this.TabControl.SelectedIndex = 0;
-            this.TabControl.Size = new System.Drawing.Size(415, 329);
+            this.TabControl.Size = new System.Drawing.Size(415, 384);
             this.TabControl.TabIndex = 10;
             this.TabControl.SelectedIndexChanged += new System.EventHandler(this.IndexChanged);
             this.TabControl.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EditorKeyDown);
@@ -1667,7 +1667,7 @@ namespace Object_tool
             this.SurfacesPage.AutoScroll = true;
             this.SurfacesPage.Location = new System.Drawing.Point(4, 25);
             this.SurfacesPage.Name = "SurfacesPage";
-            this.SurfacesPage.Size = new System.Drawing.Size(407, 300);
+            this.SurfacesPage.Size = new System.Drawing.Size(407, 355);
             this.SurfacesPage.TabIndex = 3;
             this.SurfacesPage.Text = "Surfaces";
             this.SurfacesPage.UseVisualStyleBackColor = true;
@@ -1677,7 +1677,7 @@ namespace Object_tool
             this.MotionPage.Controls.Add(this.MotionTextBox);
             this.MotionPage.Location = new System.Drawing.Point(4, 25);
             this.MotionPage.Name = "MotionPage";
-            this.MotionPage.Size = new System.Drawing.Size(407, 300);
+            this.MotionPage.Size = new System.Drawing.Size(407, 355);
             this.MotionPage.TabIndex = 4;
             this.MotionPage.Text = "Motions";
             this.MotionPage.UseVisualStyleBackColor = true;
@@ -1690,7 +1690,7 @@ namespace Object_tool
             this.MotionTextBox.Location = new System.Drawing.Point(0, 0);
             this.MotionTextBox.Name = "MotionTextBox";
             this.MotionTextBox.ReadOnly = true;
-            this.MotionTextBox.Size = new System.Drawing.Size(407, 300);
+            this.MotionTextBox.Size = new System.Drawing.Size(407, 355);
             this.MotionTextBox.TabIndex = 0;
             this.MotionTextBox.Text = "";
             // 
@@ -1699,7 +1699,7 @@ namespace Object_tool
             this.MotionRefsPage.Controls.Add(this.MotionRefsBox);
             this.MotionRefsPage.Location = new System.Drawing.Point(4, 25);
             this.MotionRefsPage.Name = "MotionRefsPage";
-            this.MotionRefsPage.Size = new System.Drawing.Size(407, 300);
+            this.MotionRefsPage.Size = new System.Drawing.Size(407, 355);
             this.MotionRefsPage.TabIndex = 7;
             this.MotionRefsPage.Text = "Motion Refs";
             this.MotionRefsPage.UseVisualStyleBackColor = true;
@@ -1711,7 +1711,7 @@ namespace Object_tool
             | System.Windows.Forms.AnchorStyles.Right)));
             this.MotionRefsBox.Location = new System.Drawing.Point(0, 0);
             this.MotionRefsBox.Name = "MotionRefsBox";
-            this.MotionRefsBox.Size = new System.Drawing.Size(408, 300);
+            this.MotionRefsBox.Size = new System.Drawing.Size(408, 355);
             this.MotionRefsBox.TabIndex = 0;
             this.MotionRefsBox.Text = "";
             this.MotionRefsBox.TextChanged += new System.EventHandler(this.MotionRefsTextChanged);
@@ -1722,7 +1722,7 @@ namespace Object_tool
             this.UserDataPage.Controls.Add(this.UserDataTextBox);
             this.UserDataPage.Location = new System.Drawing.Point(4, 25);
             this.UserDataPage.Name = "UserDataPage";
-            this.UserDataPage.Size = new System.Drawing.Size(407, 300);
+            this.UserDataPage.Size = new System.Drawing.Size(407, 355);
             this.UserDataPage.TabIndex = 6;
             this.UserDataPage.Text = "User Data";
             this.UserDataPage.UseVisualStyleBackColor = true;
@@ -1734,7 +1734,7 @@ namespace Object_tool
             | System.Windows.Forms.AnchorStyles.Right)));
             this.UserDataTextBox.Location = new System.Drawing.Point(0, 0);
             this.UserDataTextBox.Name = "UserDataTextBox";
-            this.UserDataTextBox.Size = new System.Drawing.Size(408, 300);
+            this.UserDataTextBox.Size = new System.Drawing.Size(408, 355);
             this.UserDataTextBox.TabIndex = 0;
             this.UserDataTextBox.Text = "";
             this.UserDataTextBox.TextChanged += new System.EventHandler(this.UserDataTextChanged);
@@ -1747,7 +1747,7 @@ namespace Object_tool
             this.LodPage.Controls.Add(this.label1);
             this.LodPage.Location = new System.Drawing.Point(4, 25);
             this.LodPage.Name = "LodPage";
-            this.LodPage.Size = new System.Drawing.Size(407, 300);
+            this.LodPage.Size = new System.Drawing.Size(407, 355);
             this.LodPage.TabIndex = 5;
             this.LodPage.Text = "Lod Path";
             // 
@@ -1757,7 +1757,7 @@ namespace Object_tool
             | System.Windows.Forms.AnchorStyles.Right)));
             this.LodTextBox.Location = new System.Drawing.Point(6, 26);
             this.LodTextBox.Name = "LodTextBox";
-            this.LodTextBox.Size = new System.Drawing.Size(396, 20);
+            this.LodTextBox.Size = new System.Drawing.Size(395, 20);
             this.LodTextBox.TabIndex = 1;
             // 
             // label1
@@ -1811,7 +1811,7 @@ namespace Object_tool
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(439, 381);
+            this.ClientSize = new System.Drawing.Size(439, 436);
             this.Controls.Add(this.StatusPanel);
             this.Controls.Add(this.TabControl);
             this.Controls.Add(this.MenuPanel);

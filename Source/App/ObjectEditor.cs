@@ -130,7 +130,6 @@ namespace Object_tool
 			EditorProcess.StartInfo.RedirectStandardOutput = true;
 			EditorProcess.StartInfo.RedirectStandardError = true;
 
-			this.Size = this.MinimumSize;
 			CurrentSize = this.MinimumSize;
 			BoneSize = this.MaximumSize;
 			Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
