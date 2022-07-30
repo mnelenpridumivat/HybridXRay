@@ -304,6 +304,7 @@ public:
 	LPCSTR		Params;
 	bool		HasLog;
 	bool		Editor;
+	bool		DebugLog;
 
 public:
 	int			_initialize	(LPCSTR ApplicationName, LogCallback cb=0, BOOL init_fs=TRUE, LPCSTR fs_fname=0,bool editor_fs=false, bool init_log = false);

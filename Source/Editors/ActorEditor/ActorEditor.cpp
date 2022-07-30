@@ -144,8 +144,10 @@ bool load_commands = false;
 
 int main(int argc, char** argv)
 {
-    std::cout << "Starting init Core" << std::endl;
     Core._initialize("Actor", ELogCallback,1, "",true, true);
+
+    if (argc > 4)
+        Core.DebugLog = (atoi(argv[4]) & exfDbgWindow);
 
     xr_vector<LPCSTR> args;
 
@@ -192,7 +194,7 @@ int main(int argc, char** argv)
     }
     Msg("Arg size: %d", size);
 
-    if (argc == 1)
+    if (argc == 1 && !IsDebuggerPresent())
     {
         Msg("Please, run Object tool.exe");
         system("pause");
@@ -247,11 +249,6 @@ int main(int argc, char** argv)
         custom_script = args[iReaderPos]; iReaderPos++;
         source_object = args[iReaderPos]; iReaderPos++;
         // End of program params
-
-        if (load_commands)
-        {
-            system("pause");
-        }
     }
     else
     {
@@ -469,7 +466,7 @@ int main(int argc, char** argv)
 
     Core._destroy();
 
-    if (flags & exfDbgWindow)
+    if (IsDebuggerPresent())
         system("pause");
 
     if (ret_code != 0)

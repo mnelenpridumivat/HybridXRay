@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Diagnostics;
 
 namespace Object_tool
 {
@@ -113,6 +114,7 @@ namespace Object_tool
 		System.Diagnostics.Process EditorProcess = null;
 		public bool EditorWorking = false;
 		public bool EditorKilled = false;
+		public static double EditorSeconds = 0.0;
 
 		// Settings
 		public bool USE_OLD_BONES = true;
@@ -121,8 +123,14 @@ namespace Object_tool
 		{
 			InitializeComponent();
 
-			this.Size = this.MinimumSize;
 			EditorProcess = new System.Diagnostics.Process();
+			EditorProcess.OutputDataReceived += SortOutputHandler;
+			EditorProcess.StartInfo.CreateNoWindow = true;
+			EditorProcess.StartInfo.UseShellExecute = false;
+			EditorProcess.StartInfo.RedirectStandardOutput = true;
+			EditorProcess.StartInfo.RedirectStandardError = true;
+
+			this.Size = this.MinimumSize;
 			CurrentSize = this.MinimumSize;
 			BoneSize = this.MaximumSize;
 			Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
@@ -419,79 +427,54 @@ namespace Object_tool
 			string exe_path = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\Object Editor.exe";
 			if (File.Exists(exe_path))
 			{
-				CheckTempFileExist();
+                this.Invoke((MethodInvoker)delegate ()
+                {
+                    LogTextBox.Clear();
+					LogTextBox.SelectionStart = LogTextBox.Text.Length;
+					LogTextBox.ScrollToCaret();
+				});
+                CheckTempFileExist();
 				EditorWorking = true;
 				EditorProcess.StartInfo.FileName = exe_path;
 				EditorProcess.StartInfo.WorkingDirectory = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\'));
 				EditorProcess.StartInfo.Arguments = args;
-				EditorProcess.StartInfo.CreateNoWindow = !dbg_window;
-				EditorProcess.StartInfo.UseShellExecute = dbg_window;
-				EditorProcess.Start();
+                EditorProcess.Start();
+				EditorProcess.BeginOutputReadLine();
 
-				string log = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\visual_log.log";
-				this.Invoke((MethodInvoker)delegate () {
-					LogTextBox.Text = "";
-				});
-				if (File.Exists(log))
-					File.Delete(log);
-
-				Thread LogThread = new Thread(() =>
-				{
-					string old_log = "";
-					while (true)
-					{
-						if (File.Exists(log))
-						{
-							this.Invoke((MethodInvoker)delegate () {
-								old_log = LogTextBox.Text;
-								LogTextBox.Text = File.ReadAllText(log);
-
-								if (old_log != LogTextBox.Text)
-                                {
-									LogTextBox.SelectionStart = LogTextBox.Text.Length;
-									LogTextBox.ScrollToCaret();
-								}
-							});
-						}
-						Thread.Sleep(200);
-					}
-				});
-				LogThread.Start();
-
-                EditorProcess.WaitForExit();
+				EditorProcess.WaitForExit();
+				EditorProcess.CancelOutputRead();
 				EditorWorking = false;
 
-				LogThread.Abort();
+				EditorSeconds = Math.Round((EditorProcess.ExitTime - EditorProcess.StartTime).TotalSeconds, 3);
 
-				if (EditorProcess.ExitCode < -100 || EditorProcess.ExitCode > 100) // 100% Error
-				{
-					log = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\engine.log";
-					if (File.Exists(log))
-					{
-						this.Invoke((MethodInvoker)delegate () {
-							LogTextBox.Text += "\n\nERROR LOG:\n\n" + File.ReadAllText(log);
-							LogTextBox.Text += "\n" + GetTime();
-							LogTextBox.SelectionStart = LogTextBox.Text.Length;
-							LogTextBox.ScrollToCaret();
-						});
-					}
-				}
-				else if (File.Exists(log))
-				{
-					this.Invoke((MethodInvoker)delegate () {
-						LogTextBox.Text = File.ReadAllText(log);
-						LogTextBox.Text += "\n" + GetTime();
-						LogTextBox.SelectionStart = LogTextBox.Text.Length;
-						LogTextBox.ScrollToCaret();
-					});
-					File.Delete(log);
-				}
-				return EditorProcess.ExitCode;
+				int code = EditorProcess.ExitCode;
+                EditorProcess.Close();
+
+                this.Invoke((MethodInvoker)delegate ()
+                {
+                    LogTextBox.AppendText("\n" + GetTime());
+					LogTextBox.SelectionStart = LogTextBox.Text.Length;
+					LogTextBox.ScrollToCaret();
+				});
+
+                return code;
 			}
 			else
 			{
 				MessageBox.Show("Can't find Object Editor.exe", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return -1;
+			}
+		}
+
+		private void SortOutputHandler(object sendingProcess, DataReceivedEventArgs outLine)
+		{
+			if (!String.IsNullOrEmpty(outLine.Data))
+			{
+				this.Invoke((MethodInvoker)delegate () {
+					LogTextBox.AppendText(outLine.Data + "\n");
+					LogTextBox.SelectionStart = LogTextBox.Text.Length;
+					LogTextBox.ScrollToCaret();
+				});
 			}
 		}
 
@@ -540,7 +523,7 @@ namespace Object_tool
 
 		private bool CheckThread()
         {
-			if (SdkThread != null && SdkThread.ThreadState != ThreadState.Stopped)
+			if (SdkThread != null && SdkThread.ThreadState != System.Threading.ThreadState.Stopped)
 			{
 				AutoClosingMessageBox.Show("Wait for another process to complete.", "", 800, MessageBoxIcon.Information);
 				return false;
@@ -2022,12 +2005,11 @@ namespace Object_tool
 		{
 			int minutes = 0;
 			int hours = 0;
-			double sec = Math.Round((EditorProcess.ExitTime - EditorProcess.StartTime).TotalSeconds, 3);
 
-			while (sec > 60.0)
+			while (EditorSeconds > 60.0)
             {
 				minutes++;
-				sec -= 60.0;
+				EditorSeconds -= 60.0;
 			}
 
 			while (minutes > 60)
@@ -2037,11 +2019,11 @@ namespace Object_tool
 			}
 
 			if (minutes == 0)
-				return $" Time: {sec} sec.";
+				return $" Time: {EditorSeconds} sec.";
 			else if (hours == 0)
-				return $" Time: {minutes} min {sec} sec.";
+				return $" Time: {minutes} min {EditorSeconds} sec.";
 			else
-				return $" Time: {hours} hour {minutes} min {sec} sec.";
+				return $" Time: {hours} hour {minutes} min {EditorSeconds} sec.";
 		}
 
 		private int GetErrorTime()
@@ -2189,6 +2171,7 @@ namespace Object_tool
 			{
 				EditorKilled = true;
 				EditorProcess.Kill();
+				EditorWorking = false;
 			}
 
 			switch (e.KeyData)

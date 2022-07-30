@@ -83,7 +83,8 @@ void Log				(const char *s)
 		}
 	}
 	split[j]=0;
-	std::cout << split << std::endl;
+	if (Core.DebugLog)
+		std::cout << split << std::endl;
 	AddOne(split);
 }
 
