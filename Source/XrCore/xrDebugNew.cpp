@@ -11,6 +11,7 @@
 #pragma warning(disable:4995)
 #include <malloc.h>
 #include <direct.h>
+#include "../../Editors/XrECore/VisualLog.h"
 #pragma warning(pop)
 
 extern bool shared_str_initialized;
@@ -109,6 +110,7 @@ void xrDebug::gather_info		(const char *expression, const char *description, con
 		if (!i) {
 			if (shared_str_initialized) {
 				Msg		("%s",assertion_info);
+				WriteLog("%s", assertion_info);
 				FlushLog();
 			}
 			buffer		= assertion_info;
@@ -124,12 +126,14 @@ void xrDebug::gather_info		(const char *expression, const char *description, con
 
 	if (!IsDebuggerPresent() && !strstr(GetCommandLine(),"-no_call_stack_assert")) {
 		if (shared_str_initialized)
-			Msg			("stack trace:\n");
+		{
+			Msg("stack trace:\n");
+			WriteLog("stack trace:\n");
+		}
 
 #ifdef USE_OWN_ERROR_MESSAGE_WINDOW
 		buffer			+= xr_sprintf(buffer,assertion_size - u32(buffer - buffer_base),"stack trace:%s%s",endline,endline);
 #endif // USE_OWN_ERROR_MESSAGE_WINDOW
-		
 
 		if (shared_str_initialized)
 			FlushLog	();
