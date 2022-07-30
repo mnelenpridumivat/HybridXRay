@@ -288,7 +288,7 @@ namespace Object_tool
             this.settingsToolStripMenuItem});
             this.MenuPanel.Location = new System.Drawing.Point(0, 0);
             this.MenuPanel.Name = "MenuPanel";
-            this.MenuPanel.Size = new System.Drawing.Size(561, 24);
+            this.MenuPanel.Size = new System.Drawing.Size(697, 24);
             this.MenuPanel.TabIndex = 11;
             this.MenuPanel.Text = "menuStrip1";
             // 
@@ -908,7 +908,7 @@ namespace Object_tool
             this.StatusFile});
             this.StatusPanel.Location = new System.Drawing.Point(0, 729);
             this.StatusPanel.Name = "StatusPanel";
-            this.StatusPanel.Size = new System.Drawing.Size(561, 22);
+            this.StatusPanel.Size = new System.Drawing.Size(697, 22);
             this.StatusPanel.TabIndex = 31;
             this.StatusPanel.Text = "statusStrip1";
             // 
@@ -972,7 +972,7 @@ namespace Object_tool
             this.BonesPage.Controls.Add(this.BonesList);
             this.BonesPage.Location = new System.Drawing.Point(4, 25);
             this.BonesPage.Name = "BonesPage";
-            this.BonesPage.Size = new System.Drawing.Size(529, 661);
+            this.BonesPage.Size = new System.Drawing.Size(665, 661);
             this.BonesPage.TabIndex = 2;
             this.BonesPage.Text = "Bones";
             this.BonesPage.UseVisualStyleBackColor = true;
@@ -999,44 +999,44 @@ namespace Object_tool
             this.BoneBox.Controls.Add(this.label6);
             this.BoneBox.Location = new System.Drawing.Point(232, 155);
             this.BoneBox.Name = "BoneBox";
-            this.BoneBox.Size = new System.Drawing.Size(290, 183);
+            this.BoneBox.Size = new System.Drawing.Size(420, 183);
             this.BoneBox.TabIndex = 11;
             this.BoneBox.TabStop = false;
             this.BoneBox.Text = "Bone";
             // 
             // RotZ
             // 
-            this.RotZ.Location = new System.Drawing.Point(221, 154);
+            this.RotZ.Location = new System.Drawing.Point(302, 154);
             this.RotZ.Name = "RotZ";
-            this.RotZ.Size = new System.Drawing.Size(62, 20);
+            this.RotZ.Size = new System.Drawing.Size(105, 20);
             this.RotZ.TabIndex = 28;
             // 
             // PosZ
             // 
-            this.PosZ.Location = new System.Drawing.Point(221, 128);
+            this.PosZ.Location = new System.Drawing.Point(302, 128);
             this.PosZ.Name = "PosZ";
-            this.PosZ.Size = new System.Drawing.Size(62, 20);
+            this.PosZ.Size = new System.Drawing.Size(105, 20);
             this.PosZ.TabIndex = 27;
             // 
             // MassZ
             // 
-            this.MassZ.Location = new System.Drawing.Point(221, 102);
+            this.MassZ.Location = new System.Drawing.Point(302, 102);
             this.MassZ.Name = "MassZ";
-            this.MassZ.Size = new System.Drawing.Size(62, 20);
+            this.MassZ.Size = new System.Drawing.Size(105, 20);
             this.MassZ.TabIndex = 26;
             // 
             // RotX
             // 
-            this.RotX.Location = new System.Drawing.Point(90, 154);
+            this.RotX.Location = new System.Drawing.Point(84, 154);
             this.RotX.Name = "RotX";
-            this.RotX.Size = new System.Drawing.Size(62, 20);
+            this.RotX.Size = new System.Drawing.Size(105, 20);
             this.RotX.TabIndex = 25;
             // 
             // RotY
             // 
-            this.RotY.Location = new System.Drawing.Point(156, 154);
+            this.RotY.Location = new System.Drawing.Point(193, 154);
             this.RotY.Name = "RotY";
-            this.RotY.Size = new System.Drawing.Size(62, 20);
+            this.RotY.Size = new System.Drawing.Size(105, 20);
             this.RotY.TabIndex = 24;
             // 
             // label11
@@ -1050,16 +1050,16 @@ namespace Object_tool
             // 
             // PosX
             // 
-            this.PosX.Location = new System.Drawing.Point(90, 128);
+            this.PosX.Location = new System.Drawing.Point(84, 128);
             this.PosX.Name = "PosX";
-            this.PosX.Size = new System.Drawing.Size(62, 20);
+            this.PosX.Size = new System.Drawing.Size(105, 20);
             this.PosX.TabIndex = 21;
             // 
             // PosY
             // 
-            this.PosY.Location = new System.Drawing.Point(156, 128);
+            this.PosY.Location = new System.Drawing.Point(193, 128);
             this.PosY.Name = "PosY";
-            this.PosY.Size = new System.Drawing.Size(62, 20);
+            this.PosY.Size = new System.Drawing.Size(105, 20);
             this.PosY.TabIndex = 20;
             // 
             // label10
@@ -1073,16 +1073,16 @@ namespace Object_tool
             // 
             // MassX
             // 
-            this.MassX.Location = new System.Drawing.Point(90, 102);
+            this.MassX.Location = new System.Drawing.Point(84, 102);
             this.MassX.Name = "MassX";
-            this.MassX.Size = new System.Drawing.Size(62, 20);
+            this.MassX.Size = new System.Drawing.Size(105, 20);
             this.MassX.TabIndex = 17;
             // 
             // MassY
             // 
-            this.MassY.Location = new System.Drawing.Point(156, 102);
+            this.MassY.Location = new System.Drawing.Point(193, 102);
             this.MassY.Name = "MassY";
-            this.MassY.Size = new System.Drawing.Size(62, 20);
+            this.MassY.Size = new System.Drawing.Size(105, 20);
             this.MassY.TabIndex = 16;
             // 
             // label9
@@ -1090,15 +1090,15 @@ namespace Object_tool
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(7, 105);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(80, 13);
+            this.label9.Size = new System.Drawing.Size(69, 13);
             this.label9.TabIndex = 9;
-            this.label9.Text = "Center of mass:";
+            this.label9.Text = "Mass Center:";
             // 
             // BoneMass
             // 
             this.BoneMass.Location = new System.Drawing.Point(60, 75);
             this.BoneMass.Name = "BoneMass";
-            this.BoneMass.Size = new System.Drawing.Size(223, 20);
+            this.BoneMass.Size = new System.Drawing.Size(347, 20);
             this.BoneMass.TabIndex = 5;
             // 
             // label8
@@ -1124,14 +1124,14 @@ namespace Object_tool
             this.BoneMaterial.FormattingEnabled = true;
             this.BoneMaterial.Location = new System.Drawing.Point(60, 44);
             this.BoneMaterial.Name = "BoneMaterial";
-            this.BoneMaterial.Size = new System.Drawing.Size(223, 21);
+            this.BoneMaterial.Size = new System.Drawing.Size(347, 21);
             this.BoneMaterial.TabIndex = 2;
             // 
             // BoneName
             // 
             this.BoneName.Location = new System.Drawing.Point(60, 17);
             this.BoneName.Name = "BoneName";
-            this.BoneName.Size = new System.Drawing.Size(223, 20);
+            this.BoneName.Size = new System.Drawing.Size(347, 20);
             this.BoneName.TabIndex = 1;
             // 
             // label6
@@ -1174,7 +1174,7 @@ namespace Object_tool
             this.JointBox.Controls.Add(this.Breakable);
             this.JointBox.Location = new System.Drawing.Point(370, 4);
             this.JointBox.Name = "JointBox";
-            this.JointBox.Size = new System.Drawing.Size(152, 145);
+            this.JointBox.Size = new System.Drawing.Size(282, 145);
             this.JointBox.TabIndex = 8;
             this.JointBox.TabStop = false;
             this.JointBox.Text = "Joint";
@@ -1183,7 +1183,7 @@ namespace Object_tool
             // 
             this.JointDamping.Location = new System.Drawing.Point(87, 116);
             this.JointDamping.Name = "JointDamping";
-            this.JointDamping.Size = new System.Drawing.Size(58, 20);
+            this.JointDamping.Size = new System.Drawing.Size(189, 20);
             this.JointDamping.TabIndex = 31;
             // 
             // JointDampingLabel
@@ -1201,7 +1201,7 @@ namespace Object_tool
             // 
             this.JointSpring.Location = new System.Drawing.Point(87, 93);
             this.JointSpring.Name = "JointSpring";
-            this.JointSpring.Size = new System.Drawing.Size(58, 20);
+            this.JointSpring.Size = new System.Drawing.Size(189, 20);
             this.JointSpring.TabIndex = 30;
             // 
             // JointSpringLabel
@@ -1219,7 +1219,7 @@ namespace Object_tool
             // 
             this.JointFriction.Location = new System.Drawing.Point(87, 70);
             this.JointFriction.Name = "JointFriction";
-            this.JointFriction.Size = new System.Drawing.Size(58, 20);
+            this.JointFriction.Size = new System.Drawing.Size(189, 20);
             this.JointFriction.TabIndex = 29;
             // 
             // JointFrictionLabel
@@ -1256,7 +1256,7 @@ namespace Object_tool
             "Slider"});
             this.JointType.Location = new System.Drawing.Point(38, 43);
             this.JointType.Name = "JointType";
-            this.JointType.Size = new System.Drawing.Size(107, 21);
+            this.JointType.Size = new System.Drawing.Size(238, 21);
             this.JointType.TabIndex = 1;
             this.JointType.SelectedIndexChanged += new System.EventHandler(this.JointType_SelectedIndexChanged);
             // 
@@ -1693,7 +1693,7 @@ namespace Object_tool
             this.TabControl.Location = new System.Drawing.Point(12, 27);
             this.TabControl.Name = "TabControl";
             this.TabControl.SelectedIndex = 0;
-            this.TabControl.Size = new System.Drawing.Size(537, 690);
+            this.TabControl.Size = new System.Drawing.Size(673, 690);
             this.TabControl.TabIndex = 10;
             this.TabControl.SelectedIndexChanged += new System.EventHandler(this.IndexChanged);
             this.TabControl.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EditorKeyDown);
@@ -1851,7 +1851,7 @@ namespace Object_tool
             this.LimitsBox.Controls.Add(this.AxisX);
             this.LimitsBox.Location = new System.Drawing.Point(233, 345);
             this.LimitsBox.Name = "LimitsBox";
-            this.LimitsBox.Size = new System.Drawing.Size(289, 313);
+            this.LimitsBox.Size = new System.Drawing.Size(419, 313);
             this.LimitsBox.TabIndex = 12;
             this.LimitsBox.TabStop = false;
             this.LimitsBox.Text = "Limits";
@@ -1868,16 +1868,16 @@ namespace Object_tool
             this.AxisX.Controls.Add(this.label14);
             this.AxisX.Location = new System.Drawing.Point(7, 20);
             this.AxisX.Name = "AxisX";
-            this.AxisX.Size = new System.Drawing.Size(275, 67);
+            this.AxisX.Size = new System.Drawing.Size(406, 67);
             this.AxisX.TabIndex = 0;
             this.AxisX.TabStop = false;
             this.AxisX.Text = "Axis X";
             // 
             // textBox15
             // 
-            this.textBox15.Location = new System.Drawing.Point(203, 39);
+            this.textBox15.Location = new System.Drawing.Point(268, 39);
             this.textBox15.Name = "textBox15";
-            this.textBox15.Size = new System.Drawing.Size(66, 20);
+            this.textBox15.Size = new System.Drawing.Size(132, 20);
             this.textBox15.TabIndex = 35;
             // 
             // label13
@@ -1885,7 +1885,7 @@ namespace Object_tool
             this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(120, 42);
+            this.label13.Location = new System.Drawing.Point(185, 42);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(85, 13);
             this.label13.TabIndex = 33;
@@ -1893,9 +1893,9 @@ namespace Object_tool
             // 
             // textBox16
             // 
-            this.textBox16.Location = new System.Drawing.Point(203, 16);
+            this.textBox16.Location = new System.Drawing.Point(268, 16);
             this.textBox16.Name = "textBox16";
-            this.textBox16.Size = new System.Drawing.Size(66, 20);
+            this.textBox16.Size = new System.Drawing.Size(132, 20);
             this.textBox16.TabIndex = 34;
             // 
             // label14
@@ -1903,7 +1903,7 @@ namespace Object_tool
             this.label14.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(121, 19);
+            this.label14.Location = new System.Drawing.Point(186, 19);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(73, 13);
             this.label14.TabIndex = 32;
@@ -1931,14 +1931,14 @@ namespace Object_tool
             // 
             this.textBox17.Location = new System.Drawing.Point(43, 16);
             this.textBox17.Name = "textBox17";
-            this.textBox17.Size = new System.Drawing.Size(66, 20);
+            this.textBox17.Size = new System.Drawing.Size(134, 20);
             this.textBox17.TabIndex = 38;
             // 
             // textBox18
             // 
             this.textBox18.Location = new System.Drawing.Point(43, 39);
             this.textBox18.Name = "textBox18";
-            this.textBox18.Size = new System.Drawing.Size(66, 20);
+            this.textBox18.Size = new System.Drawing.Size(134, 20);
             this.textBox18.TabIndex = 39;
             // 
             // AxisY
@@ -1953,7 +1953,7 @@ namespace Object_tool
             this.AxisY.Controls.Add(this.label20);
             this.AxisY.Location = new System.Drawing.Point(6, 93);
             this.AxisY.Name = "AxisY";
-            this.AxisY.Size = new System.Drawing.Size(275, 67);
+            this.AxisY.Size = new System.Drawing.Size(407, 67);
             this.AxisY.TabIndex = 40;
             this.AxisY.TabStop = false;
             this.AxisY.Text = "Axis Y";
@@ -1962,14 +1962,14 @@ namespace Object_tool
             // 
             this.textBox19.Location = new System.Drawing.Point(43, 39);
             this.textBox19.Name = "textBox19";
-            this.textBox19.Size = new System.Drawing.Size(66, 20);
+            this.textBox19.Size = new System.Drawing.Size(135, 20);
             this.textBox19.TabIndex = 39;
             // 
             // textBox20
             // 
             this.textBox20.Location = new System.Drawing.Point(43, 16);
             this.textBox20.Name = "textBox20";
-            this.textBox20.Size = new System.Drawing.Size(66, 20);
+            this.textBox20.Size = new System.Drawing.Size(135, 20);
             this.textBox20.TabIndex = 38;
             // 
             // label17
@@ -1992,9 +1992,9 @@ namespace Object_tool
             // 
             // textBox21
             // 
-            this.textBox21.Location = new System.Drawing.Point(203, 39);
+            this.textBox21.Location = new System.Drawing.Point(268, 39);
             this.textBox21.Name = "textBox21";
-            this.textBox21.Size = new System.Drawing.Size(66, 20);
+            this.textBox21.Size = new System.Drawing.Size(133, 20);
             this.textBox21.TabIndex = 35;
             // 
             // label19
@@ -2002,7 +2002,7 @@ namespace Object_tool
             this.label19.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(120, 42);
+            this.label19.Location = new System.Drawing.Point(185, 42);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(85, 13);
             this.label19.TabIndex = 33;
@@ -2010,9 +2010,9 @@ namespace Object_tool
             // 
             // textBox22
             // 
-            this.textBox22.Location = new System.Drawing.Point(203, 16);
+            this.textBox22.Location = new System.Drawing.Point(268, 16);
             this.textBox22.Name = "textBox22";
-            this.textBox22.Size = new System.Drawing.Size(66, 20);
+            this.textBox22.Size = new System.Drawing.Size(133, 20);
             this.textBox22.TabIndex = 34;
             // 
             // label20
@@ -2020,7 +2020,7 @@ namespace Object_tool
             this.label20.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(121, 19);
+            this.label20.Location = new System.Drawing.Point(186, 19);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(73, 13);
             this.label20.TabIndex = 32;
@@ -2038,7 +2038,7 @@ namespace Object_tool
             this.AxisZ.Controls.Add(this.label24);
             this.AxisZ.Location = new System.Drawing.Point(7, 166);
             this.AxisZ.Name = "AxisZ";
-            this.AxisZ.Size = new System.Drawing.Size(275, 67);
+            this.AxisZ.Size = new System.Drawing.Size(406, 67);
             this.AxisZ.TabIndex = 41;
             this.AxisZ.TabStop = false;
             this.AxisZ.Text = "Axis Z";
@@ -2047,14 +2047,14 @@ namespace Object_tool
             // 
             this.textBox23.Location = new System.Drawing.Point(43, 39);
             this.textBox23.Name = "textBox23";
-            this.textBox23.Size = new System.Drawing.Size(66, 20);
+            this.textBox23.Size = new System.Drawing.Size(134, 20);
             this.textBox23.TabIndex = 39;
             // 
             // textBox24
             // 
             this.textBox24.Location = new System.Drawing.Point(43, 16);
             this.textBox24.Name = "textBox24";
-            this.textBox24.Size = new System.Drawing.Size(66, 20);
+            this.textBox24.Size = new System.Drawing.Size(134, 20);
             this.textBox24.TabIndex = 38;
             // 
             // label21
@@ -2077,9 +2077,9 @@ namespace Object_tool
             // 
             // textBox25
             // 
-            this.textBox25.Location = new System.Drawing.Point(203, 39);
+            this.textBox25.Location = new System.Drawing.Point(266, 39);
             this.textBox25.Name = "textBox25";
-            this.textBox25.Size = new System.Drawing.Size(66, 20);
+            this.textBox25.Size = new System.Drawing.Size(134, 20);
             this.textBox25.TabIndex = 35;
             // 
             // label23
@@ -2087,7 +2087,7 @@ namespace Object_tool
             this.label23.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(120, 42);
+            this.label23.Location = new System.Drawing.Point(183, 42);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(85, 13);
             this.label23.TabIndex = 33;
@@ -2095,9 +2095,9 @@ namespace Object_tool
             // 
             // textBox26
             // 
-            this.textBox26.Location = new System.Drawing.Point(203, 16);
+            this.textBox26.Location = new System.Drawing.Point(266, 16);
             this.textBox26.Name = "textBox26";
-            this.textBox26.Size = new System.Drawing.Size(66, 20);
+            this.textBox26.Size = new System.Drawing.Size(134, 20);
             this.textBox26.TabIndex = 34;
             // 
             // label24
@@ -2105,7 +2105,7 @@ namespace Object_tool
             this.label24.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(121, 19);
+            this.label24.Location = new System.Drawing.Point(184, 19);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(73, 13);
             this.label24.TabIndex = 32;
@@ -2119,7 +2119,7 @@ namespace Object_tool
             this.Steer.Controls.Add(this.label25);
             this.Steer.Location = new System.Drawing.Point(6, 239);
             this.Steer.Name = "Steer";
-            this.Steer.Size = new System.Drawing.Size(275, 67);
+            this.Steer.Size = new System.Drawing.Size(407, 67);
             this.Steer.TabIndex = 13;
             this.Steer.TabStop = false;
             this.Steer.Text = "Steer";
@@ -2128,14 +2128,14 @@ namespace Object_tool
             // 
             this.textBox27.Location = new System.Drawing.Point(44, 36);
             this.textBox27.Name = "textBox27";
-            this.textBox27.Size = new System.Drawing.Size(225, 20);
+            this.textBox27.Size = new System.Drawing.Size(357, 20);
             this.textBox27.TabIndex = 43;
             // 
             // textBox28
             // 
             this.textBox28.Location = new System.Drawing.Point(44, 13);
             this.textBox28.Name = "textBox28";
-            this.textBox28.Size = new System.Drawing.Size(225, 20);
+            this.textBox28.Size = new System.Drawing.Size(357, 20);
             this.textBox28.TabIndex = 42;
             // 
             // label25
@@ -2161,7 +2161,7 @@ namespace Object_tool
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(561, 751);
+            this.ClientSize = new System.Drawing.Size(697, 751);
             this.Controls.Add(this.StatusPanel);
             this.Controls.Add(this.TabControl);
             this.Controls.Add(this.MenuPanel);
