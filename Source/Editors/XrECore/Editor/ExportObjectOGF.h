@@ -130,6 +130,9 @@ class ECORE_API CExportObjectOGF
         
 	    Fbox			m_Box;
         CSurface*		m_Surf;
+        u16             m_id;
+        shared_str		m_Shader;
+        shared_str		m_Texture;
 
         // Progressive
 		void			AppendPart		(int apx_vertices, int apx_faces);
@@ -140,6 +143,31 @@ class ECORE_API CExportObjectOGF
         {
             for (COGFCPIt it=m_Parts.begin(); it!=m_Parts.end(); it++)
                 (*it)->CalculateTB		();
+        }
+
+        bool			SplitStats		(int id)
+        {
+            u32 faces = 0;
+            u32 verts = 0;
+
+            for (COGFCPIt it = m_Parts.begin(); it != m_Parts.end(); it++)
+            {
+                verts += (*it)->m_Verts.size();
+                faces += (*it)->m_Faces.size();
+            }
+
+            if (faces == 0 || verts == 0)
+            {
+                Msg("..Empty split found (Texture: %s).",*m_Texture);
+                WriteLog("..Empty split found (Texture: %s).",*m_Texture);
+                return false;
+            }
+            else
+            {
+                Msg("..Split %d: [Faces: %d, Verts: %d, Shader/Texture: '%s'/'%s']",id,faces,verts,*m_Shader,*m_Texture);
+                WriteLog("..Split %d: [Faces: %d, Verts: %d, Texture: '%s']",id,faces,verts,*m_Texture);
+            }
+            return true;
         }
         
 		void 			MakeProgressive	();
@@ -155,6 +183,14 @@ class ECORE_API CExportObjectOGF
                 m_Box.merge				(part->m_Box);
             }
         }
+        bool GetVertexBound         () 
+        { 
+            u32 verts = 0;
+            for (COGFCPIt it = m_Parts.begin(); it != m_Parts.end(); it++)
+                verts += (*it)->m_Verts.size();
+
+            return verts < 60000; 
+        }
     };
 	DEFINE_VECTOR		(SSplit*,SplitVec,SplitIt);
 	SplitVec			m_Splits;
@@ -162,7 +198,7 @@ class ECORE_API CExportObjectOGF
     Fbox 				m_Box;   	
 //----------------------------------------------------
 //	void 	ComputeOBB			(Fobb &B, FvectorVec& V);
-    SSplit*	FindSplit			(CSurface* surf);
+    SSplit*	FindSplit			(CSurface* surf, u16 surf_id);
     void 				ComputeBounding	()
     {
         m_Box.invalidate();

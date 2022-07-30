@@ -104,6 +104,9 @@ CExportObjectOGF::SSplit::SSplit(CSurface* surf, const Fbox& bb)
     apx_box				= bb;
 	m_Surf 				= surf;
     m_CurrentPart		= NULL;
+    m_id                = surf->m_id;
+    m_Shader            = surf->m_ShaderName;
+    m_Texture           = surf->m_Texture;
 }
 
 CExportObjectOGF::SSplit::~SSplit()
@@ -329,10 +332,10 @@ CExportObjectOGF::~CExportObjectOGF()
     	xr_delete(*it);
 }
 
-CExportObjectOGF::SSplit* CExportObjectOGF::FindSplit(CSurface* surf)
+CExportObjectOGF::SSplit* CExportObjectOGF::FindSplit(CSurface* surf, u16 surf_id)
 {
 	for (SplitIt it=m_Splits.begin(); it!=m_Splits.end(); ++it)
-    	if ((*it)->m_Surf==surf) 
+    	if ((*it)->m_Surf==surf && ((*it)->m_id==surf_id) && (*it)->GetVertexBound()) 
 			return *it;
 
     return 0;
@@ -355,6 +358,16 @@ bool CExportObjectOGF::PrepareMESH(CEditableMesh* MESH)
         WriteLog("..Export smooth groups");
     }
 
+    u16 surf_counter = 0;
+    for (SurfFacesPairIt sp_it = MESH->m_SurfFaces.begin(); sp_it != MESH->m_SurfFaces.end(); sp_it++)
+    {
+        if (m_Source->m_objectFlags.is(CEditableObject::eoOptimizeSurf))
+            surf_counter = 0;
+        CSurface* surf = sp_it->first;
+        surf->m_id = surf_counter;
+        surf_counter++;
+    }
+
     // fill faces
     for (SurfFacesPairIt sp_it=MESH->m_SurfFaces.begin(); sp_it!=MESH->m_SurfFaces.end(); ++sp_it)
 	{
@@ -362,28 +375,33 @@ bool CExportObjectOGF::PrepareMESH(CEditableMesh* MESH)
         CSurface* surf 	= sp_it->first;
         u32 dwTexCnt 	= ((surf->_FVF()&D3DFVF_TEXCOUNT_MASK)>>D3DFVF_TEXCOUNT_SHIFT);	
 		R_ASSERT		(dwTexCnt==1);
-        SSplit* split	= FindSplit(surf);
-        if (0==split)
-		{
-            Fmatrix mScale;
-            mScale.scale(m_Source->a_vScale, m_Source->a_vScale, m_Source->a_vScale);
 
-            Fbox box;
-            box.xform(m_Source->GetBox(), mScale);
-
-			m_Splits.push_back	(xr_new<SSplit>(surf,box));
-            split				= m_Splits.back();
-        }
         int 	elapsed_faces 	= surf->m_Flags.is(CSurface::sf2Sided) ?face_lst.size()*2 : face_lst.size();
         const 	bool b2sided	= !!surf->m_Flags.is(CSurface::sf2Sided);
-            
-        if (0==split->m_CurrentPart) 
-			split->AppendPart(	(elapsed_faces>0xffff) ? 0xffff : elapsed_faces,
-								(elapsed_faces>0xffff) ? 0xffff : elapsed_faces);
             
         do{
             for (IntIt f_it=face_lst.begin(); f_it!=face_lst.end(); ++f_it)
 			{
+                SSplit* split	= FindSplit(surf, surf->m_id);
+                if (0==split)
+                {
+                    Fmatrix mScale;
+                    mScale.scale(m_Source->a_vScale, m_Source->a_vScale, m_Source->a_vScale);
+
+                    Fbox box;
+                    box.xform(m_Source->GetBox(), mScale);
+
+                    m_Splits.push_back	(xr_new<SSplit>(surf,box));
+                    split				= m_Splits.back();
+                }
+
+                if (0 == split->m_CurrentPart)
+                {
+                    split->AppendPart((elapsed_faces > 0xffff) ? 0xffff : elapsed_faces, (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces);
+                    elapsed_faces -= 60000;
+                    clamp(elapsed_faces, 0, elapsed_faces);
+                }
+
                 bool bNewPart	= false;
                 st_Face& face 	= MESH->m_Faces[*f_it];
                 {
@@ -459,6 +477,11 @@ bool CExportObjectOGF::Prepare(bool gen_tb, CEditableMesh* mesh)
 
     if (!bResult)		
 		return false;
+
+    for (u32 it = 0; it < m_Splits.size(); it++)
+    {
+        m_Splits[it]->SplitStats(it);
+    }
 
     // calculate TB
     if (gen_tb)
