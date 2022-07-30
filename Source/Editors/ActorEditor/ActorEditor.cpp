@@ -387,7 +387,6 @@ int main(int argc, char** argv)
         {
             if (!ATools->ExportDM(second_file_path.c_str()))
                 ret_code = -1;
-            WriteLog("..DM exported");
         }break;
         case SaveObject:
         {
@@ -430,10 +429,10 @@ int main(int argc, char** argv)
             ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoHQExportPlus, FALSE);
             ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoProgressive, (lod_flags & exfMakeProgressive));
             ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoStripify, FALSE); // Крашит
+            ATools->CurrentObject()->Optimize();
             Msg("Lod quality: %f", g_EpsSkelPositionDelta);
             if (!ATools->ExportOGF(second_file_path.c_str()))
                 ret_code = -1;
-            WriteLog("..Lod exported");
         }break;
         case SaveCpp:
         {

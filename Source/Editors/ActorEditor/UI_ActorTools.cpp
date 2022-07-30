@@ -595,6 +595,7 @@ bool CActorTools::ExportDM(LPCSTR name)
         EDetail DM;
         if (!DM.Update(m_pEditObject->GetName(), m_pEditObject->a_vScale)) return false;
         DM.Export(name);
+        WriteLog("..File [%s] exported", name);
         return true;
     }
     return false;

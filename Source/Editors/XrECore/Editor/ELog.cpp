@@ -233,7 +233,8 @@ void CLog::Msg(TMsgDlgType mt, LPCSTR _Format, ...)
 	va_start( l, _Format );
 	vsprintf( buf, _Format, l );
 
-	std::cout << buf << std::endl;
+	if (Core.DebugLog)
+		std::cout << buf << std::endl;
 
 #ifdef _MAX_EXPORT
 	EConsole.print(mt,buf);

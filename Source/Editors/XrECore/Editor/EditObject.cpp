@@ -14,6 +14,7 @@
 	#include "..\xrEngine\motion.h"
 	#include "..\xrEngine\bone.h"
 #endif
+#include "..\XrECore\VisualLog.h"
 
 // mimimal bounding box size
 float g_MinBoxSize 	= 0.05f;
@@ -263,6 +264,11 @@ void CEditableObject::GetFaceWorld(const Fmatrix& parent, CEditableMesh* M, int 
 
 void CEditableObject::Optimize()
 {
+    WriteLog("..Optimize Model");
+    for(EditMeshIt m_def=m_Meshes.begin();m_def!=m_Meshes.end();m_def++){
+        (*m_def)->OptimizeMesh    (false);
+        (*m_def)->RebuildVMaps    ();
+    }
 }
 
 bool CEditableObject::Validate()
