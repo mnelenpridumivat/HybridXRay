@@ -14,9 +14,20 @@
 
 #define DETOBJ_VERSION 				0x0001
 //------------------------------------------------------------------------------
-void EDetail::EVertexIn::remapUV(const fvfVertexIn& src)
+void EDetail::EVertexIn::remapUV(const fvfVertexIn& src, const Fvector2& offs, const Fvector2& scale, bool bRotate)
 {
     P.set		(src.P);
+
+    if (bRotate)
+    {
+        u	= scale.x*src.v+offs.x;
+        v	= scale.y*src.u+offs.y;
+    }
+    else
+    {
+        u	= scale.x*src.u+offs.x;
+        v	= scale.y*src.v+offs.y;
+    }
 }
 
 EDetail::EDetail()
@@ -129,7 +140,7 @@ bool EDetail::Update	(LPCSTR name, float scale)
     	for (int k=0; k<3; k++,idx++)
         {
             Fvector P  = MESH->GetVertices()[F.pv[k].pindex];
-           // P.mul(m_pRefs->a_vScale);
+            P.mul(m_pRefs->a_vScale);
             st_VMapPt&vm= MESH->GetVMRefs()[F.pv[k].vmref].pts[0];
             Fvector2& uv= MESH->GetVMaps()[vm.vmap_index]->getUV(vm.index);
         	ind[k]		= _AddVert	(P,uv.x,uv.y);
@@ -213,7 +224,7 @@ void EDetail::Save(IWriter& F)
     F.close_chunk		();
 }
 
-void EDetail::Export(IWriter& F, LPCSTR tex_name)
+void EDetail::Export(IWriter& F, LPCSTR tex_name, const Fvector2& offs, const Fvector2& scale, bool rot)
 {
 	R_ASSERT			(m_pRefs);
     CSurface* surf		= *m_pRefs->FirstSurface();
@@ -231,8 +242,7 @@ void EDetail::Export(IWriter& F, LPCSTR tex_name)
 
     // remap UV
     EVertexIn* rm_vertices = xr_alloc<EVertexIn>(number_vertices);
-    for (u32 k=0; k<number_vertices; k++) 
-        rm_vertices[k].remapUV(vertices[k]);
+    for (u32 k=0; k<number_vertices; k++) rm_vertices[k].remapUV(vertices[k],offs,scale,rot);
     
     F.w					(rm_vertices, 	number_vertices*sizeof(fvfVertexIn));
     F.w					(indices, 		number_indices*sizeof(WORD));
@@ -247,7 +257,9 @@ void EDetail::Export(LPCSTR name)
     IWriter* F 			= FS.w_open(name);
     if (F)
     {
-        Export			(*F,surf->_Texture());
+        Fvector2 offs    = {0,0};
+        Fvector2 scale    = {1,1};
+        Export            (*F,surf->_Texture(),offs,scale,false);
         FS.w_close		(F);
     }
     else
