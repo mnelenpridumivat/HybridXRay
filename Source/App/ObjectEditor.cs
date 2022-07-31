@@ -133,7 +133,7 @@ namespace Object_tool
 		public double dLastTime = 0.0;
 
 		// Settings
-		public bool USE_OLD_BONES = true;
+		public bool USE_OLD_BONES = false;
 
 		public Object_Editor()
 		{
@@ -147,7 +147,7 @@ namespace Object_tool
 			EditorProcess.StartInfo.RedirectStandardError = true;
 
 			CurrentSize = this.Size;
-			BoneSize = this.MaximumSize;
+			BoneSize = new Size(713, 790);
 			Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
 			shapeParamsToolStripMenuItem.Enabled = false;
 			surfaceParamsToolStripMenuItem.Enabled = false;
@@ -2850,7 +2850,7 @@ namespace Object_tool
 			BoneMass.Text = ((decimal)cur_bone.mass).ToString();
 			Breakable.Checked = cur_bone.breakable;
 			JointType.SelectedIndex = cur_bone.joint_type;
-			JointFriction.Text = ((decimal)cur_bone.friction).ToString();
+			JointFriction.Text = (cur_bone.friction).ToString();
 			JointSpring.Text = ((decimal)cur_bone.spring).ToString();
 			JointDamping.Text = ((decimal)cur_bone.damping).ToString();
 			PosX.Text = ((decimal)cur_bone.position.x).ToString();

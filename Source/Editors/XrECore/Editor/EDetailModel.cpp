@@ -19,8 +19,6 @@ void EDetail::EVertexIn::remapUV(const fvfVertexIn& src)
     P.set		(src.P);
 }
 
-CEditableObject*	m_pRefs = nullptr;
-
 EDetail::EDetail()
 {
 	shader				= 0;
@@ -41,12 +39,6 @@ EDetail::~EDetail()
 	Unload();
 }
 
-void EDetail::Unload()
-{
-	CDetail::Unload		();
-    OnDeviceDestroy		();
-}
-
 LPCSTR EDetail::GetName	()
 {
     return m_pRefs?m_pRefs->GetName():m_sRefs.c_str();
@@ -57,25 +49,6 @@ LPCSTR EDetail::GetTextureName()
 	VERIFY(m_pRefs);
     CSurface* surf		= *m_pRefs->FirstSurface(); VERIFY(surf);
     return surf->_Texture();
-}
-
-void EDetail::DefferedLoad()
-{
-}
-
-void EDetail::OnDeviceCreate()
-{
-	if (!m_pRefs)		return;
-    CSurface* surf		= *m_pRefs->FirstSurface();
-    VERIFY				(surf);
-    xr_string	s_name	= surf->_ShaderName();
-    xr_string	t_name	= surf->_Texture();
-	shader.create		(s_name.c_str(),t_name.c_str());
-}
-
-void EDetail::OnDeviceDestroy()
-{
-	shader.destroy();
 }
 
 u16 EDetail::_AddVert(const Fvector& p, float u, float v)
@@ -112,7 +85,8 @@ bool EDetail::Update	(LPCSTR name, float scale)
 	m_sRefs				= name;
     // update link
     CEditableObject* R = xr_new<CEditableObject>(name);
-    R->Load(name);
+    R->Load(name, name);
+    R->a_vScale = scale;
 
     if (!R)
     {
@@ -138,24 +112,26 @@ bool EDetail::Update	(LPCSTR name, float scale)
     	return false;
     }
 
+    if (m_pRefs) xr_delete(m_pRefs);
     m_pRefs				= R;
 
     // fill geometry
-    CEditableMesh* M	= *m_pRefs->FirstMesh();
+    CEditableMesh* MESH	= *m_pRefs->FirstMesh();
     U16Vec inds;
 
     // fill vertices
     bv_bb.invalidate();
     u32 idx			= 0;
-    for (u32 f_id=0; f_id<M->GetFCount(); f_id++)
+    for (u32 f_id=0; f_id<MESH->GetFCount(); f_id++)
     {
-        const  st_Face& F 	= M->GetFaces()[f_id];
+        const  st_Face& F 	= MESH->GetFaces()[f_id];
     	u16 ind[3];
     	for (int k=0; k<3; k++,idx++)
         {
-            Fvector P  = M->GetVertices()[F.pv[k].pindex];
-            st_VMapPt&vm= M->GetVMRefs()[F.pv[k].vmref].pts[0];
-            Fvector2& uv= M->GetVMaps()[vm.vmap_index]->getUV(vm.index);
+            Fvector P  = MESH->GetVertices()[F.pv[k].pindex];
+           // P.mul(m_pRefs->a_vScale);
+            st_VMapPt&vm= MESH->GetVMRefs()[F.pv[k].vmref].pts[0];
+            Fvector2& uv= MESH->GetVMaps()[vm.vmap_index]->getUV(vm.index);
         	ind[k]		= _AddVert	(P,uv.x,uv.y);
 	        bv_bb.modify(vertices[ind[k]].P);
         }
@@ -165,6 +141,7 @@ bool EDetail::Update	(LPCSTR name, float scale)
         inds.push_back(ind[1]);
         inds.push_back(ind[2]);
     }
+
 	number_indices 		= inds.size();
 	indices				= (u16*)xr_malloc(number_indices*sizeof(u16));
     Memory.mem_copy		(indices,inds.data(),number_indices*sizeof(u16));
@@ -254,7 +231,8 @@ void EDetail::Export(IWriter& F, LPCSTR tex_name)
 
     // remap UV
     EVertexIn* rm_vertices = xr_alloc<EVertexIn>(number_vertices);
-    for (u32 k=0; k<number_vertices; k++) rm_vertices[k].remapUV(vertices[k]);
+    for (u32 k=0; k<number_vertices; k++) 
+        rm_vertices[k].remapUV(vertices[k]);
     
     F.w					(rm_vertices, 	number_vertices*sizeof(fvfVertexIn));
     F.w					(indices, 		number_indices*sizeof(WORD));
