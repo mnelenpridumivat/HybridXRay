@@ -133,7 +133,7 @@ namespace Object_tool
 		public double dLastTime = 0.0;
 
 		// Settings
-		public bool USE_OLD_BONES = false;
+		public bool USE_OLD_BONES = true;
 
 		public Object_Editor()
 		{

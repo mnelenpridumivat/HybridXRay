@@ -678,7 +678,7 @@ bool CExportObjectOGF::ExportAsSimple(IWriter& F)
 
 bool CExportObjectOGF::ExportAsWavefrontOBJ(IWriter& F, LPCSTR fn)
 {
-    WriteLog("..Prepare OBJ");
+    WriteLog("..Prepare Obj");
 	if (!Prepare(false,NULL)) 
 		return false;
 
