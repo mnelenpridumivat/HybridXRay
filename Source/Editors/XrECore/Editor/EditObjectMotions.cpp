@@ -20,6 +20,8 @@
 	#include "AnimationKeyCalculate.h"
 #endif
 
+#include "../XrECore/VisualLog.h"
+
 #if 0
 	bool check_scale( Fmatrix F ){ return true;}
 #endif
@@ -297,12 +299,16 @@ bool CEditableObject::AppendSMotion(LPCSTR fname, SMotionVec* inserted)
 	VERIFY(IsSkeleton());
 
     bool bRes	= true;
+
+    Msg("..Append motion '%s'", fname);
+    WriteLog("..Append motion '%s'", fname);
     
 	LPCSTR ext	= strext(fname);
     if (0==stricmp(ext,".skl")){
         CSMotion* M = xr_new<CSMotion>();
         if (!M->LoadMotion(fname)){
             ELog.Msg(mtError,"Motion '%s' can't load. Append failed.",fname);
+            WriteLog("..Motion '%s' can't load. Append failed.",fname);
             xr_delete(M);
             bRes = false;
         }else{
@@ -319,6 +325,7 @@ bool CEditableObject::AppendSMotion(LPCSTR fname, SMotionVec* inserted)
                 M->Optimize			();
             }else{
                 ELog.Msg(mtError,"Append failed.",fname);
+                WriteLog("..Append failed. '%s'",fname);
                 xr_delete(M);
 	            bRes = false;
             }
@@ -336,6 +343,7 @@ bool CEditableObject::AppendSMotion(LPCSTR fname, SMotionVec* inserted)
                 CSMotion* M	= xr_new<CSMotion>();
                 if (!M->Load(*F)){
                     ELog.Msg(mtError,"Motion '%s' has different version. Load failed.",M->Name());
+                    WriteLog("..Motion '%s' can't load. Append failed.",M->Name());
                     xr_delete(M);
                     bRes = false;
                     break;
@@ -343,6 +351,7 @@ bool CEditableObject::AppendSMotion(LPCSTR fname, SMotionVec* inserted)
 				if (!CheckBoneCompliance(M)){
 					xr_delete(M);
 					bRes = false;
+                    WriteLog("..Append failed. '%s'",fname);
 					break;
 				}
                 if (bRes){

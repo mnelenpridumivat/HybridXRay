@@ -91,13 +91,20 @@ IC BOOL isEqual(U16Vec& ind, u16 v[3])
     return false;
 }
 
-bool EDetail::Update	(LPCSTR name, float scale)
+bool EDetail::Update	(LPCSTR name, float scale, CEditableObject* ref)
 {
 	m_sRefs				= name;
     // update link
-    CEditableObject* R = xr_new<CEditableObject>(name);
-    R->Load(name, name);
-    R->a_vScale = scale;
+    CEditableObject* R;
+    
+    if (ref == nullptr)
+    {
+        R = xr_new<CEditableObject>(name);
+        R->Load(name, name);
+        R->a_vScale = scale;
+    }
+    else
+        R = ref;
 
     if (!R)
     {
@@ -192,7 +199,7 @@ bool EDetail::Load(IReader& F)
     	m_Flags.assign	(F.r_u32());
 
     // update object
-    return 				Update(buf, 1.0f);
+    return 				Update(buf, 1.0f, nullptr);
 }
 
 void EDetail::Save(IWriter& F)

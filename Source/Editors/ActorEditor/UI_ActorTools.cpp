@@ -592,8 +592,10 @@ bool CActorTools::ExportCPP(LPCSTR name, int mode)
 bool CActorTools::ExportDM(LPCSTR name)
 {
     if (m_pEditObject) {
+        Msg("..Export [%s]", name);
+        WriteLog("..Export [%s]", name);
         EDetail DM;
-        if (!DM.Update(m_pEditObject->GetName(), m_pEditObject->a_vScale)) return false;
+        if (!DM.Update(m_pEditObject->GetName(), m_pEditObject->a_vScale, m_pEditObject)) return false;
         DM.Export(name);
         WriteLog("..File [%s] exported", name);
         return true;
@@ -779,11 +781,7 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, shared_str script, float sc
                         if (!FS.exist(skls_name))
                             Log("!Can't find anim:", skls_name);
                         else
-                        {
-                            Msg("..Append motion '%s'", skls_name);
-                            WriteLog("..Append motion '%s'", skls_name);
                             O->AppendSMotion(skls_name);
-                        }
                     }
                 }
 
@@ -852,11 +850,7 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, shared_str script, float sc
                         if (!FS.exist(skls_name))
                             Log("!Can't find anim:", skls_name);
                         else
-                        {
-                            Msg("..Append motion '%s'", skls_name);
-                            WriteLog("..Append motion '%s'", skls_name);
                             O->AppendSMotion(skls_name);
-                        }
                     }
                 }
 
@@ -889,14 +883,14 @@ bool CActorTools::BatchConvertDialogOGF(xr_vector<BatchFiles> files, shared_str 
             NewBatch file;
             file.file = files[i].files[j].c_str();
             file.source = files[i].source_folder.c_str();
-            all_batch_files.push_back(file);
+            if (FS.exist(file.file))
+                all_batch_files.push_back(file);
         }
     }
 
     Msg("Start converting %d items...", all_batch_files.size());
     FOR_START(u32, 0, all_batch_files.size(), i)
     {
-        Msg("Start converting [%s]", all_batch_files[i].file);
         string_path 		tgt_name;
 
         std::string tgt = out.c_str();
@@ -937,19 +931,11 @@ bool CActorTools::BatchConvertDialogOGF(xr_vector<BatchFiles> files, shared_str 
             shared_str skls_name = EFS.ChangeFileExt(all_batch_files[i].file, ".skls").c_str();
 
             if (FS.exist(skls_name.c_str()))
-            {
-                Msg("..Append motion '%s'", skls_name.c_str());
-                WriteLog("..Append motion '%s'", skls_name.c_str());
                 O->AppendSMotion(skls_name.c_str());
-            }
 
             skls_name = EFS.ChangeFileExt(all_batch_files[i].file, ".skl").c_str();
             if (FS.exist(skls_name.c_str()))
-            {
-                Msg("..Append motion '%s'", skls_name.c_str());
-                WriteLog("..Append motion '%s'", skls_name.c_str());
                 O->AppendSMotion(skls_name.c_str());
-            }
 
             if (res) res = O->ExportOGF(tgt_name, (O->m_objectFlags.is(CEditableObject::eoSoCInfluence) ? 2 : 4));
             Log(res ? ".OK" : "!.FAILED");
@@ -979,14 +965,14 @@ bool CActorTools::BatchConvertDialogOMF(xr_vector<BatchFiles> files, shared_str 
             NewBatch file;
             file.file = files[i].files[j].c_str();
             file.source = files[i].source_folder.c_str();
-            all_batch_files.push_back(file);
+            if (FS.exist(file.file))
+                all_batch_files.push_back(file);
         }
     }
 
     Msg("Start converting %d items...", all_batch_files.size());
     FOR_START(u32, 0, all_batch_files.size(), i)
     {
-        Msg("Start converting [%s]", all_batch_files[i].file);
         string_path 		tgt_name;
 
         std::string tgt = out.c_str();
@@ -1021,19 +1007,11 @@ bool CActorTools::BatchConvertDialogOMF(xr_vector<BatchFiles> files, shared_str 
             shared_str skls_name = EFS.ChangeFileExt(all_batch_files[i].file, ".skls").c_str();
 
             if (FS.exist(skls_name.c_str()))
-            {
-                Msg("..Append motion '%s'", skls_name.c_str());
-                WriteLog("..Append motion '%s'", skls_name.c_str());
                 O->AppendSMotion(skls_name.c_str());
-            }
 
             skls_name = EFS.ChangeFileExt(all_batch_files[i].file, ".skl").c_str();
             if (FS.exist(skls_name.c_str()))
-            {
-                Msg("..Append motion '%s'", skls_name.c_str());
-                WriteLog("..Append motion '%s'", skls_name.c_str());
                 O->AppendSMotion(skls_name.c_str());
-            }
 
             if (res) res = O->ExportOMF(tgt_name);
             Log(res ? ".OK" : "!.FAILED");

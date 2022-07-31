@@ -43,7 +43,7 @@ public:
     void                Export          (IWriter&, LPCSTR tex_name, const Fvector2& offs, const Fvector2& scale, bool rot);
     void				Export			(LPCSTR name);
 
-	bool				Update			(LPCSTR name, float scalse);
+	bool				Update			(LPCSTR name, float scale, CEditableObject* ref);
 
     LPCSTR				GetName			();
     LPCSTR				GetTextureName	();
