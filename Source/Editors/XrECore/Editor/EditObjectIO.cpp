@@ -254,7 +254,9 @@ bool CEditableObject::Load(IReader& F)
 				(*s_it)->m_Flags.assign(F.r_u32());
 				(*s_it)->SetFVF		(F.r_u32());
 				cnt 				= F.r_u32();
-				if (cnt>1) ELog.DlgMsg(mtError,"Object surface '%s' has more than one TC's.",buf.c_str());
+
+				if (cnt>1) 
+                    WriteLog("!..Object surface '%s' has more than one TC's.",buf.c_str());
 				R_ASSERT(1<=cnt);
 			}
 		}else if (F.find_chunk(EOBJ_CHUNK_SURFACES2)){
@@ -270,7 +272,8 @@ bool CEditableObject::Load(IReader& F)
 				(*s_it)->m_Flags.assign(F.r_u32()); 
 				(*s_it)->SetFVF		(F.r_u32());
 				cnt 				= F.r_u32();
-				if (cnt>1) ELog.DlgMsg(mtError,"Object surface '%s' has more than one TC's.",buf.c_str());
+				if (cnt>1)  
+                    WriteLog("!..Object surface '%s' has more than one TC's.",buf.c_str());
 				R_ASSERT(1<=cnt);
 			}
 		}else{
@@ -285,7 +288,8 @@ bool CEditableObject::Load(IReader& F)
 				(*s_it)->m_Flags.set(CSurface::sf2Sided,!!F.r_u8());
 				(*s_it)->SetFVF		(F.r_u32());
 				cnt 				= F.r_u32();
-				if (cnt>1) ELog.DlgMsg(mtError,"Object surface '%s' has more than one TC's.",buf.c_str());
+				if (cnt>1)  
+                    WriteLog("!..Object surface '%s' has more than one TC's.",buf.c_str());
 				R_ASSERT(1<=cnt);
 				F.r_stringZ			(buf); (*s_it)->SetTexture(buf.c_str());
 				F.r_stringZ			(buf); (*s_it)->SetVMap(buf.c_str());

@@ -54,4 +54,5 @@ enum EditorMode
     BatchLtx,
     BatchDialogOGF,
     BatchDialogOMF,
+    ExportOBJOptimized,
 };

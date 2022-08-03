@@ -86,6 +86,7 @@ public:
     u32 			invalid_faces;
 public:
     CSkeletonCollectorPacked	(const Fbox &bb, int apx_vertices=5000, int apx_faces=5000);
+    CSkeletonCollectorPacked    () {}
     bool 			check      	(SSkelFace& F){
 		if ((F.v[0]==F.v[1]) || (F.v[0]==F.v[2]) || (F.v[1]==F.v[2])) return false;
         for (SkelFaceIt f_it=m_Faces.begin(); f_it!=m_Faces.end(); f_it++){
@@ -145,6 +146,7 @@ protected:
         Fbox			m_Box;
         U16Vec			m_UsedBones;
         u16             m_id;
+        u16             m_sort_id;
         BOOL            m_bSoC;
 
         // Progressive
@@ -152,6 +154,7 @@ protected:
 	    u32				m_SkeletonLinkType;
     public:
         SSplit			(CSurface* surf, const Fbox& bb, u16 part);
+        SSplit          () { }
 
         bool			valid()
         {

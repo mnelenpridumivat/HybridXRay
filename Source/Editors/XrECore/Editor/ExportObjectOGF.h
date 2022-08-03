@@ -131,6 +131,7 @@ class ECORE_API CExportObjectOGF
 	    Fbox			m_Box;
         CSurface*		m_Surf;
         u16             m_id;
+        u16             m_sort_id;
         shared_str		m_Shader;
         shared_str		m_Texture;
 

@@ -28,7 +28,6 @@
 
 //#include "../../../xrRender/Private/SkeletonAnimated.h"
 
-
 ECORE_API BOOL g_force16BitTransformQuant = FALSE;
 ECORE_API BOOL g_forceFloatTransformQuant = FALSE;
 ECORE_API float g_EpsSkelPositionDelta = EPS;
@@ -120,6 +119,7 @@ CExportSkeleton::SSplit::SSplit(CSurface* surf, const Fbox& bb, u16 part):CSkele
     m_Texture				= surf->m_Texture;
     m_PartID 				= part;
     m_id                    = surf->m_id;
+    m_sort_id               = surf->m_sort_id;
     m_bSoC                  = FALSE;
 }
 //----------------------------------------------------
@@ -677,7 +677,7 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
         MESH->GenerateFNormals							();
         MESH->GenerateSVertices							(influence);
 
-        u16 surf_counter = 0;
+        u16 surf_counter;
         for (SurfFacesPairIt sp_it = MESH->m_SurfFaces.begin(); sp_it != MESH->m_SurfFaces.end(); sp_it++)
         {
             if (m_Source->m_objectFlags.is(CEditableObject::eoOptimizeSurf))
@@ -852,28 +852,44 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
 
     Msg				("..Split statistic:");
     WriteLog		("..Split statistic:");
-    for (int k=0; k<(int)m_Splits.size(); k++)
-    {
+
     // check splits
-         if (bRes)
-         {
-              if (!m_Splits[k].valid())
-              {
-                  Msg("..Empty split found (Texture: %s). Removed.",*m_Splits[k].m_Texture);
-                  WriteLog("..Empty split found (Texture: %s). Removed.",*m_Splits[k].m_Texture);
-                  m_Splits.erase	(m_Splits.begin()+k); k--;
-              }
-              else
-              {
-                  SSplit& split	= m_Splits[k];
-                  std::sort		(split.m_UsedBones.begin(),split.m_UsedBones.end());
-                  U16It ne		= std::unique(split.m_UsedBones.begin(),split.m_UsedBones.end());
-                  split.m_UsedBones.erase	(ne,split.m_UsedBones.end());
-                  Msg("..Split %d: [Bones: %d, Links: %d, Faces: %d, Verts: %d, BrPart: %d, Shader/Texture: '%s'/'%s']",k,split.m_UsedBones.size(),split.m_SkeletonLinkType,split.getTS(),split.getVS(),split.m_PartID,*m_Splits[k].m_Shader,*m_Splits[k].m_Texture);
-                  WriteLog("..Split %d: [Links: %d, Faces: %d, Verts: %d, Texture: '%s']",k,split.m_SkeletonLinkType,split.getTS(),split.getVS(),*m_Splits[k].m_Texture);
-              }
-         }
+    if (bRes)
+    {
+        for (int k = 0; k < (int)m_Splits.size(); k++)
+        {
+            if (!m_Splits[k].valid())
+            {
+                Msg("!..Empty split found (Texture: %s). Removed.", *m_Splits[k].m_Texture);
+                WriteLog("!..Empty split found (Texture: %s). Removed.", *m_Splits[k].m_Texture);
+                m_Splits.erase(m_Splits.begin() + k); k--;
+            }
+        }
+
+        for (int i = 0; i < m_Splits.size() - 1; i++)
+        {
+            for (int j = 0; j < m_Splits.size() - i - 1; j++)
+            {
+                if (m_Splits[j].m_sort_id < m_Splits[j + 1].m_sort_id)
+                {
+                    SSplit temp = m_Splits[j];
+                    m_Splits[j] = m_Splits[j + 1];
+                    m_Splits[j + 1] = temp;
+                }
+            }
+        }
+
+        for (int k=0; k<(int)m_Splits.size(); k++)
+        {
+            SSplit& split	= m_Splits[k];
+            std::sort		(split.m_UsedBones.begin(),split.m_UsedBones.end());
+            U16It ne		= std::unique(split.m_UsedBones.begin(),split.m_UsedBones.end());
+            split.m_UsedBones.erase	(ne,split.m_UsedBones.end());
+            Msg("..Split %d: [Bones: %d, Links: %d, Faces: %d, Verts: %d, BrPart: %d, Shader/Texture: '%s'/'%s']",k,split.m_UsedBones.size(),split.m_SkeletonLinkType,split.getTS(),split.getVS(),split.m_PartID,*m_Splits[k].m_Shader,*m_Splits[k].m_Texture);
+            WriteLog("..Split %d: [Links: %d, Faces: %d, Verts: %d, Texture: '%s']",k,split.m_SkeletonLinkType,split.getTS(),split.getVS(),*m_Splits[k].m_Texture);
+        }
     }
+
     // calculate TB
 #if !defined(_DEBUG) && defined(_WIN64) 
     if (!g_BatchWorking)
@@ -921,6 +937,7 @@ bool CExportSkeleton::ExportAsSimple(IWriter& F)
         // Saving geometry...
         if ( m_Splits.size()==1 )
         {
+            WriteLog("..Save as simple");
             // export as single mesh
             m_Splits[0].Save(F);
             return true;

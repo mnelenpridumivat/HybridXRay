@@ -61,6 +61,7 @@ public:
 	Flags32			m_RTFlags;
 	u32				tag;
     u16             m_id;
+    u16             m_sort_id;
 public:
 	CSurface		()
 	{
@@ -71,6 +72,7 @@ public:
 		m_dwFVF		= 0;
 		tag			= 0;
         m_id        = 0;
+        m_sort_id   = 0;
 	}
     IC bool			Validate		()
     {

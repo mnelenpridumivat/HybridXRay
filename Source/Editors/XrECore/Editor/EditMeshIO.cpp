@@ -7,6 +7,7 @@
 
 #include "EditMesh.h"
 #include "EditObject.h"
+#include "../XrECore/VisualLog.h"
 
 #define EMESH_CURRENT_VERSION	      	0x0011
 //----------------------------------------------------
@@ -109,6 +110,7 @@ bool CEditableMesh::LoadMesh(IReader& F){
     R_ASSERT(F.r_chunk(EMESH_CHUNK_VERSION,&version));
     if (version!=EMESH_CURRENT_VERSION){
         ELog.DlgMsg( mtError, "CEditableMesh: unsuported file version. Mesh can't load.");
+		WriteLog	("!..Unsuported file version. Mesh can't load.");
         return false;
     }
 
@@ -123,6 +125,7 @@ bool CEditableMesh::LoadMesh(IReader& F){
 	m_VertCount			= F.r_u32();
     if (m_VertCount<3){
         Log				("!CEditableMesh: Vertices<3.");
+		WriteLog	("!..Vertices < 3");
      	return false;
     }
     m_Vertices			= xr_alloc<Fvector>(m_VertCount);
@@ -131,8 +134,10 @@ bool CEditableMesh::LoadMesh(IReader& F){
     R_ASSERT(F.find_chunk(EMESH_CHUNK_FACES));
     m_FaceCount			= F.r_u32();
     m_Faces				= xr_alloc<st_Face>(m_FaceCount);
-    if (m_FaceCount==0){
+    if (m_FaceCount==0)
+	{
         Log				("!CEditableMesh: Faces==0.");
+		WriteLog	("!..Faces == 0");
      	return false;
     }
 	F.r					(m_Faces, m_FaceCount*sizeof(st_Face));
@@ -173,9 +178,11 @@ bool CEditableMesh::LoadMesh(IReader& F){
         CSurface* surf	= m_Parent->FindSurfaceByName(surf_name, &surf_id); VERIFY(surf);
         IntVec&			face_lst = m_SurfFaces[surf];
         face_lst.resize	(F.r_u32());
+		surf->m_sort_id = surf_id;
         if (face_lst.empty())
         {
 	        Log			("!Empty surface found: %s",surf->_Name());
+			WriteLog	("!..Empty surface found: '%s'",surf->_Name());
     	 	return false;
         }
         F.r				(&*face_lst.begin(), face_lst.size()*sizeof(int));

@@ -257,13 +257,15 @@ int main(int argc, char** argv)
     else
     {
         // Program params
-        mode = ExportOGF;
-        object_path = "H:\\test\\error\\wpn_m4.object";
-        second_file_path = "H:\\test\\error\\wpn_m4.ogf";
-        flags = exfHQGeometryPlus;
+        mode = GenerateLod;
+        object_path = "H:\\export\\wpn_m249.object";
+        second_file_path = "H:\\export\\wpn_m249_lod.object";
+        //flags = exfHQGeometryPlus;
         //custom_script = "G:\\projects\\ValeroK\\xrExportTool\\bin\\x64\\Release\\scripts\\delete_unused_gunslinger_bones.script";
         // End of program params
     }
+
+    Core.CurrentMode = mode;
 
     std::string line;
     std::string userdata_path = object_path.c_str();
@@ -384,6 +386,18 @@ int main(int argc, char** argv)
         }break;
         case ExportOBJ:
         {
+            if (!ATools->ExportOBJ(second_file_path.c_str()))
+                ret_code = -1;
+        }break;
+        case ExportOBJOptimized:
+        {
+            g_EpsSkelPositionDelta = EPS_L;
+            ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoProgressive, FALSE);
+            ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoStripify, TRUE);
+            ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoOptimizeSurf, TRUE);
+            ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoHQExportPlus, FALSE);
+            ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoNormals, TRUE);
+            ATools->CurrentObject()->Optimize();
             if (!ATools->ExportOBJ(second_file_path.c_str()))
                 ret_code = -1;
         }break;

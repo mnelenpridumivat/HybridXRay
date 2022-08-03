@@ -54,37 +54,6 @@ namespace Object_tool
             Application.Run(new Object_Editor());
         }
     }
-
-    public class Fvector
-    {
-        public float x, y, z;
-        public Fvector()
-        {
-            x = 0.0f;
-            y = 0.0f;
-            z = 0.0f;
-        }
-        public Fvector(float _x, float _y, float _z)
-        {
-            x = _x;
-            y = _y;
-            z = _z;
-        }
-
-        public void set(float _x, float _y, float _z)
-        {
-            x = _x;
-            y = _y;
-            z = _z;
-        }
-
-        public void set(Fvector vector)
-        {
-            x = vector.x;
-            y = vector.y;
-            z = vector.z;
-        }
-    }
     public class EditorSettings
     {
         private IniFile pSettings = null;

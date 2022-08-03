@@ -37,6 +37,7 @@ namespace Object_tool
 		BatchLtx,
 		BatchDialogOGF,
 		BatchDialogOMF,
+		ExportOBJOptimized,
 	};
 
 	public partial class Object_Editor : Form
@@ -303,7 +304,7 @@ namespace Object_tool
 			}
 		}
 
-		private int StartEditor(EditorMode mode, string object_path, string second_path = "null", int flags = -1, float scale = 1.0f)
+		private int StartEditor(bool async, EditorMode mode, string object_path, string second_path = "null", int flags = -1, float scale = 1.0f)
 		{
 			if (flags == -1)
             {
@@ -419,44 +420,54 @@ namespace Object_tool
 			// Ёкспорт названи€ ориг модели
 			args += $" \"{FILE_NAME}\"";
 
-			int exit_code = RunCompiller(args);
+			int exit_code = RunCompiller(args, async);
 
 			if (File.Exists(object_path + "_temp.userdata"))
 				File.Delete(object_path + "_temp.userdata");
 			return exit_code;
 		}
 
-		private int RunCompiller(string args)
+		private int RunCompiller(string args, bool async)
 		{
 			string exe_path = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\Object Editor.exe";
 			if (File.Exists(exe_path))
 			{
-                this.Invoke((MethodInvoker)delegate ()
-                {
-                    LogTextBox.Clear();
-					LogTextBox.SelectionStart = LogTextBox.Text.Length;
-					LogTextBox.ScrollToCaret();
-				});
+				if (async)
+				{
+					this.Invoke((MethodInvoker)delegate ()
+					{
+						LogTextBox.Clear();
+						LogTextBox.SelectionStart = LogTextBox.Text.Length;
+						LogTextBox.ScrollToCaret();
+					});
+				}
                 CheckTempFileExist();
 				EditorProcess.StartInfo.FileName = exe_path;
 				EditorProcess.StartInfo.WorkingDirectory = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\'));
 				EditorProcess.StartInfo.Arguments = args;
                 EditorProcess.Start();
 				EditorWorking = true;
-				EditorProcess.BeginOutputReadLine();
+
+				if (async)
+					EditorProcess.BeginOutputReadLine();
 
 				EditorProcess.WaitForExit();
 				EditorWorking = false;
-				EditorProcess.CancelOutputRead();
+
+				if (async)
+					EditorProcess.CancelOutputRead();
 
 				dLastTime = Math.Round((EditorProcess.ExitTime - EditorProcess.StartTime).TotalSeconds, 3);
 
-				this.Invoke((MethodInvoker)delegate ()
+				if (async)
 				{
-					LogTextBox.AppendText("\n" + GetTime());
-					LogTextBox.SelectionStart = LogTextBox.Text.Length;
-					LogTextBox.ScrollToCaret();
-				});
+                    this.Invoke((MethodInvoker)delegate ()
+                    {
+                        LogTextBox.AppendText("\n" + GetTime());
+                        LogTextBox.SelectionStart = LogTextBox.Text.Length;
+                        LogTextBox.ScrollToCaret();
+                    });
+                }
 
 				int code = EditorProcess.ExitCode;
                 EditorProcess.Close();
@@ -573,7 +584,7 @@ namespace Object_tool
 							SaveOgfDialog.InitialDirectory = "";
 
 							SdkThread = new Thread(() => {
-								int code = StartEditor(EditorMode.ExportOGF, TEMP_FILE_NAME, SaveOgfDialog.FileName);
+								int code = StartEditor(true, EditorMode.ExportOGF, TEMP_FILE_NAME, SaveOgfDialog.FileName);
 								if (!EditorKilled)
 								{
 									if (code == 0)
@@ -598,7 +609,7 @@ namespace Object_tool
 							SaveOmfDialog.InitialDirectory = "";
 
 							SdkThread = new Thread(() => {
-								int code = StartEditor(EditorMode.ExportOMF, TEMP_FILE_NAME, SaveOmfDialog.FileName);
+								int code = StartEditor(true, EditorMode.ExportOMF, TEMP_FILE_NAME, SaveOmfDialog.FileName);
 								if (!EditorKilled)
 								{
 									if (code == 0)
@@ -616,7 +627,7 @@ namespace Object_tool
 						if (OpenSklsDialog.ShowDialog() == DialogResult.OK)
 						{
 							SdkThread = new Thread(() => {
-								int code = StartEditor(EditorMode.LoadMotions, TEMP_FILE_NAME);
+								int code = StartEditor(true, EditorMode.LoadMotions, TEMP_FILE_NAME);
 								if (!EditorKilled)
 								{
 									if (code == 0)
@@ -640,7 +651,7 @@ namespace Object_tool
 				case "DeleteSkls":
                     {
 						SdkThread = new Thread(() => {
-							int code = StartEditor(EditorMode.DeleteMotions, TEMP_FILE_NAME);
+							int code = StartEditor(true, EditorMode.DeleteMotions, TEMP_FILE_NAME);
 							if (!EditorKilled)
 							{
 								if (code == 0)
@@ -667,7 +678,7 @@ namespace Object_tool
 							SaveSklsDialog.InitialDirectory = "";
 
 							SdkThread = new Thread(() => {
-								int code = StartEditor(EditorMode.SaveSklsMotions, TEMP_FILE_NAME, SaveSklsDialog.FileName);
+								int code = StartEditor(true, EditorMode.SaveSklsMotions, TEMP_FILE_NAME, SaveSklsDialog.FileName);
 								if (!EditorKilled)
 								{
 									if (code == 0)
@@ -687,7 +698,7 @@ namespace Object_tool
 							SaveSklDialog.InitialDirectory = "";
 
 							SdkThread = new Thread(() => {
-								int code = StartEditor(EditorMode.SaveSklMotions, TEMP_FILE_NAME, SaveSklDialog.FileName);
+								int code = StartEditor(true, EditorMode.SaveSklMotions, TEMP_FILE_NAME, SaveSklDialog.FileName);
 								if (!EditorKilled)
 								{
 									if (code == 0)
@@ -705,7 +716,7 @@ namespace Object_tool
 						if (OpenBonesDialog.ShowDialog() == DialogResult.OK)
 						{
 							SdkThread = new Thread(() => {
-								int code = StartEditor(EditorMode.LoadBones, TEMP_FILE_NAME, OpenBonesDialog.FileName);
+								int code = StartEditor(true, EditorMode.LoadBones, TEMP_FILE_NAME, OpenBonesDialog.FileName);
 								if (!EditorKilled)
 								{
 									if (code == 0)
@@ -725,7 +736,7 @@ namespace Object_tool
 							SaveBonesDialog.InitialDirectory = "";
 
 							SdkThread = new Thread(() => {
-								int code = StartEditor(EditorMode.SaveBones, TEMP_FILE_NAME, SaveBonesDialog.FileName);
+								int code = StartEditor(true, EditorMode.SaveBones, TEMP_FILE_NAME, SaveBonesDialog.FileName);
 								if (!EditorKilled)
 								{
 									if (code == 0)
@@ -745,7 +756,7 @@ namespace Object_tool
 							SaveObjDialog.InitialDirectory = "";
 
 							SdkThread = new Thread(() => {
-								int code = StartEditor(EditorMode.ExportOBJ, TEMP_FILE_NAME, SaveObjDialog.FileName);
+								int code = StartEditor(true, EditorMode.ExportOBJ, TEMP_FILE_NAME, SaveObjDialog.FileName);
 								if (!EditorKilled)
 								{
 									if (code == 0)
@@ -761,7 +772,7 @@ namespace Object_tool
 				case "GenerateShapes":
 					{
 						SdkThread = new Thread(() => {
-							int code = StartEditor(EditorMode.GenerateShape, TEMP_FILE_NAME);
+							int code = StartEditor(true, EditorMode.GenerateShape, TEMP_FILE_NAME);
 							if (!EditorKilled)
 							{
 								if (code == 0)
@@ -778,7 +789,7 @@ namespace Object_tool
 						if (OpenLtxDialog.ShowDialog() == DialogResult.OK)
 						{
 							SdkThread = new Thread(() => {
-								int code = StartEditor(EditorMode.LoadBoneParts, TEMP_FILE_NAME, OpenLtxDialog.FileName);
+								int code = StartEditor(true, EditorMode.LoadBoneParts, TEMP_FILE_NAME, OpenLtxDialog.FileName);
 								if (!EditorKilled)
 								{
 									if (code == 0)
@@ -798,7 +809,7 @@ namespace Object_tool
 							SaveBonePartsDialog.InitialDirectory = "";
 
 							SdkThread = new Thread(() => {
-								int code = StartEditor(EditorMode.SaveBoneParts, TEMP_FILE_NAME, SaveBonePartsDialog.FileName);
+								int code = StartEditor(true, EditorMode.SaveBoneParts, TEMP_FILE_NAME, SaveBonePartsDialog.FileName);
 								if (!EditorKilled)
 								{
 									if (code == 0)
@@ -814,7 +825,7 @@ namespace Object_tool
 				case "ResetBoneParts":
 					{
 						SdkThread = new Thread(() => {
-							int code = StartEditor(EditorMode.ToDefaultBoneParts, TEMP_FILE_NAME);
+							int code = StartEditor(true, EditorMode.ToDefaultBoneParts, TEMP_FILE_NAME);
 							if (!EditorKilled)
 							{
 								if (code == 0)
@@ -833,7 +844,7 @@ namespace Object_tool
 							SaveDmDialog.InitialDirectory = "";
 
 							SdkThread = new Thread(() => {
-								int code = StartEditor(EditorMode.ExportDM, TEMP_FILE_NAME, SaveDmDialog.FileName);
+								int code = StartEditor(true, EditorMode.ExportDM, TEMP_FILE_NAME, SaveDmDialog.FileName);
 								if (!EditorKilled)
 								{
 									if (code == 0)
@@ -876,7 +887,7 @@ namespace Object_tool
 								SaveOgfLodDialog.InitialDirectory = "";
 
 								SdkThread = new Thread(() => {
-									int code = StartEditor(EditorMode.GenerateLod, TEMP_FILE_NAME, SaveOgfLodDialog.FileName);
+									int code = StartEditor(true, EditorMode.GenerateLod, TEMP_FILE_NAME, SaveOgfLodDialog.FileName);
 									if (!EditorKilled)
 									{
 										if (code == 0)
@@ -906,7 +917,7 @@ namespace Object_tool
 
 							SdkThread = new Thread(() => {
 								cpp_mode = idx;
-								int code = StartEditor(EditorMode.SaveCpp, TEMP_FILE_NAME, SaveCppDialog.FileName);
+								int code = StartEditor(true, EditorMode.SaveCpp, TEMP_FILE_NAME, SaveCppDialog.FileName);
 								if (!EditorKilled)
 								{
 									if (code == 0)
@@ -1009,7 +1020,7 @@ namespace Object_tool
 
 							if (batch_flags.res)
 							{
-								int code = StartEditor(EditorMode.BatchLtx, TEMP_FILE_NAME, OpenBatchLtxDialog.FileName, batch_flags.GetFlags(dbg_window), batch_flags.scale);
+								int code = StartEditor(true, EditorMode.BatchLtx, TEMP_FILE_NAME, OpenBatchLtxDialog.FileName, batch_flags.GetFlags(dbg_window), batch_flags.scale);
 								if (!EditorKilled)
 								{
 									if (code == 0)
@@ -1033,7 +1044,7 @@ namespace Object_tool
 							if (batch_flags.res)
 							{
 								SdkThread = new Thread(() => {
-									int code = StartEditor(EditorMode.BatchDialogOGF, TEMP_FILE_NAME, "null", batch_flags.GetFlags(dbg_window), batch_flags.scale);
+									int code = StartEditor(true, EditorMode.BatchDialogOGF, TEMP_FILE_NAME, "null", batch_flags.GetFlags(dbg_window), batch_flags.scale);
 									if (!EditorKilled)
 									{
 										if (code == 0)
@@ -1059,7 +1070,7 @@ namespace Object_tool
 							if (batch_flags.res)
 							{
 								SdkThread = new Thread(() => {
-									int code = StartEditor(EditorMode.BatchDialogOMF, TEMP_FILE_NAME, "null", batch_flags.GetFlags(dbg_window), batch_flags.scale);
+									int code = StartEditor(true, EditorMode.BatchDialogOMF, TEMP_FILE_NAME, "null", batch_flags.GetFlags(dbg_window), batch_flags.scale);
 									if (!EditorKilled)
 									{
 										if (code == 0)
@@ -1096,7 +1107,7 @@ namespace Object_tool
 							if (batch_flags.res)
 							{
 								SdkThread = new Thread(() => {
-									int code = StartEditor(EditorMode.BatchDialogOGF, TEMP_FILE_NAME, "null", batch_flags.GetFlags(dbg_window), batch_flags.scale);
+									int code = StartEditor(true, EditorMode.BatchDialogOGF, TEMP_FILE_NAME, "null", batch_flags.GetFlags(dbg_window), batch_flags.scale);
 									if (!EditorKilled)
 									{
 										if (code == 0)
@@ -1133,7 +1144,7 @@ namespace Object_tool
 							if (batch_flags.res)
 							{
 								SdkThread = new Thread(() => {
-									int code = StartEditor(EditorMode.BatchDialogOMF, TEMP_FILE_NAME, "null", batch_flags.GetFlags(dbg_window), batch_flags.scale);
+									int code = StartEditor(true, EditorMode.BatchDialogOMF, TEMP_FILE_NAME, "null", batch_flags.GetFlags(dbg_window), batch_flags.scale);
 									if (!EditorKilled)
 									{
 										if (code == 0)
@@ -1871,7 +1882,7 @@ namespace Object_tool
         {
 			if (TEMP_FILE_NAME != "")
 			{
-				StartEditor(EditorMode.SaveObject, TEMP_FILE_NAME);
+				StartEditor(true, EditorMode.SaveObject, TEMP_FILE_NAME);
 				if (!EditorKilled)
 				{
 					File.Copy(TEMP_FILE_NAME, filename, true);
