@@ -722,7 +722,8 @@ bool CExportObjectOGF::ExportAsWavefrontOBJ(IWriter& F, LPCSTR fn)
                                             tex_path,
                                             tex_name,
                                             ".tga");
-		Fm->w_string		(tmp);
+        if (Core.CurrentMode != 20) // ExportOBJOptimized, ломает mtl чтобы Obj Viewer не жаловался что нет текстур. Используется только для моделей Obj Viewer
+		    Fm->w_string		(tmp);
     }
 
     FS.w_close		(Fm);

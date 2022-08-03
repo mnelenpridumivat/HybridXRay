@@ -160,7 +160,11 @@
       <AdditionalLibraryDirectories>$(SolutionDir)..\SDK\tbb\Lib\$(Platform);$(SolutionDir)..\Lib\$(Platform)\$(Configuration);$(SolutionDir)..\SDK\Lib\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y /d  "$(SolutionDir)..\SDK\binaries\$(Platform)\$(Configuration)\tbb.dll" "$(OutDir)"</Command>
+      <Command>xcopy /y /d  "$(SolutionDir)..\SDK\binaries\$(Platform)\$(Configuration)\tbb.dll" "$(OutDir)"
+xcopy /y /d  "$(SolutionDir)..\SDK\binaries\cg.dll" "$(OutDir)"
+xcopy /y /d  "$(SolutionDir)..\SDK\binaries\cgGL.dll" "$(OutDir)"
+xcopy /y /d  "$(SolutionDir)..\SDK\binaries\glut32.dll" "$(OutDir)"
+xcopy /y /d  "$(SolutionDir)..\SDK\binaries\OBJ Viewer.exe" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

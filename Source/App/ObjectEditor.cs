@@ -140,6 +140,8 @@ namespace Object_tool
 		{
 			InitializeComponent();
 
+			InitUI();
+
 			EditorProcess = new System.Diagnostics.Process();
 			EditorProcess.OutputDataReceived += SortOutputHandler;
 			EditorProcess.StartInfo.CreateNoWindow = true;
@@ -147,34 +149,7 @@ namespace Object_tool
 			EditorProcess.StartInfo.RedirectStandardOutput = true;
 			EditorProcess.StartInfo.RedirectStandardError = true;
 
-			CurrentSize = this.Size;
-			BoneSize = new Size(713, 790);
 			Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
-			shapeParamsToolStripMenuItem.Enabled = false;
-			surfaceParamsToolStripMenuItem.Enabled = false;
-			saveToolStripMenuItem.Enabled = false;
-			exportToolStripMenuItem.Enabled = false;
-			deleteToolStripMenuItem.Enabled = false;
-			sklSklsToolStripMenuItem.Enabled = false;
-			bonesToolStripMenuItem.Enabled = false;
-			dMToolStripMenuItem.Enabled = false;
-			bonesPartsToolStripMenuItem.Enabled = false;
-			FlagsGroupBox.Enabled = false;
-			MotionRefsBox.Enabled = false;
-			UserDataTextBox.Enabled = false;
-			LodTextBox.Enabled = false;
-			ScaleGroupBox.Enabled = false;
-			motionRefsToolStripMenuItem.Enabled = false;
-			userDataToolStripMenuItem.Enabled = false;
-			motionRefsToolStripMenuItem1.Enabled = false;
-			userDataToolStripMenuItem1.Enabled = false;
-			generateLodToolStripMenuItem.Enabled = false;
-			objectInfoToolStripMenuItem.Enabled = false;
-			UseSplitNormals.Enabled = false;
-			normalsToolStripMenuItem.Enabled = false;
-			importObjectParamsToolStripMenuItem.Enabled = false;
-			saveToolStripMenuItem1.Enabled = false;
-			generateShapesToolStripMenuItem.Enabled = false;
 
 			SaveSklDialog = new FolderSelectDialog();
 			OpenBatchOutDialog = new FolderSelectDialog();
@@ -214,9 +189,6 @@ namespace Object_tool
 			dbg_window = true;
 			showWindowToolStripMenuItem.Enabled = false;
 #endif
-
-			if (USE_OLD_BONES)
-				BonesPage.Controls.Clear();
 
 			if (System.Diagnostics.Debugger.IsAttached)
             {
@@ -278,8 +250,6 @@ namespace Object_tool
 			if (!Directory.Exists(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp"))
 				Directory.CreateDirectory(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp");
 
-			if (USE_OLD_BONES)
-				BonesPage.Controls.Clear();
 			FILE_NAME = filename;
 			StatusFile.Text = FILE_NAME.Substring(FILE_NAME.LastIndexOf('\\') + 1);
 
@@ -288,7 +258,7 @@ namespace Object_tool
 			TEMP_FILE_NAME = TempFile;
 
 			InitDialogs();
-			InitUI();
+			UpdateUI();
 			LoadData();
 			ParseMotions();
 
@@ -2417,54 +2387,91 @@ namespace Object_tool
 
 		private void InitUI()
         {
+			CurrentSize = this.Size;
+			BoneSize	= new Size(713, 790);
+
+			shapeParamsToolStripMenuItem.Enabled		= false;
+			surfaceParamsToolStripMenuItem.Enabled		= false;
+			saveToolStripMenuItem.Enabled				= false;
+			exportToolStripMenuItem.Enabled				= false;
+			deleteToolStripMenuItem.Enabled				= false;
+			sklSklsToolStripMenuItem.Enabled			= false;
+			bonesToolStripMenuItem.Enabled				= false;
+			dMToolStripMenuItem.Enabled					= false;
+			bonesPartsToolStripMenuItem.Enabled			= false;
+			FlagsGroupBox.Enabled						= false;
+			MotionRefsBox.Enabled						= false;
+			UserDataTextBox.Enabled						= false;
+			LodTextBox.Enabled							= false;
+			ScaleGroupBox.Enabled						= false;
+			motionRefsToolStripMenuItem.Enabled			= false;
+			userDataToolStripMenuItem.Enabled			= false;
+			motionRefsToolStripMenuItem1.Enabled		= false;
+			userDataToolStripMenuItem1.Enabled			= false;
+			generateLodToolStripMenuItem.Enabled		= false;
+			objectInfoToolStripMenuItem.Enabled			= false;
+			UseSplitNormals.Enabled						= false;
+			normalsToolStripMenuItem.Enabled			= false;
+			importObjectParamsToolStripMenuItem.Enabled = false;
+			saveToolStripMenuItem1.Enabled				= false;
+			generateShapesToolStripMenuItem.Enabled		= false;
+			ViewtoolStripMenuItem.Enabled				= false;
+
+			if (USE_OLD_BONES)
+				BonesPage.Controls.Clear();
+		}
+
+		private void UpdateUI()
+        {
 			bool has_motions = MotionCount() > 0;
 			bool has_bones = HasBones();
 
-			DeletesklsToolStripMenuItem.Enabled = has_motions;
-			SaveSklsToolStripMenuItem.Enabled = has_motions;
-			sklToolStripMenuItem.Enabled = has_motions;
-			oMFToolStripMenuItem.Enabled = has_motions;
-			saveToolStripMenuItem.Enabled = !IsOgfMode;
-			exportToolStripMenuItem.Enabled = true;
-			deleteToolStripMenuItem.Enabled = true;
-			sklSklsToolStripMenuItem.Enabled = has_bones;
-			bonesToolStripMenuItem.Enabled = has_bones;
-			oGFToolStripMenuItem.Enabled = !IsOgfMode;
-			objToolStripMenuItem.Enabled = !IsOgfMode;
-			objectToolStripMenuItem.Enabled = !IsOgfMode;
-			dMToolStripMenuItem.Enabled = !IsOgfMode;
-			bonesPartsToolStripMenuItem.Enabled = has_bones;
-			cToolStripMenuItem.Enabled = !IsOgfMode;
-			bonesToolStripMenuItem1.Enabled = has_bones;
-			bonesPartsToolStripMenuItem1.Enabled = has_bones;
-			bonesPartsToDefaultToolStripMenuItem.Enabled = has_bones;
-			ScaleGroupBox.Enabled = !IsOgfMode;
-			MotionRefsBox.Enabled = has_bones;
-			UserDataTextBox.Enabled = has_bones;
-			LodTextBox.Enabled = has_bones;
-			motionRefsToolStripMenuItem.Enabled = has_bones && !IsOgfMode;
-			userDataToolStripMenuItem.Enabled = has_bones && !IsOgfMode;
-			ModelFlagsGroupBox.Enabled = !IsOgfMode;
-			FlagsGroupBox.Enabled = true;
-			generateLodToolStripMenuItem.Enabled = !IsOgfMode;
-			objectInfoToolStripMenuItem.Enabled = !IsOgfMode;
-			importObjectParamsToolStripMenuItem.Enabled = !IsOgfMode;
-			saveToolStripMenuItem1.Enabled = !IsOgfMode;
-			shapeParamsToolStripMenuItem.Enabled = !IsOgfMode && has_bones;
-			generateShapesToolStripMenuItem.Enabled = !IsOgfMode && has_bones;
-			surfaceParamsToolStripMenuItem.Enabled = !IsOgfMode;
+			DeletesklsToolStripMenuItem.Enabled				= has_motions;
+			SaveSklsToolStripMenuItem.Enabled				= has_motions;
+			sklToolStripMenuItem.Enabled					= has_motions;
+			oMFToolStripMenuItem.Enabled					= has_motions;
+			saveToolStripMenuItem.Enabled					= !IsOgfMode;
+			exportToolStripMenuItem.Enabled					= true;
+			deleteToolStripMenuItem.Enabled					= true;
+			sklSklsToolStripMenuItem.Enabled				= has_bones;
+			bonesToolStripMenuItem.Enabled					= has_bones;
+			oGFToolStripMenuItem.Enabled					= !IsOgfMode;
+			objToolStripMenuItem.Enabled					= !IsOgfMode;
+			objectToolStripMenuItem.Enabled					= !IsOgfMode;
+			dMToolStripMenuItem.Enabled						= !IsOgfMode;
+			bonesPartsToolStripMenuItem.Enabled				= has_bones;
+			cToolStripMenuItem.Enabled						= !IsOgfMode;
+			bonesToolStripMenuItem1.Enabled					= has_bones;
+			bonesPartsToolStripMenuItem1.Enabled			= has_bones;
+			bonesPartsToDefaultToolStripMenuItem.Enabled	= has_bones;
+			ScaleGroupBox.Enabled							= !IsOgfMode;
+			MotionRefsBox.Enabled							= has_bones;
+			UserDataTextBox.Enabled							= has_bones;
+			LodTextBox.Enabled								= has_bones;
+			motionRefsToolStripMenuItem.Enabled				= has_bones && !IsOgfMode;
+			userDataToolStripMenuItem.Enabled				= has_bones && !IsOgfMode;
+			ModelFlagsGroupBox.Enabled						= !IsOgfMode;
+			FlagsGroupBox.Enabled							= true;
+			generateLodToolStripMenuItem.Enabled			= !IsOgfMode;
+			objectInfoToolStripMenuItem.Enabled				= !IsOgfMode;
+			importObjectParamsToolStripMenuItem.Enabled		= !IsOgfMode;
+			saveToolStripMenuItem1.Enabled					= !IsOgfMode;
+			shapeParamsToolStripMenuItem.Enabled			= !IsOgfMode && has_bones;
+			generateShapesToolStripMenuItem.Enabled			= !IsOgfMode && has_bones;
+			surfaceParamsToolStripMenuItem.Enabled			= !IsOgfMode;
+			ViewtoolStripMenuItem.Enabled					= true;
 
-			vertex_count = 0;
-			face_count = 0;
-			surface_count = 0;
-			joints_count = 0;
+			vertex_count	= 0;
+			face_count		= 0;
+			surface_count	= 0;
+			joints_count	= 0;
 
 			SurfacesPage.Controls.Clear();
-			if (USE_OLD_BONES)
-				BonesPage.Controls.Clear();
 			MotionRefsBox.Clear();
 			UserDataTextBox.Clear();
 			LodTextBox.Clear();
+			if (USE_OLD_BONES)
+				BonesPage.Controls.Clear();
 
 			if (IsOgfMode)
 			{
@@ -2845,7 +2852,39 @@ namespace Object_tool
 			, "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
-        private void BoneListIndexChanged(object sender, EventArgs e)
+		private void viewToolStripMenuItem1_Click(object sender, EventArgs e)
+		{
+			MessageBox.Show(
+				"ѕримечани€:\n1. Viewer будет отображать выбранное вами сглаживание во вкладке Flags, благодар€ этому можно будет узнать какое сглаживание нужно использовать.\n2. Viewer реагирует на хоткеи только английской раскладки.\n3. ƒл€ удобного использовани€ программы нужно ознакомитьс€ с возможност€ми через клавишу F1."
+				, "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+		private void ViewtoolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			string exe_path = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\OBJ Viewer.exe";
+			if (File.Exists(exe_path))
+			{
+				StartEditor(false, EditorMode.ExportOBJOptimized, TEMP_FILE_NAME, TEMP_FILE_NAME + ".obj");
+
+				System.Diagnostics.Process Viewer = new System.Diagnostics.Process();
+				Viewer.StartInfo.FileName = exe_path;
+				Viewer.StartInfo.UseShellExecute = false;
+				Viewer.StartInfo.Arguments = TEMP_FILE_NAME + ".obj";
+				Viewer.Start();
+				Viewer.WaitForExit();
+
+				if (File.Exists(TEMP_FILE_NAME + ".obj"))
+					File.Delete(TEMP_FILE_NAME + ".obj");
+				if (File.Exists(TEMP_FILE_NAME + ".mtl"))
+					File.Delete(TEMP_FILE_NAME + ".mtl");
+
+				Viewer.Close();
+			}
+			else
+				MessageBox.Show("Can't find OBJ Viewer.exe", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+		}
+
+		private void BoneListIndexChanged(object sender, EventArgs e)
         {
 			if (BonesList.SelectedIndex == -1) return;
 
