@@ -287,9 +287,9 @@ int main(int argc, char** argv)
     else
     {
         // Program params
-        mode = GenerateLod;
-        object_path = "H:\\export\\wpn_m249.object";
-        second_file_path = "H:\\export\\wpn_m249_lod.object";
+        mode = ExportOBJ;
+        object_path = "H:\\trade\\Sailor_Moon_1_v5_HQ.object";
+        second_file_path = "H:\\trade\\Sailor_Moon_1_v5_HQ.obj";
         //flags = exfHQGeometryPlus;
         //custom_script = "G:\\projects\\ValeroK\\xrExportTool\\bin\\x64\\Release\\scripts\\delete_unused_gunslinger_bones.script";
         // End of program params
