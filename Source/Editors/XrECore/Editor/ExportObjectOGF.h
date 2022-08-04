@@ -93,6 +93,8 @@ public:
     }
     IC bool add_face(SOGFVert& v0, SOGFVert& v1, SOGFVert& v2, bool hq)
     {
+        if (m_Verts.size() >= 60000 || m_Faces.size() >= 0xffff)
+            return false;
         if (!hq && ((v0.P.similar(v1.P, EPS) || v0.P.similar(v2.P, EPS) || v1.P.similar(v2.P, EPS))))
         {
             // ELog.Msg(mtError, "! ..Degenerate face found. Removed.");
@@ -166,25 +168,25 @@ class ECORE_API CExportObjectOGF
                 (*it)->CalculateTB();
         }
 
-        bool SplitStats(int id)
+        bool SplitStats(u32& id, size_t& verts_, size_t& faces_)
         {
-            u32 faces = 0;
-            u32 verts = 0;
-
             for (COGFCPIt it = m_Parts.begin(); it != m_Parts.end(); it++)
             {
-                verts += (*it)->m_Verts.size();
-                faces += (*it)->m_Faces.size();
-            }
+                u32 verts = (*it)->m_Verts.size();
+                u32 faces = (*it)->m_Faces.size();
+                verts_ += verts;
+                faces_ += faces;
 
-            if (faces == 0 || verts == 0)
-            {
-                Msg("# ..Empty split found (Texture: %s).", *m_Texture);
-                return false;
-            }
-            else
-            {
-                Msg("# ..Split %d: [Faces: %d, Verts: %d, Shader/Texture: '%s'/'%s']", id, faces, verts, *m_Shader, *m_Texture);
+                if (faces == 0 || verts == 0)
+                {
+                    Msg("# ..Empty split found (Texture: %s).", *m_Texture);
+                    return false;
+                }
+                else
+                {
+                    Msg("# ..Split %d: [Faces: %d, Verts: %d, Shader/Texture: '%s'/'%s']", id, faces, verts, *m_Shader, *m_Texture);
+                }
+                id++;
             }
             return true;
         }

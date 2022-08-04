@@ -889,6 +889,7 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
             }
         }
 
+        size_t verts = 0, faces = 0;
         for (int k = 0; k < (int)m_Splits.size(); k++)
         {
             SSplit& split = m_Splits[k];
@@ -897,7 +898,10 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
             split.m_UsedBones.erase(ne, split.m_UsedBones.end());
             Msg("# ..Split %d: [Bones: %d, Links: %d, Faces: %d, Verts: %d, BrPart: %d, Shader/Texture: '%s'/'%s']",
                 k, split.m_UsedBones.size(), split.m_SkeletonLinkType, split.getTS(), split.getVS(), split.m_PartID, *m_Splits[k].m_Shader, *m_Splits[k].m_Texture);
+            verts += split.getVS();
+            faces += split.getTS();
         }
+        Msg("# ..Total [Faces: %d, Verts: %d]", faces, verts);
     }
 
     // calculate TB

@@ -374,47 +374,42 @@ bool CExportObjectOGF::PrepareMESH(CEditableMesh* MESH)
         u32       dwTexCnt = ((surf->_FVF() & D3DFVF_TEXCOUNT_MASK) >> D3DFVF_TEXCOUNT_SHIFT);
         R_ASSERT(dwTexCnt == 1);
 
-        int elapsed_faces  = surf->m_Flags.is(CSurface::sf2Sided) ? face_lst.size() * 2 : face_lst.size();
-        const bool b2sided = !!surf->m_Flags.is(CSurface::sf2Sided);
+        SSplit* split = FindSplit(surf, surf->m_id);
+
+        if (0 == split)
+        {
+#if 1
+            SGameMtl* M = GameMaterialLibrary->GetMaterialByID(surf->_GameMtl());
+            if (0 == M)
+            {
+                ELog.DlgMsg(mtError, "! Surface: '%s' contains undefined game material.", surf->_Name());
+                bResult = false;
+                break;
+            }
+#endif
+            Fmatrix mScale;
+            mScale.scale(m_Source->a_vScale, m_Source->a_vScale, m_Source->a_vScale);
+
+            Fbox box;
+            box.xform(m_Source->GetBox(), mScale);
+
+            m_Splits.push_back(xr_new<SSplit>(surf, box));
+            split = m_Splits.back();
+        }
+
+        size_t elapsed_faces = surf->m_Flags.is(CSurface::sf2Sided) ? face_lst.size() * 2 : face_lst.size();
+        const bool b2sided   = !!surf->m_Flags.is(CSurface::sf2Sided);
+
+        if (0 == split->m_CurrentPart)
+            split->AppendPart((elapsed_faces > 0xffff) ? 0xffff : elapsed_faces, (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces);
 
         do
         {
             for (IntIt f_it = face_lst.begin(); f_it != face_lst.end(); ++f_it)
             {
-                SSplit* split = FindSplit(surf, surf->m_id);
-                if (0 == split)
+                st_Face& face = MESH->m_Faces[*f_it];
                 {
-#if 1
-                    SGameMtl* M = GameMaterialLibrary->GetMaterialByID(surf->_GameMtl());
-                    if (0 == M)
-                    {
-                        ELog.DlgMsg(mtError, "! Surface: '%s' contains undefined game material.", surf->_Name());
-                        bResult = false;
-                        break;
-                    }
-#endif
-                    Fmatrix mScale;
-                    mScale.scale(m_Source->a_vScale, m_Source->a_vScale, m_Source->a_vScale);
-
-                    Fbox box;
-                    box.xform(m_Source->GetBox(), mScale);
-
-                    m_Splits.push_back(xr_new<SSplit>(surf, box));
-                    split = m_Splits.back();
-                }
-
-                if (0 == split->m_CurrentPart)
-                {
-                    split->AppendPart(
-                        (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces,
-                        (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces);
-                    elapsed_faces -= 60000;
-                    clamp(elapsed_faces, 0, elapsed_faces);
-                }
-
-                bool     bNewPart = false;
-                st_Face& face     = MESH->m_Faces[*f_it];
-                {
+                    bool     bNewPart = false;
                     SOGFVert v[3];
                     for (int k = 0; k < 3; ++k)
                     {
@@ -449,19 +444,34 @@ bool CExportObjectOGF::PrepareMESH(CEditableMesh* MESH)
                     if (!split->m_CurrentPart->add_face(v[0], v[1], v[2], m_Source->m_objectFlags.is(CEditableObject::eoHQExportPlus)))
                         bNewPart = true;
 
+                    if (bNewPart && (elapsed_faces > 0))
+                    {
+                        bNewPart = false;
+                        split->AppendPart(
+                            (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces,
+                            (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces);
+                        split->m_CurrentPart->add_face(v[2], v[1], v[0], m_Source->m_objectFlags.is(CEditableObject::eoHQExportPlus));
+                    }
+
                     if (b2sided)
                     {
+                        --elapsed_faces;
                         v[0].N.invert();
                         v[1].N.invert();
                         v[2].N.invert();
                         if (!split->m_CurrentPart->add_face(v[2], v[1], v[0], m_Source->m_objectFlags.is(CEditableObject::eoHQExportPlus)))
                             bNewPart = true;
                     }
+
+                    if (bNewPart && (elapsed_faces > 0))
+                    {
+                        bNewPart = false;
+                        split->AppendPart(
+                            (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces,
+                            (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces);
+                        split->m_CurrentPart->add_face(v[2], v[1], v[0], m_Source->m_objectFlags.is(CEditableObject::eoHQExportPlus));
+                    }
                 }
-                if (bNewPart && (elapsed_faces > 0))
-                    split->AppendPart(
-                        (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces,
-                        (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces);
             }
         } while (elapsed_faces > 0);
     }
@@ -500,17 +510,20 @@ bool CExportObjectOGF::Prepare(bool gen_tb, CEditableMesh* mesh)
         {
             if (m_Splits[j]->m_sort_id < m_Splits[j + 1]->m_sort_id)
             {
-                SSplit* temp = m_Splits[j];
-                m_Splits[j] = m_Splits[j + 1];
+                SSplit* temp    = m_Splits[j];
+                m_Splits[j]     = m_Splits[j + 1];
                 m_Splits[j + 1] = temp;
             }
         }
     }
 
+    u32 counter = 0;
+    size_t verts = 0, faces = 0;
     for (u32 it = 0; it < m_Splits.size(); it++)
     {
-        m_Splits[it]->SplitStats(it);
+        m_Splits[it]->SplitStats(counter, verts, faces);
     }
+    Msg("# ..Total [Faces: %d, Verts: %d]", faces, verts);
 
     // calculate TB
     if (gen_tb)
