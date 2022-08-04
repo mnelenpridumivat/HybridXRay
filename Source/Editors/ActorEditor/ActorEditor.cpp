@@ -510,7 +510,7 @@ int main(int argc, char** argv)
 
     Core._destroy();
 
-    if (IsDebuggerPresent())
+    if (IsDebuggerPresent() || flags & exfDbgWindow)
         system("pause");
 
     if (ret_code != 0)

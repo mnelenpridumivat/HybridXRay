@@ -144,10 +144,7 @@ namespace Object_tool
 
 			EditorProcess = new System.Diagnostics.Process();
 			EditorProcess.OutputDataReceived += SortOutputHandler;
-			EditorProcess.StartInfo.CreateNoWindow = true;
 			EditorProcess.StartInfo.UseShellExecute = false;
-			EditorProcess.StartInfo.RedirectStandardOutput = true;
-			EditorProcess.StartInfo.RedirectStandardError = true;
 
 			Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
 
@@ -428,16 +425,19 @@ namespace Object_tool
 				EditorProcess.StartInfo.FileName = exe_path;
 				EditorProcess.StartInfo.WorkingDirectory = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\'));
 				EditorProcess.StartInfo.Arguments = args;
-                EditorProcess.Start();
+				EditorProcess.StartInfo.CreateNoWindow = !dbg_window;
+				EditorProcess.StartInfo.RedirectStandardOutput = !dbg_window;
+				EditorProcess.StartInfo.RedirectStandardError = !dbg_window;
+				EditorProcess.Start();
 				EditorWorking = true;
 
-				if (async)
+				if (async && !dbg_window)
 					EditorProcess.BeginOutputReadLine();
 
 				EditorProcess.WaitForExit();
 				EditorWorking = false;
 
-				if (async)
+				if (async && !dbg_window)
 					EditorProcess.CancelOutputRead();
 
 				dLastTime = Math.Round((EditorProcess.ExitTime - EditorProcess.StartTime).TotalSeconds, 3);
