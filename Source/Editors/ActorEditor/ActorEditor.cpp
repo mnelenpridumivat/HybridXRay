@@ -249,6 +249,7 @@ int main(int argc, char** argv)
     int cpp_export_mode = 0;
     shared_str custom_script = "";
     shared_str source_object = "";
+    shared_str temp_path = "";
     xr_vector<Textures> pObjTextures;
     // End of program params
 
@@ -280,6 +281,7 @@ int main(int argc, char** argv)
         source_object = args[iReaderPos]; iReaderPos++;
         int obj_textures_count = atoi(args[iReaderPos]); iReaderPos++;
         pObjTextures = LoadObJTexturesVector(args, obj_textures_count);
+        temp_path = args[iReaderPos]; iReaderPos++;
         // End of program params
     }
     else
@@ -419,23 +421,15 @@ int main(int argc, char** argv)
         }break;
         case ExportOBJOptimized:
         {
-            for (int i = 0; i < pObjTextures.size(); i++)
-                ATools->CurrentObject()->m_TexturesExist.push_back(FS.exist(pObjTextures[i].main.c_str()));
-
-            g_EpsSkelPositionDelta = EPS_L;
             ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoProgressive, FALSE);
-            ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoStripify, TRUE);
             ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoOptimizeSurf, TRUE);
-            ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoHQExportPlus, FALSE);
-            ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoNormals, TRUE);
-            ATools->CurrentObject()->Optimize();
+            ATools->CurrentObject()->m_TempPath = temp_path;
+
+            for (int i = 0; i < pObjTextures.size(); i++)
+                ConvertDDStoTGA(pObjTextures[i].main, pObjTextures[i].temp);
+
             if (!ATools->ExportOBJ(second_file_path.c_str()))
                 ret_code = -1;
-            else
-            {
-                for (int i = 0; i < pObjTextures.size(); i++)
-                    ConvertDDStoTGA(pObjTextures[i].main, pObjTextures[i].temp);
-            }
         }break;
         case ExportDM:
         {

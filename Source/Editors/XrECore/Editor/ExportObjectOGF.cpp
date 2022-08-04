@@ -742,12 +742,13 @@ bool CExportObjectOGF::ExportAsWavefrontOBJ(IWriter& F, LPCSTR fn)
 	IWriter* Fm				= FS.w_open(fn_material.c_str());
 
     // write material file
-    u32 counter = 0;
     for (SplitIt split_it=m_Splits.begin(); split_it!=m_Splits.end(); ++split_it)
     {
 	    _splitpath			((*split_it)->m_Surf->_Texture(), 0, tex_path, tex_name, 0 );
 
-        if (Core.CurrentMode == 20 && (GetCorrectString(tex_name) == "" || !m_Source->m_TexturesExist[counter])) continue;
+        string_path tga_path;
+        xr_sprintf(tga_path, "%s\\%s.tga", m_Source->m_TempPath.c_str(), tex_name);
+        if (Core.CurrentMode == 20 && (GetCorrectString(tex_name) == "" || !FS.exist(tga_path))) continue;
 
         sprintf				(tmp,"newmtl %s", tex_name);
 		Fm->w_string		(tmp);
@@ -757,7 +758,6 @@ bool CExportObjectOGF::ExportAsWavefrontOBJ(IWriter& F, LPCSTR fn)
 
         sprintf				(tmp,"map_Kd %s.tga\n", tex_name);
 		Fm->w_string		(tmp);
-        counter++;
     }
 
     FS.w_close		(Fm);

@@ -173,20 +173,16 @@ namespace Object_tool
 
             if (ofd.ShowDialog() == DialogResult.OK)
             {
-
                 FSLtxPath.Text = ofd.FileName;
 
                 string gamedata_path = ofd.FileName.Substring(0, ofd.FileName.LastIndexOf('\\')) + "\\" + GetFSPath(ofd.FileName, "$game_data$");
 
-                if (GameMtlPath.Text == "" && File.Exists(gamedata_path + "gamemtl.xr"))
+                if (File.Exists(gamedata_path + "gamemtl.xr"))
                 {
                     GameMtlPath.Text = gamedata_path + "gamemtl.xr";
                     Editor.ReloadGameMtl(GameMtlPath.Text);
                 }
-                if (TexturesPath.Text == "")
-                {
-                    TexturesPath.Text = gamedata_path + GetFSPath(ofd.FileName, "$game_textures$");
-                }
+                TexturesPath.Text = gamedata_path + GetFSPath(ofd.FileName, "$game_textures$");
                 Editor.ReloadGameMtl(GameMtlPath.Text);
             }
         }

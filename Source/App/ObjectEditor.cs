@@ -390,6 +390,7 @@ namespace Object_tool
 			// Ёкспорт названи€ ориг модели
 			args += $" \"{FILE_NAME}\"";
 
+			// Ћист текстур дл€ просмотра моделей
 			args += temp_arr == null ? " 0" : $" {temp_arr.Count() / 2}";
 			if (temp_arr != null)
             {
@@ -398,6 +399,9 @@ namespace Object_tool
 					args += $" \"{temp_arr[i]}\"";
 				}
 			}
+
+			// ¬ременна€ папка со всеми данными программы
+			args += $" \"{Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\'))}\\temp\"";
 
 			int exit_code = RunCompiller(args, async);
 
