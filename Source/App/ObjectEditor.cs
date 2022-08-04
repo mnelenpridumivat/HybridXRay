@@ -252,7 +252,12 @@ namespace Object_tool
 						SmoothSoC.Checked = true;
 
 						ViewtoolStripMenuItem_Click(null, null); // Start Viewer, need model in temp folder
+
+						if (Directory.Exists(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp"))
+							Directory.Delete(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp", true);
+
 						Close();
+						return;
 					}
 				}
 
