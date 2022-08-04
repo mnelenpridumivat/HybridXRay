@@ -183,7 +183,6 @@ namespace Object_tool
                     Editor.ReloadGameMtl(GameMtlPath.Text);
                 }
                 TexturesPath.Text = gamedata_path + GetFSPath(ofd.FileName, "$game_textures$");
-                Editor.ReloadGameMtl(GameMtlPath.Text);
             }
         }
 
