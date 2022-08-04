@@ -7,6 +7,7 @@
 
 #include "EditMesh.h"
 #include "EditObject.h"
+#include "../XrECore/VisualLog.h"
 
 //----------------------------------------------------
 void CEditableMesh::Transform(const Fmatrix& parent)
@@ -54,6 +55,7 @@ int CEditableMesh::FindSimilarWeight(st_VMap* vmap, float _w)
 void CEditableMesh::RebuildVMaps()
 {
 	Msg			("Rebuilding VMaps...");
+	WriteLog("..Rebuilding VMaps");
 	IntVec		m_VertVMap;
 	m_VertVMap.resize(m_VertCount,-1);
 	VMapVec		nVMaps;
@@ -215,6 +217,7 @@ bool CEditableMesh::OptimizeFace(st_Face& face){
 
 	if ((mface[0]==mface[1])||(mface[1]==mface[2])||(mface[0]==mface[2])){
 		Msg("!Optimize: Invalid face found. Removed.");
+		WriteLog("!..Optimize: Invalid face found. Removed.");
         return false;
 	}else{
     	face.pv[0].pindex = mface[0];

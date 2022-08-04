@@ -133,6 +133,7 @@ void CEditableMesh::GenerateVNormals(bool force)
 	if (!m_Parent->m_objectFlags.is(CEditableObject::eoSoCSmooth)) // cop
 	{
 		WriteLog("..Generate CoP Smooth groups");
+		Msg("..Generate CoP Smooth groups");
 		for (u32 f_i = 0; f_i < m_FaceCount; f_i++)
 		{
 			for (int k = 0; k < 3; k++)
@@ -165,6 +166,7 @@ void CEditableMesh::GenerateVNormals(bool force)
 	else // soc
 	{
 		WriteLog("..Generate SoC Smooth groups");
+		Msg("..Generate SoC Smooth groups");
 		if (m_Flags.is(flSGMask))
 		{
 			for (u32 f_i = 0; f_i < m_FaceCount; f_i++)

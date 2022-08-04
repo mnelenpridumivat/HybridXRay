@@ -233,7 +233,28 @@ namespace Object_tool
 			{
 				IsOgfMode = false;
 				if (Environment.GetCommandLineArgs().Length > 2)
+				{
 					IsOgfMode = Environment.GetCommandLineArgs()[2] == "skeleton_only";
+					if (Environment.GetCommandLineArgs()[2] == "model_viewer")
+                    {
+						if (Directory.Exists(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp"))
+							Directory.Delete(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp", true);
+
+						if (!Directory.Exists(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp"))
+							Directory.CreateDirectory(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp");
+
+						string FilePath = Environment.GetCommandLineArgs()[1];
+						string FileName = FilePath.Substring(FilePath.LastIndexOf('\\') + 1);
+						string TempFile = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + $"\\temp\\{FileName}";
+						File.Copy(Environment.GetCommandLineArgs()[1], TempFile, true);
+						TEMP_FILE_NAME = TempFile;
+
+						SmoothSoC.Checked = true;
+
+						ViewtoolStripMenuItem_Click(null, null); // Start Viewer, need model in temp folder
+						Close();
+					}
+				}
 
 				OpenFile(Environment.GetCommandLineArgs()[1]);
 			}
@@ -1818,7 +1839,7 @@ namespace Object_tool
 
 		private void IndexChanged(object sender, EventArgs e)
 		{
-			if (TabControl.SelectedIndex < 0 || !FlagsGroupBox.Enabled) return;
+			if (TabControl.SelectedIndex < 0 || !FlagsGroupBox.Enabled || TabControl.Controls.Count < TabControl.SelectedIndex) return;
 
 			switch (TabControl.Controls[TabControl.SelectedIndex].Name)
 			{

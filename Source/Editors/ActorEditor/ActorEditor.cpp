@@ -332,6 +332,7 @@ int main(int argc, char** argv)
         ATools->CurrentObject()->m_LODs = lod_path;
         ATools->CurrentObject()->GetClassScript() = userdata.c_str();
         ATools->CurrentObject()->m_EditorScript = custom_script;
+        ATools->CurrentObject()->m_TempPath = temp_path;
 
         if (!IsDebuggerPresent())
             ATools->CurrentObject()->m_SMotionRefs = pMotionRefs;
@@ -423,7 +424,6 @@ int main(int argc, char** argv)
         {
             ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoProgressive, FALSE);
             ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoOptimizeSurf, TRUE);
-            ATools->CurrentObject()->m_TempPath = temp_path;
 
             for (int i = 0; i < pObjTextures.size(); i++)
                 ConvertDDStoTGA(pObjTextures[i].main, pObjTextures[i].temp);
@@ -492,19 +492,19 @@ int main(int argc, char** argv)
         {
             if (!ATools->BatchConvert(second_file_path.c_str(), flags, custom_script, scale))
                 ret_code = -1;
-            WriteLog("..Batch end");
+            WriteLog("..Batch successful");
         }break;
         case BatchDialogOGF:
         {
             if (!ATools->BatchConvertDialogOGF(pBatchFiles, batch_out, flags, custom_script, scale))
                 ret_code = -1;
-            WriteLog("..Batch end");
+            WriteLog("..Batch successful");
         }break;
         case BatchDialogOMF:
         {
             if (!ATools->BatchConvertDialogOMF(pBatchFiles, batch_out, flags, custom_script, scale))
                 ret_code = -1;
-            WriteLog("..Batch end");
+            WriteLog("..Batch successful");
         }break;
     }
 
