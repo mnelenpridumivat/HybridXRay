@@ -692,6 +692,31 @@ bool CExportObjectOGF::ExportAsSimple(IWriter& F)
     return false;
 }
 
+xr_string GetCorrectString(xr_string text)
+{
+    xr_string ret_text = "", symbols = "";
+    bool started = false;
+    for(char ch:text)
+    {
+        if (started)
+        {
+            if (ch <= 0x1F || ch == 0x20)
+                symbols += ch;
+            else
+            {
+                ret_text += symbols + ch;
+                symbols = "";
+            }
+        }
+        else if (ch > 0x1F && ch != 0x20)
+        {
+            started = true;
+            ret_text += ch;
+        }
+    }
+    return ret_text;
+}
+
 bool CExportObjectOGF::ExportAsWavefrontOBJ(IWriter& F, LPCSTR fn)
 {
     WriteLog("..Prepare Obj");
@@ -699,17 +724,30 @@ bool CExportObjectOGF::ExportAsWavefrontOBJ(IWriter& F, LPCSTR fn)
 		return false;
 
     string_path 			tmp, tex_path, tex_name;
-    string_path 			name, ext;
-    _splitpath				(fn, 0, 0, name, ext );
+    string_path 			drive, dir, name, ext;
+
+    _splitpath				(fn, drive, dir, name, ext );
+
+
+    std::string v;
+    for(char c:name) if (c != ' ') v += c;
+
+    string_path mtl_path, mtl_name;
+    xr_sprintf(mtl_path, "%s%s%s%s", drive, dir, v.c_str(), ext);
+    xr_sprintf(mtl_name, "%s%s", v.c_str(), ext);
+
     strcat					(name,ext);
 
-    xr_string fn_material 	= EFS.ChangeFileExt(fn,".mtl");
+    xr_string fn_material 	= EFS.ChangeFileExt(mtl_path,".mtl");
 	IWriter* Fm				= FS.w_open(fn_material.c_str());
 
     // write material file
+    u32 counter = 0;
     for (SplitIt split_it=m_Splits.begin(); split_it!=m_Splits.end(); ++split_it)
     {
 	    _splitpath			((*split_it)->m_Surf->_Texture(), 0, tex_path, tex_name, 0 );
+
+        if (Core.CurrentMode == 20 && (GetCorrectString(tex_name) == "" || !m_Source->m_TexturesExist[counter])) continue;
 
         sprintf				(tmp,"newmtl %s", tex_name);
 		Fm->w_string		(tmp);
@@ -717,22 +755,16 @@ bool CExportObjectOGF::ExportAsWavefrontOBJ(IWriter& F, LPCSTR fn)
 		Fm->w_string		("Kd  1 1 1");
 		Fm->w_string		("Ks  0 0 0");
 
-        sprintf				(tmp,"map_Kd %s\\\\%s\\%s%s\n",
-        									"T:",
-                                            tex_path,
-                                            tex_name,
-                                            ".tga");
-        if (Core.CurrentMode != 20) // ExportOBJOptimized, ломает mtl чтобы Obj Viewer не жаловался что нет текстур. Используется только для моделей Obj Viewer
-		    Fm->w_string		(tmp);
+        sprintf				(tmp,"map_Kd %s.tga\n", tex_name);
+		Fm->w_string		(tmp);
+        counter++;
     }
 
     FS.w_close		(Fm);
 
-	// writ comment
+	// write comment
     F.w_string				("# This file uses meters as units for non-parametric coordinates.");
-
-    _splitpath				(fn, 0, 0, tex_name, 0 );
-    sprintf					(tmp,"mtllib %s.mtl", tex_name);
+    sprintf					(tmp,"mtllib %s", EFS.ChangeFileExt(mtl_name,".mtl").c_str());
     F.w_string				(tmp);
 
     u32 v_offs				= 0;
@@ -742,7 +774,8 @@ bool CExportObjectOGF::ExportAsWavefrontOBJ(IWriter& F, LPCSTR fn)
         sprintf				(tmp,"g %d",split_it-m_Splits.begin());
         F.w_string			(tmp);
         sprintf				(tmp,"usemtl %s",tex_name);
-        F.w_string			(tmp);
+        if (Core.CurrentMode != 20 || GetCorrectString(tex_name) != "")
+            F.w_string		(tmp);
         Fvector 			mV;
         Fmatrix 			mZ;
         mZ.mirrorZ			();

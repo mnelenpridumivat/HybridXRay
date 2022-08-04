@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace Object_tool
 {
@@ -43,6 +44,8 @@ namespace Object_tool
             pSettings.Save(DefaultsCoP);
             pSettings.Save(DefaultsSoC);
             pSettings.Save(GameMtlPath);
+            pSettings.Save(FSLtxPath);
+            pSettings.Save(TexturesPath);
             pSettings.Save(ProgressiveMeshes);
             pSettings.Save(StripifyMeshes);
             pSettings.Save(OptimizeSurfaces);
@@ -67,6 +70,8 @@ namespace Object_tool
             pSettings.Load(DefaultsCoP, true);
             pSettings.Load(DefaultsSoC);
             pSettings.Load(GameMtlPath);
+            pSettings.Load(FSLtxPath);
+            pSettings.Load(TexturesPath);
             pSettings.Load(ProgressiveMeshes);
             pSettings.Load(StripifyMeshes);
             pSettings.Load(OptimizeSurfaces);
@@ -158,6 +163,107 @@ namespace Object_tool
 
             if (chbx.Checked)
                 ProgressiveMeshes.Checked = false;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.FileName = "";
+            ofd.Filter = "Ltx file|*.ltx";
+
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+
+                FSLtxPath.Text = ofd.FileName;
+
+                string gamedata_path = ofd.FileName.Substring(0, ofd.FileName.LastIndexOf('\\')) + "\\" + GetFSPath(ofd.FileName, "$game_data$");
+
+                if (GameMtlPath.Text == "" && File.Exists(gamedata_path + "gamemtl.xr"))
+                {
+                    GameMtlPath.Text = gamedata_path + "gamemtl.xr";
+                    Editor.ReloadGameMtl(GameMtlPath.Text);
+                }
+                if (TexturesPath.Text == "")
+                {
+                    TexturesPath.Text = gamedata_path + GetFSPath(ofd.FileName, "$game_textures$");
+                }
+                Editor.ReloadGameMtl(GameMtlPath.Text);
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            FolderSelectDialog folderSelectDialog = new FolderSelectDialog();
+            if (folderSelectDialog.ShowDialog())
+            {
+                TexturesPath.Text = folderSelectDialog.FileName + "\\";
+            }
+        }
+
+        private string GetFSPath(string filename, string key)
+        {
+            using (StreamReader file = new StreamReader(filename))
+            {
+                string ln;
+                string path = "";
+                while ((ln = file.ReadLine()) != null)
+                {
+                    if (ln.Contains(key))
+                    {
+                        int separator_count = 0;
+                        foreach (char c in ln)
+                        {
+                            if (separator_count == 3)
+                            {
+                                path += c;
+                            }
+
+                            if (c == '|')
+                                separator_count++;
+                        }
+
+                        return GetCorrectString(path);
+                    }
+                }
+                file.Close();
+            }
+
+            return "";
+        }
+
+        private bool IsTextCorrect(string text)
+        {
+            foreach (char ch in text)
+            {
+                if (ch > 0x1F && ch != 0x20)
+                    return true;
+            }
+            return false;
+        }
+
+        private string GetCorrectString(string text)
+        {
+            string ret_text = "", symbols = "";
+            bool started = false;
+            foreach (char ch in text)
+            {
+                if (started)
+                {
+                    if (ch <= 0x1F || ch == 0x20)
+                        symbols += ch;
+                    else
+                    {
+                        ret_text += symbols + ch;
+                        symbols = "";
+                    }
+                }
+                else if (ch > 0x1F && ch != 0x20)
+                {
+                    started = true;
+                    ret_text += ch;
+                }
+            }
+            return ret_text;
         }
     }
 }

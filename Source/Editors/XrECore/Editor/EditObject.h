@@ -184,6 +184,7 @@ public:
     xr_vector<shared_str>	m_SMotionRefs;
     shared_str				m_LODs;
     shared_str			    m_EditorScript;
+    xr_vector<bool>         m_TexturesExist;
 
     virtual void            InitScript();
 public:

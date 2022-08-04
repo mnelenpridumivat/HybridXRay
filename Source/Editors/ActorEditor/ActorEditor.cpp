@@ -1,17 +1,13 @@
 ﻿// ActorEditor.cpp : Определяет точку входа для приложения.
 //
 #include "stdafx.h"
-#include <iostream>
 #include <string>
 #include <fstream>
 #include <ctime>   
 #include "../XrECore/VisualLog.h"
+#include "../RedImage/RedImageTool/RedImage.hpp"
 
-// argv[1] - mode
-// argv[2] - object
-// argv[3] - ogf / omf / skls || object scale
-// argv[4] - data
-// argv[5] - object scale
+using namespace RedImageTool;
 
 extern ECORE_API BOOL g_force16BitTransformQuant;
 extern ECORE_API BOOL g_forceFloatTransformQuant;
@@ -143,6 +139,35 @@ xr_vector<shared_str> LoadStringVector(xr_vector<LPCSTR> args, int count)
     return vec;
 }
 
+struct Textures
+{
+    shared_str main;
+    shared_str temp;
+};
+
+xr_vector<Textures> LoadObJTexturesVector(xr_vector<LPCSTR> args, int count)
+{
+    xr_vector<Textures> vec;
+
+    for (int i = 0; i < count; i++)
+    {
+        Textures texture;
+        texture.main = args[iReaderPos]; iReaderPos++;
+        texture.temp = args[iReaderPos]; iReaderPos++;
+        vec.push_back(texture);
+    }
+
+    return vec;
+}
+
+void ConvertDDStoTGA(shared_str dds, shared_str tga)
+{
+    RedImage Texture;
+    Texture.LoadFromFile(dds.c_str());
+    Texture.Convert(RedTexturePixelFormat::R8G8B8);
+    Texture.SaveToTga(tga.c_str());
+}
+
 bool generate_commands = false;
 bool load_commands = false;
 
@@ -224,6 +249,7 @@ int main(int argc, char** argv)
     int cpp_export_mode = 0;
     shared_str custom_script = "";
     shared_str source_object = "";
+    xr_vector<Textures> pObjTextures;
     // End of program params
 
     if (!IsDebuggerPresent() || load_commands)
@@ -252,6 +278,8 @@ int main(int argc, char** argv)
         cpp_export_mode = atoi(args[iReaderPos]); iReaderPos++;
         custom_script = args[iReaderPos]; iReaderPos++;
         source_object = args[iReaderPos]; iReaderPos++;
+        int obj_textures_count = atoi(args[iReaderPos]); iReaderPos++;
+        pObjTextures = LoadObJTexturesVector(args, obj_textures_count);
         // End of program params
     }
     else
@@ -391,6 +419,9 @@ int main(int argc, char** argv)
         }break;
         case ExportOBJOptimized:
         {
+            for (int i = 0; i < pObjTextures.size(); i++)
+                ATools->CurrentObject()->m_TexturesExist.push_back(FS.exist(pObjTextures[i].main.c_str()));
+
             g_EpsSkelPositionDelta = EPS_L;
             ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoProgressive, FALSE);
             ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoStripify, TRUE);
@@ -400,6 +431,11 @@ int main(int argc, char** argv)
             ATools->CurrentObject()->Optimize();
             if (!ATools->ExportOBJ(second_file_path.c_str()))
                 ret_code = -1;
+            else
+            {
+                for (int i = 0; i < pObjTextures.size(); i++)
+                    ConvertDDStoTGA(pObjTextures[i].main, pObjTextures[i].temp);
+            }
         }break;
         case ExportDM:
         {

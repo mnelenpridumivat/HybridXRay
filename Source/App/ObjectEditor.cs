@@ -274,7 +274,7 @@ namespace Object_tool
 			}
 		}
 
-		private int StartEditor(bool async, EditorMode mode, string object_path, string second_path = "null", int flags = -1, float scale = 1.0f)
+		private int StartEditor(bool async, EditorMode mode, string object_path, string second_path = "null", int flags = -1, float scale = 1.0f, string[] temp_arr = null)
 		{
 			if (flags == -1)
             {
@@ -389,6 +389,15 @@ namespace Object_tool
 
 			// Ёкспорт названи€ ориг модели
 			args += $" \"{FILE_NAME}\"";
+
+			args += temp_arr == null ? " 0" : $" {temp_arr.Count() / 2}";
+			if (temp_arr != null)
+            {
+				for (int i = 0; i < temp_arr.Count(); i++)
+				{
+					args += $" \"{temp_arr[i]}\"";
+				}
+			}
 
 			int exit_code = RunCompiller(args, async);
 
@@ -2855,7 +2864,7 @@ namespace Object_tool
 		private void viewToolStripMenuItem1_Click(object sender, EventArgs e)
 		{
 			MessageBox.Show(
-				"ѕримечани€:\n1. Viewer будет отображать выбранное вами сглаживание во вкладке Flags, благодар€ этому можно будет узнать какое сглаживание нужно использовать.\n2. Viewer реагирует на хоткеи только английской раскладки.\n3. ƒл€ удобного использовани€ программы нужно ознакомитьс€ с возможност€ми через клавишу F1."
+				"ѕримечани€:\n1. Model Viewer будет отображать выбранное вами сглаживание во вкладке Flags, благодар€ этому можно будет узнать какое сглаживание нужно использовать.\n2. Model Viewer реагирует на хоткеи только английской раскладки.\n3. ƒл€ удобного использовани€ программы нужно ознакомитьс€ с возможност€ми через клавишу F1."
 				, "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
@@ -2864,19 +2873,54 @@ namespace Object_tool
 			string exe_path = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\OBJ Viewer.exe";
 			if (File.Exists(exe_path))
 			{
-				StartEditor(false, EditorMode.ExportOBJOptimized, TEMP_FILE_NAME, TEMP_FILE_NAME + ".obj");
+				string Textures = "";
+				pSettings.LoadText("TexturesPath", ref Textures);
+
+				List<string> pTextures = new List<string>();
+
+				int surfaces_count = (surfaces != null ? surfaces.Count : 0);
+				if (surfaces_count > 0 && Textures != "")
+				{
+					for (int i = 0; i < surfaces.Count; i++)
+					{
+						string texture_main = Textures + surfaces[i].texture + ".dds";
+						string texture_temp = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp\\" + Path.GetFileName(surfaces[i].texture + ".tga");
+
+						if (File.Exists(texture_main)) // Create tga
+						{
+							pTextures.Add(texture_main);
+							pTextures.Add(texture_temp);
+						}
+					}
+				}
+
+				string ObjName = Path.ChangeExtension(TEMP_FILE_NAME, ".obj");
+				string MtlName = TEMP_FILE_NAME.Substring(0, TEMP_FILE_NAME.LastIndexOf('\\')) + "\\" + Path.ChangeExtension(GetCorrectString(Path.GetFileName(TEMP_FILE_NAME)), ".mtl");
+
+				StartEditor(false, EditorMode.ExportOBJOptimized, TEMP_FILE_NAME, ObjName, -1, 1.0f, pTextures.ToArray());
+
+				bool ModelExist = File.Exists(ObjName);
 
 				System.Diagnostics.Process Viewer = new System.Diagnostics.Process();
-				Viewer.StartInfo.FileName = exe_path;
-				Viewer.StartInfo.UseShellExecute = false;
-				Viewer.StartInfo.Arguments = TEMP_FILE_NAME + ".obj";
-				Viewer.Start();
-				Viewer.WaitForExit();
+				if (ModelExist)
+				{
+					Viewer.StartInfo.FileName = exe_path;
+					Viewer.StartInfo.UseShellExecute = false;
+					Viewer.StartInfo.Arguments = $"\"{ObjName}\"";
+					Viewer.Start();
+					Viewer.WaitForExit();
+				}
+				else
+					AutoClosingMessageBox.Show("Failed to compile model.", "", GetErrorTime(), MessageBoxIcon.Error);
 
-				if (File.Exists(TEMP_FILE_NAME + ".obj"))
-					File.Delete(TEMP_FILE_NAME + ".obj");
-				if (File.Exists(TEMP_FILE_NAME + ".mtl"))
-					File.Delete(TEMP_FILE_NAME + ".mtl");
+				if (File.Exists(ObjName))
+					File.Delete(ObjName);
+				if (File.Exists(MtlName))
+					File.Delete(MtlName);
+
+				string[] _files = Directory.GetFiles(TEMP_FILE_NAME.Substring(0, TEMP_FILE_NAME.LastIndexOf('\\')), "*.tga");
+				foreach (string fl in _files)
+					File.Delete(fl);
 
 				Viewer.Close();
 			}
