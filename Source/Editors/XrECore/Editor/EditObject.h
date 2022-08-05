@@ -177,6 +177,7 @@ public CPhysicsShellHolderEditorBase
 	SMotionVec		m_SMotions;
     CSMotion*		m_ActiveSMotion;
     Fmatrix*		m_object_xform;
+
 public:
     BPVec			m_BoneParts;
     SurfaceVec		m_Surfaces;
@@ -187,6 +188,9 @@ public:
     shared_str              m_TempPath;
 
     virtual void            InitScript();
+
+    bool            m_SmoothMsgSended;
+    bool            m_SmoothExportMsgSended;
 public:
 	// options
 	Flags32			m_objectFlags;

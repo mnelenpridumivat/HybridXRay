@@ -129,6 +129,8 @@ namespace Object_tool
 		public Thread SdkThread = null;
 		public bool NORMALS_DEFAULT = true;
 		System.Diagnostics.Process EditorProcess = null;
+		System.Diagnostics.Process ViewerProcess = null;
+		public bool ViewerWorking = false;
 		public bool EditorWorking = false;
 		public bool EditorKilled = false;
 		public double dLastTime = 0.0;
@@ -145,6 +147,8 @@ namespace Object_tool
 			EditorProcess = new System.Diagnostics.Process();
 			EditorProcess.OutputDataReceived += SortOutputHandler;
 			EditorProcess.StartInfo.UseShellExecute = false;
+
+			ViewerProcess = new System.Diagnostics.Process();
 
 			Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
 
@@ -1911,14 +1915,30 @@ namespace Object_tool
 
         private void ClosingForm(object sender, FormClosingEventArgs e)
         {
-			if (Directory.Exists(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp"))
-				Directory.Delete(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp", true);
-
-			if (EditorWorking)
+			try
 			{
-				EditorKilled = true;
-				EditorProcess.Kill();
+				if (SdkThread != null && SdkThread.ThreadState != System.Threading.ThreadState.Stopped)
+					SdkThread.Abort();
+
+				if (ViewerWorking)
+				{
+					ViewerProcess.Kill();
+					ViewerProcess.Close();
+				}
+
+				if (EditorWorking)
+				{
+					EditorKilled = true;
+					EditorProcess.Kill();
+					EditorProcess.Close();
+				}
+
+				Thread.Sleep(100);
+
+				if (Directory.Exists(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp"))
+					Directory.Delete(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\temp", true);
 			}
+			catch (Exception) { }
 		}
 
         private void CheckTempFileExist()
@@ -2225,6 +2245,7 @@ namespace Object_tool
 				{
 					EditorKilled = true;
 					EditorProcess.Kill();
+					EditorProcess.Close();
 					EditorWorking = false;
 					AutoClosingMessageBox.Show("Process Closed!", "", 1000, MessageBoxIcon.Information);
 				}
@@ -2799,7 +2820,7 @@ namespace Object_tool
 			"3. Optimize surfaces - объединяет меши с одинаковыми текстурами и шейдерами в один.\n" +
 			"4. HQ Geometry+ - компилятор не будет удалять похожие vertex'ы и face'ы, поддержка более плотной сетки полигонов.\n" +
 			"5. SoC bone export - при экспорте динамического OGF, на полигон будут влиять максимум 2 кости. При отключении будет включено CoP влияние в 4 кости (не поддерживается в SoC).\n" +
-			"6. Smooth Type определяет тип сглаживания при экспорте моделей.\n1) SoC: #1\n2) CS\\CoP: #2\n3) Normals: использует оригинальные Split нормали.\n4) Auto: программа будет автоматически определять тип сглаживания, первыми в приоритете стоят нормали. Если их нет то начнется выбор типа сглаживания.\nРаботает с 99% моделей."
+			"6. Smooth Type определяет тип сглаживания при экспорте моделей.\n1) SoC: #1\n2) CS\\CoP: #2\n3) Normals: использует оригинальные Split нормали.\n4) Auto: программа будет автоматически определять тип сглаживания, первыми в приоритете стоят нормали. Если их нет то начнется выбор типа сглаживания.\nПравильно определяет 95% моделей, чаще всего неправильно определяет хайполи модели."
 			, "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
@@ -2909,6 +2930,8 @@ namespace Object_tool
 
 		private void ViewtoolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			if (!CheckThread()) return;
+
 			string exe_path = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf('\\')) + "\\OBJ Viewer.exe";
 			if (File.Exists(exe_path))
 			{
@@ -2936,32 +2959,36 @@ namespace Object_tool
 				string ObjName = Path.ChangeExtension(TEMP_FILE_NAME, ".obj");
 				string MtlName = TEMP_FILE_NAME.Substring(0, TEMP_FILE_NAME.LastIndexOf('\\')) + "\\" + Path.ChangeExtension(GetCorrectString(Path.GetFileName(TEMP_FILE_NAME)), ".mtl");
 
-				StartEditor(false, EditorMode.ExportOBJOptimized, TEMP_FILE_NAME, ObjName, -1, 1.0f, pTextures.ToArray());
-
-				bool ModelExist = File.Exists(ObjName);
-
-				System.Diagnostics.Process Viewer = new System.Diagnostics.Process();
-				if (ModelExist)
+				SdkThread = new Thread(() =>
 				{
-					Viewer.StartInfo.FileName = exe_path;
-					Viewer.StartInfo.UseShellExecute = false;
-					Viewer.StartInfo.Arguments = $"\"{ObjName}\"";
-					Viewer.Start();
-					Viewer.WaitForExit();
-				}
-				else
-					AutoClosingMessageBox.Show("Failed to compile model.", "", GetErrorTime(), MessageBoxIcon.Error);
+					StartEditor(true, EditorMode.ExportOBJOptimized, TEMP_FILE_NAME, ObjName, -1, 1.0f, pTextures.ToArray());
 
-				if (File.Exists(ObjName))
-					File.Delete(ObjName);
-				if (File.Exists(MtlName))
-					File.Delete(MtlName);
+					bool ModelExist = File.Exists(ObjName);
 
-				string[] _files = Directory.GetFiles(TEMP_FILE_NAME.Substring(0, TEMP_FILE_NAME.LastIndexOf('\\')), "*.tga");
-				foreach (string fl in _files)
-					File.Delete(fl);
+					if (ModelExist)
+					{
+						ViewerProcess.StartInfo.FileName = exe_path;
+						ViewerProcess.StartInfo.UseShellExecute = false;
+						ViewerProcess.StartInfo.Arguments = $"\"{ObjName}\"";
+						ViewerWorking = true;
+						ViewerProcess.Start();
+						ViewerProcess.WaitForExit();
+						ViewerProcess.Close();
+						ViewerWorking = false;
+					}
+					else
+						AutoClosingMessageBox.Show("Failed to compile model.", "", GetErrorTime(), MessageBoxIcon.Error);
 
-				Viewer.Close();
+					if (File.Exists(ObjName))
+						File.Delete(ObjName);
+					if (File.Exists(MtlName))
+						File.Delete(MtlName);
+
+					string[] _files = Directory.GetFiles(TEMP_FILE_NAME.Substring(0, TEMP_FILE_NAME.LastIndexOf('\\')), "*.tga");
+					foreach (string fl in _files)
+						File.Delete(fl);
+				});
+				SdkThread.Start();
 			}
 			else
 				MessageBox.Show("Can't find OBJ Viewer.exe", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

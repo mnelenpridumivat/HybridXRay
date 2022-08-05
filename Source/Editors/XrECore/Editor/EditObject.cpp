@@ -67,6 +67,8 @@ CEditableObject::CEditableObject(LPCSTR name):
 	m_ModifName		= "unknown";
     m_ModifTime		= 0;
     m_EditorScript = "";
+    m_SmoothMsgSended = false;
+    m_SmoothExportMsgSended = false;
 }
 
 CEditableObject::~CEditableObject()

@@ -1065,6 +1065,8 @@ void CExportSkeleton::DetectSmoothType()
 
     m_Source->m_objectFlags.set(CEditableObject::eoNormals, !!Normals);
     m_Source->m_objectFlags.set(CEditableObject::eoSoCSmooth, !!(!bCoP));
+    if (!Normals)
+        WriteLog("..SoC\\CoP verts: [%d\\%d]", SoCverts, CoPverts);
     WriteLog("..Smooth type detected: %s", Normals ? "Normals" : (bCoP ? "CoP" : "SoC"));
 }
 
