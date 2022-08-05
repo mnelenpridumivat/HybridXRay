@@ -355,12 +355,16 @@ bool CExportObjectOGF::PrepareMESH(CEditableMesh* MESH)
 {
     // generate normals
     bool bResult = true;
-    MESH->GenerateVNormals();
+    MESH->GenerateVNormals(false, false, true);
 
-    if (MESH->m_Normals && m_Source->m_objectFlags.is(CEditableObject::eoNormals))
-        Msg("~ ..Export custom normals");
-    else
-        Msg("~ ..Export smooth groups");
+    if (!m_Source->m_SmoothExportMsgSended)
+    {
+        m_Source->m_SmoothExportMsgSended = true;
+        if (MESH->m_Normals && m_Source->m_objectFlags.is(CEditableObject::eoNormals))
+            Msg("~ ..Export custom normals");
+        else
+            Msg("~ ..Export smooth groups");
+    }
 
     u16 surf_counter = 0;
     for (SurfFacesPairIt sp_it = MESH->m_SurfFaces.begin(); sp_it != MESH->m_SurfFaces.end(); sp_it++)
@@ -488,7 +492,7 @@ bool CExportObjectOGF::PrepareMESH(CEditableMesh* MESH)
 
 void CExportObjectOGF::DetectSmoothType(CEditableMesh* mesh, xr_vector<CEditableMesh*> mesh_vec)
 {
-    Msg("~ ..Start detecting smooth type");
+    Msg("& ..Start detecting smooth type");
 
     size_t SoCverts = 0, CoPverts = 0;
 
@@ -647,6 +651,9 @@ void CExportObjectOGF::DetectSmoothType(CEditableMesh* mesh, xr_vector<CEditable
 
     m_Source->m_objectFlags.set(CEditableObject::eoNormals, !!Normals);
     m_Source->m_objectFlags.set(CEditableObject::eoSoCSmooth, !!(!bCoP));
+
+    if (!Normals)
+        Msg("# ..SoC\\CoP verts: [%d\\%d]", SoCverts, CoPverts);
     Msg("& ..Smooth type detected: %s", Normals ? "Normals" : (bCoP ? "CoP" : "SoC"));
 }
 

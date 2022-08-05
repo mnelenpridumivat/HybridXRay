@@ -960,7 +960,7 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
 void CExportSkeleton::DetectSmoothType()
 {
     u8 SmoothType = 0;
-    Msg("~ ..Start detecting smooth type");
+    Msg("& ..Start detecting smooth type");
     bool bRes    = true;
     bool Normals = false;
 
@@ -1087,6 +1087,8 @@ void CExportSkeleton::DetectSmoothType()
 
     m_Source->m_objectFlags.set(CEditableObject::eoNormals, !!Normals);
     m_Source->m_objectFlags.set(CEditableObject::eoSoCSmooth, !!(!bCoP));
+    if (!Normals)
+        Msg("# ..SoC\\CoP verts: [%d\\%d]", SoCverts, CoPverts);
     Msg("& ..Smooth type detected: %s", Normals ? "Normals" : (bCoP ? "CoP" : "SoC"));
 }
 

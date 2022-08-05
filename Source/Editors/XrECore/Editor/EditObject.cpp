@@ -61,16 +61,15 @@ CEditableObject::CEditableObject(LPCSTR name): m_physics_shell(0), m_object_xfor
     a_vScale      = 1.f;
     a_vAdjustMass = TRUE;
 
-    bOnModified = false;
-
-    m_RefCount = 0;
-
-    m_LODShader = 0;
-
-    m_CreateName = "unknown";
-    m_CreateTime = 0;
-    m_ModifName  = "unknown";
-    m_ModifTime  = 0;
+    bOnModified             = false;
+    m_RefCount              = 0;
+    m_LODShader             = 0;
+    m_CreateName            = "unknown";
+    m_CreateTime            = 0;
+    m_ModifName             = "unknown";
+    m_ModifTime             = 0;
+    m_SmoothMsgSended       = false;
+    m_SmoothExportMsgSended = false;
 }
 
 CEditableObject::~CEditableObject()

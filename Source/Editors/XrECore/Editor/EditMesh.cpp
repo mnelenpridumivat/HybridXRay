@@ -146,7 +146,7 @@ void CEditableMesh::GenerateFNormals()
 }
 // BOOL CEditableMesh::m_bDraftMeshMode = FALSE;
 
-void CEditableMesh::GenerateVNormals(bool force, bool silent)
+void CEditableMesh::GenerateVNormals(bool force, bool silent, bool only_one_msg)
 {
     m_VNormalsRefs++;
     if ((m_VertexNormals || (m_Normals && m_Parent->m_objectFlags.is(CEditableObject::eoNormals))) && !force)
@@ -159,8 +159,9 @@ void CEditableMesh::GenerateVNormals(bool force, bool silent)
 
     if (!m_Parent->m_objectFlags.is(CEditableObject::eoSoCSmooth))   // cop
     {
-        if (!silent)
+        if (!silent && (!only_one_msg || !m_Parent->m_SmoothMsgSended))
         {
+			m_Parent->m_SmoothMsgSended = true;
             if (g_extendedLog)
                 Msg("+ ..Generate CoP Smooth groups.");
         }
@@ -198,8 +199,9 @@ void CEditableMesh::GenerateVNormals(bool force, bool silent)
     }
     else   // soc
     {
-        if (!silent)
+        if (!silent && (!only_one_msg || !m_Parent->m_SmoothMsgSended))
         {
+			m_Parent->m_SmoothMsgSended = true;
             if (g_extendedLog)
                 Msg("+ ..Generate SoC Smooth groups.");
         }

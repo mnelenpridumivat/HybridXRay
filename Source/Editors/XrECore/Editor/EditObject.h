@@ -262,6 +262,8 @@ public:
     xr_vector<shared_str> m_SMotionRefs;
     shared_str            m_LODs;
 
+    bool m_SmoothMsgSended;
+    bool m_SmoothExportMsgSended;
 public:
     // options
     Flags32 m_objectFlags;
