@@ -169,7 +169,8 @@ namespace Object_tool
 			pSettings.LoadState("SplitNormalsChbx", ref NORMALS_DEFAULT, true);
 			pSettings.Load(BuildInMotionsExport, true);
 			pSettings.Load(SmoothSoC);
-			pSettings.Load(SmoothCoP, true);
+			pSettings.Load(SmoothCoP);
+			pSettings.Load(AutoSmooth, true);
 			pSettings.Load(Anims8Bit);
 			pSettings.Load(Anims16Bit, !NoCompress);
 			pSettings.Load(AnimsNoCompress, NoCompress);
@@ -540,6 +541,9 @@ namespace Object_tool
 
 			if (SoCInfluence.Checked)
 				flags |= (1 << 11);
+
+			if (AutoSmooth.Checked)
+				flags |= (1 << 12);
 
 			return flags;
         }
@@ -1374,6 +1378,9 @@ namespace Object_tool
 			var xr_loader = new XRayLoader();
 			bool SmoothChanged = false;
 
+			bool AutoSmoothEnabled = false;
+			pSettings.LoadState("AutoSmooth", ref AutoSmoothEnabled);
+
 			using (var r = new BinaryReader(new FileStream(TEMP_FILE_NAME, FileMode.Open)))
 			{
 				xr_loader.SetStream(r.BaseStream);
@@ -1408,7 +1415,8 @@ namespace Object_tool
 						refs.Add(xr_loader.read_stringZ());
 					}
 					MotionRefsBox.Lines = refs.ToArray();
-					SmoothCoP.Checked = true;
+					if (!AutoSmoothEnabled)
+						SmoothCoP.Checked = true;
 					SmoothChanged = true;
 				}
 				else if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SMOTIONS2, !FindBody, true))
@@ -1434,7 +1442,8 @@ namespace Object_tool
 						refs.Add(motion);
 
 					MotionRefsBox.Lines = refs.ToArray();
-					SmoothSoC.Checked = true;
+					if (!AutoSmoothEnabled)
+						SmoothSoC.Checked = true;
 					SmoothChanged = true;
 				}
 
@@ -1466,7 +1475,7 @@ namespace Object_tool
 						if (!UseSplitNormals.Enabled && xr_loader.find_chunk((int)MESH.EMESH_CHUNK_NORMALS, false, true))
 						{
 							UseSplitNormals.Enabled = true;
-							UseSplitNormals.Checked = NORMALS_DEFAULT;
+							UseSplitNormals.Checked = NORMALS_DEFAULT && !AutoSmoothEnabled;
 							normalsToolStripMenuItem.Enabled = true;
 							SmoothChanged = NORMALS_DEFAULT;
 						}
@@ -1622,7 +1631,7 @@ namespace Object_tool
 
 				joints_count = (uint)bones.Count;
 
-				if (!SmoothChanged)
+				if (!SmoothChanged && !AutoSmoothEnabled)
                 {
 					pSettings.Load(SmoothSoC);
 					pSettings.Load(SmoothCoP, true);
@@ -2790,7 +2799,7 @@ namespace Object_tool
 			"3. Optimize surfaces - объединяет меши с одинаковыми текстурами и шейдерами в один.\n" +
 			"4. HQ Geometry+ - компилятор не будет удалять похожие vertex'ы и face'ы, поддержка более плотной сетки полигонов.\n" +
 			"5. SoC bone export - при экспорте динамического OGF, на полигон будут влиять максимум 2 кости. При отключении будет включено CoP влияние в 4 кости (не поддерживается в SoC).\n" +
-			"6. Smooth Type определяет тип сглаживания при экспорте моделей.\n1) SoC: #1\n2) CS\\CoP: #2\n3) Normals: использует оригинальные Split нормали, новый формат."
+			"6. Smooth Type определяет тип сглаживания при экспорте моделей.\n1) SoC: #1\n2) CS\\CoP: #2\n3) Normals: использует оригинальные Split нормали.\n4) Auto: программа будет автоматически определять тип сглаживания, первыми в приоритете стоят нормали. Если их нет то начнется выбор типа сглаживания.\nРаботает с 99% моделей."
 			, "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 

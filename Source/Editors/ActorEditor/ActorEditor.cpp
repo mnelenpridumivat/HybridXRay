@@ -287,9 +287,9 @@ int main(int argc, char** argv)
     else
     {
         // Program params
-        mode = ExportOBJ;
-        object_path = "H:\\trade\\Sailor_Moon_1_v5_HQ.object";
-        second_file_path = "H:\\trade\\Sailor_Moon_1_v5_HQ.obj";
+        mode = ExportOGF;
+        object_path = "H:\\8.object";
+        second_file_path = "H:\\8.ogf";
         //flags = exfHQGeometryPlus;
         //custom_script = "G:\\projects\\ValeroK\\xrExportTool\\bin\\x64\\Release\\scripts\\delete_unused_gunslinger_bones.script";
         // End of program params
@@ -345,6 +345,7 @@ int main(int argc, char** argv)
         ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoExpBuildinMots, (flags & exfExportBuildInMots));
         ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoSoCSmooth, (flags & exfSoCSmooth));
         ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoSoCInfluence, (flags & exfSoCInfluence));
+        ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoAutoSmooth, (flags & exfAutoSmooth));
         ATools->CurrentObject()->InitScript();
     }
 

@@ -62,6 +62,7 @@
             this.button3 = new System.Windows.Forms.Button();
             this.TexturesPath = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.AutoSmooth = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -280,6 +281,7 @@
             // 
             // SmoothTypeGroupBox
             // 
+            this.SmoothTypeGroupBox.Controls.Add(this.AutoSmooth);
             this.SmoothTypeGroupBox.Controls.Add(this.SmoothCoP);
             this.SmoothTypeGroupBox.Controls.Add(this.SmoothSoC);
             this.SmoothTypeGroupBox.Location = new System.Drawing.Point(180, 122);
@@ -292,12 +294,10 @@
             // SmoothCoP
             // 
             this.SmoothCoP.AutoSize = true;
-            this.SmoothCoP.Checked = true;
-            this.SmoothCoP.Location = new System.Drawing.Point(82, 19);
+            this.SmoothCoP.Location = new System.Drawing.Point(110, 19);
             this.SmoothCoP.Name = "SmoothCoP";
             this.SmoothCoP.Size = new System.Drawing.Size(64, 17);
             this.SmoothCoP.TabIndex = 1;
-            this.SmoothCoP.TabStop = true;
             this.SmoothCoP.Text = "CS\\CoP";
             this.SmoothCoP.UseVisualStyleBackColor = true;
             this.SmoothCoP.CheckedChanged += new System.EventHandler(this.SyncForm);
@@ -305,7 +305,7 @@
             // SmoothSoC
             // 
             this.SmoothSoC.AutoSize = true;
-            this.SmoothSoC.Location = new System.Drawing.Point(31, 19);
+            this.SmoothSoC.Location = new System.Drawing.Point(59, 19);
             this.SmoothSoC.Name = "SmoothSoC";
             this.SmoothSoC.Size = new System.Drawing.Size(45, 17);
             this.SmoothSoC.TabIndex = 0;
@@ -446,6 +446,19 @@
             this.label3.TabIndex = 11;
             this.label3.Text = "Textures path:";
             // 
+            // AutoSmooth
+            // 
+            this.AutoSmooth.AutoSize = true;
+            this.AutoSmooth.Checked = true;
+            this.AutoSmooth.Location = new System.Drawing.Point(6, 19);
+            this.AutoSmooth.Name = "AutoSmooth";
+            this.AutoSmooth.Size = new System.Drawing.Size(47, 17);
+            this.AutoSmooth.TabIndex = 2;
+            this.AutoSmooth.TabStop = true;
+            this.AutoSmooth.Text = "Auto";
+            this.AutoSmooth.UseVisualStyleBackColor = true;
+            this.AutoSmooth.CheckedChanged += new System.EventHandler(this.SyncForm);
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -521,5 +534,6 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.TextBox TexturesPath;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.RadioButton AutoSmooth;
     }
 }

@@ -202,6 +202,7 @@ public:
 class ECORE_API CExportSkeleton: public CExportSkeletonCustom{
 	CEditableObject*	m_Source;
     bool				PrepareGeometry		(u8 influence);
+    void  				DetectSmoothType    ();
 public:
 						CExportSkeleton		(CEditableObject* object);
     virtual bool    	Export				(IWriter& F, u8 infl);

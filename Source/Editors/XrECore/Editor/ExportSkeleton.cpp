@@ -621,13 +621,18 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
 
     if (m_Source->BoneCount()<1){
     	ELog.Msg(mtError,"There are no bones in the object.");
+        WriteLog("!..There are no bones in the object.");
      	return false;
     }
 
     if (m_Source->BoneCount()>MAX_BONE){
         ELog.Msg(mtError,"Object cannot handle more than" TO_STRING( MAX_BONE) " bones.");
+        WriteLog("!..Object cannot handle more than" TO_STRING(MAX_BONE) " bones.");
      	return false;
     }
+
+    if (m_Source->m_objectFlags.is(CEditableObject::eoAutoSmooth))
+        DetectSmoothType();
 
     // mem active motion
     CSMotion* active_motion=m_Source->ResetSAnimation();
@@ -932,6 +937,135 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
     m_Source->SetActiveSMotion(active_motion);
 
     return bRes;
+}
+
+void CExportSkeleton::DetectSmoothType()
+{
+    u8 SmoothType = 0;
+    WriteLog("..Start detecting smooth type");
+    bool bRes = true;
+    bool Normals = false;
+
+    size_t SoCverts = 0, CoPverts = 0;
+
+    for (u8 i = 0; i < 2; i++)
+    {
+        SplitVec OldSplits = m_Splits;
+
+        size_t TotalVerts = 0;
+        switch (i)
+        {
+        case 0:
+            m_Source->m_objectFlags.set(CEditableObject::eoSoCSmooth, TRUE);
+            break;
+        case 1:
+            m_Source->m_objectFlags.set(CEditableObject::eoSoCSmooth, FALSE);
+            break;
+        }
+
+        for (EditMeshIt mesh_it = m_Source->FirstMesh(); mesh_it != m_Source->LastMesh(); mesh_it++)
+        {
+            if (!bRes)		break;
+
+            CEditableMesh* MESH = *mesh_it;
+
+            if (MESH->m_Normals)
+            {
+                Normals = true;
+                break;
+            }
+
+            // generate vertex offset
+            MESH->GenerateVNormals(true, true);
+            MESH->GenerateFNormals();
+            MESH->GenerateSVerticesFast(2);
+
+            for (SurfFacesPairIt sp_it = MESH->m_SurfFaces.begin(); sp_it != MESH->m_SurfFaces.end(); sp_it++)
+            {
+                CSurface* surf = sp_it->first;
+                surf->m_id = 0;
+            }
+
+            // fill faces
+            for (SurfFacesPairIt sp_it = MESH->m_SurfFaces.begin(); sp_it != MESH->m_SurfFaces.end(); sp_it++)
+            {
+                if (!bRes)	break;
+                IntVec& face_lst = sp_it->second;
+                CSurface* surf = sp_it->first;
+
+                for (IntIt f_it = face_lst.begin(); f_it != face_lst.end(); f_it++)
+                {
+                    if (!bRes)								break;
+                    int f_idx = *f_it;
+
+                    {
+                        SSkelVert 							v[3];
+
+                        for (int k = 0; k < 3; k++)
+                        {
+                            st_SVert& sv = MESH->m_SVertices[f_idx * 3 + k];
+
+                            Fvector offs = sv.offs;
+                            offs.mul(m_Source->a_vScale);
+
+                            st_SVert::bone 				b[2];
+                            b[0].id = sv.bones[0].id;
+                            b[1].id = sv.bones[0].id;
+                            b[0].w = 1.f;
+                            b[1].w = 0.f;
+                            v[k].set(offs, sv.norm, sv.uv, 2, b);
+                        }
+                        // find split
+                        int mtl_idx = FindSplit(surf->m_ShaderName, surf->m_Texture, 0, surf->m_id);
+                        if (mtl_idx < 0)
+                        {
+                            Fmatrix mScale;
+                            mScale.scale(m_Source->a_vScale, m_Source->a_vScale, m_Source->a_vScale);
+
+                            Fbox box;
+                            box.xform(m_Source->GetBox(), mScale);
+
+                            m_Splits.push_back(SSplit(surf, box, 0));
+                            mtl_idx = m_Splits.size() - 1;
+                        }
+
+                        SSplit& cur_split = m_Splits[mtl_idx];
+
+                        // append face
+                        cur_split.add_face(v[0], v[1], v[2], m_Source->m_objectFlags.is(CEditableObject::eoHQExportPlus));
+                    }
+                }
+            }
+            // mesh fin
+            MESH->UnloadSVertices(true);
+            MESH->UnloadVNormals(true);
+            MESH->UnloadFNormals(true);
+        }
+
+        if (Normals)
+            break;
+
+        for (int j = 0; j < m_Splits.size(); j++)
+            TotalVerts += m_Splits[j].getVS();
+
+        switch (i)
+        {
+        case 0:
+            SoCverts = TotalVerts;
+            break;
+        case 1:
+            CoPverts = TotalVerts;
+            break;
+        }
+
+        m_Splits = OldSplits;
+    }
+
+    bool bCoP = (SoCverts > CoPverts);
+
+    m_Source->m_objectFlags.set(CEditableObject::eoNormals, !!Normals);
+    m_Source->m_objectFlags.set(CEditableObject::eoSoCSmooth, !!(!bCoP));
+    WriteLog("..Smooth type detected: %s", Normals ? "Normals" : (bCoP ? "CoP" : "SoC"));
 }
 
 bool CExportSkeleton::ExportAsSimple(IWriter& F)

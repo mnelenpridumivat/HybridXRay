@@ -54,6 +54,7 @@ namespace Object_tool
             pSettings.Save(BuildInMotionsExport);
             pSettings.Save(SmoothSoC);
             pSettings.Save(SmoothCoP);
+            pSettings.Save(AutoSmooth);
             pSettings.Save(Anims8Bit);
             pSettings.Save(Anims16Bit);
             pSettings.Save(AnimsNoCompress);
@@ -79,7 +80,8 @@ namespace Object_tool
             pSettings.Load(SplitNormalsChbx, true);
             pSettings.Load(BuildInMotionsExport, true);
             pSettings.Load(SmoothSoC);
-            pSettings.Load(SmoothCoP, true);
+            pSettings.Load(SmoothCoP);
+            pSettings.Load(AutoSmooth, true);
             pSettings.Load(Anims8Bit);
             pSettings.Load(Anims16Bit, !NoCompress.Checked);
             pSettings.Load(AnimsNoCompress, NoCompress.Checked);
@@ -102,7 +104,6 @@ namespace Object_tool
             SoCInfluence.Checked = true;
             if (!NoCompress.Checked)
                 Anims8Bit.Checked = true;
-            SmoothSoC.Checked = true;
         }
 
         private void DefaultsCoP_CheckedChanged(object sender, EventArgs e)
@@ -112,7 +113,6 @@ namespace Object_tool
                 Anims16Bit.Checked = true;
             else
                 AnimsNoCompress.Checked = true;
-            SmoothCoP.Checked = true;
         }
 
         private void NoCompress_CheckedChanged(object sender, EventArgs e)
