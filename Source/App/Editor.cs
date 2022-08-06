@@ -231,12 +231,6 @@ namespace Object_tool
 		{
 			if (!CheckThread()) return;
 
-			if (m_Object == null)
-			{
-				Msg("RunSDK: Error!\nObject is null. Please report this bug for developer.");
-				return;
-			}
-
 			ToolStripItem Item = sender as ToolStripItem;
 			string currentField = Item.Tag.ToString();
 			int idx = 0;
