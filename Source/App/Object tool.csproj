@@ -75,17 +75,24 @@
     <Compile Include="BatchFlags.Designer.cs">
       <DependentUpon>BatchFlags.cs</DependentUpon>
     </Compile>
+    <Compile Include="Editor.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="GenerateLod.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GenerateLod.Designer.cs">
       <DependentUpon>GenerateLod.cs</DependentUpon>
     </Compile>
+    <Compile Include="Object.cs" />
     <Compile Include="Settings.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Settings.Designer.cs">
       <DependentUpon>Settings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UiHelpers.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="XRayLoader.cs" />
     <Compile Include="ObjectEditor.cs">
