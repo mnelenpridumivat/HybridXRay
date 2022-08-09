@@ -161,10 +161,7 @@
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /d  "$(SolutionDir)..\SDK\binaries\$(Platform)\$(Configuration)\tbb.dll" "$(OutDir)"
-xcopy /y /d  "$(SolutionDir)..\SDK\binaries\cg.dll" "$(OutDir)"
-xcopy /y /d  "$(SolutionDir)..\SDK\binaries\cgGL.dll" "$(OutDir)"
-xcopy /y /d  "$(SolutionDir)..\SDK\binaries\glut32.dll" "$(OutDir)"
-xcopy /y /d  "$(SolutionDir)..\SDK\binaries\OBJ Viewer.exe" "$(OutDir)"</Command>
+xcopy /y /d  "$(SolutionDir)..\SDK\binaries\f3d.exe" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -107,7 +107,6 @@ namespace Object_tool
             this.settingsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ViewtoolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.StatusPanel = new System.Windows.Forms.StatusStrip();
             this.FileLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.StatusFile = new System.Windows.Forms.ToolStripStatusLabel();
@@ -214,6 +213,7 @@ namespace Object_tool
             this.UseSplitNormals = new System.Windows.Forms.RadioButton();
             this.SmoothCoP = new System.Windows.Forms.RadioButton();
             this.SmoothSoC = new System.Windows.Forms.RadioButton();
+            this.AutoSmooth = new System.Windows.Forms.RadioButton();
             this.StripifyMeshes = new System.Windows.Forms.CheckBox();
             this.HQGeometry = new System.Windows.Forms.RadioButton();
             this.HQGeometryPlus = new System.Windows.Forms.RadioButton();
@@ -239,7 +239,11 @@ namespace Object_tool
             this.OpenMotionRefsDialog = new System.Windows.Forms.OpenFileDialog();
             this.SaveUserDataDialog = new System.Windows.Forms.SaveFileDialog();
             this.SaveMotionRefsDialog = new System.Windows.Forms.SaveFileDialog();
-            this.AutoSmooth = new System.Windows.Forms.RadioButton();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.ViewPortPanel = new System.Windows.Forms.Panel();
+            this.viewPortToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.refreshTexturesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuPanel.SuspendLayout();
             this.StatusPanel.SuspendLayout();
             this.BonesPage.SuspendLayout();
@@ -265,6 +269,7 @@ namespace Object_tool
             this.MotionRefsPage.SuspendLayout();
             this.UserDataPage.SuspendLayout();
             this.LodPage.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // OpenObjectDialog
@@ -289,10 +294,10 @@ namespace Object_tool
             this.debugToolStripMenuItem,
             this.helpToolStripMenuItem,
             this.settingsToolStripMenuItem,
-            this.ViewtoolStripMenuItem});
+            this.viewPortToolStripMenuItem});
             this.MenuPanel.Location = new System.Drawing.Point(0, 0);
             this.MenuPanel.Name = "MenuPanel";
-            this.MenuPanel.Size = new System.Drawing.Size(504, 24);
+            this.MenuPanel.Size = new System.Drawing.Size(917, 24);
             this.MenuPanel.TabIndex = 11;
             this.MenuPanel.Text = "menuStrip1";
             // 
@@ -322,7 +327,7 @@ namespace Object_tool
             this.userDataToolStripMenuItem});
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
             this.loadToolStripMenuItem.ShortcutKeyDisplayString = "";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.loadToolStripMenuItem.Text = "Load";
             // 
             // objectToolStripMenuItem
@@ -379,7 +384,7 @@ namespace Object_tool
             this.saveToolStripMenuItem1.ShortcutKeyDisplayString = "";
             this.saveToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.saveToolStripMenuItem1.ShowShortcutKeys = false;
-            this.saveToolStripMenuItem1.Size = new System.Drawing.Size(149, 22);
+            this.saveToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.saveToolStripMenuItem1.Text = "Save";
             this.saveToolStripMenuItem1.Click += new System.EventHandler(this.saveToolStripMenuItem1_Click);
             // 
@@ -393,7 +398,7 @@ namespace Object_tool
             this.bonesPartsToolStripMenuItem1});
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeyDisplayString = "";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveToolStripMenuItem.Text = "Save As";
             // 
             // objectToolStripMenuItem1
@@ -448,7 +453,7 @@ namespace Object_tool
             this.userDataToolStripMenuItem1});
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
             this.exportToolStripMenuItem.ShortcutKeyDisplayString = "";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exportToolStripMenuItem.Text = "Export";
             // 
             // oGFToolStripMenuItem
@@ -557,7 +562,7 @@ namespace Object_tool
             this.DeletesklsToolStripMenuItem,
             this.bonesPartsToDefaultToolStripMenuItem});
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.deleteToolStripMenuItem.Text = "Delete";
             // 
             // DeletesklsToolStripMenuItem
@@ -583,7 +588,7 @@ namespace Object_tool
             this.fromDialogToolStripMenuItem,
             this.fromFolderDialogToolStripMenuItem});
             this.batchConvertToolStripMenuItem.Name = "batchConvertToolStripMenuItem";
-            this.batchConvertToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.batchConvertToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.batchConvertToolStripMenuItem.Text = "Batch Convert";
             // 
             // fromLtxToolStripMenuItem
@@ -647,12 +652,12 @@ namespace Object_tool
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(146, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -913,21 +918,14 @@ namespace Object_tool
             this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
-            // ViewtoolStripMenuItem
-            // 
-            this.ViewtoolStripMenuItem.Name = "ViewtoolStripMenuItem";
-            this.ViewtoolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.ViewtoolStripMenuItem.Text = "View";
-            this.ViewtoolStripMenuItem.Click += new System.EventHandler(this.ViewtoolStripMenuItem_Click);
-            // 
             // StatusPanel
             // 
             this.StatusPanel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileLabel,
             this.StatusFile});
-            this.StatusPanel.Location = new System.Drawing.Point(0, 466);
+            this.StatusPanel.Location = new System.Drawing.Point(0, 443);
             this.StatusPanel.Name = "StatusPanel";
-            this.StatusPanel.Size = new System.Drawing.Size(504, 22);
+            this.StatusPanel.Size = new System.Drawing.Size(917, 22);
             this.StatusPanel.TabIndex = 31;
             this.StatusPanel.Text = "statusStrip1";
             // 
@@ -1686,7 +1684,7 @@ namespace Object_tool
             this.FlagsPage.Controls.Add(this.FlagsGroupBox);
             this.FlagsPage.Location = new System.Drawing.Point(4, 25);
             this.FlagsPage.Name = "FlagsPage";
-            this.FlagsPage.Size = new System.Drawing.Size(472, 398);
+            this.FlagsPage.Size = new System.Drawing.Size(473, 384);
             this.FlagsPage.TabIndex = 0;
             this.FlagsPage.Text = "Flags";
             this.FlagsPage.UseVisualStyleBackColor = true;
@@ -1708,7 +1706,7 @@ namespace Object_tool
             this.LogTextBox.Location = new System.Drawing.Point(3, 252);
             this.LogTextBox.Name = "LogTextBox";
             this.LogTextBox.ReadOnly = true;
-            this.LogTextBox.Size = new System.Drawing.Size(466, 146);
+            this.LogTextBox.Size = new System.Drawing.Size(467, 132);
             this.LogTextBox.TabIndex = 17;
             this.LogTextBox.Text = "";
             // 
@@ -1719,7 +1717,7 @@ namespace Object_tool
             this.FlagsGroupBox.Controls.Add(this.tableLayoutPanel1);
             this.FlagsGroupBox.Location = new System.Drawing.Point(0, 0);
             this.FlagsGroupBox.Name = "FlagsGroupBox";
-            this.FlagsGroupBox.Size = new System.Drawing.Size(472, 234);
+            this.FlagsGroupBox.Size = new System.Drawing.Size(473, 234);
             this.FlagsGroupBox.TabIndex = 16;
             this.FlagsGroupBox.TabStop = false;
             this.FlagsGroupBox.Text = "Edit export flags";
@@ -1737,7 +1735,7 @@ namespace Object_tool
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(466, 215);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(467, 215);
             this.tableLayoutPanel1.TabIndex = 24;
             // 
             // tableLayoutPanel2
@@ -1753,7 +1751,7 @@ namespace Object_tool
             this.tableLayoutPanel2.RowCount = 2;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(197, 215);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(198, 215);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // ScaleGroupBox
@@ -1764,7 +1762,7 @@ namespace Object_tool
             this.ScaleGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
             this.ScaleGroupBox.Location = new System.Drawing.Point(3, 119);
             this.ScaleGroupBox.Name = "ScaleGroupBox";
-            this.ScaleGroupBox.Size = new System.Drawing.Size(191, 93);
+            this.ScaleGroupBox.Size = new System.Drawing.Size(192, 93);
             this.ScaleGroupBox.TabIndex = 23;
             this.ScaleGroupBox.TabStop = false;
             this.ScaleGroupBox.Text = "Scale";
@@ -1784,7 +1782,7 @@ namespace Object_tool
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ObjectScaleTextBox.Location = new System.Drawing.Point(78, 16);
             this.ObjectScaleTextBox.Name = "ObjectScaleTextBox";
-            this.ObjectScaleTextBox.Size = new System.Drawing.Size(107, 20);
+            this.ObjectScaleTextBox.Size = new System.Drawing.Size(108, 20);
             this.ObjectScaleTextBox.TabIndex = 16;
             this.ObjectScaleTextBox.Text = "1";
             this.ObjectScaleTextBox.TextChanged += new System.EventHandler(this.ScaleTextChanged);
@@ -1812,7 +1810,7 @@ namespace Object_tool
             this.MotionFlagsGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MotionFlagsGroupBox.Location = new System.Drawing.Point(3, 3);
             this.MotionFlagsGroupBox.Name = "MotionFlagsGroupBox";
-            this.MotionFlagsGroupBox.Size = new System.Drawing.Size(191, 110);
+            this.MotionFlagsGroupBox.Size = new System.Drawing.Size(192, 110);
             this.MotionFlagsGroupBox.TabIndex = 22;
             this.MotionFlagsGroupBox.TabStop = false;
             this.MotionFlagsGroupBox.Text = "Motion export";
@@ -1872,7 +1870,7 @@ namespace Object_tool
             this.ModelFlagsGroupBox.Controls.Add(this.ProgressiveMeshes);
             this.ModelFlagsGroupBox.Controls.Add(this.OptimizeSurfaces);
             this.ModelFlagsGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
-            this.ModelFlagsGroupBox.Location = new System.Drawing.Point(200, 3);
+            this.ModelFlagsGroupBox.Location = new System.Drawing.Point(201, 3);
             this.ModelFlagsGroupBox.Name = "ModelFlagsGroupBox";
             this.ModelFlagsGroupBox.Size = new System.Drawing.Size(263, 209);
             this.ModelFlagsGroupBox.TabIndex = 21;
@@ -1954,6 +1952,19 @@ namespace Object_tool
             this.SmoothSoC.Text = "SoC";
             this.SmoothSoC.UseVisualStyleBackColor = true;
             // 
+            // AutoSmooth
+            // 
+            this.AutoSmooth.AutoSize = true;
+            this.AutoSmooth.Checked = true;
+            this.AutoSmooth.Dock = System.Windows.Forms.DockStyle.Right;
+            this.AutoSmooth.Location = new System.Drawing.Point(3, 3);
+            this.AutoSmooth.Name = "AutoSmooth";
+            this.AutoSmooth.Size = new System.Drawing.Size(47, 19);
+            this.AutoSmooth.TabIndex = 3;
+            this.AutoSmooth.TabStop = true;
+            this.AutoSmooth.Text = "Auto";
+            this.AutoSmooth.UseVisualStyleBackColor = true;
+            // 
             // StripifyMeshes
             // 
             this.StripifyMeshes.AutoSize = true;
@@ -2010,9 +2021,6 @@ namespace Object_tool
             // 
             // TabControl
             // 
-            this.TabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.TabControl.Appearance = System.Windows.Forms.TabAppearance.Buttons;
             this.TabControl.Controls.Add(this.FlagsPage);
             this.TabControl.Controls.Add(this.SurfacesPage);
@@ -2021,10 +2029,11 @@ namespace Object_tool
             this.TabControl.Controls.Add(this.MotionRefsPage);
             this.TabControl.Controls.Add(this.UserDataPage);
             this.TabControl.Controls.Add(this.LodPage);
-            this.TabControl.Location = new System.Drawing.Point(12, 27);
+            this.TabControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TabControl.Location = new System.Drawing.Point(433, 3);
             this.TabControl.Name = "TabControl";
             this.TabControl.SelectedIndex = 0;
-            this.TabControl.Size = new System.Drawing.Size(480, 427);
+            this.TabControl.Size = new System.Drawing.Size(481, 413);
             this.TabControl.TabIndex = 10;
             this.TabControl.SelectedIndexChanged += new System.EventHandler(this.IndexChanged);
             this.TabControl.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EditorKeyDown);
@@ -2174,31 +2183,65 @@ namespace Object_tool
             // 
             this.SaveMotionRefsDialog.Filter = "Ltx file|*.ltx|Txt file|*.txt";
             // 
-            // AutoSmooth
+            // tableLayoutPanel4
             // 
-            this.AutoSmooth.AutoSize = true;
-            this.AutoSmooth.Checked = true;
-            this.AutoSmooth.Dock = System.Windows.Forms.DockStyle.Right;
-            this.AutoSmooth.Location = new System.Drawing.Point(3, 3);
-            this.AutoSmooth.Name = "AutoSmooth";
-            this.AutoSmooth.Size = new System.Drawing.Size(47, 19);
-            this.AutoSmooth.TabIndex = 3;
-            this.AutoSmooth.TabStop = true;
-            this.AutoSmooth.Text = "Auto";
-            this.AutoSmooth.UseVisualStyleBackColor = true;
+            this.tableLayoutPanel4.ColumnCount = 2;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 487F));
+            this.tableLayoutPanel4.Controls.Add(this.TabControl, 1, 0);
+            this.tableLayoutPanel4.Controls.Add(this.ViewPortPanel, 0, 0);
+            this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(0, 24);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 1;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(917, 419);
+            this.tableLayoutPanel4.TabIndex = 32;
+            // 
+            // ViewPortPanel
+            // 
+            this.ViewPortPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ViewPortPanel.Location = new System.Drawing.Point(3, 3);
+            this.ViewPortPanel.Name = "ViewPortPanel";
+            this.ViewPortPanel.Size = new System.Drawing.Size(424, 413);
+            this.ViewPortPanel.TabIndex = 11;
+            this.ViewPortPanel.SizeChanged += new System.EventHandler(this.ResizeEmbeddedApp);
+            // 
+            // viewPortToolStripMenuItem
+            // 
+            this.viewPortToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.reloadToolStripMenuItem,
+            this.refreshTexturesToolStripMenuItem});
+            this.viewPortToolStripMenuItem.Name = "viewPortToolStripMenuItem";
+            this.viewPortToolStripMenuItem.Size = new System.Drawing.Size(69, 20);
+            this.viewPortToolStripMenuItem.Text = "View Port";
+            // 
+            // reloadToolStripMenuItem
+            // 
+            this.reloadToolStripMenuItem.Name = "reloadToolStripMenuItem";
+            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.reloadToolStripMenuItem.Text = "Reload";
+            this.reloadToolStripMenuItem.Click += new System.EventHandler(this.reloadToolStripMenuItem_Click);
+            // 
+            // refreshTexturesToolStripMenuItem
+            // 
+            this.refreshTexturesToolStripMenuItem.Name = "refreshTexturesToolStripMenuItem";
+            this.refreshTexturesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.refreshTexturesToolStripMenuItem.Text = "Refresh textures";
+            this.refreshTexturesToolStripMenuItem.Click += new System.EventHandler(this.refreshTexturesToolStripMenuItem_Click);
             // 
             // Object_Editor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(504, 488);
+            this.ClientSize = new System.Drawing.Size(917, 465);
+            this.Controls.Add(this.tableLayoutPanel4);
             this.Controls.Add(this.StatusPanel);
-            this.Controls.Add(this.TabControl);
             this.Controls.Add(this.MenuPanel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.MenuPanel;
-            this.MinimumSize = new System.Drawing.Size(520, 363);
+            this.MinimumSize = new System.Drawing.Size(780, 353);
             this.Name = "Object_Editor";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Object Editor";
@@ -2244,6 +2287,7 @@ namespace Object_tool
             this.UserDataPage.ResumeLayout(false);
             this.LodPage.ResumeLayout(false);
             this.LodPage.PerformLayout();
+            this.tableLayoutPanel4.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2458,9 +2502,13 @@ namespace Object_tool
         private System.Windows.Forms.TextBox textBox28;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.ToolStripMenuItem ViewtoolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem1;
         private System.Windows.Forms.RadioButton AutoSmooth;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+        private System.Windows.Forms.Panel ViewPortPanel;
+        private System.Windows.Forms.ToolStripMenuItem viewPortToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem reloadToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem refreshTexturesToolStripMenuItem;
     }
 }
 

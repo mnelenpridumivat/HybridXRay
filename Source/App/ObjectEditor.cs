@@ -53,6 +53,31 @@ namespace Object_tool
 		// Settings
 		public bool USE_OLD_BONES = true;
 
+		const int GWL_STYLE = -16;
+		const int WS_CAPTION = 0x00C00000;
+		const int WS_THICKFRAME = 0x00040000;
+		const int SWP_NOACTIVATE = 0x0010;
+		const int SWP_NOZORDER = 0x0004;
+
+		[DllImport("user32.dll")]
+		private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+
+		[DllImport("user32.dll", SetLastError = true)]
+		private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+
+		[DllImport("user32")]
+		private static extern IntPtr SetParent(IntPtr hWnd, IntPtr hWndParent);
+
+		[DllImport("user32")]
+		private static extern bool SetWindowPos(
+		  IntPtr hWnd,
+		  IntPtr hWndInsertAfter,
+		  int X,
+		  int Y,
+		  int cx,
+		  int cy,
+		  int uFlags);
+
 		public Object_Editor()
 		{
 			InitializeComponent();
@@ -88,6 +113,8 @@ namespace Object_tool
 				MotionRefsTextChanged(MotionRefsBox, null);
 				UserDataTextChanged(UserDataTextBox, null);
 			}
+
+			ViewtoolStripMenuItem_Click(null, null);
 		}
 
 		public void AfterLoad()
@@ -1050,26 +1077,89 @@ namespace Object_tool
 			}
 		}
 
+		private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			ViewtoolStripMenuItem_Click(null, null);
+		}
+
+		private void refreshTexturesToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void ResizeEmbeddedApp(object sender, EventArgs e)
+		{
+			if (ViewerProcess == null || !ViewerWorking)
+				return;
+			int width = ViewPortPanel.Width;
+			int height = ViewPortPanel.Height;
+			SetWindowPos(ViewerProcess.MainWindowHandle, IntPtr.Zero, 0, 0, width, height, SWP_NOACTIVATE | SWP_NOZORDER);
+		}
+
 		private void ViewtoolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (!CheckThread()) return;
-
 			if (m_Object == null)
 			{
 				Msg("ViewModel: Error!\nObject is null. Please report this bug for developer.");
 				return;
 			}
 
-			string exe_path = AppPath() + "\\OBJ Viewer.exe";
+			string ObjName = Path.ChangeExtension(m_Object.TEMP_FILE_NAME, ".obj");
+			string exe_path = AppPath() + "\\f3d.exe";
+
+			string Textures = "";
+			pSettings.LoadText("TexturesPath", ref Textures);
+
+			List<string> pTextures = new List<string>();
+
+			if (m_Object.surfaces.Count > 0 && Textures != "")
+			{
+				for (int i = 0; i < m_Object.surfaces.Count; i++)
+				{
+					string texture_main = Textures + m_Object.surfaces[i].texture + ".dds";
+					string texture_temp = TempFolder() + "\\" + Path.GetFileName(m_Object.surfaces[i].texture + ".tga");
+
+					if (File.Exists(texture_main)) // Create tga
+					{
+						pTextures.Add(texture_main);
+						pTextures.Add(texture_temp);
+					}
+				}
+			}
+
+			StartEditor(false, EditorMode.ExportOBJOptimized, m_Object.TEMP_FILE_NAME, ObjName, -1, 1.0f, pTextures.ToArray());
+
+			if (ViewerWorking)
+            {
+				ViewerProcess.Kill();
+				ViewerProcess.Close();
+			}
+			
+			ViewerProcess.StartInfo.FileName = exe_path;
+			ViewerProcess.StartInfo.Arguments = $"\"{ObjName}\"";
+
+			ViewerProcess.Start();
+			ViewerWorking = true;
+			ViewerProcess.WaitForInputIdle();
+			SetParent(this.ViewerProcess.MainWindowHandle, ViewPortPanel.Handle);
+
+			int style = GetWindowLong(ViewerProcess.MainWindowHandle, GWL_STYLE);
+			style = style & ~WS_CAPTION & ~WS_THICKFRAME;
+			SetWindowLong(ViewerProcess.MainWindowHandle, GWL_STYLE, style);
+			ResizeEmbeddedApp(null, null);
+
+			return;
+
+			if (!CheckThread()) return;
+
 			if (File.Exists(exe_path))
 			{
-				string Textures = "";
+				Textures = "";
 				pSettings.LoadText("TexturesPath", ref Textures);
 
-				List<string> pTextures = new List<string>();
+				pTextures = new List<string>();
 
-				int surfaces_count = (m_Object.surfaces != null ? m_Object.surfaces.Count : 0);
-				if (surfaces_count > 0 && Textures != "")
+				if (m_Object.surfaces.Count > 0 && Textures != "")
 				{
 					for (int i = 0; i < m_Object.surfaces.Count; i++)
 					{
@@ -1084,7 +1174,7 @@ namespace Object_tool
 					}
 				}
 
-				string ObjName = Path.ChangeExtension(m_Object.TEMP_FILE_NAME, ".obj");
+				ObjName = Path.ChangeExtension(m_Object.TEMP_FILE_NAME, ".obj");
 				string MtlName = m_Object.TEMP_FILE_NAME.Substring(0, m_Object.TEMP_FILE_NAME.LastIndexOf('\\')) + "\\" + Path.ChangeExtension(GetCorrectString(Path.GetFileName(m_Object.TEMP_FILE_NAME)), ".mtl");
 
 				SdkThread = new Thread(() =>
@@ -1458,5 +1548,5 @@ namespace Object_tool
 			box.Controls.Add(ShaderTextBox);
 			box.Controls.Add(FaceLabel);
 		}
-	}
+    }
 }

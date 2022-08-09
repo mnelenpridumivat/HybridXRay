@@ -249,7 +249,7 @@ namespace Object_tool
 			importObjectParamsToolStripMenuItem.Enabled = false;
 			saveToolStripMenuItem1.Enabled              = false;
 			generateShapesToolStripMenuItem.Enabled     = false;
-			ViewtoolStripMenuItem.Enabled               = false;
+			viewPortToolStripMenuItem.Enabled           = false;
 
 			if (USE_OLD_BONES)
 				BonesPage.Controls.Clear();
@@ -296,7 +296,7 @@ namespace Object_tool
 				shapeParamsToolStripMenuItem.Enabled            = !IsOgfMode && has_bones;
 				generateShapesToolStripMenuItem.Enabled         = !IsOgfMode && has_bones;
 				surfaceParamsToolStripMenuItem.Enabled          = !IsOgfMode;
-				ViewtoolStripMenuItem.Enabled                   = true;
+				viewPortToolStripMenuItem.Enabled               = true;
 
 				SurfacesPage.Controls.Clear();
 
