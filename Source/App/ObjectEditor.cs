@@ -1199,6 +1199,7 @@ namespace Object_tool
 			
 			ViewerProcess.StartInfo.FileName = exe_path;
 			ViewerProcess.StartInfo.Arguments = $"\"{ObjName}\"";
+			ViewerProcess.StartInfo.UseShellExecute = false;
 
 			ViewerProcess.Start();
 			ViewerWorking = true;
