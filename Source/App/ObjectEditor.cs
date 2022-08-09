@@ -1144,8 +1144,6 @@ namespace Object_tool
 
 		private void refreshTexturesToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			string MtlName = m_Object.TEMP_FILE_NAME.Substring(0, m_Object.TEMP_FILE_NAME.LastIndexOf('\\')) + "\\" + Path.ChangeExtension(Path.GetFileName(m_Object.TEMP_FILE_NAME), ".mtl");
-
 			string Textures = "";
 			pSettings.LoadText("TexturesPath", ref Textures);
 
@@ -1166,7 +1164,7 @@ namespace Object_tool
 				}
 			}
 
-			StartEditor(false, EditorMode.CreateMTL, m_Object.TEMP_FILE_NAME, MtlName, -1, 1.0f, pTextures.ToArray());
+			StartEditor(false, EditorMode.CreateMTL, m_Object.TEMP_FILE_NAME, m_Object.TEMP_FILE_NAME, -1, 1.0f, pTextures.ToArray());
 			ViewtoolStripMenuItem_Click(null, null); // reset viewer
 		}
 
