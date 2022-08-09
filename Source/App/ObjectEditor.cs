@@ -1084,7 +1084,30 @@ namespace Object_tool
 
 		private void refreshTexturesToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			string MtlName = m_Object.TEMP_FILE_NAME.Substring(0, m_Object.TEMP_FILE_NAME.LastIndexOf('\\')) + "\\" + Path.ChangeExtension(GetCorrectString(Path.GetFileName(m_Object.TEMP_FILE_NAME)), ".mtl");
 
+			string Textures = "";
+			pSettings.LoadText("TexturesPath", ref Textures);
+
+			List<string> pTextures = new List<string>();
+
+			if (m_Object.surfaces.Count > 0 && Textures != "")
+			{
+				for (int i = 0; i < m_Object.surfaces.Count; i++)
+				{
+					string texture_main = Textures + m_Object.surfaces[i].texture + ".dds";
+					string texture_temp = TempFolder() + "\\" + Path.GetFileName(m_Object.surfaces[i].texture + ".png");
+
+					if (File.Exists(texture_main)) // Create png
+					{
+						pTextures.Add(texture_main);
+						pTextures.Add(texture_temp);
+					}
+				}
+			}
+
+			StartEditor(false, EditorMode.CreateMTL, m_Object.TEMP_FILE_NAME, MtlName, -1, 1.0f, pTextures.ToArray());
+			ViewtoolStripMenuItem_Click(null, null); // reset viewer
 		}
 
 		private void ResizeEmbeddedApp(object sender, EventArgs e)

@@ -456,6 +456,7 @@ public:
 	bool			ExportOMF				(LPCSTR fname);
     // obj
     bool			ExportOBJ				(LPCSTR name);
+    bool			CreateMTL				(LPCSTR name);
 
 	LPCSTR			GenerateSurfaceName		(LPCSTR base_name);
 #ifdef _MAYA_EXPORT

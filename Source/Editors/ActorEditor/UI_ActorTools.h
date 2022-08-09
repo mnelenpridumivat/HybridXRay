@@ -248,6 +248,7 @@ public:
     bool				ExportOMF			(LPCSTR name);
     bool				ExportDM			(LPCSTR name);
     bool 				ExportCPP			(LPCSTR name, int mode);
+    bool				CreateMTL			(LPCSTR name);
     bool				SaveMotions			(LPCSTR name, bool bSelOnly);
     bool				AppendMotion		(LPCSTR fn);
     bool				RemoveMotion		(LPCSTR name);

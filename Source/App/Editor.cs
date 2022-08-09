@@ -35,6 +35,7 @@ namespace Object_tool
 			BatchDialogOGF,
 			BatchDialogOMF,
 			ExportOBJOptimized,
+			CreateMTL,
 		};
 
 		private int StartEditor(bool async, EditorMode mode, string object_path, string second_path = "null", int flags = -1, float scale = 1.0f, string[] temp_arr = null)

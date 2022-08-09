@@ -512,6 +512,11 @@ bool CActorTools::ExportOBJ(LPCSTR name)
     return false;
 }
 
+bool CActorTools::CreateMTL(LPCSTR name)
+{
+    if (m_pEditObject && m_pEditObject->CreateMTL(name)) return true;
+    return false;
+}
 
 bool CActorTools::ExportCPP(LPCSTR name, int mode)
 {

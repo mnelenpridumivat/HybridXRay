@@ -917,44 +917,8 @@ bool CExportObjectOGF::ExportAsWavefrontOBJ(IWriter& F, LPCSTR fn)
 	if (!Prepare(false, false, NULL)) 
 		return false;
 
-    string_path 			tmp, tex_path, tex_name;
-    string_path 			drive, dir, name, ext;
-
-    _splitpath				(fn, drive, dir, name, ext );
-
-
-    std::string v;
-    for(char c:name) if (c != ' ') v += c;
-
-    string_path mtl_path, mtl_name;
-    xr_sprintf(mtl_path, "%s%s%s%s", drive, dir, v.c_str(), ext);
-    xr_sprintf(mtl_name, "%s%s", v.c_str(), ext);
-
-    strcat					(name,ext);
-
-    xr_string fn_material 	= EFS.ChangeFileExt(mtl_path,".mtl");
-	IWriter* Fm				= FS.w_open(fn_material.c_str());
-
-    // write material file
-    for (SplitIt split_it=m_Splits.begin(); split_it!=m_Splits.end(); ++split_it)
-    {
-	    _splitpath			((*split_it)->m_Surf->_Texture(), 0, tex_path, tex_name, 0 );
-
-        sprintf				(tmp,"newmtl %s", tex_name);
-		Fm->w_string		(tmp);
-		Fm->w_string		("Ka  0 0 0");
-		Fm->w_string		("Kd  1 1 1");
-		Fm->w_string		("Ks  0 0 0");
-
-        string_path png_path;
-        xr_sprintf(png_path, "%s\\%s.png", m_Source->m_TempPath.c_str(), tex_name);
-        if (Core.CurrentMode == 20 && (GetCorrectString(tex_name) == "" || !FS.exist(png_path))) continue;
-
-        sprintf				(tmp,"map_Kd %s.png\n", tex_name);
-		Fm->w_string		(tmp);
-    }
-
-    FS.w_close		(Fm);
+    string_path 			tmp, tex_name;
+    LPCSTR mtl_name = CreateMTL(fn);
 
 	// write comment
     F.w_string				("# This file uses meters as units for non-parametric coordinates.");
@@ -1025,6 +989,49 @@ bool CExportObjectOGF::ExportAsWavefrontOBJ(IWriter& F, LPCSTR fn)
         }
     }
 	return true;
+}
+
+LPCSTR CExportObjectOGF::CreateMTL(LPCSTR fn)
+{
+    string_path 			tmp, tex_path, tex_name;
+    string_path 			drive, dir, name, ext;
+
+    _splitpath				(fn, drive, dir, name, ext );
+
+    std::string v;
+    for(char c:name) if (c != ' ') v += c;
+
+    string_path mtl_path, mtl_name;
+    xr_sprintf(mtl_path, "%s%s%s%s", drive, dir, v.c_str(), ext);
+    xr_sprintf(mtl_name, "%s%s", v.c_str(), ext);
+
+    strcat					(name,ext);
+
+    xr_string fn_material 	= EFS.ChangeFileExt(mtl_path,".mtl");
+    IWriter* Fm				= FS.w_open(fn_material.c_str());
+
+    // write material file
+    for (SplitIt split_it=m_Splits.begin(); split_it!=m_Splits.end(); ++split_it)
+    {
+        _splitpath			((*split_it)->m_Surf->_Texture(), 0, tex_path, tex_name, 0 );
+
+        sprintf				(tmp,"newmtl %s", tex_name);
+        Fm->w_string		(tmp);
+        Fm->w_string		("Ka  0 0 0");
+        Fm->w_string		("Kd  1 1 1");
+        Fm->w_string		("Ks  0 0 0");
+
+        string_path png_path;
+        xr_sprintf(png_path, "%s\\%s.png", m_Source->m_TempPath.c_str(), tex_name);
+        if (Core.CurrentMode == 20 && (GetCorrectString(tex_name) == "" || !FS.exist(png_path))) continue;
+
+        sprintf				(tmp,"map_Kd %s.png\n", tex_name);
+        Fm->w_string		(tmp);
+    }
+
+    FS.w_close		(Fm);
+
+    return mtl_name;
 }
 
 bool CEditableObject::PrepareOGF(IWriter& F, u8 infl, bool gen_tb, CEditableMesh* mesh)

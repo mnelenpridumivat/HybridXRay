@@ -507,6 +507,15 @@ int main(int argc, char** argv)
                 ret_code = -1;
             WriteLog("..Batch successful");
         }break;
+        case CreateMTL:
+        {
+            for (int i = 0; i < pObjTextures.size(); i++)
+                ConvertDDStoPng(pObjTextures[i].main, pObjTextures[i].temp);
+
+            if (!ATools->CreateMTL(second_file_path.c_str()))
+                ret_code = -1;
+            WriteLog("..Mtl created");
+        }break;
     }
 
     Core._destroy();

@@ -512,6 +512,15 @@ bool CEditableObject::ExportOBJ(LPCSTR fn)
     }
     return false;
 }
+
+bool CEditableObject::CreateMTL(LPCSTR fn)
+{
+    Msg("..Create [%s]", fn);
+    WriteLog("..Create [%s]", fn);
+    CExportObjectOGF E(this);
+    E.CreateMTL(fn);
+    return true;
+}
 //------------------------------------------------------------------------------
 #endif
 

@@ -56,4 +56,5 @@ enum EditorMode
     BatchDialogOGF,
     BatchDialogOMF,
     ExportOBJOptimized,
+    CreateMTL,
 };

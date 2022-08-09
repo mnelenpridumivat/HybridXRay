@@ -221,6 +221,7 @@ public:
     bool    Export				(IWriter& F, bool gen_tb=true, CEditableMesh* mesh=NULL);
     bool    ExportAsSimple		(IWriter& F);
     bool	ExportAsWavefrontOBJ(IWriter& F, LPCSTR fn);
+    LPCSTR  CreateMTL			(LPCSTR name);
 };
 
 #endif
