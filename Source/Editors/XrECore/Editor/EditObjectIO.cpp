@@ -225,6 +225,7 @@ bool CEditableObject::Load(IReader& F)
 		if (version!=EOBJ_CURRENT_VERSION)
 		{
 			ELog.DlgMsg( mtError, "CEditableObject: unsupported file version. Object can't load.");
+            WriteLog("..Unsupported file version. Object can't load.");
 			bRes = false;
 			break;
 		}
@@ -315,7 +316,8 @@ bool CEditableObject::Load(IReader& F)
 				if (mesh->LoadMesh(*M))
 					m_Meshes.push_back(mesh);
 				else{
-					ELog.DlgMsg( mtError, "CEditableObject: Can't load mesh '%s'!", *mesh->m_Name );
+					ELog.DlgMsg( mtError, "CEditableObject: Can't load mesh '%s'!", *mesh->m_Name.c_str() );
+                    WriteLog("..Can't load mesh '%s'!", *mesh->m_Name.c_str());
 					xr_delete(mesh);
 					bRes = false;
 				}
@@ -325,6 +327,10 @@ bool CEditableObject::Load(IReader& F)
 			}
 			OBJ->close();
 		}
+
+
+        if (!bRes) break;
+        if (Core.CurrentMode == 21) continue;
 
 		// bones
         if (bRes){
@@ -360,6 +366,7 @@ bool CEditableObject::Load(IReader& F)
                     if (!(*s_it)->Load(F))
 					{
                         Log		("!Motions has different version. Load failed.");
+                        WriteLog("!..Motions has different version. Load failed.");
                         xr_delete(*s_it);
                         m_SMotions.clear();
                         break;                 
@@ -408,6 +415,7 @@ bool CEditableObject::Load(IReader& F)
                             *s_it	= m_Bones[idx]->Name();
                         }else{
 		                    Log		("!Invalid bone parts.",GetName());
+                            WriteLog("!..Invalid bone parts.");
                             bBPok = false;
                             break;
                         }
@@ -415,8 +423,11 @@ bool CEditableObject::Load(IReader& F)
                     if (!bBPok) break;
                 }
 				if (!bBPok)	m_BoneParts.clear();
-                if (!m_BoneParts.empty()&&!VerifyBoneParts())
-                    Log		("!Invalid bone parts. Found duplicate bones in object '%s'.",GetName());
+                if (!m_BoneParts.empty() && !VerifyBoneParts())
+                {
+                    Log("!Invalid bone parts. Found duplicate bones in object '%s'.", GetName());
+                    WriteLog("!..Invalid bone parts. Found duplicate bones in object '%s'.", GetName());
+                }
             }else if (F.find_chunk(EOBJ_CHUNK_BONEPARTS2)){
                 m_BoneParts.resize(F.r_u32());
                 for (BPIt bp_it=m_BoneParts.begin(); bp_it!=m_BoneParts.end(); bp_it++){
@@ -425,8 +436,11 @@ bool CEditableObject::Load(IReader& F)
                     for (RStringVecIt s_it=bp_it->bones.begin(); s_it!=bp_it->bones.end(); s_it++)
                         F.r_stringZ(*s_it);
                 }
-                if (!m_BoneParts.empty()&&!VerifyBoneParts())
-                    Log			("!Invalid bone parts. Found duplicate bones in object '%s'.",GetName());
+                if (!m_BoneParts.empty() && !VerifyBoneParts())
+                {
+                    Log("!Invalid bone parts. Found duplicate bones in object '%s'.", GetName());
+                    WriteLog("!..Invalid bone parts. Found duplicate bones in object '%s'.", GetName());
+                }
             }
         }
 

@@ -325,7 +325,11 @@ int main(int argc, char** argv)
 
     if (mode != BatchLtx && mode != BatchDialogOGF && mode != BatchDialogOMF)
     {
-        ATools->LoadScale(object_path.c_str(), scale, (flags & exfScaleCenterMass), source_object.c_str());
+        if (!ATools->LoadScale(object_path.c_str(), scale, (flags & exfScaleCenterMass), source_object.c_str()))
+        {
+            Core._destroy();
+            return -1;
+        }
 
         ATools->CurrentObject()->ChangeSurfaceFlags(pSurfaces);
         ATools->CurrentObject()->ChangeBoneShapeTypes(pShapes);
