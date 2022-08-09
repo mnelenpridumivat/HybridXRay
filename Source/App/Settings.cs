@@ -62,6 +62,7 @@ namespace Object_tool
             pSettings.Save(HQGeometry);
             pSettings.Save(HQGeometryPlus);
             pSettings.Save(ScaleCenterOfMassCheckBox);
+            pSettings.Save(ForceViewport);
         }
 
         private void Settings_Load(object sender, EventArgs e)
@@ -89,6 +90,7 @@ namespace Object_tool
             pSettings.Load(HQGeometry);
             pSettings.Load(HQGeometryPlus, true);
             pSettings.Load(ScaleCenterOfMassCheckBox, true);
+            pSettings.Load(ForceViewport, true);
 
             AnimsNoCompress.Enabled = NoCompress.Checked;
         }
@@ -137,8 +139,7 @@ namespace Object_tool
             Control control = sender as Control;
             bool CheckState = (sender is CheckBox) ? (sender as CheckBox).Checked : (sender as RadioButton).Checked;
 
-            Control[] MainControls = null;
-            MainControls = EditorForm.Controls.Find(control.Name, true);
+            Control[] MainControls = EditorForm.Controls.Find(control.Name, true);
 
             for (int i = 0; i < MainControls.Length; i++)
             {

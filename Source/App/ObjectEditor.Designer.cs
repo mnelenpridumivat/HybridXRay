@@ -244,6 +244,7 @@ namespace Object_tool
             this.SaveMotionRefsDialog = new System.Windows.Forms.SaveFileDialog();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.ViewPortPanel = new System.Windows.Forms.Panel();
+            this.CreateViewPort = new System.Windows.Forms.Button();
             this.MenuPanel.SuspendLayout();
             this.StatusPanel.SuspendLayout();
             this.BonesPage.SuspendLayout();
@@ -270,6 +271,7 @@ namespace Object_tool
             this.UserDataPage.SuspendLayout();
             this.LodPage.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
+            this.ViewPortPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // OpenObjectDialog
@@ -821,56 +823,56 @@ namespace Object_tool
             // modelExportToolStripMenuItem
             // 
             this.modelExportToolStripMenuItem.Name = "modelExportToolStripMenuItem";
-            this.modelExportToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.modelExportToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.modelExportToolStripMenuItem.Text = "Model Export";
             this.modelExportToolStripMenuItem.Click += new System.EventHandler(this.modelExportToolStripMenuItem_Click);
             // 
             // motionExportToolStripMenuItem
             // 
             this.motionExportToolStripMenuItem.Name = "motionExportToolStripMenuItem";
-            this.motionExportToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.motionExportToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.motionExportToolStripMenuItem.Text = "Motion Export";
             this.motionExportToolStripMenuItem.Click += new System.EventHandler(this.motionExportToolStripMenuItem_Click);
             // 
             // scaleToolStripMenuItem
             // 
             this.scaleToolStripMenuItem.Name = "scaleToolStripMenuItem";
-            this.scaleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.scaleToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.scaleToolStripMenuItem.Text = "Scale";
             this.scaleToolStripMenuItem.Click += new System.EventHandler(this.scaleToolStripMenuItem_Click);
             // 
             // bonesToolStripMenuItem2
             // 
             this.bonesToolStripMenuItem2.Name = "bonesToolStripMenuItem2";
-            this.bonesToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.bonesToolStripMenuItem2.Size = new System.Drawing.Size(161, 22);
             this.bonesToolStripMenuItem2.Text = "Bones";
             this.bonesToolStripMenuItem2.Click += new System.EventHandler(this.bonesToolStripMenuItem2_Click);
             // 
             // surfacesToolStripMenuItem
             // 
             this.surfacesToolStripMenuItem.Name = "surfacesToolStripMenuItem";
-            this.surfacesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.surfacesToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.surfacesToolStripMenuItem.Text = "Surfaces";
             this.surfacesToolStripMenuItem.Click += new System.EventHandler(this.surfacesToolStripMenuItem_Click);
             // 
             // shapesGenerateToolStripMenuItem
             // 
             this.shapesGenerateToolStripMenuItem.Name = "shapesGenerateToolStripMenuItem";
-            this.shapesGenerateToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.shapesGenerateToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.shapesGenerateToolStripMenuItem.Text = "Shapes Generate";
             this.shapesGenerateToolStripMenuItem.Click += new System.EventHandler(this.shapesGenerateToolStripMenuItem_Click);
             // 
             // LodToolStripMenuItem
             // 
             this.LodToolStripMenuItem.Name = "LodToolStripMenuItem";
-            this.LodToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.LodToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.LodToolStripMenuItem.Text = "Lod Generate";
             this.LodToolStripMenuItem.Click += new System.EventHandler(this.otherToolStripMenuItem_Click);
             // 
             // hotkeysToolStripMenuItem
             // 
             this.hotkeysToolStripMenuItem.Name = "hotkeysToolStripMenuItem";
-            this.hotkeysToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.hotkeysToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.hotkeysToolStripMenuItem.Text = "Hot keys";
             this.hotkeysToolStripMenuItem.Click += new System.EventHandler(this.hotkeysToolStripMenuItem_Click);
             // 
@@ -880,7 +882,7 @@ namespace Object_tool
             this.ltxToolStripMenuItem,
             this.dialogsToolStripMenuItem});
             this.batchToolStripMenuItem.Name = "batchToolStripMenuItem";
-            this.batchToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.batchToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.batchToolStripMenuItem.Text = "Batch";
             // 
             // ltxToolStripMenuItem
@@ -900,14 +902,14 @@ namespace Object_tool
             // settingsToolStripMenuItem1
             // 
             this.settingsToolStripMenuItem1.Name = "settingsToolStripMenuItem1";
-            this.settingsToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.settingsToolStripMenuItem1.Size = new System.Drawing.Size(161, 22);
             this.settingsToolStripMenuItem1.Text = "Settings";
             this.settingsToolStripMenuItem1.Click += new System.EventHandler(this.settingsToolStripMenuItem1_Click);
             // 
             // viewToolStripMenuItem1
             // 
             this.viewToolStripMenuItem1.Name = "viewToolStripMenuItem1";
-            this.viewToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.viewToolStripMenuItem1.Size = new System.Drawing.Size(161, 22);
             this.viewToolStripMenuItem1.Text = "View Port";
             this.viewToolStripMenuItem1.Click += new System.EventHandler(this.viewToolStripMenuItem1_Click);
             // 
@@ -2223,12 +2225,24 @@ namespace Object_tool
             // 
             // ViewPortPanel
             // 
+            this.ViewPortPanel.Controls.Add(this.CreateViewPort);
             this.ViewPortPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ViewPortPanel.Location = new System.Drawing.Point(3, 3);
             this.ViewPortPanel.Name = "ViewPortPanel";
             this.ViewPortPanel.Size = new System.Drawing.Size(424, 413);
             this.ViewPortPanel.TabIndex = 11;
             this.ViewPortPanel.SizeChanged += new System.EventHandler(this.ResizeEmbeddedApp);
+            // 
+            // CreateViewPort
+            // 
+            this.CreateViewPort.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CreateViewPort.Location = new System.Drawing.Point(0, 0);
+            this.CreateViewPort.Name = "CreateViewPort";
+            this.CreateViewPort.Size = new System.Drawing.Size(424, 413);
+            this.CreateViewPort.TabIndex = 0;
+            this.CreateViewPort.Text = "Create Viewport";
+            this.CreateViewPort.UseVisualStyleBackColor = true;
+            this.CreateViewPort.Click += new System.EventHandler(this.ViewtoolStripMenuItem_Click);
             // 
             // Object_Editor
             // 
@@ -2288,6 +2302,7 @@ namespace Object_tool
             this.LodPage.ResumeLayout(false);
             this.LodPage.PerformLayout();
             this.tableLayoutPanel4.ResumeLayout(false);
+            this.ViewPortPanel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2509,6 +2524,7 @@ namespace Object_tool
         private System.Windows.Forms.ToolStripMenuItem viewPortToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reloadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem refreshTexturesToolStripMenuItem;
+        private System.Windows.Forms.Button CreateViewPort;
     }
 }
 

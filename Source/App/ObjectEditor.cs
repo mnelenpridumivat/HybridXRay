@@ -114,7 +114,18 @@ namespace Object_tool
 				UserDataTextChanged(UserDataTextBox, null);
 			}
 
-			ViewtoolStripMenuItem_Click(null, null);
+			bool ForceViewPort = true;
+			pSettings.LoadState("ForceViewport", ref ForceViewPort, true);
+
+			if (ForceViewPort)
+				ViewtoolStripMenuItem_Click(null, null);
+			else if (ViewerWorking)
+            {
+				ViewerProcess.Kill();
+				ViewerProcess.Close();
+				ViewerWorking = false;
+				CreateViewPort.Visible = true;
+			}
 		}
 
 		public void AfterLoad()
@@ -540,8 +551,11 @@ namespace Object_tool
             "Настройки программы:\n" +
 			"1. Use No Compress motions - активирует новый параметр компрессии анимаций, выбрав который анимации будут экспортированы без сжатия. Требует наличие коммита из STCoP WP\n" +
 			"2. Program debugging - активирует вкладку с кнопками для отладки.\n" +
-			"3. Game Mtl path - при выборе gamemtl.xr во вкладке Bones можно будет выбрать и применить материал из gamemtl.\n\n" +
-            "Остальные параметры вы могли встречать в первых 3х пунктах в Help."
+			"3. Force viewport load - вьюпорт автоматически загружается при каждой загрузке файла (замедляет загрузку).\n" +
+			"4. FS path - при выборе fs.ltx программа автоматически пропишет все остальные пути к файлам геймдаты.\n" +
+			"5. Textures path - папка текстур для вьюпорта.\n" +
+			"6. Game Mtl path - при выборе gamemtl.xr во вкладке Bones можно будет выбрать и применить материал из gamemtl.\n\n" +
+			"Остальные параметры вы могли встречать в первых 3х пунктах в Help."
 			, "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
@@ -666,6 +680,7 @@ namespace Object_tool
 				{
 					ViewerProcess.Kill();
 					ViewerProcess.Close();
+					ViewerWorking = false;
 				}
 
 				if (EditorWorking)
@@ -1169,6 +1184,7 @@ namespace Object_tool
 
 			ViewerProcess.Start();
 			ViewerWorking = true;
+			CreateViewPort.Visible = false;
 			ViewerProcess.WaitForInputIdle();
 			SetParent(this.ViewerProcess.MainWindowHandle, ViewPortPanel.Handle);
 
