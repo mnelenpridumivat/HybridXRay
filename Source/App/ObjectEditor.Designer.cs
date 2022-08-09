@@ -2238,6 +2238,7 @@ namespace Object_tool
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Object Editor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ClosingForm);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ClosedForm);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.DragDropCallback);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnterCallback);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EditorKeyDown);

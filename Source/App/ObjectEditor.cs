@@ -688,9 +688,36 @@ namespace Object_tool
 					EditorKilled = true;
 					EditorProcess.Kill();
 					EditorProcess.Close();
+					EditorWorking = false;
 				}
 
-				Thread.Sleep(100);
+				if (Directory.Exists(TempFolder()))
+					Directory.Delete(TempFolder(), true);
+			}
+			catch (Exception) { }
+		}
+
+		private void ClosedForm(object sender, FormClosedEventArgs e)
+		{
+			try
+			{
+				if (SdkThread != null && SdkThread.ThreadState != System.Threading.ThreadState.Stopped)
+					SdkThread.Abort();
+
+				if (ViewerWorking)
+				{
+					ViewerProcess.Kill();
+					ViewerProcess.Close();
+					ViewerWorking = false;
+				}
+
+				if (EditorWorking)
+				{
+					EditorKilled = true;
+					EditorProcess.Kill();
+					EditorProcess.Close();
+					EditorWorking = false;
+				}
 
 				if (Directory.Exists(TempFolder()))
 					Directory.Delete(TempFolder(), true);
