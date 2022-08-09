@@ -922,7 +922,7 @@ bool CExportObjectOGF::ExportAsWavefrontOBJ(IWriter& F, LPCSTR fn)
 
 	// write comment
     F.w_string				("# This file uses meters as units for non-parametric coordinates.");
-    sprintf					(tmp,"mtllib %s", EFS.ChangeFileExt(mtl_name,".mtl").c_str());
+    sprintf					(tmp,"mtllib %s", mtl_name);
     F.w_string				(tmp);
 
     u32 v_offs				= 0;
@@ -932,8 +932,7 @@ bool CExportObjectOGF::ExportAsWavefrontOBJ(IWriter& F, LPCSTR fn)
         sprintf				(tmp,"g %d",split_it-m_Splits.begin());
         F.w_string			(tmp);
         sprintf				(tmp,"usemtl %s",tex_name);
-        if (Core.CurrentMode != 20 || GetCorrectString(tex_name) != "")
-            F.w_string		(tmp);
+        F.w_string		    (tmp);
         Fvector 			mV;
         Fmatrix 			mZ;
         mZ.mirrorZ			();
@@ -994,20 +993,8 @@ bool CExportObjectOGF::ExportAsWavefrontOBJ(IWriter& F, LPCSTR fn)
 LPCSTR CExportObjectOGF::CreateMTL(LPCSTR fn)
 {
     string_path 			tmp, tex_path, tex_name;
-    string_path 			drive, dir, name, ext;
 
-    _splitpath				(fn, drive, dir, name, ext );
-
-    std::string v;
-    for(char c:name) if (c != ' ') v += c;
-
-    string_path mtl_path, mtl_name;
-    xr_sprintf(mtl_path, "%s%s%s%s", drive, dir, v.c_str(), ext);
-    xr_sprintf(mtl_name, "%s%s", v.c_str(), ext);
-
-    strcat					(name,ext);
-
-    xr_string fn_material 	= EFS.ChangeFileExt(mtl_path,".mtl");
+    xr_string fn_material 	= EFS.ChangeFileExt(fn,".mtl");
     IWriter* Fm				= FS.w_open(fn_material.c_str());
 
     // write material file
@@ -1031,7 +1018,7 @@ LPCSTR CExportObjectOGF::CreateMTL(LPCSTR fn)
 
     FS.w_close		(Fm);
 
-    return mtl_name;
+    return fn_material.c_str();
 }
 
 bool CEditableObject::PrepareOGF(IWriter& F, u8 infl, bool gen_tb, CEditableMesh* mesh)

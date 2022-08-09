@@ -1144,7 +1144,7 @@ namespace Object_tool
 
 		private void refreshTexturesToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			string MtlName = m_Object.TEMP_FILE_NAME.Substring(0, m_Object.TEMP_FILE_NAME.LastIndexOf('\\')) + "\\" + Path.ChangeExtension(GetCorrectString(Path.GetFileName(m_Object.TEMP_FILE_NAME)), ".mtl");
+			string MtlName = m_Object.TEMP_FILE_NAME.Substring(0, m_Object.TEMP_FILE_NAME.LastIndexOf('\\')) + "\\" + Path.ChangeExtension(Path.GetFileName(m_Object.TEMP_FILE_NAME), ".mtl");
 
 			string Textures = "";
 			pSettings.LoadText("TexturesPath", ref Textures);
