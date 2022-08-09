@@ -981,6 +981,24 @@ namespace Object_tool
 			}
 		}
 
+		private void DragDropCallback(object sender, DragEventArgs e)
+		{
+			string[] fileList = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+			for (int i = 0; i < fileList.Count(); i++)
+            {
+				if (Path.GetExtension(fileList[i]) == ".object")
+                {
+					OpenFile(fileList[i]);
+					break;
+                }
+            }
+		}
+
+		private void DragEnterCallback(object sender, DragEventArgs e)
+		{
+			if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
+		}
+
 		private void saveToolStripMenuItem1_Click(object sender, EventArgs e)
 		{
 			if (m_Object != null)

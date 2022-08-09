@@ -2246,6 +2246,7 @@ namespace Object_tool
             // 
             // Object_Editor
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
@@ -2260,6 +2261,8 @@ namespace Object_tool
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Object Editor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ClosingForm);
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.DragDropCallback);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnterCallback);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EditorKeyDown);
             this.MenuPanel.ResumeLayout(false);
             this.MenuPanel.PerformLayout();
