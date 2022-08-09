@@ -160,12 +160,12 @@ xr_vector<Textures> LoadObJTexturesVector(xr_vector<LPCSTR> args, int count)
     return vec;
 }
 
-void ConvertDDStoTGA(shared_str dds, shared_str tga)
+void ConvertDDStoPng(shared_str dds, shared_str png)
 {
     RedImage Texture;
     Texture.LoadFromFile(dds.c_str());
     Texture.Convert(RedTexturePixelFormat::R8G8B8);
-    Texture.SaveToTga(tga.c_str());
+    Texture.SaveToPng(png.c_str());
 }
 
 bool generate_commands = false;
@@ -427,7 +427,7 @@ int main(int argc, char** argv)
             ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoOptimizeSurf, TRUE);
 
             for (int i = 0; i < pObjTextures.size(); i++)
-                ConvertDDStoTGA(pObjTextures[i].main, pObjTextures[i].temp);
+                ConvertDDStoPng(pObjTextures[i].main, pObjTextures[i].temp);
 
             if (!ATools->ExportOBJ(second_file_path.c_str()))
                 ret_code = -1;

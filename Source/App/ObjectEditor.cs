@@ -1107,6 +1107,12 @@ namespace Object_tool
 			string ObjName = Path.ChangeExtension(m_Object.TEMP_FILE_NAME, ".obj");
 			string exe_path = AppPath() + "\\f3d.exe";
 
+			if (!File.Exists(exe_path))
+            {
+				MessageBox.Show("Can't find Viewport.\nPlease, reinstall the app.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+
 			string Textures = "";
 			pSettings.LoadText("TexturesPath", ref Textures);
 
@@ -1117,7 +1123,7 @@ namespace Object_tool
 				for (int i = 0; i < m_Object.surfaces.Count; i++)
 				{
 					string texture_main = Textures + m_Object.surfaces[i].texture + ".dds";
-					string texture_temp = TempFolder() + "\\" + Path.GetFileName(m_Object.surfaces[i].texture + ".tga");
+					string texture_temp = TempFolder() + "\\" + Path.GetFileName(m_Object.surfaces[i].texture + ".png");
 
 					if (File.Exists(texture_main)) // Create tga
 					{
@@ -1147,69 +1153,6 @@ namespace Object_tool
 			style = style & ~WS_CAPTION & ~WS_THICKFRAME;
 			SetWindowLong(ViewerProcess.MainWindowHandle, GWL_STYLE, style);
 			ResizeEmbeddedApp(null, null);
-
-			return;
-
-			if (!CheckThread()) return;
-
-			if (File.Exists(exe_path))
-			{
-				Textures = "";
-				pSettings.LoadText("TexturesPath", ref Textures);
-
-				pTextures = new List<string>();
-
-				if (m_Object.surfaces.Count > 0 && Textures != "")
-				{
-					for (int i = 0; i < m_Object.surfaces.Count; i++)
-					{
-						string texture_main = Textures + m_Object.surfaces[i].texture + ".dds";
-						string texture_temp = TempFolder() + "\\" + Path.GetFileName(m_Object.surfaces[i].texture + ".tga");
-
-						if (File.Exists(texture_main)) // Create tga
-						{
-							pTextures.Add(texture_main);
-							pTextures.Add(texture_temp);
-						}
-					}
-				}
-
-				ObjName = Path.ChangeExtension(m_Object.TEMP_FILE_NAME, ".obj");
-				string MtlName = m_Object.TEMP_FILE_NAME.Substring(0, m_Object.TEMP_FILE_NAME.LastIndexOf('\\')) + "\\" + Path.ChangeExtension(GetCorrectString(Path.GetFileName(m_Object.TEMP_FILE_NAME)), ".mtl");
-
-				SdkThread = new Thread(() =>
-				{
-					StartEditor(true, EditorMode.ExportOBJOptimized, m_Object.TEMP_FILE_NAME, ObjName, -1, 1.0f, pTextures.ToArray());
-
-					bool ModelExist = File.Exists(ObjName);
-
-					if (ModelExist)
-					{
-						ViewerProcess.StartInfo.FileName = exe_path;
-						ViewerProcess.StartInfo.UseShellExecute = false;
-						ViewerProcess.StartInfo.Arguments = $"\"{ObjName}\"";
-						ViewerWorking = true;
-						ViewerProcess.Start();
-						ViewerProcess.WaitForExit();
-						ViewerProcess.Close();
-						ViewerWorking = false;
-					}
-					else
-						AutoClosingMessageBox.Show("Failed to compile model.", "", GetErrorTime(), MessageBoxIcon.Error);
-
-					if (File.Exists(ObjName))
-						File.Delete(ObjName);
-					if (File.Exists(MtlName))
-						File.Delete(MtlName);
-
-					string[] _files = Directory.GetFiles(m_Object.TEMP_FILE_NAME.Substring(0, m_Object.TEMP_FILE_NAME.LastIndexOf('\\')), "*.tga");
-					foreach (string fl in _files)
-						File.Delete(fl);
-				});
-				SdkThread.Start();
-			}
-			else
-				MessageBox.Show("Can't find OBJ Viewer.exe", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 		}
 
 		private void BoneListIndexChanged(object sender, EventArgs e)

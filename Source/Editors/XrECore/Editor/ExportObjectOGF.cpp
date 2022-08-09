@@ -938,17 +938,17 @@ bool CExportObjectOGF::ExportAsWavefrontOBJ(IWriter& F, LPCSTR fn)
     {
 	    _splitpath			((*split_it)->m_Surf->_Texture(), 0, tex_path, tex_name, 0 );
 
-        string_path tga_path;
-        xr_sprintf(tga_path, "%s\\%s.tga", m_Source->m_TempPath.c_str(), tex_name);
-        if (Core.CurrentMode == 20 && (GetCorrectString(tex_name) == "" || !FS.exist(tga_path))) continue;
-
         sprintf				(tmp,"newmtl %s", tex_name);
 		Fm->w_string		(tmp);
 		Fm->w_string		("Ka  0 0 0");
 		Fm->w_string		("Kd  1 1 1");
 		Fm->w_string		("Ks  0 0 0");
 
-        sprintf				(tmp,"map_Kd %s.tga\n", tex_name);
+        string_path png_path;
+        xr_sprintf(png_path, "%s\\%s.png", m_Source->m_TempPath.c_str(), tex_name);
+        if (Core.CurrentMode == 20 && (GetCorrectString(tex_name) == "" || !FS.exist(png_path))) continue;
+
+        sprintf				(tmp,"map_Kd %s.png\n", tex_name);
 		Fm->w_string		(tmp);
     }
 
