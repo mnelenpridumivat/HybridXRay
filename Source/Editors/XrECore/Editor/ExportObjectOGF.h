@@ -214,7 +214,7 @@ class ECORE_API CExportObjectOGF
     }
     bool    PrepareMESH			(CEditableMesh* mesh);
     void  	DetectSmoothType    (CEditableMesh* mesh, xr_vector<CEditableMesh*> mesh_vec);
-    bool    Prepare				(bool gen_tb, CEditableMesh* mesh);
+    bool    Prepare				(bool gen_tb, bool more_funcs, CEditableMesh* mesh);
 public:
 			CExportObjectOGF	(CEditableObject* object);
 			~CExportObjectOGF	();

@@ -636,7 +636,7 @@ void CExportObjectOGF::DetectSmoothType(CEditableMesh* mesh, xr_vector<CEditable
     WriteLog("..Smooth type detected: %s", Normals ? "Normals" : (bCoP ? "CoP" : "SoC"));
 }
 
-bool CExportObjectOGF::Prepare(bool gen_tb, CEditableMesh* mesh)
+bool CExportObjectOGF::Prepare(bool gen_tb, bool more_funcs, CEditableMesh* mesh)
 {
     if( (m_Source->MeshCount() == 0) ) return false;
 
@@ -720,70 +720,72 @@ bool CExportObjectOGF::Prepare(bool gen_tb, CEditableMesh* mesh)
         }
     }
 
-    // fill per bone vertices
-	if (m_Source->m_objectFlags.is(CEditableObject::eoProgressive))
-	{
-        if (m_Splits.size() > 1) // MT
-        {
-#if !defined(_DEBUG) && defined(_WIN64) 
-            if (!g_BatchWorking)
-                WriteLog("..MT Calculate Progressive");
-            else
-                WriteLog("..Calculate Progressive");
-#endif
-            if (!g_BatchWorking)
-            {
-                FOR_START(u32, 0, m_Splits.size(), it)
-                    m_Splits[it]->MakeProgressive();
-                FOR_END
-            }
-            else
-            {
-                for (u32 it = 0; it < m_Splits.size(); it++)
-                    m_Splits[it]->MakeProgressive();
-            }
-        }
-        else if (m_Splits.size() == 1)
-            m_Splits[0]->MakeProgressive();
-    }
-    else if (m_Source->m_objectFlags.is(CEditableObject::eoStripify))
+    if (more_funcs)
     {
-        if (m_Splits.size() > 1) // MT
+        // fill per bone vertices
+        if (m_Source->m_objectFlags.is(CEditableObject::eoProgressive))
         {
+            if (m_Splits.size() > 1) // MT
+            {
 #if !defined(_DEBUG) && defined(_WIN64) 
-            if (!g_BatchWorking)
-                WriteLog("..MT Calculate Stripify");
-            else
-                WriteLog("..Calculate Stripify");
+                if (!g_BatchWorking)
+                    WriteLog("..MT Calculate Progressive");
+                else
+                    WriteLog("..Calculate Progressive");
 #endif
-            if (!g_BatchWorking)
-            {
-                FOR_START(u32, 0, m_Splits.size(), it)
-                    m_Splits[it]->MakeStripify();
-                FOR_END
+                if (!g_BatchWorking)
+                {
+                    FOR_START(u32, 0, m_Splits.size(), it)
+                        m_Splits[it]->MakeProgressive();
+                    FOR_END
+                }
+                else
+                {
+                    for (u32 it = 0; it < m_Splits.size(); it++)
+                        m_Splits[it]->MakeProgressive();
+                }
             }
-            else
-            {
-                for (u32 it = 0; it < m_Splits.size(); it++)
-                    m_Splits[it]->MakeStripify();
-            }
+            else if (m_Splits.size() == 1)
+                m_Splits[0]->MakeProgressive();
         }
-        else if (m_Splits.size() == 1)
-            m_Splits[0]->MakeStripify();
-    }
+        else if (m_Source->m_objectFlags.is(CEditableObject::eoStripify))
+        {
+            if (m_Splits.size() > 1) // MT
+            {
+#if !defined(_DEBUG) && defined(_WIN64) 
+                if (!g_BatchWorking)
+                    WriteLog("..MT Calculate Stripify");
+                else
+                    WriteLog("..Calculate Stripify");
+#endif
+                if (!g_BatchWorking)
+                {
+                    FOR_START(u32, 0, m_Splits.size(), it)
+                        m_Splits[it]->MakeStripify();
+                    FOR_END
+                }
+                else
+                {
+                    for (u32 it = 0; it < m_Splits.size(); it++)
+                        m_Splits[it]->MakeStripify();
+                }
+            }
+            else if (m_Splits.size() == 1)
+                m_Splits[0]->MakeStripify();
+        }
 
-	// Compute bounding...
-    Msg("..Compute Bounding"); 
-    WriteLog("..Compute Bounding");
-    ComputeBounding		();
-//    Log				("Time C: ",T.GetElapsed_sec());
+        // Compute bounding...
+        Msg("..Compute Bounding");
+        WriteLog("..Compute Bounding");
+        ComputeBounding();
+    }
 
     return				bResult;
 }
 
 bool CExportObjectOGF::Export(IWriter& F, bool gen_tb, CEditableMesh* mesh)
 {
-    if( !Prepare(gen_tb,mesh) ) 
+    if( !Prepare(gen_tb, true, mesh) ) 
 		return			false;
 
 	// Saving geometry...
@@ -870,7 +872,7 @@ bool CExportObjectOGF::Export(IWriter& F, bool gen_tb, CEditableMesh* mesh)
 
 bool CExportObjectOGF::ExportAsSimple(IWriter& F)
 {
-    if( Prepare(true,NULL) )
+    if( Prepare(true, true, NULL) )
     {
         // Saving geometry...
         if ((m_Splits.size()==1)&&(m_Splits[0]->m_Parts.size()==1))
@@ -912,7 +914,7 @@ xr_string GetCorrectString(xr_string text)
 bool CExportObjectOGF::ExportAsWavefrontOBJ(IWriter& F, LPCSTR fn)
 {
     WriteLog("..Prepare Obj");
-	if (!Prepare(false,NULL)) 
+	if (!Prepare(false, false, NULL)) 
 		return false;
 
     string_path 			tmp, tex_path, tex_name;

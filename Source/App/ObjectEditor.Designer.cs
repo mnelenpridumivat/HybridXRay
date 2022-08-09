@@ -107,6 +107,9 @@ namespace Object_tool
             this.settingsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewPortToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.refreshTexturesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.StatusPanel = new System.Windows.Forms.StatusStrip();
             this.FileLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.StatusFile = new System.Windows.Forms.ToolStripStatusLabel();
@@ -241,9 +244,6 @@ namespace Object_tool
             this.SaveMotionRefsDialog = new System.Windows.Forms.SaveFileDialog();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.ViewPortPanel = new System.Windows.Forms.Panel();
-            this.viewPortToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.reloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.refreshTexturesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuPanel.SuspendLayout();
             this.StatusPanel.SuspendLayout();
             this.BonesPage.SuspendLayout();
@@ -327,7 +327,7 @@ namespace Object_tool
             this.userDataToolStripMenuItem});
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
             this.loadToolStripMenuItem.ShortcutKeyDisplayString = "";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.loadToolStripMenuItem.Text = "Load";
             // 
             // objectToolStripMenuItem
@@ -384,7 +384,7 @@ namespace Object_tool
             this.saveToolStripMenuItem1.ShortcutKeyDisplayString = "";
             this.saveToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.saveToolStripMenuItem1.ShowShortcutKeys = false;
-            this.saveToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem1.Size = new System.Drawing.Size(149, 22);
             this.saveToolStripMenuItem1.Text = "Save";
             this.saveToolStripMenuItem1.Click += new System.EventHandler(this.saveToolStripMenuItem1_Click);
             // 
@@ -398,7 +398,7 @@ namespace Object_tool
             this.bonesPartsToolStripMenuItem1});
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeyDisplayString = "";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.saveToolStripMenuItem.Text = "Save As";
             // 
             // objectToolStripMenuItem1
@@ -453,7 +453,7 @@ namespace Object_tool
             this.userDataToolStripMenuItem1});
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
             this.exportToolStripMenuItem.ShortcutKeyDisplayString = "";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.exportToolStripMenuItem.Text = "Export";
             // 
             // oGFToolStripMenuItem
@@ -562,7 +562,7 @@ namespace Object_tool
             this.DeletesklsToolStripMenuItem,
             this.bonesPartsToDefaultToolStripMenuItem});
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.deleteToolStripMenuItem.Text = "Delete";
             // 
             // DeletesklsToolStripMenuItem
@@ -588,7 +588,7 @@ namespace Object_tool
             this.fromDialogToolStripMenuItem,
             this.fromFolderDialogToolStripMenuItem});
             this.batchConvertToolStripMenuItem.Name = "batchConvertToolStripMenuItem";
-            this.batchConvertToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.batchConvertToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.batchConvertToolStripMenuItem.Text = "Batch Convert";
             // 
             // fromLtxToolStripMenuItem
@@ -652,12 +652,12 @@ namespace Object_tool
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(146, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -821,56 +821,56 @@ namespace Object_tool
             // modelExportToolStripMenuItem
             // 
             this.modelExportToolStripMenuItem.Name = "modelExportToolStripMenuItem";
-            this.modelExportToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.modelExportToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.modelExportToolStripMenuItem.Text = "Model Export";
             this.modelExportToolStripMenuItem.Click += new System.EventHandler(this.modelExportToolStripMenuItem_Click);
             // 
             // motionExportToolStripMenuItem
             // 
             this.motionExportToolStripMenuItem.Name = "motionExportToolStripMenuItem";
-            this.motionExportToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.motionExportToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.motionExportToolStripMenuItem.Text = "Motion Export";
             this.motionExportToolStripMenuItem.Click += new System.EventHandler(this.motionExportToolStripMenuItem_Click);
             // 
             // scaleToolStripMenuItem
             // 
             this.scaleToolStripMenuItem.Name = "scaleToolStripMenuItem";
-            this.scaleToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.scaleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.scaleToolStripMenuItem.Text = "Scale";
             this.scaleToolStripMenuItem.Click += new System.EventHandler(this.scaleToolStripMenuItem_Click);
             // 
             // bonesToolStripMenuItem2
             // 
             this.bonesToolStripMenuItem2.Name = "bonesToolStripMenuItem2";
-            this.bonesToolStripMenuItem2.Size = new System.Drawing.Size(161, 22);
+            this.bonesToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
             this.bonesToolStripMenuItem2.Text = "Bones";
             this.bonesToolStripMenuItem2.Click += new System.EventHandler(this.bonesToolStripMenuItem2_Click);
             // 
             // surfacesToolStripMenuItem
             // 
             this.surfacesToolStripMenuItem.Name = "surfacesToolStripMenuItem";
-            this.surfacesToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.surfacesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.surfacesToolStripMenuItem.Text = "Surfaces";
             this.surfacesToolStripMenuItem.Click += new System.EventHandler(this.surfacesToolStripMenuItem_Click);
             // 
             // shapesGenerateToolStripMenuItem
             // 
             this.shapesGenerateToolStripMenuItem.Name = "shapesGenerateToolStripMenuItem";
-            this.shapesGenerateToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.shapesGenerateToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.shapesGenerateToolStripMenuItem.Text = "Shapes Generate";
             this.shapesGenerateToolStripMenuItem.Click += new System.EventHandler(this.shapesGenerateToolStripMenuItem_Click);
             // 
             // LodToolStripMenuItem
             // 
             this.LodToolStripMenuItem.Name = "LodToolStripMenuItem";
-            this.LodToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.LodToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.LodToolStripMenuItem.Text = "Lod Generate";
             this.LodToolStripMenuItem.Click += new System.EventHandler(this.otherToolStripMenuItem_Click);
             // 
             // hotkeysToolStripMenuItem
             // 
             this.hotkeysToolStripMenuItem.Name = "hotkeysToolStripMenuItem";
-            this.hotkeysToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.hotkeysToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.hotkeysToolStripMenuItem.Text = "Hot keys";
             this.hotkeysToolStripMenuItem.Click += new System.EventHandler(this.hotkeysToolStripMenuItem_Click);
             // 
@@ -880,7 +880,7 @@ namespace Object_tool
             this.ltxToolStripMenuItem,
             this.dialogsToolStripMenuItem});
             this.batchToolStripMenuItem.Name = "batchToolStripMenuItem";
-            this.batchToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.batchToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.batchToolStripMenuItem.Text = "Batch";
             // 
             // ltxToolStripMenuItem
@@ -900,15 +900,15 @@ namespace Object_tool
             // settingsToolStripMenuItem1
             // 
             this.settingsToolStripMenuItem1.Name = "settingsToolStripMenuItem1";
-            this.settingsToolStripMenuItem1.Size = new System.Drawing.Size(161, 22);
+            this.settingsToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.settingsToolStripMenuItem1.Text = "Settings";
             this.settingsToolStripMenuItem1.Click += new System.EventHandler(this.settingsToolStripMenuItem1_Click);
             // 
             // viewToolStripMenuItem1
             // 
             this.viewToolStripMenuItem1.Name = "viewToolStripMenuItem1";
-            this.viewToolStripMenuItem1.Size = new System.Drawing.Size(161, 22);
-            this.viewToolStripMenuItem1.Text = "View";
+            this.viewToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.viewToolStripMenuItem1.Text = "View Port";
             this.viewToolStripMenuItem1.Click += new System.EventHandler(this.viewToolStripMenuItem1_Click);
             // 
             // settingsToolStripMenuItem
@@ -917,6 +917,29 @@ namespace Object_tool
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
+            // 
+            // viewPortToolStripMenuItem
+            // 
+            this.viewPortToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.reloadToolStripMenuItem,
+            this.refreshTexturesToolStripMenuItem});
+            this.viewPortToolStripMenuItem.Name = "viewPortToolStripMenuItem";
+            this.viewPortToolStripMenuItem.Size = new System.Drawing.Size(69, 20);
+            this.viewPortToolStripMenuItem.Text = "View Port";
+            // 
+            // reloadToolStripMenuItem
+            // 
+            this.reloadToolStripMenuItem.Name = "reloadToolStripMenuItem";
+            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.reloadToolStripMenuItem.Text = "Reload";
+            this.reloadToolStripMenuItem.Click += new System.EventHandler(this.reloadToolStripMenuItem_Click);
+            // 
+            // refreshTexturesToolStripMenuItem
+            // 
+            this.refreshTexturesToolStripMenuItem.Name = "refreshTexturesToolStripMenuItem";
+            this.refreshTexturesToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.refreshTexturesToolStripMenuItem.Text = "Refresh textures";
+            this.refreshTexturesToolStripMenuItem.Click += new System.EventHandler(this.refreshTexturesToolStripMenuItem_Click);
             // 
             // StatusPanel
             // 
@@ -989,7 +1012,7 @@ namespace Object_tool
             this.BonesPage.Controls.Add(this.BonesList);
             this.BonesPage.Location = new System.Drawing.Point(4, 25);
             this.BonesPage.Name = "BonesPage";
-            this.BonesPage.Size = new System.Drawing.Size(472, 398);
+            this.BonesPage.Size = new System.Drawing.Size(473, 384);
             this.BonesPage.TabIndex = 2;
             this.BonesPage.Text = "Bones";
             this.BonesPage.UseVisualStyleBackColor = true;
@@ -2044,7 +2067,7 @@ namespace Object_tool
             this.SurfacesPage.AutoScroll = true;
             this.SurfacesPage.Location = new System.Drawing.Point(4, 25);
             this.SurfacesPage.Name = "SurfacesPage";
-            this.SurfacesPage.Size = new System.Drawing.Size(472, 398);
+            this.SurfacesPage.Size = new System.Drawing.Size(473, 384);
             this.SurfacesPage.TabIndex = 3;
             this.SurfacesPage.Text = "Surfaces";
             this.SurfacesPage.UseVisualStyleBackColor = true;
@@ -2054,7 +2077,7 @@ namespace Object_tool
             this.MotionPage.Controls.Add(this.MotionTextBox);
             this.MotionPage.Location = new System.Drawing.Point(4, 25);
             this.MotionPage.Name = "MotionPage";
-            this.MotionPage.Size = new System.Drawing.Size(472, 398);
+            this.MotionPage.Size = new System.Drawing.Size(473, 384);
             this.MotionPage.TabIndex = 4;
             this.MotionPage.Text = "Motions";
             this.MotionPage.UseVisualStyleBackColor = true;
@@ -2076,7 +2099,7 @@ namespace Object_tool
             this.MotionRefsPage.Controls.Add(this.MotionRefsBox);
             this.MotionRefsPage.Location = new System.Drawing.Point(4, 25);
             this.MotionRefsPage.Name = "MotionRefsPage";
-            this.MotionRefsPage.Size = new System.Drawing.Size(472, 398);
+            this.MotionRefsPage.Size = new System.Drawing.Size(473, 384);
             this.MotionRefsPage.TabIndex = 7;
             this.MotionRefsPage.Text = "Motion Refs";
             this.MotionRefsPage.UseVisualStyleBackColor = true;
@@ -2099,7 +2122,7 @@ namespace Object_tool
             this.UserDataPage.Controls.Add(this.UserDataTextBox);
             this.UserDataPage.Location = new System.Drawing.Point(4, 25);
             this.UserDataPage.Name = "UserDataPage";
-            this.UserDataPage.Size = new System.Drawing.Size(472, 398);
+            this.UserDataPage.Size = new System.Drawing.Size(473, 384);
             this.UserDataPage.TabIndex = 6;
             this.UserDataPage.Text = "User Data";
             this.UserDataPage.UseVisualStyleBackColor = true;
@@ -2124,7 +2147,7 @@ namespace Object_tool
             this.LodPage.Controls.Add(this.label1);
             this.LodPage.Location = new System.Drawing.Point(4, 25);
             this.LodPage.Name = "LodPage";
-            this.LodPage.Size = new System.Drawing.Size(472, 398);
+            this.LodPage.Size = new System.Drawing.Size(473, 384);
             this.LodPage.TabIndex = 5;
             this.LodPage.Text = "Lod Path";
             // 
@@ -2206,29 +2229,6 @@ namespace Object_tool
             this.ViewPortPanel.Size = new System.Drawing.Size(424, 413);
             this.ViewPortPanel.TabIndex = 11;
             this.ViewPortPanel.SizeChanged += new System.EventHandler(this.ResizeEmbeddedApp);
-            // 
-            // viewPortToolStripMenuItem
-            // 
-            this.viewPortToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.reloadToolStripMenuItem,
-            this.refreshTexturesToolStripMenuItem});
-            this.viewPortToolStripMenuItem.Name = "viewPortToolStripMenuItem";
-            this.viewPortToolStripMenuItem.Size = new System.Drawing.Size(69, 20);
-            this.viewPortToolStripMenuItem.Text = "View Port";
-            // 
-            // reloadToolStripMenuItem
-            // 
-            this.reloadToolStripMenuItem.Name = "reloadToolStripMenuItem";
-            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.reloadToolStripMenuItem.Text = "Reload";
-            this.reloadToolStripMenuItem.Click += new System.EventHandler(this.reloadToolStripMenuItem_Click);
-            // 
-            // refreshTexturesToolStripMenuItem
-            // 
-            this.refreshTexturesToolStripMenuItem.Name = "refreshTexturesToolStripMenuItem";
-            this.refreshTexturesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.refreshTexturesToolStripMenuItem.Text = "Refresh textures";
-            this.refreshTexturesToolStripMenuItem.Click += new System.EventHandler(this.refreshTexturesToolStripMenuItem_Click);
             // 
             // Object_Editor
             // 

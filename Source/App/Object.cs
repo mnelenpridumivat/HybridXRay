@@ -671,6 +671,26 @@ namespace Object_tool
 			}
 		}
 
+		public long TotalFaces()
+        {
+			long faces = 0;
+			for (int i = 0; i < surfaces.Count; i++)
+            {
+				Mesh.SurfFace surfFace = GetSurfFaceByName(surfaces[i].name);
+				if (surfFace != null)
+					faces += (surfFace.faces * ((surfaces[i].flags == 1) ? 2 : 1));
+			}
+			return faces;
+        }
+
+		public long TotalRawVerts()
+		{
+			long verts = 0;
+			for (int i = 0; i < meshes.Count; i++)
+				verts += meshes[i].vertex_count;
+			return verts;
+		}
+
 		public Surface GetSurfaceByName(string name)
         {
 			for (int i = 0; i < surfaces.Count; i++)

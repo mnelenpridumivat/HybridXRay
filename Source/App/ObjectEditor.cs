@@ -555,7 +555,7 @@ namespace Object_tool
 		private void viewToolStripMenuItem1_Click(object sender, EventArgs e)
 		{
 			MessageBox.Show(
-				"Примечания:\n1. Model Viewer будет отображать выбранное вами сглаживание во вкладке Flags, благодаря этому можно будет узнать какое сглаживание нужно использовать.\nHQ Geometry и HQ Geometry+ тоже влияют на модель при просмотре.\n2. Model Viewer реагирует на хоткеи только английской раскладки.\n3. Для удобного использования программы нужно ознакомиться с возможностями через клавишу F1.\n4. Если указать путь к текстурам в настройках программы (или указать путь к fs.ltx), то Model Viewer будет отображать текстуры."
+				"Примечания:\n1. Вьюпорт отображает выбранное вами сглаживание во вкладке Flags, благодаря этому можно будет узнать какое сглаживание нужно использовать.\nHQ Geometry и HQ Geometry+ тоже влияют на модель при просмотре.\n2. Для удобства нужно ознакомиться с возможностями через клавишу 'H' в окне вьюпорта.\n3. Если указать путь к текстурам в настройках программы (или указать путь к fs.ltx), то вьюпорт будет отображать текстуры."
 				, "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
@@ -1125,7 +1125,7 @@ namespace Object_tool
 					string texture_main = Textures + m_Object.surfaces[i].texture + ".dds";
 					string texture_temp = TempFolder() + "\\" + Path.GetFileName(m_Object.surfaces[i].texture + ".png");
 
-					if (File.Exists(texture_main)) // Create tga
+					if (File.Exists(texture_main)) // Create png
 					{
 						pTextures.Add(texture_main);
 						pTextures.Add(texture_temp);

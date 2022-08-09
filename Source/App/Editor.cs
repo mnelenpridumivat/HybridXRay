@@ -190,8 +190,8 @@ namespace Object_tool
 				EditorProcess.StartInfo.WorkingDirectory = AppPath();
 				EditorProcess.StartInfo.Arguments = args;
 				EditorProcess.StartInfo.CreateNoWindow = !dbg_window;
-				EditorProcess.StartInfo.RedirectStandardOutput = !dbg_window;
-				EditorProcess.StartInfo.RedirectStandardError = !dbg_window;
+				EditorProcess.StartInfo.RedirectStandardOutput = !dbg_window && async;
+				EditorProcess.StartInfo.RedirectStandardError = !dbg_window && async;
 				EditorProcess.Start();
 				EditorWorking = true;
 
