@@ -212,7 +212,6 @@ namespace Object_tool
             this.ModelFlagsGroupBox = new System.Windows.Forms.GroupBox();
             this.SoCInfluence = new System.Windows.Forms.CheckBox();
             this.SmoothTypeGroupBox = new System.Windows.Forms.GroupBox();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.UseSplitNormals = new System.Windows.Forms.RadioButton();
             this.SmoothCoP = new System.Windows.Forms.RadioButton();
             this.SmoothSoC = new System.Windows.Forms.RadioButton();
@@ -264,7 +263,6 @@ namespace Object_tool
             this.MotionFlagsGroupBox.SuspendLayout();
             this.ModelFlagsGroupBox.SuspendLayout();
             this.SmoothTypeGroupBox.SuspendLayout();
-            this.tableLayoutPanel3.SuspendLayout();
             this.TabControl.SuspendLayout();
             this.MotionPage.SuspendLayout();
             this.MotionRefsPage.SuspendLayout();
@@ -1916,7 +1914,10 @@ namespace Object_tool
             // 
             this.SmoothTypeGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.SmoothTypeGroupBox.Controls.Add(this.tableLayoutPanel3);
+            this.SmoothTypeGroupBox.Controls.Add(this.UseSplitNormals);
+            this.SmoothTypeGroupBox.Controls.Add(this.SmoothCoP);
+            this.SmoothTypeGroupBox.Controls.Add(this.SmoothSoC);
+            this.SmoothTypeGroupBox.Controls.Add(this.AutoSmooth);
             this.SmoothTypeGroupBox.Location = new System.Drawing.Point(6, 158);
             this.SmoothTypeGroupBox.Name = "SmoothTypeGroupBox";
             this.SmoothTypeGroupBox.Size = new System.Drawing.Size(251, 44);
@@ -1924,33 +1925,12 @@ namespace Object_tool
             this.SmoothTypeGroupBox.TabStop = false;
             this.SmoothTypeGroupBox.Text = "Smooth Type";
             // 
-            // tableLayoutPanel3
-            // 
-            this.tableLayoutPanel3.ColumnCount = 4;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 43.41331F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 52F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 56.58669F));
-            this.tableLayoutPanel3.Controls.Add(this.UseSplitNormals, 3, 0);
-            this.tableLayoutPanel3.Controls.Add(this.SmoothCoP, 2, 0);
-            this.tableLayoutPanel3.Controls.Add(this.SmoothSoC, 1, 0);
-            this.tableLayoutPanel3.Controls.Add(this.AutoSmooth, 0, 0);
-            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 16);
-            this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.RowCount = 1;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(245, 25);
-            this.tableLayoutPanel3.TabIndex = 0;
-            // 
             // UseSplitNormals
             // 
             this.UseSplitNormals.AutoSize = true;
-            this.UseSplitNormals.Dock = System.Windows.Forms.DockStyle.Left;
-            this.UseSplitNormals.Location = new System.Drawing.Point(178, 3);
+            this.UseSplitNormals.Location = new System.Drawing.Point(182, 19);
             this.UseSplitNormals.Name = "UseSplitNormals";
-            this.UseSplitNormals.Size = new System.Drawing.Size(63, 19);
+            this.UseSplitNormals.Size = new System.Drawing.Size(63, 17);
             this.UseSplitNormals.TabIndex = 2;
             this.UseSplitNormals.Text = "Normals";
             this.UseSplitNormals.UseVisualStyleBackColor = true;
@@ -1958,10 +1938,9 @@ namespace Object_tool
             // SmoothCoP
             // 
             this.SmoothCoP.AutoSize = true;
-            this.SmoothCoP.Dock = System.Windows.Forms.DockStyle.Left;
-            this.SmoothCoP.Location = new System.Drawing.Point(108, 3);
+            this.SmoothCoP.Location = new System.Drawing.Point(112, 19);
             this.SmoothCoP.Name = "SmoothCoP";
-            this.SmoothCoP.Size = new System.Drawing.Size(64, 19);
+            this.SmoothCoP.Size = new System.Drawing.Size(64, 17);
             this.SmoothCoP.TabIndex = 1;
             this.SmoothCoP.Text = "CS\\CoP";
             this.SmoothCoP.UseVisualStyleBackColor = true;
@@ -1969,10 +1948,9 @@ namespace Object_tool
             // SmoothSoC
             // 
             this.SmoothSoC.AutoSize = true;
-            this.SmoothSoC.Dock = System.Windows.Forms.DockStyle.Right;
-            this.SmoothSoC.Location = new System.Drawing.Point(57, 3);
+            this.SmoothSoC.Location = new System.Drawing.Point(64, 19);
             this.SmoothSoC.Name = "SmoothSoC";
-            this.SmoothSoC.Size = new System.Drawing.Size(45, 19);
+            this.SmoothSoC.Size = new System.Drawing.Size(45, 17);
             this.SmoothSoC.TabIndex = 0;
             this.SmoothSoC.Text = "SoC";
             this.SmoothSoC.UseVisualStyleBackColor = true;
@@ -1981,10 +1959,9 @@ namespace Object_tool
             // 
             this.AutoSmooth.AutoSize = true;
             this.AutoSmooth.Checked = true;
-            this.AutoSmooth.Dock = System.Windows.Forms.DockStyle.Right;
-            this.AutoSmooth.Location = new System.Drawing.Point(3, 3);
+            this.AutoSmooth.Location = new System.Drawing.Point(11, 19);
             this.AutoSmooth.Name = "AutoSmooth";
-            this.AutoSmooth.Size = new System.Drawing.Size(47, 19);
+            this.AutoSmooth.Size = new System.Drawing.Size(47, 17);
             this.AutoSmooth.TabIndex = 3;
             this.AutoSmooth.TabStop = true;
             this.AutoSmooth.Text = "Auto";
@@ -2296,8 +2273,7 @@ namespace Object_tool
             this.ModelFlagsGroupBox.ResumeLayout(false);
             this.ModelFlagsGroupBox.PerformLayout();
             this.SmoothTypeGroupBox.ResumeLayout(false);
-            this.tableLayoutPanel3.ResumeLayout(false);
-            this.tableLayoutPanel3.PerformLayout();
+            this.SmoothTypeGroupBox.PerformLayout();
             this.TabControl.ResumeLayout(false);
             this.MotionPage.ResumeLayout(false);
             this.MotionRefsPage.ResumeLayout(false);
@@ -2486,7 +2462,6 @@ namespace Object_tool
         private System.Windows.Forms.ToolStripMenuItem shapesGenerateToolStripMenuItem;
         private System.Windows.Forms.RichTextBox LogTextBox;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.GroupBox LimitsBox;
         private System.Windows.Forms.GroupBox AxisX;
         private System.Windows.Forms.TextBox textBox15;
