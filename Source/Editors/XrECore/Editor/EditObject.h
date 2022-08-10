@@ -284,6 +284,7 @@ public:
         eoCoPSmooth     = (1 << 12),
         eoAutoSmooth    = (1 << 13),
         eoSoCInfluence  = (1 << 14),
+        eoSoCRefs       = (1 << 15),
         eoFORCE32       = u32(-1)
     };
     IC BOOL IsDynamic()

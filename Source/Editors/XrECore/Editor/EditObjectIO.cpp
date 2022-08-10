@@ -157,13 +157,30 @@ void CEditableObject::Save(IWriter& F)
     // skeleton motions refs
     if (m_SMotionRefs.size())
     {
-        F.open_chunk(EOBJ_CHUNK_SMOTIONS3);
-        F.w_u32(m_SMotionRefs.size());
+        if (!m_objectFlags.is(eoSoCRefs))
+        {
+            F.open_chunk(EOBJ_CHUNK_SMOTIONS3);
+            F.w_u32(m_SMotionRefs.size());
 
-        for (u32 i = 0; i < m_SMotionRefs.size(); ++i)
-            F.w_stringZ(m_SMotionRefs[i].c_str());
+            for (u32 i = 0; i < m_SMotionRefs.size(); ++i)
+                F.w_stringZ(m_SMotionRefs[i].c_str());
 
-        F.close_chunk();
+            F.close_chunk();
+        }
+        else
+        {
+            F.open_chunk(EOBJ_CHUNK_SMOTIONS2);
+
+            xr_string refs = m_SMotionRefs[0].c_str();
+            for (u32 i = 1; i < m_SMotionRefs.size(); ++i)
+            {
+                refs += ",";
+                refs += m_SMotionRefs[i].c_str();
+            }
+            F.w_stringZ(refs);
+
+            F.close_chunk();
+        }
     }
 
     // bone parts
@@ -209,6 +226,7 @@ void CEditableObject::Save(IWriter& F)
 
 bool CEditableObject::Load(IReader& F)
 {
+    m_objectFlags.set(eoSoCRefs, FALSE);
     bool bRes = true;
     do
     {
@@ -390,6 +408,7 @@ bool CEditableObject::Load(IReader& F)
             }
             if (F.find_chunk(EOBJ_CHUNK_SMOTIONS2))
             {
+                m_objectFlags.set(eoSoCRefs, TRUE);
                 shared_str tmp;
                 F.r_stringZ(tmp);
                 u32 set_cnt = _GetItemCount(tmp.c_str());
