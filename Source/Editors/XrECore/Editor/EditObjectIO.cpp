@@ -112,7 +112,7 @@ void CEditableObject::Save(IWriter& F)
     m_objectFlagsForSave.set(eoSoundOccluder, m_objectFlags.is(eoSoundOccluder));
     m_objectFlagsForSave.set(eoHQExportPlus, TRUE);
 
-    F.w_chunk		(EOBJ_CHUNK_FLAGS,&m_objectFlagsForSave.flags,sizeof(m_objectFlags.flags));
+    F.w_chunk		(EOBJ_CHUNK_FLAGS,&m_objectFlagsForSave.flags,sizeof(m_objectFlagsForSave.flags));
 
     // meshes
     F.open_chunk	(EOBJ_CHUNK_EDITMESHES);
