@@ -104,7 +104,15 @@ void CEditableObject::Save(IWriter& F)
 	F.w_stringZ		(m_LODs);
 	F.close_chunk	();
 
-    F.w_chunk		(EOBJ_CHUNK_FLAGS,&m_objectFlags.flags,sizeof(m_objectFlags.flags));
+    m_objectFlagsForSave.set(eoDynamic, m_objectFlags.is(eoDynamic));
+    m_objectFlagsForSave.set(eoProgressive, m_objectFlags.is(eoProgressive));
+    m_objectFlagsForSave.set(eoUsingLOD, m_objectFlags.is(eoUsingLOD));
+    m_objectFlagsForSave.set(eoHOM, m_objectFlags.is(eoHOM));
+    m_objectFlagsForSave.set(eoMultipleUsage, m_objectFlags.is(eoMultipleUsage));
+    m_objectFlagsForSave.set(eoSoundOccluder, m_objectFlags.is(eoSoundOccluder));
+    m_objectFlagsForSave.set(eoHQExportPlus, TRUE);
+
+    F.w_chunk		(EOBJ_CHUNK_FLAGS,&m_objectFlagsForSave.flags,sizeof(m_objectFlags.flags));
 
     // meshes
     F.open_chunk	(EOBJ_CHUNK_EDITMESHES);
@@ -248,7 +256,7 @@ bool CEditableObject::Load(IReader& F)
 			break;
 		}
 
-		R_ASSERT(F.r_chunk(EOBJ_CHUNK_FLAGS, &m_objectFlags.flags));
+		R_ASSERT(F.r_chunk(EOBJ_CHUNK_FLAGS, &m_objectFlagsForSave.flags));
 
 		if (F.find_chunk	(EOBJ_CHUNK_CLASSSCRIPT))
 			F.r_stringZ		(m_ClassScript);

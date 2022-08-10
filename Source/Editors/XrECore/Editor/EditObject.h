@@ -194,6 +194,7 @@ public:
 public:
 	// options
 	Flags32			m_objectFlags;
+    Flags32			m_objectFlagsForSave;
 	enum{
 		eoDynamic 	 	= (1<<0),			
 		eoProgressive 	= (1<<1),			
