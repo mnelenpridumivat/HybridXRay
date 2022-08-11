@@ -134,7 +134,7 @@ namespace Object_tool
             {
 				UserDataTextBox.Text = m_Object.userdata;
 				LodTextBox.Text = m_Object.lod;
-				ObjectScaleTextBox.Text = m_Object.scale.ToString();
+				ObjectScaleTextBox.Text = ((decimal)m_Object.scale).ToString();
 				ScaleCenterOfMassCheckBox.Checked = m_Object.scale_center_of_mass;
 				MotionRefsBox.Lines = m_Object.motion_refs.ToArray();
 

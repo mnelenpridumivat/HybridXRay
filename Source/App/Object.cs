@@ -159,12 +159,19 @@ namespace Object_tool
 					userdata = xr_loader.read_stringZ();
 				}
 
-				if (xr_loader.find_chunkSize((int)OBJECT.EOBJ_CHUNK_ACTORTRANSFORM, !FindBody, true) > 24)
+				if (xr_loader.find_chunkSize((int)OBJECT.EOBJ_CHUNK_ACTORTRANSFORM, !FindBody, true) == 32)
 				{
 					xr_loader.ReadBytes(12);
 					xr_loader.ReadBytes(12);
 					scale = xr_loader.ReadFloat();
 					uint chk = xr_loader.ReadUInt32();
+					scale_center_of_mass = Convert.ToBoolean(chk);
+				}
+
+				if (xr_loader.find_chunkSize((int)OBJECT.EOBJ_CHUNK_SCALE, !FindBody, true) == 5)
+				{
+					scale = xr_loader.ReadFloat();
+					uint chk = xr_loader.ReadByte();
 					scale_center_of_mass = Convert.ToBoolean(chk);
 				}
 

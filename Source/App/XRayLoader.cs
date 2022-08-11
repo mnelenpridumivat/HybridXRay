@@ -27,7 +27,8 @@ namespace Object_tool
         EOBJ_CHUNK_BONEPARTS2	    =	0x0923,
         EOBJ_CHUNK_SMOTIONS2	    =	0x0924,
         EOBJ_CHUNK_LODS			    =	0x0925,
-        EOBJ_CHUNK_SMOTIONS3	    =	0x0926
+        EOBJ_CHUNK_SMOTIONS3	    =	0x0926,
+        EOBJ_CHUNK_SCALE            =   0x0927
     };
 
     public enum MESH

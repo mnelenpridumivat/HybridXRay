@@ -579,6 +579,7 @@ public:
 #define EOBJ_CHUNK_SMOTIONS2		0x0924
 #define EOBJ_CHUNK_LODS				0x0925
 #define EOBJ_CHUNK_SMOTIONS3		0x0926
+#define EOBJ_CHUNK_SCALE    		0x0927
 //----------------------------------------------------
 
 
