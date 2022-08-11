@@ -1139,6 +1139,24 @@ namespace Object_tool
 			}
 		}
 
+		private void openImageFolderToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			string image_path = "";
+			pSettings.Load("ImagePath", ref image_path);
+
+			if (image_path != "" && Directory.Exists(image_path))
+			{
+				Process PrFolder = new Process();
+				ProcessStartInfo psi = new ProcessStartInfo();
+				psi.CreateNoWindow = true;
+				psi.WindowStyle = ProcessWindowStyle.Normal;
+				psi.FileName = "explorer";
+				psi.Arguments = image_path;
+				PrFolder.StartInfo = psi;
+				PrFolder.Start();
+			}
+		}
+
 		private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			ViewtoolStripMenuItem_Click(null, null);
@@ -1155,7 +1173,7 @@ namespace Object_tool
 			{
 				for (int i = 0; i < m_Object.surfaces.Count; i++)
 				{
-					string texture_main = Textures + m_Object.surfaces[i].texture + ".dds";
+					string texture_main = Textures + "\\" + m_Object.surfaces[i].texture + ".dds";
 					string texture_temp = TempFolder() + "\\" + Path.GetFileName(m_Object.surfaces[i].texture + ".png");
 
 					if (File.Exists(texture_main)) // Create png
@@ -1183,7 +1201,7 @@ namespace Object_tool
 		{
 			if (m_Object == null)
 			{
-				Msg("ViewModel: Error!\nObject is null. Please report this bug for developer.");
+				Msg("Can't create viewport without object!");
 				return;
 			}
 
@@ -1192,7 +1210,7 @@ namespace Object_tool
 
 			if (!File.Exists(exe_path))
             {
-				MessageBox.Show("Can't find Viewport.\nPlease, reinstall the app.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show("Can't find Viewport module.\nPlease, reinstall the app.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
 			}
 
@@ -1205,7 +1223,7 @@ namespace Object_tool
 			{
 				for (int i = 0; i < m_Object.surfaces.Count; i++)
 				{
-					string texture_main = Textures + m_Object.surfaces[i].texture + ".dds";
+					string texture_main = Textures + "\\" + m_Object.surfaces[i].texture + ".dds";
 					string texture_temp = TempFolder() + "\\" + Path.GetFileName(m_Object.surfaces[i].texture + ".png");
 
 					if (File.Exists(texture_main)) // Create png
@@ -1223,17 +1241,20 @@ namespace Object_tool
 				ViewerProcess.Kill();
 				ViewerProcess.Close();
 			}
-			
+
+			string image_path = "";
+			pSettings.Load("ImagePath", ref image_path);
+
 			ViewerProcess.StartInfo.FileName = exe_path;
-			//ViewerProcess.StartInfo.Arguments = $"--input=\"{ObjName}\" --output=\"H:\\Out_png.png\" --no-background";
-			ViewerProcess.StartInfo.Arguments = $"--input=\"{ObjName}\"";
+			ViewerProcess.StartInfo.Arguments = $"--input=\"{ObjName}\" --output=\"{image_path}\"";
 			ViewerProcess.StartInfo.UseShellExecute = false;
+			ViewerProcess.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
 
 			ViewerProcess.Start();
 			ViewerWorking = true;
 			CreateViewPort.Visible = false;
 			ViewerProcess.WaitForInputIdle();
-			SetParent(this.ViewerProcess.MainWindowHandle, ViewPortPanel.Handle);
+			SetParent(ViewerProcess.MainWindowHandle, ViewPortPanel.Handle);
 
 			int style = GetWindowLong(ViewerProcess.MainWindowHandle, GWL_STYLE);
 			style = style & ~WS_CAPTION & ~WS_THICKFRAME;

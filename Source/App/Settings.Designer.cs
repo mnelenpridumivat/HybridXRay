@@ -64,6 +64,9 @@
             this.TexturesPath = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.ForceViewport = new System.Windows.Forms.CheckBox();
+            this.button4 = new System.Windows.Forms.Button();
+            this.ImagePath = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -366,7 +369,7 @@
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(17, 367);
+            this.label1.Location = new System.Drawing.Point(17, 392);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(79, 13);
             this.label1.TabIndex = 4;
@@ -375,7 +378,7 @@
             // GameMtlPath
             // 
             this.GameMtlPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.GameMtlPath.Location = new System.Drawing.Point(102, 364);
+            this.GameMtlPath.Location = new System.Drawing.Point(102, 389);
             this.GameMtlPath.Name = "GameMtlPath";
             this.GameMtlPath.Size = new System.Drawing.Size(234, 20);
             this.GameMtlPath.TabIndex = 5;
@@ -383,7 +386,7 @@
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button1.Location = new System.Drawing.Point(342, 362);
+            this.button1.Location = new System.Drawing.Point(342, 387);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(42, 23);
             this.button1.TabIndex = 6;
@@ -405,7 +408,7 @@
             // button2
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button2.Location = new System.Drawing.Point(342, 309);
+            this.button2.Location = new System.Drawing.Point(342, 334);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(42, 23);
             this.button2.TabIndex = 10;
@@ -416,7 +419,7 @@
             // FSLtxPath
             // 
             this.FSLtxPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.FSLtxPath.Location = new System.Drawing.Point(102, 311);
+            this.FSLtxPath.Location = new System.Drawing.Point(102, 336);
             this.FSLtxPath.Name = "FSLtxPath";
             this.FSLtxPath.Size = new System.Drawing.Size(234, 20);
             this.FSLtxPath.TabIndex = 9;
@@ -425,7 +428,7 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(17, 314);
+            this.label2.Location = new System.Drawing.Point(17, 339);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(64, 13);
             this.label2.TabIndex = 8;
@@ -434,7 +437,7 @@
             // button3
             // 
             this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button3.Location = new System.Drawing.Point(342, 335);
+            this.button3.Location = new System.Drawing.Point(342, 360);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(42, 23);
             this.button3.TabIndex = 13;
@@ -445,7 +448,7 @@
             // TexturesPath
             // 
             this.TexturesPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.TexturesPath.Location = new System.Drawing.Point(102, 337);
+            this.TexturesPath.Location = new System.Drawing.Point(102, 362);
             this.TexturesPath.Name = "TexturesPath";
             this.TexturesPath.Size = new System.Drawing.Size(234, 20);
             this.TexturesPath.TabIndex = 12;
@@ -454,7 +457,7 @@
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(17, 340);
+            this.label3.Location = new System.Drawing.Point(17, 365);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(75, 13);
             this.label3.TabIndex = 11;
@@ -470,11 +473,43 @@
             this.ForceViewport.Text = "Force viewport load";
             this.ForceViewport.UseVisualStyleBackColor = true;
             // 
+            // button4
+            // 
+            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button4.Location = new System.Drawing.Point(342, 308);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(42, 23);
+            this.button4.TabIndex = 17;
+            this.button4.Text = "Find";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // ImagePath
+            // 
+            this.ImagePath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.ImagePath.Location = new System.Drawing.Point(102, 310);
+            this.ImagePath.Name = "ImagePath";
+            this.ImagePath.Size = new System.Drawing.Size(234, 20);
+            this.ImagePath.TabIndex = 16;
+            // 
+            // label4
+            // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(17, 313);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(63, 13);
+            this.label4.TabIndex = 15;
+            this.label4.Text = "Image path:";
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(386, 387);
+            this.ClientSize = new System.Drawing.Size(386, 412);
+            this.Controls.Add(this.button4);
+            this.Controls.Add(this.ImagePath);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.ForceViewport);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.TexturesPath);
@@ -548,5 +583,8 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.RadioButton AutoSmooth;
         private System.Windows.Forms.CheckBox ForceViewport;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.TextBox ImagePath;
+        private System.Windows.Forms.Label label4;
     }
 }

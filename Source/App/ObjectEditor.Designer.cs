@@ -249,6 +249,7 @@ namespace Object_tool
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.ViewPortPanel = new System.Windows.Forms.Panel();
             this.CreateViewPort = new System.Windows.Forms.Button();
+            this.openImageFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuPanel.SuspendLayout();
             this.StatusPanel.SuspendLayout();
             this.BonesPage.SuspendLayout();
@@ -949,7 +950,8 @@ namespace Object_tool
             // 
             this.viewPortToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.reloadToolStripMenuItem,
-            this.refreshTexturesToolStripMenuItem});
+            this.refreshTexturesToolStripMenuItem,
+            this.openImageFolderToolStripMenuItem});
             this.viewPortToolStripMenuItem.Name = "viewPortToolStripMenuItem";
             this.viewPortToolStripMenuItem.Size = new System.Drawing.Size(69, 20);
             this.viewPortToolStripMenuItem.Text = "View Port";
@@ -957,14 +959,14 @@ namespace Object_tool
             // reloadToolStripMenuItem
             // 
             this.reloadToolStripMenuItem.Name = "reloadToolStripMenuItem";
-            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.reloadToolStripMenuItem.Text = "Reload";
             this.reloadToolStripMenuItem.Click += new System.EventHandler(this.reloadToolStripMenuItem_Click);
             // 
             // refreshTexturesToolStripMenuItem
             // 
             this.refreshTexturesToolStripMenuItem.Name = "refreshTexturesToolStripMenuItem";
-            this.refreshTexturesToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.refreshTexturesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.refreshTexturesToolStripMenuItem.Text = "Refresh textures";
             this.refreshTexturesToolStripMenuItem.Click += new System.EventHandler(this.refreshTexturesToolStripMenuItem_Click);
             // 
@@ -2263,6 +2265,13 @@ namespace Object_tool
             this.CreateViewPort.UseVisualStyleBackColor = true;
             this.CreateViewPort.Click += new System.EventHandler(this.ViewtoolStripMenuItem_Click);
             // 
+            // openImageFolderToolStripMenuItem
+            // 
+            this.openImageFolderToolStripMenuItem.Name = "openImageFolderToolStripMenuItem";
+            this.openImageFolderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openImageFolderToolStripMenuItem.Text = "Open image folder";
+            this.openImageFolderToolStripMenuItem.Click += new System.EventHandler(this.openImageFolderToolStripMenuItem_Click);
+            // 
             // Object_Editor
             // 
             this.AllowDrop = true;
@@ -2551,6 +2560,7 @@ namespace Object_tool
         private System.Windows.Forms.ToolStripMenuItem soCCoPToolStripMenuItem;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox ModelTypeCBox;
+        private System.Windows.Forms.ToolStripMenuItem openImageFolderToolStripMenuItem;
     }
 }
 

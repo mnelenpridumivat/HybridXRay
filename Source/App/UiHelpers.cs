@@ -19,6 +19,15 @@ namespace Object_tool
 			bool NoCompress = false;
 			bool Debug = false;
 			string gamemtl = "";
+
+			if (!pSettings.CheckVers())
+			{
+				Msg("Settings version conflict! Load defaults.");
+				Settings settings = new Settings(pSettings, this, this);
+				settings.Settings_Load(null, null); // Load defaults
+				settings.SaveParams(null, null); // Save defaults
+			}
+
 			pSettings.LoadText("GameMtlPath", ref gamemtl);
 			pSettings.LoadState("NoCompress", ref NoCompress);
 			pSettings.LoadState("Debug", ref Debug);
@@ -308,6 +317,7 @@ namespace Object_tool
 					TabControl.Controls.Clear();
 					TabControl.Controls.Add(FlagsPage);
 					TabControl.Controls.Add(MotionPage);
+					SmoothSoC.Checked = true;
 				}
 			}
 			else

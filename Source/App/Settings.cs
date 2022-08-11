@@ -37,8 +37,10 @@ namespace Object_tool
             }
         }
 
-        private void SaveParams(object sender, FormClosingEventArgs e)
+        public void SaveParams(object sender, FormClosingEventArgs e)
         {
+            pSettings.SaveVersion();
+
             pSettings.Save(NoCompress);
             pSettings.Save(Debug);
             pSettings.Save(DefaultsCoP);
@@ -63,9 +65,10 @@ namespace Object_tool
             pSettings.Save(HQGeometryPlus);
             pSettings.Save(ScaleCenterOfMassCheckBox);
             pSettings.Save(ForceViewport);
+            pSettings.Save(ImagePath);
         }
 
-        private void Settings_Load(object sender, EventArgs e)
+        public void Settings_Load(object sender, EventArgs e)
         {
             pSettings.Load(NoCompress);
             pSettings.Load(Debug);
@@ -91,6 +94,7 @@ namespace Object_tool
             pSettings.Load(HQGeometryPlus, true);
             pSettings.Load(ScaleCenterOfMassCheckBox, true);
             pSettings.Load(ForceViewport, true);
+            pSettings.Load(ImagePath);
 
             AnimsNoCompress.Enabled = NoCompress.Checked;
         }
@@ -184,6 +188,10 @@ namespace Object_tool
                     Editor.ReloadGameMtl(GameMtlPath.Text);
                 }
                 TexturesPath.Text = gamedata_path + GetFSPath(ofd.FileName, "$game_textures$");
+
+                int slash_idx = TexturesPath.Text.LastIndexOf('\\');
+                if (slash_idx == TexturesPath.Text.Count() - 1)
+                    TexturesPath.Text = TexturesPath.Text.Substring(0, TexturesPath.Text.LastIndexOf('\\'));
             }
         }
 
@@ -192,7 +200,11 @@ namespace Object_tool
             FolderSelectDialog folderSelectDialog = new FolderSelectDialog();
             if (folderSelectDialog.ShowDialog())
             {
-                TexturesPath.Text = folderSelectDialog.FileName + "\\";
+                string fname = folderSelectDialog.FileName;
+                int slash_idx = fname.LastIndexOf('\\');
+                if (slash_idx == fname.Count() - 1)
+                    fname = fname.Substring(0, fname.LastIndexOf('\\'));
+                TexturesPath.Text = fname;
             }
         }
 
@@ -260,6 +272,19 @@ namespace Object_tool
                 }
             }
             return ret_text;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            FolderSelectDialog folderSelectDialog = new FolderSelectDialog();
+            if (folderSelectDialog.ShowDialog())
+            {
+                string fname = folderSelectDialog.FileName;
+                int slash_idx = fname.LastIndexOf('\\');
+                if (slash_idx == fname.Count() - 1)
+                    fname = fname.Substring(0, fname.LastIndexOf('\\'));
+                ImagePath.Text = fname;
+            }
         }
     }
 }

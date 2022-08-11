@@ -59,6 +59,14 @@ namespace Object_tool
         private IniFile pSettings = null;
         private string sMainSect = "settings";
 
+        public int SETTINGS_VERS = 1;
+
+        public bool CheckVers()
+        {
+            int vers = Convert.ToInt32(pSettings.ReadDef("SettingsVersion", sMainSect, "0"));
+            return vers == SETTINGS_VERS;
+        }
+
         public EditorSettings(string IniPath = null)
         {
             pSettings = new IniFile(IniPath);
@@ -67,6 +75,11 @@ namespace Object_tool
         public EditorSettings(string IniPath = null, string init_write = null)
         {
             pSettings = new IniFile(IniPath, init_write);
+        }
+
+        public void SaveVersion()
+        {
+            pSettings.Write("SettingsVersion", Convert.ToInt32(SETTINGS_VERS).ToString(), "settings");
         }
 
         public void Save(CheckBox box)
@@ -99,61 +112,105 @@ namespace Object_tool
             pSettings.Write(box.Name, Convert.ToUInt16(box.LinkVisited).ToString(), "settings");
         }
 
+        public void Save(string key, int var)
+        {
+            pSettings.Write(key, var.ToString(), "settings");
+        }
+
         public bool Load(CheckBox box, bool def = false)
         {
-            box.Checked = Convert.ToBoolean(Convert.ToUInt16(pSettings.ReadDef(box.Name, sMainSect, Convert.ToUInt16(def).ToString())));
+            if (CheckVers())
+                box.Checked = Convert.ToBoolean(Convert.ToUInt16(pSettings.ReadDef(box.Name, sMainSect, Convert.ToUInt16(def).ToString())));
+            else
+                box.Checked = def;
             return box.Checked;
         }
 
         public bool Load(RadioButton box, bool def = false)
         {
-            box.Checked = Convert.ToBoolean(Convert.ToUInt16(pSettings.ReadDef(box.Name, sMainSect, Convert.ToUInt16(def).ToString())));
+            if (CheckVers())
+                box.Checked = Convert.ToBoolean(Convert.ToUInt16(pSettings.ReadDef(box.Name, sMainSect, Convert.ToUInt16(def).ToString())));
+            else
+                box.Checked = def;
             return box.Checked;
         }
 
         public void Load(TextBox box, string def = "")
         {
-            box.Text = pSettings.ReadDef(box.Name, sMainSect, def);
+            if (CheckVers())
+                box.Text = pSettings.ReadDef(box.Name, sMainSect, def);
+            else
+                box.Text = def;
         }
 
         public bool Load(string key, ref bool var, bool def = false)
         {
-            var = Convert.ToBoolean(Convert.ToUInt16(pSettings.ReadDef(key, sMainSect, Convert.ToUInt16(def).ToString())));
+            if (CheckVers())
+                var = Convert.ToBoolean(Convert.ToUInt16(pSettings.ReadDef(key, sMainSect, Convert.ToUInt16(def).ToString())));
+            else
+                var = def;
             return var;
         }
 
         public void Load(string key, ref string var, string def = "")
         {
-            var = pSettings.ReadDef(key, sMainSect, def);
+            if (CheckVers())
+                var = pSettings.ReadDef(key, sMainSect, def);
+            else
+                var = def;
         }
 
         public bool Load(string name, CheckBox box, bool def = false)
         {
-            box.Checked = Convert.ToBoolean(Convert.ToUInt16(pSettings.ReadDef(name, sMainSect, Convert.ToUInt16(def).ToString())));
+            if (CheckVers())
+                box.Checked = Convert.ToBoolean(Convert.ToUInt16(pSettings.ReadDef(name, sMainSect, Convert.ToUInt16(def).ToString())));
+            else
+                box.Checked = def;
             return box.Checked;
         }
 
         public bool Load(string name, RadioButton box, bool def = false)
         {
-            box.Checked = Convert.ToBoolean(Convert.ToUInt16(pSettings.ReadDef(name, sMainSect, Convert.ToUInt16(def).ToString())));
+            if (CheckVers())
+                box.Checked = Convert.ToBoolean(Convert.ToUInt16(pSettings.ReadDef(name, sMainSect, Convert.ToUInt16(def).ToString())));
+            else
+                box.Checked = def;
             return box.Checked;
         }
 
         public bool Load(LinkLabel box, bool def = false)
         {
-            box.LinkVisited = Convert.ToBoolean(Convert.ToUInt16(pSettings.ReadDef(box.Name, sMainSect, Convert.ToUInt16(def).ToString())));
+            if (CheckVers())
+                box.LinkVisited = Convert.ToBoolean(Convert.ToUInt16(pSettings.ReadDef(box.Name, sMainSect, Convert.ToUInt16(def).ToString())));
+            else
+                box.LinkVisited = def;
             return box.LinkVisited;
         }
 
         public bool LoadState(string name, ref bool state, bool def = false)
         {
-            state = Convert.ToBoolean(Convert.ToUInt16(pSettings.ReadDef(name, sMainSect, Convert.ToUInt16(def).ToString())));
+            if (CheckVers())
+                state = Convert.ToBoolean(Convert.ToUInt16(pSettings.ReadDef(name, sMainSect, Convert.ToUInt16(def).ToString())));
+            else
+                state = def;
             return state;
         }
 
         public string LoadText(string name, ref string text, string def = "")
         {
-            text = pSettings.ReadDef(name, sMainSect, def);
+            if (CheckVers())
+                text = pSettings.ReadDef(name, sMainSect, def);
+            else
+                text = def;
+            return text;
+        }
+
+        public int Load(string name, ref int text, int def = 0)
+        {
+            if (CheckVers())
+                text = Convert.ToInt32(pSettings.ReadDef(name, sMainSect, def.ToString()));
+            else
+                text = def;
             return text;
         }
     }
