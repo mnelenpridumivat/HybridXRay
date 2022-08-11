@@ -87,6 +87,9 @@ namespace Object_tool
             this.generateShapesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generateLodToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importObjectParamsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.convertFormatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.coPSoCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.soCCoPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadScriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.objectInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.debugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -201,6 +204,8 @@ namespace Object_tool
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.ScaleGroupBox = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.ModelTypeCBox = new System.Windows.Forms.ComboBox();
             this.ObjectScaleLabel = new System.Windows.Forms.Label();
             this.ObjectScaleTextBox = new System.Windows.Forms.TextBox();
             this.ScaleCenterOfMassCheckBox = new System.Windows.Forms.CheckBox();
@@ -669,6 +674,7 @@ namespace Object_tool
             this.generateShapesToolStripMenuItem,
             this.generateLodToolStripMenuItem,
             this.importObjectParamsToolStripMenuItem,
+            this.convertFormatToolStripMenuItem,
             this.loadScriptToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
@@ -762,6 +768,27 @@ namespace Object_tool
             this.importObjectParamsToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.importObjectParamsToolStripMenuItem.Text = "Import Object Params";
             this.importObjectParamsToolStripMenuItem.Click += new System.EventHandler(this.importObjectParamsToolStripMenuItem_Click);
+            // 
+            // convertFormatToolStripMenuItem
+            // 
+            this.convertFormatToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.coPSoCToolStripMenuItem,
+            this.soCCoPToolStripMenuItem});
+            this.convertFormatToolStripMenuItem.Name = "convertFormatToolStripMenuItem";
+            this.convertFormatToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.convertFormatToolStripMenuItem.Text = "Convert Format";
+            // 
+            // coPSoCToolStripMenuItem
+            // 
+            this.coPSoCToolStripMenuItem.Name = "coPSoCToolStripMenuItem";
+            this.coPSoCToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.coPSoCToolStripMenuItem.Text = "CoP->SoC";
+            // 
+            // soCCoPToolStripMenuItem
+            // 
+            this.soCCoPToolStripMenuItem.Name = "soCCoPToolStripMenuItem";
+            this.soCCoPToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.soCCoPToolStripMenuItem.Text = "SoC->CoP";
             // 
             // loadScriptToolStripMenuItem
             // 
@@ -1726,10 +1753,10 @@ namespace Object_tool
             this.LogTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.LogTextBox.Location = new System.Drawing.Point(3, 252);
+            this.LogTextBox.Location = new System.Drawing.Point(0, 252);
             this.LogTextBox.Name = "LogTextBox";
             this.LogTextBox.ReadOnly = true;
-            this.LogTextBox.Size = new System.Drawing.Size(467, 132);
+            this.LogTextBox.Size = new System.Drawing.Size(473, 132);
             this.LogTextBox.TabIndex = 17;
             this.LogTextBox.Text = "";
             // 
@@ -1779,6 +1806,8 @@ namespace Object_tool
             // 
             // ScaleGroupBox
             // 
+            this.ScaleGroupBox.Controls.Add(this.label3);
+            this.ScaleGroupBox.Controls.Add(this.ModelTypeCBox);
             this.ScaleGroupBox.Controls.Add(this.ObjectScaleLabel);
             this.ScaleGroupBox.Controls.Add(this.ObjectScaleTextBox);
             this.ScaleGroupBox.Controls.Add(this.ScaleCenterOfMassCheckBox);
@@ -1788,12 +1817,33 @@ namespace Object_tool
             this.ScaleGroupBox.Size = new System.Drawing.Size(192, 93);
             this.ScaleGroupBox.TabIndex = 23;
             this.ScaleGroupBox.TabStop = false;
-            this.ScaleGroupBox.Text = "Scale";
+            this.ScaleGroupBox.Text = "Object params";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(3, 19);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(64, 13);
+            this.label3.TabIndex = 20;
+            this.label3.Text = "Object type:";
+            // 
+            // ModelTypeCBox
+            // 
+            this.ModelTypeCBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ModelTypeCBox.FormattingEnabled = true;
+            this.ModelTypeCBox.Items.AddRange(new object[] {
+            "Dynamic",
+            "Static"});
+            this.ModelTypeCBox.Location = new System.Drawing.Point(78, 15);
+            this.ModelTypeCBox.Name = "ModelTypeCBox";
+            this.ModelTypeCBox.Size = new System.Drawing.Size(108, 21);
+            this.ModelTypeCBox.TabIndex = 19;
             // 
             // ObjectScaleLabel
             // 
             this.ObjectScaleLabel.AutoSize = true;
-            this.ObjectScaleLabel.Location = new System.Drawing.Point(3, 19);
+            this.ObjectScaleLabel.Location = new System.Drawing.Point(3, 45);
             this.ObjectScaleLabel.Name = "ObjectScaleLabel";
             this.ObjectScaleLabel.Size = new System.Drawing.Size(69, 13);
             this.ObjectScaleLabel.TabIndex = 18;
@@ -1803,7 +1853,7 @@ namespace Object_tool
             // 
             this.ObjectScaleTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ObjectScaleTextBox.Location = new System.Drawing.Point(78, 16);
+            this.ObjectScaleTextBox.Location = new System.Drawing.Point(78, 42);
             this.ObjectScaleTextBox.Name = "ObjectScaleTextBox";
             this.ObjectScaleTextBox.Size = new System.Drawing.Size(108, 20);
             this.ObjectScaleTextBox.TabIndex = 16;
@@ -1817,7 +1867,7 @@ namespace Object_tool
             this.ScaleCenterOfMassCheckBox.AutoSize = true;
             this.ScaleCenterOfMassCheckBox.Checked = true;
             this.ScaleCenterOfMassCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ScaleCenterOfMassCheckBox.Location = new System.Drawing.Point(6, 42);
+            this.ScaleCenterOfMassCheckBox.Location = new System.Drawing.Point(6, 70);
             this.ScaleCenterOfMassCheckBox.Name = "ScaleCenterOfMassCheckBox";
             this.ScaleCenterOfMassCheckBox.Size = new System.Drawing.Size(125, 17);
             this.ScaleCenterOfMassCheckBox.TabIndex = 17;
@@ -2063,13 +2113,11 @@ namespace Object_tool
             // 
             // MotionTextBox
             // 
-            this.MotionTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.MotionTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MotionTextBox.Location = new System.Drawing.Point(0, 0);
             this.MotionTextBox.Name = "MotionTextBox";
             this.MotionTextBox.ReadOnly = true;
-            this.MotionTextBox.Size = new System.Drawing.Size(472, 398);
+            this.MotionTextBox.Size = new System.Drawing.Size(473, 384);
             this.MotionTextBox.TabIndex = 0;
             this.MotionTextBox.Text = "";
             // 
@@ -2085,12 +2133,10 @@ namespace Object_tool
             // 
             // MotionRefsBox
             // 
-            this.MotionRefsBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.MotionRefsBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MotionRefsBox.Location = new System.Drawing.Point(0, 0);
             this.MotionRefsBox.Name = "MotionRefsBox";
-            this.MotionRefsBox.Size = new System.Drawing.Size(472, 398);
+            this.MotionRefsBox.Size = new System.Drawing.Size(473, 384);
             this.MotionRefsBox.TabIndex = 0;
             this.MotionRefsBox.Text = "";
             this.MotionRefsBox.TextChanged += new System.EventHandler(this.MotionRefsTextChanged);
@@ -2108,12 +2154,10 @@ namespace Object_tool
             // 
             // UserDataTextBox
             // 
-            this.UserDataTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.UserDataTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.UserDataTextBox.Location = new System.Drawing.Point(0, 0);
             this.UserDataTextBox.Name = "UserDataTextBox";
-            this.UserDataTextBox.Size = new System.Drawing.Size(472, 398);
+            this.UserDataTextBox.Size = new System.Drawing.Size(473, 384);
             this.UserDataTextBox.TabIndex = 0;
             this.UserDataTextBox.Text = "";
             this.UserDataTextBox.TextChanged += new System.EventHandler(this.UserDataTextChanged);
@@ -2132,8 +2176,6 @@ namespace Object_tool
             // 
             // LodTextBox
             // 
-            this.LodTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.LodTextBox.Location = new System.Drawing.Point(6, 26);
             this.LodTextBox.Name = "LodTextBox";
             this.LodTextBox.Size = new System.Drawing.Size(460, 20);
@@ -2504,6 +2546,11 @@ namespace Object_tool
         private System.Windows.Forms.ToolStripMenuItem reloadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem refreshTexturesToolStripMenuItem;
         private System.Windows.Forms.Button CreateViewPort;
+        private System.Windows.Forms.ToolStripMenuItem convertFormatToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem coPSoCToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem soCCoPToolStripMenuItem;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox ModelTypeCBox;
     }
 }
 

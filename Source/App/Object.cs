@@ -10,11 +10,23 @@ namespace Object_tool
 {
 	public class Object
 	{
+		public enum ObjectFlags
+		{
+			eoDynamic		= (1<<0),
+			eoProgressive	= (1<<1),
+			eoUsingLOD		= (1<<2),
+			eoHOM			= (1<<3),
+			eoMultipleUsage = (1<<4),
+			eoSoundOccluder = (1<<5),
+			eoHQExport		= (1<<6)
+		};
+
 		// Data
 		public List<Bone> bones = new List<Bone>();
 		public List<Surface> surfaces = new List<Surface>();
 		public List<Motion> motions = new List<Motion>();
 		public List<Mesh> meshes = new List<Mesh>();
+		public uint flags = 0;
 		public float scale = 1.0f;
 		public bool scale_center_of_mass = true;
 		public string userdata = "";
@@ -173,6 +185,11 @@ namespace Object_tool
 					scale = xr_loader.ReadFloat();
 					uint chk = xr_loader.ReadByte();
 					scale_center_of_mass = Convert.ToBoolean(chk);
+				}
+
+				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_FLAGS, !FindBody, true))
+				{
+					flags = xr_loader.ReadUInt32();
 				}
 
 				if (xr_loader.find_chunk((int)OBJECT.EOBJ_CHUNK_SMOTIONS3, !FindBody, true))

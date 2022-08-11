@@ -175,6 +175,9 @@ namespace Object_tool
 			// Временная папка со всеми данными программы
 			args += $" \"{TempFolder()}\"";
 
+			// Тип объекта
+			args += $" {ModelTypeCBox.SelectedIndex}";
+
 			int exit_code = RunCompiller(args, async);
 
 			if (File.Exists(object_path + "_temp.userdata"))

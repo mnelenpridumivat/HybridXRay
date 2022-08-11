@@ -251,6 +251,7 @@ int main(int argc, char** argv)
     shared_str source_object = "";
     shared_str temp_path = "";
     xr_vector<Textures> pObjTextures;
+    u8 model_type = u8(-1);
     // End of program params
 
     if (!IsDebuggerPresent() || load_commands)
@@ -282,6 +283,7 @@ int main(int argc, char** argv)
         int obj_textures_count = atoi(args[iReaderPos]); iReaderPos++;
         pObjTextures = LoadObJTexturesVector(args, obj_textures_count);
         temp_path = args[iReaderPos]; iReaderPos++;
+        model_type = atoi(args[iReaderPos]); iReaderPos++;
         // End of program params
     }
     else
@@ -337,6 +339,9 @@ int main(int argc, char** argv)
         ATools->CurrentObject()->GetClassScript() = userdata.c_str();
         ATools->CurrentObject()->m_EditorScript = custom_script;
         ATools->CurrentObject()->m_TempPath = temp_path;
+
+        if (model_type != u8(-1))
+            ATools->CurrentObject()->m_objectFlags.set(CEditableObject::eoDynamic, model_type == 0);
 
         if (!IsDebuggerPresent())
             ATools->CurrentObject()->m_SMotionRefs = pMotionRefs;

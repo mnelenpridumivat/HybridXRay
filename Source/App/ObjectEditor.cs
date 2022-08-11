@@ -137,6 +137,8 @@ namespace Object_tool
 				ObjectScaleTextBox.Text = ((decimal)m_Object.scale).ToString();
 				ScaleCenterOfMassCheckBox.Checked = m_Object.scale_center_of_mass;
 				MotionRefsBox.Lines = m_Object.motion_refs.ToArray();
+				ModelTypeCBox.SelectedIndex = (m_Object.flags & (uint)Object.ObjectFlags.eoDynamic) == (uint)Object.ObjectFlags.eoDynamic ? 0 : 1;
+				ModelTypeCBox.Enabled = m_Object.bones.Count > 0;
 
 				bool AutoSmoothEnabled = false;
 				bool SmoothChanged = false;

@@ -1023,7 +1023,7 @@ LPCSTR CExportObjectOGF::CreateMTL(LPCSTR fn)
 
 bool CEditableObject::PrepareOGF(IWriter& F, u8 infl, bool gen_tb, CEditableMesh* mesh)
 {
-	return IsSkeleton()?PrepareSkeletonOGF(F,infl):PrepareRigidOGF(F,gen_tb,mesh);
+	return IsSkeleton() && IsDynamic() ? PrepareSkeletonOGF(F, infl) : PrepareRigidOGF(F, gen_tb, mesh);
 }
 
 #include "ExportSkeleton.h"
