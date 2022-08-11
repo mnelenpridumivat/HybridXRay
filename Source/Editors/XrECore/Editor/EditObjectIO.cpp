@@ -204,8 +204,6 @@ void CEditableObject::Save(IWriter& F)
         F.open_chunk(EOBJ_CHUNK_ACTORTRANSFORM);
         F.w_fvector3(a_vPosition);
         F.w_fvector3(a_vRotate);
-        F.w_float(a_vScale);
-        F.w_u32(a_vAdjustMass);
         F.close_chunk();
     }
 
@@ -214,6 +212,11 @@ void CEditableObject::Save(IWriter& F)
     F.w(&m_CreateTime, sizeof(m_CreateTime));
     F.w_stringZ(m_ModifName.c_str());
     F.w(&m_ModifTime, sizeof(m_ModifTime));
+    F.close_chunk();
+
+    F.open_chunk(EOBJ_CHUNK_SCALE);
+    F.w_float(a_vScale);
+    F.w_u8(a_vAdjustMass);
     F.close_chunk();
 
     // set modif desc
@@ -491,7 +494,7 @@ bool CEditableObject::Load(IReader& F)
             {
                 r->r_fvector3(a_vPosition);
                 r->r_fvector3(a_vRotate);
-                if (r->elapsed())
+                if (r->elapsed() == 8)
                 {
                     a_vScale      = r->r_float();
                     a_vAdjustMass = !!r->r_u32();
@@ -505,6 +508,20 @@ bool CEditableObject::Load(IReader& F)
                 F.r(&m_CreateTime, sizeof(m_CreateTime));
                 F.r_stringZ(m_ModifName);
                 F.r(&m_ModifTime, sizeof(m_ModifTime));
+            }
+
+            if (F.find_chunk(EOBJ_CHUNK_SCALE))
+            {
+                IReader *r = F.open_chunk(EOBJ_CHUNK_SCALE);
+                if (r)
+                {
+                    if(r->elapsed() == 5)
+                    {
+                        a_vScale = r->r_float();
+                        a_vAdjustMass = !!r->r_u8();
+                    }
+                    r->close();
+                }
             }
 
             ResetSAnimation();
