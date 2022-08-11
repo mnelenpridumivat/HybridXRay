@@ -1225,7 +1225,8 @@ namespace Object_tool
 			}
 			
 			ViewerProcess.StartInfo.FileName = exe_path;
-			ViewerProcess.StartInfo.Arguments = $"\"{ObjName}\"";
+			//ViewerProcess.StartInfo.Arguments = $"--input=\"{ObjName}\" --output=\"H:\\Out_png.png\" --no-background";
+			ViewerProcess.StartInfo.Arguments = $"--input=\"{ObjName}\"";
 			ViewerProcess.StartInfo.UseShellExecute = false;
 
 			ViewerProcess.Start();
