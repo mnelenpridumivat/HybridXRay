@@ -572,7 +572,8 @@ namespace Object_tool
 			"3. Force viewport load - вьюпорт автоматически загружается при каждой загрузке файла (замедляет загрузку).\n" +
 			"4. FS path - при выборе fs.ltx программа автоматически пропишет все остальные пути к файлам геймдаты.\n" +
 			"5. Textures path - папка текстур для вьюпорта.\n" +
-			"6. Game Mtl path - при выборе gamemtl.xr во вкладке Bones можно будет выбрать и применить материал из gamemtl.\n\n" +
+			"6. Game Mtl path - при выборе gamemtl.xr во вкладке Bones можно будет выбрать и применить материал из gamemtl.\n" +
+			"7. Image path - папка для сгенерированных скриншотов из вьюпорта.\n\n" +
 			"Остальные параметры вы могли встречать в первых 3х пунктах в Help."
 			, "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
@@ -587,7 +588,7 @@ namespace Object_tool
 		private void viewToolStripMenuItem1_Click(object sender, EventArgs e)
 		{
 			MessageBox.Show(
-				"Примечания:\n1. Вьюпорт отображает выбранное вами сглаживание во вкладке Flags, благодаря этому можно будет узнать какое сглаживание нужно использовать.\nHQ Geometry и HQ Geometry+ тоже влияют на модель при просмотре.\n2. Для удобства нужно ознакомиться с возможностями через клавишу 'H' в окне вьюпорта.\n3. Если указать путь к текстурам в настройках программы (или указать путь к fs.ltx), то вьюпорт будет отображать текстуры."
+				"Примечания:\n1. Вьюпорт отображает выбранное вами сглаживание во вкладке Flags, благодаря этому можно будет узнать какое сглаживание нужно использовать.\nHQ Geometry и HQ Geometry+ влияют на модель при просмотре.\n2. Для удобства нужно ознакомиться с возможностями через клавишу 'H' в окне вьюпорта.\n3. Если указать путь к текстурам в настройках программы (или указать путь к fs.ltx), то вьюпорт будет отображать текстуры.\n4. в Image path в настройках будут сохраняться сгенерированные скриншоты."
 				, "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
@@ -714,6 +715,8 @@ namespace Object_tool
 
 				if (Directory.Exists(TempFolder()))
 					Directory.Delete(TempFolder(), true);
+
+				pSettings.Save("FirstLoad", false);
 			}
 			catch (Exception) { }
 		}
@@ -1293,8 +1296,11 @@ namespace Object_tool
 				string image_path = "";
 				pSettings.Load("ImagePath", ref image_path);
 
+				bool first_load = true;
+				pSettings.Load("FirstLoad", ref first_load, true);
+
 				ViewerProcess.StartInfo.FileName = exe_path;
-				ViewerProcess.StartInfo.Arguments = $"--input=\"{ObjName}\" --output=\"{image_path}\"";
+				ViewerProcess.StartInfo.Arguments = $"--input=\"{ObjName}\" --output=\"{image_path}\"" + (first_load ? " --filename" : "");
 				ViewerProcess.StartInfo.UseShellExecute = false;
 				ViewerProcess.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
 
