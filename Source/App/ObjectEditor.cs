@@ -100,6 +100,10 @@ namespace Object_tool
 			InitUI();
 			InitSettings();
 			InitScripts();
+		}
+
+		private void EditorLoaded(object sender, EventArgs e)
+		{
 			InitArgs();
 		}
 
@@ -1220,7 +1224,23 @@ namespace Object_tool
 
 		private void ViewtoolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (!CheckViewerThread()) return;
+			if (ViewerThread != null && ViewerThread.ThreadState != System.Threading.ThreadState.Stopped)
+				ViewerThread.Abort();
+
+			if (EditorWorking[1])
+			{
+				EditorKilled[1] = true;
+				EditorProcess[1].Kill();
+				EditorProcess[1].Close();
+				EditorWorking[1] = false;
+			}
+
+			if (ViewerWorking)
+			{
+				ViewerProcess.Kill();
+				ViewerProcess.Close();
+				ViewerWorking = false;
+			}
 
 			if (m_Object == null)
 			{
@@ -1229,11 +1249,11 @@ namespace Object_tool
 			}
 
 			ViewerThread = new Thread(() => {
-				this.Invoke((MethodInvoker)delegate ()
-				{
-					CreateViewPort.Enabled = false;
-				});
-				string ObjName = Path.ChangeExtension(m_Object.TEMP_FILE_NAME, ".obj");
+                this.Invoke((MethodInvoker)delegate ()
+                {
+                    CreateViewPort.Enabled = false;
+                });
+                string ObjName = Path.ChangeExtension(m_Object.TEMP_FILE_NAME, ".obj");
 				string exe_path = AppPath() + "\\f3d.exe";
 
 				if (!File.Exists(exe_path))
@@ -1280,11 +1300,11 @@ namespace Object_tool
 
 				ViewerProcess.Start();
 				ViewerWorking = true;
-				this.Invoke((MethodInvoker)delegate ()
-				{
-					CreateViewPort.Visible = false;
-				});
-				ViewerProcess.WaitForInputIdle();
+                this.Invoke((MethodInvoker)delegate ()
+                {
+                    CreateViewPort.Visible = false;
+                });
+                ViewerProcess.WaitForInputIdle();
 				this.Invoke((MethodInvoker)delegate ()
 				{
 					SetParent(ViewerProcess.MainWindowHandle, ViewPortPanel.Handle);

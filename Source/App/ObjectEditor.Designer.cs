@@ -113,6 +113,7 @@ namespace Object_tool
             this.viewPortToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.refreshTexturesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openImageFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.StatusPanel = new System.Windows.Forms.StatusStrip();
             this.FileLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.StatusFile = new System.Windows.Forms.ToolStripStatusLabel();
@@ -249,7 +250,6 @@ namespace Object_tool
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.ViewPortPanel = new System.Windows.Forms.Panel();
             this.CreateViewPort = new System.Windows.Forms.Button();
-            this.openImageFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuPanel.SuspendLayout();
             this.StatusPanel.SuspendLayout();
             this.BonesPage.SuspendLayout();
@@ -959,16 +959,23 @@ namespace Object_tool
             // reloadToolStripMenuItem
             // 
             this.reloadToolStripMenuItem.Name = "reloadToolStripMenuItem";
-            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.reloadToolStripMenuItem.Text = "Reload";
             this.reloadToolStripMenuItem.Click += new System.EventHandler(this.reloadToolStripMenuItem_Click);
             // 
             // refreshTexturesToolStripMenuItem
             // 
             this.refreshTexturesToolStripMenuItem.Name = "refreshTexturesToolStripMenuItem";
-            this.refreshTexturesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.refreshTexturesToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.refreshTexturesToolStripMenuItem.Text = "Refresh textures";
             this.refreshTexturesToolStripMenuItem.Click += new System.EventHandler(this.refreshTexturesToolStripMenuItem_Click);
+            // 
+            // openImageFolderToolStripMenuItem
+            // 
+            this.openImageFolderToolStripMenuItem.Name = "openImageFolderToolStripMenuItem";
+            this.openImageFolderToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.openImageFolderToolStripMenuItem.Text = "Open image folder";
+            this.openImageFolderToolStripMenuItem.Click += new System.EventHandler(this.openImageFolderToolStripMenuItem_Click);
             // 
             // StatusPanel
             // 
@@ -2265,13 +2272,6 @@ namespace Object_tool
             this.CreateViewPort.UseVisualStyleBackColor = true;
             this.CreateViewPort.Click += new System.EventHandler(this.ViewtoolStripMenuItem_Click);
             // 
-            // openImageFolderToolStripMenuItem
-            // 
-            this.openImageFolderToolStripMenuItem.Name = "openImageFolderToolStripMenuItem";
-            this.openImageFolderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.openImageFolderToolStripMenuItem.Text = "Open image folder";
-            this.openImageFolderToolStripMenuItem.Click += new System.EventHandler(this.openImageFolderToolStripMenuItem_Click);
-            // 
             // Object_Editor
             // 
             this.AllowDrop = true;
@@ -2290,6 +2290,7 @@ namespace Object_tool
             this.Text = "Object Editor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ClosingForm);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ClosedForm);
+            this.Load += new System.EventHandler(this.EditorLoaded);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.DragDropCallback);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnterCallback);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EditorKeyDown);

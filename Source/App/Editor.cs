@@ -940,15 +940,5 @@ namespace Object_tool
 			}
 			return true;
 		}
-
-		private bool CheckViewerThread()
-		{
-			if (ViewerThread != null && ViewerThread.ThreadState != System.Threading.ThreadState.Stopped)
-			{
-				AutoClosingMessageBox.Show("Wait for another process to complete.", "", 800, MessageBoxIcon.Information);
-				return false;
-			}
-			return true;
-		}
 	}
 }
