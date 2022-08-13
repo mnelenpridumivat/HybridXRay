@@ -260,6 +260,8 @@ namespace Object_tool
 			generateShapesToolStripMenuItem.Enabled     = false;
 			viewPortToolStripMenuItem.Enabled           = false;
 
+			ModelTypeCBox.SelectedIndex                 = 0;
+
 			if (USE_OLD_BONES)
 				BonesPage.Controls.Clear();
 		}

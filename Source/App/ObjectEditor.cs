@@ -157,7 +157,7 @@ namespace Object_tool
 
 				bool AutoSmoothEnabled = false;
 				bool SmoothChanged = false;
-				pSettings.LoadState("AutoSmooth", ref AutoSmoothEnabled);
+				pSettings.LoadState("AutoSmooth", ref AutoSmoothEnabled, true);
 
 				if (m_Object.motion_refs.Count > 0)
                 {
