@@ -1643,8 +1643,10 @@ namespace Object_tool
 			FaceLabel.Text = "Face count: " + (surfFace != null ? (surfFace.faces * ((surface.flags == 1) ? 2 : 1)).ToString() : "null");
 			FaceLabel.Name = "FaceLabel_" + idx;
 			FaceLabel.Size = new System.Drawing.Size(112, 20);
-			FaceLabel.Location = new System.Drawing.Point(247, 86);
+			FaceLabel.Location = new System.Drawing.Point(245, 83);
 			FaceLabel.Anchor = AnchorStyles.Right;
+			FaceLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+			FaceLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 
 			box.Controls.Add(TwoSidedCheckBoxBox);
 			box.Controls.Add(TextureLabel);
