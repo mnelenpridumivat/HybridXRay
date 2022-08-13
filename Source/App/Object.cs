@@ -237,11 +237,11 @@ namespace Object_tool
 
 						if (!xr_loader.SetData(xr_loader.find_and_return_chunk_in_chunk(id, false, true))) break;
 
-						size = xr_loader.find_chunkSize((int)MESH.EMESH_CHUNK_VERTS);
+						size = xr_loader.find_chunkSize((int)MESH.EMESH_CHUNK_VERTS, false, true);
 						if (size == 0) break;
 						mesh.vertex_count = xr_loader.ReadUInt32();
 
-						size = xr_loader.find_chunkSize((int)MESH.EMESH_CHUNK_FACES);
+						size = xr_loader.find_chunkSize((int)MESH.EMESH_CHUNK_FACES, false, true);
 						if (size == 0) break;
 						mesh.face_count = xr_loader.ReadUInt32();
 

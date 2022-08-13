@@ -259,6 +259,7 @@ namespace Object_tool
 			saveToolStripMenuItem1.Enabled              = false;
 			generateShapesToolStripMenuItem.Enabled     = false;
 			viewPortToolStripMenuItem.Enabled           = false;
+			CreateViewPort.Enabled						= false;	
 
 			ModelTypeCBox.SelectedIndex                 = 0;
 
@@ -272,6 +273,8 @@ namespace Object_tool
 			{
 				bool has_motions = m_Object.motions.Count > 0;
 				bool has_bones = m_Object.bones.Count > 0;
+				bool ForceViewPort = true;
+				pSettings.LoadState("ForceViewport", ref ForceViewPort, true);
 
 				StatusFile.Text                                 = m_Object.NAME;
 				DeletesklsToolStripMenuItem.Enabled             = has_motions;
@@ -308,6 +311,7 @@ namespace Object_tool
 				generateShapesToolStripMenuItem.Enabled         = !IsOgfMode && has_bones;
 				surfaceParamsToolStripMenuItem.Enabled          = !IsOgfMode;
 				viewPortToolStripMenuItem.Enabled               = true;
+				CreateViewPort.Enabled							= !ForceViewPort;
 
 				SurfacesPage.Controls.Clear();
 

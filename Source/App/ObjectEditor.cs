@@ -1085,12 +1085,6 @@ namespace Object_tool
 				ProgressiveMeshes.Checked = false;
 		}
 
-		private void SplitNormalsChbx_CheckedChanged(object sender, EventArgs e)
-		{
-			CheckBox chbx = sender as CheckBox;
-			SmoothTypeGroupBox.Enabled = !chbx.Checked;
-		}
-
 		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			if (MessageBox.Show("Are you sure you want to exit?", "Object Editor", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
