@@ -48,7 +48,7 @@ namespace Object_tool
 			return true;
         }
 
-		private int StartEditor(bool async, EditorMode mode, string object_path, string second_path = "null", int flags = -1, float scale = 1.0f, string[] temp_arr = null)
+		private int StartEditor(bool async, EditorMode mode, string object_path, string second_path = "null", int flags = -1, float scale = 1.0f, string[] temp_arr = null, int proc_id = 0)
 		{
 			if (m_Object == null)
 			{
@@ -176,16 +176,19 @@ namespace Object_tool
 			args += $" \"{TempFolder()}\"";
 
 			// Тип объекта
-			args += $" {ModelTypeCBox.SelectedIndex}";
+			this.Invoke((MethodInvoker)delegate ()
+			{
+				args += $" {ModelTypeCBox.SelectedIndex}";
+			});
 
-			int exit_code = RunCompiller(args, async);
+			int exit_code = RunCompiller(args, async, proc_id);
 
 			if (File.Exists(object_path + "_temp.userdata"))
 				File.Delete(object_path + "_temp.userdata");
 			return exit_code;
 		}
 
-		private int RunCompiller(string args, bool async)
+		private int RunCompiller(string args, bool async, int proc_id)
 		{
 			string exe_path = AppPath() + "\\Object Editor.exe";
 			if (File.Exists(exe_path))
@@ -200,25 +203,25 @@ namespace Object_tool
 					});
 				}
 				CheckTempFileExist();
-				EditorProcess.StartInfo.FileName = exe_path;
-				EditorProcess.StartInfo.WorkingDirectory = AppPath();
-				EditorProcess.StartInfo.Arguments = args;
-				EditorProcess.StartInfo.CreateNoWindow = !dbg_window;
-				EditorProcess.StartInfo.RedirectStandardOutput = !dbg_window && async;
-				EditorProcess.StartInfo.RedirectStandardError = !dbg_window && async;
-				EditorProcess.Start();
-				EditorWorking = true;
+                EditorProcess[proc_id].StartInfo.FileName = exe_path;
+				EditorProcess[proc_id].StartInfo.WorkingDirectory = AppPath();
+				EditorProcess[proc_id].StartInfo.Arguments = args;
+				EditorProcess[proc_id].StartInfo.CreateNoWindow = !dbg_window;
+				EditorProcess[proc_id].StartInfo.RedirectStandardOutput = !dbg_window && async;
+				EditorProcess[proc_id].StartInfo.RedirectStandardError = !dbg_window && async;
+				EditorProcess[proc_id].Start();
+				EditorWorking[proc_id] = true;
 
 				if (async && !dbg_window)
-					EditorProcess.BeginOutputReadLine();
+					EditorProcess[proc_id].BeginOutputReadLine();
 
-				EditorProcess.WaitForExit();
-				EditorWorking = false;
+				EditorProcess[proc_id].WaitForExit();
+				EditorWorking[proc_id] = false;
 
 				if (async && !dbg_window)
-					EditorProcess.CancelOutputRead();
+					EditorProcess[proc_id].CancelOutputRead();
 
-				dLastCopmileTime = Math.Round((EditorProcess.ExitTime - EditorProcess.StartTime).TotalSeconds, 3);
+				dLastCopmileTime = Math.Round((EditorProcess[proc_id].ExitTime - EditorProcess[proc_id].StartTime).TotalSeconds, 3);
 
 				if (async)
 				{
@@ -230,8 +233,8 @@ namespace Object_tool
 					});
 				}
 
-				int code = EditorProcess.ExitCode;
-				EditorProcess.Close();
+				int code = EditorProcess[proc_id].ExitCode;
+				EditorProcess[proc_id].Close();
 				return code;
 			}
 			else
@@ -282,7 +285,7 @@ namespace Object_tool
 
 							SdkThread = new Thread(() => {
 								int code = StartEditor(true, EditorMode.ExportOGF, m_Object.TEMP_FILE_NAME, SaveOgfDialog.FileName);
-								if (!EditorKilled)
+								if (!EditorKilled[0])
 								{
 									if (code == 0)
 										AutoClosingMessageBox.Show($"Model successfully exported. {GetTime()}", "", 1000, MessageBoxIcon.Information);
@@ -308,7 +311,7 @@ namespace Object_tool
 
 							SdkThread = new Thread(() => {
 								int code = StartEditor(true, EditorMode.ExportOMF, m_Object.TEMP_FILE_NAME, SaveOmfDialog.FileName);
-								if (!EditorKilled)
+								if (!EditorKilled[0])
 								{
 									if (code == 0)
 										AutoClosingMessageBox.Show($"Motions successfully exported. {GetTime()}", "", 1000, MessageBoxIcon.Information);
@@ -327,7 +330,7 @@ namespace Object_tool
 						{
 							SdkThread = new Thread(() => {
 								int code = StartEditor(true, EditorMode.LoadMotions, m_Object.TEMP_FILE_NAME);
-								if (!EditorKilled)
+								if (!EditorKilled[0])
 								{
 									if (code == 0)
 									{
@@ -353,7 +356,7 @@ namespace Object_tool
 						if (!CheckObject()) return;
 						SdkThread = new Thread(() => {
 							int code = StartEditor(true, EditorMode.DeleteMotions, m_Object.TEMP_FILE_NAME);
-							if (!EditorKilled)
+							if (!EditorKilled[0])
 							{
 								if (code == 0)
 								{
@@ -382,7 +385,7 @@ namespace Object_tool
 
 							SdkThread = new Thread(() => {
 								int code = StartEditor(true, EditorMode.SaveSklsMotions, m_Object.TEMP_FILE_NAME, SaveSklsDialog.FileName);
-								if (!EditorKilled)
+								if (!EditorKilled[0])
 								{
 									if (code == 0)
 										AutoClosingMessageBox.Show($"Motions successfully saved. {GetTime()}", "", 1000, MessageBoxIcon.Information);
@@ -403,7 +406,7 @@ namespace Object_tool
 
 							SdkThread = new Thread(() => {
 								int code = StartEditor(true, EditorMode.SaveSklMotions, m_Object.TEMP_FILE_NAME, SaveSklDialog.FileName);
-								if (!EditorKilled)
+								if (!EditorKilled[0])
 								{
 									if (code == 0)
 										AutoClosingMessageBox.Show($"Motions successfully saved. {GetTime()}", "", 1000, MessageBoxIcon.Information);
@@ -422,7 +425,7 @@ namespace Object_tool
 						{
 							SdkThread = new Thread(() => {
 								int code = StartEditor(true, EditorMode.LoadBones, m_Object.TEMP_FILE_NAME, OpenBonesDialog.FileName);
-								if (!EditorKilled)
+								if (!EditorKilled[0])
 								{
 									if (code == 0)
 										AutoClosingMessageBox.Show($"Bone data successfully loaded. {GetTime()}", "", 1000, MessageBoxIcon.Information);
@@ -443,7 +446,7 @@ namespace Object_tool
 
 							SdkThread = new Thread(() => {
 								int code = StartEditor(true, EditorMode.SaveBones, m_Object.TEMP_FILE_NAME, SaveBonesDialog.FileName);
-								if (!EditorKilled)
+								if (!EditorKilled[0])
 								{
 									if (code == 0)
 										AutoClosingMessageBox.Show($"Bone data successfully saved. {GetTime()}", "", 1000, MessageBoxIcon.Information);
@@ -464,7 +467,7 @@ namespace Object_tool
 
 							SdkThread = new Thread(() => {
 								int code = StartEditor(true, EditorMode.ExportOBJ, m_Object.TEMP_FILE_NAME, SaveObjDialog.FileName);
-								if (!EditorKilled)
+								if (!EditorKilled[0])
 								{
 									if (code == 0)
 										AutoClosingMessageBox.Show($"Model successfully saved. {GetTime()}", "", 1000, MessageBoxIcon.Information);
@@ -481,7 +484,7 @@ namespace Object_tool
 						if (!CheckObject()) return;
 						SdkThread = new Thread(() => {
 							int code = StartEditor(true, EditorMode.GenerateShape, m_Object.TEMP_FILE_NAME);
-							if (!EditorKilled)
+							if (!EditorKilled[0])
 							{
 								if (code == 0)
 									AutoClosingMessageBox.Show($"Bone shapes successfully generated. {GetTime()}", "", 1000, MessageBoxIcon.Information);
@@ -499,7 +502,7 @@ namespace Object_tool
 						{
 							SdkThread = new Thread(() => {
 								int code = StartEditor(true, EditorMode.LoadBoneParts, m_Object.TEMP_FILE_NAME, OpenLtxDialog.FileName);
-								if (!EditorKilled)
+								if (!EditorKilled[0])
 								{
 									if (code == 0)
 										AutoClosingMessageBox.Show($"Bone parts successfully loaded. {GetTime()}", "", 1000, MessageBoxIcon.Information);
@@ -520,7 +523,7 @@ namespace Object_tool
 
 							SdkThread = new Thread(() => {
 								int code = StartEditor(true, EditorMode.SaveBoneParts, m_Object.TEMP_FILE_NAME, SaveBonePartsDialog.FileName);
-								if (!EditorKilled)
+								if (!EditorKilled[0])
 								{
 									if (code == 0)
 										AutoClosingMessageBox.Show($"Bone parts successfully saved. {GetTime()}", "", 1000, MessageBoxIcon.Information);
@@ -537,7 +540,7 @@ namespace Object_tool
 						if (!CheckObject()) return;
 						SdkThread = new Thread(() => {
 							int code = StartEditor(true, EditorMode.ToDefaultBoneParts, m_Object.TEMP_FILE_NAME);
-							if (!EditorKilled)
+							if (!EditorKilled[0])
 							{
 								if (code == 0)
 									AutoClosingMessageBox.Show($"Bone parts successfully reseted to default. {GetTime()}", "", 1000, MessageBoxIcon.Information);
@@ -557,7 +560,7 @@ namespace Object_tool
 
 							SdkThread = new Thread(() => {
 								int code = StartEditor(true, EditorMode.ExportDM, m_Object.TEMP_FILE_NAME, SaveDmDialog.FileName);
-								if (!EditorKilled)
+								if (!EditorKilled[0])
 								{
 									if (code == 0)
 										AutoClosingMessageBox.Show($"Model successfully saved. {GetTime()}", "", 1000, MessageBoxIcon.Information);
@@ -601,7 +604,7 @@ namespace Object_tool
 
 								SdkThread = new Thread(() => {
 									int code = StartEditor(true, EditorMode.GenerateLod, m_Object.TEMP_FILE_NAME, SaveOgfLodDialog.FileName);
-									if (!EditorKilled)
+									if (!EditorKilled[0])
 									{
 										if (code == 0)
 										{
@@ -632,7 +635,7 @@ namespace Object_tool
 							SdkThread = new Thread(() => {
 								cpp_mode = idx;
 								int code = StartEditor(true, EditorMode.SaveCpp, m_Object.TEMP_FILE_NAME, SaveCppDialog.FileName);
-								if (!EditorKilled)
+								if (!EditorKilled[0])
 								{
 									if (code == 0)
 										AutoClosingMessageBox.Show($"Model data successfully exported. {GetTime()}", "", 1000, MessageBoxIcon.Information);
@@ -737,7 +740,7 @@ namespace Object_tool
 							if (batch_flags.res)
 							{
 								int code = StartEditor(true, EditorMode.BatchLtx, m_Object.TEMP_FILE_NAME, OpenBatchLtxDialog.FileName, batch_flags.GetFlags(dbg_window), batch_flags.scale);
-								if (!EditorKilled)
+								if (!EditorKilled[0])
 								{
 									if (code == 0)
 										AutoClosingMessageBox.Show($"Batch convert successful. {GetTime()}", "", 1000, MessageBoxIcon.Information);
@@ -762,7 +765,7 @@ namespace Object_tool
 							{
 								SdkThread = new Thread(() => {
 									int code = StartEditor(true, EditorMode.BatchDialogOGF, m_Object.TEMP_FILE_NAME, "null", batch_flags.GetFlags(dbg_window), batch_flags.scale);
-									if (!EditorKilled)
+									if (!EditorKilled[0])
 									{
 										if (code == 0)
 											AutoClosingMessageBox.Show($"Batch convert successful. {GetTime()}", "", 1000, MessageBoxIcon.Information);
@@ -789,7 +792,7 @@ namespace Object_tool
 							{
 								SdkThread = new Thread(() => {
 									int code = StartEditor(true, EditorMode.BatchDialogOMF, m_Object.TEMP_FILE_NAME, "null", batch_flags.GetFlags(dbg_window), batch_flags.scale);
-									if (!EditorKilled)
+									if (!EditorKilled[0])
 									{
 										if (code == 0)
 											AutoClosingMessageBox.Show($"Batch convert successful. {GetTime()}", "", 1000, MessageBoxIcon.Information);
@@ -827,7 +830,7 @@ namespace Object_tool
 							{
 								SdkThread = new Thread(() => {
 									int code = StartEditor(true, EditorMode.BatchDialogOGF, m_Object.TEMP_FILE_NAME, "null", batch_flags.GetFlags(dbg_window), batch_flags.scale);
-									if (!EditorKilled)
+									if (!EditorKilled[0])
 									{
 										if (code == 0)
 											AutoClosingMessageBox.Show($"Batch convert successful. {GetTime()}", "", 1000, MessageBoxIcon.Information);
@@ -865,7 +868,7 @@ namespace Object_tool
 							{
 								SdkThread = new Thread(() => {
 									int code = StartEditor(true, EditorMode.BatchDialogOMF, m_Object.TEMP_FILE_NAME, "null", batch_flags.GetFlags(dbg_window), batch_flags.scale);
-									if (!EditorKilled)
+									if (!EditorKilled[0])
 									{
 										if (code == 0)
 											AutoClosingMessageBox.Show($"Batch convert successful. {GetTime()}", "", 1000, MessageBoxIcon.Information);
@@ -879,7 +882,7 @@ namespace Object_tool
 					}
 					break;
 			}
-			EditorKilled = false;
+            EditorKilled[0] = false;
 		}
 
 		private int GetFlags()
@@ -931,6 +934,16 @@ namespace Object_tool
 		private bool CheckThread()
 		{
 			if (SdkThread != null && SdkThread.ThreadState != System.Threading.ThreadState.Stopped)
+			{
+				AutoClosingMessageBox.Show("Wait for another process to complete.", "", 800, MessageBoxIcon.Information);
+				return false;
+			}
+			return true;
+		}
+
+		private bool CheckViewerThread()
+		{
+			if (ViewerThread != null && ViewerThread.ThreadState != System.Threading.ThreadState.Stopped)
 			{
 				AutoClosingMessageBox.Show("Wait for another process to complete.", "", 800, MessageBoxIcon.Information);
 				return false;

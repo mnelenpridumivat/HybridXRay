@@ -36,12 +36,13 @@ namespace Object_tool
 		public int cpp_mode = 0;
 		public string[] game_materials = { };
 		public Thread SdkThread = null;
+		public Thread ViewerThread = null;
 		public bool NORMALS_DEFAULT = true;
-		Process EditorProcess = new Process();
+		List<Process> EditorProcess = new List<Process>();
 		Process ViewerProcess = new Process();
 		public bool ViewerWorking = false;
-		public bool EditorWorking = false;
-		public bool EditorKilled = false;
+		public List<bool> EditorWorking = new List<bool>();
+		public List<bool> EditorKilled = new List<bool>();
 
 		// Program data
 		public float lod_quality = 0.5f;
@@ -84,8 +85,17 @@ namespace Object_tool
 
 			Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
 
-			EditorProcess.OutputDataReceived += LogOutputHandler;
-			EditorProcess.StartInfo.UseShellExecute = false;
+			EditorProcess.Add(new Process());
+			EditorProcess.Add(new Process());
+			EditorWorking.Add(false);
+			EditorWorking.Add(false);
+			EditorKilled.Add(false);
+			EditorKilled.Add(false);
+
+			EditorProcess[0].OutputDataReceived += LogOutputHandler;
+            EditorProcess[0].StartInfo.UseShellExecute = false;
+			EditorProcess[1].OutputDataReceived += LogOutputHandler;
+			EditorProcess[1].StartInfo.UseShellExecute = false;
 
 			InitUI();
 			InitSettings();
@@ -125,6 +135,7 @@ namespace Object_tool
 				ViewerProcess.Close();
 				ViewerWorking = false;
 				CreateViewPort.Visible = true;
+				CreateViewPort.Enabled = true;
 			}
 		}
 
@@ -288,7 +299,8 @@ namespace Object_tool
 				if (m_Object.TEMP_FILE_NAME != "")
 				{
 					StartEditor(true, EditorMode.SaveObject, m_Object.TEMP_FILE_NAME);
-					if (!EditorKilled)
+
+					if (!EditorKilled[0])
 					{
 						File.Copy(m_Object.TEMP_FILE_NAME, filename, true);
 						AutoClosingMessageBox.Show($"Object successfully saved.{GetTime()}", "", 1000, MessageBoxIcon.Information);
@@ -685,12 +697,15 @@ namespace Object_tool
 					ViewerWorking = false;
 				}
 
-				if (EditorWorking)
+				for (int i = 0; i < EditorProcess.Count; i++)
 				{
-					EditorKilled = true;
-					EditorProcess.Kill();
-					EditorProcess.Close();
-					EditorWorking = false;
+					if (EditorWorking[i])
+					{
+						EditorKilled[i] = true;
+						EditorProcess[i].Kill();
+						EditorProcess[i].Close();
+						EditorWorking[i] = false;
+					}
 				}
 
 				if (Directory.Exists(TempFolder()))
@@ -713,12 +728,15 @@ namespace Object_tool
 					ViewerWorking = false;
 				}
 
-				if (EditorWorking)
+				for (int i = 0; i < EditorProcess.Count; i++)
 				{
-					EditorKilled = true;
-					EditorProcess.Kill();
-					EditorProcess.Close();
-					EditorWorking = false;
+					if (EditorWorking[i])
+					{
+						EditorKilled[i] = true;
+						EditorProcess[i].Kill();
+						EditorProcess[i].Close();
+						EditorWorking[i] = false;
+					}
 				}
 
 				if (Directory.Exists(TempFolder()))
@@ -966,14 +984,17 @@ namespace Object_tool
 
 		private void EditorKeyDown(object sender, KeyEventArgs e)
 		{
-			if (e.Control && e.KeyCode == Keys.Delete && EditorWorking)
+			if (e.Control && e.KeyCode == Keys.Delete)
 			{
 				try
 				{
-					EditorKilled = true;
-					EditorProcess.Kill();
-					EditorProcess.Close();
-					EditorWorking = false;
+					if (EditorWorking[0])
+					{
+						EditorKilled[0] = true;
+						EditorProcess[0].Kill();
+						EditorProcess[0].Close();
+						EditorWorking[0] = false;
+					}
 					AutoClosingMessageBox.Show("Process Closed!", "", 1000, MessageBoxIcon.Information);
 				}
 				catch (Exception)
@@ -1199,67 +1220,81 @@ namespace Object_tool
 
 		private void ViewtoolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			if (!CheckViewerThread()) return;
+
 			if (m_Object == null)
 			{
-				Msg("Can't create viewport without object!");
+				MessageBox.Show("Can't create viewport without object.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				return;
 			}
 
-			string ObjName = Path.ChangeExtension(m_Object.TEMP_FILE_NAME, ".obj");
-			string exe_path = AppPath() + "\\f3d.exe";
-
-			if (!File.Exists(exe_path))
-            {
-				MessageBox.Show("Can't find Viewport module.\nPlease, reinstall the app.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				return;
-			}
-
-			string Textures = "";
-			pSettings.LoadText("TexturesPath", ref Textures);
-
-			List<string> pTextures = new List<string>();
-
-			if (m_Object.surfaces.Count > 0 && Textures != "")
-			{
-				for (int i = 0; i < m_Object.surfaces.Count; i++)
+			ViewerThread = new Thread(() => {
+				this.Invoke((MethodInvoker)delegate ()
 				{
-					string texture_main = Textures + "\\" + m_Object.surfaces[i].texture + ".dds";
-					string texture_temp = TempFolder() + "\\" + Path.GetFileName(m_Object.surfaces[i].texture + ".png");
+					CreateViewPort.Enabled = false;
+				});
+				string ObjName = Path.ChangeExtension(m_Object.TEMP_FILE_NAME, ".obj");
+				string exe_path = AppPath() + "\\f3d.exe";
 
-					if (File.Exists(texture_main)) // Create png
+				if (!File.Exists(exe_path))
+				{
+					MessageBox.Show("Can't find Viewport module.\nPlease, reinstall the app.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					return;
+				}
+
+				string Textures = "";
+				pSettings.LoadText("TexturesPath", ref Textures);
+
+				List<string> pTextures = new List<string>();
+
+				if (m_Object.surfaces.Count > 0 && Textures != "")
+				{
+					for (int i = 0; i < m_Object.surfaces.Count; i++)
 					{
-						pTextures.Add(texture_main);
-						pTextures.Add(texture_temp);
+						string texture_main = Textures + "\\" + m_Object.surfaces[i].texture + ".dds";
+						string texture_temp = TempFolder() + "\\" + Path.GetFileName(m_Object.surfaces[i].texture + ".png");
+
+						if (File.Exists(texture_main)) // Create png
+						{
+							pTextures.Add(texture_main);
+							pTextures.Add(texture_temp);
+						}
 					}
 				}
-			}
 
-			StartEditor(false, EditorMode.ExportOBJOptimized, m_Object.TEMP_FILE_NAME, ObjName, -1, 1.0f, pTextures.ToArray());
+				StartEditor(false, EditorMode.ExportOBJOptimized, m_Object.TEMP_FILE_NAME, ObjName, -1, 1.0f, pTextures.ToArray(), 1);
 
-			if (ViewerWorking)
-            {
-				ViewerProcess.Kill();
-				ViewerProcess.Close();
-			}
+				if (ViewerWorking)
+				{
+					ViewerProcess.Kill();
+					ViewerProcess.Close();
+				}
 
-			string image_path = "";
-			pSettings.Load("ImagePath", ref image_path);
+				string image_path = "";
+				pSettings.Load("ImagePath", ref image_path);
 
-			ViewerProcess.StartInfo.FileName = exe_path;
-			ViewerProcess.StartInfo.Arguments = $"--input=\"{ObjName}\" --output=\"{image_path}\"";
-			ViewerProcess.StartInfo.UseShellExecute = false;
-			ViewerProcess.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
+				ViewerProcess.StartInfo.FileName = exe_path;
+				ViewerProcess.StartInfo.Arguments = $"--input=\"{ObjName}\" --output=\"{image_path}\"";
+				ViewerProcess.StartInfo.UseShellExecute = false;
+				ViewerProcess.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
 
-			ViewerProcess.Start();
-			ViewerWorking = true;
-			CreateViewPort.Visible = false;
-			ViewerProcess.WaitForInputIdle();
-			SetParent(ViewerProcess.MainWindowHandle, ViewPortPanel.Handle);
-
-			int style = GetWindowLong(ViewerProcess.MainWindowHandle, GWL_STYLE);
-			style = style & ~WS_CAPTION & ~WS_THICKFRAME;
-			SetWindowLong(ViewerProcess.MainWindowHandle, GWL_STYLE, style);
-			ResizeEmbeddedApp(null, null);
+				ViewerProcess.Start();
+				ViewerWorking = true;
+				this.Invoke((MethodInvoker)delegate ()
+				{
+					CreateViewPort.Visible = false;
+				});
+				ViewerProcess.WaitForInputIdle();
+				this.Invoke((MethodInvoker)delegate ()
+				{
+					SetParent(ViewerProcess.MainWindowHandle, ViewPortPanel.Handle);
+					int style = GetWindowLong(ViewerProcess.MainWindowHandle, GWL_STYLE);
+					style = style & ~WS_CAPTION & ~WS_THICKFRAME;
+					SetWindowLong(ViewerProcess.MainWindowHandle, GWL_STYLE, style);
+					ResizeEmbeddedApp(null, null);
+				});
+			});
+			ViewerThread.Start();
 		}
 
 		private void BoneListIndexChanged(object sender, EventArgs e)

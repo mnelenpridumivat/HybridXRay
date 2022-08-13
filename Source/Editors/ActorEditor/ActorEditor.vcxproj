@@ -97,8 +97,7 @@
       <AdditionalDependencies>d3d9.lib;RedImageTool.lib;ispc_texcomp.lib;nvtt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>xcopy /y /d  "$(SolutionDir)..\SDK\binaries\f3d.exe" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -115,8 +114,7 @@
       <AdditionalDependencies>d3d9.lib;RedImageTool.lib;ispc_texcomp.lib;nvtt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>xcopy /y /d  "$(SolutionDir)..\SDK\binaries\f3d.exe" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -137,8 +135,7 @@
       <AdditionalDependencies>d3d9.lib;RedImageTool.lib;ispc_texcomp.lib;nvtt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>xcopy /y /d  "$(SolutionDir)..\SDK\binaries\f3d.exe" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
