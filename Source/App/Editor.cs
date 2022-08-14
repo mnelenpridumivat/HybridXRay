@@ -428,7 +428,11 @@ namespace Object_tool
 								if (!EditorKilled[0])
 								{
 									if (code == 0)
+									{
 										AutoClosingMessageBox.Show($"Bone data successfully loaded. {GetTime()}", "", 1000, MessageBoxIcon.Information);
+										m_Object.LoadBones();
+										AfterCopy();
+									}
 									else
 										AutoClosingMessageBox.Show($"Failed to load bone data.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
 								}

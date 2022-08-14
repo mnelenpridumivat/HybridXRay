@@ -146,7 +146,6 @@ namespace Object_tool
 		{
 			var xr_loader = new XRayLoader();
 			surfaces.Clear();
-			bones.Clear();
 			motion_refs.Clear();
 			meshes.Clear();
 			scale = 1.0f;
@@ -330,9 +329,19 @@ namespace Object_tool
 						surfaces.Add(surface);
 					}
 				}
+			}
+			LoadBones();
+		}
 
+		public void LoadBones()
+        {
+			var xr_loader = new XRayLoader();
+			bones.Clear();
+
+			using (var r = new BinaryReader(new FileStream(TEMP_FILE_NAME, FileMode.Open)))
+			{
 				xr_loader.SetStream(r.BaseStream);
-				FindBody = xr_loader.SetData(xr_loader.find_and_return_chunk_in_chunk((int)OBJECT.EOBJ_CHUNK_OBJECT_BODY, false, true));
+				bool FindBody = xr_loader.SetData(xr_loader.find_and_return_chunk_in_chunk((int)OBJECT.EOBJ_CHUNK_OBJECT_BODY, false, true));
 
 				bool B_CHUNK = xr_loader.SetData(xr_loader.find_and_return_chunk_in_chunk((int)OBJECT.EOBJ_CHUNK_BONES2, !FindBody, true));
 				if (B_CHUNK)
