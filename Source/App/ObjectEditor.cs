@@ -1053,6 +1053,7 @@ namespace Object_tool
                 }
 				else if (Path.GetExtension(fileList[i]) == ".bones")
 				{
+					if (m_Object == null || m_Object.bones.Count <= 0) return;
 					if (!CheckThread()) break;
 
 					SdkThread = new Thread(() => {
@@ -1074,13 +1075,14 @@ namespace Object_tool
 				}
 				else if (Path.GetExtension(fileList[i]) == ".skls" || Path.GetExtension(fileList[i]) == ".skl")
 				{
+					if (m_Object == null || m_Object.bones.Count <= 0) return;
 					SklsToLoad.Add(fileList[i]);
 				}
 			}
 
 			if (SklsToLoad.Count > 0)
             {
-				if (!CheckObject()) return;
+				if (m_Object == null || m_Object.bones.Count <= 0) return;
 				SdkThread = new Thread(() => {
 					int code = StartEditor(true, EditorMode.LoadMotions, m_Object.TEMP_FILE_NAME);
 					if (!EditorKilled[0])
