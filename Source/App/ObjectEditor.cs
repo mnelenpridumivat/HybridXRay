@@ -1332,7 +1332,11 @@ namespace Object_tool
 					}
 				}
 
-				StartEditor(false, EditorMode.ExportOBJOptimized, m_Object.TEMP_FILE_NAME, ObjName, -1, 1.0f, pTextures.ToArray(), 1);
+				int code = StartEditor(false, EditorMode.ExportOBJOptimized, m_Object.TEMP_FILE_NAME, ObjName, -1, 1.0f, pTextures.ToArray(), 1);
+				pTextures.Clear();
+
+				if (code > 100 || code < -100) // Error, maybe textures...
+					StartEditor(false, EditorMode.ExportOBJOptimized, m_Object.TEMP_FILE_NAME, ObjName, -1, 1.0f, pTextures.ToArray(), 1);
 
 				if (ViewerWorking)
 				{
