@@ -185,6 +185,9 @@ namespace Object_tool
 
 			if (File.Exists(object_path + "_temp.userdata"))
 				File.Delete(object_path + "_temp.userdata");
+
+			SklsToLoad.Clear();
+
 			return exit_code;
 		}
 
