@@ -264,16 +264,22 @@ namespace Object_tool
 			{
 				case "LoadObject":
 					{
+						pSettings.Load("OpenObjectDialog", OpenObjectDialog);
+
 						if (OpenObjectDialog.ShowDialog() == DialogResult.OK)
+						{
+							pSettings.Save("OpenObjectDialog", OpenObjectDialog);
 							OpenFile(OpenObjectDialog.FileName);
+						}
 					}
 					break;
 				case "SaveObject":
 					{
+						pSettings.Load("SaveObjectDialog", SaveObjectDialog);
+
 						if (SaveObjectDialog.ShowDialog() == DialogResult.OK)
 						{
-							SaveObjectDialog.InitialDirectory = "";
-
+							pSettings.Save("SaveObjectDialog", SaveObjectDialog);
 							SdkThread = new Thread(() => { FastSaveObject(SaveObjectDialog.FileName); });
 							SdkThread.Start();
 						}
@@ -282,10 +288,11 @@ namespace Object_tool
 				case "ExportOGF":
 					{
 						if (!CheckObject()) return;
+						pSettings.Load("SaveOgfDialog", SaveOgfDialog);
+
 						if (SaveOgfDialog.ShowDialog() == DialogResult.OK)
 						{
-							SaveOgfDialog.InitialDirectory = "";
-
+							pSettings.Save("SaveOgfDialog", SaveOgfDialog);
 							SdkThread = new Thread(() => {
 								int code = StartEditor(true, EditorMode.ExportOGF, m_Object.TEMP_FILE_NAME, SaveOgfDialog.FileName);
 								if (!EditorKilled[0])
@@ -308,9 +315,11 @@ namespace Object_tool
 				case "ExportOMF":
 					{
 						if (!CheckObject()) return;
+						pSettings.Load("SaveOmfDialog", SaveOmfDialog);
+
 						if (SaveOmfDialog.ShowDialog() == DialogResult.OK)
 						{
-							SaveOmfDialog.InitialDirectory = "";
+							pSettings.Save("SaveOmfDialog", SaveOmfDialog);
 
 							SdkThread = new Thread(() => {
 								int code = StartEditor(true, EditorMode.ExportOMF, m_Object.TEMP_FILE_NAME, SaveOmfDialog.FileName);
@@ -329,8 +338,11 @@ namespace Object_tool
 				case "LoadSkls":
 					{
 						if (!CheckObject()) return;
+						pSettings.Load("OpenSklsDialog", OpenSklsDialog);
+
 						if (OpenSklsDialog.ShowDialog() == DialogResult.OK)
 						{
+							pSettings.Save("OpenSklsDialog", OpenSklsDialog);
 							SdkThread = new Thread(() => {
 								SklsToLoad.Clear();
 								SklsToLoad.AddRange(OpenSklsDialog.FileNames);
@@ -384,9 +396,11 @@ namespace Object_tool
 				case "SaveSkls":
 					{
 						if (!CheckObject()) return;
+						pSettings.Load("SaveSklsDialog", SaveSklsDialog);
+
 						if (SaveSklsDialog.ShowDialog() == DialogResult.OK)
 						{
-							SaveSklsDialog.InitialDirectory = "";
+							pSettings.Save("SaveSklsDialog", SaveSklsDialog);
 
 							SdkThread = new Thread(() => {
 								int code = StartEditor(true, EditorMode.SaveSklsMotions, m_Object.TEMP_FILE_NAME, SaveSklsDialog.FileName);
@@ -405,9 +419,11 @@ namespace Object_tool
 				case "SaveSkl":
 					{
 						if (!CheckObject()) return;
+						pSettings.Load("SaveSklsDialog", SaveSklsDialog);
+
 						if (SaveSklDialog.ShowDialog(this.Handle))
 						{
-							SaveSklDialog.InitialDirectory = "";
+							pSettings.Save("SaveSklsDialog", SaveSklsDialog);
 
 							SdkThread = new Thread(() => {
 								int code = StartEditor(true, EditorMode.SaveSklMotions, m_Object.TEMP_FILE_NAME, SaveSklDialog.FileName);
@@ -426,8 +442,12 @@ namespace Object_tool
 				case "LoadBones":
 					{
 						if (!CheckObject()) return;
+						pSettings.Load("OpenBonesDialog", OpenBonesDialog);
+
 						if (OpenBonesDialog.ShowDialog() == DialogResult.OK)
 						{
+							pSettings.Save("OpenBonesDialog", OpenBonesDialog);
+
 							SdkThread = new Thread(() => {
 								int code = StartEditor(true, EditorMode.LoadBones, m_Object.TEMP_FILE_NAME, OpenBonesDialog.FileName);
 								if (!EditorKilled[0])
@@ -449,9 +469,11 @@ namespace Object_tool
 				case "SaveBones":
 					{
 						if (!CheckObject()) return;
+						pSettings.Load("SaveBonesDialog", SaveBonesDialog);
+
 						if (SaveBonesDialog.ShowDialog() == DialogResult.OK)
 						{
-							SaveBonesDialog.InitialDirectory = "";
+							pSettings.Save("SaveBonesDialog", SaveBonesDialog);
 
 							SdkThread = new Thread(() => {
 								int code = StartEditor(true, EditorMode.SaveBones, m_Object.TEMP_FILE_NAME, SaveBonesDialog.FileName);
@@ -470,9 +492,11 @@ namespace Object_tool
 				case "ExportOBJ":
 					{
 						if (!CheckObject()) return;
+						pSettings.Load("SaveObjDialog", SaveObjDialog);
+
 						if (SaveObjDialog.ShowDialog() == DialogResult.OK)
 						{
-							SaveObjDialog.InitialDirectory = "";
+							pSettings.Save("SaveObjDialog", SaveObjDialog);
 
 							SdkThread = new Thread(() => {
 								int code = StartEditor(true, EditorMode.ExportOBJ, m_Object.TEMP_FILE_NAME, SaveObjDialog.FileName);
@@ -507,8 +531,12 @@ namespace Object_tool
 				case "LoadBoneParts":
 					{
 						if (!CheckObject()) return;
+						pSettings.Load("OpenLtxDialog", OpenLtxDialog);
+
 						if (OpenLtxDialog.ShowDialog() == DialogResult.OK)
 						{
+							pSettings.Save("OpenLtxDialog", OpenLtxDialog);
+
 							SdkThread = new Thread(() => {
 								int code = StartEditor(true, EditorMode.LoadBoneParts, m_Object.TEMP_FILE_NAME, OpenLtxDialog.FileName);
 								if (!EditorKilled[0])
@@ -526,9 +554,11 @@ namespace Object_tool
 				case "SaveBoneParts":
 					{
 						if (!CheckObject()) return;
+						pSettings.Load("SaveBonePartsDialog", SaveBonePartsDialog);
+
 						if (SaveBonePartsDialog.ShowDialog() == DialogResult.OK)
 						{
-							SaveBonePartsDialog.InitialDirectory = "";
+							pSettings.Save("SaveBonePartsDialog", SaveBonePartsDialog);
 
 							SdkThread = new Thread(() => {
 								int code = StartEditor(true, EditorMode.SaveBoneParts, m_Object.TEMP_FILE_NAME, SaveBonePartsDialog.FileName);
@@ -563,9 +593,11 @@ namespace Object_tool
 				case "ExportDM":
 					{
 						if (!CheckObject()) return;
+						pSettings.Load("SaveDmDialog", SaveDmDialog);
+
 						if (SaveDmDialog.ShowDialog() == DialogResult.OK)
 						{
-							SaveDmDialog.InitialDirectory = "";
+							pSettings.Save("SaveDmDialog", SaveDmDialog);
 
 							SdkThread = new Thread(() => {
 								int code = StartEditor(true, EditorMode.ExportDM, m_Object.TEMP_FILE_NAME, SaveDmDialog.FileName);
@@ -607,9 +639,10 @@ namespace Object_tool
 							if (Params.progressive)
 								lod_flags |= (1<<2);
 
+							pSettings.Load("SaveOgfLodDialog", SaveOgfLodDialog);
 							if (SaveOgfLodDialog.ShowDialog() == DialogResult.OK)
 							{
-								SaveOgfLodDialog.InitialDirectory = "";
+								pSettings.Save("SaveOgfLodDialog", SaveOgfLodDialog);
 
 								SdkThread = new Thread(() => {
 									int code = StartEditor(true, EditorMode.GenerateLod, m_Object.TEMP_FILE_NAME, SaveOgfLodDialog.FileName);
@@ -637,9 +670,11 @@ namespace Object_tool
 				case "ExportCpp":
 					{
 						if (!CheckObject()) return;
+						pSettings.Load("SaveCppDialog", SaveCppDialog);
+
 						if (SaveCppDialog.ShowDialog() == DialogResult.OK)
 						{
-							SaveCppDialog.InitialDirectory = "";
+							pSettings.Save("SaveCppDialog", SaveCppDialog);
 
 							SdkThread = new Thread(() => {
 								cpp_mode = idx;
@@ -659,8 +694,11 @@ namespace Object_tool
 				case "LoadUserData":
 					{
 						if (!CheckObject()) return;
+						pSettings.Load("OpenUserDataDialog", OpenUserDataDialog);
+
 						if (OpenUserDataDialog.ShowDialog() == DialogResult.OK)
 						{
+							pSettings.Save("OpenUserDataDialog", OpenUserDataDialog);
 							UserDataTextBox.Clear();
 
 							StreamReader file = new StreamReader(OpenUserDataDialog.FileName);
@@ -677,8 +715,11 @@ namespace Object_tool
 					break;
 				case "ExportUserData":
 					{
+						pSettings.Load("SaveUserDataDialog", SaveUserDataDialog);
 						if (SaveUserDataDialog.ShowDialog() == DialogResult.OK)
 						{
+							pSettings.Save("SaveUserDataDialog", SaveUserDataDialog);
+
 							SaveUserDataDialog.InitialDirectory = "";
 							File.WriteAllText(SaveUserDataDialog.FileName, UserDataTextBox.Text);
 						}
@@ -686,8 +727,10 @@ namespace Object_tool
 					break;
 				case "LoadMotionRefs":
 					{
+						pSettings.Load("OpenMotionRefsDialog", OpenMotionRefsDialog);
 						if (OpenMotionRefsDialog.ShowDialog() == DialogResult.OK)
 						{
+							pSettings.Save("OpenMotionRefsDialog", OpenMotionRefsDialog);
 							MotionRefsBox.Clear();
 
 							IniFile MotionRefs = new IniFile(OpenMotionRefsDialog.FileName);
@@ -712,9 +755,10 @@ namespace Object_tool
 					break;
 				case "ExportMotionRefs":
 					{
+						pSettings.Load("SaveMotionRefsDialog", SaveMotionRefsDialog);
 						if (SaveMotionRefsDialog.ShowDialog() == DialogResult.OK)
 						{
-							SaveMotionRefsDialog.InitialDirectory = "";
+							pSettings.Save("SaveMotionRefsDialog", SaveMotionRefsDialog);
 
 							string ExportRefs = "[refs]";
 
@@ -741,8 +785,11 @@ namespace Object_tool
 				case "BatchLtx":
 					{
 						if (!CheckObject()) return;
+						pSettings.Load("OpenBatchLtxDialog", OpenBatchLtxDialog);
+
 						if (OpenBatchLtxDialog.ShowDialog() == DialogResult.OK)
 						{
+							pSettings.Save("OpenBatchLtxDialog", OpenBatchLtxDialog);
 							BatchFlags batch_flags = new BatchFlags(pSettings);
 							batch_flags.ShowDialog();
 
@@ -763,8 +810,14 @@ namespace Object_tool
 				case "BatchFilesToOGF":
 					{
 						if (!CheckObject()) return;
+						pSettings.Load("OpenBatchDialog", OpenBatchDialog);
+						pSettings.Load("OpenBatchOutDialog", OpenBatchOutDialog);
+
 						if (OpenBatchDialog.ShowDialog() == DialogResult.OK && OpenBatchOutDialog.ShowDialog())
 						{
+							pSettings.Save("OpenBatchDialog", OpenBatchDialog);
+							pSettings.Save("OpenBatchOutDialog", OpenBatchOutDialog);
+
 							BatchFlags batch_flags = new BatchFlags(pSettings);
 							batch_flags.ShowDialog();
 
@@ -790,8 +843,14 @@ namespace Object_tool
 				case "BatchFilesToOMF":
 					{
 						if (!CheckObject()) return;
+						pSettings.Load("OpenBatchDialog", OpenBatchDialog);
+						pSettings.Load("OpenBatchOutDialog", OpenBatchOutDialog);
+
 						if (OpenBatchDialog.ShowDialog() == DialogResult.OK && OpenBatchOutDialog.ShowDialog())
 						{
+							pSettings.Save("OpenBatchDialog", OpenBatchDialog);
+							pSettings.Save("OpenBatchOutDialog", OpenBatchOutDialog);
+
 							BatchFlags batch_flags = new BatchFlags(pSettings);
 							batch_flags.ShowDialog();
 
@@ -819,9 +878,14 @@ namespace Object_tool
 						if (!CheckObject()) return;
 						FolderSelectDialog OpenBatchFoldersDialog = new FolderSelectDialog();
 						OpenBatchFoldersDialog.Multiselect = true;
+						pSettings.Load("OpenBatchFoldersDialog", OpenBatchFoldersDialog);
+						pSettings.Load("OpenBatchOutDialog", OpenBatchOutDialog);
 
 						if (OpenBatchFoldersDialog.ShowDialog() && OpenBatchOutDialog.ShowDialog())
 						{
+							pSettings.Save("OpenBatchFoldersDialog", OpenBatchFoldersDialog);
+							pSettings.Save("OpenBatchOutDialog", OpenBatchOutDialog);
+
 							BatchFlags batch_flags = new BatchFlags(pSettings);
 							batch_flags.ShowDialog();
 
@@ -858,8 +922,14 @@ namespace Object_tool
 						FolderSelectDialog OpenBatchFoldersDialog = new FolderSelectDialog();
 						OpenBatchFoldersDialog.Multiselect = true;
 
+						pSettings.Load("OpenBatchFoldersDialog", OpenBatchFoldersDialog);
+						pSettings.Load("OpenBatchOutDialog", OpenBatchOutDialog);
+
 						if (OpenBatchFoldersDialog.ShowDialog() && OpenBatchOutDialog.ShowDialog())
 						{
+							pSettings.Save("OpenBatchFoldersDialog", OpenBatchFoldersDialog);
+							pSettings.Save("OpenBatchOutDialog", OpenBatchOutDialog);
+
 							BatchFlags batch_flags = new BatchFlags(pSettings);
 							batch_flags.ShowDialog();
 

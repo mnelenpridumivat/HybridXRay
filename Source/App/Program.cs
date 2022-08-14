@@ -79,42 +79,52 @@ namespace Object_tool
 
         public void SaveVersion()
         {
-            pSettings.Write("SettingsVersion", Convert.ToInt32(SETTINGS_VERS).ToString(), "settings");
+            pSettings.Write("SettingsVersion", Convert.ToInt32(SETTINGS_VERS).ToString(), sMainSect);
         }
 
         public void Save(CheckBox box)
         {
-            pSettings.Write(box.Name, Convert.ToUInt16(box.Checked).ToString(), "settings");
+            pSettings.Write(box.Name, Convert.ToUInt16(box.Checked).ToString(), sMainSect);
         }
 
         public void Save(RadioButton box)
         {
-            pSettings.Write(box.Name, Convert.ToUInt16(box.Checked).ToString(), "settings");
+            pSettings.Write(box.Name, Convert.ToUInt16(box.Checked).ToString(), sMainSect);
         }
 
         public void Save(TextBox box)
         {
-            pSettings.Write(box.Name, box.Text, "settings");
+            pSettings.Write(box.Name, box.Text, sMainSect);
         }
 
         public void Save(string key, bool var)
         {
-            pSettings.Write(key, Convert.ToUInt16(var).ToString(), "settings");
+            pSettings.Write(key, Convert.ToUInt16(var).ToString(), sMainSect);
         }
 
         public void Save(string key, string var)
         {
-            pSettings.Write(key, var, "settings");
+            pSettings.Write(key, var, sMainSect);
         }
 
         public void Save(LinkLabel box)
         {
-            pSettings.Write(box.Name, Convert.ToUInt16(box.LinkVisited).ToString(), "settings");
+            pSettings.Write(box.Name, Convert.ToUInt16(box.LinkVisited).ToString(), sMainSect);
+        }
+
+        public void Save(string name, FileDialog dialog)
+        {
+            pSettings.Write(name, dialog.FileName, sMainSect);
+        }
+
+        public void Save(string name, FolderSelectDialog dialog)
+        {
+            Save(name, dialog.Parent);
         }
 
         public void Save(string key, int var)
         {
-            pSettings.Write(key, var.ToString(), "settings");
+            pSettings.Write(key, var.ToString(), sMainSect);
         }
 
         public bool Load(CheckBox box, bool def = false)
@@ -213,6 +223,34 @@ namespace Object_tool
                 text = def;
             return text;
         }
+
+        public string Load(string name, FileDialog dialog, bool is_folder = false)
+        {
+            if (CheckVers())
+            {
+                string full_path = pSettings.ReadDef(name, sMainSect, dialog.FileName);
+                dialog.FileName = Path.GetFileName(dialog.FileName);
+                if (full_path.Length > 0 && full_path.LastIndexOf('\\') > 0 && !is_folder)
+                    dialog.InitialDirectory = full_path.Substring(0, full_path.LastIndexOf('\\'));
+                else
+                    dialog.InitialDirectory = full_path;
+            }
+            else
+            {
+                string full_filename = dialog.FileName;
+                if (full_filename.Length > 0)
+                {
+                    dialog.FileName = Path.GetFileName(dialog.FileName);
+                    dialog.InitialDirectory = full_filename.Substring(0, full_filename.LastIndexOf('\\'));
+                }
+            }
+            return dialog.FileName;
+        }
+
+        public string Load(string name, FolderSelectDialog dialog)
+        {
+            return Load(name, dialog.Parent, true);
+        }
     }
 
     public class IniFile   // revision 11
@@ -309,6 +347,11 @@ namespace Object_tool
             set { ofd.InitialDirectory = value == null || value.Length == 0 ? Environment.CurrentDirectory : value; }
         }
 
+        public FileDialog Parent
+        {
+            get { return ofd; }
+        }
+
         /// <summary>
         /// Gets/Sets the title to show in the dialog
         /// </summary>
@@ -324,6 +367,7 @@ namespace Object_tool
         public string FileName
         {
             get { return ofd.FileName; }
+            set { ofd.FileName = value; }
         }
 
         public string[] FileNames
