@@ -25,6 +25,7 @@ namespace Object_tool
 		List<string> batch_source = new List<string>();
 		public string SCRIPT_FOLDER = "";
 		public Object m_Object = null;
+		public List<string> SklsToLoad = new List<string>();
 
 		// Input
 		public bool bKeyIsDown = false;
@@ -1041,6 +1042,8 @@ namespace Object_tool
 		private void DragDropCallback(object sender, DragEventArgs e)
 		{
 			string[] fileList = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+			SklsToLoad.Clear();
+
 			for (int i = 0; i < fileList.Count(); i++)
             {
 				if (Path.GetExtension(fileList[i]) == ".object")
@@ -1048,7 +1051,57 @@ namespace Object_tool
 					OpenFile(fileList[i]);
 					break;
                 }
-            }
+				else if (Path.GetExtension(fileList[i]) == ".bones")
+				{
+					if (!CheckThread()) break;
+
+					SdkThread = new Thread(() => {
+						int code = StartEditor(true, EditorMode.LoadBones, m_Object.TEMP_FILE_NAME, fileList[i]);
+						if (!EditorKilled[0])
+						{
+							if (code == 0)
+							{
+								AutoClosingMessageBox.Show($"Bone data successfully loaded. {GetTime()}", "", 1000, MessageBoxIcon.Information);
+								m_Object.LoadBones();
+								AfterCopy();
+							}
+							else
+								AutoClosingMessageBox.Show($"Failed to load bone data.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+						}
+					});
+					SdkThread.Start();
+					break;
+				}
+				else if (Path.GetExtension(fileList[i]) == ".skls" || Path.GetExtension(fileList[i]) == ".skl")
+				{
+					SklsToLoad.Add(fileList[i]);
+				}
+			}
+
+			if (SklsToLoad.Count > 0)
+            {
+				if (!CheckObject()) return;
+				SdkThread = new Thread(() => {
+					int code = StartEditor(true, EditorMode.LoadMotions, m_Object.TEMP_FILE_NAME);
+					if (!EditorKilled[0])
+					{
+						if (code == 0)
+						{
+							AutoClosingMessageBox.Show($"Motions successfully loaded. {GetTime()}", "", 1000, MessageBoxIcon.Information);
+							DeletesklsToolStripMenuItem.Enabled = true;
+							SaveSklsToolStripMenuItem.Enabled = true;
+							sklToolStripMenuItem.Enabled = true;
+							oMFToolStripMenuItem.Enabled = true;
+						}
+						else
+							AutoClosingMessageBox.Show($"Can't load motions.{GetRetCode(code)}", "", GetErrorTime(), MessageBoxIcon.Error);
+
+						m_Object.LoadMotions();
+						AfterLoadMotions();
+					}
+				});
+				SdkThread.Start();
+			}
 		}
 
 		private void DragEnterCallback(object sender, DragEventArgs e)

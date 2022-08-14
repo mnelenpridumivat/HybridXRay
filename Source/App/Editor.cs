@@ -62,7 +62,7 @@ namespace Object_tool
 				scale = m_Object.scale;
 			}
 
-			string args = $"{(int)mode} \"{object_path}\" \"{second_path}\" {flags} {scale} {m_Object.bones.Count} {m_Object.surfaces.Count} {OpenSklsDialog.FileNames.Count()}";
+			string args = $"{(int)mode} \"{object_path}\" \"{second_path}\" {flags} {scale} {m_Object.bones.Count} {m_Object.surfaces.Count} {SklsToLoad.Count}";
 
 			// Экспортируем кости
 			for (int i = 0; i < m_Object.bones.Count; i++)
@@ -81,9 +81,9 @@ namespace Object_tool
 			}
 
 			// Экспортируем лист анимаций на загрузку
-			for (int i = 0; i < OpenSklsDialog.FileNames.Count(); i++)
+			for (int i = 0; i < SklsToLoad.Count; i++)
 			{
-				args += $" \"{OpenSklsDialog.FileNames[i]}\"";
+				args += $" \"{SklsToLoad[i]}\"";
 			}
 
 			// Экспортируем качество и флаги лода
@@ -329,6 +329,8 @@ namespace Object_tool
 						if (OpenSklsDialog.ShowDialog() == DialogResult.OK)
 						{
 							SdkThread = new Thread(() => {
+								SklsToLoad.Clear();
+								SklsToLoad.AddRange(OpenSklsDialog.FileNames);
 								int code = StartEditor(true, EditorMode.LoadMotions, m_Object.TEMP_FILE_NAME);
 								if (!EditorKilled[0])
 								{
