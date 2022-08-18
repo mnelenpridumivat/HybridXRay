@@ -7,6 +7,7 @@
 #include <objbase.h>
 #include "xrCore.h"
 #include "..\XrAPI\xrGameManager.h"
+#include "..\BearBundle\BearCore\BearCore.hpp"
 #pragma comment(lib,"winmm.lib")
 
 #ifdef DEBUG
@@ -33,6 +34,8 @@ int xrCore::_initialize	(LPCSTR _ApplicationName, LogCallback cb, BOOL init_fs, 
 	xr_strcpy					(ApplicationName,_ApplicationName);
 	if (0==init_counter) 
 	{
+		BearCore::Initialize();
+
 		HasLog = init_log;
 		if (!init_log)
 			cb = 0;
@@ -120,7 +123,7 @@ void xrCore::_destroy		()
 #endif
 
 		Memory._destroy		();
-
+		BearCore::Destroy();
 	}
 }
 

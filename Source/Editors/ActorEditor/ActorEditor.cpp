@@ -5,9 +5,8 @@
 #include <fstream>
 #include <ctime>   
 #include "../XrECore/VisualLog.h"
-#include "../RedImage/RedImageTool/RedImage.hpp"
-
-using namespace RedImageTool;
+#include "..\BearBundle\BearCore\BearCore.hpp"
+#include "..\BearBundle\BearGraphics\BearGraphics.hpp"
 
 extern ECORE_API BOOL g_force16BitTransformQuant;
 extern ECORE_API BOOL g_forceFloatTransformQuant;
@@ -162,9 +161,9 @@ xr_vector<Textures> LoadObJTexturesVector(xr_vector<LPCSTR> args, int count)
 
 void ConvertDDStoPng(shared_str dds, shared_str png)
 {
-    RedImage Texture;
+	BearImage Texture;
     Texture.LoadFromFile(dds.c_str());
-    Texture.Convert(RedTexturePixelFormat::R8G8B8);
+    Texture.Convert(Texture.HasAlpha() ? BearTexturePixelFormat::R8G8B8A8 : BearTexturePixelFormat::R8G8B8);
     Texture.SaveToPng(png.c_str());
 }
 
@@ -176,7 +175,7 @@ int main(int argc, char** argv)
     Core._initialize("Actor", ELogCallback,1, "",true, true);
 
     if (argc > 4)
-        Core.DebugLog = (atoi(argv[4]) & exfDbgWindow);
+        Core.DebugLog = (atoi(argv[4]) & exfDbgWindow) || IsDebuggerPresent();
 
     xr_vector<LPCSTR> args;
 
@@ -200,13 +199,12 @@ int main(int argc, char** argv)
         if (file.is_open())
         {
             std::string line;
-            file.open("debug_commands.txt");
             argc = 0;
             args.clear();
             while (std::getline(file, line))
             {
-                Msg("load %s", line.c_str());
                 args.push_back(line.c_str());
+                Msg("load %s", args.back());
                 argc++;
             }
             file.close();

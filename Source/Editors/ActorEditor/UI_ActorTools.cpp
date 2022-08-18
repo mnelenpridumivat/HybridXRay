@@ -324,13 +324,10 @@ bool CActorTools::Load(LPCSTR obj_name)
 bool CActorTools::LoadScale(LPCSTR obj_name, float scale, bool scale_mass, LPCSTR source)
 {
     Msg("Import object [%s]", obj_name);
-    xr_string 		full_name;
-    full_name = obj_name;
 
     CEditableObject* O = xr_new<CEditableObject>(obj_name);
-    if (FS.exist(full_name.c_str()) && O->Load(full_name.c_str(), source)) 
+    if (FS.exist(obj_name) && O->Load(obj_name, source)) 
     {
-        full_name += ".ogf";
         xr_delete(m_pEditObject);
         m_pEditObject = O;
         m_pEditObject->a_vScale = scale;
@@ -341,7 +338,7 @@ bool CActorTools::LoadScale(LPCSTR obj_name, float scale, bool scale_mass, LPCST
     }
     else 
     {
-        ELog.DlgMsg(mtError, "Can't load object file '%s'.", obj_name);
+        Msg("Can't load object file [%s].", obj_name);
     }
     xr_delete(O);
     return false;
