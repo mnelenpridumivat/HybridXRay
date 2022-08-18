@@ -392,7 +392,7 @@
             this.button1.TabIndex = 6;
             this.button1.Text = "Find";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Click += new System.EventHandler(this.FindGameMtlPath);
             // 
             // NoCompressLinkLabel
             // 
@@ -414,7 +414,7 @@
             this.button2.TabIndex = 10;
             this.button2.Text = "Find";
             this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.button2.Click += new System.EventHandler(this.FindFsPath);
             // 
             // FSLtxPath
             // 
@@ -423,6 +423,7 @@
             this.FSLtxPath.Name = "FSLtxPath";
             this.FSLtxPath.Size = new System.Drawing.Size(234, 20);
             this.FSLtxPath.TabIndex = 9;
+            this.FSLtxPath.TextChanged += new System.EventHandler(this.FsPathTextChanged);
             // 
             // label2
             // 
@@ -443,7 +444,7 @@
             this.button3.TabIndex = 13;
             this.button3.Text = "Find";
             this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.button3.Click += new System.EventHandler(this.FindTexturesPath);
             // 
             // TexturesPath
             // 
@@ -482,7 +483,7 @@
             this.button4.TabIndex = 17;
             this.button4.Text = "Find";
             this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.button4.Click += new System.EventHandler(this.FindImagePath);
             // 
             // ImagePath
             // 

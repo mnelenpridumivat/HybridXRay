@@ -251,31 +251,33 @@ namespace Object_tool
         {
 			List<string> materials = new List<string>();
 
-			var xr_loader = new XRayLoader();
-
-			using (var r = new BinaryReader(new FileStream(filename, FileMode.Open)))
+			if (File.Exists(filename))
 			{
-				xr_loader.SetStream(r.BaseStream);
-				xr_loader.SetData(xr_loader.find_and_return_chunk_in_chunk((int)MTL.GAMEMTLS_CHUNK_MTLS, false, true));
-
-				int id = 0;
-				uint size;
-
-				while (true)
+				var xr_loader = new XRayLoader();
+				using (var r = new BinaryReader(new FileStream(filename, FileMode.Open)))
 				{
-					if (!xr_loader.find_chunk(id)) break;
+					xr_loader.SetStream(r.BaseStream);
+					xr_loader.SetData(xr_loader.find_and_return_chunk_in_chunk((int)MTL.GAMEMTLS_CHUNK_MTLS, false, true));
 
-					Stream temp = xr_loader.reader.BaseStream;
+					int id = 0;
+					uint size;
 
-					if (!xr_loader.SetData(xr_loader.find_and_return_chunk_in_chunk(id, false, true))) break;
+					while (true)
+					{
+						if (!xr_loader.find_chunk(id)) break;
 
-					size = xr_loader.find_chunkSize((int)MTL.GAMEMTL_CHUNK_MAIN);
-					if (size == 0) break;
-					xr_loader.ReadBytes(4);
-					materials.Add(xr_loader.read_stringZ());
+						Stream temp = xr_loader.reader.BaseStream;
 
-					id++;
-					xr_loader.SetStream(temp);
+						if (!xr_loader.SetData(xr_loader.find_and_return_chunk_in_chunk(id, false, true))) break;
+
+						size = xr_loader.find_chunkSize((int)MTL.GAMEMTL_CHUNK_MAIN);
+						if (size == 0) break;
+						xr_loader.ReadBytes(4);
+						materials.Add(xr_loader.read_stringZ());
+
+						id++;
+						xr_loader.SetStream(temp);
+					}
 				}
 			}
 			string[] ret = materials.ToArray();
@@ -293,8 +295,6 @@ namespace Object_tool
 				 for (int i = 0; i < m_Object.bones.Count; i++)
 					CreateBoneGroupBox(i, m_Object.bones[i]);
 			}
-			else
-				Msg("ReloadGameMtl: Error!\nObject is null. Please report this bug for developer.");
 		}
 
 		private void FastSaveObject(string filename)
@@ -1182,14 +1182,18 @@ namespace Object_tool
 
 		private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			string old_game_mtl = "";
+			pSettings.Load("GameMtlPath", ref old_game_mtl);
+
 			Settings ProgramSettings = new Settings(this.pSettings, this, this);
 			ProgramSettings.ShowDialog();
 
 			string game_mtl = "";
 			pSettings.Load("GameMtlPath", ref game_mtl);
 			pSettings.LoadState("SplitNormalsChbx", ref NORMALS_DEFAULT, true);
-			if (File.Exists(game_mtl))
-				game_materials = GameMtlParser(game_mtl);
+
+			if (old_game_mtl != game_mtl)
+				ReloadGameMtl(game_mtl);
 
 			bool Debug = false;
 			pSettings.LoadState("Debug", ref Debug);

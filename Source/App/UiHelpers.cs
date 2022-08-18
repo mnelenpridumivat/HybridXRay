@@ -14,6 +14,7 @@ namespace Object_tool
 		public void InitSettings()
 		{
 			string file_path = AppPath() + "\\Settings.ini";
+			bool SettingsExist = File.Exists(file_path);
 			pSettings = new EditorSettings(file_path);
 
 			bool NoCompress = false;
@@ -22,7 +23,8 @@ namespace Object_tool
 
 			if (!pSettings.CheckVers())
 			{
-				Msg("Settings version conflict! Load defaults.");
+				if (SettingsExist)
+					Msg("Settings version conflict! Load defaults.");
 				Settings settings = new Settings(pSettings, this, this);
 				settings.Settings_Load(null, null); // Load defaults
 				settings.SaveParams(null, null); // Save defaults

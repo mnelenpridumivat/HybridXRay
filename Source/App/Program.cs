@@ -267,8 +267,10 @@ namespace Object_tool
         public IniFile(string IniPath = null)
         {
             if (!File.Exists(IniPath))
-                File.Create(IniPath);
-
+            {
+                var myFile = File.Create(IniPath);
+                myFile.Close();
+            }
             string file_name = (IniPath ?? EXE + ".ini");
             Ini = new FileInfo(file_name);
         }
