@@ -69,7 +69,7 @@ void BearCore::Initialize(BearLog* Log, BearDebug* Debug)
 	BEAR_CHECK(!bInitialize);
 	bear_fill(GzlibStream);
 	Impl::BearStringConteniarManager::Initialize();
-	BEAR_PRINTF(TEXT("BearCore build " BEAR_PRINT_STR_CURRENT), *BearLog::GetBuild(2015, 07, 27));
+	//BEAR_PRINTF(TEXT("BearCore build " BEAR_PRINT_STR_CURRENT), *BearLog::GetBuild(2015, 07, 27));
 
 #if 0
 	BT_InstallSehFilter();
