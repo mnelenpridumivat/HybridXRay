@@ -901,7 +901,7 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
 
     // calculate TB
 #if !defined(_DEBUG) && defined(_WIN64) 
-    if (!g_BatchWorking)
+    if (!g_BatchWorking && m_Splits.size() > 1)
     {
         Msg("..MT Calculate TB");
         WriteLog("..MT Calculate TB");
@@ -918,9 +918,17 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
 
     if (!g_BatchWorking)
     {
-        FOR_START(u32, 0, m_Splits.size(), it)
-            m_Splits[it].CalculateTB();
-        FOR_END
+        if (m_Splits.size() > 1) // MT
+        {
+            FOR_START(u32, 0, m_Splits.size(), it)
+                m_Splits[it].CalculateTB();
+            FOR_END
+        }
+        else
+        {
+            for (u32 it = 0; it < m_Splits.size(); it++)
+                m_Splits[it].CalculateTB();
+        }
     }
     else // Dont need mt for mt batch
     {
