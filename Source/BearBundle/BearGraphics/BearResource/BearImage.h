@@ -61,7 +61,8 @@ public:
 	bsize GetSizeInMemory()const;
 	BearVector2<bsize>GetSize()const;
 	bool HasAlpha()const;
-
+	size_t GetWidth()const;
+	size_t GetHeight()const;
 	inline bool SetCubeMap() { m_bCube = m_Width == m_Height && (m_Depth % 6 == 0) && m_Depth; if (m_bCube)m_Depth = m_Depth / 6; return m_bCube; }
 	inline bool IsCubeMap()const { return m_bCube; }
 private:
@@ -71,6 +72,7 @@ private:
 	bool m_bCube;
 	bool m_bHasAlpha;
 	uint8* m_ImageBuffer;
+	size_t m_sWidth, m_sHeight;
 private:
 	bool LoadDDSFromFile(const bchar* str);
 	bool LoadDDSFromStream(const BearInputStream& stream);

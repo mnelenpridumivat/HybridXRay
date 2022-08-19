@@ -40,6 +40,7 @@ static uint32 ConvertColor(uint32 c, uint32 inbits, uint32 outbits)
 		return (c << (outbits - inbits)) | ConvertColor(c, inbits, outbits - inbits);
 	}
 }
+
 bool BearImage::LoadDDSFromStream(const BearInputStream & stream)
 {
 	Clear();
@@ -61,6 +62,9 @@ bool BearImage::LoadDDSFromStream(const BearInputStream & stream)
 		m_bCube = !!(Header.dwCubemapFlags & DDS_CUBEMAP_ALLFACES);
 		m_Height = Header.dwHeight;
 		m_Width = Header.dwWidth;
+		m_sHeight = Header.dwHeight;
+		m_sWidth = Header.dwWidth;
+
 		if (m_Mips==0)
 		{
 			Clear();

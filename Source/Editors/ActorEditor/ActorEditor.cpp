@@ -8,6 +8,11 @@
 #include "..\BearBundle\BearCore\BearCore.hpp"
 #include "..\BearBundle\BearGraphics\BearGraphics.hpp"
 
+#if !defined(_DEBUG) && defined(_WIN64) 
+#include "tbb/parallel_for.h" 
+#include "tbb/blocked_range.h"
+#endif
+
 extern ECORE_API BOOL g_force16BitTransformQuant;
 extern ECORE_API BOOL g_forceFloatTransformQuant;
 extern ECORE_API float g_EpsSkelPositionDelta;
@@ -159,11 +164,34 @@ xr_vector<Textures> LoadObJTexturesVector(xr_vector<LPCSTR> args, int count)
     return vec;
 }
 
+bool HasAlpha(BearImage& Texture)
+{
+    bool alpha = false;
+    FOR_START(size_t, 0, Texture.GetWidth(), w)
+    {
+        for (size_t h = 0; h < Texture.GetHeight(); h++)
+        {
+            uint8 px = Texture.GetPixel(w, h).A8U;
+            if (px < 254)
+                alpha = true;
+
+            if (alpha)
+            {
+                tbb::task::self().cancel_group_execution();
+                break;
+            }
+        }
+    }
+    FOR_END
+
+    return alpha;
+}
+
 void ConvertDDStoPng(shared_str dds, shared_str png)
 {
 	BearImage Texture;
     Texture.LoadFromFile(dds.c_str());
-    Texture.Convert(Texture.HasAlpha() ? BearTexturePixelFormat::R8G8B8A8 : BearTexturePixelFormat::R8G8B8);
+    Texture.Convert(HasAlpha(Texture) ? BearTexturePixelFormat::R8G8B8A8 : BearTexturePixelFormat::R8G8B8);
     Texture.SaveToPng(png.c_str());
 }
 

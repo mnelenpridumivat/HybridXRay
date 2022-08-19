@@ -1,7 +1,7 @@
 #include "BearGraphics.hpp"
 #include "BearRHI/BearTextureUtils.h"
 
-BearImage::BearImage() :m_PixelFotmat(BearTexturePixelFormat::R8), m_Width(0), m_Height(0), m_Mips(0), m_Depth(0), m_ImageBuffer(0), m_bCube(false), m_bHasAlpha(false)
+BearImage::BearImage() :m_PixelFotmat(BearTexturePixelFormat::R8), m_Width(0), m_Height(0), m_Mips(0), m_Depth(0), m_ImageBuffer(0), m_bCube(false), m_bHasAlpha(false), m_sWidth(0), m_sHeight(0)
 {
 	
 }
@@ -355,6 +355,16 @@ BearVector2<bsize> BearImage::GetSize() const
 bool BearImage::HasAlpha() const
 {
 	return m_bHasAlpha;
+}
+
+size_t BearImage::GetWidth() const
+{
+	return m_sWidth;
+}
+
+size_t BearImage::GetHeight() const
+{
+	return m_sHeight;
 }
 
 
