@@ -723,7 +723,7 @@ bool CExportObjectOGF::Prepare(bool gen_tb, CEditableMesh* mesh)
     if (gen_tb)
     {
 #if !defined(_DEBUG) && defined(_WIN64)
-        if (!g_BatchWorking)
+        if (!g_BatchWorking && m_Splits.size() > 1)
             Msg("..MT Calculate TB");
         else
             Msg("..Calculate TB");
@@ -732,9 +732,17 @@ bool CExportObjectOGF::Prepare(bool gen_tb, CEditableMesh* mesh)
 #endif
         if (!g_BatchWorking)
         {
-            FOR_START(u32, 0, m_Splits.size(), it)
-                m_Splits[it]->CalculateTB();
-            FOR_END
+            if (m_Splits.size() > 1) // MT
+            {
+                FOR_START(u32, 0, m_Splits.size(), it)
+                    m_Splits[it]->CalculateTB();
+                FOR_END
+            }
+            else
+            {
+                for (u32 it = 0; it < m_Splits.size(); it++)
+                    m_Splits[it]->CalculateTB();
+            }
         }
         else
         {
