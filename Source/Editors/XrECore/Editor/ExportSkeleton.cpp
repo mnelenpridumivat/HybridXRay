@@ -316,7 +316,6 @@ void CExportSkeleton::SSplit::Save(IWriter& F)
         }
         else if (m_SkeletonLinkType == 3 || m_SkeletonLinkType == 4)
         {
-
             for (SkelVertIt v_it = m_Verts.begin(); v_it != m_Verts.end(); v_it++)
             {
                 SSkelVert& pV = *v_it;

@@ -728,7 +728,32 @@ bool CExportObjectOGF::Prepare(bool gen_tb, bool more_funcs, CEditableMesh* mesh
         }
     }
 
-    if (more_funcs)
+    if (m_Source->m_objectFlags.is(CEditableObject::eoStripify))
+    {
+        if (m_Splits.size() > 1) // MT
+        {
+#if !defined(_DEBUG) && defined(_WIN64) 
+            if (!g_BatchWorking)
+                WriteLog("..MT Calculate Stripify");
+            else
+                WriteLog("..Calculate Stripify");
+#endif
+            if (!g_BatchWorking)
+            {
+                FOR_START(u32, 0, m_Splits.size(), it)
+                    m_Splits[it]->MakeStripify();
+                FOR_END
+            }
+            else
+            {
+                for (u32 it = 0; it < m_Splits.size(); it++)
+                    m_Splits[it]->MakeStripify();
+            }
+        }
+        else if (m_Splits.size() == 1)
+            m_Splits[0]->MakeStripify();
+    }
+    else if (more_funcs)
     {
         // fill per bone vertices
         if (m_Source->m_objectFlags.is(CEditableObject::eoProgressive))
@@ -755,31 +780,6 @@ bool CExportObjectOGF::Prepare(bool gen_tb, bool more_funcs, CEditableMesh* mesh
             }
             else if (m_Splits.size() == 1)
                 m_Splits[0]->MakeProgressive();
-        }
-        else if (m_Source->m_objectFlags.is(CEditableObject::eoStripify))
-        {
-            if (m_Splits.size() > 1) // MT
-            {
-#if !defined(_DEBUG) && defined(_WIN64) 
-                if (!g_BatchWorking)
-                    WriteLog("..MT Calculate Stripify");
-                else
-                    WriteLog("..Calculate Stripify");
-#endif
-                if (!g_BatchWorking)
-                {
-                    FOR_START(u32, 0, m_Splits.size(), it)
-                        m_Splits[it]->MakeStripify();
-                    FOR_END
-                }
-                else
-                {
-                    for (u32 it = 0; it < m_Splits.size(); it++)
-                        m_Splits[it]->MakeStripify();
-                }
-            }
-            else if (m_Splits.size() == 1)
-                m_Splits[0]->MakeStripify();
         }
 
         // Compute bounding...
@@ -922,7 +922,7 @@ xr_string GetCorrectString(xr_string text)
 bool CExportObjectOGF::ExportAsWavefrontOBJ(IWriter& F, LPCSTR fn)
 {
     WriteLog("..Prepare Obj");
-	if (!Prepare(false, false, NULL)) 
+	if (!Prepare(true, false, NULL)) 
 		return false;
 
     string_path 			tmp, tex_name;
