@@ -39,7 +39,6 @@ void UIObjectList::Draw()
 		{
 			m_Mode = M_All;
 			m_Root.ClearSelcted();
-
 		}
 		if (ImGui::RadioButton("Visible Only", m_Mode == M_Visible))
 		{
@@ -61,10 +60,9 @@ void UIObjectList::Draw()
 				{
 					RItem->Object->Show(true);
 				}
-				
 			}
-			
 		}
+
 		if (ImGui::Button("Hide Selected", ImVec2(-1, 0)))
 		{
 			for (UITreeItem* Item : m_Root.Items)
@@ -74,7 +72,23 @@ void UIObjectList::Draw()
 				{
 					RItem->Object->Show(false);
 				}
+			}
+		}
 
+		ImGui::Separator();
+		if (ImGui::Button("Focus on Selected", ImVec2(-1, 0)))
+		{
+			for (UITreeItem* Item : m_Root.Items)
+			{
+				UIObjectListItem* RItem = (UIObjectListItem*)Item;
+				if (RItem->bIsSelected)
+				{
+					RItem->Object->Select(true);
+
+					Fbox bb;
+					if (RItem->Object->GetBox(bb))
+						EDevice->m_Camera.ZoomExtents(bb);
+				}
 			}
 		}
 	}
