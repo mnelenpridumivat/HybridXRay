@@ -460,7 +460,7 @@ bool CExportObjectOGF::PrepareMESH(CEditableMesh* MESH)
                         split->AppendPart(
                             (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces,
                             (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces);
-                        split->m_CurrentPart->add_face(v[2], v[1], v[0], m_Source->m_objectFlags.is(CEditableObject::eoHQExportPlus));
+                        split->m_CurrentPart->add_face(v[0], v[1], v[2], m_Source->m_objectFlags.is(CEditableObject::eoHQExportPlus));
                     }
 
                     if (b2sided)
