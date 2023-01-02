@@ -38,24 +38,8 @@ namespace Object_tool
 			CreateMTL,
 		};
 
-		protected bool CheckObject()
-        {
-			if (m_Object == null)
-			{
-				Msg("RunCompiller: Error!\nObject is null. Please report this bug for developer.");
-				return false;
-			}
-			return true;
-        }
-
 		private int StartEditor(bool async, EditorMode mode, string object_path, string second_path = "null", int flags = -1, float scale = 1.0f, string[] temp_arr = null, int proc_id = 0)
 		{
-			if (m_Object == null)
-			{
-				Msg("StartEditor: Error!\nObject is null. Please report this bug for developer.");
-				return -1;
-			}
-
 			if (flags == -1)
 			{
 				flags = GetFlags();
@@ -287,7 +271,6 @@ namespace Object_tool
 					break;
 				case "ExportOGF":
 					{
-						if (!CheckObject()) return;
 						pSettings.Load("SaveOgfDialog", SaveOgfDialog);
 
 						if (SaveOgfDialog.ShowDialog() == DialogResult.OK)
@@ -314,7 +297,6 @@ namespace Object_tool
 					break;
 				case "ExportOMF":
 					{
-						if (!CheckObject()) return;
 						pSettings.Load("SaveOmfDialog", SaveOmfDialog);
 
 						if (SaveOmfDialog.ShowDialog() == DialogResult.OK)
@@ -337,7 +319,6 @@ namespace Object_tool
 					break;
 				case "LoadSkls":
 					{
-						if (!CheckObject()) return;
 						pSettings.Load("OpenSklsDialog", OpenSklsDialog);
 
 						if (OpenSklsDialog.ShowDialog() == DialogResult.OK)
@@ -370,7 +351,6 @@ namespace Object_tool
 					break;
 				case "DeleteSkls":
 					{
-						if (!CheckObject()) return;
 						SdkThread = new Thread(() => {
 							int code = StartEditor(true, EditorMode.DeleteMotions, m_Object.TEMP_FILE_NAME);
 							if (!EditorKilled[0])
@@ -395,7 +375,6 @@ namespace Object_tool
 					break;
 				case "SaveSkls":
 					{
-						if (!CheckObject()) return;
 						pSettings.Load("SaveSklsDialog", SaveSklsDialog);
 
 						if (SaveSklsDialog.ShowDialog() == DialogResult.OK)
@@ -418,7 +397,6 @@ namespace Object_tool
 					break;
 				case "SaveSkl":
 					{
-						if (!CheckObject()) return;
 						pSettings.Load("SaveSklsDialog", SaveSklsDialog);
 
 						if (SaveSklDialog.ShowDialog(this.Handle))
@@ -441,7 +419,6 @@ namespace Object_tool
 					break;
 				case "LoadBones":
 					{
-						if (!CheckObject()) return;
 						pSettings.Load("OpenBonesDialog", OpenBonesDialog);
 
 						if (OpenBonesDialog.ShowDialog() == DialogResult.OK)
@@ -468,7 +445,6 @@ namespace Object_tool
 					break;
 				case "SaveBones":
 					{
-						if (!CheckObject()) return;
 						pSettings.Load("SaveBonesDialog", SaveBonesDialog);
 
 						if (SaveBonesDialog.ShowDialog() == DialogResult.OK)
@@ -491,7 +467,6 @@ namespace Object_tool
 					break;
 				case "ExportOBJ":
 					{
-						if (!CheckObject()) return;
 						pSettings.Load("SaveObjDialog", SaveObjDialog);
 
 						if (SaveObjDialog.ShowDialog() == DialogResult.OK)
@@ -514,7 +489,6 @@ namespace Object_tool
 					break;
 				case "GenerateShapes":
 					{
-						if (!CheckObject()) return;
 						SdkThread = new Thread(() => {
 							int code = StartEditor(true, EditorMode.GenerateShape, m_Object.TEMP_FILE_NAME);
 							if (!EditorKilled[0])
@@ -530,7 +504,6 @@ namespace Object_tool
 					break;
 				case "LoadBoneParts":
 					{
-						if (!CheckObject()) return;
 						pSettings.Load("OpenLtxDialog", OpenLtxDialog);
 
 						if (OpenLtxDialog.ShowDialog() == DialogResult.OK)
@@ -553,7 +526,6 @@ namespace Object_tool
 					break;
 				case "SaveBoneParts":
 					{
-						if (!CheckObject()) return;
 						pSettings.Load("SaveBonePartsDialog", SaveBonePartsDialog);
 
 						if (SaveBonePartsDialog.ShowDialog() == DialogResult.OK)
@@ -576,7 +548,6 @@ namespace Object_tool
 					break;
 				case "ResetBoneParts":
 					{
-						if (!CheckObject()) return;
 						SdkThread = new Thread(() => {
 							int code = StartEditor(true, EditorMode.ToDefaultBoneParts, m_Object.TEMP_FILE_NAME);
 							if (!EditorKilled[0])
@@ -592,7 +563,6 @@ namespace Object_tool
 					break;
 				case "ExportDM":
 					{
-						if (!CheckObject()) return;
 						pSettings.Load("SaveDmDialog", SaveDmDialog);
 
 						if (SaveDmDialog.ShowDialog() == DialogResult.OK)
@@ -628,7 +598,6 @@ namespace Object_tool
 					break;
 				case "GenerateLod":
 					{
-						if (!CheckObject()) return;
 						GenerateLod Params = new GenerateLod();
 						Params.ShowDialog();
 
@@ -669,7 +638,6 @@ namespace Object_tool
 					break;
 				case "ExportCpp":
 					{
-						if (!CheckObject()) return;
 						pSettings.Load("SaveCppDialog", SaveCppDialog);
 
 						if (SaveCppDialog.ShowDialog() == DialogResult.OK)
@@ -693,7 +661,6 @@ namespace Object_tool
 					break;
 				case "LoadUserData":
 					{
-						if (!CheckObject()) return;
 						pSettings.Load("OpenUserDataDialog", OpenUserDataDialog);
 
 						if (OpenUserDataDialog.ShowDialog() == DialogResult.OK)
@@ -784,7 +751,6 @@ namespace Object_tool
 					break;
 				case "BatchLtx":
 					{
-						if (!CheckObject()) return;
 						pSettings.Load("OpenBatchLtxDialog", OpenBatchLtxDialog);
 
 						if (OpenBatchLtxDialog.ShowDialog() == DialogResult.OK)
@@ -809,7 +775,6 @@ namespace Object_tool
 					break;
 				case "BatchFilesToOGF":
 					{
-						if (!CheckObject()) return;
 						pSettings.Load("OpenBatchDialog", OpenBatchDialog);
 						pSettings.Load("OpenBatchOutDialog", OpenBatchOutDialog);
 
@@ -842,7 +807,6 @@ namespace Object_tool
 					break;
 				case "BatchFilesToOMF":
 					{
-						if (!CheckObject()) return;
 						pSettings.Load("OpenBatchDialog", OpenBatchDialog);
 						pSettings.Load("OpenBatchOutDialog", OpenBatchOutDialog);
 
@@ -875,7 +839,6 @@ namespace Object_tool
 					break;
 				case "BatchFoldersToOGF":
 					{
-						if (!CheckObject()) return;
 						FolderSelectDialog OpenBatchFoldersDialog = new FolderSelectDialog();
 						OpenBatchFoldersDialog.Multiselect = true;
 						pSettings.Load("OpenBatchFoldersDialog", OpenBatchFoldersDialog);
@@ -918,7 +881,6 @@ namespace Object_tool
 					break;
 				case "BatchFoldersToOMF":
 					{
-						if (!CheckObject()) return;
 						FolderSelectDialog OpenBatchFoldersDialog = new FolderSelectDialog();
 						OpenBatchFoldersDialog.Multiselect = true;
 

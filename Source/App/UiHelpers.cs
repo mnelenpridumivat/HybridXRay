@@ -118,7 +118,6 @@ namespace Object_tool
 					string mode = Environment.GetCommandLineArgs()[2];
 					if (mode == "model_viewer")
 					{
-						m_Object = new Object();
 						m_Object.Init(filename, TempFolder());
 						m_Object.LoadData();
 

@@ -24,7 +24,7 @@ namespace Object_tool
         List<string[]> batch_files = new List<string[]>();
 		List<string> batch_source = new List<string>();
 		public string SCRIPT_FOLDER = "";
-		public Object m_Object = null;
+		public Object m_Object = new Object();
 		public List<string> SklsToLoad = new List<string>();
 
 		// Input
@@ -146,50 +146,47 @@ namespace Object_tool
 
 		public void AfterLoad()
         {
-			if (m_Object != null)
+			UserDataTextBox.Text = m_Object.userdata;
+			LodTextBox.Text = m_Object.lod;
+			ObjectScaleTextBox.Text = ((decimal)m_Object.scale).ToString();
+			ScaleCenterOfMassCheckBox.Checked = m_Object.scale_center_of_mass;
+			MotionRefsBox.Lines = m_Object.motion_refs.ToArray();
+			ModelTypeCBox.SelectedIndex = (m_Object.flags & (uint)Object.ObjectFlags.eoDynamic) == (uint)Object.ObjectFlags.eoDynamic ? 0 : 1;
+			ModelTypeCBox.Enabled = m_Object.bones.Count > 0;
+
+			bool AutoSmoothEnabled = false;
+			bool SmoothChanged = false;
+			pSettings.LoadState("AutoSmooth", ref AutoSmoothEnabled, true);
+
+			if (m_Object.motion_refs.Count > 0)
             {
-				UserDataTextBox.Text = m_Object.userdata;
-				LodTextBox.Text = m_Object.lod;
-				ObjectScaleTextBox.Text = ((decimal)m_Object.scale).ToString();
-				ScaleCenterOfMassCheckBox.Checked = m_Object.scale_center_of_mass;
-				MotionRefsBox.Lines = m_Object.motion_refs.ToArray();
-				ModelTypeCBox.SelectedIndex = (m_Object.flags & (uint)Object.ObjectFlags.eoDynamic) == (uint)Object.ObjectFlags.eoDynamic ? 0 : 1;
-				ModelTypeCBox.Enabled = m_Object.bones.Count > 0;
-
-				bool AutoSmoothEnabled = false;
-				bool SmoothChanged = false;
-				pSettings.LoadState("AutoSmooth", ref AutoSmoothEnabled, true);
-
-				if (m_Object.motion_refs.Count > 0)
-                {
-					if (!AutoSmoothEnabled)
-					{
-						SmoothCoP.Checked = m_Object.cop_refs;
-						SmoothSoC.Checked = !m_Object.cop_refs;
-						SmoothChanged = true;
-					}
-				}
-
-				UseSplitNormals.Enabled = false;
-				UseSplitNormals.Checked = false;
-				normalsToolStripMenuItem.Enabled = false;
-
-				if (m_Object.has_normals)
+				if (!AutoSmoothEnabled)
 				{
-					UseSplitNormals.Enabled = true;
-					UseSplitNormals.Checked = NORMALS_DEFAULT && !AutoSmoothEnabled;
-					normalsToolStripMenuItem.Enabled = true;
-					SmoothChanged = NORMALS_DEFAULT;
+					SmoothCoP.Checked = m_Object.cop_refs;
+					SmoothSoC.Checked = !m_Object.cop_refs;
+					SmoothChanged = true;
 				}
-
-				if (!SmoothChanged && !AutoSmoothEnabled)
-				{
-					pSettings.Load(SmoothSoC);
-					pSettings.Load(SmoothCoP, true);
-				}
-
-				AfterLoadMotions();
 			}
+
+			UseSplitNormals.Enabled = false;
+			UseSplitNormals.Checked = false;
+			normalsToolStripMenuItem.Enabled = false;
+
+			if (m_Object.has_normals)
+			{
+				UseSplitNormals.Enabled = true;
+				UseSplitNormals.Checked = NORMALS_DEFAULT && !AutoSmoothEnabled;
+				normalsToolStripMenuItem.Enabled = true;
+				SmoothChanged = NORMALS_DEFAULT;
+			}
+
+			if (!SmoothChanged && !AutoSmoothEnabled)
+			{
+				pSettings.Load(SmoothSoC);
+				pSettings.Load(SmoothCoP, true);
+			}
+
+			AfterLoadMotions();
 		}
 
 		public void AfterLoadMotions()
@@ -198,52 +195,46 @@ namespace Object_tool
 			MotionTextBox.Text = $"Motions count: 0";
 			MotionRefsTextChanged(MotionRefsBox, null);
 
-			if (m_Object != null)
+			MotionFlagsGroupBox.Enabled = m_Object.motions.Count > 0;
+			if (IsOgfMode)
+				ScaleGroupBox.Enabled = m_Object.motions.Count > 0;
+
+			if (m_Object.motions.Count > 0)
             {
-				MotionFlagsGroupBox.Enabled = m_Object.motions.Count > 0;
-				if (IsOgfMode)
-					ScaleGroupBox.Enabled = m_Object.motions.Count > 0;
+				MotionTextBox.Clear();
+				MotionTextBox.Text = $"Motions count: {m_Object.motions.Count}\n";
+			}
 
-				if (m_Object.motions.Count > 0)
-                {
-					MotionTextBox.Clear();
-					MotionTextBox.Text = $"Motions count: {m_Object.motions.Count}\n";
-				}
-
-				for (int i = 0; i < m_Object.motions.Count; i++)
-                {
-					MotionTextBox.Text += $"\n{i + 1}. {m_Object.motions[i].name}";
-				}
-            }
+			for (int i = 0; i < m_Object.motions.Count; i++)
+            {
+				MotionTextBox.Text += $"\n{i + 1}. {m_Object.motions[i].name}";
+			}
         }
 
 		public void AfterCopy()
 		{
-			if (m_Object != null)
+			UserDataTextBox.Text = m_Object.userdata;
+			LodTextBox.Text = m_Object.lod;
+			MotionRefsBox.Lines = m_Object.motion_refs.ToArray();
+
+			for (int i = 0; i < m_Object.surfaces.Count; i++)
+            {
+				(SurfacesPage.Controls[i].Controls[0] as CheckBox).Checked = (m_Object.surfaces[i].flags == 1);
+				SurfacesPage.Controls[i].Controls[2].Text = m_Object.surfaces[i].texture;
+				SurfacesPage.Controls[i].Controls[4].Text = m_Object.surfaces[i].shader;
+			}
+
+			for (int i = 0; i < m_Object.bones.Count; i++)
 			{
-				UserDataTextBox.Text = m_Object.userdata;
-				LodTextBox.Text = m_Object.lod;
-				MotionRefsBox.Lines = m_Object.motion_refs.ToArray();
+				(BonesPage.Controls[i].Controls[4] as ComboBox).SelectedIndex = m_Object.bones[i].shape_type;
 
-				for (int i = 0; i < m_Object.surfaces.Count; i++)
-                {
-					(SurfacesPage.Controls[i].Controls[0] as CheckBox).Checked = (m_Object.surfaces[i].flags == 1);
-					SurfacesPage.Controls[i].Controls[2].Text = m_Object.surfaces[i].texture;
-					SurfacesPage.Controls[i].Controls[4].Text = m_Object.surfaces[i].shader;
-				}
+				(BonesPage.Controls[i].Controls[0] as CheckBox).Checked = (m_Object.bones[i].shape_flags & (1 << 0)) == (1 << 0);
+				(BonesPage.Controls[i].Controls[1] as CheckBox).Checked = (m_Object.bones[i].shape_flags & (1 << 1)) == (1 << 1);
+				(BonesPage.Controls[i].Controls[2] as CheckBox).Checked = (m_Object.bones[i].shape_flags & (1 << 2)) == (1 << 2);
+				(BonesPage.Controls[i].Controls[3] as CheckBox).Checked = (m_Object.bones[i].shape_flags & (1 << 3)) == (1 << 3);
 
-				for (int i = 0; i < m_Object.bones.Count; i++)
-				{
-					(BonesPage.Controls[i].Controls[4] as ComboBox).SelectedIndex = m_Object.bones[i].shape_type;
-
-					(BonesPage.Controls[i].Controls[0] as CheckBox).Checked = (m_Object.bones[i].shape_flags & (1 << 0)) == (1 << 0);
-					(BonesPage.Controls[i].Controls[1] as CheckBox).Checked = (m_Object.bones[i].shape_flags & (1 << 1)) == (1 << 1);
-					(BonesPage.Controls[i].Controls[2] as CheckBox).Checked = (m_Object.bones[i].shape_flags & (1 << 2)) == (1 << 2);
-					(BonesPage.Controls[i].Controls[3] as CheckBox).Checked = (m_Object.bones[i].shape_flags & (1 << 3)) == (1 << 3);
-
-					BonesPage.Controls[i].Controls[7].Text = m_Object.bones[i].material;
-					BonesPage.Controls[i].Controls[9].Text = m_Object.bones[i].mass.ToString();
-				}
+				BonesPage.Controls[i].Controls[7].Text = m_Object.bones[i].material;
+				BonesPage.Controls[i].Controls[9].Text = m_Object.bones[i].mass.ToString();
 			}
 		}
 
@@ -289,47 +280,34 @@ namespace Object_tool
 		{
 			game_materials = GameMtlParser(filename);
 			
-			if (m_Object != null)
-			{
-				 BonesPage.Controls.Clear();
-				 for (int i = 0; i < m_Object.bones.Count; i++)
-					CreateBoneGroupBox(i, m_Object.bones[i]);
-			}
+			BonesPage.Controls.Clear();
+			for (int i = 0; i < m_Object.bones.Count; i++)
+				CreateBoneGroupBox(i, m_Object.bones[i]);
 		}
 
 		private void FastSaveObject(string filename)
 		{
-			if (m_Object != null)
+			if (m_Object.TEMP_FILE_NAME != "")
 			{
-				if (m_Object.TEMP_FILE_NAME != "")
+				StartEditor(true, EditorMode.SaveObject, m_Object.TEMP_FILE_NAME);
+			
+				if (!EditorKilled[0])
 				{
-					StartEditor(true, EditorMode.SaveObject, m_Object.TEMP_FILE_NAME);
-
-					if (!EditorKilled[0])
-					{
-						File.Copy(m_Object.TEMP_FILE_NAME, filename, true);
-						AutoClosingMessageBox.Show($"Object successfully saved.{GetTime()}", "", 1000, MessageBoxIcon.Information);
-					}
+					File.Copy(m_Object.TEMP_FILE_NAME, filename, true);
+					AutoClosingMessageBox.Show($"Object successfully saved.{GetTime()}", "", 1000, MessageBoxIcon.Information);
 				}
-				else
-					Msg("FastSaveObject: Error!\nObject is null. Please report this bug for developer.");
 			}
 		}
 
         private void CheckTempFileExist()
         {
-			if (m_Object != null)
+			if (!File.Exists(m_Object.TEMP_FILE_NAME) && File.Exists(m_Object.FILE_NAME))
 			{
-				if (!File.Exists(m_Object.TEMP_FILE_NAME) && File.Exists(m_Object.FILE_NAME))
-				{
-					if (!Directory.Exists(TempFolder()))
-						Directory.CreateDirectory(TempFolder());
+				if (!Directory.Exists(TempFolder()))
+					Directory.CreateDirectory(TempFolder());
 
-					File.Copy(m_Object.FILE_NAME, TempFolder() + $"\\{m_Object.NAME}", true);
-				}
+				File.Copy(m_Object.FILE_NAME, TempFolder() + $"\\{m_Object.NAME}", true);
 			}
-			else
-				Msg("CheckTempFileExist: Error!\nObject is null. Please report this bug for developer.");
 		}
 
 		private string GetRetCode(int code)
@@ -610,28 +588,23 @@ namespace Object_tool
 
 		private void objectInfoToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (m_Object != null)
+			long vertex_count = 0;
+			int surface_count = m_Object.surfaces.Count;
+			int joints_count = m_Object.bones.Count;
+
+			long surfFacesFaces = 0;
+			for (int i = 0; i < m_Object.meshes.Count; i++)
 			{
-				long vertex_count = 0;
-				int surface_count = m_Object.surfaces.Count;
-				int joints_count = m_Object.bones.Count;
+				vertex_count += m_Object.meshes[i].vertex_count;
 
-				long surfFacesFaces = 0;
-				for (int i = 0; i < m_Object.meshes.Count; i++)
+				for (int j = 0; j < m_Object.meshes[i].surfFaces.Count; j++)
 				{
-					vertex_count += m_Object.meshes[i].vertex_count;
-
-					for (int j = 0; j < m_Object.meshes[i].surfFaces.Count; j++)
-					{
-						Object.Surface surface = m_Object.GetSurfaceByName(m_Object.meshes[i].surfFaces[j].name);
-						surfFacesFaces += m_Object.meshes[i].surfFaces[j].faces * (surface != null ? (surface.flags == 1 ? 2 : 1) : 1);
-					}
+					Object.Surface surface = m_Object.GetSurfaceByName(m_Object.meshes[i].surfFaces[j].name);
+					surfFacesFaces += m_Object.meshes[i].surfFaces[j].faces * (surface != null ? (surface.flags == 1 ? 2 : 1) : 1);
 				}
-
-				MessageBox.Show($"Raw Vertex count: {vertex_count}\nFace count: {surfFacesFaces}\nSurface count: {surface_count}\nJoints count: {joints_count}", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
-			else
-				Msg("ObejctInfo: Error!\nObject is null. Please report this bug for developer.");
+
+			MessageBox.Show($"Raw Vertex count: {vertex_count}\nFace count: {surfFacesFaces}\nSurface count: {surface_count}\nJoints count: {joints_count}", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
 		private void IndexChanged(object sender, EventArgs e)
@@ -657,36 +630,26 @@ namespace Object_tool
 
 		private void SwitchShapeType(object sender, EventArgs e)
 		{
-			if (m_Object != null)
-			{
-				ToolStripItem Item = sender as ToolStripItem;
-				int type = Convert.ToInt32(Item.Tag.ToString().Split('_')[1]);
+			ToolStripItem Item = sender as ToolStripItem;
+			int type = Convert.ToInt32(Item.Tag.ToString().Split('_')[1]);
 
-				for (int i = 0; i < m_Object.bones.Count; i++)
-				{
-					m_Object.bones[i].shape_type = (ushort)type;
-					(BonesPage.Controls[i].Controls[4] as ComboBox).SelectedIndex = type;
-				}
+			for (int i = 0; i < m_Object.bones.Count; i++)
+			{
+				m_Object.bones[i].shape_type = (ushort)type;
+				(BonesPage.Controls[i].Controls[4] as ComboBox).SelectedIndex = type;
 			}
-			else
-				Msg("SwitchShapeType: Error!\nObject is null. Please report this bug for developer.");
 		}
 
 		private void importObjectParamsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (m_Object != null)
-			{
-				OpenFileDialog Dialog = new OpenFileDialog();
-				Dialog.Filter = "Object file|*.object";
+			OpenFileDialog Dialog = new OpenFileDialog();
+			Dialog.Filter = "Object file|*.object";
 
-				if (Dialog.ShowDialog() == DialogResult.OK)
-				{
-					m_Object.CopyParams(Dialog.FileName);
-					AfterCopy();
-				}
+			if (Dialog.ShowDialog() == DialogResult.OK)
+			{
+				m_Object.CopyParams(Dialog.FileName);
+				AfterCopy();
 			}
-			else
-				Msg("ImportObjectParams: Error!\nObject is null. Please report this bug for developer.");
 		}
 
 		private void ClosingForm(object sender, FormClosingEventArgs e)
@@ -799,36 +762,21 @@ namespace Object_tool
 
 		private void ScaleTextChanged(object sender, EventArgs e)
 		{
-			if (m_Object != null)
-			{
-				FloatTextChanged(sender, e, ref m_Object.scale);
-			}
-			else
-				Msg("ScaleTextChanged: Error!\nObject is null. Please report this bug for developer.");
+			FloatTextChanged(sender, e, ref m_Object.scale);
 		}
 
 		private void MassTextChanged(object sender, EventArgs e)
 		{
-			if (m_Object != null)
-			{
-				TextBox curBox = sender as TextBox;
-				int idx = Convert.ToInt32(curBox.Name.ToString().Split('_')[1]);
-				FloatTextChanged(sender, e, ref m_Object.bones[idx].mass);
-			}
-			else
-				Msg("MassTextChanged: Error!\nObject is null. Please report this bug for developer.");
+			TextBox curBox = sender as TextBox;
+			int idx = Convert.ToInt32(curBox.Name.ToString().Split('_')[1]);
+			FloatTextChanged(sender, e, ref m_Object.bones[idx].mass);
 		}
 
 		private void MaterialTextChanged(object sender, EventArgs e)
 		{
-			if (m_Object != null)
-			{
-				Control curBox = sender as Control;
-				int idx = Convert.ToInt32(curBox.Name.ToString().Split('_')[1]);
-				m_Object.bones[idx].material = GetCorrectString(curBox.Text);
-			}
-			else
-				Msg("MaterialTextChanged: Error!\nObject is null. Please report this bug for developer.");
+			Control curBox = sender as Control;
+			int idx = Convert.ToInt32(curBox.Name.ToString().Split('_')[1]);
+			m_Object.bones[idx].material = GetCorrectString(curBox.Text);
 		}
 
 		private void TextBoxKeyDown(object sender, KeyEventArgs e)
@@ -865,53 +813,38 @@ namespace Object_tool
 
 		private void enableAll2SidedToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (m_Object != null)
+			for (int i = 0; i < m_Object.surfaces.Count; i++)
 			{
-				for (int i = 0; i < m_Object.surfaces.Count; i++)
-				{
-					m_Object.surfaces[i].flags = 1;
-					(SurfacesPage.Controls[i].Controls[0] as CheckBox).Checked = true;
-				}
+				m_Object.surfaces[i].flags = 1;
+				(SurfacesPage.Controls[i].Controls[0] as CheckBox).Checked = true;
 			}
-			else
-				Msg("EnableAll2Sided: Error!\nObject is null. Please report this bug for developer.");
 		}
 
 		private void disableAll2SidedToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (m_Object != null)
+			for (int i = 0; i < m_Object.surfaces.Count; i++)
 			{
-				for (int i = 0; i < m_Object.surfaces.Count; i++)
-				{
-					m_Object.surfaces[i].flags = 0;
-					(SurfacesPage.Controls[i].Controls[0] as CheckBox).Checked = true;
-				}
+				m_Object.surfaces[i].flags = 0;
+				(SurfacesPage.Controls[i].Controls[0] as CheckBox).Checked = true;
 			}
-			else
-				Msg("DisableAll2Sided: Error!\nObject is null. Please report this bug for developer.");
 		}
 
 		private void TextBoxFilter(object sender, EventArgs e)
 		{
-			if (m_Object != null)
-			{
-				TextBox curBox = sender as TextBox;
-
-				string currentField = curBox.Name.ToString().Split('_')[0];
-				int idx = Convert.ToInt32(curBox.Name.ToString().Split('_')[1]);
-
-				switch (currentField)
-				{
-					case "TextureTextBox":
-						m_Object.surfaces[idx].texture = curBox.Text;
-						break;
-					case "ShaderTextBox":
-						m_Object.surfaces[idx].shader = curBox.Text;
-						break;
-				}
-			}
-			else
-				Msg("TextBoxFilter: Error!\nObject is null. Please report this bug for developer.");
+			 TextBox curBox = sender as TextBox;
+			 
+			 string currentField = curBox.Name.ToString().Split('_')[0];
+			 int idx = Convert.ToInt32(curBox.Name.ToString().Split('_')[1]);
+			 
+			 switch (currentField)
+			 {
+			 	case "TextureTextBox":
+			 		m_Object.surfaces[idx].texture = curBox.Text;
+			 		break;
+			 	case "ShaderTextBox":
+			 		m_Object.surfaces[idx].shader = curBox.Text;
+			 		break;
+			 }
 		}
 
 		private void ScriptClicked(object sender, EventArgs e)
@@ -938,56 +871,46 @@ namespace Object_tool
 
 		private void CheckBoxCheckedChanged(object sender, EventArgs e)
 		{
-			if (m_Object != null)
+			CheckBox curBox = sender as CheckBox;
+
+			string currentField = curBox.Name.ToString().Split('_')[0];
+			int idx = Convert.ToInt32(curBox.Name.ToString().Split('_')[1]);
+
+			switch (currentField)
 			{
-				CheckBox curBox = sender as CheckBox;
-
-				string currentField = curBox.Name.ToString().Split('_')[0];
-				int idx = Convert.ToInt32(curBox.Name.ToString().Split('_')[1]);
-
-				switch (currentField)
-				{
-					case "chbx2sided":
-						m_Object.surfaces[idx].flags = (uint)(curBox.Checked ? 1 : 0);
-						Object.Mesh.SurfFace surfFace = m_Object.GetSurfFaceByName(m_Object.surfaces[idx].name);
-						SurfacesPage.Controls[idx].Controls[5].Text = "Face count: " + (surfFace != null ? (surfFace.faces * ((m_Object.surfaces[idx].flags == 1) ? 2 : 1)).ToString() : "null");
-						break;
-					case "chbxNoPickable":
-						m_Object.bones[idx].shape_flags = (ushort)BitSet(m_Object.bones[idx].shape_flags, (1 << 0), curBox.Checked);
-						break;
-					case "chbxNoPhysics":
-						m_Object.bones[idx].shape_flags = (ushort)BitSet(m_Object.bones[idx].shape_flags, (1 << 1), curBox.Checked);
-						break;
-					case "chbxRemoveAfterBreakCheckBoxBox":
-						m_Object.bones[idx].shape_flags = (ushort)BitSet(m_Object.bones[idx].shape_flags, (1 << 2), curBox.Checked);
-						break;
-					case "chbxNoFogColliderCheckBox":
-						m_Object.bones[idx].shape_flags = (ushort)BitSet(m_Object.bones[idx].shape_flags, (1 << 3), curBox.Checked);
-						break;
-				}
+				case "chbx2sided":
+					m_Object.surfaces[idx].flags = (uint)(curBox.Checked ? 1 : 0);
+					Object.Mesh.SurfFace surfFace = m_Object.GetSurfFaceByName(m_Object.surfaces[idx].name);
+					SurfacesPage.Controls[idx].Controls[5].Text = "Face count: " + (surfFace != null ? (surfFace.faces * ((m_Object.surfaces[idx].flags == 1) ? 2 : 1)).ToString() : "null");
+					break;
+				case "chbxNoPickable":
+					m_Object.bones[idx].shape_flags = (ushort)BitSet(m_Object.bones[idx].shape_flags, (1 << 0), curBox.Checked);
+					break;
+				case "chbxNoPhysics":
+					m_Object.bones[idx].shape_flags = (ushort)BitSet(m_Object.bones[idx].shape_flags, (1 << 1), curBox.Checked);
+					break;
+				case "chbxRemoveAfterBreakCheckBoxBox":
+					m_Object.bones[idx].shape_flags = (ushort)BitSet(m_Object.bones[idx].shape_flags, (1 << 2), curBox.Checked);
+					break;
+				case "chbxNoFogColliderCheckBox":
+					m_Object.bones[idx].shape_flags = (ushort)BitSet(m_Object.bones[idx].shape_flags, (1 << 3), curBox.Checked);
+					break;
 			}
-			else
-				Msg("CheckBoxCheckedChanged: Error!\nObject is null. Please report this bug for developer.");
 		}
 
 		private void ComboBoxIndexChanged(object sender, EventArgs e)
 		{
-			if (m_Object != null)
+			ComboBox curBox = sender as ComboBox;
+
+			string currentField = curBox.Name.ToString().Split('_')[0];
+			int idx = Convert.ToInt32(curBox.Name.ToString().Split('_')[1]);
+
+			switch (currentField)
 			{
-				ComboBox curBox = sender as ComboBox;
-
-				string currentField = curBox.Name.ToString().Split('_')[0];
-				int idx = Convert.ToInt32(curBox.Name.ToString().Split('_')[1]);
-
-				switch (currentField)
-				{
-					case "cbxType":
-						m_Object.bones[idx].shape_type = (ushort)curBox.SelectedIndex;
-						break;
-				}
+				case "cbxType":
+					m_Object.bones[idx].shape_type = (ushort)curBox.SelectedIndex;
+					break;
 			}
-			else
-				Msg("ComboBoxIndexChanged: Error!\nObject is null. Please report this bug for developer.");
 		}
 
 		private void EditorKeyDown(object sender, KeyEventArgs e)
@@ -1024,13 +947,8 @@ namespace Object_tool
 				case Keys.F5:
 					if (!CheckThread()) return;
 
-					if (m_Object != null)
-					{
-						SdkThread = new Thread(() => { FastSaveObject(m_Object.FILE_NAME); });
-						SdkThread.Start();
-					}
-					else
-						Msg("F5: Error!\nObject is null. Please report this bug for developer.");
+					SdkThread = new Thread(() => { FastSaveObject(m_Object.FILE_NAME); });
+					SdkThread.Start();
 					break;
 				case Keys.F6:
 					fileToolStripMenuItem.ShowDropDown();
@@ -1053,7 +971,7 @@ namespace Object_tool
                 }
 				else if (Path.GetExtension(fileList[i]) == ".bones")
 				{
-					if (m_Object == null || m_Object.bones.Count <= 0) return;
+					if (m_Object.bones.Count <= 0) return;
 					if (!CheckThread()) break;
 
 					SdkThread = new Thread(() => {
@@ -1075,14 +993,14 @@ namespace Object_tool
 				}
 				else if (Path.GetExtension(fileList[i]) == ".skls" || Path.GetExtension(fileList[i]) == ".skl")
 				{
-					if (m_Object == null || m_Object.bones.Count <= 0) return;
+					if (m_Object.bones.Count <= 0) return;
 					SklsToLoad.Add(fileList[i]);
 				}
 			}
 
 			if (SklsToLoad.Count > 0)
             {
-				if (m_Object == null || m_Object.bones.Count <= 0) return;
+				if (m_Object.bones.Count <= 0) return;
 				SdkThread = new Thread(() => {
 					int code = StartEditor(true, EditorMode.LoadMotions, m_Object.TEMP_FILE_NAME);
 					if (!EditorKilled[0])
@@ -1113,15 +1031,10 @@ namespace Object_tool
 
 		private void saveToolStripMenuItem1_Click(object sender, EventArgs e)
 		{
-			if (m_Object != null)
-			{
-				if (!CheckThread()) return;
+			if (!CheckThread()) return;
 
-				SdkThread = new Thread(() => { FastSaveObject(m_Object.FILE_NAME); });
-				SdkThread.Start();
-			}
-			else
-				Msg("SaveClick: Error!\nObject is null. Please report this bug for developer.");
+			SdkThread = new Thread(() => { FastSaveObject(m_Object.FILE_NAME); });
+			SdkThread.Start();
 		}
 
 		private void ProgressiveMeshes_CheckedChanged(object sender, EventArgs e)
@@ -1298,12 +1211,6 @@ namespace Object_tool
 				ViewerWorking = false;
 			}
 
-			if (m_Object == null)
-			{
-				MessageBox.Show("Can't create viewport without object.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
-				return;
-			}
-
 			ViewerThread = new Thread(() => {
                 this.Invoke((MethodInvoker)delegate ()
                 {
@@ -1382,7 +1289,6 @@ namespace Object_tool
 
 		private void BoneListIndexChanged(object sender, EventArgs e)
 		{
-			if (m_Object == null) return;
 			if (BonesList.SelectedIndex == -1) return;
 
 			Object.Bone cur_bone = m_Object.bones[BonesList.SelectedIndex];
