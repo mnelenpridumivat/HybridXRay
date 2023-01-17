@@ -1067,5 +1067,15 @@
     <ClInclude Include="Editor\Scene\CFromBuilder.h">
       <Filter>Editor\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="LevelEditor.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\L.png" />
+    <Image Include="bitmap1.bmp" />
+    <Image Include="icon1.ico" />
+    <Image Include="..\..\..\..\L.ico" />
   </ItemGroup>
 </Project>
