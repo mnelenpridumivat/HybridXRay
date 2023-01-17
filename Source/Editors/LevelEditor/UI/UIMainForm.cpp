@@ -108,6 +108,11 @@ void UIMainForm::DrawContextMenu()
 {
     if (ImGui::BeginMenu("Edit"))
     {
+        if (ImGui::MenuItem("Duplicate"))
+        {
+            ExecCommand(COMMAND_DUPLICATE);
+        }
+        ImGui::Separator();
         if (ImGui::MenuItem("Copy"))
         {
             ExecCommand(COMMAND_COPY);
