@@ -1073,9 +1073,7 @@
     <ResourceCompile Include="LevelEditor.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\L.png" />
-    <Image Include="bitmap1.bmp" />
     <Image Include="icon1.ico" />
-    <Image Include="..\..\..\..\L.ico" />
+    <Image Include="icon.ico" />
   </ItemGroup>
 </Project>

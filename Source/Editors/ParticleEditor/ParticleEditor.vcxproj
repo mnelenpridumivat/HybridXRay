@@ -76,7 +76,7 @@
     <ResourceCompile Include="ParticleEditor.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\P.ico" />
+    <Image Include="icon.ico" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

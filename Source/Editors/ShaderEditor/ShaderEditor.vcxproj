@@ -81,7 +81,7 @@
     <ResourceCompile Include="ShaderEditor.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\S.png" />
+    <Image Include="icon.ico" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

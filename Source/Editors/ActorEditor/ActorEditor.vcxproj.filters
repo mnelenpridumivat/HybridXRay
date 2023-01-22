@@ -96,7 +96,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\A.ico">
+    <Image Include="icon.ico">
       <Filter>Файлы ресурсов</Filter>
     </Image>
   </ItemGroup>

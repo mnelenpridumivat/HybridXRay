@@ -114,7 +114,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\P.ico">
+    <Image Include="icon.ico">
       <Filter>Файлы ресурсов</Filter>
     </Image>
   </ItemGroup>

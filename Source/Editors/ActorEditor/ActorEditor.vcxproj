@@ -204,7 +204,7 @@
     <ResourceCompile Include="ActorEditor.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\A.ico" />
+    <Image Include="icon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

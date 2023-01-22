@@ -120,7 +120,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\S.png">
+    <Image Include="icon.ico">
       <Filter>Файлы ресурсов</Filter>
     </Image>
   </ItemGroup>

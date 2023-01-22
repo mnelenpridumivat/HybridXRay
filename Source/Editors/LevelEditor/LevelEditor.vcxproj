@@ -358,9 +358,7 @@
     <ResourceCompile Include="LevelEditor.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\L.ico" />
-    <Image Include="..\..\..\..\L.png" />
-    <Image Include="bitmap1.bmp" />
+    <Image Include="icon.ico" />
     <Image Include="icon1.ico" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
