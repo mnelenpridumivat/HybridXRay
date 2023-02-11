@@ -67,18 +67,18 @@ const DDS_PIXELFORMAT DDSPF_R5G6B5 =
 
 struct DDS_HEADER
 {
-    DWORD dwSize;
-    DWORD dwHeaderFlags;
-    DWORD dwHeight;
-    DWORD dwWidth;
-    DWORD dwPitchOrLinearSize;
-    DWORD dwDepth; // only if DDS_HEADER_FLAGS_VOLUME is set in dwHeaderFlags
-    DWORD dwMipMapCount;
-    DWORD dwReserved1[11];
+    u32 dwSize;
+    u32 dwHeaderFlags;
+    u32 dwHeight;
+    u32 dwWidth;
+    u32 dwPitchOrLinearSize;
+    u32 dwDepth; // only if DDS_HEADER_FLAGS_VOLUME is set in dwHeaderFlags
+    u32 dwMipMapCount;
+    u32 dwReserved1[11];
     DDS_PIXELFORMAT ddspf;
-    DWORD dwSurfaceFlags;
-    DWORD dwCubemapFlags;
-    DWORD dwReserved2[3];
+    u32 dwSurfaceFlags;
+    u32 dwCubemapFlags;
+    u32 dwReserved2[3];
 };
 
 enum DDS_HEADER_FLAGS
