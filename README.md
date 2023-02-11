@@ -3,7 +3,7 @@
 [Группа VK](https://vk.com/xray_omp)
 
 ### Описание:
-Попытка привести в более менее рабочее состояние SDK от Red Panda (https://github.com/RedPandaProjects/XRayEngine).  
+Попытка привести в более менее рабочее состояние [SDK от Red Panda](https://github.com/RedPandaProjects/XRayEngine).  
 **Фиксы затрагивают только редакторы. Компиляторы не фиксились!**
 
 ### Установка:
