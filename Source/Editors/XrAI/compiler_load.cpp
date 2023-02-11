@@ -197,13 +197,13 @@ void xrLoad(LPCSTR name, bool draft_mode)
 								R_ASSERT2(Surface_Detect(name, N), "Can't load surface");
 								R_ASSERT2(BT.pSurface.LoadFromFile(name), "Can't load surface");
 								BT.pSurface.ClearMipLevels();
-								BT.pSurface.Convert(BearTexturePixelFormat::R8G8B8A8);
+								BT.pSurface.Convert(RedImageTool::RedTexturePixelFormat::R8G8B8A8);
 								BT.pSurface.SwapRB();
-								if ((BT.pSurface.GetSize().x != BT.dwWidth) || (BT.pSurface.GetSize().y != BT.dwHeight))
+								if ((BT.pSurface.GetWidth() != BT.dwWidth) || (BT.pSurface.GetHeight() != BT.dwHeight))
 								{
-									Msg("! THM doesn't correspond to the texture: %dx%d -> %dx%d", BT.dwWidth, BT.dwHeight, BT.pSurface.GetSize().x, BT.pSurface.GetSize().y);
-									BT.dwWidth = BT.THM.width = BT.pSurface.GetSize().x;
-									BT.dwHeight = BT.THM.height = BT.pSurface.GetSize().y;
+									Msg("! THM doesn't correspond to the texture: %dx%d -> %dx%d", BT.dwWidth, BT.dwHeight, BT.pSurface.GetWidth(), BT.pSurface.GetHeight());
+									BT.dwWidth = BT.THM.width = BT.pSurface.GetWidth();
+									BT.dwHeight = BT.THM.height = BT.pSurface.GetHeight();
 								}
 							} else {
 								// Free surface memory
