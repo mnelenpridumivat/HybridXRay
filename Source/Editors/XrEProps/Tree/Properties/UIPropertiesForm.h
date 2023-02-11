@@ -20,6 +20,7 @@ public:
 		plReadOnly = (1 << 0),
 	};
 	Flags32 m_Flags;
+	void SetFocusOnMe();
 	IC bool IsReadOnly()const { return m_Flags.is(plReadOnly); }
 private:
 	PropItemVec m_Items;
