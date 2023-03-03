@@ -108,7 +108,7 @@ void UIRenderForm::Draw()
 				m_shiftstate_down = false;
 			}
 		}
-		m_mouse_position.set((mouse_pos.x - canvas_pos.x) * EDevice.m_ScreenQuality, (mouse_pos.y - canvas_pos.y) * EDevice.m_ScreenQuality);
+		m_mouse_position.set((mouse_pos.x - canvas_pos.x) * EDevice->m_ScreenQuality, (mouse_pos.y - canvas_pos.y) * EDevice->m_ScreenQuality);
 
 		if (!m_OnContextMenu.empty()&& !curent_shiftstate_down)
 		{
