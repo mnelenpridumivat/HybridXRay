@@ -136,7 +136,7 @@ void CRT::create	(LPCSTR Name, u32 w, u32 h,	D3DFORMAT f, u32 SampleCount )
 	HW.stats_manager.increment_stats_rtarget( pSurface );
 	// OK
 #ifdef DEBUG
-	Msg			("* created RT(%s), %dx%d, format = %d samples = %d",Name,w,h, dx10FMT, SampleCount );
+	// Msg("* created RT(%s), %dx%d, format = %d samples = %d",Name,w,h, dx10FMT, SampleCount );
 #endif // DEBUG
 	//R_CHK		(pSurface->GetSurfaceLevel	(0,&pRT));
 	if (bUseAsDepth)

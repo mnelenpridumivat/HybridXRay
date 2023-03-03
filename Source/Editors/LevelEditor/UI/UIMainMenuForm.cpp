@@ -66,9 +66,9 @@ void UIMainMenuForm::Draw()
         }
         if (ImGui::BeginMenu("Compile"))
 		{
-            if (ImGui::BeginMenu("Make"))
+            if (ImGui::BeginMenu("Make All"))
             {
-                if (ImGui::MenuItem("Make All", ""))
+                if (ImGui::MenuItem("Build", ""))
                 {
                     ExecCommand(COMMAND_BUILD);
                 }
