@@ -9,6 +9,9 @@
 #include "..\XrEngine\IGame_Level.h"
 #include "..\XrEngine\x_ray.h"
 #include "Engine/XRayEditor.h"
+
+#include "resource.h"
+
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
 {
     if (!IsDebuggerPresent()) Debug._initialize(false);
@@ -41,9 +44,14 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     pApp = xr_new<XRayEditor>();
     g_XrGameManager = xr_new<XrGameManager>();
     g_SEFactoryManager = xr_new<XrSEFactoryManager>();
-    /*
-    
-           */
+
+    HICON icon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_ICON1));
+    if (icon)
+    {
+        SendMessage(EDevice->m_hWnd, WM_SETICON, ICON_SMALL, reinterpret_cast<LPARAM>(icon));
+        SendMessage(EDevice->m_hWnd, WM_SETICON, ICON_BIG, reinterpret_cast<LPARAM>(icon));
+    }
+
     g_pGamePersistent = (IGame_Persistent*)g_XrGameManager->Create(CLSID_GAME_PERSISTANT);
     EDevice->seqAppStart.Process(rp_AppStart);
     Console->Execute("default_controls");
