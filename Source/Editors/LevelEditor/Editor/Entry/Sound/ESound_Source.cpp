@@ -172,24 +172,33 @@ void ESoundSource::SaveLTX(CInifile& ini, LPCSTR sect_name)
 
 bool ESoundSource::LoadStream(IReader& F)
 {
-	u16 version 	= 0;
+    u16 version = 0;
 
-    if(F.r_chunk(SOUND_CHUNK_VERSION,&version)){
-        if(version!=SOUND_SOURCE_VERSION){
+    if(F.r_chunk(SOUND_CHUNK_VERSION,&version))
+    {
+        if(version!=SOUND_SOURCE_VERSION)
+        {
             ELog.Msg( mtError, "ESoundSource: Unsupported version.");
             return false;
         }
-    }else return false;
+    }
+    else
+        return false;
 
-	inherited::LoadStream			(F);
+    inherited::LoadStream(F);
 
     R_ASSERT(F.find_chunk(SOUND_CHUNK_TYPE));
-	m_Type					= ESoundType(F.r_u32());
+    m_Type = ESoundType(F.r_u32());
+
+    if (m_Type != stStaticSource)
+    {
+        Msg("! WARNING unknown type of sound: %u", (u32)m_Type);
+        m_Type = stStaticSource;
+    }
 
     R_ASSERT(F.find_chunk(SOUND_CHUNK_SOURCE_NAME));
-    F.r_stringZ		(m_WAVName);
+    F.r_stringZ(m_WAVName);
 
-    
     if (F.find_chunk(SOUND_CHUNK_SOURCE_PARAMS3)){
        	m_Params.base_volume	= 1.f;
     	F.r_fvector3			(m_Params.position);
