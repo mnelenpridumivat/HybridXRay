@@ -357,16 +357,15 @@ bool CEditorRenderDevice::Begin	()
 		}
 	}
 
-    VERIFY 					(FALSE==g_bRendering);
-	CHK_DX					(HW.pDevice->BeginScene());
-	CHK_DX(HW.pDevice->Clear(0,0,
-		D3DCLEAR_ZBUFFER|D3DCLEAR_TARGET|
-		(HW.Caps.bStencil?D3DCLEAR_STENCIL:0),
-		EPrefs?EPrefs->scene_clear_color:0x0,1,0
-		));
-	RCache.OnFrameBegin		();
-	g_bRendering = 	TRUE;
-	return		TRUE;
+    VERIFY(FALSE == g_bRendering);
+    HW.pDevice->BeginScene(); // CHK_DX(HW.pDevice->BeginScene());
+    CHK_DX(HW.pDevice->Clear(0, 0,
+        D3DCLEAR_ZBUFFER | D3DCLEAR_TARGET |
+        (HW.Caps.bStencil ? D3DCLEAR_STENCIL : 0),
+        EPrefs?EPrefs->scene_clear_color : 0x0, 1, 0));
+    RCache.OnFrameBegin();
+    g_bRendering = TRUE;
+    return TRUE;
 }
 
 //---------------------------------------------------------------------------
@@ -377,10 +376,14 @@ void CEditorRenderDevice::End()
 	g_bRendering = 	FALSE;
 	// end scene
 	RCache.OnFrameEnd();
-    CHK_DX(HW.pDevice->EndScene());
 
-	CHK_DX(HW.pDevice->Present( NULL, NULL, NULL, NULL ));
+#pragma TODO("TSMP: restore CHK_DX!")
+    // TSMP: when calling MakeScreenshot by user click on button, we are drawing imgui in render window
+    // so we call twice BeginScene and EndScene, and they return error. Need to reimplement this and
+    // restore CHK_DX for BeginScene and EndScene
+    HW.pDevice->EndScene(); // CHK_DX(HW.pDevice->EndScene());
 
+    CHK_DX(HW.pDevice->Present(NULL, NULL, NULL, NULL));
 }
 
 void CEditorRenderDevice::UpdateView()

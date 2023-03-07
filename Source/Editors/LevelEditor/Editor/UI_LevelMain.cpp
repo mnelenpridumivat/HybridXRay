@@ -2,6 +2,7 @@
 #include "..\..\XrAPI\xrGameManager.h"
 #include "Utils\Cursor3D.h"
 #include "..\xrengine\GameFont.h"
+#include "UI\UIEditLibrary.h"
 
 #ifdef _LEVEL_EDITOR
 //.    if (m_Cursor->GetVisible()) RedrawScene();
@@ -44,12 +45,16 @@ CCommandVar CLevelTool::CommandShowObjectList(CCommandVar p1, CCommandVar p2)
 // Main commands
 CCommandVar CommandLibraryEditor(CCommandVar p1, CCommandVar p2)
 {
-   /* if (Scene->ObjCount()||(LUI->GetEState()!=esEditScene)){
-        if (LUI->GetEState()==esEditLibrary)	TfrmEditLibrary::ShowEditor();
-        else									ELog.DlgMsg(mtError, "Scene must be empty before editing library!");
-    }else{
-        TfrmEditLibrary::ShowEditor();
-    }*/
+    if (Scene->ObjCount() || (LUI->GetEState() != esEditScene))
+    {
+        if (LUI->GetEState() == esEditLibrary)
+            UIEditLibrary::Show();
+        else
+            ELog.DlgMsg(mtError, "! Scene must be empty before editing library!");
+    }
+    else
+        UIEditLibrary::Show();
+
     return TRUE;
 }
 
@@ -1321,6 +1326,8 @@ void CLevelMain::OnDrawUI()
 {
     inherited::OnDrawUI();
     UIObjectList::Update();
+    UIEditLibrary::Update();
+
     if (LTools->GetToolForm())
     {
         LTools->GetToolForm()->OnDrawUI();

@@ -211,6 +211,9 @@
     <ClCompile Include="UI\UIMainMenuForm.cpp">
       <Filter>UI</Filter>
     </ClCompile>
+    <ClCompile Include="UI\UIEditLibrary.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
     <ClCompile Include="LevelEditor.cpp" />
     <ClCompile Include="..\..\XrRender\Private\DetailManager.cpp">
       <Filter>Render</Filter>
@@ -1063,6 +1066,9 @@
     </ClInclude>
     <ClInclude Include="UI\ObjectList\UIObjectListItem.h">
       <Filter>UI\ObjectList</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UIEditLibrary.h">
+      <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="Editor\Scene\CFromBuilder.h">
       <Filter>Editor\Scene</Filter>

@@ -2,7 +2,6 @@
 
 #define BLINK_TIME 300.f
 
-
 CSceneObject::CSceneObject(LPVOID data, LPCSTR name):CCustomObject(data,name)
 {
 	Construct	(data);
@@ -24,8 +23,11 @@ void CSceneObject::Construct(LPVOID data)
 
 CSceneObject::~CSceneObject()
 {
-    for (CSurface* i : m_Surfaces) { i->OnDeviceDestroy(); xr_delete(i); }
-	Lib.RemoveEditObject(m_pReference);
+#pragma TODO("TSMP: check why this was added")
+    // crashes when selecting objects in library editor after lod textures generation
+    // сбой при выборе объектов в редакторе библиотек после генерации текстур lod
+    // for (CSurface* i : m_Surfaces) { i->OnDeviceDestroy(); xr_delete(i); }
+    Lib.RemoveEditObject(m_pReference);
 }
 
 

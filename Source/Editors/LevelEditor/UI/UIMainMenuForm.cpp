@@ -170,6 +170,8 @@ void UIMainMenuForm::Draw()
             if (ImGui::BeginMenu("Objects"))
             {
                 if (ImGui::MenuItem("Reload")) { ExecCommand(COMMAND_RELOAD_OBJECTS); }
+                ImGui::Separator();
+                if (ImGui::MenuItem("Library editor")) { ExecCommand(COMMAND_LIBRARY_EDITOR); }
                 ImGui::EndMenu();
             }
             if (ImGui::BeginMenu("Images"))

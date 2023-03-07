@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Utils/Cursor3D.h"
+#include "UI/UIEditLibrary.h"
 
 #define DETACH_FRAME(a) 	if (a){ a=0; }
 #define ATTACH_FRAME(a,b)	if (a){b=a;}
@@ -472,16 +473,19 @@ void  CLevelTool::RenderEnvironment()
     }
 }
 
-void  CLevelTool::Render()
+void CLevelTool::Render()
 {
-	// Render update
-    ::Render->Calculate		();
-    ::Render->Render		();
+    // Render update
+    ::Render->Calculate();
+    ::Render->Render();
 
-    EEditorState est 		= UI->GetEState();
+    EEditorState est = UI->GetEState();
     // draw scene
-    switch(est){
-    case esEditLibrary: 	/*TfrmEditLibrary::OnRender();*/ 	break;
+    switch(est)
+    {
+    case esEditLibrary:
+        UIEditLibrary::OnRender();
+        break;
     case esEditLightAnim:
     case esEditScene:
     	Scene->Render(EDevice->m_Camera.GetTransform()); 
