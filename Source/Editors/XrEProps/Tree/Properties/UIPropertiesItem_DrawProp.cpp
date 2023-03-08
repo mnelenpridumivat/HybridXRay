@@ -19,16 +19,15 @@ inline bool DrawNumeric(PropItem* item, bool& change, bool read_only)
 	change = ImGui::InputInt("##value", &data, read_only ? ImGuiInputTextFlags_ReadOnly : 0);
 	if (change)
 	{
-	
-		if (int(V->lim_mn) > data)
-			data = int(V->lim_mn);
-		if (int(V->lim_mx) < data)
-			data = int(V->lim_mx);
-		T temp = T(data);
+        T temp = static_cast<T>(data);
+
+        if (V->lim_mn > temp)
+            temp = V->lim_mn;
+        if (V->lim_mx < temp)
+            temp = V->lim_mx;
+
 		if ( item->AfterEdit< NumericValue<T>, T>(temp) && !read_only)
-		{
 			change = item->ApplyValue< NumericValue<T>, T>(temp);
-		}
 	}
 	return true;
 }
@@ -166,7 +165,8 @@ void UIPropertiesItem::DrawProp()
 		if (ImGui::Button("X", ImVec2(-1, 0)))
 		{
 			xr_shortcut val;
-			if (V->ApplyValue(val))PropertiesFrom->Modified();
+			if (V->ApplyValue(val))
+				PropertiesFrom->Modified();
 		}
 	}
 	break;
@@ -180,10 +180,10 @@ void UIPropertiesItem::DrawProp()
 		{
 			new_val_as_BOOL = new_val;
 			if (PItem->AfterEdit<BOOLValue, BOOL>(new_val_as_BOOL))
+			{
 				if (PItem->ApplyValue<BOOLValue, BOOL>(new_val_as_BOOL))
-				{
 					PropertiesFrom->Modified();
-				}
+			}
 		}
 
 	}
@@ -195,7 +195,8 @@ void UIPropertiesItem::DrawProp()
 			if (!FlagOnEdit<u16>(PItem, change))
 				if (!FlagOnEdit<u32>(PItem, change))
 					R_ASSERT(false);
-		if (change)PropertiesFrom->Modified();
+		if (change)
+			PropertiesFrom->Modified();
 	}
 	break;
 	case PROP_VECTOR:
@@ -220,10 +221,10 @@ void UIPropertiesItem::DrawProp()
 				edit_val[i] = vector[i];
 			}
 			if (PItem->AfterEdit<VectorValue, Fvector>(edit_val))
+			{
 				if (PItem->ApplyValue<VectorValue, Fvector>(edit_val))
-				{
 					PropertiesFrom->Modified();
-				}
+			}
 		}
 
 	}
@@ -241,9 +242,10 @@ void UIPropertiesItem::DrawProp()
 			edit_val = color_rgba_f(color[2], color[1], color[0], 1.f);
 			edit_val = subst_alpha(edit_val, a);
 			if (PItem->AfterEdit<U32Value, u32>(edit_val))
-				if (PItem->ApplyValue<U32Value, u32>(edit_val)) {
+			{
+				if (PItem->ApplyValue<U32Value, u32>(edit_val))
 					PropertiesFrom->Modified();
-				}
+			}
 		}
 	}
 	break;
@@ -263,9 +265,10 @@ void UIPropertiesItem::DrawProp()
 			edit_val.b = color[2];
 			edit_val.a = a;
 			if (PItem->AfterEdit<ColorValue, Fcolor>(edit_val))
-				if (PItem->ApplyValue<ColorValue, Fcolor>(edit_val)) {
+			{
+				if (PItem->ApplyValue<ColorValue, Fcolor>(edit_val))
 					PropertiesFrom->Modified();
-				}
+			}
 		}
 	}
 	break;
@@ -282,10 +285,10 @@ void UIPropertiesItem::DrawProp()
 			edit_val[0] = color[1];
 			edit_val[0] = color[2];
 			if (PItem->AfterEdit<VectorValue, Fvector>(edit_val))
+			{
 				if (PItem->ApplyValue<VectorValue, Fvector>(edit_val))
-				{
 					PropertiesFrom->Modified();
-				}
+			}
 		}
 	}
 	break;
@@ -360,7 +363,8 @@ void UIPropertiesItem::DrawProp()
 		{
 			u32 new_val = index;
 			if (PItem->AfterEdit<TokenValueSH, u32>(new_val))
-				if (PItem->ApplyValue<TokenValueSH, u32>(new_val))PropertiesFrom->Modified();
+				if (PItem->ApplyValue<TokenValueSH, u32>(new_val))
+					PropertiesFrom->Modified();
 		}
 	}
 	break;
@@ -388,9 +392,7 @@ void UIPropertiesItem::DrawProp()
 				if (PItem->AfterEdit<CTextValue, xr_string>(edit_val)) 
 				{
 					if (PItem->ApplyValue<CTextValue, LPCSTR>(edit_val.c_str()))
-					{
 						PropertiesFrom->Modified();
-					}
 				}
 			}
 		}
@@ -412,7 +414,8 @@ void UIPropertiesItem::DrawProp()
 		if (ImGui::Combo("##value", &index, [](void* data, int idx, const char** out_text)->bool {*out_text = reinterpret_cast<xr_string*>(data)[idx].c_str(); return true; }, reinterpret_cast<void*>(V->items), i))
 		{
 			if (PItem->AfterEdit<CListValue, xr_string>(V->items[index]))
-				if (PItem->ApplyValue<CListValue, LPCSTR>(V->items[index].c_str()))PropertiesFrom->Modified();
+				if (PItem->ApplyValue<CListValue, LPCSTR>(V->items[index].c_str()))
+					PropertiesFrom->Modified();
 		}
 	}
 	break;
@@ -432,7 +435,8 @@ void UIPropertiesItem::DrawProp()
 		if (ImGui::Combo("##value", &index, [](void* data, int idx, const char** out_text)->bool {*out_text = reinterpret_cast<shared_str*>(data)[idx].c_str(); return true; }, reinterpret_cast<void*>(V->items), i))
 		{
 			if (PItem->AfterEdit<RListValue, shared_str>(V->items[index]))
-				if (PItem->ApplyValue<RListValue, shared_str>(V->items[index]))PropertiesFrom->Modified();
+				if (PItem->ApplyValue<RListValue, shared_str>(V->items[index]))
+					PropertiesFrom->Modified();
 		}
 	}
 	break;
@@ -456,13 +460,16 @@ void UIPropertiesItem::DrawProp()
 		if (ImGui::OpenPopupOnItemClick2("EditText", 0))
 		{
 			if (PropertiesFrom->m_EditTextValueData)
-			{
 				xr_delete(PropertiesFrom->m_EditTextValueData);
-			}
+
+			if (PropertiesFrom->m_EditTextValueInitial)
+				xr_delete(PropertiesFrom->m_EditTextValueInitial);
+
 			PropertiesFrom->m_EditTextValueData = xr_strdup(V->GetValue());
+			PropertiesFrom->m_EditTextValueInitial = xr_strdup(V->GetValue());
 			PropertiesFrom->m_EditTextValueDataSize = xr_strlen(PropertiesFrom->m_EditTextValueData) + 1;
-			PropertiesFrom->m_EditTextValue = PItem;
 		}
+		PropertiesFrom->m_EditTextValue = PItem;
 		PropertiesFrom->DrawEditText();
 	}
 	break;
@@ -486,10 +493,15 @@ void UIPropertiesItem::DrawProp()
 		{
 			if (PropertiesFrom->m_EditTextValueData)
 				xr_delete(PropertiesFrom->m_EditTextValueData);
+
+			if (PropertiesFrom->m_EditTextValueInitial)
+				xr_delete(PropertiesFrom->m_EditTextValueInitial);
+
 			PropertiesFrom->m_EditTextValueData = xr_strdup(V->GetValue().c_str() ? V->GetValue().c_str() : "");
+			PropertiesFrom->m_EditTextValueInitial = xr_strdup(V->GetValue().c_str() ? V->GetValue().c_str() : "");
 			PropertiesFrom->m_EditTextValueDataSize = xr_strlen(PropertiesFrom->m_EditTextValueData) + 1;
-			PropertiesFrom->m_EditTextValue = PItem;
 		}
+		PropertiesFrom->m_EditTextValue = PItem;
 		PropertiesFrom->DrawEditText();
 	}
 	break;
@@ -514,10 +526,15 @@ void UIPropertiesItem::DrawProp()
 		{
 			if (PropertiesFrom->m_EditTextValueData)
 				xr_delete(PropertiesFrom->m_EditTextValueData);
+
+			if (PropertiesFrom->m_EditTextValueInitial)
+				xr_delete(PropertiesFrom->m_EditTextValueInitial);
+
 			PropertiesFrom->m_EditTextValueData = xr_strdup(V->GetValue().c_str());
+			PropertiesFrom->m_EditTextValueInitial = xr_strdup(V->GetValue().c_str());
 			PropertiesFrom->m_EditTextValueDataSize = xr_strlen(PropertiesFrom->m_EditTextValueData) + 1;
-			PropertiesFrom->m_EditTextValue = PItem;
 		}
+		PropertiesFrom->m_EditTextValue = PItem;
 		PropertiesFrom->DrawEditText();
 	}
 	break;

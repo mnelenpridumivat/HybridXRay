@@ -33,17 +33,17 @@ void UIChooseForm::FillItems(u32 choose_id)
     m_RootItem.Form = this;
 
     m_ChooseID = choose_id;
-
     int Index = 0;
-   for (auto&i:m_Items)
+
+    for (auto & i : m_Items)
     {
 	   xr_string Name = i.name.c_str();
-	   Name.append("*");
+	   // Name.append("*");
        xr_string RealName;
        if (strrchr(i.name.c_str(), '\\'))
        {
            RealName = strrchr(i.name.c_str(), '\\') + 1;
-      }
+       }
        else
        {
            RealName = i.name.c_str();
@@ -58,7 +58,7 @@ void UIChooseForm::FillItems(u32 choose_id)
     {
         m_ItemNone.name = NONE_CAPTION;
         xr_string Name = m_ItemNone.name.c_str();
-		Name.append("*");
+		// Name.append("*");
 		UIChooseFormItem* Item = static_cast<UIChooseFormItem*> (m_RootItem.AppendItem(Name.c_str()));
 		Item->Object = &m_ItemNone;
 		Item->Text = NONE_CAPTION;
@@ -383,14 +383,11 @@ void UIChooseForm::SelectItem(u32 choose_ID, int sel_cnt, LPCSTR init_name, TOnC
         for (int i = 0; i < cnt; i++)
         {
             _GetItem(init_name, i, result);
-            for (auto& item : Form->m_Items)
-            {
-                if (item.name.c_str() == result)
-                {
-                    Form->m_SelectedItems.push_back(&item);
-                }
-            }
+
+            if (auto* Item = Form->m_RootItem.FindItem(result.c_str()))
+                ((UIChooseFormItem*)Item)->bSelected = true;
         }
+        Form->m_RootItem.SelectedToFavorite(true);
         Form->CheckFavorite();
     }
     else
@@ -403,7 +400,8 @@ void UIChooseForm::SelectItem(u32 choose_ID, int sel_cnt, LPCSTR init_name, TOnC
                 if (Item)
                 {
                     ((UIChooseFormItem*)Item)->bSelected = true;
-                   Form-> UpdateSelected((UIChooseFormItem*)Item);
+                    Form->UpdateSelected((UIChooseFormItem*)Item);
+                    Form->m_RootItem.OpenParentItems(init_name);
                 }
             }
 		}
@@ -412,9 +410,9 @@ void UIChooseForm::SelectItem(u32 choose_ID, int sel_cnt, LPCSTR init_name, TOnC
 
 void UIChooseForm::AppendEvents(u32 choose_ID, LPCSTR caption, TOnChooseFillItems on_fill, TOnChooseSelectItem on_sel, TGetTexture on_thm, TOnChooseClose on_close, u32 flags)
 {
-	EventsMapIt it = m_Events.find(choose_ID); VERIFY(it == m_Events.end());
+	EventsMapIt it = m_Events.find(choose_ID);
+    VERIFY(it == m_Events.end());
 	m_Events.insert(std::make_pair(choose_ID, SChooseEvents(caption, on_fill, on_sel, on_thm, on_close, flags)));
-
 }
 
 void UIChooseForm::ClearEvents()
@@ -426,8 +424,10 @@ void UIChooseForm::ClearEvents()
 SChooseEvents* UIChooseForm::GetEvents(u32 choose_ID)
 {
 	EventsMapIt it = m_Events.find(choose_ID);
-	if (it != m_Events.end()) {
+	if (it != m_Events.end())
+    {
 		return &it->second;
 	}
-	else return 0;
+	else
+        return nullptr;
 }

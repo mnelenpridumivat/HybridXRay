@@ -20,11 +20,18 @@
 #define SPAWNPOINT_CHUNK_ENVMOD3		0xE424
 #define SPAWNPOINT_CHUNK_FLAGS			0xE425
 
+const float RPOINT_SIZE = 0.5f;
+const float ENVMOD_SIZE = 0.25f;
+const int MAX_TEAM = 32;
 
-#define RPOINT_SIZE 0.5f
-#define ENVMOD_SIZE 0.25f
-#define MAX_TEAM 6
-const u32 RP_COLORS[MAX_TEAM]={0xff0000,0x00ff00,0x0000ff,0xffff00,0x00ffff,0xff00ff};
+const u32 RP_COLORS[MAX_TEAM] =
+{
+    0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0x00ffff, 0xff00ff, 0xCD5C5C, 0xF08080,
+    0xDC143C, 0xB22222, 0x8B0000, 0xFFC0CB, 0xFF69B4, 0xC71585, 0xFF7F50, 0xFF8C00,
+    0xFFD700, 0xFFFFE0, 0xFFE4B5, 0xF0E68C, 0xBDB76B, 0xE6E6FA, 0xDDA0DD, 0xEE82EE,
+    0xFF00FF, 0xBA55D3, 0x9400D3, 0x4B0082, 0xB8860B, 0x800000, 0x808080, 0x000000
+};
+
 // CLE_Visual
 CLE_Visual::CLE_Visual(ISE_Visual* src)
 {
@@ -797,7 +804,6 @@ void CSpawnPoint::RenderSimBox()
 }
 void CSpawnPoint::Render( int priority, bool strictB2F )
 {
-
 	Fmatrix SaveTransform =   FTransformRP;
 
     if( m_physics_shell )
@@ -808,34 +814,38 @@ void CSpawnPoint::Render( int priority, bool strictB2F )
 	inherited::Render			(priority, strictB2F);
 	Scene->SelectLightsForObject(this);
 
-    
     // render attached object
     if (m_AttachedObject)
     		m_AttachedObject->Render(priority, strictB2F);
 	if (m_SpawnData.Valid())
     		m_SpawnData.Render(Selected(),FTransformRP,priority, strictB2F);
 	// render spawn point
-    if (1==priority){
-        if (strictB2F){
+    if (1 == priority)
+    {
+        if (strictB2F)
+        {
             RCache.set_xform_world(FTransformRP);
-            if (m_SpawnData.Valid()){
+            if (m_SpawnData.Valid())
+            {
                 // render icon
-                ESceneSpawnTool* st	= dynamic_cast<ESceneSpawnTool*>(FParentTools); VERIFY(st);
-                ref_shader s 	   	= st->GetIcon(m_SpawnData.m_Data->name());
-                DU_impl.DrawEntity		(0xffffffff,s);
-            }else{
+                ESceneSpawnTool* st	= dynamic_cast<ESceneSpawnTool*>(FParentTools);
+                VERIFY(st);
+                ref_shader s = st->GetIcon(m_SpawnData.m_Data->name());
+                DU_impl.DrawEntity(0xffffffff,s);
+            }
+            else
+            {
                 switch (m_Type)
                 {
                     case ptRPoint:
                     {
-                		ESceneSpawnTool* st	= dynamic_cast<ESceneSpawnTool*>(FParentTools); VERIFY(st);
-                    	if( NULL==st->get_draw_visual(m_RP_TeamID, m_RP_Type, m_GameType) )
+                		ESceneSpawnTool* st	= dynamic_cast<ESceneSpawnTool*>(FParentTools);
+                        VERIFY(st);
+
+                        if (!st->get_draw_visual(m_RP_TeamID, m_RP_Type, m_GameType))
                         {
-                            float k = 1.f/(float(m_RP_TeamID+1)/float(MAX_TEAM));
-                            int r = m_RP_TeamID%MAX_TEAM;
                             Fcolor c;
-                            c.set(RP_COLORS[r]);
-                            c.mul_rgb(k*0.9f+0.1f);
+                            c.set(RP_COLORS[m_RP_TeamID]);
                             DU_impl.DrawEntity(c.get(),EDevice->m_WireShader);
                         }
                     }break;
@@ -1361,7 +1371,7 @@ void CSpawnPoint::OnProfileChange(PropValue* prop)
 
 void CSpawnPoint::FillProp(LPCSTR pref, PropItemVec& items)
 {
-	inherited::FillProp(pref,items);
+	inherited::FillProp(pref, items);
 
     if (m_SpawnData.Valid())
     {
@@ -1371,25 +1381,29 @@ void CSpawnPoint::FillProp(LPCSTR pref, PropItemVec& items)
         C->OnChooseFillEvent.bind	(this,&CSpawnPoint::OnFillChooseItems);
         C->OnChangeEvent.bind		(this,&CSpawnPoint::OnProfileChange);
     	m_SpawnData.FillProp		(pref,items);
-    }else{
+    }
+    else
+    {
     	switch (m_Type)
         {
         case ptRPoint:
         {
 
-            if(m_RP_Type==rptItemSpawn)
+            if(m_RP_Type == rptItemSpawn)
             {                                                            
-                ChooseValue* C				= PHelper().CreateChoose(items,PrepareKey(pref,"Respawn Point\\Profile"),&m_rpProfile,smCustom,0,0,10,cfMultiSelect);
-                C->OnChooseFillEvent.bind	(this,&CSpawnPoint::OnFillRespawnItemProfile);
-             }else
+                ChooseValue* C = PHelper().CreateChoose(items, PrepareKey(pref, "Respawn Point\\Profile"), &m_rpProfile, smCustom, 0, 0, 10, cfMultiSelect);
+                C->OnChooseFillEvent.bind(this, &CSpawnPoint::OnFillRespawnItemProfile);
+             }
+            else
             {
-				PHelper().CreateU8		(items, PrepareKey(pref,"Respawn Point\\Team"), 		&m_RP_TeamID, 	0,32);
+                PHelper().CreateU8(items, PrepareKey(pref, "Respawn Point\\Team"), &m_RP_TeamID, 0, MAX_TEAM - 1);
             }
-			Token8Value* TV = PHelper().CreateToken8	(items, PrepareKey(pref,"Respawn Point\\Spawn Type"),	&m_RP_Type, 	rpoint_type);
-            TV->OnChangeEvent.bind		(this,&CSpawnPoint::OnRPointTypeChange);
+			Token8Value* TV = PHelper().CreateToken8(items, PrepareKey(pref, "Respawn Point\\Spawn Type"), &m_RP_Type, rpoint_type);
+            TV->OnChangeEvent.bind(this, &CSpawnPoint::OnRPointTypeChange);
 
-		m_GameType.FillProp			(pref, items);
-        }break;
+		m_GameType.FillProp(pref, items);
+        }
+        break;
         case ptEnvMod:{
         	PHelper().CreateFloat	(items, PrepareKey(pref,"Environment Modificator\\Radius"),			&m_EM_Radius, 	EPS_L,10000.f);
         	PHelper().CreateFloat	(items, PrepareKey(pref,"Environment Modificator\\Power"), 			&m_EM_Power, 	EPS,1000.f);
@@ -1430,36 +1444,39 @@ void CSpawnPoint::FillProp(LPCSTR pref, PropItemVec& items)
         }
     }
 }
+
 void CSpawnPoint::OnEnvModFlagChange(PropValue* prop)
 {
-	LTools->UpdateProperties(FALSE);
+    LTools->UpdateProperties(FALSE);
 }
-
 
 bool CSpawnPoint::OnChooseQuery(LPCSTR specific)
 {
-	return (m_SpawnData.Valid()&&(0==strcmp(m_SpawnData.m_Data->name(),specific)));
+    return (m_SpawnData.Valid() && (0 == strcmp(m_SpawnData.m_Data->name(), specific)));
 }
- void  CSpawnPoint::UseSimulatePose ()
- {
- 	 if(m_physics_shell)
-     {
-     	 Fmatrix	m;
-         UpdateObjectXform(m);
-         FPosition.set(m.c);
-         //m.getXYZi(	FRotation );
-         m.getXYZ (	FRotation );
-         UpdateTransform();
-     }
+
+void CSpawnPoint::UseSimulatePose()
+{
+    if (m_physics_shell)
+    {
+        Fmatrix m;
+        UpdateObjectXform(m);
+        FPosition.set(m.c);
+        m.getXYZ(FRotation);
+        UpdateTransform();
+    }
  }
+
  void CSpawnPoint::ExportSpawn(xr_vector<NET_Packet>& Ps)
  {
-     m_SpawnData.ExportSpawn(Ps,this);
+     m_SpawnData.ExportSpawn(Ps, this);
  }
+
  void CSpawnPoint::PreExportSpawn()
  {
      m_SpawnData.PreExportSpawn(this);
  }
+
  bool CSpawnPoint::IsGraphPoint() const
  {
      ISE_Abstract* SEAbstract = m_SpawnData.GetEntity();
@@ -1469,9 +1486,8 @@ bool CSpawnPoint::OnChooseQuery(LPCSTR specific)
      }
      return false;
  }
+
  void CSpawnPoint::OnUpdateTransform()
  {
-  
       inherited::OnUpdateTransform();
-  
  }

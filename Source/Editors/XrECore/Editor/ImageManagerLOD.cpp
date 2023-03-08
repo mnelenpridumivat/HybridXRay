@@ -246,219 +246,236 @@ void CreateLODSamples(const Fbox& bbox, U32Vec& tgt_data, u32 tgt_w, u32 tgt_h)
 
 void CImageManager::CreateLODTexture(CEditableObject* OBJECT, U32Vec& lod_pixels, U32Vec& nm_pixels, u32 tgt_w, u32 tgt_h, int _samples, int quality)
 {
-	// build hemi light
-    BLVec						simple_hemi;
+    // build hemi light
+    BLVec simple_hemi;
     // fill simple hemi
-    simple_hemi.clear			();
-    xrHemisphereBuild			(1,2.f,simple_hemi_callback,&simple_hemi);
+    simple_hemi.clear();
+    xrHemisphereBuild(1, 2.f, simple_hemi_callback, &simple_hemi);
 
-    Fbox bb						= OBJECT->GetBox();
+    Fbox bb = OBJECT->GetBox();
 
     // build lod normals
-    lod_pixels.resize			(LOD_IMAGE_SIZE*LOD_IMAGE_SIZE*LOD_SAMPLE_COUNT,0);
-    nm_pixels.resize			(LOD_IMAGE_SIZE*LOD_IMAGE_SIZE*LOD_SAMPLE_COUNT,0);
-    U32Vec hemi_tmp				(LOD_IMAGE_SIZE*LOD_IMAGE_SIZE*LOD_SAMPLE_COUNT,0); 
-    Fvector 					o_center, o_size;
-    Fmatrix 					M, Mi;
-    bb.getradius				(o_size);
-    bb.getcenter				(o_center);
-    SPBItem* PB					= UI->ProgressStart(LOD_SAMPLE_COUNT*LOD_IMAGE_SIZE,OBJECT->GetName());
-    float dW 					= _max(o_size.x,o_size.z)/(LOD_IMAGE_SIZE/2);
-    float dH 					= o_size.y/(LOD_IMAGE_SIZE/2);
-    float dR					= bb.getradius();
-    float d2R					= dR*2.f;
-	//ETOOLS::ray_options			(CDB::OPT_CULL);
+    lod_pixels.resize(LOD_IMAGE_SIZE * LOD_IMAGE_SIZE * LOD_SAMPLE_COUNT, 0);
+    nm_pixels.resize(LOD_IMAGE_SIZE * LOD_IMAGE_SIZE * LOD_SAMPLE_COUNT, 0);
+    U32Vec hemi_tmp(LOD_IMAGE_SIZE * LOD_IMAGE_SIZE * LOD_SAMPLE_COUNT, 0); 
+    Fvector o_center, o_size;
+    Fmatrix M, Mi;
+    bb.getradius(o_size);
+    bb.getcenter(o_center);
+    SPBItem* PB = UI->ProgressStart(LOD_SAMPLE_COUNT * LOD_IMAGE_SIZE, OBJECT->GetName());
+    float dW = _max(o_size.x, o_size.z) / (LOD_IMAGE_SIZE / 2);
+    float dH = o_size.y / (LOD_IMAGE_SIZE / 2);
+    float dR = bb.getradius();
+    float d2R = dR * 2.f;
 
-    CreateLODSamples			(bb,lod_pixels,LOD_IMAGE_SIZE,LOD_IMAGE_SIZE);
+    CreateLODSamples(bb,lod_pixels, LOD_IMAGE_SIZE, LOD_IMAGE_SIZE);
 
-    float tN=0.f,tH=0.f,tT=0.f,tR=0.f;
-    
-	float 	LOD_CALC_SAMPLES 	= quality;
-	s32		LOD_CALC_SAMPLES_LIM= LOD_CALC_SAMPLES/2;
+    float tN = 0.f, tH = 0.f, tT = 0.f, tR = 0.f;
+
+    float LOD_CALC_SAMPLES = quality;
+    s32 LOD_CALC_SAMPLES_LIM= LOD_CALC_SAMPLES / 2;
+
+    xr_vector<CSurface*> loadedSurfaces;
 
     // preload textures
-    for (SurfaceIt surf_it=OBJECT->Surfaces().begin(); surf_it!=OBJECT->Surfaces().end(); surf_it++){
-    	CSurface* surf			= *surf_it;
-        Shader_xrLC* c_sh		= EDevice->ShaderXRLC.Get(surf->_ShaderXRLCName());
-        if (!c_sh->flags.bRendering) continue;
-        if (0==surf->m_ImageData)surf->CreateImageData();
-    }    
+    for (CSurface* surf : OBJECT->Surfaces())
+    {
+        Shader_xrLC* c_sh = EDevice->ShaderXRLC.Get(surf->_ShaderXRLCName());
+        if (!c_sh->flags.bRendering)
+            continue;
+
+        if (!surf->m_ImageData)
+        {
+            surf->CreateImageData();
+            loadedSurfaces.push_back(surf);
+        }
+    }
 
     // calculate
     for (u32 sample_idx=0; sample_idx<LOD_SAMPLE_COUNT; sample_idx++){
-    	float angle 			= sample_idx*(PI_MUL_2/LOD_SAMPLE_COUNT);
-        M.setXYZ				(0,angle,0);
-        M.translate_over		(o_center);
-        Mi.invert				(M);
-	    for (s32 iH=0; iH<LOD_IMAGE_SIZE; iH++){
-        	PB->Inc				();
-        	float Y				= (iH-(LOD_IMAGE_SIZE-1)/2)*dH;
-		    for (s32 iW=0; iW<LOD_IMAGE_SIZE; iW++){
-	        	float X			= (iW-(LOD_IMAGE_SIZE)/2)*dW;
+        float angle = sample_idx*(PI_MUL_2/LOD_SAMPLE_COUNT);
+        M.setXYZ(0,angle,0);
+        M.translate_over(o_center);
+        Mi.invert(M);
 
-                u32 pixel		= (LOD_IMAGE_SIZE-iH-1)*LOD_SAMPLE_COUNT*LOD_IMAGE_SIZE+LOD_IMAGE_SIZE*sample_idx+iW;
-                u32& tgt_c		= lod_pixels[pixel];
-                u32& tgt_n		= nm_pixels[pixel];
-                u32& tgt_h		= hemi_tmp[pixel];
+        for (s32 iH=0; iH<LOD_IMAGE_SIZE; iH++)
+        {
+            PB->Inc();
+            float Y = (iH-(LOD_IMAGE_SIZE-1) / 2) * dH;
 
-///.			tgt_c			= 0x00000000;
-                
-                FvectorVec		n_vec;
-///.			Fvector4Vec		c_vec;
-                Fvector4Vec		sample_pt_vec;
-				Fvector			start;
-CTimer 	TT,TT1;
-TT.Start();
-                SPickQuery 		PQ;
-                for (s32 iiH=-LOD_CALC_SAMPLES_LIM; iiH<=LOD_CALC_SAMPLES_LIM; iiH++){
-                	float dY	= iiH*(dH/LOD_CALC_SAMPLES);
-                    for (s32 iiW=-LOD_CALC_SAMPLES_LIM; iiW<=LOD_CALC_SAMPLES_LIM; iiW++){
-	                	float dX= iiW*(dW/LOD_CALC_SAMPLES);
-                        start.set		(X+dX,Y+dY,0);
+            for (s32 iW = 0; iW<LOD_IMAGE_SIZE; iW++)
+            {
+                float X = (iW - (LOD_IMAGE_SIZE) / 2) * dW;
+
+                u32 pixel = (LOD_IMAGE_SIZE - iH - 1) * LOD_SAMPLE_COUNT * LOD_IMAGE_SIZE + LOD_IMAGE_SIZE * sample_idx + iW;
+                u32& tgt_c = lod_pixels[pixel];
+                u32& tgt_n = nm_pixels[pixel];
+                u32& tgt_h = hemi_tmp[pixel];
+
+                FvectorVec n_vec;
+                Fvector4Vec sample_pt_vec;
+                Fvector start;
+                CTimer TT,TT1;
+                TT.Start();
+                SPickQuery PQ;
+
+                for (s32 iiH = -LOD_CALC_SAMPLES_LIM; iiH <= LOD_CALC_SAMPLES_LIM; iiH++)
+                {
+                    float dY = iiH * (dH / LOD_CALC_SAMPLES);
+
+                    for (s32 iiW=-LOD_CALC_SAMPLES_LIM; iiW<=LOD_CALC_SAMPLES_LIM; iiW++)
+                    {
+                        float dX = iiW * (dW / LOD_CALC_SAMPLES);
+                        start.set(X + dX, Y+ dY, 0);
                         M.transform_tiny(start);
-                        start.mad		(M.k,-dR);
-                        PQ.prepare_rq	(start,M.k,d2R,CDB::OPT_CULL);
-                        OBJECT->RayQuery		(PQ);
-                        if (PQ.r_count()){
+                        start.mad(M.k, -dR);
+                        PQ.prepare_rq(start, M.k, d2R, CDB::OPT_CULL);
+                        OBJECT->RayQuery(PQ);
+
+                        if (PQ.r_count())
+                        {
                             PQ.r_sort();
-                            Fvector N	= {0,0,0};
-///.		                Fcolor C	= {0,0,0,0};
-                            for (s32 k=PQ.r_count()-1; k>=0; k--){
-                            	SPickQuery::SResult* R = PQ.r_begin()+k;
-								u32 	uA, uC;
-                            	if (!GetPointColor(R,uA,uC)) continue;
-                                float	fA = float(uA)/255.f;
-								if (uA){
-                                    Fvector  pt; 	pt.mad(PQ.m_Start,PQ.m_Direction,R->range-EPS_L);
-                                    Fvector4 ptt;	ptt.set(pt.x,pt.y,pt.z,fA);
+                            Fvector N = {0, 0, 0};
+
+                            for (s32 k = PQ.r_count() - 1; k >= 0; k--)
+                            {
+                                SPickQuery::SResult* R = PQ.r_begin() + k;
+                                u32 uA, uC;
+                                if (!GetPointColor(R, uA, uC))
+                                    continue;
+                                float fA = float(uA) / 255.f;
+
+                                if (uA)
+                                {
+                                    Fvector pt; pt.mad(PQ.m_Start, PQ.m_Direction, R->range - EPS_L);
+                                    Fvector4 ptt; ptt.set(pt.x, pt.y, pt.z, fA);
                                     sample_pt_vec.push_back(ptt);
                                 }
+
                                 // normal
                                 Fvector Nn;
-                                Nn.mknormal		(R->verts[0],R->verts[1],R->verts[2]);
-                                Nn.mul			(fA);
+                                Nn.mknormal(R->verts[0], R->verts[1], R->verts[2]);
+                                Nn.mul(fA);
 
-                                N.mul			(1.f-fA);
-                                N.add			(Nn);
-
-                                // color
-///.							Fcolor Cn;
-///.							Cn.set			(uC);
-///.							if (Cn.a>=(200.f/255.f)) C.lerp(C,Cn,Cn.a);
+                                N.mul(1.f - fA);
+                                N.add(Nn);
                             }
-                            float n_mag			= N.magnitude();
-                            if (!fis_zero(n_mag,EPS))
+
+                            float n_mag = N.magnitude();
+
+                            if (!fis_zero(n_mag, EPS))
                                 n_vec.push_back	(N.div(n_mag));
-///.		                c_vec.push_back 	(Fvector4().set(C.r,C.g,C.b,C.a));
                         }
                     }
                 }
-tN+=TT.GetElapsed_sec();
-///.			Fvector4 cC			= {0,0,0,0};
-///.			for (Fvector4It c_it=c_vec.begin(); c_it!=c_vec.end(); c_it++)
-///.				cC.add			(*c_it);
-///.			cC.div				(c_vec.size());
-///.			cC.mul				(255.f);
-///.			tgt_c				= color_rgba(iFloor(cC.x),iFloor(cC.y),iFloor(cC.z),iFloor(cC.w)>200.f?255:0);
+                tN += TT.GetElapsed_sec();
+                Fvector N={0, 0, 0};
 
-                Fvector N={0,0,0};
-                if (!n_vec.empty()){
-                    for (FvectorIt it=n_vec.begin(); it!=n_vec.end(); it++) N.add(*it);
-                    N.div			(n_vec.size());
-	                N.normalize_safe();
-	                Mi.transform_dir(N);
+                if (!n_vec.empty())
+                {
+                    for (FvectorIt it = n_vec.begin(); it != n_vec.end(); it++)
+                        N.add(*it);
+                    N.div(n_vec.size());
+                    N.normalize_safe();
+                    Mi.transform_dir(N);
                 }
-                N.mul				(0.5f);
-                N.add				(0.5f);
-                N.mul				(255.f);
-                tgt_n				= color_rgba(iFloor(N.x),iFloor(N.y),iFloor(N.z),color_get_A(tgt_c));
+                N.mul(0.5f);
+                N.add(0.5f);
+                N.mul(255.f);
+                tgt_n = color_rgba(iFloor(N.x), iFloor(N.y), iFloor(N.z), color_get_A(tgt_c));
 
-                if (0==color_get_A(tgt_c)) continue;
-TT.Start();
+                if (0 == color_get_A(tgt_c))
+                    continue;
+                TT.Start();
                 // light points
-                float res_transp		= 0.f;
-                for (Fvector4It pt_it=sample_pt_vec.begin(); pt_it!=sample_pt_vec.end(); pt_it++){
+                float res_transp = 0.f;
+
+                for (Fvector4It pt_it = sample_pt_vec.begin(); pt_it != sample_pt_vec.end(); pt_it++)
+                {
                     float avg_transp	= 0.f;
-                    for (BLIt it=simple_hemi.begin(); it!=simple_hemi.end(); it++){
-TT1.Start();
-                        Fvector 		start;
-                        start.mad		(Fvector().set(pt_it->x,pt_it->y,pt_it->z),it->light.direction,-dR);
-                        PQ.prepare_rq	(start,it->light.direction,dR,CDB::OPT_CULL);
-                        OBJECT->RayQuery		(PQ);
-tR+=TT1.GetElapsed_sec();                             
-                        float ray_transp= 1.f;
-                        if (PQ.r_count()){
-                            for (s32 k=0; k<PQ.r_count(); k++){
-                                u32 	a,uC;
-TT1.Start();
-                                if (!GetPointColor(PQ.r_begin()+k,a,uC)) continue;
-tT+=TT1.GetElapsed_sec();
-                                ray_transp		*= (1.f - float(a)/255.f);
-								if (fis_zero(ray_transp,EPS_L)) break;
+                    for (BLIt it = simple_hemi.begin(); it != simple_hemi.end(); it++){
+                        TT1.Start();
+                        Fvector start;
+                        start.mad(Fvector().set(pt_it->x, pt_it->y, pt_it->z), it->light.direction, -dR);
+                        PQ.prepare_rq(start, it->light.direction, dR, CDB::OPT_CULL);
+                        OBJECT->RayQuery(PQ);
+                        tR += TT1.GetElapsed_sec();
+                        float ray_transp = 1.f;
+                        if (PQ.r_count())
+                        {
+                            for (s32 k=0; k < PQ.r_count(); k++)
+                            {
+                                u32 a,uC;
+                                TT1.Start();
+                                if (!GetPointColor(PQ.r_begin() + k, a, uC))
+                                    continue;
+                                tT += TT1.GetElapsed_sec();
+                                ray_transp *= (1.f - float(a) / 255.f);
+                                if (fis_zero(ray_transp, EPS_L))
+                                    break;
                             }
                         }
-                        avg_transp				+= ray_transp;
+                        avg_transp += ray_transp;
                     }
-                    avg_transp					/= simple_hemi.size();
-                    res_transp					= res_transp*(1.f-pt_it->w)+avg_transp*pt_it->w;
+                    avg_transp /= simple_hemi.size();
+                    res_transp = res_transp * (1.f - pt_it->w) + avg_transp * pt_it->w;
                 }
-tH+=TT.GetElapsed_sec();
-				u8 h 				= (u8)iFloor	(res_transp*255.f);
-				tgt_h				= color_rgba(h,h,h,color_get_A(tgt_c));
+                tH += TT.GetElapsed_sec();
+                u8 h = (u8)iFloor(res_transp * 255.f);
+                tgt_h = color_rgba(h, h, h, color_get_A(tgt_c));
             }
         }
     }
 
-	Msg("Normal: %3.2fsec, Hemi: %3.2f, PC: %3.2f, RP: %3.2f",tN,tH,tT,tR);
-	ImageLib.ApplyBorders			(lod_pixels,LOD_IMAGE_SIZE*LOD_SAMPLE_COUNT,LOD_IMAGE_SIZE);
-	ImageLib.ApplyBorders			(nm_pixels,	LOD_IMAGE_SIZE*LOD_SAMPLE_COUNT,LOD_IMAGE_SIZE);
-	ImageLib.ApplyBorders			(hemi_tmp,	LOD_IMAGE_SIZE*LOD_SAMPLE_COUNT,LOD_IMAGE_SIZE);
+    Msg("Normal: %3.2fsec, Hemi: %3.2f, PC: %3.2f, RP: %3.2f", tN, tH, tT, tR);
+    ImageLib.ApplyBorders(lod_pixels, LOD_IMAGE_SIZE * LOD_SAMPLE_COUNT, LOD_IMAGE_SIZE);
+    ImageLib.ApplyBorders(nm_pixels, LOD_IMAGE_SIZE * LOD_SAMPLE_COUNT, LOD_IMAGE_SIZE);
+    ImageLib.ApplyBorders(hemi_tmp, LOD_IMAGE_SIZE * LOD_SAMPLE_COUNT, LOD_IMAGE_SIZE);
     // fill alpha to N-channel (HEMI)
-    for (int px_idx=0; px_idx<int(nm_pixels.size()); px_idx++)
-        nm_pixels[px_idx]			= subst_alpha(nm_pixels[px_idx],color_get_R(hemi_tmp[px_idx]));
-    
+    for (int px_idx = 0; px_idx < int(nm_pixels.size()); px_idx++)
+        nm_pixels[px_idx] = subst_alpha(nm_pixels[px_idx], color_get_R(hemi_tmp[px_idx]));
+
+    for (CSurface* surf : loadedSurfaces)
+        surf->RemoveImageData();
+
     UI->ProgressEnd(PB);
 }
 
 //------------------------------------------------------------------------------
-// 
-//------------------------------------------------------------------------------
 void CImageManager::CreateLODTexture(CEditableObject* OBJECT, LPCSTR tex_name, u32 tgt_w, u32 tgt_h, int samples, int age, int quality)
 {
-    U32Vec 						lod_pixels, nm_pixels;
+    U32Vec lod_pixels, nm_pixels;
 
-	CreateLODTexture			(OBJECT,lod_pixels,nm_pixels,tgt_w,tgt_h,samples,quality);
+    CreateLODTexture(OBJECT, lod_pixels, nm_pixels, tgt_w, tgt_h, samples, quality);
 
-    string_path					out_name,src_name;
-    CImage* I 					= xr_new<CImage>();
+    string_path out_name, src_name;
+    CImage* I = xr_new<CImage>();
     // save lod
-    strcpy						(src_name,tex_name);
+    strcpy(src_name, tex_name);
 
-    strcpy						(src_name, EFS.ChangeFileExt(src_name,".thm").c_str());
-    FS.file_delete				(_textures_,src_name);
+    strcpy(src_name, EFS.ChangeFileExt(src_name, ".thm").c_str());
+    FS.file_delete(_textures_, src_name);
 
-    strcpy						(src_name, EFS.ChangeFileExt(src_name,".tga").c_str());
-    FS.update_path				(out_name,_textures_,src_name);
-    I->Create					(tgt_w*samples,tgt_h,lod_pixels.data());
-//	I->Vflip					();
-    I->SaveTGA					(out_name);
-    FS.set_file_age				(out_name,age);
-    SynchronizeTexture			(src_name,age);
+    strcpy(src_name, EFS.ChangeFileExt(src_name, ".tga").c_str());
+    FS.update_path(out_name, _textures_, src_name);
+    I->Create(tgt_w * samples, tgt_h, lod_pixels.data());
+//    I->Vflip();
+    I->SaveTGA(out_name);
+    FS.set_file_age(out_name, age);
+    SynchronizeTexture(src_name, age);
 
     // save normal map
-    strconcat					(sizeof(src_name),src_name, tex_name, "_nm");
-    strcpy						(src_name,EFS.ChangeFileExt(src_name,".thm").c_str());
-    FS.file_delete				(_textures_,src_name);
+    strconcat(sizeof(src_name), src_name, tex_name, "_nm");
+    strcpy(src_name, EFS.ChangeFileExt(src_name, ".thm").c_str());
+    FS.file_delete(_textures_, src_name);
 
-    strcpy						(src_name, EFS.ChangeFileExt(src_name,".tga").c_str());
-    FS.update_path				(out_name,_textures_,src_name);
-    I->Create					(tgt_w*samples,tgt_h,nm_pixels.data());
-//	I->Vflip					();
-    I->SaveTGA					(out_name);
-    FS.set_file_age				(out_name,age);
-    SynchronizeTexture			(src_name,age);
-    
-    xr_delete					(I);
+    strcpy(src_name, EFS.ChangeFileExt(src_name, ".tga").c_str());
+    FS.update_path(out_name, _textures_, src_name);
+    I->Create(tgt_w * samples, tgt_h, nm_pixels.data());
+//    I->Vflip();
+    I->SaveTGA(out_name);
+    FS.set_file_age(out_name, age);
+    SynchronizeTexture(src_name, age);
+
+    xr_delete(I);
 }
-
-

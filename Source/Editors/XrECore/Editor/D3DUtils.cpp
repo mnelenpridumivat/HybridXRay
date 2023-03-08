@@ -1256,28 +1256,43 @@ void CDrawUtilities::DrawPrimitiveLIT(D3DPRIMITIVETYPE pt, u32 pc, FVF::LIT* ver
 
 void CDrawUtilities::DrawLink(const Fvector& p0, const Fvector& p1, float sz, u32 clr)
 {
-	DrawLine(p1,p0,clr);
-    Fvector pp[2],D,R,N={0,1,0};
-    D.sub(p1,p0); D.normalize();
-    R.crossproduct(N,D); R.mul(0.5f); D.mul(2.0f); N.mul(0.5f);
+    if (p0.similar(p1))
+        return;
+
+    DrawLine(p1, p0, clr);
+    Fvector pp[2], D, R, N = {0, 1, 0};
+    D.sub(p1, p0);
+    D.normalize();
+    R.crossproduct(N,D);
+    R.mul(0.5f);
+    D.mul(2.0f);
+    N.mul(0.5f);
     // LR
-	pp[0].add(R,D); pp[0].mul(sz*-0.5f);	pp[0].add(p1);
-	R.invert();
-	pp[1].add(R,D); pp[1].mul(sz*-0.5f);	pp[1].add(p1);
-	DrawLine(p1,pp[0],clr);
- 	DrawLine(p1,pp[1],clr);
+    pp[0].add(R, D);
+    pp[0].mul(sz* -0.5f);
+    pp[0].add(p1);
+    R.invert();
+    pp[1].add(R, D);
+    pp[1].mul(sz* -0.5f);
+    pp[1].add(p1);
+    DrawLine(p1, pp[0], clr);
+    DrawLine(p1, pp[1], clr);
     // UB
-	pp[0].add(N,D); pp[0].mul(sz*-0.5f);	pp[0].add(p1);
+    pp[0].add(N, D);
+    pp[0].mul(sz* -0.5f);
+    pp[0].add(p1);
     N.invert();
-	pp[1].add(N,D); pp[1].mul(sz*-0.5f);	pp[1].add(p1);
-    DrawLine(p1,pp[0],clr);
-    DrawLine(p1,pp[1],clr);
+    pp[1].add(N, D);
+    pp[1].mul(sz* -0.5f);
+    pp[1].add(p1);
+    DrawLine(p1, pp[0], clr);
+    DrawLine(p1, pp[1], clr);
 }
 
 void CDrawUtilities::DrawJoint(const Fvector& p, float radius, u32 clr)
 {
-  //	RCache.set_xform_world	(Fidentity);
-	DrawLineSphere(p,radius,clr,false);
+  // RCache.set_xform_world(Fidentity);
+    DrawLineSphere(p, radius,clr, false);
 }
 
 void CDrawUtilities::OnRender()

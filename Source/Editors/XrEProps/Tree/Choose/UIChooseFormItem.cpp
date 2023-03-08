@@ -6,6 +6,7 @@ UIChooseFormItem::UIChooseFormItem(shared_str Name):Object(nullptr),UITreeItem(N
 	m_bIsMixed = false;
 	bSelected = false;
 	Index = -1;
+    m_bOpenByDefault = false;
 }
 
 UIChooseFormItem::~UIChooseFormItem()
@@ -85,12 +86,17 @@ void UIChooseFormItem::Draw()
 	}
 	else
 	{
-		ImGuiTreeNodeFlags Flags = ImGuiTreeNodeFlags_OpenOnArrow; 
+		ImGuiTreeNodeFlags Flags = ImGuiTreeNodeFlags_OpenOnArrow;
+
+        if (m_bOpenByDefault)
+            Flags |= ImGuiTreeNodeFlags_DefaultOpen;
+
 		if (Form->m_Flags.test(cfMultiSelect))
 		{
 			ImGui::PushItemFlag(ImGuiItemFlags_MixedValue, m_bIsMixed);
 			bool CheckChange = ImGui::Checkbox("##checkbox", &bIsFavorite);
 			ImGui::PopItemFlag();
+
 			if (CheckChange)
 			{
 				Form->m_RootItem.ClearSelection();
@@ -112,9 +118,6 @@ void UIChooseFormItem::Draw()
 	}
 
 	ImGui::PopID();
-
-
-	
 }
 
 void UIChooseFormItem::DrawRoot()
@@ -303,4 +306,20 @@ UITreeItem* UIChooseFormItem::CreateItem(shared_str Name)
     auto Item =  xr_new<UIChooseFormItem>(Name);
 	Item->Form = Form;
 	return Item;
+}
+
+void UIChooseFormItem::OpenParentItems(const char* path, char delimiter)
+{
+    if (!delimiter || !strchr(path, delimiter)) // not a folder
+        return;
+
+    string_path itemName;
+    xr_strcpy(itemName, path);
+    strchr(itemName, delimiter)[0] = '\0';
+
+    if (UIChooseFormItem* Item = dynamic_cast<UIChooseFormItem*>(FindItem(itemName)))
+    {
+        Item->m_bOpenByDefault = true;
+        Item->OpenParentItems(strchr(path, delimiter) + 1);
+    }
 }

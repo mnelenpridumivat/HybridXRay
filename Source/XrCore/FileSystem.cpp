@@ -189,31 +189,32 @@ bool EFS_Utils::GetOpenNameInternal(HWND hWnd, LPCSTR initial,  LPSTR buffer, in
 	}
     if (bRes && bMulti)
     {
-    	Log				("buff=",buffer);
-		int cnt			= _GetItemCount(buffer,0x0);
-        if (cnt>1)
+        Log("buff=", buffer);
+        int cnt = _GetItemCount(buffer, 0x0);
+        if (cnt > 1)
         {
-            char 		dir	  [255*255];
-            char 		buf	  [255*255];
-            char 		fns	  [255*255];
+            constexpr u32 MaxLen = 255 * 255;
+            char dir[MaxLen];
+            char buf[MaxLen];
+            char fns[MaxLen];
 
-            xr_strcpy		(dir, buffer);
-            xr_strcpy		(fns, dir);
-            xr_strcat		(fns, "\\");
-            xr_strcat		(fns, _GetItem	(buffer,1,buf,0x0));
+            xr_strcpy(dir, buffer);
+            xr_strcpy(fns, dir);
+            xr_strcat(fns, "\\");
+            xr_strcat(fns, _GetItem(buffer, 1, buf, MaxLen, 0x0));
 
-            for (int i=2; i<cnt; i++)
+            for (int i = 2; i < cnt; i++)
             {
-                xr_strcat	(fns,",");
-                xr_strcat	(fns,dir);
-                xr_strcat	(fns,"\\");
-                xr_strcat	(fns,_GetItem(buffer,i,buf,0x0));
+                xr_strcat(fns, ",");
+                xr_strcat(fns, dir);
+                xr_strcat(fns, "\\");
+                xr_strcat(fns, _GetItem(buffer, i, buf, MaxLen, 0x0));
             }
-            xr_strcpy		(buffer, sz_buf, fns);
+            xr_strcpy(buffer, sz_buf, fns);
         }
     }
-    strlwr				(buffer);
-    return 				bRes;
+    strlwr(buffer);
+    return bRes;
 }
 
 bool EFS_Utils::GetSaveName( LPCSTR initial, string_path& buffer, LPCSTR offset, int start_flt_ext )

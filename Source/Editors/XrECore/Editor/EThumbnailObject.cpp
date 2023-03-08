@@ -18,7 +18,9 @@ EObjectThumbnail::EObjectThumbnail(LPCSTR src_name, bool bLoad):EImageThumbnail(
 
 EObjectThumbnail::~EObjectThumbnail()
 {
-	m_Pixels.clear();
+    face_count = 0;
+    vertex_count = 0;
+    m_Pixels.clear();
 }
 //------------------------------------------------------------------------------
 
@@ -111,8 +113,7 @@ void EObjectThumbnail::FillProp(PropItemVec& items)
 
 void EObjectThumbnail::FillInfo(PropItemVec& items)
 {
-    PHelper().CreateCaption	(items, "Face Count",				xr_string(face_count).c_str());
-    PHelper().CreateCaption	(items, "Vertex Count",				xr_string(vertex_count).c_str());
+    PHelper().CreateCaption(items, "Face Count", face_count ? xr_string(face_count).c_str() : "?");
+    PHelper().CreateCaption(items, "Vertex Count", vertex_count ? xr_string(vertex_count).c_str() : "?");
 }
 //------------------------------------------------------------------------------
-

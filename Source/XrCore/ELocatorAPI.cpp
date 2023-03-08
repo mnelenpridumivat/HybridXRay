@@ -14,7 +14,6 @@
 
 #include "FS_internal.h"
 
-
 #define FSLTX	"fs.ltx"
 
 //////////////////////////////////////////////////////////////////////
@@ -41,12 +40,12 @@ void ELocatorAPI::_initialize	(u32 flags, LPCSTR target_folder, LPCSTR fs_fname)
 
 	Log				("Initializing File System...");
 	m_Flags.set		(flags,TRUE);
-
+    string_path tmpAppPath;
 
 	// append application path
 
-	if (m_Flags.is(flScanAppRoot)){
-        string_path tmpAppPath;
+	if (m_Flags.is(flScanAppRoot))
+    {
         xr_strcpy(tmpAppPath, sizeof(tmpAppPath), Core.ApplicationPath);
         if (xr_strlen(tmpAppPath))
         {
@@ -65,16 +64,18 @@ void ELocatorAPI::_initialize	(u32 flags, LPCSTR target_folder, LPCSTR fs_fname)
     }
     else
     {
-
         append_path("$fs_root$", "", 0, FALSE);
     }
 	if (m_Flags.is(flTargetFolderOnly)){
 		append_path		("$target_folder$",target_folder,0,TRUE);
-	}else{
-		IReader* F		= r_open((fs_fname&&fs_fname[0])?fs_fname:FSLTX); 
+	}
+    else
+    {
+        xr_strcat(tmpAppPath, "\\");
+		IReader* F = r_open((fs_fname&&fs_fname[0])?fs_fname:FSLTX); 
 		if (!F&&m_Flags.is(flScanAppRoot))
-			F			= r_open("$app_root$",(fs_fname&&fs_fname[0])?fs_fname:FSLTX); 
-		R_ASSERT3		(F,"Can't open file:", (fs_fname&&fs_fname[0])?fs_fname:FSLTX);
+			F = r_open("$app_root$",(fs_fname&&fs_fname[0])?fs_fname:FSLTX); 
+		R_ASSERT3(F,"Can't open file:", (fs_fname&&fs_fname[0])?fs_fname:FSLTX);
 		// append all pathes    
 		string_path		buf;
 		string_path		id, temp, root, add, def, capt;
@@ -99,23 +100,34 @@ void ELocatorAPI::_initialize	(u32 flags, LPCSTR target_folder, LPCSTR fs_fname)
 			lp_def		=(cnt>=5)?def:0;
 			lp_capt		=(cnt>=6)?capt:0;
 			PathPairIt p_it = pathes.find(root);
+            const char* rootDir;
+
+            if (p_it != pathes.end())
+                rootDir = p_it->second->m_Path;
+            else
+            {
+                // to find path when working directory is not sdk root, and root not specified
+                rootDir = tmpAppPath;
+                lp_add = root;
+            }
+
 			std::pair<PathPairIt, bool> I;
-			FS_Path* P	= xr_new<FS_Path>((p_it!=pathes.end())?p_it->second->m_Path:root,lp_add,lp_def,lp_capt,fl);
-			I			= pathes.insert(mk_pair(xr_strdup(id),P));
-			
-			R_ASSERT	(I.second);
+            FS_Path* P = xr_new<FS_Path>(rootDir, lp_add, lp_def, lp_capt, fl);
+            // FS_Path* P = xr_new<FS_Path>((p_it!=pathes.end())?p_it->second->m_Path:root,lp_add,lp_def,lp_capt,fl);
+            I = pathes.insert(mk_pair(xr_strdup(id),P));
+
+			R_ASSERT(I.second);
 		}
-		r_close			(F);
+		r_close(F);
 	};
 
-	m_Flags.set		(flReady,TRUE);
-
-	CreateLog		(0!=strstr(Core.Params,"-nolog"));
+	m_Flags.set(flReady,TRUE);
+	CreateLog(0!=strstr(Core.Params,"-nolog"));
 }
 
-void ELocatorAPI::_destroy		()
+void ELocatorAPI::_destroy()
 {
-	CloseLog		();
+	CloseLog();
 
 	for(PathPairIt p_it=pathes.begin(); p_it!=pathes.end(); p_it++){
 		char* str	= LPSTR(p_it->first);
