@@ -51,8 +51,8 @@ bool CParticleTool::OnCreate()
     SetAction		(etaSelect);
 
 
-    m_EditPE 		= (PS::CParticleEffect*)::Render->Models->CreatePE(0);
-    m_EditPG		= (PS::CParticleGroup*)::Render->Models->CreatePG(0);
+    m_EditPE = (PS::CParticleEffect*)RImplementation.Models->CreatePE(0);
+    m_EditPG = (PS::CParticleGroup*)RImplementation.Models->CreatePG(0);
     m_ItemProps = xr_new<UIPropertiesForm>();
     m_ItemProps->SetModifiedEvent(TOnModifiedEvent(this, &CParticleTool::OnItemModified));
 
@@ -157,8 +157,8 @@ void CParticleTool::Render()
     default: THROW;
     }
 	// Draw the particles.
-    ::Render->Models->RenderSingle(m_EditPG,Fidentity,1.f);
-    ::Render->Models->RenderSingle(m_EditPE,Fidentity,1.f);
+    RImplementation.Models->RenderSingle(m_EditPG, Fidentity, 1.f);
+    RImplementation.Models->RenderSingle(m_EditPE, Fidentity, 1.f);
 
     if (m_Flags.is(flAnimatedPath))
     	m_ParentAnimator->DrawPath();
@@ -169,19 +169,22 @@ void CParticleTool::Render()
 
 void CParticleTool::OnFrame()
 {
-	if (!m_bReady) return;
-	if (m_EditObject)
-    	m_EditObject->OnFrame();
+    if (!m_bReady)
+        return;
+    if (m_EditObject)
+        m_EditObject->OnFrame();
 
-    if (m_Flags.is(flAnimatedParent)){
-    	m_ParentAnimator->Update(EDevice.fTimeDelta);
-        if (m_ParentAnimator->IsPlaying()){
-        	Fvector new_vel;
-            new_vel.sub (m_ParentAnimator->XFORM().c,m_Transform.c);
-            new_vel.div (EDevice.fTimeDelta);
-            m_Vel.lerp	(m_Vel,new_vel,0.9);
-            m_Transform	= m_ParentAnimator->XFORM();
-            m_Flags.set	(flApplyParent,TRUE);
+    if (m_Flags.is(flAnimatedParent))
+    {
+        m_ParentAnimator->Update(EDevice->fTimeDelta);
+        if (m_ParentAnimator->IsPlaying())
+        {
+            Fvector new_vel;
+            new_vel.sub(m_ParentAnimator->XFORM().c, m_Transform.c);
+            new_vel.div(EDevice->fTimeDelta);
+            m_Vel.lerp(m_Vel, new_vel, 0.9);
+            m_Transform = m_ParentAnimator->XFORM();
+            m_Flags.set(flApplyParent, TRUE);
         }
     }
 
@@ -192,8 +195,8 @@ void CParticleTool::OnFrame()
 	if (m_Flags.is(flCompileEffect))
     	RealCompileEffect();
 
-    m_EditPE->OnFrame(EDevice.dwTimeDelta);
-    m_EditPG->OnFrame(EDevice.dwTimeDelta);
+    m_EditPE->OnFrame(EDevice->dwTimeDelta);
+    m_EditPG->OnFrame(EDevice->dwTimeDelta);
 
 	if (m_Flags.is(flRefreshProps))
     	RealUpdateProperties();
@@ -232,7 +235,7 @@ void CParticleTool::ZoomObject(BOOL bSelOnly)
 {
 	VERIFY(m_bReady);
     if (!bSelOnly&&m_EditObject){
-        EDevice.m_Camera.ZoomExtents(m_EditObject->GetBox());
+        EDevice->m_Camera.ZoomExtents(m_EditObject->GetBox());
 	}else{
     	Fbox box; box.invalidate();
         switch(m_EditMode){
@@ -241,7 +244,7 @@ void CParticleTool::ZoomObject(BOOL bSelOnly)
         case emGroup:	box.set(m_EditPG->vis.box);	break;
 	    default: THROW;
         }
-        if (box.is_valid()){ box.grow(1.f); EDevice.m_Camera.ZoomExtents(box); }
+        if (box.is_valid()){ box.grow(1.f); EDevice->m_Camera.ZoomExtents(box); }
     }
 }
 
@@ -253,28 +256,28 @@ void CParticleTool::PrepareLighting()
     L.type = D3DLIGHT_DIRECTIONAL;
     L.diffuse.set(1,1,1,1);
     L.direction.set(1,-1,1); L.direction.normalize();
-	EDevice.SetLight(0,L);
-	EDevice.LightEnable(0,true);
+	EDevice->SetLight(0,L);
+	EDevice->LightEnable(0,true);
 
     L.diffuse.set(0.3,0.3,0.3,1);
     L.direction.set(-1,-1,-1); L.direction.normalize();
-	EDevice.SetLight(1,L);
-	EDevice.LightEnable(1,true);
+	EDevice->SetLight(1,L);
+	EDevice->LightEnable(1,true);
 
     L.diffuse.set(0.3,0.3,0.3,1);
     L.direction.set(1,-1,-1); L.direction.normalize();
-	EDevice.SetLight(2,L);
-	EDevice.LightEnable(2,true);
+	EDevice->SetLight(2,L);
+	EDevice->LightEnable(2,true);
 
     L.diffuse.set(0.3,0.3,0.3,1);
     L.direction.set(-1,-1,1); L.direction.normalize();
-	EDevice.SetLight(3,L);
-	EDevice.LightEnable(3,true);
+	EDevice->SetLight(3,L);
+	EDevice->LightEnable(3,true);
 
 	L.diffuse.set(1.0,0.8,0.7,1);
     L.direction.set(0,1,0); L.direction.normalize();
-	EDevice.SetLight(4,L);
-	EDevice.LightEnable(4,true);
+	EDevice->SetLight(4,L);
+	EDevice->LightEnable(4,true);
 }
 
 void CParticleTool::OnDeviceCreate()
@@ -676,10 +679,11 @@ void CParticleTool::OnShowHint(AStringVec& SS)
 bool CParticleTool::MouseStart(TShiftState Shift)
 {
 	inherited::MouseStart(Shift);
-	switch(m_Action){
+	switch(m_Action)
+    {
     case etaSelect: break;
     case etaAdd:	break;
-    case etaMove:{
+    /*case etaMove: {
         if (Shift|ssCtrl){
         	if (m_EditObject){
                 float dist = UI->ZFar();
@@ -705,7 +709,7 @@ bool CParticleTool::MouseStart(TShiftState Shift)
         }
     }break;
     case etaRotate:	break;
-    case etaScale:  break;
+    case etaScale:  break;*/
     }
     ApplyParent		();
 	return m_bHiddenMode;
@@ -720,22 +724,30 @@ bool CParticleTool::MouseEnd(TShiftState Shift)
 void CParticleTool::MouseMove(TShiftState Shift)
 {
 	inherited::MouseMove(Shift);
-	switch(m_Action){
+	switch(m_Action)
+    {
     case etaSelect: break;
     case etaAdd: 	break;
-    case etaMove:	
+    /*case etaMove:
     	m_Transform.c.add(m_MovedAmount); 
     break;
-    case etaRotate:{
-    	Fmatrix mR; mR.identity();
-    	if (!fis_zero(m_RotateVector.x)) 		mR.rotateX(m_RotateAmount);
-        else if (!fis_zero(m_RotateVector.y)) 	mR.rotateY(m_RotateAmount);
-        else if (!fis_zero(m_RotateVector.z)) 	mR.rotateZ(m_RotateAmount);
-        m_Transform.mulB_43	(mR);
-    }break;
-    case etaScale:	break;
+    case etaRotate:
+    {
+        Fmatrix mR;
+        mR.identity();
+        if (!fis_zero(m_RotateVector.x))
+            mR.rotateX(m_RotateAmount);
+        else if (!fis_zero(m_RotateVector.y))
+            mR.rotateY(m_RotateAmount);
+        else if (!fis_zero(m_RotateVector.z))
+            mR.rotateZ(m_RotateAmount);
+        m_Transform.mulB_43(mR);
     }
-    ApplyParent		();
+    break;
+    case etaScale:
+        break;*/
+    }
+    ApplyParent();
 }
 //------------------------------------------------------------------------------
 

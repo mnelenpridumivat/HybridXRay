@@ -43,7 +43,7 @@ CCommandVar CParticleTool::CommandSaveXR(CCommandVar p1, CCommandVar p2)
 CCommandVar CParticleTool::CommandLoadXR(CCommandVar p1, CCommandVar p2)
 {
 	xr_string temp_fn;
-    if (EFS.GetOpenName				(EDevice.m_hWnd, "$game_data$", temp_fn, false, NULL, 0))
+    if (EFS.GetOpenName(EDevice->m_hWnd, "$game_data$", temp_fn, false, NULL, 0))
 	{
         RImplementation.PSLibrary.OnDestroy	();
         RImplementation.PSLibrary.Load		(temp_fn.c_str());
@@ -79,7 +79,7 @@ CCommandVar CParticleTool::CommandValidate(CCommandVar p1, CCommandVar p2)
 }
 CCommandVar CParticleTool::CommandClear(CCommandVar p1, CCommandVar p2)
 {
-    EDevice.m_Camera.Reset();
+    EDevice->m_Camera.Reset();
     ResetPreviewObject();
     ExecCommand(COMMAND_UPDATE_CAPTION);
     return TRUE;
