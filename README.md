@@ -1,15 +1,23 @@
-# X-RAY - SDK (OMP fix v1)
-
-[Группа VK](https://vk.com/xray_omp)
+# HybridXRay
 
 ### Описание:
 Попытка привести в более менее рабочее состояние [SDK от Red Panda](https://github.com/RedPandaProjects/XRayEngine).  
-**Фиксы затрагивают только редакторы. Компиляторы не фиксились!**
+**В дальнейшем будет доводиться до ума всё, и движок, и компиляторы.**
 
 ### Установка:
-[Скачать](https://github.com/xray-omp/omp-sdk/releases/download/omp-fix-v1/SDK.OMP.fix.v1.zip). Закинуть файлы из папки SDK в папку editors оригинального SDK 0.7 с заменой (пример С:\X-RayCoPSDK\editors).
+Позже.
 
-### Список изменений (OMP fix v1):
+### Авторы и форки, чьи наработки использовались:
+
+[Graff46](https://github.com/Graff46/XRayEngine).
+[tsmp-xraySdkEditors](https://github.com/tsmp/xraySdkEditors).
+[X-RAY - SDK(OMP fix v1)](https://github.com/xray-omp/omp-sdk).
+
+
+**По результатам описание будет подробнее.
+
+
+### Список изменений [X-RAY - SDK(OMP fix v1)]:
 - Исправлено создание порталов на х64.
 - Исправлена возможность поворачивать объекты.
 - Исправлены лютые лаги при взаимодействии с объектом, после изменения чего либо в Properties.
