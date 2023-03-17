@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: editor_environment_suns_blend.hpp
 //	Created 	: 26.01.2008
 //  Modified 	: 26.01.2008
@@ -13,33 +13,40 @@
 
 #include <boost/noncopyable.hpp>
 
-namespace XrWeatherEditor {
+namespace XrWeatherEditor
+{
 
-class property_holder;
-class property_holder_collection;
+    class property_holder;
+    class property_holder_collection;
 
-namespace environment {
-namespace suns {
+    namespace environment
+    {
+        namespace suns
+        {
 
-class manager;
+            class manager;
 
-class blend : private boost::noncopyable {
-public:
-					blend		();
-			void	load		(CInifile& config, shared_str const& section);
-			void	save		(CInifile& config, shared_str const& section);
-			void	fill		(manager const& manager, XrWeatherEditor::property_holder* holder, XrWeatherEditor::property_holder_collection* collection);
+            class blend: private boost::noncopyable
+            {
+            public:
+                blend();
+                void load(CInifile& config, shared_str const& section);
+                void save(CInifile& config, shared_str const& section);
+                void fill(
+                    manager const&                               manager,
+                    XrWeatherEditor::property_holder*            holder,
+                    XrWeatherEditor::property_holder_collection* collection);
 
-private:
-    float			m_down_time;
-    float			m_rise_time;
-    float			m_time;
-}; // class blend
+            private:
+                float m_down_time;
+                float m_rise_time;
+                float m_time;
+            };   // class blend
 
-} // namespace suns
-} // namespace environment
-} // namespace XrWeatherEditor
+        }   // namespace suns
+    }       // namespace environment
+}   // namespace XrWeatherEditor
 
-#endif // #ifdef INGAME_EDITOR
+#endif   // #ifdef INGAME_EDITOR
 
-#endif // ifndef EDITOR_WEATHER_SUNS_BLEND_HPP_INCLUDED
+#endif   // ifndef EDITOR_WEATHER_SUNS_BLEND_HPP_INCLUDED

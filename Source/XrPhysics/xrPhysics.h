@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #ifdef SHIPPING
 #define XRPHYSICS_API
 #else

@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: property_vec3f.hpp
 //	Created 	: 29.12.2007
 //  Modified 	: 29.12.2007
@@ -11,25 +11,24 @@
 
 #include "property_vec3f_base.hpp"
 
-public ref class property_vec3f : public property_vec3f_base {
+public
+ref class property_vec3f: public property_vec3f_base
+{
 public:
-	typedef XrWeatherEditor::property_holder::vec3f_getter_type	vec3f_getter_type;
-	typedef XrWeatherEditor::property_holder::vec3f_setter_type	vec3f_setter_type;
-	typedef property_vec3f_base							inherited;
+    typedef XrWeatherEditor::property_holder::vec3f_getter_type vec3f_getter_type;
+    typedef XrWeatherEditor::property_holder::vec3f_setter_type vec3f_setter_type;
+    typedef property_vec3f_base                                 inherited;
 
 public:
-							property_vec3f	(
-								vec3f_getter_type const &getter,
-								vec3f_setter_type const &setter
-							);
-	virtual					~property_vec3f	();
-							!property_vec3f	();
-	virtual XrWeatherEditor::vec3f	get_value_raw	() override;
-	virtual void			set_value_raw	(XrWeatherEditor::vec3f value) override;
+    property_vec3f(vec3f_getter_type const& getter, vec3f_setter_type const& setter);
+    virtual ~property_vec3f();
+    !property_vec3f();
+    virtual XrWeatherEditor::vec3f get_value_raw() override;
+    virtual void                   set_value_raw(XrWeatherEditor::vec3f value) override;
 
 private:
-	vec3f_getter_type		*m_getter;
-	vec3f_setter_type		*m_setter;
-}; // ref class property_vec3f
+    vec3f_getter_type* m_getter;
+    vec3f_setter_type* m_setter;
+};   // ref class property_vec3f
 
-#endif // ifndef PROPERTY_VEC3F_HPP_INCLUDED
+#endif   // ifndef PROPERTY_VEC3F_HPP_INCLUDED

@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: property_grid.hpp
 //	Created 	: 23.01.2008
 //  Modified 	: 23.01.2008
@@ -12,37 +12,40 @@
 #include "property_value.hpp"
 #include "property_mouse_events.hpp"
 
-namespace XrWeatherEditor {
-namespace controls {
-
-public ref class property_grid : public System::Windows::Forms::PropertyGrid
+namespace XrWeatherEditor
 {
-private:
-	typedef System::Windows::Forms::Control			Control;
-	typedef System::Object							Object;
-	typedef Microsoft::Win32::RegistryKey			RegistryKey;
-	typedef System::String							String;
-	typedef System::Drawing::Point					Point;
+    namespace controls
+    {
 
-public:
-					property_grid					();
-			void	initialize_grid_view			();
-			void	OnChildControlMouseDoubleClick	(Object^ object, System::Windows::Forms::MouseEventArgs^ e);
-			void	OnChildControlMouseMove			(Object^ object, System::Windows::Forms::MouseEventArgs^ e);
-			void	OnChildControlMouseDown			(Object^ object, System::Windows::Forms::MouseEventArgs^ e);
-			void	setup_event_handlers			();
-			void	save							(RegistryKey^ root, String^ key);
-			void	load							(RegistryKey^ root, String^ key);
+    public
+        ref class property_grid: public System::Windows::Forms::PropertyGrid
+        {
+        private:
+            typedef System::Windows::Forms::Control Control;
+            typedef System::Object                  Object;
+            typedef Microsoft::Win32::RegistryKey   RegistryKey;
+            typedef System::String                  String;
+            typedef System::Drawing::Point          Point;
 
-private:
-			int		splitter_width					();
+        public:
+            property_grid();
+            void initialize_grid_view();
+            void OnChildControlMouseDoubleClick(Object ^ object, System::Windows::Forms::MouseEventArgs ^ e);
+            void OnChildControlMouseMove(Object ^ object, System::Windows::Forms::MouseEventArgs ^ e);
+            void OnChildControlMouseDown(Object ^ object, System::Windows::Forms::MouseEventArgs ^ e);
+            void setup_event_handlers();
+            void save(RegistryKey ^ root, String ^ key);
+            void load(RegistryKey ^ root, String ^ key);
 
-private:
-	Control^		m_property_grid_view;
-	Point			m_previous_location;
-}; // ref class property_grid
+        private:
+            int splitter_width();
 
-} // namespace controls
-} // namespace XrWeatherEditor
+        private:
+            Control ^ m_property_grid_view;
+            Point m_previous_location;
+        };   // ref class property_grid
 
-#endif // #define PROPERTY_GRID_HPP_INCLUDED
+    }   // namespace controls
+}   // namespace XrWeatherEditor
+
+#endif   // #define PROPERTY_GRID_HPP_INCLUDED

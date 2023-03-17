@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: property_mouse_events.hpp
 //	Created 	: 23.01.2008
 //  Modified 	: 23.01.2008
@@ -9,17 +9,21 @@
 #ifndef PROPERTY_MOUSE_EVENTS_HPP_INCLUDED
 #define PROPERTY_MOUSE_EVENTS_HPP_INCLUDED
 
-namespace XrWeatherEditor {
-namespace controls {
+namespace XrWeatherEditor
+{
+    namespace controls
+    {
 
-ref class property_grid;
+        ref class property_grid;
 
-public interface class property_mouse_events {
-public:
-	virtual void	on_double_click	(property_grid^ property_grid) = 0;
-}; // interface class property_mouse_events
+    public
+        interface class property_mouse_events
+        {
+        public:
+            virtual void on_double_click(property_grid ^ property_grid) = 0;
+        };   // interface class property_mouse_events
 
-} // namespace controls
-} // namespace XrWeatherEditor
+    }   // namespace controls
+}   // namespace XrWeatherEditor
 
-#endif // ifndef PROPERTY_MOUSE_EVENTS_HPP_INCLUDED
+#endif   // ifndef PROPERTY_MOUSE_EVENTS_HPP_INCLUDED

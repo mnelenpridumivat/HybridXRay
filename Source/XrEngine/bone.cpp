@@ -1,69 +1,66 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #pragma hdrstop
 
 #include "bone.h"
 #include "gamemtllib.h"
 
-
-u16	CBone::get_game_mtl_idx	( )			const	
+u16 CBone::get_game_mtl_idx() const
 {
-	return GameMaterialLibrary->GetMaterialIdx(game_mtl.c_str());
+    return GameMaterialLibrary->GetMaterialIdx(game_mtl.c_str());
 }
 
-static const Fobb	dummy = Fobb().identity();
-const	Fobb&		CBone::	get_obb				( )			const
+static const Fobb dummy = Fobb().identity();
+const Fobb&       CBone::get_obb() const
 {
-	return dummy;
+    return dummy;
 }
 //////////////////////////////////////////////////////////////////////////
 // BoneInstance methods
 
-
-
-void		CBoneInstance::set_param	(u32 idx, float data)
+void CBoneInstance::set_param(u32 idx, float data)
 {
-	VERIFY		(idx<MAX_BONE_PARAMS);
-	param[idx]	= data;
+    VERIFY(idx < MAX_BONE_PARAMS);
+    param[idx] = data;
 }
-float		CBoneInstance::get_param	(u32 idx)
+float CBoneInstance::get_param(u32 idx)
 {
-	VERIFY		(idx<MAX_BONE_PARAMS);
-	return		param[idx];
+    VERIFY(idx < MAX_BONE_PARAMS);
+    return param[idx];
 }
 
-#ifdef	DEBUG
-void 	CBoneData::DebugQuery		(BoneDebug& L)
+#ifdef DEBUG
+void CBoneData::DebugQuery(BoneDebug& L)
 {
-	for (u32 i=0; i<children.size(); i++)
-	{
-		L.push_back(SelfID);
-		L.push_back(children[i]->SelfID);
-		children[i]->DebugQuery(L);
-	}
+    for (u32 i = 0; i < children.size(); i++)
+    {
+        L.push_back(SelfID);
+        L.push_back(children[i]->SelfID);
+        children[i]->DebugQuery(L);
+    }
 }
 #endif
 
-void 	CBoneData::CalculateM2B(const Fmatrix& parent)
+void CBoneData::CalculateM2B(const Fmatrix& parent)
 {
-	// Build matrix
-	m2b_transform.mul_43	(parent,bind_transform);
+    // Build matrix
+    m2b_transform.mul_43(parent, bind_transform);
 
-	// Calculate children
-	for (xr_vector<CBoneData*>::iterator C=children.begin(); C!=children.end(); C++)
-		(*C)->CalculateM2B	(m2b_transform);
+    // Calculate children
+    for (xr_vector<CBoneData*>::iterator C = children.begin(); C != children.end(); C++)
+        (*C)->CalculateM2B(m2b_transform);
 
-	m2b_transform.invert	();            
+    m2b_transform.invert();
 }
 
-u16	CBoneData::GetNumChildren	( )const
+u16 CBoneData::GetNumChildren() const
 {
-	return (u16)children.size();
+    return (u16)children.size();
 }
-IBoneData&	CBoneData::GetChild		( u16 id )
+IBoneData& CBoneData::GetChild(u16 id)
 {
-	return *children[id];
+    return *children[id];
 }
-const IBoneData&	CBoneData::GetChild		( u16 id )const
+const IBoneData& CBoneData::GetChild(u16 id) const
 {
-	return *children[id];
+    return *children[id];
 }

@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: property_incrementable.hpp
 //	Created 	: 26.12.2007
 //  Modified 	: 26.12.2007
@@ -9,15 +9,19 @@
 #ifndef PROPERTY_INCREMENTABLE_HPP_INCLUDED
 #define PROPERTY_INCREMENTABLE_HPP_INCLUDED
 
-namespace XrWeatherEditor {
-namespace controls {
+namespace XrWeatherEditor
+{
+    namespace controls
+    {
 
-public interface class property_incrementable {
-public:
-	virtual void	increment	(float const% increment) = 0;
-}; // interface class property_value
+    public
+        interface class property_incrementable
+        {
+        public:
+            virtual void increment(float const % increment) = 0;
+        };   // interface class property_value
 
-} // namespace controls
-} // namespace XrWeatherEditor
+    }   // namespace controls
+}   // namespace XrWeatherEditor
 
-#endif // ifndef PROPERTY_INCREMENTABLE_HPP_INCLUDED
+#endif   // ifndef PROPERTY_INCREMENTABLE_HPP_INCLUDED

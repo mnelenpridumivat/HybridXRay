@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: property_holder_include.hpp
 //	Created 	: 04.12.2007
 //  Modified 	: 11.12.2007
@@ -9,39 +9,36 @@
 #ifndef PROPERTY_HOLDER_INCLUDE_HPP_INCLUDED
 #define PROPERTY_HOLDER_INCLUDE_HPP_INCLUDED
 
-#pragma managed(push,off)
+#pragma managed(push, off)
 #include <boost/noncopyable.hpp>
 #include "../xrcore/fastdelegate.h"
 #include <utility>
 #include "Public/property_holder.hpp"
 #pragma managed(pop)
 
-generic <typename type0, typename type1>
-private ref struct Pair {
-	type0	first;
-	type1	second;
+generic<typename type0, typename type1> private ref struct Pair
+{
+    type0 first;
+    type1 second;
 };
 
-template <typename T>
-class value_holder : private boost::noncopyable {
+template <typename T> class value_holder: private boost::noncopyable
+{
 public:
-	inline		value_holder	(T& value) :
-		m_value	(value)
-	{
-	}
+    inline value_holder(T& value): m_value(value) {}
 
-	inline T const&	xr_stdcall	get	()
-	{
-		return	(m_value);
-	}
+    inline T const& xr_stdcall get()
+    {
+        return (m_value);
+    }
 
-	inline void	xr_stdcall	set	(T const &value)
-	{
-		m_value	= value;
-	}
+    inline void xr_stdcall set(T const& value)
+    {
+        m_value = value;
+    }
 
 private:
-	T&	m_value;
+    T& m_value;
 };
 
-#endif // ifndef PROPERTY_HOLDER_INCLUDE_HPP_INCLUDED
+#endif   // ifndef PROPERTY_HOLDER_INCLUDE_HPP_INCLUDED

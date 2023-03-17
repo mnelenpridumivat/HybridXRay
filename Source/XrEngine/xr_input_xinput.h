@@ -1,16 +1,16 @@
-#pragma once
+﻿#pragma once
 /*
 #include <xinput.h>
 
 struct DXUT_GAMEPAD;
 
 #define DXUT_GAMEPAD_TRIGGER_THRESHOLD      30
-#define DXUT_MAX_CONTROLLERS				4  // XInput handles up to 4 controllers 
+#define DXUT_MAX_CONTROLLERS				4  // XInput handles up to 4 controllers
 
-HRESULT DXUTGetGamepadState(	DWORD dwPort, 
-								DXUT_GAMEPAD* pGamePad, 
-								bool bThumbstickDeadZone, 
-								bool bSnapThumbstickToCardinals );
+HRESULT DXUTGetGamepadState(	DWORD dwPort,
+                                DXUT_GAMEPAD* pGamePad,
+                                bool bThumbstickDeadZone,
+                                bool bSnapThumbstickToCardinals );
 void set_vibration			(u16 s1, u16 s2);
 
 struct DXUT_GAMEPAD

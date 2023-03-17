@@ -1,5 +1,5 @@
-/*
-GameSpy GHTTP SDK 
+﻿/*
+GameSpy GHTTP SDK
 Dan "Mr. Pants" Schoenblum
 dan@gamespy.com
 
@@ -15,20 +15,21 @@ devsupport@gamespy.com
 #include "ghttpConnection.h"
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
-void ghiDoSocketInit	  (GHIConnection * connection);
-void ghiDoHostLookup      (GHIConnection * connection);
-void ghiDoLookupPending   (GHIConnection * connection);
-void ghiDoConnecting      (GHIConnection * connection);
-void ghiDoSecuringSession (GHIConnection * connection);
-void ghiDoSendingRequest  (GHIConnection * connection);
-void ghiDoPosting         (GHIConnection * connection);
-void ghiDoWaiting         (GHIConnection * connection);
-void ghiDoReceivingStatus (GHIConnection * connection);
-void ghiDoReceivingHeaders(GHIConnection * connection);
-void ghiDoReceivingFile   (GHIConnection * connection);
+    void ghiDoSocketInit(GHIConnection* connection);
+    void ghiDoHostLookup(GHIConnection* connection);
+    void ghiDoLookupPending(GHIConnection* connection);
+    void ghiDoConnecting(GHIConnection* connection);
+    void ghiDoSecuringSession(GHIConnection* connection);
+    void ghiDoSendingRequest(GHIConnection* connection);
+    void ghiDoPosting(GHIConnection* connection);
+    void ghiDoWaiting(GHIConnection* connection);
+    void ghiDoReceivingStatus(GHIConnection* connection);
+    void ghiDoReceivingHeaders(GHIConnection* connection);
+    void ghiDoReceivingFile(GHIConnection* connection);
 
 #ifdef __cplusplus
 }

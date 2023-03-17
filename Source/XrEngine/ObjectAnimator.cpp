@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #pragma hdrstop
 
 #include "ObjectAnimator.h"
@@ -9,10 +9,10 @@
 //////////////////////////////////////////////////////////////////////
 CObjectAnimator::CObjectAnimator()
 {
-	bLoop			= false;
-    m_Current		= 0;
-    m_Speed			= 1.f;
-	m_Name			= "";
+    bLoop     = false;
+    m_Current = 0;
+    m_Speed   = 1.f;
+    m_Name    = "";
 }
 
 CObjectAnimator::~CObjectAnimator()
@@ -31,9 +31,10 @@ void CObjectAnimator::Clear()
 
 void CObjectAnimator::SetActiveMotion(COMotion* mot)
 {
-	m_Current			= mot;
-    if (m_Current) 		m_MParam.Set(m_Current);
-	m_XFORM.identity	();
+    m_Current = mot;
+    if (m_Current)
+        m_MParam.Set(m_Current);
+    m_XFORM.identity();
 }
 
 void CObjectAnimator::LoadMotions(LPCSTR fname)
@@ -54,7 +55,7 @@ void CObjectAnimator::LoadMotions(LPCSTR fname)
 
     if (!xr_strcmp(ext, ".anm"))
     {
-        COMotion* M	= xr_new<COMotion>();
+        COMotion* M = xr_new<COMotion>();
         if (M->LoadMotion(full_path))
             m_Motions.push_back(M);
         else
@@ -65,8 +66,8 @@ void CObjectAnimator::LoadMotions(LPCSTR fname)
     }
     else if (!xr_strcmp(ext, ".anms"))
     {
-        IReader* F = FS.r_open(full_path);
-        u32 dwMCnt = F->r_u32();
+        IReader* F      = FS.r_open(full_path);
+        u32      dwMCnt = F->r_u32();
         VERIFY(dwMCnt);
 
         for (u32 i = 0; i < dwMCnt; i++)
@@ -83,32 +84,37 @@ void CObjectAnimator::LoadMotions(LPCSTR fname)
         }
         FS.r_close(F);
     }
-    std::sort(m_Motions.begin(), m_Motions.end(), [](COMotion* a, COMotion* b) { return a->name < b->name; });
+    std::sort(m_Motions.begin(), m_Motions.end(), [](COMotion* a, COMotion* b) {
+        return a->name < b->name;
+    });
 }
 
-void CObjectAnimator::Load(const char * name)
+void CObjectAnimator::Load(const char* name)
 {
-	m_Name				= name;
-	LoadMotions			(name); 
-	SetActiveMotion		(0);
+    m_Name = name;
+    LoadMotions(name);
+    SetActiveMotion(0);
 }
 
 void CObjectAnimator::Update(float dt)
 {
-	if (m_Current){
-		Fvector R,P;
-		m_Current->_Evaluate(m_MParam.Frame(),P,R);
-		m_MParam.Update	(dt,m_Speed,bLoop);
-		m_XFORM.setXYZi	(R.x,R.y,R.z);
+    if (m_Current)
+    {
+        Fvector R, P;
+        m_Current->_Evaluate(m_MParam.Frame(), P, R);
+        m_MParam.Update(dt, m_Speed, bLoop);
+        m_XFORM.setXYZi(R.x, R.y, R.z);
         m_XFORM.translate_over(P);
-	}
+    }
 }
 
 COMotion* CObjectAnimator::Play(bool loop, LPCSTR name)
 {
     if (name && name[0])
     {
-        auto it = std::lower_bound(m_Motions.begin(), m_Motions.end(), name, [](COMotion* a, shared_str b) { return a->name < b; });
+        auto it = std::lower_bound(m_Motions.begin(), m_Motions.end(), name, [](COMotion* a, shared_str b) {
+            return a->name < b;
+        });
 
         if (it != m_Motions.end() && !xr_strcmp((*it)->Name(), name))
         {
@@ -135,15 +141,16 @@ COMotion* CObjectAnimator::Play(bool loop, LPCSTR name)
 
 void CObjectAnimator::Stop()
 {
-	SetActiveMotion		(0);
-	m_MParam.Stop		();
+    SetActiveMotion(0);
+    m_MParam.Stop();
 }
 
-float CObjectAnimator::GetLength		()
+float CObjectAnimator::GetLength()
 {
-	if(!m_Current) return 0.0f;
-	float res = m_Current->Length()/m_Current->FPS();
-	return res; 
+    if (!m_Current)
+        return 0.0f;
+    float res = m_Current->Length() / m_Current->FPS();
+    return res;
 }
 
 #ifndef MASTER_GOLD
@@ -171,9 +178,9 @@ void CObjectAnimator::DrawPath()
         EDevice->SetShader		(EDevice->m_WireShader);
         RCache.set_xform_world	(Fidentity);
         if (!path_points.empty())
-            DU_impl.DrawPrimitiveL		(D3DPT_LINESTRIP,path_points.size()-1,path_points.data(),path_points.size(),clr,true,false);
-        CEnvelope* E 			= m_Current->Envelope	();
-        for (KeyIt k_it=E->keys.begin(); k_it!=E->keys.end(); k_it++){
+            DU_impl.DrawPrimitiveL
+(D3DPT_LINESTRIP,path_points.size()-1,path_points.data(),path_points.size(),clr,true,false); CEnvelope* E 			=
+m_Current->Envelope	(); for (KeyIt k_it=E->keys.begin(); k_it!=E->keys.end(); k_it++){
             m_Current->_Evaluate((*k_it)->time,T,r);
             if (EDevice->m_Camera.GetPosition().distance_to_sqr(T)<50.f*50.f){
                 DU_impl.DrawCross	(T,0.1f,0.1f,0.1f, 0.1f,0.1f,0.1f, clr,false);

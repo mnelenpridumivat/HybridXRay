@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: property_integer_reference.hpp
 //	Created 	: 17.12.2007
 //  Modified 	: 17.12.2007
@@ -11,16 +11,18 @@
 
 #include "property_holder_include.hpp"
 
-public ref class property_integer_reference : public property_value {
+public
+ref class property_integer_reference: public property_value
+{
 public:
-							property_integer_reference	(int& value);
-	virtual					~property_integer_reference	();
-							!property_integer_reference	();
-	virtual System::Object	^get_value					();
-	virtual void			set_value					(System::Object ^object);
+    property_integer_reference(int& value);
+    virtual ~property_integer_reference();
+    !property_integer_reference();
+    virtual System::Object ^ get_value();
+    virtual void set_value(System::Object ^ object);
 
 private:
-	value_holder<int>*		m_value;
-}; // ref class property_integer_reference
+    value_holder<int>* m_value;
+};   // ref class property_integer_reference
 
-#endif // ifndef PROPERTY_INTEGER_REFERENCE_HPP_INCLUDED
+#endif   // ifndef PROPERTY_INTEGER_REFERENCE_HPP_INCLUDED

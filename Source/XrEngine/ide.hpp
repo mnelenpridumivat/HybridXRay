@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: ide.hpp
 //	Created 	: 11.12.2007
 //  Modified 	: 29.12.2007
@@ -13,16 +13,17 @@
 
 #include "../XrWeatherEditor/Public/ide.hpp"
 
-namespace XrWeatherEditor {
-	class ide;
-} // namespace XrWeatherEditor
-
-inline XrWeatherEditor::ide&	ide	()
+namespace XrWeatherEditor
 {
-	VERIFY	(Device->WeatherEditor());
-	return	(*Device->WeatherEditor());
+    class ide;
+}   // namespace XrWeatherEditor
+
+inline XrWeatherEditor::ide& ide()
+{
+    VERIFY(Device->WeatherEditor());
+    return (*Device->WeatherEditor());
 }
 
-#endif // #ifdef INGAME_EDITOR
+#endif   // #ifdef INGAME_EDITOR
 
-#endif // ifndef IDE_HPP_INCLUDED
+#endif   // ifndef IDE_HPP_INCLUDED

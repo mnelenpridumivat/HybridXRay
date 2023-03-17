@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: editor_environment_suns_blend.cpp
 //	Created 	: 26.01.2008
 //  Modified 	: 26.01.2008
@@ -15,46 +15,28 @@
 using XrWeatherEditor::environment::suns::blend;
 using XrWeatherEditor::environment::suns::manager;
 
-blend::blend		() :
-    m_down_time	(0.f),
-    m_rise_time	(0.f),
-    m_time		(0.f)
+blend::blend(): m_down_time(0.f), m_rise_time(0.f), m_time(0.f) {}
+
+void blend::load(CInifile& config, shared_str const& section)
 {
+    m_down_time = READ_IF_EXISTS(&config, r_float, section, "blend_down_time", 60.f);
+    m_rise_time = READ_IF_EXISTS(&config, r_float, section, "blend_rise_time", 60.f);
+    m_time      = READ_IF_EXISTS(&config, r_float, section, "blend_time", .1f);
 }
 
-void blend::load	(CInifile& config, shared_str const& section)
+void blend::fill(
+    manager const&                               manager,
+    XrWeatherEditor::property_holder*            holder,
+    XrWeatherEditor::property_holder_collection* collection)
 {
-    m_down_time	=   READ_IF_EXISTS(&config, r_float,	section, "blend_down_time",	60.f);
-    m_rise_time	=   READ_IF_EXISTS(&config, r_float,	section, "blend_rise_time",	60.f);
-    m_time		=   READ_IF_EXISTS(&config, r_float,	section, "blend_time",		.1f);
+    XrWeatherEditor::property_holder* properties = holder;
+    VERIFY(properties);
+
+    properties->add_property(
+        "down time", "blend", "this option is resposible for the blend down time", m_down_time, m_down_time);
+    properties->add_property(
+        "rise time", "blend", "this option is resposible for the blend rise time", m_rise_time, m_rise_time);
+    properties->add_property("time", "blend", "this option is resposible for the blend time", m_time, m_time);
 }
 
-void blend::fill	(manager const& manager, XrWeatherEditor::property_holder* holder, XrWeatherEditor::property_holder_collection* collection)
-{
-	XrWeatherEditor::property_holder*	properties = holder;
-	VERIFY						(properties);
-
-	properties->add_property	(
-		"down time",
-		"blend",
-		"this option is resposible for the blend down time",
-		m_down_time,
-		m_down_time
-	);
-	properties->add_property	(
-		"rise time",
-		"blend",
-		"this option is resposible for the blend rise time",
-		m_rise_time,
-		m_rise_time
-	);
-	properties->add_property	(
-		"time",
-		"blend",
-		"this option is resposible for the blend time",
-		m_time,
-		m_time
-	);
-}
-
-#endif // #ifdef INGAME_EDITOR
+#endif   // #ifdef INGAME_EDITOR

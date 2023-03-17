@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: editor_environment_suns_flare.cpp
 //	Created 	: 13.12.2007
 //  Modified 	: 04.01.2008
@@ -14,71 +14,39 @@
 #include "ide.hpp"
 #include "editor_environment_detail.hpp"
 
-using XrWeatherEditor::environment::suns::flare;
 using XrWeatherEditor::property_holder;
+using XrWeatherEditor::environment::suns::flare;
 
-flare::flare			() :
-	m_property_holder	(0),
-	m_opacity			(0.f),
-	m_position			(0.f),
-	m_radius			(0.f),
-	m_texture			("")
+flare::flare(): m_property_holder(0), m_opacity(0.f), m_position(0.f), m_radius(0.f), m_texture("") {}
+
+flare::~flare()
 {
+    if (!Device->WeatherEditor())
+        return;
+
+    ::ide().destroy(m_property_holder);
 }
 
-flare::~flare			()
+XrWeatherEditor::property_holder* flare::object()
 {
-	if (!Device->WeatherEditor())
-		return;
-
-	::ide().destroy		(m_property_holder);
+    return (m_property_holder);
 }
 
-XrWeatherEditor::property_holder*	flare::object	()
+void flare::fill(XrWeatherEditor::property_holder_collection* collection)
 {
-	return				(m_property_holder);
+    VERIFY(!m_property_holder);
+    m_property_holder           = ::ide().create_property_holder("flare", collection, this);
+    property_holder* properties = m_property_holder;
+
+    properties->add_property(
+        "texture", "flare", "this option is resposible for gradient texture", m_texture.c_str(), m_texture, ".dds",
+        "Texture files (*.dds)|*.dds", detail::real_path("$game_textures$", "").c_str(), "Select texture...",
+        XrWeatherEditor::property_holder::cannot_enter_text, XrWeatherEditor::property_holder::remove_extension);
+    properties->add_property(
+        "opacity", "flare", "this option is resposible for gradient opacity", m_opacity, m_opacity);
+    properties->add_property(
+        "position", "flare", "this option is resposible for gradient position", m_position, m_position);
+    properties->add_property("radius", "flare", "this option is resposible for gradient radius", m_radius, m_radius);
 }
 
-void flare::fill		(XrWeatherEditor::property_holder_collection* collection)
-{
-	VERIFY				(!m_property_holder);
-	m_property_holder	= ::ide().create_property_holder("flare", collection, this);
-	property_holder*	properties = m_property_holder;
-
-	properties->add_property(
-		"texture",
-		"flare",
-		"this option is resposible for gradient texture",
-		m_texture.c_str(),
-		m_texture,
-		".dds",
-		"Texture files (*.dds)|*.dds",
-		detail::real_path("$game_textures$", "").c_str(),
-		"Select texture...",
-		XrWeatherEditor::property_holder::cannot_enter_text,
-		XrWeatherEditor::property_holder::remove_extension
-	);
-	properties->add_property(
-		"opacity",
-		"flare",
-		"this option is resposible for gradient opacity",
-		m_opacity,
-		m_opacity
-	);
-	properties->add_property(
-		"position",
-		"flare",
-		"this option is resposible for gradient position",
-		m_position,
-		m_position
-	);
-	properties->add_property(
-		"radius",
-		"flare",
-		"this option is resposible for gradient radius",
-		m_radius,
-		m_radius
-	);
-}
-	
-#endif // #ifdef INGAME_EDITOR
+#endif   // #ifdef INGAME_EDITOR

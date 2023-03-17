@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: interfaces.hpp
 //	Created 	: 04.12.2007
 //  Modified 	: 04.12.2007
@@ -9,14 +9,15 @@
 #ifndef EDITOR_INTERFACES_HPP_INCLUDED
 #define EDITOR_INTERFACES_HPP_INCLUDED
 
-namespace XrWeatherEditor {
+namespace XrWeatherEditor
+{
 
-class ide;
-class engine;
+    class ide;
+    class engine;
 
-typedef void (__cdecl *initialize_function_ptr)	(ide*&, engine*);
-typedef void (__cdecl *finalize_function_ptr)	(ide*&);
+    typedef void(__cdecl* initialize_function_ptr)(ide*&, engine*);
+    typedef void(__cdecl* finalize_function_ptr)(ide*&);
 
-} // namespace XrWeatherEditor
+}   // namespace XrWeatherEditor
 
-#endif // ifndef EDITOR_INTERFACES_HPP_INCLUDED
+#endif   // ifndef EDITOR_INTERFACES_HPP_INCLUDED

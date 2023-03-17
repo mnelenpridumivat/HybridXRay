@@ -1,9 +1,9 @@
-#pragma once
+﻿#pragma once
 class ENGINE_API XrGameEditorInterface
 {
 public:
-	XrGameEditorInterface();
-	virtual ~XrGameEditorInterface();
-	virtual	void Create()=0;
-	virtual	void Destroy()=0;
+    XrGameEditorInterface();
+    virtual ~XrGameEditorInterface();
+    virtual void Create()  = 0;
+    virtual void Destroy() = 0;
 };

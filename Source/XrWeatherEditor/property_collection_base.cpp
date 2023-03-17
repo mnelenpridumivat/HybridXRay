@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: property_collection_base.cpp
 //	Created 	: 24.12.2007
 //  Modified 	: 08.01.2008
@@ -15,126 +15,121 @@
 using System::Object;
 using System::Collections::IEnumerator;
 
-property_collection_base::property_collection_base		()
+property_collection_base::property_collection_base() {}
+
+property_collection_base::~property_collection_base()
 {
+    this->!property_collection_base();
 }
 
-property_collection_base::~property_collection_base		()
+property_collection_base::!property_collection_base() {}
+
+Object ^ property_collection_base::get_value()
 {
-	this->!property_collection_base	();
+    return (this);
 }
 
-property_collection_base::!property_collection_base		()
+void property_collection_base::set_value(Object ^ object) {}
+
+void property_collection_base::CopyTo(Array ^ items, int index)
 {
+    collection_type* collection = this->collection();
+    for (int i = index, n = collection->size(); i < n; ++i)
+    {
+        XrWeatherEditor::property_holder* holder_raw = collection->item(i);
+        ::property_holder*                holder     = dynamic_cast<::property_holder*>(holder_raw);
+        VERIFY(holder);
+        items->SetValue(holder->container(), i);
+    }
 }
 
-Object ^property_collection_base::get_value				()
+IEnumerator ^ property_collection_base::GetEnumerator()
 {
-	return						(this);
+    return (gcnew property_collection_enumerator(collection()));
 }
 
-void property_collection_base::set_value				(Object ^object)
+bool property_collection_base::IsSynchronized::get()
 {
+    return (false);
 }
 
-void property_collection_base::CopyTo					(Array^ items, int index)
+Object ^ property_collection_base::SyncRoot::get()
 {
-	collection_type*			collection = this->collection();
-	for (int i=index, n=collection->size(); i<n ; ++i) {
-		XrWeatherEditor::property_holder*holder_raw = collection->item(i);
-		::property_holder*		holder = dynamic_cast<::property_holder*>(holder_raw);
-		VERIFY					(holder);
-		items->SetValue			(holder->container(), i);
-	}
+    return (this);
 }
 
-IEnumerator^ property_collection_base::GetEnumerator	()
+int property_collection_base::Count::get()
 {
-	return						(gcnew property_collection_enumerator(collection()));
+    return (collection()->size());
 }
 
-bool property_collection_base::IsSynchronized::get		()
+int property_collection_base::Add(Object ^ value)
 {
-	return						(false);
-}
-	
-Object^ property_collection_base::SyncRoot::get			()
-{
-	return						(this);
-}
-	
-int property_collection_base::Count::get				()
-{
-	return						(collection()->size());
+    collection_type* collection      = this->collection();
+    u32              collection_size = collection->size();
+    property_container ^ container   = safe_cast<property_container ^>(value);
+    collection->insert(&container->holder(), collection_size);
+    return (collection_size - 1);
 }
 
-int property_collection_base::Add						(Object^ value)
+void property_collection_base::Clear()
 {
-	collection_type*			collection = this->collection();
-	u32							collection_size = collection->size();
-	property_container^			container = safe_cast<property_container^>(value);
-	collection->insert			(&container->holder(), collection_size);
-	return						(collection_size - 1);
+    collection()->clear();
 }
 
-void property_collection_base::Clear					()
+bool property_collection_base::Contains(Object ^ value)
 {
-	collection()->clear			();
+    return (IndexOf(value) > -1);
 }
 
-bool property_collection_base::Contains					(Object^ value)
+int property_collection_base::IndexOf(Object ^ value)
 {
-	return						(IndexOf(value) > -1);
+    property_container ^ container = safe_cast<property_container ^>(value);
+    return (collection()->index(&container->holder()));
 }
 
-int property_collection_base::IndexOf					(Object^ value)
+void property_collection_base::Insert(int index, Object ^ value)
 {
-	property_container^			container = safe_cast<property_container^>(value);
-	return						(collection()->index(&container->holder()));
+    property_container ^ container = safe_cast<property_container ^>(value);
+    collection()->insert(&container->holder(), index);
 }
 
-void property_collection_base::Insert					(int index, Object^ value)
+void property_collection_base::Remove(Object ^ value)
 {
-	property_container^			container = safe_cast<property_container^>(value);
-	collection()->insert		(&container->holder(), index);
+    RemoveAt(IndexOf(value));
 }
 
-void property_collection_base::Remove					(Object^ value)
+void property_collection_base::RemoveAt(int index)
 {
-	RemoveAt					(IndexOf(value));
+    collection()->erase(index);
 }
 
-void property_collection_base::RemoveAt					(int index)
+bool property_collection_base::IsFixedSize::get()
 {
-	collection()->erase			(index);
+    return (false);
 }
 
-bool property_collection_base::IsFixedSize::get			()
+bool property_collection_base::IsReadOnly::get()
 {
-	return						(false);
+    return (false);
 }
 
-bool property_collection_base::IsReadOnly::get			()
+Object ^ property_collection_base::default ::get(int index)
 {
-	return						(false);
+    XrWeatherEditor::property_holder* holder_raw = collection()->item(index);
+    ::property_holder*                holder     = dynamic_cast<::property_holder*>(holder_raw);
+    return (holder->container());
 }
 
-Object^ property_collection_base::default::get			(int index)
+void property_collection_base::default ::set(int index, Object ^ value)
 {
-	XrWeatherEditor::property_holder*	holder_raw = collection()->item(index);
-	::property_holder*			holder = dynamic_cast<::property_holder*>(holder_raw);
-	return						(holder->container());
+    RemoveAt(index);
+    Insert(index, value);
 }
 
-void property_collection_base::default::set				(int index, Object^ value)
+property_container ^ property_collection_base::create()
 {
-	RemoveAt					(index);
-	Insert						(index, value);
-}
-
-property_container^	property_collection_base::create	()
-{
-	XrWeatherEditor::property_holder*	holder_raw = collection()->create();
-	::property_holder*			holder = dynamic_cast<::property_holder*>(holder_raw);
-	return						(holder->container());
+    XrWeatherEditor::property_holder* holder_raw = collection()->create();
+    ::property_holder*                holder     = dynamic_cast<::property_holder*>(holder_raw);
+    return (holder->container());
 }

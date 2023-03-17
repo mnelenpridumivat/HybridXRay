@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: property_string.hpp
 //	Created 	: 07.12.2007
 //  Modified 	: 07.12.2007
@@ -11,24 +11,23 @@
 
 #include "property_holder_include.hpp"
 
-public ref class property_string : public property_value {
+public
+ref class property_string: public property_value
+{
 public:
-	typedef XrWeatherEditor::property_holder::string_getter_type	string_getter_type;
-	typedef XrWeatherEditor::property_holder::string_setter_type	string_setter_type;
+    typedef XrWeatherEditor::property_holder::string_getter_type string_getter_type;
+    typedef XrWeatherEditor::property_holder::string_setter_type string_setter_type;
 
 public:
-							property_string	(
-								string_getter_type const &getter,
-								string_setter_type const &setter
-							);
-	virtual					~property_string();
-							!property_string();
-	virtual System::Object	^get_value		();
-	virtual void			set_value		(System::Object ^object);
+    property_string(string_getter_type const& getter, string_setter_type const& setter);
+    virtual ~property_string();
+    !property_string();
+    virtual System::Object ^ get_value();
+    virtual void set_value(System::Object ^ object);
 
 private:
-	string_getter_type		*m_getter;
-	string_setter_type		*m_setter;
-}; // ref class property_string
+    string_getter_type* m_getter;
+    string_setter_type* m_setter;
+};   // ref class property_string
 
-#endif // ifndef PROPERTY_STRING_HPP_INCLUDED
+#endif   // ifndef PROPERTY_STRING_HPP_INCLUDED

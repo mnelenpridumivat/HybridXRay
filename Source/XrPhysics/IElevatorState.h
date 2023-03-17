@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 enum Estate
 {
@@ -15,8 +15,8 @@ class IPhysicsShellHolder;
 class IElevatorState
 {
 public:
-    virtual Estate State() = 0;
-    virtual void NetRelcase(IPhysicsShellHolder* O) = 0;
+    virtual Estate State()                            = 0;
+    virtual void   NetRelcase(IPhysicsShellHolder* O) = 0;
 
 protected:
     virtual ~IElevatorState() = 0;

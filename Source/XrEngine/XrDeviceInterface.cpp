@@ -1,11 +1,8 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
-XrDeviceInterface::XrDeviceInterface():m_pRender(0)
+XrDeviceInterface::XrDeviceInterface(): m_pRender(0)
 {
-	m_bNearer = false;
+    m_bNearer = false;
 }
 
-XrDeviceInterface::~XrDeviceInterface()
-{
-
-}
+XrDeviceInterface::~XrDeviceInterface() {}
