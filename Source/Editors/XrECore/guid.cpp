@@ -1,5 +1,4 @@
-#pragma hdrstop
+﻿#pragma hdrstop
 
 #define INITGUID
 #include <dinput.h>
-

@@ -1,4 +1,4 @@
-// Magic Software, Inc.
+﻿// Magic Software, Inc.
 // http://www.magic-software.com
 // Copyright (c) 2000-2002.  All Rights Reserved
 //
@@ -17,12 +17,11 @@
 
 #include "MgcBox3.h"
 
-namespace Mgc {
+namespace Mgc
+{
 
-MAGICFM Box3 MinBox (int iQuantity, const Vector3* akPoint);
+    MAGICFM Box3 MinBox(int iQuantity, const Vector3* akPoint);
 
-} // namespace Mgc
+}   // namespace Mgc
 
 #endif
-
-

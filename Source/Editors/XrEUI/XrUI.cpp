@@ -1,15 +1,7 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
-XrUI::~XrUI()
-{
-}
+XrUI::~XrUI() {}
 
-void XrUI::ResetBegin()
-{
+void XrUI::ResetBegin() {}
 
-}
-
-void XrUI::ResetEnd()
-{
-
-}
+void XrUI::ResetEnd() {}

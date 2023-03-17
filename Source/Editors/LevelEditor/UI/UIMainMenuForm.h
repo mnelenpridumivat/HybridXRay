@@ -1,9 +1,8 @@
-#pragma once
-class UIMainMenuForm :public XrUI
+﻿#pragma once
+class UIMainMenuForm: public XrUI
 {
 public:
-	UIMainMenuForm();
-	virtual ~UIMainMenuForm();
-	virtual void Draw();
+    UIMainMenuForm();
+    virtual ~UIMainMenuForm();
+    virtual void Draw();
 };
-

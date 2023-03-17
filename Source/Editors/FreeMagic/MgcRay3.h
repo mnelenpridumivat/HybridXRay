@@ -1,4 +1,4 @@
-// Magic Software, Inc.
+﻿// Magic Software, Inc.
 // http://www.magic-software.com
 // Copyright (c) 2000-2002.  All Rights Reserved
 //
@@ -15,30 +15,28 @@
 
 #include "MgcVector3.h"
 
-namespace Mgc {
-
-
-class MAGICFM Ray3
+namespace Mgc
 {
-public:
-    // Ray is R(t) = P+t*D for t >= 0.  D is not necessarily unit length.
-    Ray3 ();
 
-    Vector3& Origin ();
-    const Vector3& Origin () const;
+    class MAGICFM Ray3
+    {
+    public:
+        // Ray is R(t) = P+t*D for t >= 0.  D is not necessarily unit length.
+        Ray3();
 
-    Vector3& Direction ();
-    const Vector3& Direction () const;
+        Vector3&       Origin();
+        const Vector3& Origin() const;
 
-protected:
-    Vector3 m_kOrigin;  // P
-    Vector3 m_kDirection;  // D
-};
+        Vector3&       Direction();
+        const Vector3& Direction() const;
+
+    protected:
+        Vector3 m_kOrigin;      // P
+        Vector3 m_kDirection;   // D
+    };
 
 #include "MgcRay3.inl"
 
-} // namespace Mgc
+}   // namespace Mgc
 
 #endif
-
-

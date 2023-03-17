@@ -61,7 +61,7 @@ void CScriptFvector::script_register(lua_State* L)
              .def("set_length", &Fvector::set_length, return_reference_to(_1))
              .def("align", &Fvector::align, return_reference_to(_1))
              //			.def("squeeze",						&Fvector::squeeze,
-             //return_reference_to(_1))
+             // return_reference_to(_1))
              .def("clamp", (Fvector & (Fvector::*)(const Fvector&))(&Fvector::clamp), return_reference_to(_1))
              .def(
                  "clamp", (Fvector & (Fvector::*)(const Fvector&, const Fvector))(&Fvector::clamp),
@@ -94,28 +94,27 @@ void CScriptFvector::script_register(lua_State* L)
                  "normalize_safe", (Fvector & (Fvector::*)(const Fvector&))(&Fvector::normalize_safe),
                  return_reference_to(_1))
              //			.def("random_dir",					(Fvector & (Fvector::*)())(&Fvector::random_dir),
-             //return_reference_to(_1)) 			.def("random_dir",					(Fvector & (Fvector::*)(const Fvector &,
-             //float))(&Fvector::random_dir),													return_reference_to(_1))
-             //			.def("random_point",				(Fvector & (Fvector::*)(const Fvector &))(&Fvector::random_point),
-             //return_reference_to(_1)) 			.def("random_point",				(Fvector &
-             //(Fvector::*)(float))(&Fvector::random_point),
-             //return_reference_to(_1))
+             // return_reference_to(_1)) 			.def("random_dir",					(Fvector & (Fvector::*)(const
+             // Fvector &, float))(&Fvector::random_dir), return_reference_to(_1))
+             //			.def("random_point",				(Fvector & (Fvector::*)(const Fvector
+             //&))(&Fvector::random_point), return_reference_to(_1)) 			.def("random_point",
+             // (Fvector & (Fvector::*)(float))(&Fvector::random_point), return_reference_to(_1))
              .def("dotproduct", &Fvector::dotproduct)
              .def("crossproduct", &Fvector::crossproduct, return_reference_to(_1))
              .def("distance_to_xz", &Fvector::distance_to_xz)
              .def("distance_to_sqr", &Fvector::distance_to_sqr)
              .def("distance_to", &Fvector::distance_to)
-             //			.def("from_bary",					(Fvector & (Fvector::*)(const Fvector &, const Fvector &, const Fvector &,
-             //float, float, float))(&Fvector::from_bary),	return_reference_to(_1)) 			.def("from_bary",
+             //			.def("from_bary",					(Fvector & (Fvector::*)(const Fvector &, const Fvector &, const Fvector
+             //&, float, float, float))(&Fvector::from_bary),	return_reference_to(_1)) 			.def("from_bary",
              //(Fvector & (Fvector::*)(const Fvector &, const Fvector &, const Fvector &, const Fvector
              //&))(&Fvector::from_bary),		return_reference_to(_1)) 			.def("from_bary4",
              //&Fvector::from_bary4,
-             //return_reference_to(_1)) 			.def("mknormal_non_normalized",		&Fvector::mknormal_non_normalized,
-             //return_reference_to(_1)) 			.def("mknormal",					&Fvector::mknormal,
-             //return_reference_to(_1))
+             // return_reference_to(_1)) 			.def("mknormal_non_normalized",
+             // &Fvector::mknormal_non_normalized, return_reference_to(_1)) 			.def("mknormal",
+             // &Fvector::mknormal, return_reference_to(_1))
              .def("setHP", &Fvector::setHP, return_reference_to(_1))
-             //			.def("getHP",						&Fvector::getHP,																																	out_value(_2) +
-             //out_value(_3))
+             //			.def("getHP",						&Fvector::getHP,																																	out_value(_2)
+             //+ out_value(_3))
              .def("getH", &Fvector::getH)
              .def("getP", &Fvector::getP)
 

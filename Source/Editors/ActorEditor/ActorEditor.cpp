@@ -22,19 +22,21 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
             FSName = "fs_cs.ltx";
         }
     }
-    Core._initialize("Actor_Editor", ELogCallback,1, FSName,true);
+    Core._initialize("Actor_Editor", ELogCallback, 1, FSName, true);
 
     ATools = xr_new<CActorTools>();
-    Tools = ATools;
+    Tools  = ATools;
 
     UI = xr_new<CActorMain>();
     UI->RegisterCommands();
 
-    UIMainForm* MainForm = xr_new< UIMainForm>();
-    ::MainForm = MainForm;
+    UIMainForm* MainForm = xr_new<UIMainForm>();
+    ::MainForm           = MainForm;
     UI->Push(MainForm, false);
 
-    while (MainForm->Frame()) {}
+    while (MainForm->Frame())
+    {
+    }
 
     xr_delete(MainForm);
     Core._destroy();

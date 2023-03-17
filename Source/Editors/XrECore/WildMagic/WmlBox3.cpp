@@ -1,4 +1,4 @@
-// Magic Software, Inc.
+﻿// Magic Software, Inc.
 // http://www.magic-software.com
 // http://www.wild-magic.com
 // Copyright (c) 2004.  All Rights Reserved
@@ -14,83 +14,71 @@
 using namespace Wml;
 
 //----------------------------------------------------------------------------
-template <class Real>
-Box3<Real>::Box3 ()
+template <class Real> Box3<Real>::Box3()
 {
     // no initialization for efficiency
 }
 //----------------------------------------------------------------------------
-template <class Real>
-Vector3<Real>& Box3<Real>::Center ()
+template <class Real> Vector3<Real>& Box3<Real>::Center()
 {
     return m_kCenter;
 }
 //----------------------------------------------------------------------------
-template <class Real>
-const Vector3<Real>& Box3<Real>::Center () const
+template <class Real> const Vector3<Real>& Box3<Real>::Center() const
 {
     return m_kCenter;
 }
 //----------------------------------------------------------------------------
-template <class Real>
-Vector3<Real>& Box3<Real>::Axis (int i)
+template <class Real> Vector3<Real>& Box3<Real>::Axis(int i)
 {
-    assert( 0 <= i && i < 3 );
+    assert(0 <= i && i < 3);
     return m_akAxis[i];
 }
 //----------------------------------------------------------------------------
-template <class Real>
-const Vector3<Real>& Box3<Real>::Axis (int i) const
+template <class Real> const Vector3<Real>& Box3<Real>::Axis(int i) const
 {
-    assert( 0 <= i && i < 3 );
+    assert(0 <= i && i < 3);
     return m_akAxis[i];
 }
 //----------------------------------------------------------------------------
-template <class Real>
-Vector3<Real>* Box3<Real>::Axes ()
+template <class Real> Vector3<Real>* Box3<Real>::Axes()
 {
     return m_akAxis;
 }
 //----------------------------------------------------------------------------
-template <class Real>
-const Vector3<Real>* Box3<Real>::Axes () const
+template <class Real> const Vector3<Real>* Box3<Real>::Axes() const
 {
     return m_akAxis;
 }
 //----------------------------------------------------------------------------
-template <class Real>
-Real& Box3<Real>::Extent (int i)
+template <class Real> Real& Box3<Real>::Extent(int i)
 {
-    assert( 0 <= i && i < 3 );
+    assert(0 <= i && i < 3);
     return m_afExtent[i];
 }
 //----------------------------------------------------------------------------
-template <class Real>
-const Real& Box3<Real>::Extent (int i) const
+template <class Real> const Real& Box3<Real>::Extent(int i) const
 {
-    assert( 0 <= i && i < 3 );
+    assert(0 <= i && i < 3);
     return m_afExtent[i];
 }
 //----------------------------------------------------------------------------
-template <class Real>
-Real* Box3<Real>::Extents ()
+template <class Real> Real* Box3<Real>::Extents()
 {
     return m_afExtent;
 }
 //----------------------------------------------------------------------------
-template <class Real>
-const Real* Box3<Real>::Extents () const
+template <class Real> const Real* Box3<Real>::Extents() const
 {
     return m_afExtent;
 }
 //----------------------------------------------------------------------------
-template <class Real>
-void Box3<Real>::ComputeVertices (Vector3<Real> akVertex[8]) const
+template <class Real> void Box3<Real>::ComputeVertices(Vector3<Real> akVertex[8]) const
 {
     Vector3<Real> akEAxis[3];
-    akEAxis[0] = m_akAxis[0]*m_afExtent[0];
-    akEAxis[1] = m_akAxis[1]*m_afExtent[1];
-    akEAxis[2] = m_akAxis[2]*m_afExtent[2];
+    akEAxis[0] = m_akAxis[0] * m_afExtent[0];
+    akEAxis[1] = m_akAxis[1] * m_afExtent[1];
+    akEAxis[2] = m_akAxis[2] * m_afExtent[2];
 
     akVertex[0] = m_kCenter - akEAxis[0] - akEAxis[1] - akEAxis[2];
     akVertex[1] = m_kCenter + akEAxis[0] - akEAxis[1] - akEAxis[2];
@@ -108,7 +96,7 @@ void Box3<Real>::ComputeVertices (Vector3<Real> akVertex[8]) const
 //----------------------------------------------------------------------------
 namespace Wml
 {
-template WML_ITEM class Box3<float>;
-template WML_ITEM class Box3<double>;
-}
+    template WML_ITEM class Box3<float>;
+    template WML_ITEM class Box3<double>;
+}   // namespace Wml
 //----------------------------------------------------------------------------

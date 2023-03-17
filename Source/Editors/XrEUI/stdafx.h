@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "..\..\XrCore\xrCore.h"
 #ifdef XREUI_EXPORTS
 #define XREUI_API __declspec(dllexport)
@@ -12,7 +12,7 @@
 #define IMGUI_API XREUI_API
 #define IMGUI_IMPL_API
 using ImTextureID = IDirect3DBaseTexture9*;
-#define ImTextureID ImTextureID 
+#define ImTextureID ImTextureID
 #define IMGUI_DISABLE_INCLUDE_IMCONFIG_H
 #define IMGUI_INCLUDE_IMGUI_USER_H
 

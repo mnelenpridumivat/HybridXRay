@@ -1,4 +1,4 @@
-// Magic Software, Inc.
+﻿// Magic Software, Inc.
 // http://www.magic-software.com
 // Copyright (c) 2000-2002.  All Rights Reserved
 //
@@ -15,16 +15,15 @@
 
 #include "MgcCylinder.h"
 
-namespace Mgc {
+namespace Mgc
+{
 
-// Compute axis of capsule segment using least-squares fit.  Radius is
-// maximum distance from points to axis.  Height is determined by projection
-// of points onto axis and determining the containing interval.
+    // Compute axis of capsule segment using least-squares fit.  Radius is
+    // maximum distance from points to axis.  Height is determined by projection
+    // of points onto axis and determining the containing interval.
 
-MAGICFM Cylinder ContCylinder (int iQuantity, const Vector3* akPoint);
+    MAGICFM Cylinder ContCylinder(int iQuantity, const Vector3* akPoint);
 
-} // namespace Mgc
+}   // namespace Mgc
 
 #endif
-
-

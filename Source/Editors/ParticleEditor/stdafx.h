@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "..\XrECore\stdafx.h"
 #include "..\XrECore\Editor\device.h"
 #include "..\XrECore\Editor\UI_MainCommand.h"
@@ -11,7 +11,6 @@
 #include "..\XrECore\Editor\Library.h"
 
 #include "../XrECORE/Editor/D3DUtils.h"
-
 
 #include "UI_ParticleMain.h"
 #include "UI_ParticleTools.h"

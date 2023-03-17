@@ -1,11 +1,10 @@
-#pragma once
-class UILeftBarForm :
-	public XrUI
+﻿#pragma once
+class UILeftBarForm: public XrUI
 {
 public:
-	UILeftBarForm();
-	virtual ~UILeftBarForm();
-	virtual void Draw();
+    UILeftBarForm();
+    virtual ~UILeftBarForm();
+    virtual void Draw();
+
 private:
 };
-

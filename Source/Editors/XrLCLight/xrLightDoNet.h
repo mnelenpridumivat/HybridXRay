@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Created		: 27.03.2009
 //	Author		: Konstantin Slipchenko
 //	Copyright (C) GSC Game World - 2009
@@ -8,6 +8,6 @@
 #define XRLIGHTDONET_H_INCLUDED
 namespace lc_net
 {
-void	xrNetDOLight();
+    void xrNetDOLight();
 }
-#endif // #ifndef XRLIGHTDONET_H_INCLUDED
+#endif   // #ifndef XRLIGHTDONET_H_INCLUDED

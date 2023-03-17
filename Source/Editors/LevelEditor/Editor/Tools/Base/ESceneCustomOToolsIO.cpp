@@ -1,12 +1,11 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 // chunks
 
-static const u32 CHUNK_VERSION = 0x0001;
+static const u32 CHUNK_VERSION      = 0x0001;
 static const u32 CHUNK_OBJECT_COUNT = 0x0002;
-static const u32 CHUNK_OBJECTS = 0x0003;
-static const u32 CHUNK_FLAGS = 0x0004;
-
+static const u32 CHUNK_OBJECTS      = 0x0003;
+static const u32 CHUNK_FLAGS        = 0x0004;
 
 bool ESceneCustomOTool::OnLoadSelectionAppendObject(CCustomObject* obj)
 {
@@ -24,13 +23,14 @@ bool ESceneCustomOTool::OnLoadAppendObject(CCustomObject* O)
     return true;
 }
 
-bool ESceneCustomOTool::LoadSelection(IReader &F)
+bool ESceneCustomOTool::LoadSelection(IReader& F)
 {
     int count = 0;
     F.r_chunk(CHUNK_OBJECT_COUNT, &count);
 
     SPBItem* pb = UI->ProgressStart(count, xr_string().sprintf("Loading %s(stream)...", ClassDesc()).c_str());
-    Scene->ReadObjectsStream(F, CHUNK_OBJECTS, EScene::TAppendObject(this, &ESceneCustomOTool::OnLoadSelectionAppendObject), pb);
+    Scene->ReadObjectsStream(
+        F, CHUNK_OBJECTS, EScene::TAppendObject(this, &ESceneCustomOTool::OnLoadSelectionAppendObject), pb);
     UI->ProgressEnd(pb);
 
     return true;
@@ -54,7 +54,7 @@ void ESceneCustomOTool::SaveSelection(IWriter& F)
     F.w_chunk(CHUNK_OBJECT_COUNT, &count, sizeof(count));
 }
 
-bool ESceneCustomOTool::LoadLTX(CInifile &ini)
+bool ESceneCustomOTool::LoadLTX(CInifile& ini)
 {
     inherited::LoadLTX(ini);
 
@@ -62,10 +62,10 @@ bool ESceneCustomOTool::LoadLTX(CInifile &ini)
 
     SPBItem* pb = UI->ProgressStart(count, xr_string().sprintf("Loading %s(ltx)...", ClassDesc()).c_str());
 
-    u32 i = 0;
+    u32       i = 0;
     string128 buff;
 
-    for (i=0; i<count; ++i)
+    for (i = 0; i < count; ++i)
     {
         CCustomObject* obj = NULL;
         sprintf(buff, "object_%d", i);
@@ -95,12 +95,12 @@ bool ESceneCustomOTool::LoadStream(IReader& F)
     return true;
 }
 
-void ESceneCustomOTool::SaveLTX(CInifile &ini, int id)
+void ESceneCustomOTool::SaveLTX(CInifile& ini, int id)
 {
     inherited::SaveLTX(ini, id);
 
     u32 count = 0;
-    for(ObjectIt it = m_Objects.begin(); it != m_Objects.end(); ++it)
+    for (ObjectIt it = m_Objects.begin(); it != m_Objects.end(); ++it)
     {
         CCustomObject* O = (*it);
         if (O->save_id != id)
@@ -127,10 +127,10 @@ void ESceneCustomOTool::SaveStream(IWriter& F)
     for (ObjectIt it = m_Objects.begin(); it != m_Objects.end(); ++it)
     {
         if ((*it)->IsDeleted() || (*it)->m_CO_Flags.test(CCustomObject::flObjectInGroup))
-        continue;
+            continue;
 
         F.open_chunk(objectsCount++);
-        Scene->SaveObjectStream(*it,F);
+        Scene->SaveObjectStream(*it, F);
         F.close_chunk();
     }
 
@@ -145,8 +145,8 @@ bool ESceneCustomOTool::Export(LPCSTR path)
 
 bool ESceneCustomOTool::ExportGame(SExportStreams* F)
 {
-    bool bres=true;
-    for(ObjectIt it = m_Objects.begin(); it != m_Objects.end(); it++)
+    bool bres = true;
+    for (ObjectIt it = m_Objects.begin(); it != m_Objects.end(); it++)
         if (!(*it)->ExportGame(F))
             bres = false;
     return bres;
@@ -157,8 +157,10 @@ bool ESceneCustomOTool::ExportStatic(SceneBuilder* B, bool b_selected_only)
     return B->ParseStaticObjects(m_Objects, NULL, b_selected_only);
 }
 
-BOOL GetStaticCformData(ObjectList &lst, mesh_build_data &data, bool b_selected_only);
-bool ESceneCustomOTool::GetStaticCformData(mesh_build_data &data, bool b_selected_only) // b_vertex* verts, int& vert_cnt, int& vert_it,b_face* faces, int& face_cnt, int& face_it,
+BOOL GetStaticCformData(ObjectList& lst, mesh_build_data& data, bool b_selected_only);
+bool ESceneCustomOTool::GetStaticCformData(
+    mesh_build_data& data,
+    bool b_selected_only)   // b_vertex* verts, int& vert_cnt, int& vert_it,b_face* faces, int& face_cnt, int& face_it,
 {
     return ::GetStaticCformData(m_Objects, data, b_selected_only);
 }

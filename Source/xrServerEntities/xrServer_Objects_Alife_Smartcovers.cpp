@@ -465,7 +465,7 @@ void CSE_SmartCover::load_draw_data()
         Msg("no or invalid smart cover description (bad or missing loopholes table in smart_cover [%s])", temp);
         return;
         //		VERIFY2					(result, make_string("bad or missing loopholes table in smart_cover [%s]",
-        //temp));
+        // temp));
     }
 
     luabind::object::iterator I = loopholes.begin();

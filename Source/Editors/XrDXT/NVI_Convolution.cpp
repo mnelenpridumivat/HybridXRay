@@ -1,4 +1,4 @@
-/*********************************************************************NVMH2****
+﻿/*********************************************************************NVMH2****
 Path:  C:\Dev\devrel\Nv_sdk_4\CommonSrc\nvImageLib
 File:  NVI_Convolution.cpp
 
@@ -19,7 +19,7 @@ using namespace xray_nvi;
 
 ConvolutionKernel::ConvolutionKernel()
 {
-    m_pElements = NULL;
+    m_pElements    = NULL;
     m_nNumElements = 0;
 }
 
@@ -38,7 +38,7 @@ ConvolutionKernel& ConvolutionKernel::operator=(const ConvolutionKernel& src)
     return *this;
 }
 
-HRESULT	ConvolutionKernel::Initialize(int numElements)
+HRESULT ConvolutionKernel::Initialize(int numElements)
 {
     Free();
     m_pElements = new ConvolutionKernelElement[numElements];
@@ -47,17 +47,17 @@ HRESULT	ConvolutionKernel::Initialize(int numElements)
     return S_OK;
 }
 
-HRESULT	ConvolutionKernel::Free()
+HRESULT ConvolutionKernel::Free()
 {
     if (m_pElements != NULL)
     {
-        delete[]	m_pElements;
+        delete[] m_pElements;
         m_pElements = NULL;
     }
 
     m_nNumElements = 0;
 
-    return(S_OK);
+    return (S_OK);
 }
 
 void ConvolutionKernel::SetElements(int numElements, ConvolutionKernelElement* pElements)
@@ -72,20 +72,20 @@ void ConvolutionKernel::SetElements(int numElements, ConvolutionKernelElement* p
     {
         m_pElements[i].x_offset = pElements[i].x_offset;
         m_pElements[i].y_offset = pElements[i].y_offset;
-        m_pElements[i].weight = pElements[i].weight;
+        m_pElements[i].weight   = pElements[i].weight;
     }
 }
 
 //===============================================================
 // Function:    ConvolutionKernel::GetKernelExtents
-// Description: Querries the kernel elements & finds out what area they 
+// Description: Querries the kernel elements & finds out what area they
 //              extend over.
 // Parameters:  Pointers to values to be written
 // Returns:     Return values written to pointer addresses
 //===============================================================
 void ConvolutionKernel::GetKernelExtents(int* xlow, int* xhigh, int* ylow, int* yhigh)
 {
-    // querries the kernel elements & finds out what area they 
+    // querries the kernel elements & finds out what area they
     //  extend over.
     // Return values written to pointer addresses
     //.	ASSERT_MSG( m_pElements, "Initialize the m_pElements pointer!!\n");
@@ -106,11 +106,10 @@ void ConvolutionKernel::GetKernelExtents(int* xlow, int* xhigh, int* ylow, int* 
     }
 }
 
-Convolver::Convolver() :
-    m_BorderedImage()
+Convolver::Convolver(): m_BorderedImage()
 {
-    m_hSrcImage = NULL;
-    m_pKernels = NULL;
+    m_hSrcImage   = NULL;
+    m_pKernels    = NULL;
     m_nNumKernels = NULL;
 }
 
@@ -123,8 +122,8 @@ HRESULT Convolver::Free()
 {
     SAFE_ARRAY_DELETE(m_pKernels);
     m_BorderedImage.Free();
-    m_hSrcImage = NULL;
-    m_pKernels = NULL;
+    m_hSrcImage   = NULL;
+    m_pKernels    = NULL;
     m_nNumKernels = NULL;
     return S_OK;
 }
@@ -135,9 +134,9 @@ HRESULT Convolver::Initialize(NVI_Image** hSrcImage, const ConvolutionKernel* pK
     assert(*hSrcImage != NULL);
     assert(pKernels != NULL);
     assert(numKernels > 0);
-    m_hSrcImage = hSrcImage;
+    m_hSrcImage   = hSrcImage;
     m_nNumKernels = numKernels;
-    m_pKernels = new ConvolutionKernel[m_nNumKernels];
+    m_pKernels    = new ConvolutionKernel[m_nNumKernels];
     assert(m_pKernels != NULL);
     RECT maxKernSize = {0};
     for (int n = 0; n < m_nNumKernels; n++)
@@ -162,7 +161,7 @@ HRESULT Convolver::Initialize(NVI_Image** hSrcImage, const ConvolutionKernel* pK
 void Convolver::Convolve_Alpha_At(int i, int j, float* results, int num_results)
 {
     assert(num_results == m_nNumKernels);
-    assert(m_BorderedImage.m_pArray != NULL);    
+    assert(m_BorderedImage.m_pArray != NULL);
     float byte_to_float = 1.0f / 255.0f;
     for (int nkern = 0; nkern < m_nNumKernels; nkern++)
     {
@@ -171,9 +170,8 @@ void Convolver::Convolve_Alpha_At(int i, int j, float* results, int num_results)
         {
             // extract alpha
             DWORD color;
-            m_BorderedImage.GetPixel(&color,
-                i + m_pKernels[nkern].m_pElements[n].x_offset,
-                j + m_pKernels[nkern].m_pElements[n].y_offset);
+            m_BorderedImage.GetPixel(
+                &color, i + m_pKernels[nkern].m_pElements[n].x_offset, j + m_pKernels[nkern].m_pElements[n].y_offset);
             // byte_to_float takes 0,255 to 0,1
             float height = (float)(color >> 24) * byte_to_float;
             height *= m_pKernels[nkern].m_pElements[n].weight;

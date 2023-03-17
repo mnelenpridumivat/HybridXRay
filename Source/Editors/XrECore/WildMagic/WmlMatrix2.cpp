@@ -1,4 +1,4 @@
-// Magic Software, Inc.
+﻿// Magic Software, Inc.
 // http://www.magic-software.com
 // http://www.wild-magic.com
 // Copyright (c) 2004.  All Rights Reserved
@@ -11,16 +11,8 @@
 #include "WmlMatrix2.h"
 using namespace Wml;
 
-template<> const Matrix2<float> Matrix2<float>::ZERO(
-    0.0f,0.0f,
-    0.0f,0.0f);
-template<> const Matrix2<float> Matrix2<float>::IDENTITY(
-    1.0f,0.0f,
-    0.0f,1.0f);
+template <> const Matrix2<float> Matrix2<float>::ZERO(0.0f, 0.0f, 0.0f, 0.0f);
+template <> const Matrix2<float> Matrix2<float>::IDENTITY(1.0f, 0.0f, 0.0f, 1.0f);
 
-template<> const Matrix2<double> Matrix2<double>::ZERO(
-    0.0,0.0,
-    0.0,0.0);
-template<> const Matrix2<double> Matrix2<double>::IDENTITY(
-    1.0,0.0,
-    0.0,1.0);
+template <> const Matrix2<double> Matrix2<double>::ZERO(0.0, 0.0, 0.0, 0.0);
+template <> const Matrix2<double> Matrix2<double>::IDENTITY(1.0, 0.0, 0.0, 1.0);

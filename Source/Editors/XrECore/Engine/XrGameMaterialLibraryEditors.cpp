@@ -3,36 +3,36 @@
 #pragma hdrstop
 #include "../Editor/UI_MainCommand.h"
 #include "XrGameMaterialLibraryEditors.h"
-//#include "../include/xrapi/xrapi.h"
+// #include "../include/xrapi/xrapi.h"
 ECORE_API XrGameMaterialLibraryEditors* GameMaterialLibraryEditors = nullptr;
-void XrGameMaterialLibraryEditors::CopyMtlPairs(SGameMtl* from, SGameMtl* to)
+void                                    XrGameMaterialLibraryEditors::CopyMtlPairs(SGameMtl* from, SGameMtl* to)
 {
     for (GameMtlIt m1_it = materials.begin(); m1_it != materials.end(); ++m1_it)
     {
-        SGameMtl* M1 = *m1_it;
+        SGameMtl*     M1     = *m1_it;
         SGameMtlPair* p_from = GetMaterialPair(from->GetID(), M1->GetID());
-        SGameMtlPair* p_to = GetMaterialPair(to->GetID(), M1->GetID());
+        SGameMtlPair* p_to   = GetMaterialPair(to->GetID(), M1->GetID());
 
         if (p_from && p_to)
-            static_cast<SGameMtlPairEditor*> (p_to)->CopyFrom(static_cast<SGameMtlPairEditor*> (p_from));
+            static_cast<SGameMtlPairEditor*>(p_to)->CopyFrom(static_cast<SGameMtlPairEditor*>(p_from));
     }
-
 }
 
 BOOL XrGameMaterialLibraryEditors::UpdateMtlPairs(SGameMtl* src)
 {
-    BOOL bRes = FALSE;
-    SGameMtl* M0 = src;
+    BOOL      bRes = FALSE;
+    SGameMtl* M0   = src;
     for (GameMtlIt m1_it = materials.begin(); m1_it != materials.end(); ++m1_it)
     {
-        SGameMtl* M1 = *m1_it;
+        SGameMtl*     M1   = *m1_it;
         GameMtlPairIt p_it = GetMaterialPairIt(M0->GetID(), M1->GetID());
         if ((!M0->Flags.is(SGameMtlEditor::flDynamic)) && (!M1->Flags.is(SGameMtlEditor::flDynamic)))
         {
             R_ASSERT(p_it == material_pairs.end());
             continue;
         }
-        else {
+        else
+        {
             if (p_it == material_pairs.end())
             {
                 // create pair
@@ -48,36 +48,33 @@ BOOL XrGameMaterialLibraryEditors::UpdateMtlPairs()
 {
     BOOL bRes = FALSE;
     for (GameMtlIt m0_it = materials.begin(); m0_it != materials.end(); m0_it++)
-        if (UpdateMtlPairs(*m0_it)) bRes = TRUE;
+        if (UpdateMtlPairs(*m0_it))
+            bRes = TRUE;
     return bRes;
 }
 
+XrGameMaterialLibraryEditors::XrGameMaterialLibraryEditors() {}
 
-XrGameMaterialLibraryEditors::XrGameMaterialLibraryEditors()
-{
-}
-
-XrGameMaterialLibraryEditors::~XrGameMaterialLibraryEditors()
-{
-}
+XrGameMaterialLibraryEditors::~XrGameMaterialLibraryEditors() {}
 
 SGameMtl* XrGameMaterialLibraryEditors::AppendMaterial(SGameMtl* parent)
 {
     SGameMtl* M = xr_new<SGameMtlEditor>();
     if (parent)
-        *M = *parent;//base params
+        *M = *parent;   // base params
 
     M->ID = material_index++;
 
     materials.push_back(M);
     UpdateMtlPairs(M);
-    if (parent)	CopyMtlPairs(parent, M);
-    return 					M;
+    if (parent)
+        CopyMtlPairs(parent, M);
+    return M;
 }
 void XrGameMaterialLibraryEditors::RemoveMaterial(LPCSTR name)
 {
     // find material
-    GameMtlIt 	rem_it = GetMaterialIt(name);
+    GameMtlIt rem_it = GetMaterialIt(name);
     R_ASSERT(rem_it != materials.end());
     // remove dependent pairs
     RemoveMaterialPair((*rem_it)->GetID());
@@ -91,18 +88,23 @@ void XrGameMaterialLibraryEditors::RemoveMaterial(LPCSTR name)
 LPCSTR XrGameMaterialLibraryEditors::MtlPairToName(int mtl0, int mtl1)
 {
     static string512 buf;
-    SGameMtl* M0 = GetMaterialByID(mtl0);	R_ASSERT(M0);
-    SGameMtl* M1 = GetMaterialByID(mtl1);	R_ASSERT(M1);
+    SGameMtl*        M0 = GetMaterialByID(mtl0);
+    R_ASSERT(M0);
+    SGameMtl* M1 = GetMaterialByID(mtl1);
+    R_ASSERT(M1);
     string256 buf0, buf1;
-    strcpy(buf0, *M0->m_Name);	_ChangeSymbol(buf0, '\\', '/');
-    strcpy(buf1, *M1->m_Name);	_ChangeSymbol(buf1, '\\', '/');
+    strcpy(buf0, *M0->m_Name);
+    _ChangeSymbol(buf0, '\\', '/');
+    strcpy(buf1, *M1->m_Name);
+    _ChangeSymbol(buf1, '\\', '/');
     sprintf(buf, "%s \\ %s", buf0, buf1);
     return buf;
 }
 void XrGameMaterialLibraryEditors::NameToMtlPair(LPCSTR name, int& mtl0, int& mtl1)
 {
-    string256 		buf0, buf1;
-    if (_GetItemCount(name, '\\') < 2) {
+    string256 buf0, buf1;
+    if (_GetItemCount(name, '\\') < 2)
+    {
         mtl0 = GAMEMTL_NONE_ID;
         mtl1 = GAMEMTL_NONE_ID;
         return;
@@ -111,36 +113,45 @@ void XrGameMaterialLibraryEditors::NameToMtlPair(LPCSTR name, int& mtl0, int& mt
     _GetItem(name, 1, buf1, '\\');
     _ChangeSymbol(buf0, '/', '\\');
     _ChangeSymbol(buf1, '/', '\\');
-    SGameMtl* M0 = GetMaterial(buf0);	mtl0 = M0 ? M0->GetID() : GAMEMTL_NONE_ID;
-    SGameMtl* M1 = GetMaterial(buf1);	mtl1 = M1 ? M1->GetID() : GAMEMTL_NONE_ID;
+    SGameMtl* M0 = GetMaterial(buf0);
+    mtl0         = M0 ? M0->GetID() : GAMEMTL_NONE_ID;
+    SGameMtl* M1 = GetMaterial(buf1);
+    mtl1         = M1 ? M1->GetID() : GAMEMTL_NONE_ID;
 }
 void XrGameMaterialLibraryEditors::MtlNameToMtlPair(LPCSTR name, int& mtl0, int& mtl1)
 {
     string256 buf;
-    SGameMtl* M0 = GetMaterial(_GetItem(name, 0, buf, ','));	R_ASSERT(M0); 	mtl0 = M0->GetID();
-    SGameMtl* M1 = GetMaterial(_GetItem(name, 1, buf, ','));	R_ASSERT(M1);	mtl1 = M1->GetID();
+    SGameMtl* M0 = GetMaterial(_GetItem(name, 0, buf, ','));
+    R_ASSERT(M0);
+    mtl0         = M0->GetID();
+    SGameMtl* M1 = GetMaterial(_GetItem(name, 1, buf, ','));
+    R_ASSERT(M1);
+    mtl1 = M1->GetID();
 }
 
 SGameMtlPair* XrGameMaterialLibraryEditors::CreateMaterialPair(int m0, int m1, SGameMtlPair* parent)
 {
     SGameMtlPairEditor* M = xr_new<SGameMtlPairEditor>(this);
-    if (parent) {
+    if (parent)
+    {
         M->ID_parent = parent->ID;
         M->OwnProps.zero();
     }
     M->ID = material_pair_index++;
     M->SetPair(m0, m1);
     material_pairs.push_back(M);
-    return 		M;
+    return M;
 }
 SGameMtlPair* XrGameMaterialLibraryEditors::AppendMaterialPair(int m0, int m1, SGameMtlPair* parent)
 {
     SGameMtlPair* S = GetMaterialPair(m0, m1);
-    if (!S) {
+    if (!S)
+    {
         return CreateMaterialPair(m0, m1, parent);
     }
-    else {
-        return 		S;
+    else
+    {
+        return S;
     }
 }
 void XrGameMaterialLibraryEditors::RemoveMaterialPair(LPCSTR name)
@@ -151,12 +162,14 @@ void XrGameMaterialLibraryEditors::RemoveMaterialPair(LPCSTR name)
 }
 void XrGameMaterialLibraryEditors::RemoveMaterialPair(GameMtlPairIt rem_it)
 {
-    if (rem_it == material_pairs.end()) return;
+    if (rem_it == material_pairs.end())
+        return;
     // delete parent dependent
     for (GameMtlPairIt it = material_pairs.begin(); it != material_pairs.end(); it++)
-        if ((*it)->ID_parent == (*rem_it)->ID) {
+        if ((*it)->ID_parent == (*rem_it)->ID)
+        {
             // transfer parented props to child
-           static_cast<SGameMtlPairEditor*> (*it)->TransferFromParent(static_cast<SGameMtlPairEditor*> (*rem_it));
+            static_cast<SGameMtlPairEditor*>(*it)->TransferFromParent(static_cast<SGameMtlPairEditor*>(*rem_it));
             // reset parenting
             (*it)->ID_parent = -1;
         }
@@ -166,9 +179,11 @@ void XrGameMaterialLibraryEditors::RemoveMaterialPair(GameMtlPairIt rem_it)
 }
 void XrGameMaterialLibraryEditors::RemoveMaterialPair(int mtl)
 {
-    for (int i = 0; i < (int)material_pairs.size(); i++) {
+    for (int i = 0; i < (int)material_pairs.size(); i++)
+    {
         GameMtlPairIt it = material_pairs.begin() + i;
-        if (((*it)->mtl0 == mtl) || ((*it)->mtl1 == mtl)) {
+        if (((*it)->mtl0 == mtl) || ((*it)->mtl1 == mtl))
+        {
             RemoveMaterialPair(it);
             i--;
         }
@@ -176,14 +191,16 @@ void XrGameMaterialLibraryEditors::RemoveMaterialPair(int mtl)
 }
 void XrGameMaterialLibraryEditors::RemoveMaterialPair(int mtl0, int mtl1)
 {
-    GameMtlPairIt 	rem_it = GetMaterialPairIt(mtl0, mtl1);
-    if (rem_it == material_pairs.end()) return;
+    GameMtlPairIt rem_it = GetMaterialPairIt(mtl0, mtl1);
+    if (rem_it == material_pairs.end())
+        return;
     RemoveMaterialPair(rem_it);
 }
 GameMtlPairIt XrGameMaterialLibraryEditors::GetMaterialPairIt(int id)
 {
     for (GameMtlPairIt it = material_pairs.begin(); it != material_pairs.end(); it++)
-        if ((*it)->ID == id) return it;
+        if ((*it)->ID == id)
+            return it;
     return material_pairs.end();
 }
 SGameMtlPairEditor* XrGameMaterialLibraryEditors::GetMaterialPair(int id)
@@ -194,7 +211,8 @@ SGameMtlPairEditor* XrGameMaterialLibraryEditors::GetMaterialPair(int id)
 GameMtlPairIt XrGameMaterialLibraryEditors::GetMaterialPairIt(u16 mtl0, u16 mtl1)
 {
     for (GameMtlPairIt it = material_pairs.begin(); it != material_pairs.end(); it++)
-        if ((*it)->IsPair(mtl0, mtl1)) return it;
+        if ((*it)->IsPair(mtl0, mtl1))
+            return it;
     return material_pairs.end();
 }
 SGameMtlPair* XrGameMaterialLibraryEditors::GetMaterialPair(u16 mtl0, u16 mtl1)
@@ -204,7 +222,8 @@ SGameMtlPair* XrGameMaterialLibraryEditors::GetMaterialPair(u16 mtl0, u16 mtl1)
 }
 SGameMtlPairEditor* XrGameMaterialLibraryEditors::GetMaterialPair(LPCSTR name)
 {
-    if (name && name[0]) {
+    if (name && name[0])
+    {
         int mtl0, mtl1;
         NameToMtlPair(name, mtl0, mtl1);
         GameMtlPairIt it = GetMaterialPairIt(mtl0, mtl1);
@@ -215,8 +234,9 @@ SGameMtlPairEditor* XrGameMaterialLibraryEditors::GetMaterialPair(LPCSTR name)
 
 void XrGameMaterialLibraryEditors::Load()
 {
-    string_path			name;
-    if (!FS.exist(name, _game_data_, GAMEMTL_FILENAME)) {
+    string_path name;
+    if (!FS.exist(name, _game_data_, GAMEMTL_FILENAME))
+    {
         Log("! Can't find game material file: ", name);
         return;
     }
@@ -224,28 +244,31 @@ void XrGameMaterialLibraryEditors::Load()
     R_ASSERT(material_pairs.empty());
     R_ASSERT(materials.empty());
 
-    IReader* F = FS.r_open(name);
+    IReader* F  = FS.r_open(name);
     IReader& fs = *F;
 
     R_ASSERT(fs.find_chunk(GAMEMTLS_CHUNK_VERSION));
     u16 version = fs.r_u16();
-    if (GAMEMTL_CURRENT_VERSION != version) {
+    if (GAMEMTL_CURRENT_VERSION != version)
+    {
         Log("CGameMtlLibrary: invalid version. Library can't load.");
         FS.r_close(F);
         return;
     }
 
     R_ASSERT(fs.find_chunk(GAMEMTLS_CHUNK_AUTOINC));
-    material_index = fs.r_u32();
+    material_index      = fs.r_u32();
     material_pair_index = fs.r_u32();
 
     materials.clear();
     material_pairs.clear();
 
     IReader* OBJ = fs.open_chunk(GAMEMTLS_CHUNK_MTLS);
-    if (OBJ) {
-        u32				count;
-        for (IReader* O = OBJ->open_chunk_iterator(count); O; O = OBJ->open_chunk_iterator(count, O)) {
+    if (OBJ)
+    {
+        u32 count;
+        for (IReader* O = OBJ->open_chunk_iterator(count); O; O = OBJ->open_chunk_iterator(count, O))
+        {
             SGameMtl* M = xr_new<SGameMtlEditor>();
             M->Load(*O);
             materials.push_back(M);
@@ -254,9 +277,11 @@ void XrGameMaterialLibraryEditors::Load()
     }
 
     OBJ = fs.open_chunk(GAMEMTLS_CHUNK_MTLS_PAIR);
-    if (OBJ) {
-        u32				count;
-        for (IReader* O = OBJ->open_chunk_iterator(count); O; O = OBJ->open_chunk_iterator(count, O)) {
+    if (OBJ)
+    {
+        u32 count;
+        for (IReader* O = OBJ->open_chunk_iterator(count); O; O = OBJ->open_chunk_iterator(count, O))
+        {
             SGameMtlPair* M = xr_new<SGameMtlPairEditor>(this);
             M->Load(*O);
             material_pairs.push_back(M);
@@ -283,7 +308,8 @@ bool XrGameMaterialLibraryEditors::Save()
 
     fs.open_chunk(GAMEMTLS_CHUNK_MTLS);
     int count = 0;
-    for (GameMtlIt m_it = materials.begin(); m_it != materials.end(); m_it++) {
+    for (GameMtlIt m_it = materials.begin(); m_it != materials.end(); m_it++)
+    {
         fs.open_chunk(count++);
         (*m_it)->Save(fs);
         fs.close_chunk();
@@ -292,7 +318,8 @@ bool XrGameMaterialLibraryEditors::Save()
 
     fs.open_chunk(GAMEMTLS_CHUNK_MTLS_PAIR);
     count = 0;
-    for (GameMtlPairIt p_it = material_pairs.begin(); p_it != material_pairs.end(); p_it++) {
+    for (GameMtlPairIt p_it = material_pairs.begin(); p_it != material_pairs.end(); p_it++)
+    {
         fs.open_chunk(count++);
         (*p_it)->Save(fs);
         fs.close_chunk();
@@ -310,8 +337,9 @@ void SGameMtlEditor::FillProp(PropItemVec& items, ListItem* owner)
 {
     PropValue* V = 0;
     PHelper().CreateRText(items, "Desc", &m_Desc);
-    // flags                                                      	
-    V = PHelper().CreateFlag32(items, "Flags\\Dynamic", &Flags, flDynamic);	V->Owner()->Enable(FALSE);
+    // flags
+    V = PHelper().CreateFlag32(items, "Flags\\Dynamic", &Flags, flDynamic);
+    V->Owner()->Enable(FALSE);
     PHelper().CreateFlag32(items, "Flags\\Passable", &Flags, flPassable);
     if (Flags.is(flDynamic))
         PHelper().CreateFlag32(items, "Flags\\Breakable", &Flags, flBreakable);
@@ -342,20 +370,25 @@ void SGameMtlEditor::FillProp(PropItemVec& items, ListItem* owner)
     PHelper().CreateFloat(items, "Factors\\Density Factor", &fDensityFactor, 0.0f, 1000.0f, 1.0f, 1);
 }
 
-
 //------------------------------------------------------------------------------
 // material pair routines
 //------------------------------------------------------------------------------
-void  SGameMtlPairEditor::OnFlagChange(PropValue* sender)
+void SGameMtlPairEditor::OnFlagChange(PropValue* sender)
 {
     bool bChecked = sender->Owner()->m_Flags.is(PropItem::flCBChecked);
-    u32 mask = 0;
-    if (sender == propBreakingSounds)			mask = flBreakingSounds;
-    else if (sender == propStepSounds)		mask = flStepSounds;
-    else if (sender == propCollideSounds)		mask = flCollideSounds;
-    else if (sender == propCollideParticles)	mask = flCollideParticles;
-    else if (sender == propCollideMarks)		mask = flCollideMarks;
-    else THROW;
+    u32  mask     = 0;
+    if (sender == propBreakingSounds)
+        mask = flBreakingSounds;
+    else if (sender == propStepSounds)
+        mask = flStepSounds;
+    else if (sender == propCollideSounds)
+        mask = flCollideSounds;
+    else if (sender == propCollideParticles)
+        mask = flCollideParticles;
+    else if (sender == propCollideMarks)
+        mask = flCollideMarks;
+    else
+        THROW;
 
     OwnProps.set(mask, bChecked);
     sender->Owner()->m_Flags.set(PropItem::flDisabled, !bChecked);
@@ -370,34 +403,45 @@ IC u32 SetMask(u32 mask, Flags32 flags, u32 flag)
 
 IC SGameMtlPairEditor* GetLastParentValue(SGameMtlPairEditor* who, u32 flag)
 {
-    if (!who)					return 0;
-    if ((GAMEMTL_NONE_ID == who->GetParent()) || (who->OwnProps.is(flag))) return who;
-    else						return GetLastParentValue(GameMaterialLibraryEditors->GetMaterialPair(who->GetParent()), flag);
+    if (!who)
+        return 0;
+    if ((GAMEMTL_NONE_ID == who->GetParent()) || (who->OwnProps.is(flag)))
+        return who;
+    else
+        return GetLastParentValue(GameMaterialLibraryEditors->GetMaterialPair(who->GetParent()), flag);
 }
 
 IC BOOL ValidateParent(SGameMtlPair* who, SGameMtlPair* parent)
 {
-    if (!parent)				return TRUE;
-    if (who == parent)			return FALSE;
-    else						return ValidateParent(who, GameMaterialLibraryEditors->GetMaterialPair(parent->GetParent()));
+    if (!parent)
+        return TRUE;
+    if (who == parent)
+        return FALSE;
+    else
+        return ValidateParent(who, GameMaterialLibraryEditors->GetMaterialPair(parent->GetParent()));
 }
 
 BOOL SGameMtlPairEditor::SetParent(int parent)
 {
     int ID_parent_save = ID_parent;
-    ID_parent = parent;
+    ID_parent          = parent;
 
-    for (GameMtlPairIt it = GameMaterialLibraryEditors->FirstMaterialPair(); it != GameMaterialLibraryEditors->LastMaterialPair(); it++) {
-        if (!ValidateParent(*it, GameMaterialLibraryEditors->GetMaterialPair((*it)->GetParent()))) {
+    for (GameMtlPairIt it = GameMaterialLibraryEditors->FirstMaterialPair();
+         it != GameMaterialLibraryEditors->LastMaterialPair(); it++)
+    {
+        if (!ValidateParent(*it, GameMaterialLibraryEditors->GetMaterialPair((*it)->GetParent())))
+        {
             ID_parent = ID_parent_save;
             return FALSE;
         }
     }
     // all right
-    if (GAMEMTL_NONE_ID == ID_parent) {
+    if (GAMEMTL_NONE_ID == ID_parent)
+    {
         OwnProps.one();
     }
-    else {
+    else
+    {
         OwnProps.zero();
         OwnProps.set(flBreakingSounds, BreakingSounds.size());
         OwnProps.set(flStepSounds, StepSounds.size());
@@ -408,12 +452,16 @@ BOOL SGameMtlPairEditor::SetParent(int parent)
     return TRUE;
 }
 
-void  SGameMtlPairEditor::FillChooseMtl(ChooseItemVec& items, void* param)
+void SGameMtlPairEditor::FillChooseMtl(ChooseItemVec& items, void* param)
 {
-    for (GameMtlIt m0_it = GameMaterialLibraryEditors->FirstMaterial(); m0_it != GameMaterialLibraryEditors->LastMaterial(); m0_it++) {
+    for (GameMtlIt m0_it = GameMaterialLibraryEditors->FirstMaterial();
+         m0_it != GameMaterialLibraryEditors->LastMaterial(); m0_it++)
+    {
         SGameMtl* M0 = *m0_it;
-        for (GameMtlIt m1_it = GameMaterialLibraryEditors->FirstMaterial(); m1_it != GameMaterialLibraryEditors->LastMaterial(); m1_it++) {
-            SGameMtl* M1 = *m1_it;
+        for (GameMtlIt m1_it = GameMaterialLibraryEditors->FirstMaterial();
+             m1_it != GameMaterialLibraryEditors->LastMaterial(); m1_it++)
+        {
+            SGameMtl*     M1   = *m1_it;
             GameMtlPairIt p_it = GameMaterialLibraryEditors->GetMaterialPairIt(M0->GetID(), M1->GetID());
             if (p_it != GameMaterialLibraryEditors->LastMaterialPair())
                 items.push_back(SChooseItem(GameMaterialLibraryEditors->MtlPairToName(M0->GetID(), M1->GetID()), ""));
@@ -421,57 +469,67 @@ void  SGameMtlPairEditor::FillChooseMtl(ChooseItemVec& items, void* param)
     }
 }
 
-void  SGameMtlPairEditor::OnParentClick(ButtonValue* V, bool& bModif, bool& bSafe)
+void SGameMtlPairEditor::OnParentClick(ButtonValue* V, bool& bModif, bool& bSafe)
 {
     bModif = false;
     switch (V->btn_num)
     {
-    case 0:
-    {
-        LPCSTR MP = 0;
-        SGameMtlPair* P = GameMaterialLibraryEditors->GetMaterialPair(ID_parent);
-        xr_string nm = P ? GameMaterialLibraryEditors->MtlPairToName(P->GetMtl0(), P->GetMtl1()) : NONE_CAPTION;
-        UIChooseForm::SelectItem(smCustom, 1, (nm == NONE_CAPTION) ? 0 : nm.c_str(), TOnChooseFillItems(this, &SGameMtlPairEditor::FillChooseMtl));
-        m_EditParent = true;
-    }break;
+        case 0: {
+            LPCSTR        MP = 0;
+            SGameMtlPair* P  = GameMaterialLibraryEditors->GetMaterialPair(ID_parent);
+            xr_string     nm = P ? GameMaterialLibraryEditors->MtlPairToName(P->GetMtl0(), P->GetMtl1()) : NONE_CAPTION;
+            UIChooseForm::SelectItem(
+                smCustom, 1, (nm == NONE_CAPTION) ? 0 : nm.c_str(),
+                TOnChooseFillItems(this, &SGameMtlPairEditor::FillChooseMtl));
+            m_EditParent = true;
+        }
+        break;
     }
 }
 
-void  SGameMtlPairEditor::OnCommandClick(ButtonValue* V, bool& bModif, bool& bSafe)
+void SGameMtlPairEditor::OnCommandClick(ButtonValue* V, bool& bModif, bool& bSafe)
 {
     bModif = false;
-    switch (V->btn_num) {
-    case 0: {
-        SGameMtlPair* P = GameMaterialLibraryEditors->GetMaterialPair(ID_parent);
-        xr_string nm = P ? GameMaterialLibraryEditors->MtlPairToName(P->GetMtl0(), P->GetMtl1()) : NONE_CAPTION;
-        UIChooseForm::SelectItem(smCustom, 128, 0, TOnChooseFillItems(this, &SGameMtlPairEditor::FillChooseMtl));
-        m_EditCommand = true;
-    }
-          break;
+    switch (V->btn_num)
+    {
+        case 0: {
+            SGameMtlPair* P  = GameMaterialLibraryEditors->GetMaterialPair(ID_parent);
+            xr_string     nm = P ? GameMaterialLibraryEditors->MtlPairToName(P->GetMtl0(), P->GetMtl1()) : NONE_CAPTION;
+            UIChooseForm::SelectItem(smCustom, 128, 0, TOnChooseFillItems(this, &SGameMtlPairEditor::FillChooseMtl));
+            m_EditCommand = true;
+        }
+        break;
     }
 }
 
 void SGameMtlPairEditor::FillProp(PropItemVec& items)
 {
     PropValue::TOnChange OnChange = 0;
-    u32 show_CB = 0;
-    SGameMtlPair* P = 0;
-    if (ID_parent != GAMEMTL_NONE_ID) {
+    u32                  show_CB  = 0;
+    SGameMtlPair*        P        = 0;
+    if (ID_parent != GAMEMTL_NONE_ID)
+    {
         OnChange.bind(this, &SGameMtlPairEditor::OnFlagChange);
         show_CB = PropItem::flShowCB;
-        P = GameMaterialLibraryEditors->GetMaterialPair(ID_parent);
+        P       = GameMaterialLibraryEditors->GetMaterialPair(ID_parent);
     }
     ButtonValue* B;
     B = PHelper().CreateButton(items, "Command", "Set As Parent To...", 0);
     B->OnBtnClickEvent.bind(this, &SGameMtlPairEditor::OnCommandClick);
-    B = PHelper().CreateButton(items, "Parent", P ? GameMaterialLibraryEditors->MtlPairToName(P->GetMtl0(), P->GetMtl1()) : NONE_CAPTION, 0);
+    B = PHelper().CreateButton(
+        items, "Parent", P ? GameMaterialLibraryEditors->MtlPairToName(P->GetMtl0(), P->GetMtl1()) : NONE_CAPTION, 0);
     B->OnBtnClickEvent.bind(this, &SGameMtlPairEditor::OnParentClick);
 
-    propBreakingSounds = PHelper().CreateChoose(items, "Breaking Sounds", &BreakingSounds, smSoundSource, 0, 0, GAMEMTL_SUBITEM_COUNT);
-    propStepSounds = PHelper().CreateChoose(items, "Step Sounds", &StepSounds, smSoundSource, 0, 0, GAMEMTL_SUBITEM_COUNT + 2);
-    propCollideSounds = PHelper().CreateChoose(items, "Collide Sounds", &CollideSounds, smSoundSource, 0, 0, GAMEMTL_SUBITEM_COUNT);
-    propCollideParticles = PHelper().CreateChoose(items, "Collide Particles", &CollideParticles, smParticles, 0, 0, GAMEMTL_SUBITEM_COUNT);
-    propCollideMarks = PHelper().CreateChoose(items, "Collide Marks", &CollideMarks, smTexture, 0, 0, GAMEMTL_SUBITEM_COUNT);
+    propBreakingSounds =
+        PHelper().CreateChoose(items, "Breaking Sounds", &BreakingSounds, smSoundSource, 0, 0, GAMEMTL_SUBITEM_COUNT);
+    propStepSounds =
+        PHelper().CreateChoose(items, "Step Sounds", &StepSounds, smSoundSource, 0, 0, GAMEMTL_SUBITEM_COUNT + 2);
+    propCollideSounds =
+        PHelper().CreateChoose(items, "Collide Sounds", &CollideSounds, smSoundSource, 0, 0, GAMEMTL_SUBITEM_COUNT);
+    propCollideParticles =
+        PHelper().CreateChoose(items, "Collide Particles", &CollideParticles, smParticles, 0, 0, GAMEMTL_SUBITEM_COUNT);
+    propCollideMarks =
+        PHelper().CreateChoose(items, "Collide Marks", &CollideMarks, smTexture, 0, 0, GAMEMTL_SUBITEM_COUNT);
 
     propBreakingSounds->Owner()->m_Flags.assign(SetMask(show_CB, OwnProps, flBreakingSounds));
     propStepSounds->Owner()->m_Flags.assign(SetMask(show_CB, OwnProps, flStepSounds));
@@ -479,41 +537,50 @@ void SGameMtlPairEditor::FillProp(PropItemVec& items)
     propCollideParticles->Owner()->m_Flags.assign(SetMask(show_CB, OwnProps, flCollideParticles));
     propCollideMarks->Owner()->m_Flags.assign(SetMask(show_CB, OwnProps, flCollideMarks));
 
-    propBreakingSounds->OnChangeEvent = OnChange;
-    propStepSounds->OnChangeEvent = OnChange;
-    propCollideSounds->OnChangeEvent = OnChange;
+    propBreakingSounds->OnChangeEvent   = OnChange;
+    propStepSounds->OnChangeEvent       = OnChange;
+    propCollideSounds->OnChangeEvent    = OnChange;
     propCollideParticles->OnChangeEvent = OnChange;
-    propCollideMarks->OnChangeEvent = OnChange;
+    propCollideMarks->OnChangeEvent     = OnChange;
 
     if (show_CB)
     {
         SGameMtlPairEditor* O;
-        if (0 != (O = GetLastParentValue(this, flBreakingSounds)))	BreakingSounds = O->BreakingSounds;
-        if (0 != (O = GetLastParentValue(this, flStepSounds))) 		StepSounds = O->StepSounds;
-        if (0 != (O = GetLastParentValue(this, flCollideSounds))) 	CollideSounds = O->CollideSounds;
-        if (0 != (O = GetLastParentValue(this, flCollideParticles))) CollideParticles = O->CollideParticles;
-        if (0 != (O = GetLastParentValue(this, flCollideMarks))) 	CollideMarks = O->CollideMarks;
+        if (0 != (O = GetLastParentValue(this, flBreakingSounds)))
+            BreakingSounds = O->BreakingSounds;
+        if (0 != (O = GetLastParentValue(this, flStepSounds)))
+            StepSounds = O->StepSounds;
+        if (0 != (O = GetLastParentValue(this, flCollideSounds)))
+            CollideSounds = O->CollideSounds;
+        if (0 != (O = GetLastParentValue(this, flCollideParticles)))
+            CollideParticles = O->CollideParticles;
+        if (0 != (O = GetLastParentValue(this, flCollideMarks)))
+            CollideMarks = O->CollideMarks;
     }
 }
 
 void SGameMtlPairEditor::TransferFromParent(SGameMtlPairEditor* parent)
 {
     R_ASSERT(parent);
-    if (!OwnProps.is(flBreakingSounds))		BreakingSounds = parent->BreakingSounds;
-    if (!OwnProps.is(flStepSounds))			StepSounds = parent->StepSounds;
-    if (!OwnProps.is(flCollideSounds))		CollideSounds = parent->CollideSounds;
-    if (!OwnProps.is(flCollideParticles))	CollideParticles = parent->CollideParticles;
-    if (!OwnProps.is(flCollideMarks))		CollideMarks = parent->CollideMarks;
+    if (!OwnProps.is(flBreakingSounds))
+        BreakingSounds = parent->BreakingSounds;
+    if (!OwnProps.is(flStepSounds))
+        StepSounds = parent->StepSounds;
+    if (!OwnProps.is(flCollideSounds))
+        CollideSounds = parent->CollideSounds;
+    if (!OwnProps.is(flCollideParticles))
+        CollideParticles = parent->CollideParticles;
+    if (!OwnProps.is(flCollideMarks))
+        CollideMarks = parent->CollideMarks;
 }
 
 void SGameMtlPairEditor::CopyFrom(SGameMtlPairEditor* parent)
 {
     R_ASSERT(parent);
-    OwnProps = parent->OwnProps;
+    OwnProps  = parent->OwnProps;
     ID_parent = parent->ID_parent;
 
     BreakingSounds = parent->BreakingSounds;
-
 
     StepSounds = parent->StepSounds;
 
@@ -524,21 +591,15 @@ void SGameMtlPairEditor::CopyFrom(SGameMtlPairEditor* parent)
     CollideMarks = parent->CollideMarks;
 }
 
-
-SGameMtlPairEditor::SGameMtlPairEditor(XrGameMaterialLibraryInterface* owner):SGameMtlPair(owner)
+SGameMtlPairEditor::SGameMtlPairEditor(XrGameMaterialLibraryInterface* owner): SGameMtlPair(owner)
 {
-    m_EditParent = false;
+    m_EditParent  = false;
     m_EditCommand = false;
 }
 
+SGameMtlEditor::SGameMtlEditor() {}
 
-SGameMtlEditor::SGameMtlEditor()
-{
-}
-
-SGameMtlEditor::~SGameMtlEditor()
-{
-}
+SGameMtlEditor::~SGameMtlEditor() {}
 
 //------------------------------------------------------------------------------
 // IO - routines
@@ -593,30 +654,34 @@ void SGameMtlEditor::Save(IWriter& fs)
     fs.open_chunk(GAMEMTL_CHUNK_DENSITY);
     fs.w_float(fDensityFactor);
     fs.close_chunk();
-
 }
 
 void SGameMtlPairEditor::Load(IReader& fs)
 {
-    shared_str				buf;
-    
+    shared_str buf;
+
     R_ASSERT(fs.find_chunk(GAMEMTLPAIR_CHUNK_PAIR));
-    mtl0 = fs.r_u32();
-    mtl1 = fs.r_u32();
-    ID = fs.r_u32();
+    mtl0      = fs.r_u32();
+    mtl1      = fs.r_u32();
+    ID        = fs.r_u32();
     ID_parent = fs.r_u32();
     OwnProps.assign(fs.r_u32());
 
     R_ASSERT(fs.find_chunk(GAMEMTLPAIR_CHUNK_BREAKING));
-    fs.r_stringZ(buf); 	BreakingSounds = *buf;
+    fs.r_stringZ(buf);
+    BreakingSounds = *buf;
 
     R_ASSERT(fs.find_chunk(GAMEMTLPAIR_CHUNK_STEP));
-    fs.r_stringZ(buf);	StepSounds = *buf;
+    fs.r_stringZ(buf);
+    StepSounds = *buf;
 
     R_ASSERT(fs.find_chunk(GAMEMTLPAIR_CHUNK_COLLIDE));
-    fs.r_stringZ(buf);	CollideSounds = *buf;
-    fs.r_stringZ(buf);	CollideParticles = *buf;
-    fs.r_stringZ(buf);	CollideMarks = *buf;
+    fs.r_stringZ(buf);
+    CollideSounds = *buf;
+    fs.r_stringZ(buf);
+    CollideParticles = *buf;
+    fs.r_stringZ(buf);
+    CollideMarks = *buf;
 }
 
 void SGameMtlPairEditor::Save(IWriter& fs)
@@ -630,7 +695,8 @@ void SGameMtlPairEditor::Save(IWriter& fs)
     fs.close_chunk();
 
     // copy from parent
-    if (ID_parent != GAMEMTL_NONE_ID) {
+    if (ID_parent != GAMEMTL_NONE_ID)
+    {
         SGameMtlPairEditor* P;
         if ((0 != (P = GetLastParentValue(this, flBreakingSounds))) && (P != this))
             BreakingSounds = P->BreakingSounds;
@@ -653,7 +719,7 @@ void SGameMtlPairEditor::Save(IWriter& fs)
             if (!CollideMarks.IsEmpty())	OwnProps.set(flCollideMarks,TRUE);
         }
     */
-    // save    
+    // save
     fs.open_chunk(GAMEMTLPAIR_CHUNK_BREAKING);
     fs.w_stringZ(BreakingSounds);
     fs.close_chunk();
@@ -669,11 +735,11 @@ void SGameMtlPairEditor::Save(IWriter& fs)
     fs.close_chunk();
 }
 
-void  SGameMtlPairEditor::OnDrawUI()
+void SGameMtlPairEditor::OnDrawUI()
 {
     if (m_EditParent)
     {
-        bool change = true;
+        bool       change = true;
         shared_str result;
         if (UIChooseForm::GetResult(change, result))
         {
@@ -681,7 +747,8 @@ void  SGameMtlPairEditor::OnDrawUI()
             {
                 int m0, m1;
                 GameMaterialLibraryEditors->NameToMtlPair(result.c_str(), m0, m1);
-                SGameMtlPair* p = GameMaterialLibraryEditors->GetMaterialPair(m0, m1); VERIFY(p);
+                SGameMtlPair* p = GameMaterialLibraryEditors->GetMaterialPair(m0, m1);
+                VERIFY(p);
                 if (!SetParent(p->GetID()))
                 {
                     ELog.DlgMsg(mtError, "Pair can't inherit from self.");
@@ -690,7 +757,6 @@ void  SGameMtlPairEditor::OnDrawUI()
                 {
                     ExecCommand(COMMAND_UPDATE_PROPERTIES);
                 }
-
             }
             else
             {
@@ -703,7 +769,7 @@ void  SGameMtlPairEditor::OnDrawUI()
     }
     if (m_EditCommand)
     {
-        bool change = true;
+        bool       change = true;
         shared_str result;
         if (UIChooseForm::GetResult(change, result))
         {
@@ -715,7 +781,9 @@ void  SGameMtlPairEditor::OnDrawUI()
                 {
                     int m0, m1;
                     GameMaterialLibraryEditors->NameToMtlPair(it->c_str(), m0, m1);
-                    SGameMtlPairEditor* p =static_cast<SGameMtlPairEditor*>( GameMaterialLibraryEditors->GetMaterialPair(m0, m1)); VERIFY(p);
+                    SGameMtlPairEditor* p =
+                        static_cast<SGameMtlPairEditor*>(GameMaterialLibraryEditors->GetMaterialPair(m0, m1));
+                    VERIFY(p);
                     if (!p->SetParent(GetID()))
                     {
                         ELog.DlgMsg(mtError, "Pair can't inherit from self.");
@@ -729,6 +797,4 @@ void  SGameMtlPairEditor::OnDrawUI()
     }
 }
 
-SGameMtlPairEditor::~SGameMtlPairEditor()
-{
-}
+SGameMtlPairEditor::~SGameMtlPairEditor() {}

@@ -1,4 +1,4 @@
-// Magic Software, Inc.
+﻿// Magic Software, Inc.
 // http://www.magic-software.com
 // Copyright (c) 2000-2002.  All Rights Reserved
 //
@@ -22,17 +22,20 @@
 
 #include "MgcVector3.h"
 
-namespace Mgc {
+namespace Mgc
+{
 
-MAGICFM void GaussPointsFit (int iQuantity, const Vector3* akPoint,
-    Vector3& rkCenter, Vector3 akAxis[3], Real afExtent[3]);
+    MAGICFM void
+        GaussPointsFit(int iQuantity, const Vector3* akPoint, Vector3& rkCenter, Vector3 akAxis[3], Real afExtent[3]);
 
-MAGICFM bool GaussPointsFit (int iQuantity, const Vector3* akPoint,
-    const bool* abValid, Vector3& rkCenter, Vector3 akAxis[3],
-    Real afExtent[3]);
+    MAGICFM bool GaussPointsFit(
+        int            iQuantity,
+        const Vector3* akPoint,
+        const bool*    abValid,
+        Vector3&       rkCenter,
+        Vector3        akAxis[3],
+        Real           afExtent[3]);
 
-} // namespace Mgc
+}   // namespace Mgc
 
 #endif
-
-

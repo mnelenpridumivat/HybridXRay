@@ -1,4 +1,4 @@
-// Magic Software, Inc.
+﻿// Magic Software, Inc.
 // http://www.magic-software.com
 // Copyright (c) 2000-2002.  All Rights Reserved
 //
@@ -14,14 +14,9 @@
 using namespace Mgc;
 
 //----------------------------------------------------------------------------
-void Box3::ComputeVertices (Vector3 akVertex[8]) const
+void Box3::ComputeVertices(Vector3 akVertex[8]) const
 {
-    Vector3 akEAxis[3] =
-    {
-        m_afExtent[0]*m_akAxis[0],
-        m_afExtent[1]*m_akAxis[1],
-        m_afExtent[2]*m_akAxis[2]
-    };
+    Vector3 akEAxis[3] = {m_afExtent[0] * m_akAxis[0], m_afExtent[1] * m_akAxis[1], m_afExtent[2] * m_akAxis[2]};
 
     akVertex[0] = m_kCenter - akEAxis[0] - akEAxis[1] - akEAxis[2];
     akVertex[1] = m_kCenter + akEAxis[0] - akEAxis[1] - akEAxis[2];
@@ -33,5 +28,3 @@ void Box3::ComputeVertices (Vector3 akVertex[8]) const
     akVertex[7] = m_kCenter - akEAxis[0] + akEAxis[1] + akEAxis[2];
 }
 //----------------------------------------------------------------------------
-
-

@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include <thread>
 #include <atomic>
 
@@ -6,20 +6,20 @@ static std::atomic<bool> RefreshInProgress;
 
 UIObjectTool::UIObjectTool()
 {
-    m_selPercent = 0.f;
-    m_MultiAppend = false;
-    m_PropRandom = false;
-    m_Current = nullptr;
-    m_RandomAppend = false;
-    m_Selection = false;
-    m_RealTexture = nullptr;
-    m_RemoveTexture = nullptr;
+    m_selPercent      = 0.f;
+    m_MultiAppend     = false;
+    m_PropRandom      = false;
+    m_Current         = nullptr;
+    m_RandomAppend    = false;
+    m_Selection       = false;
+    m_RealTexture     = nullptr;
+    m_RemoveTexture   = nullptr;
     RefreshInProgress = false;
-    m_ObjectList = xr_new<UIItemListForm>();
+    m_ObjectList      = xr_new<UIItemListForm>();
     m_ObjectList->SetOnItemFocusedEvent(TOnILItemFocused(this, &UIObjectTool::OnItemFocused));
     m_TextureNull.create("ed\\ed_nodata");
     m_TextureNull->Load();
-    m_Props = xr_new< UIPropertiesForm>();
+    m_Props = xr_new<UIPropertiesForm>();
     RefreshList();
 }
 
@@ -41,9 +41,9 @@ void UIObjectTool::Draw()
 {
     if (m_RemoveTexture)
         m_RemoveTexture->Release();
-    m_RemoveTexture = nullptr;
+    m_RemoveTexture   = nullptr;
     static bool bbool = false;
-    float a = 1;
+    float       a     = 1;
     ImGui::SetNextItemOpen(true, ImGuiCond_FirstUseEver);
     if (ImGui::TreeNode("Commands"))
     {
@@ -63,7 +63,7 @@ void UIObjectTool::Draw()
                 {
                     ParentTools->ActivateAppendRandom(m_RandomAppend);
                 }
-                ImGui::SameLine(0,10);
+                ImGui::SameLine(0, 10);
                 if (ImGui::Button("Random Props...", ImVec2(-1, 0)))
                 {
                     m_PropRandom = true;
@@ -80,8 +80,31 @@ void UIObjectTool::Draw()
     {
         ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
         {
-            ImGui::Text("Select by Current: "); ImGui::SameLine(); if (ImGui::Button(" +")) { SelByRefObject(true); } ImGui::SameLine(); if (ImGui::Button(" -")) { SelByRefObject(false); }
-            ImGui::Text("Select by Selected:"); ImGui::SameLine(); if (ImGui::Button("=%")) { MultiSelByRefObject(true); } ImGui::SameLine(); if (ImGui::Button("+%")) { MultiSelByRefObject(false); } ImGui::SameLine(); ImGui::SetNextItemWidth(-ImGui::GetTextLineHeight() - 8); ImGui::DragFloat("%", &m_selPercent, 1, 0, 100, "%.1f");
+            ImGui::Text("Select by Current: ");
+            ImGui::SameLine();
+            if (ImGui::Button(" +"))
+            {
+                SelByRefObject(true);
+            }
+            ImGui::SameLine();
+            if (ImGui::Button(" -"))
+            {
+                SelByRefObject(false);
+            }
+            ImGui::Text("Select by Selected:");
+            ImGui::SameLine();
+            if (ImGui::Button("=%"))
+            {
+                MultiSelByRefObject(true);
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("+%"))
+            {
+                MultiSelByRefObject(false);
+            }
+            ImGui::SameLine();
+            ImGui::SetNextItemWidth(-ImGui::GetTextLineHeight() - 8);
+            ImGui::DragFloat("%", &m_selPercent, 1, 0, 100, "%.1f");
         }
         ImGui::Separator();
         ImGui::Indent(ImGui::GetTreeNodeToLabelSpacing());
@@ -99,7 +122,7 @@ void UIObjectTool::Draw()
             }
             if (ImGui::Button("Clear Surface in level", ImVec2(-1, 0)))
             {
-                if (ELog.DlgMsg(mtConfirmation, mbYes | mbNo, "Are you sure to reset surface in level?") == mrYes) 
+                if (ELog.DlgMsg(mtConfirmation, mbYes | mbNo, "Are you sure to reset surface in level?") == mrYes)
                 {
                     Scene->UndoSave();
                     ClearSurface(false);
@@ -133,9 +156,9 @@ void UIObjectTool::Draw()
     if (ImGui::TreeNode("Preview"))
     {
         ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
-        ImGui::Image(m_RealTexture? m_RealTexture:( m_TextureNull->surface_get()), ImVec2(128, 128));
+        ImGui::Image(m_RealTexture ? m_RealTexture : (m_TextureNull->surface_get()), ImVec2(128, 128));
         ImGui::SameLine();
-        ImGui::BeginChild("Props", ImVec2(0,128));
+        ImGui::BeginChild("Props", ImVec2(0, 128));
         m_Props->Draw();
         ImGui::EndChild();
         ImGui::Separator();
@@ -176,7 +199,7 @@ void UIObjectTool::RefreshListInternal()
     Msg("UIObjectTool refresh started");
     RefreshInProgress = true;
     ListItemsVec items;
-    FS_FileSet lst;
+    FS_FileSet   lst;
 
     if (Lib.GetObjects(lst))
     {
@@ -201,7 +224,7 @@ void UIObjectTool::OnDrawUI()
 {
     if (m_Selection)
     {
-        bool change = false;
+        bool      change = false;
         xr_string lst;
         if (UIChooseForm::GetResult(change, lst))
         {
@@ -216,14 +239,14 @@ void UIObjectTool::OnDrawUI()
     }
     if (m_MultiAppend)
     {
-        bool change = false;
+        bool       change = false;
         SStringVec lst;
         if (UIChooseForm::GetResult(change, lst))
         {
             if (change)
             {
                 Fvector pos = {0.f, 0.f, 0.f};
-                Fvector up = {0.f, 1.f, 0.f};
+                Fvector up  = {0.f, 1.f, 0.f};
                 Scene->SelectObjects(false, OBJCLASS_SCENEOBJECT);
 
                 SPBItem* pb = UI->ProgressStart(lst.size(), "Append object:");
@@ -231,7 +254,7 @@ void UIObjectTool::OnDrawUI()
                 {
                     string256 namebuffer;
                     Scene->GenObjectName(OBJCLASS_SCENEOBJECT, namebuffer, it->c_str());
-                    CSceneObject* obj = xr_new<CSceneObject>((LPVOID)0, namebuffer);
+                    CSceneObject*    obj = xr_new<CSceneObject>((LPVOID)0, namebuffer);
                     CEditableObject* ref = obj->SetReference(it->c_str());
                     if (!ref)
                     {
@@ -260,14 +283,15 @@ void UIObjectTool::OnDrawUI()
 
 void UIObjectTool::OnItemFocused(ListItem* item)
 {
-    if (m_RealTexture)m_RemoveTexture = m_RealTexture;
+    if (m_RealTexture)
+        m_RemoveTexture = m_RealTexture;
     m_RealTexture = nullptr;
     m_Props->ClearProperties();
     m_Current = nullptr;
     if (item)
     {
-        m_Current = item->Key();
-        auto * m_Thm = ImageLib.CreateThumbnail(m_Current, EImageThumbnail::ETObject);
+        m_Current   = item->Key();
+        auto* m_Thm = ImageLib.CreateThumbnail(m_Current, EImageThumbnail::ETObject);
         if (m_Thm)
         {
             m_Thm->Update(m_RealTexture);
@@ -290,7 +314,8 @@ void UIObjectTool::SelByRefObject(bool flag)
             if ((*_F)->Visible())
             {
                 CSceneObject* _O = (CSceneObject*)(*_F);
-                if (_O->RefCompare(N)) _O->Select(flag);
+                if (_O->RefCompare(N))
+                    _O->Select(flag);
             }
         }
     }
@@ -298,13 +323,13 @@ void UIObjectTool::SelByRefObject(bool flag)
 
 void UIObjectTool::MultiSelByRefObject(bool clear_prev)
 {
-    ObjectList 	objlist;
-    LPU32Vec 	sellist;
+    ObjectList objlist;
+    LPU32Vec   sellist;
     if (Scene->GetQueryObjects(objlist, OBJCLASS_SCENEOBJECT, 1, 1, -1))
     {
         for (ObjectIt it = objlist.begin(); it != objlist.end(); it++)
         {
-            LPCSTR N = ((CSceneObject*)*it)->RefName();
+            LPCSTR   N  = ((CSceneObject*)*it)->RefName();
             ObjectIt _F = Scene->FirstObj(OBJCLASS_SCENEOBJECT);
             ObjectIt _E = Scene->LastObj(OBJCLASS_SCENEOBJECT);
             for (; _F != _E; _F++)
@@ -329,7 +354,7 @@ void UIObjectTool::MultiSelByRefObject(bool clear_prev)
         sellist.erase(std::unique(sellist.begin(), sellist.end()), sellist.end());
         std::random_shuffle(sellist.begin(), sellist.end());
         int max_k = iFloor(float(sellist.size()) / 100.f * float(m_selPercent) + 0.5f);
-        int k = 0;
+        int k     = 0;
         for (LPU32It o_it = sellist.begin(); k < max_k; o_it++, k++)
         {
             CSceneObject* _O = (CSceneObject*)(*o_it);
@@ -348,7 +373,7 @@ void UIObjectTool::ClearSurface(bool selected)
             if ((*_F)->Visible())
             {
                 CSceneObject* _O = (CSceneObject*)(*_F);
-                if ((_O->Selected() && _O->Visible())||!selected)
+                if ((_O->Selected() && _O->Visible()) || !selected)
                 {
                     _O->ClearSurface();
                 }

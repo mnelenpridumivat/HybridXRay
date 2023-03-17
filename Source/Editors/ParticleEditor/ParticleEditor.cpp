@@ -31,10 +31,12 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     UI->RegisterCommands();
 
     UIMainForm* MainForm = xr_new<UIMainForm>();
-    ::MainForm = MainForm;
+    ::MainForm           = MainForm;
     UI->Push(MainForm, false);
 
-    while (MainForm->Frame()) {}
+    while (MainForm->Frame())
+    {
+    }
 
     xr_delete(MainForm);
     Core._destroy();

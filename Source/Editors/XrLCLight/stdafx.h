@@ -1,8 +1,8 @@
-// stdafx.h : include file for standard system include files,
+﻿// stdafx.h : include file for standard system include files,
 // or project specific include files that are used frequently, but
 // are changed infrequently
 //
-#ifndef	XR_LC_LIGHT_STD_AFIX_H_
+#ifndef XR_LC_LIGHT_STD_AFIX_H_
 #define XR_LC_LIGHT_STD_AFIX_H_
 #pragma once
 /*
@@ -12,9 +12,9 @@
 #define WINVER 0x0501		// Change this to the appropriate value to target other versions of Windows.
 #endif
 
-#ifndef _WIN32_WINNT		// Allow use of features specific to Windows XP or later.                   
+#ifndef _WIN32_WINNT		// Allow use of features specific to Windows XP or later.
 #define _WIN32_WINNT 0x0501	// Change this to the appropriate value to target other versions of Windows.
-#endif						
+#endif
 
 #ifndef _WIN32_WINDOWS		// Allow use of features specific to Windows 98 or later.
 #define _WIN32_WINDOWS 0x0410 // Change this to the appropriate value to target Windows Me or later.
@@ -28,16 +28,16 @@
 // Windows Header Files:
 #include <windows.h>
 */
-//#include "../../xrCore/xrCore.h"
-//#define COLLECT_EXECUTION_STATS
+// #include "../../xrCore/xrCore.h"
+// #define COLLECT_EXECUTION_STATS
 
-#pragma warning (disable:4661)
+#pragma warning(disable : 4661)
 #include "xrLC_Light.h"
-void __cdecl	clMsg( const char *format, ...);
-void __cdecl	clLog( const char *format, ...);
-void __cdecl	Status( const char *format, ...);
-void			Progress	( const float F );
-void			Phase		( LPCSTR phase_name );
+void __cdecl clMsg(const char* format, ...);
+void __cdecl clLog(const char* format, ...);
+void __cdecl Status(const char* format, ...);
+void Progress(const float F);
+void Phase(LPCSTR phase_name);
 // TODO: reference additional headers your program requires here
 
 #ifdef DEBUG

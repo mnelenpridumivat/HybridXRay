@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "../XrECore/stdafx.h"
 #include "../XrECore/Editor/device.h"
 #include "../XrECore/Editor/UI_MainCommand.h"
@@ -65,7 +65,6 @@
 
 #include "../../xrServerEntities/xrMessages.h"
 
-
 #ifndef _DEBUG
 #define USE_ARENA_ALLOCATOR
 #endif
@@ -91,7 +90,6 @@
 
 #include "Editor/UI_LevelMain.h"
 #include "Editor/UI_LevelTools.h"
-
 
 #include "Editor/Utils/portalutils.h"
 #include "Editor/Utils/XrSEFactoryManager.h"

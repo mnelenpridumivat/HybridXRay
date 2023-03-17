@@ -1,4 +1,4 @@
-/*********************************************************************NVMH2****
+﻿/*********************************************************************NVMH2****
 Path:  C:\Dev\devrel\Nv_sdk_4\CommonSrc\nvImageLib
 File:  NVI_Image.h
 
@@ -12,8 +12,8 @@ Comments:
 
 ******************************************************************************/
 
-#ifndef  __NVIMAGELIB_NVI_IMAGE_H
-#define  __NVIMAGELIB_NVI_IMAGE_H
+#ifndef __NVIMAGELIB_NVI_IMAGE_H
+#define __NVIMAGELIB_NVI_IMAGE_H
 
 #include <windows.h>
 #include <assert.h>
@@ -29,19 +29,19 @@ namespace xray_nvi
         IMAGE_NOT_INITIALIZED,
         NVI_A8,
         //@	NVI_R8_G8_B8_A8, // unsigned integer - A is most sig byte
-        NVI_A8_R8_G8_B8, // unsigned integer - A is most sig byte (0xAARRGGBB)        
+        NVI_A8_R8_G8_B8,   // unsigned integer - A is most sig byte (0xAARRGGBB)
         NVI_A1_R5_G5_B5,
         NVI_R5_G6_B5,
-        NVI_A16, // 16-bit unsigned integer
+        NVI_A16,   // 16-bit unsigned integer
         //@	NVI_R16_G16_B16,
         NVI_R16_G16_B16_A16,
         NVI_FMT_FORCEDWORD = 0xFFFFFFFF
     };
-    
+
     class NVI_Image
     {
     public:
-        u8* m_pArray;
+        u8*              m_pArray;
         NVI_PIXEL_FORMAT m_Format;
         // Ints so that underflow does not wrap!
         int m_nSizeX;
@@ -50,19 +50,31 @@ namespace xray_nvi
     public:
         NVI_Image();
         ~NVI_Image();
-        virtual HRESULT Initialize(int width, int height, NVI_PIXEL_FORMAT format);
-        virtual HRESULT Initialize(int width, int height, NVI_PIXEL_FORMAT format, u8* data);
-        virtual HRESULT Free();
-        UINT GetBytesPerPixel();
-        UINT GetImageNumBytes();
-        NVI_PIXEL_FORMAT GetFormat() { return m_Format; }
-        UINT GetWidth() { return m_nSizeX; }
-        UINT GetHeight() { return m_nSizeY; }
-        UINT GetNumPixels();
-        BYTE* GetImageDataPointer() { return m_pArray; }
+        virtual HRESULT  Initialize(int width, int height, NVI_PIXEL_FORMAT format);
+        virtual HRESULT  Initialize(int width, int height, NVI_PIXEL_FORMAT format, u8* data);
+        virtual HRESULT  Free();
+        UINT             GetBytesPerPixel();
+        UINT             GetImageNumBytes();
+        NVI_PIXEL_FORMAT GetFormat()
+        {
+            return m_Format;
+        }
+        UINT GetWidth()
+        {
+            return m_nSizeX;
+        }
+        UINT GetHeight()
+        {
+            return m_nSizeY;
+        }
+        UINT  GetNumPixels();
+        BYTE* GetImageDataPointer()
+        {
+            return m_pArray;
+        }
         bool IsDataValid();
         void FlipTopToBottom();
-        void AverageRGBToAlpha(); // write each pixels' avg r,g,b to alpha
+        void AverageRGBToAlpha();   // write each pixels' avg r,g,b to alpha
         void ABGR8_To_ARGB8();
 
     private:
@@ -117,19 +129,19 @@ namespace xray_nvi
         ((DWORD*)m_pArray)[index] = pix;
     }
 
-    class NVI_ImageBordered : public NVI_Image
+    class NVI_ImageBordered: public NVI_Image
     {
     private:
-        int m_nBorderXLow; // ** Negative or zero ** 
-        // This is the offset from source images' 0,0 
+        int m_nBorderXLow;   // ** Negative or zero **
+        // This is the offset from source images' 0,0
         //   that marks the left border.
         //	 Border width on the left = -m_nBorderXLow;
         //   x = 0 that pixels can be addressed
-        int m_nBorderXHigh; // Size of border to 'right' of image.  >= 0
-        int m_nBorderYLow; // Same thing for Y borders
-        int m_nBorderYHigh;
-        NVI_Image** m_hSrcImage; // Image from which this was created
-        bool m_bWrap; // Wrap or clamp the border pixels
+        int         m_nBorderXHigh;   // Size of border to 'right' of image.  >= 0
+        int         m_nBorderYLow;    // Same thing for Y borders
+        int         m_nBorderYHigh;
+        NVI_Image** m_hSrcImage;   // Image from which this was created
+        bool        m_bWrap;       // Wrap or clamp the border pixels
 
         void CopyDataFromSource();
 
@@ -152,6 +164,6 @@ namespace xray_nvi
     {
         *outColor = ((DWORD*)m_pArray)[(j - m_nBorderYLow) * m_nSizeX + (i - m_nBorderXLow)];
     }
-};
+};   // namespace xray_nvi
 
-#endif // __NVIMAGELIB_NVI_IMAGE_H
+#endif   // __NVIMAGELIB_NVI_IMAGE_H

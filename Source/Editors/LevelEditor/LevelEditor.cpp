@@ -33,18 +33,18 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     Core._initialize("Level_Editor", ELogCallback, 1, FSName, true);
 
     LTools = xr_new<CLevelTool>();
-    Tools = LTools;
+    Tools  = LTools;
 
     LUI = xr_new<CLevelMain>();
-    UI = LUI;
+    UI  = LUI;
     UI->RegisterCommands();
 
-    Scene = xr_new<EScene>();
-    EditorScene = Scene;
-    UIMainForm* MainForm = xr_new< UIMainForm>();
-    pApp = xr_new<XRayEditor>();
-    g_XrGameManager = xr_new<XrGameManager>();
-    g_SEFactoryManager = xr_new<XrSEFactoryManager>();
+    Scene                = xr_new<EScene>();
+    EditorScene          = Scene;
+    UIMainForm* MainForm = xr_new<UIMainForm>();
+    pApp                 = xr_new<XRayEditor>();
+    g_XrGameManager      = xr_new<XrGameManager>();
+    g_SEFactoryManager   = xr_new<XrSEFactoryManager>();
 
     g_pGamePersistent = (IGame_Persistent*)g_XrGameManager->Create(CLSID_GAME_PERSISTANT);
     EDevice->seqAppStart.Process(rp_AppStart);
@@ -54,7 +54,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     ::MainForm = MainForm;
     UI->Push(MainForm, false);
 
-    while (MainForm->Frame()) {}
+    while (MainForm->Frame())
+    {
+    }
 
     xr_delete(MainForm);
     xr_delete(pApp);

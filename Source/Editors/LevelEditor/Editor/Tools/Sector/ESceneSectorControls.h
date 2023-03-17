@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 class UISectorTool;
 enum ESectorAction
@@ -11,31 +11,46 @@ enum ESectorAction
 
 class TUI_ControlSectorAdd: public TUI_CustomControl
 {
-	ESectorAction 	m_Action;
-	bool 			AddSectors();
-	bool 			AddSector();
-	void 			AddMesh();
-	void 			DelMesh();
+    ESectorAction m_Action;
+    bool          AddSectors();
+    bool          AddSector();
+    void          AddMesh();
+    void          DelMesh();
+
 public:
     TUI_ControlSectorAdd(int st, int act, ESceneToolBase* parent);
-    virtual ~TUI_ControlSectorAdd(){;}
-	virtual bool Start  (TShiftState _Shift);
-	virtual bool End    (TShiftState _Shift);
-	virtual void Move   (TShiftState _Shift);
+    virtual ~TUI_ControlSectorAdd()
+    {
+        ;
+    }
+    virtual bool Start(TShiftState _Shift);
+    virtual bool End(TShiftState _Shift);
+    virtual void Move(TShiftState _Shift);
     virtual void OnEnter();
-    virtual void OnExit ();
+    virtual void OnExit();
 };
 
-class TUI_ControlSectorSelect: public TUI_CustomControl{
-    UISectorTool*   	pFrame;
+class TUI_ControlSectorSelect: public TUI_CustomControl
+{
+    UISectorTool* pFrame;
+
 public:
     TUI_ControlSectorSelect(int st, int act, ESceneToolBase* parent);
-	virtual bool Start  (TShiftState _Shift);
-	virtual bool End    (TShiftState _Shift);
-	virtual void Move   (TShiftState _Shift);
-	virtual bool IsSupportMove() { return false; }
-	virtual bool IsSupportRotate() { return false; }
-	virtual bool IsSupportScale() { return false; }
+    virtual bool Start(TShiftState _Shift);
+    virtual bool End(TShiftState _Shift);
+    virtual void Move(TShiftState _Shift);
+    virtual bool IsSupportMove()
+    {
+        return false;
+    }
+    virtual bool IsSupportRotate()
+    {
+        return false;
+    }
+    virtual bool IsSupportScale()
+    {
+        return false;
+    }
     virtual void OnEnter();
-    virtual void OnExit ();
+    virtual void OnExit();
 };

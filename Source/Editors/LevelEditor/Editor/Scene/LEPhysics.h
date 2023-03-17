@@ -1,28 +1,34 @@
-#pragma once
+﻿#pragma once
 
 #include "../../xrphysics/xrphysics.h"
 
 class CObjectSpace;
 class CScenePhyscs
 {
-	 CObjectSpace *m_object_space ;
-     bool		   b_update_level_collision;
- public:
- 	CScenePhyscs			() : m_object_space(0), b_update_level_collision(false)	{}
-	~CScenePhyscs			() ;
- public:
-     void	GenerateCFrom(CObjectSpace*To, CDB::build_callback cb);
-    void	CreateWorld			();
-    void 	DestroyWorld		();
-    void	CreateShellsSelected();
-    void	DestroyAll			();
-    void	UseSimulatePoses	();
-    void	UpdateLevelCollision(){ b_update_level_collision=true; }
-    void	OnSceneModified		();
-    bool	Simulating			();
+    CObjectSpace* m_object_space;
+    bool          b_update_level_collision;
+
+public:
+    CScenePhyscs(): m_object_space(0), b_update_level_collision(false) {}
+    ~CScenePhyscs();
+
+public:
+    void GenerateCFrom(CObjectSpace* To, CDB::build_callback cb);
+    void CreateWorld();
+    void DestroyWorld();
+    void CreateShellsSelected();
+    void DestroyAll();
+    void UseSimulatePoses();
+    void UpdateLevelCollision()
+    {
+        b_update_level_collision = true;
+    }
+    void OnSceneModified();
+    bool Simulating();
+
 private:
-    bool 	CreateObjectSpace	(bool b_selected_only);
-    void 	DestroyObjectSpace	();
+    bool CreateObjectSpace(bool b_selected_only);
+    void DestroyObjectSpace();
 };
 
-  extern 	CScenePhyscs	g_scene_physics;
+extern CScenePhyscs g_scene_physics;

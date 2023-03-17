@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "UIEditLibrary.h"
 #include "..\..\XrECore\Editor\Library.h"
 
@@ -19,9 +19,9 @@ UIEditLibrary::UIEditLibrary()
     m_ObjectList = xr_new<UIItemListForm>();
     InitObjects();
     m_ObjectList->SetOnItemFocusedEvent(TOnILItemFocused(this, &UIEditLibrary::OnItemFocused));
-    m_Props = xr_new<UIPropertiesForm>();
-    m_Selected = nullptr;
-    m_Preview = false;
+    m_Props      = xr_new<UIPropertiesForm>();
+    m_Selected   = nullptr;
+    m_Preview    = false;
     m_SelectLods = false;
 }
 
@@ -34,8 +34,8 @@ void UIEditLibrary::OnItemFocused(ListItem* item)
     m_Current = nullptr;
     if (item)
     {
-        m_Selected = item;
-        m_Current = item->Key();
+        m_Selected  = item;
+        m_Current   = item->Key();
         auto* m_Thm = ImageLib.CreateThumbnail(m_Current, EImageThumbnail::ETObject);
         if (m_Thm)
         {
@@ -62,13 +62,13 @@ UIEditLibrary::~UIEditLibrary() {}
 void UIEditLibrary::InitObjects()
 {
     ListItemsVec items;
-    FS_FileSet lst;
+    FS_FileSet   lst;
 
     if (Lib.GetObjects(lst))
     {
-        FS_FileSetIt	it = lst.begin();
-        FS_FileSetIt	_E = lst.end();
-        for (; it != _E; it++) 
+        FS_FileSetIt it = lst.begin();
+        FS_FileSetIt _E = lst.end();
+        for (; it != _E; it++)
         {
             xr_string fn;
             ListItem* I = LHelper().CreateItem(items, it->name.c_str(), 0, ListItem::flDrawThumbnail, 0);
@@ -79,15 +79,15 @@ void UIEditLibrary::InitObjects()
     // m_Props->ClearProperties();
     m_ObjectList->AssignItems(items);
 
- //   m_Items.clear();
- //   ListItemsVec items;
- //   FS_FileSet lst;
- //   Lib.GetObjects(lst);
- //   FS_FileSetIt it = lst.begin();
- //   FS_FileSetIt _E = lst.end();
- //   for (; it != _E; it++)
- //       LHelper().CreateItem(m_Items, it->name.c_str(), 0, 0, 0);
- //   m_Items->AssignItems(items, false, true);
+    //   m_Items.clear();
+    //   ListItemsVec items;
+    //   FS_FileSet lst;
+    //   Lib.GetObjects(lst);
+    //   FS_FileSetIt it = lst.begin();
+    //   FS_FileSetIt _E = lst.end();
+    //   for (; it != _E; it++)
+    //       LHelper().CreateItem(m_Items, it->name.c_str(), 0, 0, 0);
+    //   m_Items->AssignItems(items, false, true);
 }
 
 void UIEditLibrary::Update()
@@ -118,15 +118,15 @@ void UIEditLibrary::Close()
 
 void UIEditLibrary::DrawObjects()
 {
-    //if (ImGui::TreeNode("Object List"))
+    // if (ImGui::TreeNode("Object List"))
     //{
     //	ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
-        ImGui::BeginChild("Object List");
-        ImGui::Separator();
-        // m_ObjectList->m_Flags.set(m_ObjectList->fMultiSelect, true);
-        m_ObjectList->Draw();
-        ImGui::Separator();
-        ImGui::EndChild();
+    ImGui::BeginChild("Object List");
+    ImGui::Separator();
+    // m_ObjectList->m_Flags.set(m_ObjectList->fMultiSelect, true);
+    m_ObjectList->Draw();
+    ImGui::Separator();
+    ImGui::EndChild();
     //	ImGui::Indent(ImGui::GetTreeNodeToLabelSpacing());
     //	ImGui::TreePop();
     //}
@@ -207,7 +207,6 @@ void UIEditLibrary::DrawObjects()
             ImGui::TreePop();
         }
     }*/
-
 
     // m_cur_cls = LTools->CurrentClassID();
     // string1024 str_name;
@@ -328,18 +327,18 @@ void UIEditLibrary::DrawObject(CCustomObject* obj, const char* name)
 
 void UIEditLibrary::GenerateLOD(RStringVec& props, bool bHighQuality)
 {
-    u32 lodsCnt = 0;
-    SPBItem* pb = UI->ProgressStart(props.size(), "Making LOD");
+    u32      lodsCnt = 0;
+    SPBItem* pb      = UI->ProgressStart(props.size(), "Making LOD");
 
     for (const shared_str& str : props)
     {
         RStringVec reference;
         reference.push_back(str);
-        ChangeReference(reference); // select item
+        ChangeReference(reference);   // select item
 
         R_ASSERT(m_pEditObjects.size() == 1);
-        CSceneObject* SO = m_pEditObjects[0];
-        CEditableObject* O = SO->GetReference();
+        CSceneObject*    SO = m_pEditObjects[0];
+        CEditableObject* O  = SO->GetReference();
 
         if (O && O->IsMUStatic())
         {
@@ -349,12 +348,14 @@ void UIEditLibrary::GenerateLOD(RStringVec& props, bool bHighQuality)
             xr_string tex_name;
             tex_name = EFS.ChangeFileExt(O->GetName(), "");
 
-            string_path	tmp;
+            string_path tmp;
             strcpy(tmp, tex_name.c_str());
             _ChangeSymbol(tmp, '\\', '_');
             tex_name = xr_string("lod_") + tmp;
             tex_name = ImageLib.UpdateFileName(tex_name);
-            ImageLib.CreateLODTexture(O, tex_name.c_str(), LOD_IMAGE_SIZE, LOD_IMAGE_SIZE, LOD_SAMPLE_COUNT, O->Version(), bHighQuality ? 4/*7*/ : 1);
+            ImageLib.CreateLODTexture(
+                O, tex_name.c_str(), LOD_IMAGE_SIZE, LOD_IMAGE_SIZE, LOD_SAMPLE_COUNT, O->Version(),
+                bHighQuality ? 4 /*7*/ : 1);
             O->OnDeviceDestroy();
             O->m_objectFlags.set(CEditableObject::eoUsingLOD, bLod);
             ELog.Msg(mtInformation, "LOD for object '%s' successfully created.", O->GetName());
@@ -375,13 +376,14 @@ void UIEditLibrary::GenerateLOD(RStringVec& props, bool bHighQuality)
 
 void UIEditLibrary::MakeLOD(bool bHighQuality)
 {
-    //if (ebSave->Enabled)
+    // if (ebSave->Enabled)
     //{
     //	ELog.DlgMsg(mtError, "Save library changes before generating LOD.");
     //	return;
-    //}
+    // }
 
-    int res = ELog.DlgMsg(mtConfirmation, TMsgDlgButtons() | mbYes | mbNo | mbCancel, "Do you want to select multiple objects?");
+    int res = ELog.DlgMsg(
+        mtConfirmation, TMsgDlgButtons() | mbYes | mbNo | mbCancel, "Do you want to select multiple objects?");
 
     if (res == mrCancel)
         return;
@@ -396,35 +398,35 @@ void UIEditLibrary::MakeLOD(bool bHighQuality)
 
     R_ASSERT(res == mrYes);
     UIChooseForm::SelectItem(smObject, 512, 0);
-    m_SelectLods = true;
+    m_SelectLods     = true;
     m_HighQualityLod = true;
     // answer is handled in DrawRightBar
 }
 
 void UIEditLibrary::OnMakeThmClick()
 {
-    U32Vec pixels;
+    U32Vec       pixels;
     ListItemsVec sel_items;
 
     if (!m_Selected)
         return;
 
     sel_items.push_back(m_Selected);
-    //m_Items->GetSelected(NULL, sel_items, false);
-    ListItemsIt it = sel_items.begin();
+    // m_Items->GetSelected(NULL, sel_items, false);
+    ListItemsIt it   = sel_items.begin();
     ListItemsIt it_e = sel_items.end();
 
     for (; it != it_e; ++it)
     {
-        ListItem* item = *it;
-        CEditableObject* obj = Lib.CreateEditObject(item->Key());
+        ListItem*        item = *it;
+        CEditableObject* obj  = Lib.CreateEditObject(item->Key());
 
         if (obj && m_Preview)
         {
             string_path fn;
             FS.update_path(fn, _objects_, ChangeFileExt(obj->GetName(), ".thm").c_str());
 
-            //m_Items->SelectItem(item->Key(), true, false, true);
+            // m_Items->SelectItem(item->Key(), true, false, true);
             if (ImageLib.CreateOBJThumbnail(fn, obj, obj->Version()))
                 ELog.Msg(mtInformation, "Thumbnail successfully created.");
         }
@@ -467,7 +469,7 @@ void UIEditLibrary::DrawRightBar()
         if (ImGui::Button("Properties", ImVec2(-1, 0)))
             OnPropertiesClick();
 
-        //if (disabled)
+        // if (disabled)
         {
             ImGui::PopItemFlag();
             ImGui::PopStyleVar();
@@ -502,19 +504,29 @@ void UIEditLibrary::DrawRightBar()
         if (ImGui::Checkbox("Preview", &m_Preview))
             OnPreviewClick();
 
-        //if (disabled)
+        // if (disabled)
         {
             ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
             ImGui::PushStyleVar(ImGuiStyleVar_Alpha, ImGui::GetStyle().Alpha * 0.5f);
         }
 
-        if (ImGui::Button("Rename Object", ImVec2(-1, 0))) {}
-        if (ImGui::Button("Remove Object", ImVec2(-1, 0))) {}
+        if (ImGui::Button("Rename Object", ImVec2(-1, 0)))
+        {
+        }
+        if (ImGui::Button("Remove Object", ImVec2(-1, 0)))
+        {
+        }
 
-        if (ImGui::Button("Import Object", ImVec2(-1, 0))){}
-        if (ImGui::Button("Export LWO", ImVec2(-1, 0))){}
+        if (ImGui::Button("Import Object", ImVec2(-1, 0)))
+        {
+        }
+        if (ImGui::Button("Export LWO", ImVec2(-1, 0)))
+        {
+        }
 
-        if (ImGui::Button("Save", ImVec2(-1, 0))){}
+        if (ImGui::Button("Save", ImVec2(-1, 0)))
+        {
+        }
 
         // if (disabled)
         {
@@ -529,7 +541,7 @@ void UIEditLibrary::DrawRightBar()
 
     if (m_SelectLods)
     {
-        bool change = false;
+        bool       change = false;
         SStringVec lst;
 
         if (UIChooseForm::GetResult(change, lst))
@@ -581,7 +593,7 @@ void UIEditLibrary::RefreshSelected()
 ////---------------------------------------------------------------------------
 bool UIEditLibrary::SelectionToReference(ListItemsVec* props)
 {
-    RStringVec sel_strings;
+    RStringVec   sel_strings;
     ListItemsVec sel_items;
 
     if (props)
@@ -589,7 +601,7 @@ bool UIEditLibrary::SelectionToReference(ListItemsVec* props)
     // else
     // m_Items->GetSelected(NULL, sel_items, false /*true*/);
 
-    ListItemsIt it = sel_items.begin();
+    ListItemsIt it   = sel_items.begin();
     ListItemsIt it_e = sel_items.end();
 
     for (; it != it_e; ++it)
@@ -603,7 +615,7 @@ bool UIEditLibrary::SelectionToReference(ListItemsVec* props)
 
 void UIEditLibrary::ChangeReference(const RStringVec& items)
 {
-    xr_vector<CSceneObject*>::iterator it = m_pEditObjects.begin();
+    xr_vector<CSceneObject*>::iterator it   = m_pEditObjects.begin();
     xr_vector<CSceneObject*>::iterator it_e = m_pEditObjects.end();
     for (; it != it_e; ++it)
     {
@@ -613,7 +625,7 @@ void UIEditLibrary::ChangeReference(const RStringVec& items)
 
     m_pEditObjects.clear();
 
-    RStringVec::const_iterator sit = items.begin();
+    RStringVec::const_iterator sit   = items.begin();
     RStringVec::const_iterator sit_e = items.end();
 
     for (; sit != sit_e; ++sit)
@@ -626,7 +638,7 @@ void UIEditLibrary::ChangeReference(const RStringVec& items)
         if (NE)
         {
             SO->FPosition = NE->t_vPosition;
-            SO->FScale = NE->t_vScale;
+            SO->FScale    = NE->t_vScale;
             SO->FRotation = NE->t_vRotate;
         }
         // update transformation
@@ -673,7 +685,7 @@ void UIEditLibrary::OnRender()
     for (auto& it : Form->m_pEditObjects)
     {
         CSceneObject* SO = it;
-        CSceneObject* S = SO;
+        CSceneObject* S  = SO;
 
         CEditableObject* O = SO->GetReference();
         if (O)
@@ -710,10 +722,10 @@ void UIEditLibrary::Draw()
 
     {
         ImGui::BeginGroup();
-        
-        if (ImGui::BeginChild("Left", ImVec2(-256, -ImGui::GetFrameHeight() - 4), true))		
+
+        if (ImGui::BeginChild("Left", ImVec2(-256, -ImGui::GetFrameHeight() - 4), true))
             DrawObjects();
-        
+
         ImGui::EndChild();
         ImGui::SetNextItemWidth(-256);
         ImGui::Text(" Items count: %u", m_ObjectList->m_Items.size());

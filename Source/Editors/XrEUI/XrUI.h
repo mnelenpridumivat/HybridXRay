@@ -1,21 +1,24 @@
-#pragma once
+Ôªø#pragma once
 #include "stdafx.h"
 class XREUI_API XrUI
 {
 public:
-	XrUI() :bOpen(true) {}
-	enum FUI
-	{
-		F_NoDelete=1,
-	};
-	Flags32 Flags;
-	virtual ~XrUI();
-	/*”ƒ¿À»“‹ ≈—À» Õ≈ œ–»√Œƒ»“—ﬂ*/
-	virtual void ResetBegin();
-	virtual void ResetEnd();
-	bool IsClosed()const { return !bOpen; }
-	virtual void Draw() = 0;
-protected:
-	bool bOpen;
-};
+    XrUI(): bOpen(true) {}
+    enum FUI
+    {
+        F_NoDelete = 1,
+    };
+    Flags32 Flags;
+    virtual ~XrUI();
+    /*–£–î–ê–õ–ò–¢–¨ –ï–°–õ–ò –ù–ï –ü–†–ò–ì–û–î–ò–¢–°–Ø*/
+    virtual void ResetBegin();
+    virtual void ResetEnd();
+    bool         IsClosed() const
+    {
+        return !bOpen;
+    }
+    virtual void Draw() = 0;
 
+protected:
+    bool bOpen;
+};

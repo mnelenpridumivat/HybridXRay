@@ -1,4 +1,4 @@
-// Magic Software, Inc.
+﻿// Magic Software, Inc.
 // http://www.magic-software.com
 // Copyright (c) 2000-2002.  All Rights Reserved
 //
@@ -15,29 +15,27 @@
 
 #include "MgcVector3.h"
 
-namespace Mgc {
-
-
-class MAGICFM Sphere
+namespace Mgc
 {
-public:
-    Sphere ();
 
-    Vector3& Center ();
-    const Vector3& Center () const;
+    class MAGICFM Sphere
+    {
+    public:
+        Sphere();
 
-    Real& Radius ();
-    const Real& Radius () const;
+        Vector3&       Center();
+        const Vector3& Center() const;
 
-protected:
-    Vector3 m_kCenter;
-    Real m_fRadius;
-};
+        Real&       Radius();
+        const Real& Radius() const;
+
+    protected:
+        Vector3 m_kCenter;
+        Real    m_fRadius;
+    };
 
 #include "MgcSphere.inl"
 
-} // namespace Mgc
+}   // namespace Mgc
 
 #endif
-
-

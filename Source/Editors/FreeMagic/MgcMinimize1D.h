@@ -1,4 +1,4 @@
-// Magic Software, Inc.
+﻿// Magic Software, Inc.
 // http://www.magic-software.com
 // Copyright (c) 2000-2002.  All Rights Reserved
 //
@@ -15,42 +15,37 @@
 
 #include "MgcMath.h"
 
-namespace Mgc {
-
-
-class MAGICFM Minimize1D
+namespace Mgc
 {
-public:
-    typedef Real (*Function)(Real,void*);
 
-    Minimize1D (Function oF, int iMaxLevel, int iMaxBracket,
-        void* pvUserData = 0);
+    class MAGICFM Minimize1D
+    {
+    public:
+        typedef Real (*Function)(Real, void*);
 
-    int& MaxLevel ();
-    int& MaxBracket ();
-    void*& UserData ();
+        Minimize1D(Function oF, int iMaxLevel, int iMaxBracket, void* pvUserData = 0);
 
-    void GetMinimum (Real fT0, Real fT1, Real fTInitial,
-        Real& rfTMin, Real& rfFMin);
+        int&   MaxLevel();
+        int&   MaxBracket();
+        void*& UserData();
 
-protected:
-    Function m_oF;
-    int m_iMaxLevel, m_iMaxBracket;
-    Real m_fTMin, m_fFMin;
-    void* m_pvUserData;
+        void GetMinimum(Real fT0, Real fT1, Real fTInitial, Real& rfTMin, Real& rfFMin);
 
-    void GetMinimum (Real fT0, Real fF0, Real fT1, Real fF1, int iLevel);
+    protected:
+        Function m_oF;
+        int      m_iMaxLevel, m_iMaxBracket;
+        Real     m_fTMin, m_fFMin;
+        void*    m_pvUserData;
 
-    void GetMinimum (Real fT0, Real fF0, Real fTm, Real fFm, Real fT1,
-        Real fF1, int iLevel);
+        void GetMinimum(Real fT0, Real fF0, Real fT1, Real fF1, int iLevel);
 
-    void GetBracketedMinimum (Real fT0, Real fF0, Real fTm,
-        Real fFm, Real fT1, Real fF1, int iLevel);
-};
+        void GetMinimum(Real fT0, Real fF0, Real fTm, Real fFm, Real fT1, Real fF1, int iLevel);
+
+        void GetBracketedMinimum(Real fT0, Real fF0, Real fTm, Real fFm, Real fT1, Real fF1, int iLevel);
+    };
 
 #include "MgcMinimize1D.inl"
 
-} // namespace Mgc
+}   // namespace Mgc
 
 #endif
-

@@ -1,6 +1,6 @@
-#pragma once
+﻿#pragma once
 
-class UIEditLibrary :public XrUI
+class UIEditLibrary: public XrUI
 {
 public:
     UIEditLibrary();
@@ -20,7 +20,7 @@ private:
     static UIEditLibrary* Form;
 
     virtual void Draw();
-    void DrawObjects();
+    void         DrawObjects();
 
     void DrawRightBar();
     void DrawObject(CCustomObject* obj, const char* name);
@@ -36,11 +36,11 @@ private:
     void ChangeReference(const RStringVec& items);
     bool SelectionToReference(ListItemsVec* props);
 
-    UIItemListForm* m_ObjectList;
+    UIItemListForm*   m_ObjectList;
     UIPropertiesForm* m_Props;
-    LPCSTR m_Current;
-    bool m_Preview;
-    ListItem* m_Selected;
+    LPCSTR            m_Current;
+    bool              m_Preview;
+    ListItem*         m_Selected;
 
     bool m_SelectLods;
     bool m_HighQualityLod;

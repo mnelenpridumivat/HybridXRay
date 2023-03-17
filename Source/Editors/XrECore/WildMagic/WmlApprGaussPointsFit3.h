@@ -1,4 +1,4 @@
-// Magic Software, Inc.
+﻿// Magic Software, Inc.
 // http://www.magic-software.com
 // http://www.wild-magic.com
 // Copyright (c) 2004.  All Rights Reserved
@@ -23,15 +23,21 @@
 namespace Wml
 {
 
-template <class Real>
-WML_ITEM void GaussPointsFit (int iQuantity, const Vector3<Real>* akPoint,
-    Vector3<Real>& rkCenter, Vector3<Real> akAxis[3], Real afExtent[3]);
+    template <class Real> WML_ITEM void GaussPointsFit(
+        int                  iQuantity,
+        const Vector3<Real>* akPoint,
+        Vector3<Real>&       rkCenter,
+        Vector3<Real>        akAxis[3],
+        Real                 afExtent[3]);
 
-template <class Real>
-WML_ITEM bool GaussPointsFit (int iQuantity, const Vector3<Real>* akPoint,
-    const bool* abValid, Vector3<Real>& rkCenter, Vector3<Real> akAxis[3],
-    Real afExtent[3]);
+    template <class Real> WML_ITEM bool GaussPointsFit(
+        int                  iQuantity,
+        const Vector3<Real>* akPoint,
+        const bool*          abValid,
+        Vector3<Real>&       rkCenter,
+        Vector3<Real>        akAxis[3],
+        Real                 afExtent[3]);
 
-}
+}   // namespace Wml
 
 #endif
