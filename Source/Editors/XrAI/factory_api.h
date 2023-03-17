@@ -1,7 +1,7 @@
-#pragma once
+﻿#pragma once
 
-#include "..\XrSE_Factory\xrSE_Factory_import_export.h"
 #include "XrSEFactoryManager.h"
+
 IC	CSE_Abstract *F_entity_Create(LPCSTR section)
 {
 	ISE_Abstract	*i = g_SEFactoryManager->create_entity(section);

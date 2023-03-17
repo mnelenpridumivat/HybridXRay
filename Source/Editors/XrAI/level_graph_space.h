@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: level_graph_space.h
 //	Created 	: 02.10.2001
 //  Modified 	: 08.12.2004
@@ -24,7 +24,7 @@ namespace LevelGraph {
 
 	typedef NodePosition	CPosition;
 
-	class CVertex : private NodeCompressed {
+	class CVertex : public NodeCompressed {
 	private:
 		friend class CRenumbererConverter;
 

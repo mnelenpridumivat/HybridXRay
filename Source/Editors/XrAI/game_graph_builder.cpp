@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: game_graph_builder.cpp
 //	Created 	: 14.12.2005
 //  Modified 	: 14.12.2005
@@ -638,6 +638,7 @@ void CGameGraphBuilder::save_graph			(const float &start, const float &amount)
 	header.m_edge_count			= (GameGraph::_GRAPH_ID)graph().edge_count();
 	header.m_death_point_count	= 0;
 	header.m_guid				= m_graph_guid;
+
 	// levels
 	CGameGraph::SLevel			level;
 	level.m_offset.set			(0,0,0);

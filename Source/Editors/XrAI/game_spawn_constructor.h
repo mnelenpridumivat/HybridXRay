@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: game_spawn_constructor.h
 //	Created 	: 16.10.2004
 //  Modified 	: 16.10.2004
@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "alife_space.h"
+#include "../../xrEngine/alife_space.h"
 #include "xr_graph_merge.h"
 #include "xrthread.h"
 #include "graph_abstract.h"

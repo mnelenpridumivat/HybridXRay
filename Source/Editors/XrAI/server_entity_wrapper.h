@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: server_entity_wrapper.h
 //	Created 	: 16.10.2004
 //  Modified 	: 16.10.2004
@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "object_interfaces.h"
+#include "../../xrEngine/object_interfaces.h"
 
 class CSE_Abstract;
 

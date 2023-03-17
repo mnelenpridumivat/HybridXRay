@@ -328,7 +328,7 @@
     <ClCompile Include="..\..\xrServerEntities\alife_monster_brain.cpp">
       <Filter>ALife\Shared\ALife\alife_monster_brain</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xrServerEntities\alife_space.cpp">
+    <ClCompile Include="..\..\xrEngine\alife_space.cpp">
       <Filter>ALife\Shared\ALife\alife_space</Filter>
     </ClCompile>
     <ClCompile Include="..\..\xrServerEntities\xrServer_Object_Base.cpp">
@@ -715,7 +715,7 @@
     <ClInclude Include="..\..\xrServerEntities\alife_monster_brain_inline.h">
       <Filter>ALife\Shared\ALife\alife_monster_brain</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xrServerEntities\alife_space.h">
+    <ClInclude Include="..\..\xrEngine\alife_space.h">
       <Filter>ALife\Shared\ALife\alife_space</Filter>
     </ClInclude>
     <ClInclude Include="..\..\xrServerEntities\character_info_defs.h">

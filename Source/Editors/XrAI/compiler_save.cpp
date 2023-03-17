@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "compiler.h"
 #include "guid_generator.h"
 
@@ -100,7 +100,7 @@ class CNodeRenumberer {
 
 	xr_vector<NodeCompressed>	&m_nodes;
 	xr_vector<u32>				&m_sorted;
-	xr_vector<u32>				&renumbering;
+	xr_vector<u32>				&m_renumbering;
 
 public:
 					CNodeRenumberer(

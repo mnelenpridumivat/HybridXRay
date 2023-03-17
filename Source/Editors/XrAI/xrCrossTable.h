@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: xrCrossTable.h
 //	Created 	: 25.01.2003
 //  Modified 	: 25.01.2003
@@ -8,8 +8,8 @@
 
 #pragma once
 
-#include "../../xrGame/xrLevel.h"
-#include "alife_space.h"
+#include "../../XrGame/xrLevel.h"
+#include "../../xrEngine/alife_space.h"
 #include "game_level_cross_table.h"
 #include "game_graph.h"
 #include "level_graph.h"

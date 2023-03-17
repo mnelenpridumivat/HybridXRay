@@ -1,8 +1,8 @@
-#pragma once
+﻿#pragma once
 
 
 #include "../../xrcdb/xrCDB.h"
-#include "../../xrGame/xrLevel.h"
+#include "../XrGame/xrLevel.h"
 #include "AIMapExport.h"
 #include "Shader_xrLC.h"
 #include "../../editors/LevelEditor/Engine/communicate.h"

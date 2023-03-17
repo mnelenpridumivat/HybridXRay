@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: game_graph.h
 //	Created 	: 18.02.2003
 //  Modified 	: 13.11.2003
@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "game_graph_space.h"
+#include "../../xrEngine/game_graph_space.h"
 #include "script_export_space.h"
 #include "game_level_cross_table.h"
 

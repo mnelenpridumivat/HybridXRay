@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: graph_abstract.h
 //	Created 	: 14.01.2004
 //  Modified 	: 19.02.2005
@@ -10,7 +10,7 @@
 
 #include "graph_vertex.h"
 #include "graph_edge.h"
-#include "object_broker.h"
+#include "../../xrEngine/object_broker.h"
 
 template <
 	typename _data_type = Loki::EmptyType,

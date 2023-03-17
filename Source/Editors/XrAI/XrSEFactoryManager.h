@@ -1,5 +1,7 @@
-#pragma once
+﻿#pragma once
+
 struct ISE_Abstract;
+
 class XrSEFactoryManager
 {
 public:

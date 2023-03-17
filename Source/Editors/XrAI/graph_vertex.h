@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: CVertex.h
 //	Created 	: 14.01.2004
 //  Modified 	: 19.02.2005
@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "object_broker.h"
+#include "../../xrEngine/object_broker.h"
 
 template <
 	typename _data_type,

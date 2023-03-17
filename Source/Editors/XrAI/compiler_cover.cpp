@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "compiler.h"
 #include "cl_intersect.h"
 #include "xrThread.h"
@@ -6,7 +6,7 @@
 
 #include "quadtree.h"
 #include "cover_point.h"
-#include "object_broker.h"
+#include "../../xrEngine/object_broker.h"
 
 Shader_xrLC_LIB*				g_shaders_xrlc	;
 xr_vector<b_material>			g_materials		;

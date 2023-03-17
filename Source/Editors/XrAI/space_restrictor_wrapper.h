@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: space_restrictor_wrapper.h
 //	Created 	: 28.11.2005
 //  Modified 	: 28.11.2005
@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "shapedata.h"
+#include "../../xrEngine/shapedata.h"
 
 class CSE_ALifeSpaceRestrictor;
 class CLevelGraph;

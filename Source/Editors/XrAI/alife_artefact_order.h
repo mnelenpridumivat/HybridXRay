@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: alife_artefact_demand.h
 //	Created 	: 05.01.2003
 //  Modified 	: 12.05.2004
@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "object_interfaces.h"
+#include "../XrEngine/object_interfaces.h"
 
 struct SArtefactOrder : 
 	public IPureSerializeObject<IReader,IWriter>,

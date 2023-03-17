@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: patrol_point.h
 //	Created 	: 15.06.2004
 //  Modified 	: 15.06.2004
@@ -13,8 +13,8 @@ class CLevelGraph;
 class CGameLevelCrossTable;
 class CGameGraph;
 
-#include "object_interfaces.h"
-#include "game_graph_space.h"
+#include "../../xrEngine/object_interfaces.h"
+#include "../../xrEngine/game_graph_space.h"
 
 class CPatrolPoint : public IPureSerializeObject<IReader,IWriter> {
 protected:

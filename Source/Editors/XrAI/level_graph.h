@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: level_graph.h
 //	Created 	: 02.10.2001
 //  Modified 	: 11.11.2003
@@ -9,16 +9,17 @@
 #pragma once
 
 #ifndef AI_COMPILER
-#	include "../xrEngine/xrLevel.h"
+#	include "../../xrEngine/xrLevel.h"
 #else
-#include "../../xrGame/xrLevel.h"
+#	include "../../XrGame/xrLevel.h"
 #endif
 
-#include "alife_space.h"
+#include "../../xrEngine/alife_space.h"
 #include "level_graph_space.h"
-#include "game_graph_space.h"
+#include "../../xrEngine/game_graph_space.h"
 
-namespace LevelGraph {
+namespace LevelGraph
+{
 	class	CHeader;
 	class	CVertex;
 	struct	SSegment;

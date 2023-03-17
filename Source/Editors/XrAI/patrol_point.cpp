@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: patrol_point.cpp
 //	Created 	: 15.06.2004
 //  Modified 	: 15.06.2004
@@ -12,7 +12,7 @@
 #include "level_graph.h"
 #include "game_level_cross_table.h"
 #include "game_graph.h"
-#include "object_broker.h"
+#include "../../xrEngine/object_broker.h"
 
 #ifdef XRGAME_EXPORTS
 #	include "ai_space.h"

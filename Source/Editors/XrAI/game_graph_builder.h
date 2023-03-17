@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: game_graph_builder.h
 //	Created 	: 14.12.2005
 //  Modified 	: 14.12.2005
@@ -8,8 +8,8 @@
 
 #pragma once
 
-#include "../../xrGame/xrLevel.h"
-#include "alife_space.h"
+#include "../../XrGame/xrLevel.h"
+#include "../../xrEngine/alife_space.h"
 
 class CLevelGraph;
 class CGameLevelCrossTable;

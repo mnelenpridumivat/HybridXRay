@@ -1,7 +1,7 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "compiler.h"
 //.#include "communicate.h"
-#include "levelgamedef.h"
+#include "../../xrEngine/levelgamedef.h"
 #include "level_graph.h"
 #include "AIMapExport.h"
 

@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: patrol_path_storage.h
 //	Created 	: 15.06.2004
 //  Modified 	: 15.06.2004
@@ -13,8 +13,8 @@ class CLevelGraph;
 class CGameLevelCrossTable;
 class CGameGraph;
 
-#include "object_interfaces.h"
-#include "associative_vector.h"
+#include "../../xrEngine/object_interfaces.h"
+#include "../../xrEngine/associative_vector.h"
 
 class CPatrolPathStorage : public IPureSerializeObject<IReader,IWriter> {
 private:

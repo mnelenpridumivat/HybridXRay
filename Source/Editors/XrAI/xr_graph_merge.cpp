@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: xr_graph_merge.cpp
 //	Created 	: 25.01.2003
 //  Modified 	: 25.01.2003
@@ -8,13 +8,13 @@
 
 #include "stdafx.h"
 #include "../../xrcore/xr_ini.h"
-#include "../../xrGame/xrLevel.h"
+#include "../../XrGame/xrLevel.h"
 #include "xrAI.h"
 #include "xrServer_Objects_ALife_All.h"
 #include "factory_api.h"
 #include "xrCrossTable.h"
 #include "level_graph.h"
-#include "object_broker.h"
+#include "../../xrEngine/object_broker.h"
 #include "xr_graph_merge.h"
 #include "spawn_constructor_space.h"
 #include "guid_generator.h"

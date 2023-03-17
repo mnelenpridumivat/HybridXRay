@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: game_level_cross_table.h
 //	Created 	: 20.02.2003
 //  Modified 	: 13.11.2003
@@ -9,13 +9,13 @@
 #pragma once
 
 #ifdef AI_COMPILER
-#include "../../xrGame/xrLevel.h"
+#	include "../../XrGame/xrLevel.h"
 #else // AI_COMPILER
-#	include "../xrEngine/xrLevel.h"
+#	include "../../xrEngine/xrLevel.h"
 #endif // AI_COMPILER
 
-#include "alife_space.h"
-#include "game_graph_space.h"
+#include "../../xrEngine/alife_space.h"
+#include "../../xrEngine/game_graph_space.h"
 
 #define CROSS_TABLE_NAME					"level.gct"
 
