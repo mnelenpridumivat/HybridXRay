@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: xrServer_Objects_ALife_Smartcovers_script.cpp
 //	Created 	: 18.12.2008
 //  Modified 	: 18.12.2008
@@ -11,23 +11,18 @@
 #include "xrServer_script_macroses.h"
 
 using namespace luabind;
-#pragma optimize("s",on)
+#pragma optimize("s", on)
 
-void CSE_SmartCover::script_register(lua_State *L)
+void CSE_SmartCover::script_register(lua_State* L)
 {
-	module(L)[
-		luabind_class_dynamic_alife1(
-			CSE_SmartCover,
-			"cse_smart_cover",
-			CSE_ALifeDynamicObject
-			)
-			.def	("description",	&CSE_SmartCover::description)
+    module(L)[luabind_class_dynamic_alife1(CSE_SmartCover, "cse_smart_cover", CSE_ALifeDynamicObject)
+                  .def("description", &CSE_SmartCover::description)
 #ifndef AI_COMPILER
-			.def	("set_available_loopholes", &CSE_SmartCover::set_available_loopholes )
-#endif // #ifndef AI_COMPILER
+                  .def("set_available_loopholes", &CSE_SmartCover::set_available_loopholes)
+#endif   // #ifndef AI_COMPILER
 
 #ifdef XRSEFACTORY_EXPORTS
-			.def	("set_loopholes_table_checker", &CSE_SmartCover::set_loopholes_table_checker )
-#endif // #ifdef XRSEFACTORY_EXPORTS
-	];
+                  .def("set_loopholes_table_checker", &CSE_SmartCover::set_loopholes_table_checker)
+#endif   // #ifdef XRSEFACTORY_EXPORTS
+    ];
 }

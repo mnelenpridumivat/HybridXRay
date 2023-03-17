@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "base_monster.h"
 #include "../ai_monster_squad.h"
 #include "../ai_monster_squad_manager.h"
@@ -12,108 +12,119 @@
 
 void CBaseMonster::Think()
 {
-	START_PROFILE("Base Monster/Think");
+    START_PROFILE("Base Monster/Think");
 
-	if (!g_Alive() || getDestroy())			return;
+    if (!g_Alive() || getDestroy())
+        return;
 
-	// Èíèöèàëèçèðîâàòü
-	InitThink								();
-	anim().ScheduledInit					();
+    // Ð˜Ð½Ð¸Ñ†Ð¸Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ
+    InitThink();
+    anim().ScheduledInit();
 
-	// Îáíîâèòü ïàìÿòü
-	START_PROFILE("Base Monster/Think/Update Memory");
-	UpdateMemory							();
-	STOP_PROFILE;
+    // ÐžÐ±Ð½Ð¾Ð²Ð¸Ñ‚ÑŒ Ð¿Ð°Ð¼ÑÑ‚ÑŒ
+    START_PROFILE("Base Monster/Think/Update Memory");
+    UpdateMemory();
+    STOP_PROFILE;
 
-	// Îáíîâèòü ñêâàä
-	START_PROFILE("Base Monster/Think/Update Squad");
-	monster_squad().update					(this);
-	STOP_PROFILE;
+    // ÐžÐ±Ð½Ð¾Ð²Ð¸Ñ‚ÑŒ ÑÐºÐ²Ð°Ð´
+    START_PROFILE("Base Monster/Think/Update Squad");
+    monster_squad().update(this);
+    STOP_PROFILE;
 
-	// Çàïóñòèòü FSM
-	START_PROFILE("Base Monster/Think/FSM");
-	update_fsm								();
-	STOP_PROFILE;	
-	
-	STOP_PROFILE;
+    // Ð—Ð°Ð¿ÑƒÑÑ‚Ð¸Ñ‚ÑŒ FSM
+    START_PROFILE("Base Monster/Think/FSM");
+    update_fsm();
+    STOP_PROFILE;
+
+    STOP_PROFILE;
 }
 
 void CBaseMonster::update_fsm()
 {
-	StateMan->update				();
-	
-	// çàâåðøèòü îáðàáîòêó óñòàíîâëåííûõ â FSM ïàðàìåòðîâ
-	post_fsm_update					();
-	
-	TranslateActionToPathParams		();
+    StateMan->update();
 
-	// èíôîðìèðîâàòü squad î ñâîèõ öåëÿõ
-	squad_notify					();
+    // Ð·Ð°Ð²ÐµÑ€ÑˆÐ¸Ñ‚ÑŒ Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÑƒ ÑƒÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð½Ñ‹Ñ… Ð² FSM Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€Ð¾Ð²
+    post_fsm_update();
+
+    TranslateActionToPathParams();
+
+    // Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ squad Ð¾ ÑÐ²Ð¾Ð¸Ñ… Ñ†ÐµÐ»ÑÑ…
+    squad_notify();
 
 #ifdef DEBUG
-	debug_fsm						();
+    debug_fsm();
 #endif
 }
 
 void CBaseMonster::post_fsm_update()
 {
-	if (!EnemyMan.get_enemy()) return;
-	
-	EMonsterState state = StateMan->get_state_type();
+    if (!EnemyMan.get_enemy())
+        return;
 
+    EMonsterState state = StateMan->get_state_type();
 
-	// Look at enemy while running
-	m_bRunTurnLeft = m_bRunTurnRight = false;
-	
+    // Look at enemy while running
+    m_bRunTurnLeft = m_bRunTurnRight = false;
 
-	Fvector direction;
-	if ( is_state(state, eStateAttack) && 
-		 control().path_builder().is_moving_on_path() &&
-		 control().path_builder().detail().try_get_direction(direction) ) {
+    Fvector direction;
+    if (is_state(state, eStateAttack) && control().path_builder().is_moving_on_path() &&
+        control().path_builder().detail().try_get_direction(direction))
+    {
+        Fvector const self_to_enemy = Fvector().sub(EnemyMan.get_enemy()->Position(), Position());
+        if (magnitude(self_to_enemy) > 3.f)
+        {
+            float dir_yaw    = direction.getH();
+            float yaw_target = self_to_enemy.getH();
 
-		Fvector const self_to_enemy	=	Fvector().sub(EnemyMan.get_enemy()->Position(), Position());
-		if ( magnitude(self_to_enemy) > 3.f ) {
+            float angle_diff = angle_difference(yaw_target, dir_yaw);
 
-			float	dir_yaw = direction.getH();
-			float	yaw_target = self_to_enemy.getH();
-
-			float angle_diff	= angle_difference(yaw_target, dir_yaw);
-
-			if ((angle_diff > PI_DIV_3) && (angle_diff < 5 * PI_DIV_6)) {
-				if (from_right(dir_yaw, yaw_target))	m_bRunTurnRight = true;
-				else									m_bRunTurnLeft	= true;
-			}
-		}
-	}
+            if ((angle_diff > PI_DIV_3) && (angle_diff < 5 * PI_DIV_6))
+            {
+                if (from_right(dir_yaw, yaw_target))
+                    m_bRunTurnRight = true;
+                else
+                    m_bRunTurnLeft = true;
+            }
+        }
+    }
 }
 
 void CBaseMonster::squad_notify()
 {
-	CMonsterSquad	*squad = monster_squad().get_squad(this);
-	SMemberGoal		goal;
+    CMonsterSquad* squad = monster_squad().get_squad(this);
+    SMemberGoal    goal;
 
-	EMonsterState state = StateMan->get_state_type();
+    EMonsterState state = StateMan->get_state_type();
 
-	if (is_state(state, eStateAttack)) {
-		
-		goal.type	= MG_AttackEnemy;
-		goal.entity	= const_cast<CEntityAlive*>(EnemyMan.get_enemy());
+    if (is_state(state, eStateAttack))
+    {
+        goal.type   = MG_AttackEnemy;
+        goal.entity = const_cast<CEntityAlive*>(EnemyMan.get_enemy());
+    }
+    else if (is_state(state, eStateRest))
+    {
+        goal.entity = squad->GetLeader();
 
-	} else if (is_state(state, eStateRest)) {
-		goal.entity	= squad->GetLeader();
+        if (state == eStateRest_Idle)
+            goal.type = MG_Rest;
+        else if (state == eStateRest_WalkGraphPoint)
+            goal.type = MG_WalkGraph;
+        else if (state == eStateRest_MoveToHomePoint)
+            goal.type = MG_WalkGraph;
+        else if (state == eStateCustomMoveToRestrictor)
+            goal.type = MG_WalkGraph;
+        else if (state == eStateRest_WalkToCover)
+            goal.type = MG_WalkGraph;
+        else if (state == eStateRest_LookOpenPlace)
+            goal.type = MG_Rest;
+        else
+            goal.entity = 0;
+    }
+    else if (is_state(state, eStateSquad))
+    {
+        goal.type   = MG_Rest;
+        goal.entity = squad->GetLeader();
+    }
 
-		if (state == eStateRest_Idle)							goal.type	= MG_Rest;
-		else if (state == eStateRest_WalkGraphPoint) 			goal.type	= MG_WalkGraph;
-		else if (state == eStateRest_MoveToHomePoint) 			goal.type	= MG_WalkGraph;
-		else if (state == eStateCustomMoveToRestrictor)			goal.type	= MG_WalkGraph;
-		else if (state == eStateRest_WalkToCover)				goal.type	= MG_WalkGraph;
-		else if (state == eStateRest_LookOpenPlace)				goal.type	= MG_Rest;
-		else													goal.entity	= 0;
-
-	} else if (is_state(state, eStateSquad)) {
-		goal.type	= MG_Rest;
-		goal.entity	= squad->GetLeader();
-	}
-	
-	squad->UpdateGoal(this, goal);
+    squad->UpdateGoal(this, goal);
 }

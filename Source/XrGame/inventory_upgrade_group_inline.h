@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: inventory_upgrade_group_inline.h
 //	Created 	: 22.10.2007
 //  Modified 	: 27.11.2007
@@ -11,20 +11,20 @@
 
 namespace inventory
 {
-namespace upgrade
-{
+    namespace upgrade
+    {
 
-IC const shared_str& Group::id() const
-{
-	return	( m_id );
-}
+        IC const shared_str& Group::id() const
+        {
+            return (m_id);
+        }
 
-IC LPCSTR Group::id_str() const
-{
-	return	( m_id.c_str() );
-}
+        IC LPCSTR Group::id_str() const
+        {
+            return (m_id.c_str());
+        }
 
-} // namespace upgrade
-} // namespace inventory
+    }   // namespace upgrade
+}   // namespace inventory
 
-#endif // INVENTORY_UPGRADE_GROUP_INLINE_H_INCLUDED
+#endif   // INVENTORY_UPGRADE_GROUP_INLINE_H_INCLUDED

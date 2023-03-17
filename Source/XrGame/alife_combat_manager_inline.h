@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: alife_combat_manager_inline.h
 //	Created 	: 12.08.2003
 //  Modified 	: 14.05.2004
@@ -11,6 +11,6 @@
 /**
 IC	ALife::ECombatType		CALifeCombatManager::combat_type	() const
 {
-	return				(m_combat_type);
+    return				(m_combat_type);
 }
 /**/

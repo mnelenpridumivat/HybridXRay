@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: pch_script.h
 //	Created 	: 23.05.2007
 //  Modified 	: 10.08.2007
@@ -11,14 +11,15 @@
 
 #include "stdafx.h"
 
-extern "C" {
-	#include <lua/lua.h>
-	#include <lua/lualib.h>
-	#include <lua/lauxlib.h>
+extern "C"
+{
+#include <lua/lua.h>
+#include <lua/lualib.h>
+#include <lua/lauxlib.h>
 };
 
 #pragma warning(push)
-#pragma warning(disable:4995)
+#pragma warning(disable : 4995)
 #include <luabind/luabind.hpp>
 #pragma warning(pop)
 
@@ -30,4 +31,4 @@ extern "C" {
 #include <luabind/out_value_policy.hpp>
 #include <luabind/iterator_policy.hpp>
 
-#endif // PCH_SCRIPT_H
+#endif   // PCH_SCRIPT_H

@@ -1,50 +1,45 @@
-#pragma once
+п»ї#pragma once
 
+// Р’РµРєС‚РѕСЂ РёРјРµРЅ СЃРєРёРЅРѕРІ РєРѕРјРјР°РЅРґС‹
+DEF_VECTOR(TEAM_SKINS_NAMES, xr_string);
 
-// Вектор имен скинов комманды
-DEF_VECTOR(TEAM_SKINS_NAMES, xr_string);	
+// Р’РµРєС‚РѕСЂ РёРјРµРЅ СЃРєРёРЅРѕРІ РєРѕРјРјР°РЅРґС‹
+DEF_VECTOR(DEF_ITEMS_LIST, u16);
 
-// Вектор имен скинов комманды
-DEF_VECTOR(DEF_ITEMS_LIST, u16);	
-
-//структура данных по команде
-struct		TeamStruct
+// СЃС‚СЂСѓРєС‚СѓСЂР° РґР°РЅРЅС‹С… РїРѕ РєРѕРјР°РЅРґРµ
+struct TeamStruct
 {
-	shared_str			caSection;		// имя секции комманды
-	TEAM_SKINS_NAMES	aSkins;			// список скинов для команды
-	DEF_ITEMS_LIST		aDefaultItems;	// список предметов по умолчанию
+    shared_str       caSection;       // РёРјСЏ СЃРµРєС†РёРё РєРѕРјРјР°РЅРґС‹
+    TEAM_SKINS_NAMES aSkins;          // СЃРїРёСЃРѕРє СЃРєРёРЅРѕРІ РґР»СЏ РєРѕРјР°РЅРґС‹
+    DEF_ITEMS_LIST   aDefaultItems;   // СЃРїРёСЃРѕРє РїСЂРµРґРјРµС‚РѕРІ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
 
-	//---- Money -------------------
-	s32					m_iM_Start			;
-	s32					m_iM_OnRespawn		;
-	s32					m_iM_Min			;
-	
-	s32					m_iM_KillRival		;
-	s32					m_iM_KillSelf		;
-	s32					m_iM_KillTeam		;
+    //---- Money -------------------
+    s32 m_iM_Start;
+    s32 m_iM_OnRespawn;
+    s32 m_iM_Min;
 
-	s32					m_iM_TargetRival	;
-	s32					m_iM_TargetTeam		;
-	s32					m_iM_TargetSucceed	;
-	s32					m_iM_TargetSucceedAll	;
-	s32					m_iM_TargetFailed	;
+    s32 m_iM_KillRival;
+    s32 m_iM_KillSelf;
+    s32 m_iM_KillTeam;
 
-	s32					m_iM_RoundWin		;
-	s32					m_iM_RoundLoose		;
-	s32					m_iM_RoundDraw		;		
+    s32 m_iM_TargetRival;
+    s32 m_iM_TargetTeam;
+    s32 m_iM_TargetSucceed;
+    s32 m_iM_TargetSucceedAll;
+    s32 m_iM_TargetFailed;
 
-	s32					m_iM_RoundWin_Minor		;
-	s32					m_iM_RoundLoose_Minor	;
-	s32					m_iM_RivalsWipedOut		;
-	//---------------------------------------------
-	s32					m_iM_ClearRunBonus		;
-	//---------------------------------------------
-	float				m_fInvinsibleKillModifier;
+    s32 m_iM_RoundWin;
+    s32 m_iM_RoundLoose;
+    s32 m_iM_RoundDraw;
 
+    s32 m_iM_RoundWin_Minor;
+    s32 m_iM_RoundLoose_Minor;
+    s32 m_iM_RivalsWipedOut;
+    //---------------------------------------------
+    s32 m_iM_ClearRunBonus;
+    //---------------------------------------------
+    float m_fInvinsibleKillModifier;
 };
 
-//массив данных по командам
+// РјР°СЃСЃРёРІ РґР°РЅРЅС‹С… РїРѕ РєРѕРјР°РЅРґР°Рј
 DEF_DEQUE(TEAM_DATA_LIST, TeamStruct);
-
-
-

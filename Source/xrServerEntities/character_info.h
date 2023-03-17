@@ -1,9 +1,9 @@
-//////////////////////////////////////////////////////////////////////////
-// character_info.h			шаблон, для представления абстрактного песонажа
-// 
+п»ї//////////////////////////////////////////////////////////////////////////
+// character_info.h			С€Р°Р±Р»РѕРЅ, РґР»СЏ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёСЏ Р°Р±СЃС‚СЂР°РєС‚РЅРѕРіРѕ РїРµСЃРѕРЅР°Р¶Р°
+//
 //////////////////////////////////////////////////////////////////////////
 
-#pragma		once
+#pragma once
 
 #include "character_info_defs.h"
 #include "shared_data.h"
@@ -12,129 +12,141 @@
 class NET_Packet;
 
 #ifndef AI_COMPILER
-	#include "specific_character.h"
+#include "specific_character.h"
 #endif
 
 #ifdef XRGAME_EXPORTS
-	#include "PhraseDialogDefs.h"
-	#include "character_community.h"
-	#include "character_rank.h"
-	#include "character_reputation.h"
-	class CSE_ALifeTraderAbstract;
+#include "PhraseDialogDefs.h"
+#include "character_community.h"
+#include "character_rank.h"
+#include "character_reputation.h"
+class CSE_ALifeTraderAbstract;
 #endif
 
-
 //////////////////////////////////////////////////////////////////////////
-// SCharacterProfile: данные профиля персонажа
+// SCharacterProfile: РґР°РЅРЅС‹Рµ РїСЂРѕС„РёР»СЏ РїРµСЂСЃРѕРЅР°Р¶Р°
 //////////////////////////////////////////////////////////////////////////
-struct SCharacterProfile : CSharedResource
+struct SCharacterProfile: CSharedResource
 {
-	SCharacterProfile ();
-	virtual ~SCharacterProfile ();
+    SCharacterProfile();
+    virtual ~SCharacterProfile();
 
-    //если задано, то выбирается именно такой профиль,
-	//иначе ищется случайно,удовлетворяющее шаблону
-	shared_str		m_CharacterId;	
+    // РµСЃР»Рё Р·Р°РґР°РЅРѕ, С‚Рѕ РІС‹Р±РёСЂР°РµС‚СЃСЏ РёРјРµРЅРЅРѕ С‚Р°РєРѕР№ РїСЂРѕС„РёР»СЊ,
+    // РёРЅР°С‡Рµ РёС‰РµС‚СЃСЏ СЃР»СѓС‡Р°Р№РЅРѕ,СѓРґРѕРІР»РµС‚РІРѕСЂСЏСЋС‰РµРµ С€Р°Р±Р»РѕРЅСѓ
+    shared_str m_CharacterId;
 
-	//требуемые параметры персонажа
-	CHARACTER_CLASS					m_Class;
-	CHARACTER_RANK_VALUE			m_Rank;
-	CHARACTER_REPUTATION_VALUE		m_Reputation;
+    // С‚СЂРµР±СѓРµРјС‹Рµ РїР°СЂР°РјРµС‚СЂС‹ РїРµСЂСЃРѕРЅР°Р¶Р°
+    CHARACTER_CLASS            m_Class;
+    CHARACTER_RANK_VALUE       m_Rank;
+    CHARACTER_REPUTATION_VALUE m_Reputation;
 };
-
 
 class CInventoryOwner;
 class CSE_ALifeTraderAbstract;
 
-class CCharacterInfo: public CSharedClass<SCharacterProfile, shared_str, false>,
-					  public CXML_IdToIndex<CCharacterInfo>
+class CCharacterInfo: public CSharedClass<SCharacterProfile, shared_str, false>, public CXML_IdToIndex<CCharacterInfo>
 {
 private:
-	typedef CSharedClass	<SCharacterProfile, shared_str, false>	inherited_shared;
-	typedef CXML_IdToIndex	<CCharacterInfo>						id_to_index;
+    typedef CSharedClass<SCharacterProfile, shared_str, false> inherited_shared;
+    typedef CXML_IdToIndex<CCharacterInfo>                     id_to_index;
 
-	friend id_to_index;
-	friend CInventoryOwner;
-	friend CSE_ALifeTraderAbstract;
+    friend id_to_index;
+    friend CInventoryOwner;
+    friend CSE_ALifeTraderAbstract;
+
 public:
+    CCharacterInfo();
+    ~CCharacterInfo();
 
-
-
-								CCharacterInfo		();
-								~CCharacterInfo		();
-
-	virtual void Load	(shared_str id);
+    virtual void Load(shared_str id);
 
 #ifdef XRGAME_EXPORTS
-	void 						load				(IReader&);
-	void 						save				(NET_Packet&);
+    void load(IReader&);
+    void save(NET_Packet&);
 
-	//инициализация профиля подразумевает
-	//загрузку соответствующего CSpecificCharacter, по 
-	//указанному индексу
-	void	Init				(CSE_ALifeTraderAbstract* trader);
-	void InitSpecificCharacter	(shared_str new_id);
+    // РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РїСЂРѕС„РёР»СЏ РїРѕРґСЂР°Р·СѓРјРµРІР°РµС‚
+    // Р·Р°РіСЂСѓР·РєСѓ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРіРѕ CSpecificCharacter, РїРѕ
+    // СѓРєР°Р·Р°РЅРЅРѕРјСѓ РёРЅРґРµРєСЃСѓ
+    void Init(CSE_ALifeTraderAbstract* trader);
+    void InitSpecificCharacter(shared_str new_id);
 #endif
 
 protected:
-	const SCharacterProfile*	data				() const	{ VERIFY(inherited_shared::get_sd()); return inherited_shared::get_sd();}
-	SCharacterProfile*			data				()				{ VERIFY(inherited_shared::get_sd()); return inherited_shared::get_sd();}
+    const SCharacterProfile* data() const
+    {
+        VERIFY(inherited_shared::get_sd());
+        return inherited_shared::get_sd();
+    }
+    SCharacterProfile* data()
+    {
+        VERIFY(inherited_shared::get_sd());
+        return inherited_shared::get_sd();
+    }
 
-	static void					InitXmlIdToIndex	();
+    static void InitXmlIdToIndex();
 
+    // Р·Р°РіСЂСѓР·РєР° РёР· XML С„Р°Р№Р»Р°
+    virtual void load_shared(LPCSTR);
 
-	//загрузка из XML файла
-	virtual void				load_shared			(LPCSTR);
+    // РёРЅРґРµРєСЃ Р·Р°РіСЂСѓР¶РµРЅРЅРѕРіРѕ РїСЂРѕС„РёР»СЏ
+    shared_str m_ProfileId;
 
-	//индекс загруженного профиля
-	shared_str					m_ProfileId;
-	
-	//индекс данных о конкретном персонаже, который
-	//используется в данном экземпляре класса
-	shared_str		m_SpecificCharacterId;
+    // РёРЅРґРµРєСЃ РґР°РЅРЅС‹С… Рѕ РєРѕРЅРєСЂРµС‚РЅРѕРј РїРµСЂСЃРѕРЅР°Р¶Рµ, РєРѕС‚РѕСЂС‹Р№
+    // РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РІ РґР°РЅРЅРѕРј СЌРєР·РµРјРїР»СЏСЂРµ РєР»Р°СЃСЃР°
+    shared_str m_SpecificCharacterId;
 
 #ifdef XRGAME_EXPORTS
-	shared_str					m_StartDialog;
+    shared_str m_StartDialog;
 
-	//загруженная информация о конкретном персонаже
-	CSpecificCharacter			m_SpecificCharacter;
+    // Р·Р°РіСЂСѓР¶РµРЅРЅР°СЏ РёРЅС„РѕСЂРјР°С†РёСЏ Рѕ РєРѕРЅРєСЂРµС‚РЅРѕРј РїРµСЂСЃРѕРЅР°Р¶Рµ
+    CSpecificCharacter m_SpecificCharacter;
 #endif
 
 public:
-
-
 #ifdef XRGAME_EXPORTS
-	shared_str					Profile()			const;
-	LPCSTR						Name()				const;
-	shared_str					Bio()				const;
+    shared_str Profile() const;
+    LPCSTR     Name() const;
+    shared_str Bio() const;
 
+    const CHARACTER_COMMUNITY& Community() const
+    {
+        return m_CurrentCommunity;
+    }
+    const CHARACTER_RANK& Rank() const
+    {
+        return m_CurrentRank;
+    }
+    const CHARACTER_REPUTATION& Reputation() const
+    {
+        return m_CurrentReputation;
+    }
+    float Sympathy() const
+    {
+        return m_Sympathy;
+    }
+    void SetSympathy(float sympathy)
+    {
+        m_Sympathy = sympathy;
+    }
 
-	const CHARACTER_COMMUNITY&	Community()			const	{ return m_CurrentCommunity;  }
-	const CHARACTER_RANK&		Rank()				const	{ return m_CurrentRank;       }
-	const CHARACTER_REPUTATION&	Reputation()		const	{ return m_CurrentReputation; }
-	float						Sympathy()			const	{ return m_Sympathy; }
-	void						SetSympathy			(float sympathy)							{ m_Sympathy = sympathy; }
-
-	//доступут только у InventoryOwner
+    // РґРѕСЃС‚СѓРїСѓС‚ С‚РѕР»СЊРєРѕ Сѓ InventoryOwner
 protected:
-	void						SetRank				(CHARACTER_RANK_VALUE			rank);
-	void						SetReputation		(CHARACTER_REPUTATION_VALUE		reputation);
-	void						SetCommunity		(CHARACTER_COMMUNITY_INDEX		community);
+    void SetRank(CHARACTER_RANK_VALUE rank);
+    void SetReputation(CHARACTER_REPUTATION_VALUE reputation);
+    void SetCommunity(CHARACTER_COMMUNITY_INDEX community);
 
 public:
-	const shared_str&			IconName			()	const;
+    const shared_str& IconName() const;
 
-	shared_str					StartDialog			()	const;
-	const DIALOG_ID_VECTOR&		ActorDialogs		()	const;
+    shared_str              StartDialog() const;
+    const DIALOG_ID_VECTOR& ActorDialogs() const;
 #endif
 
 protected:
-
-
 #ifdef XRGAME_EXPORTS
-	CHARACTER_RANK					m_CurrentRank;
-	CHARACTER_REPUTATION			m_CurrentReputation;
-	CHARACTER_COMMUNITY				m_CurrentCommunity;
-	float							m_Sympathy; // % влияния на группировку
+    CHARACTER_RANK       m_CurrentRank;
+    CHARACTER_REPUTATION m_CurrentReputation;
+    CHARACTER_COMMUNITY  m_CurrentCommunity;
+    float                m_Sympathy;   // % РІР»РёСЏРЅРёСЏ РЅР° РіСЂСѓРїРїРёСЂРѕРІРєСѓ
 #endif
 };

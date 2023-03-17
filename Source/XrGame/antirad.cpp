@@ -1,6 +1,6 @@
-///////////////////////////////////////////////////////////////
+п»ї///////////////////////////////////////////////////////////////
 // Antirad.cpp
-// Antirad - таблетки выводящие радиацию
+// Antirad - С‚Р°Р±Р»РµС‚РєРё РІС‹РІРѕРґСЏС‰РёРµ СЂР°РґРёР°С†РёСЋ
 ///////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
@@ -8,10 +8,6 @@
 #include "antirad.h"
 #include "../xrphysics/PhysicsShell.h"
 
-CAntirad::CAntirad(void) 
-{
-}
+CAntirad::CAntirad(void) {}
 
-CAntirad::~CAntirad(void) 
-{
-}
+CAntirad::~CAntirad(void) {}

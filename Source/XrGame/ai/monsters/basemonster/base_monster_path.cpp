@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+ï»¿////////////////////////////////////////////////////////////////////////////
 //	Module 		: base_monster_path.cpp
 //	Created 	: 26.05.2003
 //  Modified 	: 26.05.2003
@@ -14,62 +14,79 @@
 #include "ai_space.h"
 #include "../control_direction_base.h"
 
-// êàæäûé ìîíñòğ ìîæåò ïî-ğàçíîìó ğåàëèçâàòü ıòó ôóíê (e.g. êğîâîñîñ ñ ïîâîğîòîì ãîëîâû è ò.ï.)
+// ĞºĞ°Ğ¶Ğ´Ñ‹Ğ¹ Ğ¼Ğ¾Ğ½ÑÑ‚Ñ€ Ğ¼Ğ¾Ğ¶ĞµÑ‚ Ğ¿Ğ¾-Ñ€Ğ°Ğ·Ğ½Ğ¾Ğ¼Ñƒ Ñ€ĞµĞ°Ğ»Ğ¸Ğ·Ğ²Ğ°Ñ‚ÑŒ ÑÑ‚Ñƒ Ñ„ÑƒĞ½Ğº (e.g. ĞºÑ€Ğ¾Ğ²Ğ¾ÑĞ¾Ñ Ñ Ğ¿Ğ¾Ğ²Ğ¾Ñ€Ğ¾Ñ‚Ğ¾Ğ¼ Ğ³Ğ¾Ğ»Ğ¾Ğ²Ñ‹ Ğ¸ Ñ‚.Ğ¿.)
 void CBaseMonster::LookPosition(Fvector to_point, float angular_speed)
 {
-	// ïî-óìîë÷àíèş ïğîñòî èçìåíèòü movement().m_body.target.yaw
-	Fvector	d;
-	d.set(to_point);
-	d.sub(Position());	
-	
-	// óñòàíîâèòü òåêóùèé óãîë
-	dir().set_heading(angle_normalize(-d.getH()));
+    // Ğ¿Ğ¾-ÑƒĞ¼Ğ¾Ğ»Ñ‡Ğ°Ğ½Ğ¸Ñ Ğ¿Ñ€Ğ¾ÑÑ‚Ğ¾ Ğ¸Ğ·Ğ¼ĞµĞ½Ğ¸Ñ‚ÑŒ movement().m_body.target.yaw
+    Fvector d;
+    d.set(to_point);
+    d.sub(Position());
+
+    // ÑƒÑÑ‚Ğ°Ğ½Ğ¾Ğ²Ğ¸Ñ‚ÑŒ Ñ‚ĞµĞºÑƒÑ‰Ğ¸Ğ¹ ÑƒĞ³Ğ¾Ğ»
+    dir().set_heading(angle_normalize(-d.getH()));
 }
 
 //////////////////////////////////////////////////////////////////////////
 // Covers
 //////////////////////////////////////////////////////////////////////////
 
-bool CBaseMonster::GetCorpseCover(Fvector &position, u32 &vertex_id) 
+bool CBaseMonster::GetCorpseCover(Fvector& position, u32& vertex_id)
 {
-	m_corpse_cover_evaluator->setup(10.f,50.f);
-	const CCoverPoint *point = ai().cover_manager().best_cover(Position(),30.f,*m_corpse_cover_evaluator);
-	if (!point) return false;
-	
-	position	= point->m_position;
-	vertex_id	= point->m_level_vertex_id;
-	return true;
+    m_corpse_cover_evaluator->setup(10.f, 50.f);
+    const CCoverPoint* point = ai().cover_manager().best_cover(Position(), 30.f, *m_corpse_cover_evaluator);
+    if (!point)
+        return false;
+
+    position  = point->m_position;
+    vertex_id = point->m_level_vertex_id;
+    return true;
 }
 
-bool CBaseMonster::GetCoverFromEnemy(const Fvector &enemy_pos, Fvector &position, u32 &vertex_id) 
+bool CBaseMonster::GetCoverFromEnemy(const Fvector& enemy_pos, Fvector& position, u32& vertex_id)
 {
-	m_enemy_cover_evaluator->setup(enemy_pos, 30.f,50.f);
-	const CCoverPoint	 *point = ai().cover_manager().best_cover(Position(),40.f,*m_enemy_cover_evaluator);
-	if (!point) return false;
+    m_enemy_cover_evaluator->setup(enemy_pos, 30.f, 50.f);
+    const CCoverPoint* point = ai().cover_manager().best_cover(Position(), 40.f, *m_enemy_cover_evaluator);
+    if (!point)
+        return false;
 
-	position	= point->m_position;
-	vertex_id	= point->m_level_vertex_id;
-	return true;
+    position  = point->m_position;
+    vertex_id = point->m_level_vertex_id;
+    return true;
 }
 
-bool CBaseMonster::GetCoverFromPoint(const Fvector &pos, Fvector &position, u32 &vertex_id, float min_dist, float max_dist, float radius) 
+bool CBaseMonster::GetCoverFromPoint(
+    const Fvector& pos,
+    Fvector&       position,
+    u32&           vertex_id,
+    float          min_dist,
+    float          max_dist,
+    float          radius)
 {
-	m_enemy_cover_evaluator->setup(pos, min_dist,max_dist);
-	const CCoverPoint	 *point = ai().cover_manager().best_cover(Position(),radius,*m_enemy_cover_evaluator);
-	if (!point) return false;
+    m_enemy_cover_evaluator->setup(pos, min_dist, max_dist);
+    const CCoverPoint* point = ai().cover_manager().best_cover(Position(), radius, *m_enemy_cover_evaluator);
+    if (!point)
+        return false;
 
-	position	= point->m_position;
-	vertex_id	= point->m_level_vertex_id;
-	return true;
+    position  = point->m_position;
+    vertex_id = point->m_level_vertex_id;
+    return true;
 }
 
-bool CBaseMonster::GetCoverCloseToPoint(const Fvector &dest_pos, float min_dist, float max_dist, float deviation, float radius ,Fvector &position, u32 &vertex_id) 
+bool CBaseMonster::GetCoverCloseToPoint(
+    const Fvector& dest_pos,
+    float          min_dist,
+    float          max_dist,
+    float          deviation,
+    float          radius,
+    Fvector&       position,
+    u32&           vertex_id)
 {
-	m_cover_evaluator_close_point->setup(dest_pos,min_dist, max_dist,deviation);
-	const CCoverPoint	 *point = ai().cover_manager().best_cover(Position(),radius,*m_cover_evaluator_close_point);
-	if (!point) return false;
+    m_cover_evaluator_close_point->setup(dest_pos, min_dist, max_dist, deviation);
+    const CCoverPoint* point = ai().cover_manager().best_cover(Position(), radius, *m_cover_evaluator_close_point);
+    if (!point)
+        return false;
 
-	position	= point->m_position;
-	vertex_id	= point->m_level_vertex_id;
-	return true;
+    position  = point->m_position;
+    vertex_id = point->m_level_vertex_id;
+    return true;
 }

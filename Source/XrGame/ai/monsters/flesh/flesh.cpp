@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "flesh.h"
 #include "ai_space.h"
 #include "flesh_state_manager.h"
@@ -6,154 +6,164 @@
 #include "../control_animation_base.h"
 #include "../control_movement_base.h"
 
-
 CAI_Flesh::CAI_Flesh()
 {
-	StateMan = xr_new<CStateManagerFlesh>(this);
-	
-	m_fEyeShiftYaw		= PI_DIV_6;
+    StateMan = xr_new<CStateManagerFlesh>(this);
 
-	CControlled::init_external(this);
+    m_fEyeShiftYaw = PI_DIV_6;
+
+    CControlled::init_external(this);
 }
 
 CAI_Flesh::~CAI_Flesh()
 {
-	xr_delete(StateMan);
+    xr_delete(StateMan);
 }
 
-BOOL CAI_Flesh::net_Spawn (CSE_Abstract* DC) 
+BOOL CAI_Flesh::net_Spawn(CSE_Abstract* DC)
 {
-	if (!inherited::net_Spawn(DC))
-		return(FALSE);
+    if (!inherited::net_Spawn(DC))
+        return (FALSE);
 
-	return TRUE;
+    return TRUE;
 }
 
 void CAI_Flesh::Load(LPCSTR section)
 {
-	inherited::Load(section);
+    inherited::Load(section);
 
-	anim().AddReplacedAnim(&m_bDamaged, eAnimRun,		eAnimRunDamaged);
-	anim().AddReplacedAnim(&m_bDamaged, eAnimWalkFwd,	eAnimWalkDamaged);
+    anim().AddReplacedAnim(&m_bDamaged, eAnimRun, eAnimRunDamaged);
+    anim().AddReplacedAnim(&m_bDamaged, eAnimWalkFwd, eAnimWalkDamaged);
 
-	anim().accel_load			(section);
-	anim().accel_chain_add		(eAnimWalkFwd,		eAnimRun);
-	anim().accel_chain_add		(eAnimWalkDamaged,	eAnimRunDamaged);
+    anim().accel_load(section);
+    anim().accel_chain_add(eAnimWalkFwd, eAnimRun);
+    anim().accel_chain_add(eAnimWalkDamaged, eAnimRunDamaged);
 
-	SVelocityParam &velocity_none		= move().get_velocity(MonsterMovement::eVelocityParameterIdle);	
-	SVelocityParam &velocity_turn		= move().get_velocity(MonsterMovement::eVelocityParameterStand);
-	SVelocityParam &velocity_walk		= move().get_velocity(MonsterMovement::eVelocityParameterWalkNormal);
-	SVelocityParam &velocity_run		= move().get_velocity(MonsterMovement::eVelocityParameterRunNormal);
-	SVelocityParam &velocity_walk_dmg	= move().get_velocity(MonsterMovement::eVelocityParameterWalkDamaged);
-	SVelocityParam &velocity_run_dmg	= move().get_velocity(MonsterMovement::eVelocityParameterRunDamaged);
-	SVelocityParam &velocity_steal		= move().get_velocity(MonsterMovement::eVelocityParameterSteal);
-	SVelocityParam &velocity_drag		= move().get_velocity(MonsterMovement::eVelocityParameterDrag);
+    SVelocityParam& velocity_none     = move().get_velocity(MonsterMovement::eVelocityParameterIdle);
+    SVelocityParam& velocity_turn     = move().get_velocity(MonsterMovement::eVelocityParameterStand);
+    SVelocityParam& velocity_walk     = move().get_velocity(MonsterMovement::eVelocityParameterWalkNormal);
+    SVelocityParam& velocity_run      = move().get_velocity(MonsterMovement::eVelocityParameterRunNormal);
+    SVelocityParam& velocity_walk_dmg = move().get_velocity(MonsterMovement::eVelocityParameterWalkDamaged);
+    SVelocityParam& velocity_run_dmg  = move().get_velocity(MonsterMovement::eVelocityParameterRunDamaged);
+    SVelocityParam& velocity_steal    = move().get_velocity(MonsterMovement::eVelocityParameterSteal);
+    SVelocityParam& velocity_drag     = move().get_velocity(MonsterMovement::eVelocityParameterDrag);
 
-	// define animation set
-	anim().AddAnim(eAnimStandIdle,		"stand_idle_",			-1, &velocity_none,		PS_STAND);
-	anim().AddAnim(eAnimStandTurnLeft,	"stand_turn_ls_",		-1, &velocity_turn,		PS_STAND);
-	anim().AddAnim(eAnimStandTurnRight,	"stand_turn_rs_",		-1, &velocity_turn,		PS_STAND);
+    // define animation set
+    anim().AddAnim(eAnimStandIdle, "stand_idle_", -1, &velocity_none, PS_STAND);
+    anim().AddAnim(eAnimStandTurnLeft, "stand_turn_ls_", -1, &velocity_turn, PS_STAND);
+    anim().AddAnim(eAnimStandTurnRight, "stand_turn_rs_", -1, &velocity_turn, PS_STAND);
 
-	anim().AddAnim(eAnimLieIdle,			"lie_idle_",			-1, &velocity_none,		PS_LIE);
-	anim().AddAnim(eAnimSleep,			"lie_idle_",			-1, &velocity_none,		PS_LIE);
+    anim().AddAnim(eAnimLieIdle, "lie_idle_", -1, &velocity_none, PS_LIE);
+    anim().AddAnim(eAnimSleep, "lie_idle_", -1, &velocity_none, PS_LIE);
 
-	anim().AddAnim(eAnimWalkFwd,			"stand_walk_fwd_",		-1, &velocity_walk,		PS_STAND);
-	anim().AddAnim(eAnimWalkDamaged,		"stand_walk_fwd_dmg_",	-1, &velocity_walk_dmg,	PS_STAND);
+    anim().AddAnim(eAnimWalkFwd, "stand_walk_fwd_", -1, &velocity_walk, PS_STAND);
+    anim().AddAnim(eAnimWalkDamaged, "stand_walk_fwd_dmg_", -1, &velocity_walk_dmg, PS_STAND);
 
-	anim().AddAnim(eAnimRun,				"stand_run_",			-1,	&velocity_run,		PS_STAND);
-	anim().AddAnim(eAnimRunDamaged,		"stand_run_dmg_",		-1,	&velocity_run_dmg,	PS_STAND);
+    anim().AddAnim(eAnimRun, "stand_run_", -1, &velocity_run, PS_STAND);
+    anim().AddAnim(eAnimRunDamaged, "stand_run_dmg_", -1, &velocity_run_dmg, PS_STAND);
 
-	anim().AddAnim(eAnimAttack,			"stand_attack_",		-1, &velocity_turn,		PS_STAND);
-	anim().AddAnim(eAnimAttackFromBack,	"stand_attack_back_",	-1, &velocity_none,		PS_STAND);
-	anim().AddAnim(eAnimCheckCorpse,		"stand_eat_",			 1,	&velocity_none,		PS_STAND);
+    anim().AddAnim(eAnimAttack, "stand_attack_", -1, &velocity_turn, PS_STAND);
+    anim().AddAnim(eAnimAttackFromBack, "stand_attack_back_", -1, &velocity_none, PS_STAND);
+    anim().AddAnim(eAnimCheckCorpse, "stand_eat_", 1, &velocity_none, PS_STAND);
 
-	anim().AddAnim(eAnimEat,				"stand_eat_",			-1, &velocity_none,		PS_STAND);
-	anim().AddAnim(eAnimDie,				"stand_die_",			-1, &velocity_none,		PS_STAND);
+    anim().AddAnim(eAnimEat, "stand_eat_", -1, &velocity_none, PS_STAND);
+    anim().AddAnim(eAnimDie, "stand_die_", -1, &velocity_none, PS_STAND);
 
-	anim().AddAnim(eAnimStandLieDown,	"stand_lie_down_",		-1, &velocity_none,		PS_STAND);
-	anim().AddAnim(eAnimLieStandUp,		"lie_stand_up_",		-1, &velocity_none,		PS_LIE);
+    anim().AddAnim(eAnimStandLieDown, "stand_lie_down_", -1, &velocity_none, PS_STAND);
+    anim().AddAnim(eAnimLieStandUp, "lie_stand_up_", -1, &velocity_none, PS_LIE);
 
-	anim().AddAnim(eAnimSteal,			"stand_crawl_",			-1, &velocity_steal,	PS_STAND);
-	anim().AddAnim(eAnimDragCorpse,		"stand_drag_",			-1, &velocity_drag,		PS_STAND);
+    anim().AddAnim(eAnimSteal, "stand_crawl_", -1, &velocity_steal, PS_STAND);
+    anim().AddAnim(eAnimDragCorpse, "stand_drag_", -1, &velocity_drag, PS_STAND);
 
-	anim().AddAnim(eAnimScared,			"stand_scared_",		-1,	&velocity_none,		PS_STAND);
-	anim().AddAnim(eAnimThreaten,		"stand_threaten_",		-1,	&velocity_none,		PS_STAND);
+    anim().AddAnim(eAnimScared, "stand_scared_", -1, &velocity_none, PS_STAND);
+    anim().AddAnim(eAnimThreaten, "stand_threaten_", -1, &velocity_none, PS_STAND);
 
-	// define transitions
-	anim().AddTransition(PS_STAND,	PS_LIE,		eAnimStandLieDown,		false);
-	anim().AddTransition(PS_LIE,		PS_STAND,	eAnimLieStandUp,		false, SKIP_IF_AGGRESSIVE);
+    // define transitions
+    anim().AddTransition(PS_STAND, PS_LIE, eAnimStandLieDown, false);
+    anim().AddTransition(PS_LIE, PS_STAND, eAnimLieStandUp, false, SKIP_IF_AGGRESSIVE);
 
-	// define links from Action to animations
-	anim().LinkAction(ACT_STAND_IDLE,	eAnimStandIdle);
-	anim().LinkAction(ACT_SIT_IDLE,		eAnimLieIdle);
-	anim().LinkAction(ACT_LIE_IDLE,		eAnimLieIdle);
-	anim().LinkAction(ACT_WALK_FWD,		eAnimWalkFwd);
-	anim().LinkAction(ACT_WALK_BKWD,		eAnimWalkBkwd);
-	anim().LinkAction(ACT_RUN,			eAnimRun);
-	anim().LinkAction(ACT_EAT,			eAnimEat);
-	anim().LinkAction(ACT_SLEEP,			eAnimSleep);
-	anim().LinkAction(ACT_REST,			eAnimLieIdle);
-	anim().LinkAction(ACT_DRAG,			eAnimDragCorpse);
-	anim().LinkAction(ACT_ATTACK,		eAnimAttack);
-	anim().LinkAction(ACT_STEAL,			eAnimSteal);
-	anim().LinkAction(ACT_LOOK_AROUND,	eAnimScared);
+    // define links from Action to animations
+    anim().LinkAction(ACT_STAND_IDLE, eAnimStandIdle);
+    anim().LinkAction(ACT_SIT_IDLE, eAnimLieIdle);
+    anim().LinkAction(ACT_LIE_IDLE, eAnimLieIdle);
+    anim().LinkAction(ACT_WALK_FWD, eAnimWalkFwd);
+    anim().LinkAction(ACT_WALK_BKWD, eAnimWalkBkwd);
+    anim().LinkAction(ACT_RUN, eAnimRun);
+    anim().LinkAction(ACT_EAT, eAnimEat);
+    anim().LinkAction(ACT_SLEEP, eAnimSleep);
+    anim().LinkAction(ACT_REST, eAnimLieIdle);
+    anim().LinkAction(ACT_DRAG, eAnimDragCorpse);
+    anim().LinkAction(ACT_ATTACK, eAnimAttack);
+    anim().LinkAction(ACT_STEAL, eAnimSteal);
+    anim().LinkAction(ACT_LOOK_AROUND, eAnimScared);
 
-#ifdef DEBUG	
-	anim().accel_chain_test		();
+#ifdef DEBUG
+    anim().accel_chain_test();
 #endif
 
-	PostLoad					(section);
-
+    PostLoad(section);
 }
 
-// âîçâðàùàåò true, åñëè ïîñëå âûïîëíåíèÿ ýòîé ôóíêöèè íåîáõîäèìî ïðåðâàòü îáðàáîòêó
-// ò.å. åñëè àêòèâèðîâàíà ïîñëåäîâàòåëüíîñòü
+// Ð²Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÐµÑ‚ true, ÐµÑÐ»Ð¸ Ð¿Ð¾ÑÐ»Ðµ Ð²Ñ‹Ð¿Ð¾Ð»Ð½ÐµÐ½Ð¸Ñ ÑÑ‚Ð¾Ð¹ Ñ„ÑƒÐ½ÐºÑ†Ð¸Ð¸ Ð½ÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ð¾ Ð¿Ñ€ÐµÑ€Ð²Ð°Ñ‚ÑŒ Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÑƒ
+// Ñ‚.Ðµ. ÐµÑÐ»Ð¸ Ð°ÐºÑ‚Ð¸Ð²Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð° Ð¿Ð¾ÑÐ»ÐµÐ´Ð¾Ð²Ð°Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚ÑŒ
 void CAI_Flesh::CheckSpecParams(u32 spec_params)
 {
-	if ((spec_params & ASP_DRAG_CORPSE) == 	ASP_DRAG_CORPSE) anim().SetCurAnim(eAnimDragCorpse);
+    if ((spec_params & ASP_DRAG_CORPSE) == ASP_DRAG_CORPSE)
+        anim().SetCurAnim(eAnimDragCorpse);
 
-	if ((spec_params & ASP_CHECK_CORPSE) == ASP_CHECK_CORPSE) {
-		com_man().seq_run(anim().get_motion_id(eAnimCheckCorpse));	}
+    if ((spec_params & ASP_CHECK_CORPSE) == ASP_CHECK_CORPSE)
+    {
+        com_man().seq_run(anim().get_motion_id(eAnimCheckCorpse));
+    }
 
-	if ((spec_params & ASP_BACK_ATTACK) == ASP_BACK_ATTACK) {
-		com_man().seq_run(anim().get_motion_id(eAnimAttackFromBack));
-	}
+    if ((spec_params & ASP_BACK_ATTACK) == ASP_BACK_ATTACK)
+    {
+        com_man().seq_run(anim().get_motion_id(eAnimAttackFromBack));
+    }
 
-	if ((spec_params & ASP_THREATEN) == ASP_THREATEN) anim().SetCurAnim(eAnimThreaten);
+    if ((spec_params & ASP_THREATEN) == ASP_THREATEN)
+        anim().SetCurAnim(eAnimThreaten);
 }
 
-
 ////////////////////////////////////////////////////////////////////////////////////////////////
-// Ôóíêöèÿ ConeSphereIntersection
-// Ïåðåñå÷åíèå êîíóñà (íå îãðàíè÷åííîãî) ñî ñôåðîé
-// Íåîáõîäèìà äëÿ îïðåäåëåíèÿ ïåðåñå÷åíèÿ êîïûòà ïëîòè ñ áàóíä-ñôåðîé êðûñû
-// Ïàðàìåòðû: ConeVertex - âåðøèíà êîíóñà, ConeAngle - óãîë êîíóñà (ìåæäó ïîâåðõíîñòüþ è âûñîòîé)
-// ConeDir - íàïðàâëåíèå êîíóñà, SphereCenter - öåíòð ñôåðû, SphereRadius - ðàäèóñ ñôåðû
-bool CAI_Flesh::ConeSphereIntersection(Fvector ConeVertex, float ConeAngle, Fvector ConeDir, Fvector SphereCenter, float SphereRadius)
+// Ð¤ÑƒÐ½ÐºÑ†Ð¸Ñ ConeSphereIntersection
+// ÐŸÐµÑ€ÐµÑÐµÑ‡ÐµÐ½Ð¸Ðµ ÐºÐ¾Ð½ÑƒÑÐ° (Ð½Ðµ Ð¾Ð³Ñ€Ð°Ð½Ð¸Ñ‡ÐµÐ½Ð½Ð¾Ð³Ð¾) ÑÐ¾ ÑÑ„ÐµÑ€Ð¾Ð¹
+// ÐÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ð° Ð´Ð»Ñ Ð¾Ð¿Ñ€ÐµÐ´ÐµÐ»ÐµÐ½Ð¸Ñ Ð¿ÐµÑ€ÐµÑÐµÑ‡ÐµÐ½Ð¸Ñ ÐºÐ¾Ð¿Ñ‹Ñ‚Ð° Ð¿Ð»Ð¾Ñ‚Ð¸ Ñ Ð±Ð°ÑƒÐ½Ð´-ÑÑ„ÐµÑ€Ð¾Ð¹ ÐºÑ€Ñ‹ÑÑ‹
+// ÐŸÐ°Ñ€Ð°Ð¼ÐµÑ‚Ñ€Ñ‹: ConeVertex - Ð²ÐµÑ€ÑˆÐ¸Ð½Ð° ÐºÐ¾Ð½ÑƒÑÐ°, ConeAngle - ÑƒÐ³Ð¾Ð» ÐºÐ¾Ð½ÑƒÑÐ° (Ð¼ÐµÐ¶Ð´Ñƒ Ð¿Ð¾Ð²ÐµÑ€Ñ…Ð½Ð¾ÑÑ‚ÑŒÑŽ Ð¸ Ð²Ñ‹ÑÐ¾Ñ‚Ð¾Ð¹)
+// ConeDir - Ð½Ð°Ð¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð¸Ðµ ÐºÐ¾Ð½ÑƒÑÐ°, SphereCenter - Ñ†ÐµÐ½Ñ‚Ñ€ ÑÑ„ÐµÑ€Ñ‹, SphereRadius - Ñ€Ð°Ð´Ð¸ÑƒÑ ÑÑ„ÐµÑ€Ñ‹
+bool CAI_Flesh::ConeSphereIntersection(
+    Fvector ConeVertex,
+    float   ConeAngle,
+    Fvector ConeDir,
+    Fvector SphereCenter,
+    float   SphereRadius)
 {
-	float fInvSin = 1.0f/_sin(ConeAngle);
-	float fCosSqr = _cos(ConeAngle)*_cos(ConeAngle);
+    float fInvSin = 1.0f / _sin(ConeAngle);
+    float fCosSqr = _cos(ConeAngle) * _cos(ConeAngle);
 
-	
-	Fvector kCmV;	kCmV.sub(SphereCenter,ConeVertex);
-	Fvector kD		= kCmV;
-	Fvector tempV	= ConeDir;
-	tempV.mul		(SphereRadius* fInvSin);
-	kD.add			(tempV);
+    Fvector kCmV;
+    kCmV.sub(SphereCenter, ConeVertex);
+    Fvector kD    = kCmV;
+    Fvector tempV = ConeDir;
+    tempV.mul(SphereRadius * fInvSin);
+    kD.add(tempV);
 
-	float fDSqrLen = kD.square_magnitude();
-	float fE = kD.dotproduct(ConeDir);
-	if ( fE > 0.0f && fE*fE >= fDSqrLen*fCosSqr ) {
-		
-		float fSinSqr = _sin(ConeAngle)*_sin(ConeAngle);
+    float fDSqrLen = kD.square_magnitude();
+    float fE       = kD.dotproduct(ConeDir);
+    if (fE > 0.0f && fE * fE >= fDSqrLen * fCosSqr)
+    {
+        float fSinSqr = _sin(ConeAngle) * _sin(ConeAngle);
 
-		fDSqrLen = kCmV.square_magnitude();
-		fE = -kCmV.dotproduct(ConeDir);
-		if ( fE > 0.0f && fE*fE >= fDSqrLen*fSinSqr ) {
-			float fRSqr = SphereRadius*SphereRadius;
-			return fDSqrLen <= fRSqr;
-		} else return true;
-	} 
-	
-	return false;
+        fDSqrLen = kCmV.square_magnitude();
+        fE       = -kCmV.dotproduct(ConeDir);
+        if (fE > 0.0f && fE * fE >= fDSqrLen * fSinSqr)
+        {
+            float fRSqr = SphereRadius * SphereRadius;
+            return fDSqrLen <= fRSqr;
+        }
+        else
+            return true;
+    }
+
+    return false;
 }

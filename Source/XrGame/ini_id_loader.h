@@ -1,102 +1,102 @@
-///////////////////////////////////////////////////////////////
+п»ї///////////////////////////////////////////////////////////////
 // ini_id_loader.h
-// темплейтовый класс, который загружает из ini файла 
-// строку с текстовыми id, потом присваивает каждому текстовому
-// id уникальный index
+// С‚РµРјРїР»РµР№С‚РѕРІС‹Р№ РєР»Р°СЃСЃ, РєРѕС‚РѕСЂС‹Р№ Р·Р°РіСЂСѓР¶Р°РµС‚ РёР· ini С„Р°Р№Р»Р°
+// СЃС‚СЂРѕРєСѓ СЃ С‚РµРєСЃС‚РѕРІС‹РјРё id, РїРѕС‚РѕРј РїСЂРёСЃРІР°РёРІР°РµС‚ РєР°Р¶РґРѕРјСѓ С‚РµРєСЃС‚РѕРІРѕРјСѓ
+// id СѓРЅРёРєР°Р»СЊРЅС‹Р№ index
 ///////////////////////////////////////////////////////////////
 
 #pragma once
 
-//T_ID, T_INDEX -	тип индекса и id
+// T_ID, T_INDEX -	С‚РёРї РёРЅРґРµРєСЃР° Рё id
 
-//ITEM_DATA		-	структура с полями id и index типа T_ID и T_INDEX,
-//					обязательно имеет конструктор с параметрами (T_INDEX index, T_ID id, LPCSTR r1, ..., LPCSTR rN)
-//					N = ITEM_REC_NUM - число доп. параметров в ITEM_DATA 
+// ITEM_DATA		-	СЃС‚СЂСѓРєС‚СѓСЂР° СЃ РїРѕР»СЏРјРё id Рё index С‚РёРїР° T_ID Рё T_INDEX,
+//					РѕР±СЏР·Р°С‚РµР»СЊРЅРѕ РёРјРµРµС‚ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ СЃ РїР°СЂР°РјРµС‚СЂР°РјРё (T_INDEX index, T_ID id, LPCSTR r1, ..., LPCSTR rN)
+//					N = ITEM_REC_NUM - С‡РёСЃР»Рѕ РґРѕРї. РїР°СЂР°РјРµС‚СЂРѕРІ РІ ITEM_DATA
 
-//T_INIT		-	класс где определена статическая InitIdToIndex
-//					функция инициализации section_name и line_name
+// T_INIT		-	РєР»Р°СЃСЃ РіРґРµ РѕРїСЂРµРґРµР»РµРЅР° СЃС‚Р°С‚РёС‡РµСЃРєР°СЏ InitIdToIndex
+//					С„СѓРЅРєС†РёСЏ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё section_name Рё line_name
 
-#define TEMPLATE_SPECIALIZATION		template<u32 ITEM_REC_NUM, typename ITEM_DATA, typename T_ID, typename T_INDEX, typename T_INIT>
-#define CSINI_IdToIndex CIni_IdToIndex	<ITEM_REC_NUM, ITEM_DATA, T_ID, T_INDEX, T_INIT>
+#define TEMPLATE_SPECIALIZATION \
+    template <u32 ITEM_REC_NUM, typename ITEM_DATA, typename T_ID, typename T_INDEX, typename T_INIT>
+#define CSINI_IdToIndex CIni_IdToIndex<ITEM_REC_NUM, ITEM_DATA, T_ID, T_INDEX, T_INIT>
 
 TEMPLATE_SPECIALIZATION
 class CIni_IdToIndex
 {
 public:
-	typedef T_INDEX index_type;
-	typedef T_ID	id_type;
+    typedef T_INDEX index_type;
+    typedef T_ID    id_type;
 
 protected:
-	typedef xr_vector<ITEM_DATA>	T_VECTOR;
-	static	T_VECTOR*				m_pItemDataVector;
-	
-	template <u32 NUM>
-	static void						LoadItemData	(u32, LPCSTR)
-	{
-		STATIC_CHECK(false, Specialization_for_LoadItemData_in_CIni_IdToIndex_not_found);
-		NODEFAULT;
-	}
+    typedef xr_vector<ITEM_DATA> T_VECTOR;
+    static T_VECTOR*             m_pItemDataVector;
 
-	template <>
-		static  void				LoadItemData<0>  (u32 count, LPCSTR cfgRecord)
-	{
-		for (u32 k = 0; k < count; k+= 1)
-		{
-			string64 buf;
-			LPCSTR id_str  = _GetItem(cfgRecord, k, buf);
-			char* id_str_lwr = xr_strdup(id_str);
-			xr_strlwr(id_str_lwr);
-			ITEM_DATA item_data(T_INDEX(m_pItemDataVector->size()), T_ID(id_str));
-			m_pItemDataVector->push_back(item_data);
-			xr_free(id_str_lwr);
-		}
-	}
+    template <u32 NUM> static void LoadItemData(u32, LPCSTR)
+    {
+        STATIC_CHECK(false, Specialization_for_LoadItemData_in_CIni_IdToIndex_not_found);
+        NODEFAULT;
+    }
 
-	template <>
-		static  void				LoadItemData<1>  (u32 count, LPCSTR cfgRecord)
-	{
-		for (u32 k = 0; k < count; k+= 2)
-		{
-			string64 buf, buf1;
-			LPCSTR id_str  = _GetItem(cfgRecord, k, buf);
-			char* id_str_lwr = xr_strdup(id_str);
-			xr_strlwr(id_str_lwr);
-			LPCSTR rec1	   = _GetItem(cfgRecord, k + 1, buf1);
-			ITEM_DATA item_data(T_INDEX(m_pItemDataVector->size()), T_ID(id_str), rec1);
-			m_pItemDataVector->push_back(item_data);
-			xr_free(id_str_lwr);
-		}
-	}
+    template <> static void LoadItemData<0>(u32 count, LPCSTR cfgRecord)
+    {
+        for (u32 k = 0; k < count; k += 1)
+        {
+            string64 buf;
+            LPCSTR   id_str     = _GetItem(cfgRecord, k, buf);
+            char*    id_str_lwr = xr_strdup(id_str);
+            xr_strlwr(id_str_lwr);
+            ITEM_DATA item_data(T_INDEX(m_pItemDataVector->size()), T_ID(id_str));
+            m_pItemDataVector->push_back(item_data);
+            xr_free(id_str_lwr);
+        }
+    }
 
-	//имя секции и линии откуда будут загружаться id
-	static LPCSTR section_name;
-	static LPCSTR line_name;
+    template <> static void LoadItemData<1>(u32 count, LPCSTR cfgRecord)
+    {
+        for (u32 k = 0; k < count; k += 2)
+        {
+            string64 buf, buf1;
+            LPCSTR   id_str     = _GetItem(cfgRecord, k, buf);
+            char*    id_str_lwr = xr_strdup(id_str);
+            xr_strlwr(id_str_lwr);
+            LPCSTR    rec1 = _GetItem(cfgRecord, k + 1, buf1);
+            ITEM_DATA item_data(T_INDEX(m_pItemDataVector->size()), T_ID(id_str), rec1);
+            m_pItemDataVector->push_back(item_data);
+            xr_free(id_str_lwr);
+        }
+    }
+
+    // РёРјСЏ СЃРµРєС†РёРё Рё Р»РёРЅРёРё РѕС‚РєСѓРґР° Р±СѓРґСѓС‚ Р·Р°РіСЂСѓР¶Р°С‚СЊСЃСЏ id
+    static LPCSTR section_name;
+    static LPCSTR line_name;
 
 public:
-											CIni_IdToIndex				();
-	virtual									~CIni_IdToIndex				();
+    CIni_IdToIndex();
+    virtual ~CIni_IdToIndex();
 
-	static	void							InitInternal				();
-	static const ITEM_DATA*					GetById						(const T_ID& str_id, bool no_assert = false);
-	static const ITEM_DATA*					GetByIndex					(T_INDEX index, bool no_assert = false);
+    static void             InitInternal();
+    static const ITEM_DATA* GetById(const T_ID& str_id, bool no_assert = false);
+    static const ITEM_DATA* GetByIndex(T_INDEX index, bool no_assert = false);
 
-	static const T_INDEX					IdToIndex					(const T_ID& str_id, T_INDEX default_index = T_INDEX(-1), bool no_assert = false)
-	{
-		const ITEM_DATA* item = GetById(str_id, no_assert);
-		return item?item->index:default_index;
-	}
-	static const T_ID						IndexToId					(T_INDEX index, T_ID default_id = NULL, bool no_assert = false)
-	{
-		const ITEM_DATA* item = GetByIndex(index, no_assert);
-		return item?item->id:default_id;
-	}
+    static const T_INDEX IdToIndex(const T_ID& str_id, T_INDEX default_index = T_INDEX(-1), bool no_assert = false)
+    {
+        const ITEM_DATA* item = GetById(str_id, no_assert);
+        return item ? item->index : default_index;
+    }
+    static const T_ID IndexToId(T_INDEX index, T_ID default_id = NULL, bool no_assert = false)
+    {
+        const ITEM_DATA* item = GetByIndex(index, no_assert);
+        return item ? item->id : default_id;
+    }
 
-	static const T_INDEX					GetMaxIndex					()					 {return m_pItemDataVector->size()-1;}
+    static const T_INDEX GetMaxIndex()
+    {
+        return m_pItemDataVector->size() - 1;
+    }
 
-	//удаление статичекого массива
-	static void								DeleteIdToIndexData			();
+    // СѓРґР°Р»РµРЅРёРµ СЃС‚Р°С‚РёС‡РµРєРѕРіРѕ РјР°СЃСЃРёРІР°
+    static void DeleteIdToIndexData();
 };
-
 
 TEMPLATE_SPECIALIZATION
 typename CSINI_IdToIndex::T_VECTOR* CSINI_IdToIndex::m_pItemDataVector = NULL;
@@ -106,74 +106,65 @@ LPCSTR CSINI_IdToIndex::section_name = NULL;
 TEMPLATE_SPECIALIZATION
 LPCSTR CSINI_IdToIndex::line_name = NULL;
 
+TEMPLATE_SPECIALIZATION
+CSINI_IdToIndex::CIni_IdToIndex() {}
 
 TEMPLATE_SPECIALIZATION
-CSINI_IdToIndex::CIni_IdToIndex()
-{
-}
-
+CSINI_IdToIndex::~CIni_IdToIndex() {}
 
 TEMPLATE_SPECIALIZATION
-CSINI_IdToIndex::~CIni_IdToIndex()
+const typename ITEM_DATA* CSINI_IdToIndex::GetById(const T_ID& str_id, bool no_assert)
 {
-}
+    T_VECTOR::iterator it = m_pItemDataVector->begin();
+    for (; m_pItemDataVector->end() != it; it++)
+    {
+        if (!xr_strcmp((*it).id, str_id))
+            break;
+    }
 
+    if (m_pItemDataVector->end() == it)
+    {
+        R_ASSERT3(no_assert, "item not found, id", *str_id);
+        return NULL;
+    }
 
-TEMPLATE_SPECIALIZATION
-const typename ITEM_DATA* CSINI_IdToIndex::GetById (const T_ID& str_id, bool no_assert)
-{
-	T_VECTOR::iterator it = m_pItemDataVector->begin();
-	for(;
-		m_pItemDataVector->end() != it; it++)
-	{
-		if(!xr_strcmp((*it).id, str_id))
-			break;
-	}
-
-	if(m_pItemDataVector->end() == it)
-	{
-		R_ASSERT3(no_assert, "item not found, id", *str_id);
-		return NULL;
-	}
-
-	return &(*it);
+    return &(*it);
 }
 
 TEMPLATE_SPECIALIZATION
 const typename ITEM_DATA* CSINI_IdToIndex::GetByIndex(T_INDEX index, bool no_assert)
 {
-	if((size_t)index>=m_pItemDataVector->size())
-	{
-		if(!no_assert)
-			Debug.fatal(DEBUG_INFO,"item by index not found in section %s, line %s", section_name, line_name);
-		return NULL;
-	}
-	return &(m_pItemDataVector->at(index));
+    if ((size_t)index >= m_pItemDataVector->size())
+    {
+        if (!no_assert)
+            Debug.fatal(DEBUG_INFO, "item by index not found in section %s, line %s", section_name, line_name);
+        return NULL;
+    }
+    return &(m_pItemDataVector->at(index));
 }
 
 TEMPLATE_SPECIALIZATION
-void CSINI_IdToIndex::DeleteIdToIndexData	()
+void CSINI_IdToIndex::DeleteIdToIndexData()
 {
-	xr_delete(m_pItemDataVector);
+    xr_delete(m_pItemDataVector);
 }
 
 TEMPLATE_SPECIALIZATION
-typename void	CSINI_IdToIndex::InitInternal ()
+typename void CSINI_IdToIndex::InitInternal()
 {
-	VERIFY(!m_pItemDataVector);
-	T_INIT::InitIdToIndex();
-	{
-		m_pItemDataVector = xr_new<T_VECTOR>();
+    VERIFY(!m_pItemDataVector);
+    T_INIT::InitIdToIndex();
+    {
+        m_pItemDataVector = xr_new<T_VECTOR>();
 
-		VERIFY(section_name);
-		VERIFY(line_name);
+        VERIFY(section_name);
+        VERIFY(line_name);
 
-		LPCSTR	cfgRecord	= pSettings->r_string(section_name, line_name); VERIFY(cfgRecord);
-		u32		count		= _GetItemCount(cfgRecord);
-		LoadItemData<ITEM_REC_NUM>(count, cfgRecord);
-
-	}
+        LPCSTR cfgRecord = pSettings->r_string(section_name, line_name);
+        VERIFY(cfgRecord);
+        u32 count = _GetItemCount(cfgRecord);
+        LoadItemData<ITEM_REC_NUM>(count, cfgRecord);
+    }
 }
-	
 
 #undef TEMPLATE_SPECIALIZATION

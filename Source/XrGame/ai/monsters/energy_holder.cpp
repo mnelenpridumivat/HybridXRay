@@ -1,75 +1,83 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "energy_holder.h"
 #include "../../gameobject.h"
 
 CEnergyHolder::CEnergyHolder()
 {
-	m_auto_activate				= false;
-	m_auto_deactivate			= false;
-	m_enable					= true;
+    m_auto_activate   = false;
+    m_auto_deactivate = false;
+    m_enable          = true;
 }
 
-CEnergyHolder::~CEnergyHolder()
-{
-}
+CEnergyHolder::~CEnergyHolder() {}
 
 void CEnergyHolder::reinit()
 {
-	m_active					= true;
-	m_value						= 1.0f;
-	m_time_last_update			= Device->dwTimeGlobal;
+    m_active           = true;
+    m_value            = 1.0f;
+    m_time_last_update = Device->dwTimeGlobal;
 }
 
-void CEnergyHolder::reload(LPCSTR section, LPCSTR prefix, LPCSTR suffix) 
+void CEnergyHolder::reload(LPCSTR section, LPCSTR prefix, LPCSTR suffix)
 {
-	string128 line_name;
-	
-	m_restore_vel				= pSettings->r_float(section, strconcat(sizeof(line_name),line_name,prefix,"Energy_Restore_Velocity",suffix));
-	m_decline_vel				= pSettings->r_float(section, strconcat(sizeof(line_name),line_name,prefix,"Energy_Decline_Velocity",suffix));
-	m_critical_value			= pSettings->r_float(section, strconcat(sizeof(line_name),line_name,prefix,"Energy_Critical_Value",suffix)); 
-	m_activate_value			= pSettings->r_float(section, strconcat(sizeof(line_name),line_name,prefix,"Energy_Activate_Value",suffix));
-	m_aggressive_restore_vel	= pSettings->r_float(section, strconcat(sizeof(line_name),line_name,prefix,"Energy_Aggressive_Restore_Velocity",suffix));
+    string128 line_name;
 
-	m_aggressive				= false;
+    m_restore_vel =
+        pSettings->r_float(section, strconcat(sizeof(line_name), line_name, prefix, "Energy_Restore_Velocity", suffix));
+    m_decline_vel =
+        pSettings->r_float(section, strconcat(sizeof(line_name), line_name, prefix, "Energy_Decline_Velocity", suffix));
+    m_critical_value =
+        pSettings->r_float(section, strconcat(sizeof(line_name), line_name, prefix, "Energy_Critical_Value", suffix));
+    m_activate_value =
+        pSettings->r_float(section, strconcat(sizeof(line_name), line_name, prefix, "Energy_Activate_Value", suffix));
+    m_aggressive_restore_vel = pSettings->r_float(
+        section, strconcat(sizeof(line_name), line_name, prefix, "Energy_Aggressive_Restore_Velocity", suffix));
+
+    m_aggressive = false;
 }
 
 void CEnergyHolder::activate()
 {
-	if (!is_active()) on_activate();		
-	m_active = true;
-}	
+    if (!is_active())
+        on_activate();
+    m_active = true;
+}
 
 void CEnergyHolder::deactivate()
 {
-	if (is_active()) on_deactivate();	
-	m_active = false;
+    if (is_active())
+        on_deactivate();
+    m_active = false;
 }
 
 void CEnergyHolder::schedule_update()
 {
-	if (!m_enable) return;
-	
-	// Îáíîâèòü çíà÷åíèå ýíåðãèè
-	u32		cur_time	= Device->dwTimeGlobal;
-	float	dt			= float(cur_time - m_time_last_update) / 1000.f;
+    if (!m_enable)
+        return;
 
-	if (!is_active()) 
-		m_value += m_aggressive ? m_aggressive_restore_vel * dt : m_restore_vel * dt;
-	else 
-		m_value -= m_decline_vel * dt;
+    // ÐžÐ±Ð½Ð¾Ð²Ð¸Ñ‚ÑŒ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ ÑÐ½ÐµÑ€Ð³Ð¸Ð¸
+    u32   cur_time = Device->dwTimeGlobal;
+    float dt       = float(cur_time - m_time_last_update) / 1000.f;
 
-	clamp(m_value, 0.f, 1.f);
+    if (!is_active())
+        m_value += m_aggressive ? m_aggressive_restore_vel * dt : m_restore_vel * dt;
+    else
+        m_value -= m_decline_vel * dt;
 
-	// ñîõðàíèòü âðåìÿ ïîñëåäíåãî îáíîâëåíèÿ
-	m_time_last_update = cur_time;
+    clamp(m_value, 0.f, 1.f);
 
-	// ïðîâåðêà íà àâòîìàòè÷åñêîå âêëþ÷åíèå/âûêëþ÷åíèå ïîëÿ
-	if (is_active() && should_deactivate() && m_auto_deactivate)	deactivate	();
-	if (!is_active() && can_activate() && m_auto_activate)			activate	();
+    // ÑÐ¾Ñ…Ñ€Ð°Ð½Ð¸Ñ‚ÑŒ Ð²Ñ€ÐµÐ¼Ñ Ð¿Ð¾ÑÐ»ÐµÐ´Ð½ÐµÐ³Ð¾ Ð¾Ð±Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ñ
+    m_time_last_update = cur_time;
+
+    // Ð¿Ñ€Ð¾Ð²ÐµÑ€ÐºÐ° Ð½Ð° Ð°Ð²Ñ‚Ð¾Ð¼Ð°Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¾Ðµ Ð²ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¸Ðµ/Ð²Ñ‹ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¸Ðµ Ð¿Ð¾Ð»Ñ
+    if (is_active() && should_deactivate() && m_auto_deactivate)
+        deactivate();
+    if (!is_active() && can_activate() && m_auto_activate)
+        activate();
 }
 
 void CEnergyHolder::enable()
 {
-	m_enable			= true;
-	m_time_last_update	= Device->dwTimeGlobal;
+    m_enable           = true;
+    m_time_last_update = Device->dwTimeGlobal;
 }

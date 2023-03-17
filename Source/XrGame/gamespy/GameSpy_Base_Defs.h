@@ -1,14 +1,3 @@
-#pragma once
+﻿#pragma once
 
 #include "GameSpy_Keys.h"
-
-
-
-
-
-
-
-
-
-
-

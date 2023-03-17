@@ -1,107 +1,129 @@
-#pragma once
+ï»¿#pragma once
 #include "hud_item_object.h"
 #include "HudSound.h"
 
 struct dContact;
 struct SGameMtl;
-class CMissile : public CHudItemObject
+class CMissile: public CHudItemObject
 {
-	typedef CHudItemObject inherited;
-public:
-	enum EMissileStates{
-		eThrowStart = eLastBaseState+1,
-		eReady,
-		eThrow,
-		eThrowEnd,
-	};
-							CMissile					();
-	virtual					~CMissile					();
-
-	virtual BOOL			AlwaysTheCrow				()				{ return TRUE; }
-	virtual void			render_item_ui					();
-	virtual bool			render_item_ui_query					();
-
-	virtual void			reinit						();
-	virtual CMissile*		cast_missile				()				{return this;}
-
-	virtual void 			Load						(LPCSTR section);
-	virtual BOOL 			net_Spawn					(CSE_Abstract* DC);
-	virtual void 			net_Destroy					();
-
-	virtual void 			UpdateCL					();
-	virtual void 			shedule_Update				(u32 dt);
-
-	virtual void 			OnH_A_Chield				();
-	virtual void 			OnH_B_Independent			(bool just_before_destroy);
-
-	virtual void 			OnEvent						(NET_Packet& P, u16 type);
-
-	virtual void 			OnAnimationEnd				(u32 state);
-	virtual void			OnMotionMark				(u32 state, const motion_marks&);
-
-
-	virtual void 			Throw();
-	virtual void 			Destroy();
-
-	virtual bool 			Action						(u16 cmd, u32 flags);
-
-	virtual void 			State						(u32 state);
-	virtual void 			OnStateSwitch				(u32 S);
-	virtual bool			GetBriefInfo				(II_BriefInfo& info);
-
-protected:
-	virtual void			UpdateFireDependencies_internal	();
-	virtual void			UpdateXForm						();
-	void					UpdatePosition					(const Fmatrix& trans);
-	void					spawn_fake_missile				();
-
-	virtual void			OnActiveItem		();
-	virtual void			OnHiddenItem		();
-
-	//äëÿ ñåòè
-	virtual void			net_Relcase			(CObject* O );
-protected:
-
-	//âðåìÿ íàõîæäåíèÿ â òåêóùåì ñîñòîÿíèè
-	u32						m_dwStateTime;
-	bool					m_throw;
-	
-	//âðåìÿ óíè÷òîæåíèÿ
-	u32						m_dwDestroyTime;
-	u32						m_dwDestroyTimeMax;
-
-	Fvector					m_throw_direction;
-	Fmatrix					m_throw_matrix;
-
-	CMissile				*m_fake_missile;
-
-	//ïàðàìåòðû áðîñêà
-	
-	float m_fMinForce, m_fConstForce, m_fMaxForce, m_fForceGrowSpeed;
-//private:
-	bool					m_constpower;
-	float					m_fThrowForce;
-protected:
-	//îòíîñèòåëüíàÿ òî÷êà è íàïðàâëåíèå âûëåòà ãðàíàòû
-	Fvector					m_vThrowPoint;
-	Fvector					m_vThrowDir;
-
-protected:
-			void			setup_throw_params		();
-public:
-	Fvector const&			throw_point_offset		() const {return m_vThrowPoint;}
-	virtual void			activate_physic_shell	();
-	virtual void			setup_physic_shell		();
-	virtual void			create_physic_shell		();
-	IC		void			set_destroy_time		(u32 delta_destroy_time) {m_dwDestroyTime = delta_destroy_time + Device->dwTimeGlobal;}
-	virtual void			PH_A_CrPr				();
-
-protected:
-	u32						m_ef_weapon_type;
+    typedef CHudItemObject inherited;
 
 public:
-	virtual u32				ef_weapon_type			() const;
-	IC		u32				destroy_time			() const { return m_dwDestroyTime; }
-	IC		int				time_from_begin_throw	() const { return (Device->dwTimeGlobal + m_dwDestroyTimeMax - m_dwDestroyTime); }
-	static	void			ExitContactCallback		(bool& do_colide,bool bo1,dContact& c,SGameMtl * /*material_1*/,SGameMtl * /*material_2*/);
+    enum EMissileStates
+    {
+        eThrowStart = eLastBaseState + 1,
+        eReady,
+        eThrow,
+        eThrowEnd,
+    };
+    CMissile();
+    virtual ~CMissile();
+
+    virtual BOOL AlwaysTheCrow()
+    {
+        return TRUE;
+    }
+    virtual void render_item_ui();
+    virtual bool render_item_ui_query();
+
+    virtual void      reinit();
+    virtual CMissile* cast_missile()
+    {
+        return this;
+    }
+
+    virtual void Load(LPCSTR section);
+    virtual BOOL net_Spawn(CSE_Abstract* DC);
+    virtual void net_Destroy();
+
+    virtual void UpdateCL();
+    virtual void shedule_Update(u32 dt);
+
+    virtual void OnH_A_Chield();
+    virtual void OnH_B_Independent(bool just_before_destroy);
+
+    virtual void OnEvent(NET_Packet& P, u16 type);
+
+    virtual void OnAnimationEnd(u32 state);
+    virtual void OnMotionMark(u32 state, const motion_marks&);
+
+    virtual void Throw();
+    virtual void Destroy();
+
+    virtual bool Action(u16 cmd, u32 flags);
+
+    virtual void State(u32 state);
+    virtual void OnStateSwitch(u32 S);
+    virtual bool GetBriefInfo(II_BriefInfo& info);
+
+protected:
+    virtual void UpdateFireDependencies_internal();
+    virtual void UpdateXForm();
+    void         UpdatePosition(const Fmatrix& trans);
+    void         spawn_fake_missile();
+
+    virtual void OnActiveItem();
+    virtual void OnHiddenItem();
+
+    // Ð´Ð»Ñ ÑÐµÑ‚Ð¸
+    virtual void net_Relcase(CObject* O);
+
+protected:
+    // Ð²Ñ€ÐµÐ¼Ñ Ð½Ð°Ñ…Ð¾Ð¶Ð´ÐµÐ½Ð¸Ñ Ð² Ñ‚ÐµÐºÑƒÑ‰ÐµÐ¼ ÑÐ¾ÑÑ‚Ð¾ÑÐ½Ð¸Ð¸
+    u32  m_dwStateTime;
+    bool m_throw;
+
+    // Ð²Ñ€ÐµÐ¼Ñ ÑƒÐ½Ð¸Ñ‡Ñ‚Ð¾Ð¶ÐµÐ½Ð¸Ñ
+    u32 m_dwDestroyTime;
+    u32 m_dwDestroyTimeMax;
+
+    Fvector m_throw_direction;
+    Fmatrix m_throw_matrix;
+
+    CMissile* m_fake_missile;
+
+    // Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€Ñ‹ Ð±Ñ€Ð¾ÑÐºÐ°
+
+    float m_fMinForce, m_fConstForce, m_fMaxForce, m_fForceGrowSpeed;
+    // private:
+    bool  m_constpower;
+    float m_fThrowForce;
+
+protected:
+    // Ð¾Ñ‚Ð½Ð¾ÑÐ¸Ñ‚ÐµÐ»ÑŒÐ½Ð°Ñ Ñ‚Ð¾Ñ‡ÐºÐ° Ð¸ Ð½Ð°Ð¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð¸Ðµ Ð²Ñ‹Ð»ÐµÑ‚Ð° Ð³Ñ€Ð°Ð½Ð°Ñ‚Ñ‹
+    Fvector m_vThrowPoint;
+    Fvector m_vThrowDir;
+
+protected:
+    void setup_throw_params();
+
+public:
+    Fvector const& throw_point_offset() const
+    {
+        return m_vThrowPoint;
+    }
+    virtual void activate_physic_shell();
+    virtual void setup_physic_shell();
+    virtual void create_physic_shell();
+    IC void      set_destroy_time(u32 delta_destroy_time)
+    {
+        m_dwDestroyTime = delta_destroy_time + Device->dwTimeGlobal;
+    }
+    virtual void PH_A_CrPr();
+
+protected:
+    u32 m_ef_weapon_type;
+
+public:
+    virtual u32 ef_weapon_type() const;
+    IC u32      destroy_time() const
+    {
+        return m_dwDestroyTime;
+    }
+    IC int time_from_begin_throw() const
+    {
+        return (Device->dwTimeGlobal + m_dwDestroyTimeMax - m_dwDestroyTime);
+    }
+    static void
+        ExitContactCallback(bool& do_colide, bool bo1, dContact& c, SGameMtl* /*material_1*/, SGameMtl* /*material_2*/);
 };

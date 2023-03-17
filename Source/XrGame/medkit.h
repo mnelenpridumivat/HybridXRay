@@ -1,16 +1,15 @@
-///////////////////////////////////////////////////////////////
+п»ї///////////////////////////////////////////////////////////////
 // Medkit.h
-// Medkit - аптечка, повышающая здоровье
+// Medkit - Р°РїС‚РµС‡РєР°, РїРѕРІС‹С€Р°СЋС‰Р°СЏ Р·РґРѕСЂРѕРІСЊРµ
 ///////////////////////////////////////////////////////////////
-
 
 #pragma once
 
 #include "eatable_item_object.h"
 
-class CMedkit: public CEatableItemObject {
-
+class CMedkit: public CEatableItemObject
+{
 public:
-				 CMedkit			();
-	virtual		 ~CMedkit			();
+    CMedkit();
+    virtual ~CMedkit();
 };

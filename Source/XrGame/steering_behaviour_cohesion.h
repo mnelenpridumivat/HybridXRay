@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: steering_behaviour_cohesion.h
 //	Created 	: 07.11.2007
 //  Modified 	: 07.11.2007
@@ -14,21 +14,19 @@
 
 class CAI_Rat;
 
-namespace steering_behaviour {
-
-class cohesion :
-	public base,
-	private debug::make_final<cohesion>,
-	private boost::noncopyable 
+namespace steering_behaviour
 {
-public:
-						cohesion	(CAI_Rat const *object);
-	virtual	Fvector		direction	();
 
-private:
-	typedef base		inherited;
-};
+    class cohesion: public base, private debug::make_final<cohesion>, private boost::noncopyable
+    {
+    public:
+        cohesion(CAI_Rat const* object);
+        virtual Fvector direction();
 
-} // namespace steering_behaviour
+    private:
+        typedef base inherited;
+    };
 
-#endif // STEERING_BEHAVIOUR_COHESION_H_INCLUDED
+}   // namespace steering_behaviour
+
+#endif   // STEERING_BEHAVIOUR_COHESION_H_INCLUDED

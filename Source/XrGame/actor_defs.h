@@ -1,140 +1,143 @@
-#include "PHSynchronize.h"
+ï»¿#include "PHSynchronize.h"
 #include "xrserver_space.h"
 
 #pragma once
 
+#define ACTOR_HEIGHT 1.75f
+#define ACTOR_LOOKOUT_SPEED 2.f
 
-#define ACTOR_HEIGHT			1.75f
-#define ACTOR_LOOKOUT_SPEED		2.f
-
-namespace ACTOR_DEFS 
+namespace ACTOR_DEFS
 {
 
-enum ESoundCcount {
-//	SND_HIT_COUNT=8,
-	SND_DIE_COUNT=4
-};
+    enum ESoundCcount
+    {
+        //	SND_HIT_COUNT=8,
+        SND_DIE_COUNT = 4
+    };
 
-enum EActorCameras {
-	eacFirstEye		= 0,
-	eacLookAt,
-	eacFreeLook,
-	eacFixedLookAt,
-	eacMaxCam
-};
-enum EDamages {DAMAGE_FX_COUNT = 12};
+    enum EActorCameras
+    {
+        eacFirstEye = 0,
+        eacLookAt,
+        eacFreeLook,
+        eacFixedLookAt,
+        eacMaxCam
+    };
+    enum EDamages
+    {
+        DAMAGE_FX_COUNT = 12
+    };
 
+    enum EMoveCommand
+    {
+        mcFwd       = (1ul << 0ul),
+        mcBack      = (1ul << 1ul),
+        mcLStrafe   = (1ul << 2ul),
+        mcRStrafe   = (1ul << 3ul),
+        mcCrouch    = (1ul << 4ul),
+        mcAccel     = (1ul << 5ul),
+        mcTurn      = (1ul << 6ul),
+        mcJump      = (1ul << 7ul),
+        mcFall      = (1ul << 8ul),
+        mcLanding   = (1ul << 9ul),
+        mcLanding2  = (1ul << 10ul),
+        mcClimb     = (1ul << 11ul),
+        mcSprint    = (1ul << 12ul),
+        mcLLookout  = (1ul << 13ul),
+        mcRLookout  = (1ul << 14ul),
+        mcAnyMove   = (mcFwd | mcBack | mcLStrafe | mcRStrafe),
+        mcAnyAction = (mcAnyMove | mcJump | mcFall | mcLanding | mcLanding2),   // mcTurn|
+        mcAnyState  = (mcCrouch | mcAccel | mcClimb | mcSprint),
+        mcLookout   = (mcLLookout | mcRLookout),
+    };
 
-enum EMoveCommand
-{
-	mcFwd		= (1ul<<0ul),
-	mcBack		= (1ul<<1ul),
-	mcLStrafe	= (1ul<<2ul),
-	mcRStrafe	= (1ul<<3ul),
-	mcCrouch	= (1ul<<4ul),
-	mcAccel		= (1ul<<5ul),
-	mcTurn		= (1ul<<6ul),
-	mcJump		= (1ul<<7ul),
-	mcFall		= (1ul<<8ul),
-	mcLanding	= (1ul<<9ul),
-	mcLanding2	= (1ul<<10ul),
-	mcClimb		= (1ul<<11ul),
-	mcSprint	= (1ul<<12ul),
-	mcLLookout	= (1ul<<13ul),
-	mcRLookout	= (1ul<<14ul),
-	mcAnyMove	= (mcFwd|mcBack|mcLStrafe|mcRStrafe),
-	mcAnyAction = (mcAnyMove|mcJump|mcFall|mcLanding|mcLanding2), //mcTurn|
-	mcAnyState	= (mcCrouch|mcAccel|mcClimb|mcSprint),
-	mcLookout	= (mcLLookout|mcRLookout),
-};
+    // enum Ð´Ð»Ñ Ð¾Ð¿Ñ€ÐµÐ´ÐµÐ»ÐµÐ½Ð¸Ñ Ð´ÐµÐ¹ÑÑ‚Ð²Ð¸Ñ Ð½Ð°Ð´ Ð²ÐµÑ‰ÑŒÑŽ Ð½Ð° ÐºÐ¾Ñ‚Ð¾Ñ€ÑƒÑŽ Ð½Ð°Ð²ÐµÐ´ÐµÐ½ Ð² Ñ‚ÐµÐºÑƒÑ‰ÐµÐµ Ð²Ñ€ÐµÐ¼Ñ Ð¿Ñ€Ð¸Ñ†ÐµÐ».
+    // Ð˜ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÐµÑ‚ÑÑ Ð´Ð»Ñ Ð¿Ð¾ÐºÐ°Ð·Ð° Ð²ÑÐ¿Ð»Ñ‹Ð²Ð°ÑŽÑ‰Ð¸Ñ… Ð´Ð¸Ð½Ð°Ð¼Ð¸Ñ‡ÐµÑÐºÐ¸Ñ… Ð¿Ð¾Ð´ÑÐºÐ°Ð·Ð¾Ðº
+    enum EActorAction
+    {
+        eaaNoAction = 0,
+        eaaPickup,
+        eaaTalk,
+        eaaOpenDoor,
+        eaaSearchCorpse,
+    };
 
-// enum äëÿ îïðåäåëåíèÿ äåéñòâèÿ íàä âåùüþ íà êîòîðóþ íàâåäåí â òåêóùåå âðåìÿ ïðèöåë.
-// Èñïîëüçóåòñÿ äëÿ ïîêàçà âñïëûâàþùèõ äèíàìè÷åñêèõ ïîäñêàçîê
-enum EActorAction
-{
-	eaaNoAction			= 0,
-	eaaPickup,
-	eaaTalk,
-	eaaOpenDoor,
-	eaaSearchCorpse,
-};
+    typedef const char* EActorSleep;
+    extern EActorSleep  easCanSleepResult;
+    extern string32     g_quick_use_slots[4];
 
-typedef const char*		EActorSleep;
-extern EActorSleep		easCanSleepResult;
-extern 	string32		g_quick_use_slots[4];
+    /*
+    //Ñ€ÐµÐ·ÑƒÐ»ÑŒÑ‚Ð°Ñ‚ Ñ„ÑƒÐ½ÐºÑ†Ð¸Ð¸ GoSleep Ñƒ Ð°ÐºÑ‚ÐµÑ€Ð°
+    enum EActorSleep
+    {
+        easCanSleep			= 0,
+        easNotSolidGround,
+        easEnemies
+    };
+    */
 
-/*
-//ðåçóëüòàò ôóíêöèè GoSleep ó àêòåðà
-enum EActorSleep
-{
-	easCanSleep			= 0,
-	easNotSolidGround,
-	easEnemies		
-};
-*/
+    //---------------------------------------------
+    // Ð²Ð²Ð¾Ð´ Ñ ÐºÐ»Ð°Ð²Ð¸Ð°Ñ‚ÑƒÑ€Ñ‹ Ð¸ Ð¼Ñ‹ÑˆÐ¸
+    struct net_input
+    {
+        u32 m_dwTimeStamp;
 
-//---------------------------------------------
-// ââîä ñ êëàâèàòóðû è ìûøè
-struct					net_input
-{
-	u32					m_dwTimeStamp;
+        u32 mstate_wishful;
 
-	u32					mstate_wishful;	
+        u8    cam_mode;
+        float cam_yaw;
+        float cam_pitch;
+        float cam_roll;
 
-	u8					cam_mode;
-	float				cam_yaw;
-	float				cam_pitch;
-	float				cam_roll;
+        bool operator<(const u32 Time)
+        {
+            return m_dwTimeStamp < Time;
+        };
+    };
 
-	bool operator < (const u32 Time)
-	{
-		return m_dwTimeStamp < Time;
-	};
-};
+    //------------------------------
+    struct net_update
+    {
+        u32       dwTimeStamp;   // server(game) timestamp
+        float     o_model;       // model yaw
+        SRotation o_torso;       // torso in world coords
+        Fvector   p_pos;         // in world coords
+        Fvector   p_accel;       // in world coords
+        Fvector   p_velocity;    // in world coords
+        u32       mstate;
+        int       weapon;
+        float     fHealth;
+        //	float				fArmor;
 
-//------------------------------
-struct				net_update 		
-{
-	u32					dwTimeStamp;			// server(game) timestamp
-	float				o_model;				// model yaw
-	SRotation			o_torso;				// torso in world coords
-	Fvector				p_pos;					// in world coords
-	Fvector				p_accel;				// in world coords
-	Fvector				p_velocity;				// in world coords
-	u32					mstate;
-	int					weapon;
-	float				fHealth;
-//	float				fArmor;
+        net_update()
+        {
+            dwTimeStamp = 0;
+            p_pos.set(0, 0, 0);
+            p_accel.set(0, 0, 0);
+            p_velocity.set(0, 0, 0);
+        }
 
-	net_update()	{
-		dwTimeStamp		= 0;
-		p_pos.set		(0,0,0);
-		p_accel.set		(0,0,0);
-		p_velocity.set	(0,0,0);
-	}
+        void lerp(net_update& A, net_update& B, float f);
+    };
 
-	void	lerp		(net_update& A,net_update& B, float f);
-};
+    ///////////////////////////////////////////////////////
+    // Ð°Ð¿Ð´Ð°Ð¹Ñ‚ Ñ Ð´Ð°Ð½Ð½Ñ‹Ð¼Ð¸ Ñ„Ð¸Ð·Ð¸ÐºÐ¸
+    struct net_update_A
+    {
+        u32 dwTimeStamp;
+        //	u32					dwTime0;
+        //	u32					dwTime1;
+        SPHNetState State;
+    };
 
-///////////////////////////////////////////////////////
-// àïäàéò ñ äàííûìè ôèçèêè
-struct					net_update_A
-{
-	u32					dwTimeStamp;
-//	u32					dwTime0;
-//	u32					dwTime1;
-	SPHNetState			State;
-};
+    ///////////////////////////////////////////////////////
+    // Ð´Ð°Ð½Ð½Ñ‹Ðµ Ð´Ð»Ñ Ð¸Ð½Ñ‚ÐµÑ€Ð¿Ð¾Ð»ÑÑ†Ð¸Ð¸
+    struct InterpData
+    {
+        Fvector   Pos;
+        Fvector   Vel;
+        float     o_model;   // model yaw
+        SRotation o_torso;   // torso in world coords
+    };
 
-///////////////////////////////////////////////////////
-// äàííûå äëÿ èíòåðïîëÿöèè
-struct					InterpData
-{
-	Fvector				Pos;
-	Fvector				Vel;
-	float				o_model;				// model yaw
-	SRotation			o_torso;				// torso in world coords
-};
-
-}; // namespace ACTOR_DEFS 
-
+};   // namespace ACTOR_DEFS

@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 
 #include "uiwindow.h"
 #include "../../xrServerEntities/script_export_space.h"
@@ -6,70 +6,95 @@
 
 class CUITabButton;
 
-DEF_VECTOR (TABS_VECTOR, CUITabButton*)
+DEF_VECTOR(TABS_VECTOR, CUITabButton*)
 
-class CUITabControl: public CUIWindow , public CUIOptionsItem 
+class CUITabControl: public CUIWindow, public CUIOptionsItem
 {
-	typedef				CUIWindow inherited;
+    typedef CUIWindow inherited;
+
 public:
-						CUITabControl				();
-	virtual				~CUITabControl				();
+    CUITabControl();
+    virtual ~CUITabControl();
 
-	// options item
-	virtual void		SetCurrentOptValue			();	// opt->current
-	virtual void		SaveBackUpOptValue			();	// current->backup
-	virtual void		SaveOptValue				();	// current->opt
-	virtual void		UndoOptValue				();	// backup->current
-	virtual bool		IsChangedOptValue			() const;	// backup!=current
+    // options item
+    virtual void SetCurrentOptValue();        // opt->current
+    virtual void SaveBackUpOptValue();        // current->backup
+    virtual void SaveOptValue();              // current->opt
+    virtual void UndoOptValue();              // backup->current
+    virtual bool IsChangedOptValue() const;   // backup!=current
 
-	virtual bool		OnKeyboardAction			(int dik, EUIMessages keyboard_action);
-	virtual void		OnTabChange					(const shared_str& sCur, const shared_str& sPrev);
-	virtual void		OnStaticFocusReceive		(CUIWindow* pWnd);
-	virtual void		OnStaticFocusLost			(CUIWindow* pWnd);
+    virtual bool OnKeyboardAction(int dik, EUIMessages keyboard_action);
+    virtual void OnTabChange(const shared_str& sCur, const shared_str& sPrev);
+    virtual void OnStaticFocusReceive(CUIWindow* pWnd);
+    virtual void OnStaticFocusLost(CUIWindow* pWnd);
 
-	// Добавление кнопки-закладки в список закладок контрола
-	bool				AddItem						(LPCSTR pItemName, LPCSTR pTexName, Fvector2 pos, Fvector2 size);
-	bool				AddItem						(CUITabButton *pButton);
+    // Р”РѕР±Р°РІР»РµРЅРёРµ РєРЅРѕРїРєРё-Р·Р°РєР»Р°РґРєРё РІ СЃРїРёСЃРѕРє Р·Р°РєР»Р°РґРѕРє РєРѕРЅС‚СЂРѕР»Р°
+    bool AddItem(LPCSTR pItemName, LPCSTR pTexName, Fvector2 pos, Fvector2 size);
+    bool AddItem(CUITabButton* pButton);
 
-	void				RemoveAll					();
+    void RemoveAll();
 
-	virtual void		SendMessage					(CUIWindow *pWnd, s16 msg, void *pData);
-	virtual void		Enable						(bool status);
+    virtual void SendMessage(CUIWindow* pWnd, s16 msg, void* pData);
+    virtual void Enable(bool status);
 
-	const shared_str&	GetActiveId					()	const						{ return m_sPushedId; }
-	LPCSTR				GetActiveId_script			();
-	const shared_str&	GetPrevActiveId				()								{ return m_sPrevPushedId; }
-			void		SetActiveTab				(const shared_str& sNewTab);
-			void		SetActiveTab_script			(LPCSTR sNewTab)				{SetActiveTab(sNewTab);};
-	const	u32			GetTabsCount				() const						{ return m_TabsArr.size(); }
-	
-	// Режим клавилатурных акселераторов (вкл/выкл)
-	IC bool				GetAcceleratorsMode			() const						{ return m_bAcceleratorsEnable; }
-	void				SetAcceleratorsMode			(bool bEnable)					{ m_bAcceleratorsEnable = bEnable; }
+    const shared_str& GetActiveId() const
+    {
+        return m_sPushedId;
+    }
+    LPCSTR            GetActiveId_script();
+    const shared_str& GetPrevActiveId()
+    {
+        return m_sPrevPushedId;
+    }
+    void SetActiveTab(const shared_str& sNewTab);
+    void SetActiveTab_script(LPCSTR sNewTab)
+    {
+        SetActiveTab(sNewTab);
+    };
+    const u32 GetTabsCount() const
+    {
+        return m_TabsArr.size();
+    }
 
+    // Р РµР¶РёРј РєР»Р°РІРёР»Р°С‚СѓСЂРЅС‹С… Р°РєСЃРµР»РµСЂР°С‚РѕСЂРѕРІ (РІРєР»/РІС‹РєР»)
+    IC bool GetAcceleratorsMode() const
+    {
+        return m_bAcceleratorsEnable;
+    }
+    void SetAcceleratorsMode(bool bEnable)
+    {
+        m_bAcceleratorsEnable = bEnable;
+    }
 
-	TABS_VECTOR *		GetButtonsVector			()								{ return &m_TabsArr; }
-	CUITabButton*		GetButtonById				(const shared_str& id);
-	CUITabButton*		GetButtonById_script		(LPCSTR s)						{ return GetButtonById(s);}
+    TABS_VECTOR* GetButtonsVector()
+    {
+        return &m_TabsArr;
+    }
+    CUITabButton* GetButtonById(const shared_str& id);
+    CUITabButton* GetButtonById_script(LPCSTR s)
+    {
+        return GetButtonById(s);
+    }
 
-	void		ResetTab					();
+    void ResetTab();
+
 protected:
-	// Список кнопок - переключателей закладок
-	TABS_VECTOR			m_TabsArr;
+    // РЎРїРёСЃРѕРє РєРЅРѕРїРѕРє - РїРµСЂРµРєР»СЋС‡Р°С‚РµР»РµР№ Р·Р°РєР»Р°РґРѕРє
+    TABS_VECTOR m_TabsArr;
 
-	shared_str			m_sPushedId;
-	shared_str			m_sPrevPushedId;
+    shared_str m_sPushedId;
+    shared_str m_sPrevPushedId;
 
-	// Цвет неактивных элементов
-	u32					m_cGlobalTextColor;
-	u32					m_cGlobalButtonColor;
+    // Р¦РІРµС‚ РЅРµР°РєС‚РёРІРЅС‹С… СЌР»РµРјРµРЅС‚РѕРІ
+    u32 m_cGlobalTextColor;
+    u32 m_cGlobalButtonColor;
 
-	// Цвет надписи на активном элементе
-	u32					m_cActiveTextColor;
-	u32					m_cActiveButtonColor;
+    // Р¦РІРµС‚ РЅР°РґРїРёСЃРё РЅР° Р°РєС‚РёРІРЅРѕРј СЌР»РµРјРµРЅС‚Рµ
+    u32 m_cActiveTextColor;
+    u32 m_cActiveButtonColor;
 
-	bool				m_bAcceleratorsEnable;
-	shared_str			m_opt_backup_value;
+    bool       m_bAcceleratorsEnable;
+    shared_str m_opt_backup_value;
 
-	DECLARE_SCRIPT_REGISTER_FUNCTION
+    DECLARE_SCRIPT_REGISTER_FUNCTION
 };

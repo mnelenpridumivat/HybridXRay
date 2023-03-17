@@ -1,8 +1,7 @@
-///////////////////////////////////////////////////////////////
+п»ї///////////////////////////////////////////////////////////////
 // ExoOutfit.h
-// ExoOutfit - защитный костюм с усилением
+// ExoOutfit - Р·Р°С‰РёС‚РЅС‹Р№ РєРѕСЃС‚СЋРј СЃ СѓСЃРёР»РµРЅРёРµРј
 ///////////////////////////////////////////////////////////////
-
 
 #pragma once
 
@@ -11,8 +10,9 @@
 class CExoOutfit: public CCustomOutfit
 {
 private:
-    typedef	CCustomOutfit inherited;
+    typedef CCustomOutfit inherited;
+
 public:
-	CExoOutfit(void);
-	virtual ~CExoOutfit(void);
+    CExoOutfit(void);
+    virtual ~CExoOutfit(void);
 };

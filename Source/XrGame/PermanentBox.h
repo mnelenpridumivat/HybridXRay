@@ -1,10 +1,11 @@
-#pragma once
+﻿#pragma once
 #include "InventoryBox.h"
 
-class CPermanentBox :public CInventoryBox
+class CPermanentBox: public CInventoryBox
 {
-	typedef CInventoryBox inherited;
+    typedef CInventoryBox inherited;
+
 public:
-	CPermanentBox();
-	virtual ~CPermanentBox();
+    CPermanentBox();
+    virtual ~CPermanentBox();
 };

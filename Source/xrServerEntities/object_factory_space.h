@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: object_factory_space.h
 //	Created 	: 30.06.2004
 //  Modified 	: 30.06.2004
@@ -12,22 +12,23 @@
 #pragma once
 
 #ifndef XRGAME_EXPORTS
-#	define NO_XR_GAME
+#define NO_XR_GAME
 #endif
 
 class CSE_Abstract;
 
-namespace ObjectFactory {
+namespace ObjectFactory
+{
 
 #ifndef NO_XR_GAME
-	typedef DLL_Pure			CLIENT_BASE_CLASS;
+    typedef DLL_Pure CLIENT_BASE_CLASS;
 #endif
-	typedef CSE_Abstract		SERVER_BASE_CLASS;
+    typedef CSE_Abstract SERVER_BASE_CLASS;
 
 #ifndef NO_XR_GAME
-	typedef DLL_Pure			CLIENT_SCRIPT_BASE_CLASS;
+    typedef DLL_Pure CLIENT_SCRIPT_BASE_CLASS;
 #endif
-	typedef CSE_Abstract		SERVER_SCRIPT_BASE_CLASS;
-};
+    typedef CSE_Abstract SERVER_SCRIPT_BASE_CLASS;
+};   // namespace ObjectFactory
 
 #endif

@@ -1,4 +1,4 @@
-#include "stdafx.h"
+п»ї#include "stdafx.h"
 #include "control_path_builder_base.h"
 #include "../../cover_point.h"
 #include "../../cover_manager.h"
@@ -9,191 +9,224 @@
 #include "../../level_path_manager.h"
 #include "../../ai_object_location.h"
 
-const float		pmt_find_point_dist				= 30.f;
-const u32		pmt_find_random_pos_attempts	= 5;
+const float pmt_find_point_dist          = 30.f;
+const u32   pmt_find_random_pos_attempts = 5;
 
 //////////////////////////////////////////////////////////////////////////
 bool CControlPathBuilderBase::target_point_need_update()
 {
-	if ((m_state & eStatePathFailed) == eStatePathFailed)
-		return true;
-	else if (m_state == eStatePathValid) {
-		
-		// если путь ещё не завершен
-		if (!m_man->path_builder().is_path_end(m_distance_to_path_end)) {
+    if ((m_state & eStatePathFailed) == eStatePathFailed)
+        return true;
+    else if (m_state == eStatePathValid)
+    {
+        // РµСЃР»Рё РїСѓС‚СЊ РµС‰С‘ РЅРµ Р·Р°РІРµСЂС€РµРЅ
+        if (!m_man->path_builder().is_path_end(m_distance_to_path_end))
+        {
+            if (m_target_actual && !global_failed())
+                return false;   // РµСЃР»Рё global_failed - РёРіРЅРѕСЂРёСЂРѕРІР°С‚СЊ Р°РєС‚СѓР°Р»СЊРЅРѕСЃС‚СЊ
 
-			if (m_target_actual && !global_failed()) return false;  // если global_failed - игнорировать актуальность
+            // РµСЃР»Рё РїРµСЂРІС‹Р№ СЂР°Р· СЃС‚СЂРѕРёРј
+            if (m_last_time_target_set == 0)
+                return true;
 
-			// если первый раз строим
-			if (m_last_time_target_set == 0) return true;
+            // РµСЃР»Рё РІСЂРµРјСЏ РґРІРёР¶РµРЅРёСЏ РїРѕ РїСѓС‚Рё РЅРµ РІС‹С€Р»Рѕ, РЅРµ РїРµСЂРµСЃС‚СЂР°РёРІР°С‚СЊ
+            return (m_last_time_target_set + m_time < time());
+        }
 
-			// если время движения по пути не вышло, не перестраивать
-			return (m_last_time_target_set + m_time < time());
-		}
-	
-		//return (!m_target_actual); // логический конец пути
-		return (true);
-	//} else if ((m_state & eStateWaitParamsApplied) == eStateWaitParamsApplied) {
-	//	return false;
-	} else if ((m_state & eStateWaitNewPath) == eStateWaitNewPath) {
-		return false;
-	} else if ((m_state & eStateNoPath) == eStateNoPath) {
-		return true;
-	} else if ((m_state & eStatePathEnd) == eStatePathEnd) {
-		if (m_target_set.node() != m_object->ai_location().level_vertex_id())
-			return true; // физический конец пути
-	}
+        // return (!m_target_actual); // Р»РѕРіРёС‡РµСЃРєРёР№ РєРѕРЅРµС† РїСѓС‚Рё
+        return (true);
+        //} else if ((m_state & eStateWaitParamsApplied) == eStateWaitParamsApplied) {
+        //	return false;
+    }
+    else if ((m_state & eStateWaitNewPath) == eStateWaitNewPath)
+    {
+        return false;
+    }
+    else if ((m_state & eStateNoPath) == eStateNoPath)
+    {
+        return true;
+    }
+    else if ((m_state & eStatePathEnd) == eStatePathEnd)
+    {
+        if (m_target_set.node() != m_object->ai_location().level_vertex_id())
+            return true;   // С„РёР·РёС‡РµСЃРєРёР№ РєРѕРЅРµС† РїСѓС‚Рё
+    }
 
-	return false;
+    return false;
 }
 
 //////////////////////////////////////////////////////////////////////////
-// Нахождение m_target_found
-// На входе есть установленные нода и позиция m_target_set
+// РќР°С…РѕР¶РґРµРЅРёРµ m_target_found
+// РќР° РІС…РѕРґРµ РµСЃС‚СЊ СѓСЃС‚Р°РЅРѕРІР»РµРЅРЅС‹Рµ РЅРѕРґР° Рё РїРѕР·РёС†РёСЏ m_target_set
 void CControlPathBuilderBase::find_target_point_set()
 {
-	m_target_found.set(m_target_set.position(),m_target_set.node());
-	
-	//---------------------------------------------------
-	// Быстрые тесты
+    m_target_found.set(m_target_set.position(), m_target_set.node());
 
-	if (m_target_type == eMoveToTarget) {
-		// 1. быстрый тест на достижимость цели
-		Fvector new_position = m_target_found.position();
-		if (m_man->path_builder().valid_and_accessible( new_position, m_target_found.node())) 
-		{ 
-			m_target_found.set_position( new_position );
-			return;
-		}
-		m_target_found.set_position( new_position );
-		// 2. быстрый тест на недостижимость цели (выбрать случайную позицию)
-		if (!m_man->path_builder().accessible(m_target_found.position())) {
-			Fvector new_position = m_target_found.position();
-			m_target_found.set_node( m_man->path_builder().restrictions().accessible_nearest(m_target_found.position(), new_position ) );
-			m_target_found.set_position( new_position );
-			Fvector	pos_random;	
-			Fvector dir;		
-			dir.random_dir			();
+    //---------------------------------------------------
+    // Р‘С‹СЃС‚СЂС‹Рµ С‚РµСЃС‚С‹
 
-			pos_random.mad			(m_object->Position(), dir, pmt_find_point_dist);
-			set_target_accessible	(m_target_found, pos_random);
+    if (m_target_type == eMoveToTarget)
+    {
+        // 1. Р±С‹СЃС‚СЂС‹Р№ С‚РµСЃС‚ РЅР° РґРѕСЃС‚РёР¶РёРјРѕСЃС‚СЊ С†РµР»Рё
+        Fvector new_position = m_target_found.position();
+        if (m_man->path_builder().valid_and_accessible(new_position, m_target_found.node()))
+        {
+            m_target_found.set_position(new_position);
+            return;
+        }
+        m_target_found.set_position(new_position);
+        // 2. Р±С‹СЃС‚СЂС‹Р№ С‚РµСЃС‚ РЅР° РЅРµРґРѕСЃС‚РёР¶РёРјРѕСЃС‚СЊ С†РµР»Рё (РІС‹Р±СЂР°С‚СЊ СЃР»СѓС‡Р°Р№РЅСѓСЋ РїРѕР·РёС†РёСЋ)
+        if (!m_man->path_builder().accessible(m_target_found.position()))
+        {
+            Fvector new_position = m_target_found.position();
+            m_target_found.set_node(
+                m_man->path_builder().restrictions().accessible_nearest(m_target_found.position(), new_position));
+            m_target_found.set_position(new_position);
+            Fvector pos_random;
+            Fvector dir;
+            dir.random_dir();
 
-			if (m_target_found.node() != u32(-1)) return;
-		}
-	}
+            pos_random.mad(m_object->Position(), dir, pmt_find_point_dist);
+            set_target_accessible(m_target_found, pos_random);
 
-	m_target_found.set_node (u32(-1));
-	
-	//---------------------------------------------------
-	// I. Выбрать позицию
+            if (m_target_found.node() != u32(-1))
+                return;
+        }
+    }
 
-	if (m_target_type == eRetreatFromTarget) {
-		Fvector	dir;
+    m_target_found.set_node(u32(-1));
 
-		dir.sub						(m_object->Position(), m_target_found.position() );
-		dir.normalize_safe			();
-		m_target_found.set_position( Fvector( m_target_found.position() ).mad	(m_object->Position(), dir, pmt_find_point_dist) );
-	}
+    //---------------------------------------------------
+    // I. Р’С‹Р±СЂР°С‚СЊ РїРѕР·РёС†РёСЋ
 
-	// проверить позицию на accessible
-	if (!m_man->path_builder().accessible(m_target_found.position())) {
-		Fvector new_position = m_target_found.position();
-		m_target_found.set_node ( m_man->path_builder().restrictions().accessible_nearest( Fvector().set( m_target_found.position() ), new_position ) );
-		m_target_found.set_position( new_position );
-	}
-	
-	// если новая позиция = позиции монстра - выбрать рандомную валидную позицию
-	for (u32 i = 0; i < pmt_find_random_pos_attempts; i++ ) {
-		if (m_target_found.position().similar(m_object->Position(), 0.5f)) {
-			
-			Fvector	pos_random;	
-			Fvector dir;		
-			dir.random_dir			();
+    if (m_target_type == eRetreatFromTarget)
+    {
+        Fvector dir;
 
-			pos_random.mad			(m_object->Position(), dir, pmt_find_point_dist);
-			set_target_accessible	(m_target_found, pos_random);
-		} else break;
-	}
+        dir.sub(m_object->Position(), m_target_found.position());
+        dir.normalize_safe();
+        m_target_found.set_position(
+            Fvector(m_target_found.position()).mad(m_object->Position(), dir, pmt_find_point_dist));
+    }
 
-	if (m_target_found.node() != u32(-1)) return;
+    // РїСЂРѕРІРµСЂРёС‚СЊ РїРѕР·РёС†РёСЋ РЅР° accessible
+    if (!m_man->path_builder().accessible(m_target_found.position()))
+    {
+        Fvector new_position = m_target_found.position();
+        m_target_found.set_node(m_man->path_builder().restrictions().accessible_nearest(
+            Fvector().set(m_target_found.position()), new_position));
+        m_target_found.set_position(new_position);
+    }
 
-	if (!ai().level_graph().valid_vertex_position(m_target_found.position()))
-	{
-		find_target_point_failed();
-		return;
-	}
-	//---------------------------------------------------
-	// II. Выбрана позиция, ищем ноду
-	
-	find_node();
+    // РµСЃР»Рё РЅРѕРІР°СЏ РїРѕР·РёС†РёСЏ = РїРѕР·РёС†РёРё РјРѕРЅСЃС‚СЂР° - РІС‹Р±СЂР°С‚СЊ СЂР°РЅРґРѕРјРЅСѓСЋ РІР°Р»РёРґРЅСѓСЋ РїРѕР·РёС†РёСЋ
+    for (u32 i = 0; i < pmt_find_random_pos_attempts; i++)
+    {
+        if (m_target_found.position().similar(m_object->Position(), 0.5f))
+        {
+            Fvector pos_random;
+            Fvector dir;
+            dir.random_dir();
+
+            pos_random.mad(m_object->Position(), dir, pmt_find_point_dist);
+            set_target_accessible(m_target_found, pos_random);
+        }
+        else
+            break;
+    }
+
+    if (m_target_found.node() != u32(-1))
+        return;
+
+    if (!ai().level_graph().valid_vertex_position(m_target_found.position()))
+    {
+        find_target_point_failed();
+        return;
+    }
+    //---------------------------------------------------
+    // II. Р’С‹Р±СЂР°РЅР° РїРѕР·РёС†РёСЏ, РёС‰РµРј РЅРѕРґСѓ
+
+    find_node();
 }
 
 //////////////////////////////////////////////////////////////////////////
 // if path FAILED
-void CControlPathBuilderBase::find_target_point_failed() 
+void CControlPathBuilderBase::find_target_point_failed()
 {
-	// если новая позиция = позиции монстра - выбрать рандомную валидную позицию
-	for (u32 i = 0; i < pmt_find_random_pos_attempts; i++ ) {
-		Fvector	pos_random;	
-		Fvector dir;		
-		dir.random_dir			();
+    // РµСЃР»Рё РЅРѕРІР°СЏ РїРѕР·РёС†РёСЏ = РїРѕР·РёС†РёРё РјРѕРЅСЃС‚СЂР° - РІС‹Р±СЂР°С‚СЊ СЂР°РЅРґРѕРјРЅСѓСЋ РІР°Р»РёРґРЅСѓСЋ РїРѕР·РёС†РёСЋ
+    for (u32 i = 0; i < pmt_find_random_pos_attempts; i++)
+    {
+        Fvector pos_random;
+        Fvector dir;
+        dir.random_dir();
 
-		pos_random.mad			(m_object->Position(), dir, pmt_find_point_dist);
-		set_target_accessible	(m_target_found, pos_random);
+        pos_random.mad(m_object->Position(), dir, pmt_find_point_dist);
+        set_target_accessible(m_target_found, pos_random);
 
-		if (!m_target_found.position().similar(m_object->Position(), 0.5f)) break;
-	}
+        if (!m_target_found.position().similar(m_object->Position(), 0.5f))
+            break;
+    }
 
-	if (m_target_found.node() != u32(-1)) return;
+    if (m_target_found.node() != u32(-1))
+        return;
 
-	//---------------------------------------------------
-	// II. Выбрана позиция, ищем ноду
-	find_node();
+    //---------------------------------------------------
+    // II. Р’С‹Р±СЂР°РЅР° РїРѕР·РёС†РёСЏ, РёС‰РµРј РЅРѕРґСѓ
+    find_node();
 }
-
-
 
 void CControlPathBuilderBase::find_node()
 {
-	// нода в прямой видимости?
-	m_man->path_builder().restrictions().add_border		(m_object->Position(), m_target_found.position());
-	m_target_found.set_node	( ai().level_graph().check_position_in_direction(m_object->ai_location().level_vertex_id(),m_object->Position(),m_target_found.position()) );
-	m_man->path_builder().restrictions().remove_border	();
+    // РЅРѕРґР° РІ РїСЂСЏРјРѕР№ РІРёРґРёРјРѕСЃС‚Рё?
+    m_man->path_builder().restrictions().add_border(m_object->Position(), m_target_found.position());
+    m_target_found.set_node(ai().level_graph().check_position_in_direction(
+        m_object->ai_location().level_vertex_id(), m_object->Position(), m_target_found.position()));
+    m_man->path_builder().restrictions().remove_border();
 
-	if (ai().level_graph().valid_vertex_id(m_target_found.node()) && m_man->path_builder().accessible(m_target_found.node())) {
-		// корректировка позиции
-		Fvector new_position=m_target_found.position();
-		m_man->path_builder().fix_position(Fvector().set(m_target_found.position()), m_target_found.node(), new_position);
-		m_target_found.set_position( new_position );
-		return;
-	}
+    if (ai().level_graph().valid_vertex_id(m_target_found.node()) &&
+        m_man->path_builder().accessible(m_target_found.node()))
+    {
+        // РєРѕСЂСЂРµРєС‚РёСЂРѕРІРєР° РїРѕР·РёС†РёРё
+        Fvector new_position = m_target_found.position();
+        m_man->path_builder().fix_position(
+            Fvector().set(m_target_found.position()), m_target_found.node(), new_position);
+        m_target_found.set_position(new_position);
+        return;
+    }
 
-	// искать ноду по прямому запросу
-	if (ai().level_graph().valid_vertex_position(m_target_found.position())) {
-		m_target_found.set_node ( ai().level_graph().vertex_id(m_target_found.position()) );
-		if (ai().level_graph().valid_vertex_id(m_target_found.node()) && m_man->path_builder().accessible(m_target_found.node())) {
-			// корректировка позиции
-			Fvector new_position = m_target_found.position();
-			m_man->path_builder().fix_position(Fvector().set(m_target_found.position()), m_target_found.node(), new_position );
-			m_target_found.set_position( new_position );
-			return;
-		}
-	}
+    // РёСЃРєР°С‚СЊ РЅРѕРґСѓ РїРѕ РїСЂСЏРјРѕРјСѓ Р·Р°РїСЂРѕСЃСѓ
+    if (ai().level_graph().valid_vertex_position(m_target_found.position()))
+    {
+        m_target_found.set_node(ai().level_graph().vertex_id(m_target_found.position()));
+        if (ai().level_graph().valid_vertex_id(m_target_found.node()) &&
+            m_man->path_builder().accessible(m_target_found.node()))
+        {
+            // РєРѕСЂСЂРµРєС‚РёСЂРѕРІРєР° РїРѕР·РёС†РёРё
+            Fvector new_position = m_target_found.position();
+            m_man->path_builder().fix_position(
+                Fvector().set(m_target_found.position()), m_target_found.node(), new_position);
+            m_target_found.set_position(new_position);
+            return;
+        }
+    }
 
-	// находим с помощью каверов
-	if (m_cover_info.use_covers) {
-		m_cover_approach->setup	(m_target_found.position(), m_cover_info.min_dist, m_cover_info.max_dist, m_cover_info.deviation);
-		const CCoverPoint	*point = ai().cover_manager().best_cover(m_object->Position(),m_cover_info.radius,*m_cover_approach);
-		// нашли кавер?	
-		if (point) {
-			m_target_found.set_node(point->m_level_vertex_id);
-			m_target_found.set_position	( point->m_position );	
-			return;
-		}
-	}
+    // РЅР°С…РѕРґРёРј СЃ РїРѕРјРѕС‰СЊСЋ РєР°РІРµСЂРѕРІ
+    if (m_cover_info.use_covers)
+    {
+        m_cover_approach->setup(
+            m_target_found.position(), m_cover_info.min_dist, m_cover_info.max_dist, m_cover_info.deviation);
+        const CCoverPoint* point =
+            ai().cover_manager().best_cover(m_object->Position(), m_cover_info.radius, *m_cover_approach);
+        // РЅР°С€Р»Рё РєР°РІРµСЂ?
+        if (point)
+        {
+            m_target_found.set_node(point->m_level_vertex_id);
+            m_target_found.set_position(point->m_position);
+            return;
+        }
+    }
 
-	// нода не найдена. на следующем этапе будет использован селектор
-	m_target_found.set_node		( m_man->path_builder().find_nearest_vertex(m_object->ai_location().level_vertex_id(),m_target_found.position(),30.f) );
-	m_target_found.set_position ( ai().level_graph().vertex_position(m_target_found.node()) );
+    // РЅРѕРґР° РЅРµ РЅР°Р№РґРµРЅР°. РЅР° СЃР»РµРґСѓСЋС‰РµРј СЌС‚Р°РїРµ Р±СѓРґРµС‚ РёСЃРїРѕР»СЊР·РѕРІР°РЅ СЃРµР»РµРєС‚РѕСЂ
+    m_target_found.set_node(m_man->path_builder().find_nearest_vertex(
+        m_object->ai_location().level_vertex_id(), m_target_found.position(), 30.f));
+    m_target_found.set_position(ai().level_graph().vertex_position(m_target_found.node()));
 }
-

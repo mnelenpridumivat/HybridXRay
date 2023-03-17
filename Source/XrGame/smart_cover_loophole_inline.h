@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: smart_cover_loophole_inline.h
 //	Created 	: 29.08.2007
 //	Author		: Alexander Dudin
@@ -8,83 +8,84 @@
 #ifndef SMART_COVER_LOOPHOLE_INLINE_H_INCLUDED
 #define SMART_COVER_LOOPHOLE_INLINE_H_INCLUDED
 
-namespace smart_cover {
-
-IC	shared_str const &loophole::id					() const
+namespace smart_cover
 {
-	return		(m_id);
-}
 
-IC	float const	&loophole::fov						() const
-{
-	return		(m_fov);
-}
+    IC shared_str const& loophole::id() const
+    {
+        return (m_id);
+    }
 
-IC	float const	&loophole::danger_fov				() const
-{
-	return		(m_danger_fov);
-}
+    IC float const& loophole::fov() const
+    {
+        return (m_fov);
+    }
 
-IC	float const	&loophole::range					() const
-{
-	return		(m_range);
-}
+    IC float const& loophole::danger_fov() const
+    {
+        return (m_danger_fov);
+    }
 
-IC	Fvector const &loophole::fov_position			() const
-{
-	return		(m_fov_position);
-}
+    IC float const& loophole::range() const
+    {
+        return (m_range);
+    }
 
-IC	Fvector	const &loophole::fov_direction			() const
-{
-	return		(m_fov_direction);
-}
+    IC Fvector const& loophole::fov_position() const
+    {
+        return (m_fov_position);
+    }
 
-IC	Fvector	const &loophole::danger_fov_direction	() const
-{
-	return		(m_danger_fov_direction);
-}
+    IC Fvector const& loophole::fov_direction() const
+    {
+        return (m_fov_direction);
+    }
 
-IC	Fvector	const &loophole::enter_direction		() const
-{
-	return		(m_enter_direction);
-}
+    IC Fvector const& loophole::danger_fov_direction() const
+    {
+        return (m_danger_fov_direction);
+    }
 
-IC	loophole::ActionList const &loophole::actions	() const
-{
-	return		(m_actions);
-}
+    IC Fvector const& loophole::enter_direction() const
+    {
+        return (m_enter_direction);
+    }
 
-IC	bool const &loophole::enterable					() const
-{
-	return		(m_enterable);
-}
+    IC loophole::ActionList const& loophole::actions() const
+    {
+        return (m_actions);
+    }
 
-IC	void loophole::enterable						(bool value)
-{
-	m_enterable	= value;
-}
+    IC bool const& loophole::enterable() const
+    {
+        return (m_enterable);
+    }
 
-IC	bool const &loophole::usable					() const
-{
-	return		(m_usable);
-}
+    IC void loophole::enterable(bool value)
+    {
+        m_enterable = value;
+    }
 
-IC	bool loophole::is_action_available				(shared_str const &action_id) const
-{
-	return		(m_actions.find(action_id) != m_actions.end());
-}
+    IC bool const& loophole::usable() const
+    {
+        return (m_usable);
+    }
 
-IC	bool const &loophole::exitable					() const
-{
-	return		(m_exitable);
-}
+    IC bool loophole::is_action_available(shared_str const& action_id) const
+    {
+        return (m_actions.find(action_id) != m_actions.end());
+    }
 
-IC	void loophole::exitable							(bool value)
-{
-	m_exitable	= value;
-}
+    IC bool const& loophole::exitable() const
+    {
+        return (m_exitable);
+    }
 
-} // namespace smart_cover
+    IC void loophole::exitable(bool value)
+    {
+        m_exitable = value;
+    }
 
-#endif //SMART_COVER_LOOPHOLE_INLINE_H_INCLUDED
+}   // namespace smart_cover
+
+#endif   // SMART_COVER_LOOPHOLE_INLINE_H_INCLUDED

@@ -1,22 +1,17 @@
-///////////////////////////////////////////////////////////////
+п»ї///////////////////////////////////////////////////////////////
 // ThornArtifact.cpp
-// ThornArtefact - артефакт колючка
+// ThornArtefact - Р°СЂС‚РµС„Р°РєС‚ РєРѕР»СЋС‡РєР°
 ///////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
 #include "ThornArtifact.h"
 #include "../xrphysics/PhysicsShell.h"
 
+CThornArtefact::CThornArtefact(void) {}
 
-CThornArtefact::CThornArtefact(void) 
-{
-}
+CThornArtefact::~CThornArtefact(void) {}
 
-CThornArtefact::~CThornArtefact(void) 
+void CThornArtefact::Load(LPCSTR section)
 {
-}
-
-void CThornArtefact::Load(LPCSTR section) 
-{
-	inherited::Load(section);
+    inherited::Load(section);
 }

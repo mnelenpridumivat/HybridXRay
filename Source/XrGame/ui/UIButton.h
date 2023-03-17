@@ -1,59 +1,69 @@
-#pragma once
+п»ї#pragma once
 
 #include "UIStatic.h"
 #include "../../xrServerEntities/script_export_space.h"
 
-
-class CUIButton : public CUIStatic
+class CUIButton: public CUIStatic
 {
 private:
-	typedef			CUIStatic				inherited;
+    typedef CUIStatic inherited;
+
 public:
-					CUIButton				();
-	virtual			~CUIButton				()			{};
+    CUIButton();
+    virtual ~CUIButton(){};
 
-	virtual bool	OnMouseAction					(float x, float y, EUIMessages mouse_action);
-	virtual void	OnClick					();
+    virtual bool OnMouseAction(float x, float y, EUIMessages mouse_action);
+    virtual void OnClick();
 
-	//прорисовка окна
-	virtual void	DrawTexture				();
-	virtual void	DrawText				();
+    // РїСЂРѕСЂРёСЃРѕРІРєР° РѕРєРЅР°
+    virtual void DrawTexture();
+    virtual void DrawText();
 
-	virtual void	Update					();
-	virtual void	Enable					(bool status);
-	virtual bool	OnKeyboardAction				(int dik, EUIMessages keyboard_action);
-	virtual void	OnFocusLost				();
+    virtual void Update();
+    virtual void Enable(bool status);
+    virtual bool OnKeyboardAction(int dik, EUIMessages keyboard_action);
+    virtual void OnFocusLost();
 
-	//состояния в которых находится кнопка
-	typedef enum{BUTTON_NORMAL, //кнопка никак не затрагивается
-		BUTTON_PUSHED,			//в нажатом сотоянии
-		BUTTON_UP				//при удерживаемой кнопки мыши 
-	} E_BUTTON_STATE;
+    // СЃРѕСЃС‚РѕСЏРЅРёСЏ РІ РєРѕС‚РѕСЂС‹С… РЅР°С…РѕРґРёС‚СЃСЏ РєРЅРѕРїРєР°
+    typedef enum
+    {
+        BUTTON_NORMAL,   // РєРЅРѕРїРєР° РЅРёРєР°Рє РЅРµ Р·Р°С‚СЂР°РіРёРІР°РµС‚СЃСЏ
+        BUTTON_PUSHED,   // РІ РЅР°Р¶Р°С‚РѕРј СЃРѕС‚РѕСЏРЅРёРё
+        BUTTON_UP        // РїСЂРё СѓРґРµСЂР¶РёРІР°РµРјРѕР№ РєРЅРѕРїРєРё РјС‹С€Рё
+    } E_BUTTON_STATE;
 
+    // Р·Р°РЅРѕРІРѕ РїРѕРґРіРѕС‚РѕРІРёС‚СЊ СЃРѕСЃС‚РѕСЏРЅРёРµ
+    virtual void Reset();
 
-	//заново подготовить состояние
-    virtual void	Reset					();
+    // РЈСЃС‚Р°РЅРѕРІРєР° СЃРѕСЃС‚РѕСЏРЅРёСЏ РєРЅРѕРїРєРё: СѓС‚РѕРїР»РµРЅР°, РЅРµ СѓС‚РѕРїР»РµРЅР°
+    void SetButtonState(E_BUTTON_STATE eBtnState)
+    {
+        m_eButtonState = eBtnState;
+    }
+    E_BUTTON_STATE GetButtonState() const
+    {
+        return m_eButtonState;
+    }
 
-	// Установка состояния кнопки: утоплена, не утоплена
-	void				SetButtonState			(E_BUTTON_STATE eBtnState)	{ m_eButtonState = eBtnState; }
-	E_BUTTON_STATE		GetButtonState			() const					{ return m_eButtonState;}
+    // РџРѕРІРµРґРµРЅРёРµ РєРЅРѕРїРєРё РєР°Рє РїРµСЂРµРєР»СЋС‡Р°С‚РµР»СЏ СЂРµР°Р»РёР·РѕРІР°РЅРѕ РїРѕРєР° С‚РѕР»СЊРєРѕ РІ СЂРµР¶РёРјРµ NORMAL_PRESS
+    void SetButtonAsSwitch(bool bAsSwitch)
+    {
+        m_bIsSwitch = bAsSwitch;
+    }
 
-	// Поведение кнопки как переключателя реализовано пока только в режиме NORMAL_PRESS
-	void				SetButtonAsSwitch		(bool bAsSwitch)			{ m_bIsSwitch = bAsSwitch; }
+    // Р Р°Р±РѕС‚Р° СЃ Р°РєСЃРµР»РµСЂР°С‚РѕСЂРѕРј
+    // РљРѕРґ Р°РєСЃРµР»РµСЂР°С‚РѕСЂР° Р±РµСЂРµС‚СЃСЏ РёР· С„Р°Р№Р»Р° dinput.h, РёР· DirectX SDK.
+    // РќР°РїСЂРёРјРµСЂ: РєРЅРѕРїРєР° A - РєРѕРґ 0x1E(DIK_A)
+    void      SetAccelerator(int iAccel, int idx);
+    const int GetAccelerator(int idx) const;
+    bool      IsAccelerator(int iAccel) const;
 
-	// Работа с акселератором
-	// Код акселератора берется из файла dinput.h, из DirectX SDK.
-	// Например: кнопка A - код 0x1E(DIK_A)
-	void				SetAccelerator			(int iAccel, int idx);
-	const int			GetAccelerator			(int idx) const;
-	bool				IsAccelerator			(int iAccel) const;
+    shared_str m_hint_text;
 
-	shared_str			m_hint_text;
 protected:
-	
-	E_BUTTON_STATE		m_eButtonState;
-	s16					m_uAccelerator[4];
-	bool				m_bIsSwitch;
+    E_BUTTON_STATE m_eButtonState;
+    s16            m_uAccelerator[4];
+    bool           m_bIsSwitch;
 
-	DECLARE_SCRIPT_REGISTER_FUNCTION
+    DECLARE_SCRIPT_REGISTER_FUNCTION
 };

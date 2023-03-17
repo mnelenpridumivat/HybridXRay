@@ -1,99 +1,109 @@
-// Level_Bullet_Manager.h:  для обеспечения полета пули по траектории
-//							все пули и осколки передаются сюда
+п»ї// Level_Bullet_Manager.h:  РґР»СЏ РѕР±РµСЃРїРµС‡РµРЅРёСЏ РїРѕР»РµС‚Р° РїСѓР»Рё РїРѕ С‚СЂР°РµРєС‚РѕСЂРёРё
+//							РІСЃРµ РїСѓР»Рё Рё РѕСЃРєРѕР»РєРё РїРµСЂРµРґР°СЋС‚СЃСЏ СЃСЋРґР°
 //////////////////////////////////////////////////////////////////////
 
 #pragma once
 
-
 #include "weaponammo.h"
 #include "tracer.h"
 
-//коэфициенты и параметры патрона
-struct SBullet_Hit 
+// РєРѕСЌС„РёС†РёРµРЅС‚С‹ Рё РїР°СЂР°РјРµС‚СЂС‹ РїР°С‚СЂРѕРЅР°
+struct SBullet_Hit
 {
-	float	power;				// power          * cartridge
-	float	impulse;			// impulse        * cartridge
+    float power;     // power          * cartridge
+    float impulse;   // impulse        * cartridge
 };
 
-//структура, описывающая пулю и ее свойства в полете
+// СЃС‚СЂСѓРєС‚СѓСЂР°, РѕРїРёСЃС‹РІР°СЋС‰Р°СЏ РїСѓР»СЋ Рё РµРµ СЃРІРѕР№СЃС‚РІР° РІ РїРѕР»РµС‚Рµ
 struct SBullet
 {
-	u32				init_frame_num			;			//номер кадра на котором была запущена пуля
-	union			{
-		struct			{
-			u16			ricochet_was	: 1	;			//пуля срикошетила
-			u16			explosive		: 1	;			//special explosive mode for particles
-			u16			allow_tracer	: 1	;
-			u16			allow_ricochet	: 1	;			//разрешить рикошет
-			u16			allow_sendhit	: 1	;			//statistics
-//.			u16			skipped_frame	: 1	;			//пропуск первой отрисовки
-			u16			aim_bullet		: 1 ;			//прицеленная пуля( вылетевшая первой после длительного молчания оружия (1-3 сек.))
-			u16			magnetic_beam	: 1 ;			//магнитный луч (нет отклонения после пробивания, не падает скорость после пробивания)
-		};
-		u16				_storage			;
-	}				flags				;
-	u16				bullet_material_idx	;
+    u32 init_frame_num;   // РЅРѕРјРµСЂ РєР°РґСЂР° РЅР° РєРѕС‚РѕСЂРѕРј Р±С‹Р»Р° Р·Р°РїСѓС‰РµРЅР° РїСѓР»СЏ
+    union
+    {
+        struct
+        {
+            u16 ricochet_was : 1;   // РїСѓР»СЏ СЃСЂРёРєРѕС€РµС‚РёР»Р°
+            u16 explosive : 1;      // special explosive mode for particles
+            u16 allow_tracer : 1;
+            u16 allow_ricochet : 1;   // СЂР°Р·СЂРµС€РёС‚СЊ СЂРёРєРѕС€РµС‚
+            u16 allow_sendhit : 1;    // statistics
+            //.			u16			skipped_frame	: 1	;			//РїСЂРѕРїСѓСЃРє РїРµСЂРІРѕР№ РѕС‚СЂРёСЃРѕРІРєРё
+            u16 aim_bullet : 1;   // РїСЂРёС†РµР»РµРЅРЅР°СЏ РїСѓР»СЏ( РІС‹Р»РµС‚РµРІС€Р°СЏ РїРµСЂРІРѕР№ РїРѕСЃР»Рµ РґР»РёС‚РµР»СЊРЅРѕРіРѕ РјРѕР»С‡Р°РЅРёСЏ РѕСЂСѓР¶РёСЏ (1-3 СЃРµРє.))
+            u16 magnetic_beam : 1;   // РјР°РіРЅРёС‚РЅС‹Р№ Р»СѓС‡ (РЅРµС‚ РѕС‚РєР»РѕРЅРµРЅРёСЏ РїРѕСЃР»Рµ РїСЂРѕР±РёРІР°РЅРёСЏ, РЅРµ РїР°РґР°РµС‚ СЃРєРѕСЂРѕСЃС‚СЊ РїРѕСЃР»Рµ
+                                     // РїСЂРѕР±РёРІР°РЅРёСЏ)
+        };
+        u16 _storage;
+    } flags;
+    u16 bullet_material_idx;
 
-	Fvector			bullet_pos			;			//текущая позиция
-	Fvector			dir					;			
-	float			speed				;			//текущая скорость
-	
-	u16				parent_id			;			//ID персонажа который иницировал действие
-	u16				weapon_id			;			//ID оружия из которого была выпущены пуля
-	
-	float			fly_dist			;			//дистанция которую пуля пролетела
-	Fvector			tracer_start_position;
-	
-	Fvector			start_position		;
-	Fvector			start_velocity		;
-	u32				born_time			;
-	float			life_time			;
-	u32				change_rajectory_count;
+    Fvector bullet_pos;   // С‚РµРєСѓС‰Р°СЏ РїРѕР·РёС†РёСЏ
+    Fvector dir;
+    float   speed;   // С‚РµРєСѓС‰Р°СЏ СЃРєРѕСЂРѕСЃС‚СЊ
 
-	//коэфициенты и параметры патрона
-	SBullet_Hit     hit_param;
-	//-------------------------------------------------------------------
-	float			air_resistance		;
-	//-------------------------------------------------------------------
-	float			max_speed			;			// maxspeed*cartridge
-	float			max_dist			;			// maxdist*cartridge
-	float			armor_piercing		;			// ap
-	float			wallmark_size		;
-	//-------------------------------------------------------------------
-	u8				m_u8ColorID			;
-	
-	//тип наносимого хита
-	ALife::EHitType hit_type			;
-	//---------------------------------
-	u32				m_dwID				;
-	ref_sound		m_whine_snd			;
-	ref_sound		m_mtl_snd			;
-	//---------------------------------
-	u16				targetID			;
-	//---------------------------------
-	bool			density_mode		;
-	float			density				;
-	Fvector			begin_density		;
-	bool			operator	==		(u32 ID){return	ID == m_dwID;}
+    u16 parent_id;   // ID РїРµСЂСЃРѕРЅР°Р¶Р° РєРѕС‚РѕСЂС‹Р№ РёРЅРёС†РёСЂРѕРІР°Р» РґРµР№СЃС‚РІРёРµ
+    u16 weapon_id;   // ID РѕСЂСѓР¶РёСЏ РёР· РєРѕС‚РѕСЂРѕРіРѕ Р±С‹Р»Р° РІС‹РїСѓС‰РµРЅС‹ РїСѓР»СЏ
+
+    float   fly_dist;   // РґРёСЃС‚Р°РЅС†РёСЏ РєРѕС‚РѕСЂСѓСЋ РїСѓР»СЏ РїСЂРѕР»РµС‚РµР»Р°
+    Fvector tracer_start_position;
+
+    Fvector start_position;
+    Fvector start_velocity;
+    u32     born_time;
+    float   life_time;
+    u32     change_rajectory_count;
+
+    // РєРѕСЌС„РёС†РёРµРЅС‚С‹ Рё РїР°СЂР°РјРµС‚СЂС‹ РїР°С‚СЂРѕРЅР°
+    SBullet_Hit hit_param;
+    //-------------------------------------------------------------------
+    float air_resistance;
+    //-------------------------------------------------------------------
+    float max_speed;        // maxspeed*cartridge
+    float max_dist;         // maxdist*cartridge
+    float armor_piercing;   // ap
+    float wallmark_size;
+    //-------------------------------------------------------------------
+    u8 m_u8ColorID;
+
+    // С‚РёРї РЅР°РЅРѕСЃРёРјРѕРіРѕ С…РёС‚Р°
+    ALife::EHitType hit_type;
+    //---------------------------------
+    u32       m_dwID;
+    ref_sound m_whine_snd;
+    ref_sound m_mtl_snd;
+    //---------------------------------
+    u16 targetID;
+    //---------------------------------
+    bool    density_mode;
+    float   density;
+    Fvector begin_density;
+    bool    operator==(u32 ID)
+    {
+        return ID == m_dwID;
+    }
+
 public:
-					SBullet				();
-					~SBullet			();
+    SBullet();
+    ~SBullet();
 
-	bool			CanBeRenderedNow	() const { return (Device->dwFrame > init_frame_num);}
+    bool CanBeRenderedNow() const
+    {
+        return (Device->dwFrame > init_frame_num);
+    }
 
-	void			Init				(const	Fvector& position,
-										const	Fvector& direction,
-										float	start_speed,
-										float	power,
-//.										float	power_critical,
-										float	impulse,
-										u16		sender_id,
-										u16		sendersweapon_id,
-										ALife::EHitType e_hit_type,
-										float	maximum_distance,
-										const	CCartridge& cartridge,
-										float const air_resistance_factor,
-										bool	SendHit);
+    void Init(
+        const Fvector& position,
+        const Fvector& direction,
+        float          start_speed,
+        float          power,
+        //.										float	power_critical,
+        float             impulse,
+        u16               sender_id,
+        u16               sendersweapon_id,
+        ALife::EHitType   e_hit_type,
+        float             maximum_distance,
+        const CCartridge& cartridge,
+        float const       air_resistance_factor,
+        bool              SendHit);
 };
 
 class CLevel;
@@ -101,151 +111,173 @@ class CLevel;
 class CBulletManager
 {
 private:
-	static float const parent_ignore_distance;
+    static float const parent_ignore_distance;
 
 private:
-	collide::rq_results		rq_storage;
-	collide::rq_results		m_rq_results;
+    collide::rq_results rq_storage;
+    collide::rq_results m_rq_results;
 
 private:
-	DEFINE_VECTOR						(ref_sound,SoundVec,SoundVecIt);
-	DEFINE_VECTOR						(SBullet,BulletVec,BulletVecIt);
-	friend	CLevel;
+    DEFINE_VECTOR(ref_sound, SoundVec, SoundVecIt);
+    DEFINE_VECTOR(SBullet, BulletVec, BulletVecIt);
+    friend CLevel;
 
-	enum EventType {
-		EVENT_HIT	= u8(0),
-		EVENT_REMOVE,
+    enum EventType
+    {
+        EVENT_HIT = u8(0),
+        EVENT_REMOVE,
 
-		EVENT_DUMMY = u8(-1),
-	};
-	struct	_event			{
-		EventType			Type;
-		BOOL				dynamic		;
-		BOOL				Repeated	;	// последовательное повторное попадание в динамический объект
-		SBullet_Hit			hit_result	;
-		SBullet				bullet		;
-		Fvector				normal		;
-		Fvector				point		;
-		collide::rq_result	R			;
-		u16					tgt_material;
-	};
-	static void CalculateNewVelocity(Fvector & dest_new_vel, Fvector const & old_velocity, float ar, float life_time);
+        EVENT_DUMMY = u8(-1),
+    };
+    struct _event
+    {
+        EventType          Type;
+        BOOL               dynamic;
+        BOOL               Repeated;   // РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕРµ РїРѕРІС‚РѕСЂРЅРѕРµ РїРѕРїР°РґР°РЅРёРµ РІ РґРёРЅР°РјРёС‡РµСЃРєРёР№ РѕР±СЉРµРєС‚
+        SBullet_Hit        hit_result;
+        SBullet            bullet;
+        Fvector            normal;
+        Fvector            point;
+        collide::rq_result R;
+        u16                tgt_material;
+    };
+    static void CalculateNewVelocity(Fvector& dest_new_vel, Fvector const& old_velocity, float ar, float life_time);
+
 protected:
-	SoundVec				m_WhineSounds		;
-	RStringVec				m_ExplodeParticles	;
+    SoundVec   m_WhineSounds;
+    RStringVec m_ExplodeParticles;
 
-	//список пуль находящихся в данный момент на уровне
-//.	xrCriticalSection		m_Lock				;
+    // СЃРїРёСЃРѕРє РїСѓР»СЊ РЅР°С…РѕРґСЏС‰РёС…СЃСЏ РІ РґР°РЅРЅС‹Р№ РјРѕРјРµРЅС‚ РЅР° СѓСЂРѕРІРЅРµ
+    //.	xrCriticalSection		m_Lock				;
 
-	BulletVec				m_Bullets			;	// working set, locked
-	BulletVec				m_BulletsRendered	;	// copy for rendering
-	xr_vector<_event>		m_Events			;
+    BulletVec         m_Bullets;           // working set, locked
+    BulletVec         m_BulletsRendered;   // copy for rendering
+    xr_vector<_event> m_Events;
 
 #ifdef DEBUG
-	u32						m_thread_id;
+    u32 m_thread_id;
 
-	typedef xr_vector<Fvector>	BulletPoints;
-	BulletPoints			m_bullet_points;
-#endif // #ifdef DEBUG
+    typedef xr_vector<Fvector> BulletPoints;
+    BulletPoints               m_bullet_points;
+#endif   // #ifdef DEBUG
 
-	//отрисовка трассеров от пуль
-	CTracer					tracers;
+    // РѕС‚СЂРёСЃРѕРІРєР° С‚СЂР°СЃСЃРµСЂРѕРІ РѕС‚ РїСѓР»СЊ
+    CTracer tracers;
 
-	//минимальная скорость, на которой пуля еще считается
-	static float			m_fMinBulletSpeed;
+    // РјРёРЅРёРјР°Р»СЊРЅР°СЏ СЃРєРѕСЂРѕСЃС‚СЊ, РЅР° РєРѕС‚РѕСЂРѕР№ РїСѓР»СЏ РµС‰Рµ СЃС‡РёС‚Р°РµС‚СЃСЏ
+    static float m_fMinBulletSpeed;
 
-	float					m_fHPMaxDist;
+    float m_fHPMaxDist;
 
-	//константа G
-	float					m_fGravityConst;
-	//сопротивление воздуха, процент, который отнимается от скорости
-	//полета пули
-	float					m_fAirResistanceK;
-	//cколько процентов энергии потеряет пуля при столкновении с материалом (при падении под прямым углом)
-	float					m_fCollisionEnergyMin;
-	//сколькол процентов энергии устанется у пули при любом столкновении
-	float					m_fCollisionEnergyMax;
+    // РєРѕРЅСЃС‚Р°РЅС‚Р° G
+    float m_fGravityConst;
+    // СЃРѕРїСЂРѕС‚РёРІР»РµРЅРёРµ РІРѕР·РґСѓС…Р°, РїСЂРѕС†РµРЅС‚, РєРѕС‚РѕСЂС‹Р№ РѕС‚РЅРёРјР°РµС‚СЃСЏ РѕС‚ СЃРєРѕСЂРѕСЃС‚Рё
+    // РїРѕР»РµС‚Р° РїСѓР»Рё
+    float m_fAirResistanceK;
+    // cРєРѕР»СЊРєРѕ РїСЂРѕС†РµРЅС‚РѕРІ СЌРЅРµСЂРіРёРё РїРѕС‚РµСЂСЏРµС‚ РїСѓР»СЏ РїСЂРё СЃС‚РѕР»РєРЅРѕРІРµРЅРёРё СЃ РјР°С‚РµСЂРёР°Р»РѕРј (РїСЂРё РїР°РґРµРЅРёРё РїРѕРґ РїСЂСЏРјС‹Рј СѓРіР»РѕРј)
+    float m_fCollisionEnergyMin;
+    // СЃРєРѕР»СЊРєРѕР» РїСЂРѕС†РµРЅС‚РѕРІ СЌРЅРµСЂРіРёРё СѓСЃС‚Р°РЅРµС‚СЃСЏ Сѓ РїСѓР»Рё РїСЂРё Р»СЋР±РѕРј СЃС‚РѕР»РєРЅРѕРІРµРЅРёРё
+    float m_fCollisionEnergyMax;
 
-	//параметры отрисовки трассеров
-	float					m_fTracerWidth;
-	float 					m_fTracerLengthMax;
-	float 					m_fTracerLengthMin;
+    // РїР°СЂР°РјРµС‚СЂС‹ РѕС‚СЂРёСЃРѕРІРєРё С‚СЂР°СЃСЃРµСЂРѕРІ
+    float m_fTracerWidth;
+    float m_fTracerLengthMax;
+    float m_fTracerLengthMin;
+
 protected:
-	void					PlayWhineSound		(SBullet* bullet, CObject* object, const Fvector& pos);
-	void					PlayExplodePS		(const Fmatrix& xf);
-	//функция обработки хитов объектов
-	static BOOL 			test_callback		(const collide::ray_defs& rd, CObject* object, LPVOID params);
-	static BOOL				firetrace_callback	(collide::rq_result& result, LPVOID params);
+    void PlayWhineSound(SBullet* bullet, CObject* object, const Fvector& pos);
+    void PlayExplodePS(const Fmatrix& xf);
+    // С„СѓРЅРєС†РёСЏ РѕР±СЂР°Р±РѕС‚РєРё С…РёС‚РѕРІ РѕР±СЉРµРєС‚РѕРІ
+    static BOOL test_callback(const collide::ray_defs& rd, CObject* object, LPVOID params);
+    static BOOL firetrace_callback(collide::rq_result& result, LPVOID params);
 
-	// Deffer event
-	void					RegisterEvent		(EventType Type, BOOL _dynamic, SBullet* bullet, const Fvector& end_point, collide::rq_result& R, u16 target_material);
-	
-	//попадание по динамическому объекту
-	void					DynamicObjectHit	(_event& E);
-	
-	//попадание по статическому объекту
-	void					StaticObjectHit		(_event& E);
+    // Deffer event
+    void RegisterEvent(
+        EventType           Type,
+        BOOL                _dynamic,
+        SBullet*            bullet,
+        const Fvector&      end_point,
+        collide::rq_result& R,
+        u16                 target_material);
 
-	//попадание по любому объекту, на выходе - импульс и сила переданные пулей объекту
-	bool					ObjectHit			(SBullet_Hit* hit_res, SBullet* bullet, const Fvector& end_point, 
-												collide::rq_result& R, u16 target_material, Fvector& hit_normal);
-	//отметка на пораженном объекте
-	void					FireShotmark		(SBullet* bullet, const Fvector& vDir, 
-												const Fvector &vEnd,    collide::rq_result& R,  u16 target_material,
-												const Fvector& vNormal, bool ShowMark = true);
-	//просчет полета пули за некоторый промежуток времени
-	//принимается что на этом участке пуля движется прямолинейно
-	//и равномерно, а после просчета также изменяется текущая
-	//скорость и положение с учетом гравитации и ветра
-	//возвращаем true если пуля продолжает полет
-	bool					trajectory_check_error	(
-								Fvector& previous_position,
-								collide::rq_results& rq_storage, 
-								SBullet& bullet,
-								float& low,
-								float& high,
-								Fvector const& gravity,
-								float const air_resistance
-							);
-	void					add_bullet_point	(
-								Fvector const& start_position,
-								Fvector& previous_position,
-								Fvector const& start_velocity,
-								Fvector const& gravity,
-								float const ait_resistance,
-								float const current_time
-							);
-	bool					process_bullet		(
-								collide::rq_results& rq_storage,
-								SBullet& bullet,
-								u32 delta_time
-							);
-	void 			UpdateWorkload		();
+    // РїРѕРїР°РґР°РЅРёРµ РїРѕ РґРёРЅР°РјРёС‡РµСЃРєРѕРјСѓ РѕР±СЉРµРєС‚Сѓ
+    void DynamicObjectHit(_event& E);
+
+    // РїРѕРїР°РґР°РЅРёРµ РїРѕ СЃС‚Р°С‚РёС‡РµСЃРєРѕРјСѓ РѕР±СЉРµРєС‚Сѓ
+    void StaticObjectHit(_event& E);
+
+    // РїРѕРїР°РґР°РЅРёРµ РїРѕ Р»СЋР±РѕРјСѓ РѕР±СЉРµРєС‚Сѓ, РЅР° РІС‹С…РѕРґРµ - РёРјРїСѓР»СЊСЃ Рё СЃРёР»Р° РїРµСЂРµРґР°РЅРЅС‹Рµ РїСѓР»РµР№ РѕР±СЉРµРєС‚Сѓ
+    bool ObjectHit(
+        SBullet_Hit*        hit_res,
+        SBullet*            bullet,
+        const Fvector&      end_point,
+        collide::rq_result& R,
+        u16                 target_material,
+        Fvector&            hit_normal);
+    // РѕС‚РјРµС‚РєР° РЅР° РїРѕСЂР°Р¶РµРЅРЅРѕРј РѕР±СЉРµРєС‚Рµ
+    void FireShotmark(
+        SBullet*            bullet,
+        const Fvector&      vDir,
+        const Fvector&      vEnd,
+        collide::rq_result& R,
+        u16                 target_material,
+        const Fvector&      vNormal,
+        bool                ShowMark = true);
+    // РїСЂРѕСЃС‡РµС‚ РїРѕР»РµС‚Р° РїСѓР»Рё Р·Р° РЅРµРєРѕС‚РѕСЂС‹Р№ РїСЂРѕРјРµР¶СѓС‚РѕРє РІСЂРµРјРµРЅРё
+    // РїСЂРёРЅРёРјР°РµС‚СЃСЏ С‡С‚Рѕ РЅР° СЌС‚РѕРј СѓС‡Р°СЃС‚РєРµ РїСѓР»СЏ РґРІРёР¶РµС‚СЃСЏ РїСЂСЏРјРѕР»РёРЅРµР№РЅРѕ
+    // Рё СЂР°РІРЅРѕРјРµСЂРЅРѕ, Р° РїРѕСЃР»Рµ РїСЂРѕСЃС‡РµС‚Р° С‚Р°РєР¶Рµ РёР·РјРµРЅСЏРµС‚СЃСЏ С‚РµРєСѓС‰Р°СЏ
+    // СЃРєРѕСЂРѕСЃС‚СЊ Рё РїРѕР»РѕР¶РµРЅРёРµ СЃ СѓС‡РµС‚РѕРј РіСЂР°РІРёС‚Р°С†РёРё Рё РІРµС‚СЂР°
+    // РІРѕР·РІСЂР°С‰Р°РµРј true РµСЃР»Рё РїСѓР»СЏ РїСЂРѕРґРѕР»Р¶Р°РµС‚ РїРѕР»РµС‚
+    bool trajectory_check_error(
+        Fvector&             previous_position,
+        collide::rq_results& rq_storage,
+        SBullet&             bullet,
+        float&               low,
+        float&               high,
+        Fvector const&       gravity,
+        float const          air_resistance);
+    void add_bullet_point(
+        Fvector const& start_position,
+        Fvector&       previous_position,
+        Fvector const& start_velocity,
+        Fvector const& gravity,
+        float const    ait_resistance,
+        float const    current_time);
+    bool process_bullet(collide::rq_results& rq_storage, SBullet& bullet, u32 delta_time);
+    void UpdateWorkload();
+
 public:
-							CBulletManager		();
-	virtual					~CBulletManager		();
+    CBulletManager();
+    virtual ~CBulletManager();
 
-	void 					Load				();
-	void 					Clear				();
-	void 					AddBullet			(const Fvector& position, const Fvector& direction, float starting_speed,
-												float power, /*float power_critical,*/ float impulse, 
-												u16	sender_id, u16 sendersweapon_id,
-												ALife::EHitType e_hit_type, float maximum_distance, 
-												const CCartridge& cartridge,
-												float const air_resistance_factor,
-												bool SendHit,bool AimBullet=false);
+    void Load();
+    void Clear();
+    void AddBullet(
+        const Fvector&                  position,
+        const Fvector&                  direction,
+        float                           starting_speed,
+        float                           power,
+        /*float power_critical,*/ float impulse,
+        u16                             sender_id,
+        u16                             sendersweapon_id,
+        ALife::EHitType                 e_hit_type,
+        float                           maximum_distance,
+        const CCartridge&               cartridge,
+        float const                     air_resistance_factor,
+        bool                            SendHit,
+        bool                            AimBullet = false);
 
-	void					CommitEvents		();	// @ the start of frame
-	void					CommitRenderSet		();	// @ the end of frame
-	void 					Render				();
+    void CommitEvents();      // @ the start of frame
+    void CommitRenderSet();   // @ the end of frame
+    void Render();
 };
 
 struct bullet_test_callback_data
 {
-	Fvector			collide_position;
-	SBullet*		pBullet;
-	float			collide_time;
-#if 1//def DEBUG
-	float			high_time;
-#endif // #ifdef DEBUG
+    Fvector  collide_position;
+    SBullet* pBullet;
+    float    collide_time;
+#if 1   // def DEBUG
+    float high_time;
+#endif   // #ifdef DEBUG
 };

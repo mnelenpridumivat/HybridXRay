@@ -1,114 +1,124 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "poltergeist_movement.h"
 #include "poltergeist.h"
 #include "../../../detail_path_manager.h"
 
-void CPoltergeisMovementManager::move_along_path(CPHMovementControl *movement_control, Fvector &dest_position, float time_delta)
+void CPoltergeisMovementManager::move_along_path(
+    CPHMovementControl* movement_control,
+    Fvector&            dest_position,
+    float               time_delta)
 {
-	if (!m_monster->is_hidden()) {
-		inherited::move_along_path(movement_control, dest_position, time_delta);
-		return;
-	}
+    if (!m_monster->is_hidden())
+    {
+        inherited::move_along_path(movement_control, dest_position, time_delta);
+        return;
+    }
 
-	dest_position		= m_monster->m_current_position;
+    dest_position = m_monster->m_current_position;
 
-	// Åñëè íåò äâèæåíèÿ ïî ïóòè
-	if (!enabled() || 
-		path_completed() || 
-		detail().path().empty() ||
-		detail().completed(m_monster->m_current_position,true) || 
-		(detail().curr_travel_point_index() >= detail().path().size() - 1) ||
-		fis_zero(old_desirable_speed())
-		)
-	{
-		m_speed	= 0.f;
-		dest_position		= CalculateRealPosition();
-		return;
-	}
+    // Ð•ÑÐ»Ð¸ Ð½ÐµÑ‚ Ð´Ð²Ð¸Ð¶ÐµÐ½Ð¸Ñ Ð¿Ð¾ Ð¿ÑƒÑ‚Ð¸
+    if (!enabled() || path_completed() || detail().path().empty() ||
+        detail().completed(m_monster->m_current_position, true) ||
+        (detail().curr_travel_point_index() >= detail().path().size() - 1) || fis_zero(old_desirable_speed()))
+    {
+        m_speed       = 0.f;
+        dest_position = CalculateRealPosition();
+        return;
+    }
 
-	if (time_delta < EPS) {
-		dest_position	= CalculateRealPosition();
-		return;
-	}
+    if (time_delta < EPS)
+    {
+        dest_position = CalculateRealPosition();
+        return;
+    }
 
-	// Âû÷èñëèòü ïðîéäåííóþ äèñòàíöèþ, îïðåäåëèòü öåëåâóþ ïîçèöèþ íà ìàðøðóòå, 
-	//			 èçìåíèòü detail().curr_travel_point_index()
+    // Ð’Ñ‹Ñ‡Ð¸ÑÐ»Ð¸Ñ‚ÑŒ Ð¿Ñ€Ð¾Ð¹Ð´ÐµÐ½Ð½ÑƒÑŽ Ð´Ð¸ÑÑ‚Ð°Ð½Ñ†Ð¸ÑŽ, Ð¾Ð¿Ñ€ÐµÐ´ÐµÐ»Ð¸Ñ‚ÑŒ Ñ†ÐµÐ»ÐµÐ²ÑƒÑŽ Ð¿Ð¾Ð·Ð¸Ñ†Ð¸ÑŽ Ð½Ð° Ð¼Ð°Ñ€ÑˆÑ€ÑƒÑ‚Ðµ,
+    //			 Ð¸Ð·Ð¼ÐµÐ½Ð¸Ñ‚ÑŒ detail().curr_travel_point_index()
 
-	float				desirable_speed		=	old_desirable_speed();				// æåëàåìàÿ ñêîðîñòü îáúåêòà
-	float				dist				=	desirable_speed * time_delta;		// ïðîéäåííîå ðàññòîÿíèå â ñîîñòâåòñòâèå ñ æåëàåìîé ñêîðîñòüþ 
-	float				desirable_dist		=	dist;
+    float desirable_speed = old_desirable_speed();         // Ð¶ÐµÐ»Ð°ÐµÐ¼Ð°Ñ ÑÐºÐ¾Ñ€Ð¾ÑÑ‚ÑŒ Ð¾Ð±ÑŠÐµÐºÑ‚Ð°
+    float dist           = desirable_speed * time_delta;   // Ð¿Ñ€Ð¾Ð¹Ð´ÐµÐ½Ð½Ð¾Ðµ Ñ€Ð°ÑÑÑ‚Ð¾ÑÐ½Ð¸Ðµ Ð² ÑÐ¾Ð¾ÑÑ‚Ð²ÐµÑ‚ÑÑ‚Ð²Ð¸Ðµ Ñ Ð¶ÐµÐ»Ð°ÐµÐ¼Ð¾Ð¹ ÑÐºÐ¾Ñ€Ð¾ÑÑ‚ÑŒÑŽ
+    float desirable_dist = dist;
 
-	// îïðåäåëèòü öåëåâóþ òî÷êó
-	Fvector				target;
+    // Ð¾Ð¿Ñ€ÐµÐ´ÐµÐ»Ð¸Ñ‚ÑŒ Ñ†ÐµÐ»ÐµÐ²ÑƒÑŽ Ñ‚Ð¾Ñ‡ÐºÑƒ
+    Fvector target;
 
-	u32 prev_cur_point_index = detail().curr_travel_point_index();
+    u32 prev_cur_point_index = detail().curr_travel_point_index();
 
-	// îáíîâèòü detail().curr_travel_point_index() â ñîîòâåòñòâèå ñ òåêóùåé ïîçèöèåé
-	while (detail().curr_travel_point_index() < detail().path().size() - 2) {
+    // Ð¾Ð±Ð½Ð¾Ð²Ð¸Ñ‚ÑŒ detail().curr_travel_point_index() Ð² ÑÐ¾Ð¾Ñ‚Ð²ÐµÑ‚ÑÑ‚Ð²Ð¸Ðµ Ñ Ñ‚ÐµÐºÑƒÑ‰ÐµÐ¹ Ð¿Ð¾Ð·Ð¸Ñ†Ð¸ÐµÐ¹
+    while (detail().curr_travel_point_index() < detail().path().size() - 2)
+    {
+        float pos_dist_to_cur_point =
+            dest_position.distance_to(detail().path()[detail().curr_travel_point_index()].position);
+        float pos_dist_to_next_point =
+            dest_position.distance_to(detail().path()[detail().curr_travel_point_index() + 1].position);
+        float cur_point_dist_to_next_point = detail().path()[detail().curr_travel_point_index()].position.distance_to(
+            detail().path()[detail().curr_travel_point_index() + 1].position);
 
-		float pos_dist_to_cur_point			= dest_position.distance_to(detail().path()[detail().curr_travel_point_index()].position);
-		float pos_dist_to_next_point		= dest_position.distance_to(detail().path()[detail().curr_travel_point_index()+1].position);
-		float cur_point_dist_to_next_point	= detail().path()[detail().curr_travel_point_index()].position.distance_to(detail().path()[detail().curr_travel_point_index()+1].position);
+        if ((pos_dist_to_cur_point > cur_point_dist_to_next_point) && (pos_dist_to_cur_point > pos_dist_to_next_point))
+        {
+            ++detail().m_current_travel_point;
+        }
+        else
+            break;
+    }
 
-		if ((pos_dist_to_cur_point > cur_point_dist_to_next_point) && (pos_dist_to_cur_point > pos_dist_to_next_point)) {
-			++detail().m_current_travel_point;			
-		} else break;
-	}
+    target.set(detail().path()[detail().curr_travel_point_index() + 1].position);
+    // Ð¾Ð¿Ñ€ÐµÐ´ÐµÐ»Ð¸Ñ‚ÑŒ Ð½Ð°Ð¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð¸Ðµ Ðº Ñ†ÐµÐ»ÐµÐ²Ð¾Ð¹ Ñ‚Ð¾Ñ‡ÐºÐµ
+    Fvector dir_to_target;
+    dir_to_target.sub(target, dest_position);
 
-	target.set			(detail().path()[detail().curr_travel_point_index() + 1].position);
-	// îïðåäåëèòü íàïðàâëåíèå ê öåëåâîé òî÷êå
-	Fvector				dir_to_target;
-	dir_to_target.sub	(target, dest_position);
+    // Ð´Ð¸ÑÑ‚Ð°Ð½Ñ†Ð¸Ñ Ð´Ð¾ Ñ†ÐµÐ»ÐµÐ²Ð¾Ð¹ Ñ‚Ð¾Ñ‡ÐºÐ¸
+    float dist_to_target = dir_to_target.magnitude();
 
-	// äèñòàíöèÿ äî öåëåâîé òî÷êè
-	float				dist_to_target = dir_to_target.magnitude();
+    while (dist > dist_to_target)
+    {
+        dest_position.set(target);
 
-	while (dist > dist_to_target) {
-		dest_position.set	(target);
+        if (detail().curr_travel_point_index() + 1 >= detail().path().size())
+            break;
+        else
+        {
+            dist -= dist_to_target;
+            ++detail().m_current_travel_point;
+            if ((detail().curr_travel_point_index() + 1) >= detail().path().size())
+                break;
+            target.set(detail().path()[detail().curr_travel_point_index() + 1].position);
+            dir_to_target.sub(target, dest_position);
+            dist_to_target = dir_to_target.magnitude();
+        }
+    }
 
-		if (detail().curr_travel_point_index() + 1 >= detail().path().size())	break;
-		else {
-			dist			-= dist_to_target;
-			++detail().m_current_travel_point;
-			if ((detail().curr_travel_point_index()+1) >= detail().path().size())
-				break;
-			target.set			(detail().path()[detail().curr_travel_point_index() + 1].position);
-			dir_to_target.sub	(target, dest_position);
-			dist_to_target		= dir_to_target.magnitude();
-		}
-	}
+    if (prev_cur_point_index != detail().curr_travel_point_index())
+        on_travel_point_change(prev_cur_point_index);
 
-	if (prev_cur_point_index != detail().curr_travel_point_index()) on_travel_point_change(prev_cur_point_index);
+    if (dist_to_target < EPS_L)
+    {
+        detail().m_current_travel_point = detail().path().size() - 1;
+        m_speed                         = 0.f;
+        dest_position                   = CalculateRealPosition();
+        return;
+    }
 
-	if (dist_to_target < EPS_L) {
-		detail().m_current_travel_point = detail().path().size() - 1;
-		m_speed			= 0.f;
-		dest_position	= CalculateRealPosition();
-		return;
-	}
+    // ÑƒÑÑ‚Ð°Ð½Ð¾Ð²Ð¸Ñ‚ÑŒ Ð¿Ð¾Ð·Ð¸Ñ†Ð¸ÑŽ
+    Fvector motion;
+    motion.mul(dir_to_target, dist / dist_to_target);
+    dest_position.add(motion);
 
-	// óñòàíîâèòü ïîçèöèþ
-	Fvector				motion;
-	motion.mul			(dir_to_target, dist / dist_to_target);
-	dest_position.add	(motion);
+    // ÑƒÑÑ‚Ð°Ð½Ð¾Ð²Ð¸Ñ‚ÑŒ ÑÐºÐ¾Ñ€Ð¾ÑÑ‚ÑŒ
+    float real_motion = motion.magnitude() + desirable_dist - dist;
+    float real_speed  = real_motion / time_delta;
 
-	// óñòàíîâèòü ñêîðîñòü
-	float	real_motion	= motion.magnitude() + desirable_dist - dist;
-	float	real_speed	= real_motion / time_delta;
+    m_speed = 0.5f * desirable_speed + 0.5f * real_speed;
 
-	m_speed				= 0.5f * desirable_speed + 0.5f * real_speed;
-
-	// Îáíîâèòü ïîçèöèþ
-	m_monster->m_current_position	= dest_position;
-	m_monster->Position()			= CalculateRealPosition();
-	dest_position					= m_monster->Position();
+    // ÐžÐ±Ð½Ð¾Ð²Ð¸Ñ‚ÑŒ Ð¿Ð¾Ð·Ð¸Ñ†Ð¸ÑŽ
+    m_monster->m_current_position = dest_position;
+    m_monster->Position()         = CalculateRealPosition();
+    dest_position                 = m_monster->Position();
 }
 
 Fvector CPoltergeisMovementManager::CalculateRealPosition()
 {
-	Fvector ret_val = m_monster->m_current_position;
-	ret_val.y += m_monster->m_height;
-	return (ret_val);
+    Fvector ret_val = m_monster->m_current_position;
+    ret_val.y += m_monster->m_height;
+    return (ret_val);
 }
-
-

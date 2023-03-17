@@ -1,29 +1,25 @@
-///////////////////////////////////////////////////////////////
+ï»¿///////////////////////////////////////////////////////////////
 // ElectricBall.cpp
-// ElectricBall - àðòåôàêò ýëåêòðè÷åñêèé øàð
+// ElectricBall - Ð°Ñ€Ñ‚ÐµÑ„Ð°ÐºÑ‚ ÑÐ»ÐµÐºÑ‚Ñ€Ð¸Ñ‡ÐµÑÐºÐ¸Ð¹ ÑˆÐ°Ñ€
 ///////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
 #include "ElectricBall.h"
 #include "../xrphysics/PhysicsShell.h"
 
+CElectricBall::CElectricBall(void) {}
 
-CElectricBall::CElectricBall(void) 
+CElectricBall::~CElectricBall(void) {}
+
+void CElectricBall::Load(LPCSTR section)
 {
+    inherited::Load(section);
 }
 
-CElectricBall::~CElectricBall(void) 
+void CElectricBall::UpdateCLChild()
 {
-}
+    inherited::UpdateCLChild();
 
-void CElectricBall::Load(LPCSTR section) 
-{
-	inherited::Load(section);
-}
-
-void CElectricBall::UpdateCLChild	()
-{
-	inherited::UpdateCLChild();
-
-	if(H_Parent()) XFORM().set(H_Parent()->XFORM());
+    if (H_Parent())
+        XFORM().set(H_Parent()->XFORM());
 };

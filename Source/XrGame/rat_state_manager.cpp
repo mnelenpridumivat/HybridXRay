@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: rat_state_manager.cpp
 //	Created 	: 31.08.2007
 //  Modified 	: 31.08.2007
@@ -11,69 +11,66 @@
 #include "../xrEngine/object_broker.h"
 #include "rat_state_base.h"
 
-rat_state_manager::rat_state_manager	() :
-	m_object				(0),
-	m_last_state_id			(u32(-1))
+rat_state_manager::rat_state_manager(): m_object(0), m_last_state_id(u32(-1)) {}
+
+rat_state_manager::~rat_state_manager()
 {
+    delete_data(m_states);
 }
 
-rat_state_manager::~rat_state_manager	()
+void rat_state_manager::construct(CAI_Rat* object)
 {
-	delete_data				(m_states);
+    VERIFY(object);
+    m_object = object;
 }
 
-void rat_state_manager::construct		(CAI_Rat *object)
+rat_state_base* rat_state_manager::state(state_id_type const& state_id)
 {
-	VERIFY					(object);
-	m_object				= object;
+    States::iterator I = m_states.find(state_id);
+    if (I == m_states.end())
+        return (0);
+
+    return ((*I).second);
 }
 
-rat_state_base *rat_state_manager::state(state_id_type const &state_id)
+void rat_state_manager::push_state(state_id_type const& state_id)
 {
-	States::iterator		I = m_states.find(state_id);
-	if (I == m_states.end())
-		return				(0);
-
-	return					((*I).second);
+    VERIFY(state(state_id));
+    m_stack.push(state_id);
 }
 
-void rat_state_manager::push_state		(state_id_type const &state_id)
+void rat_state_manager::pop_state()
 {
-	VERIFY					(state(state_id));
-	m_stack.push			(state_id);
+    VERIFY(!m_stack.empty());
+    m_stack.pop();
 }
 
-void rat_state_manager::pop_state		()
+void rat_state_manager::add_state(state_id_type const& state_id, rat_state_base* state)
 {
-	VERIFY					(!m_stack.empty());
-	m_stack.pop				();
+    VERIFY(!this->state(state_id));
+    state->construct(m_object);
+    m_states.insert(std::make_pair(state_id, state));
 }
 
-void rat_state_manager::add_state		(state_id_type const &state_id, rat_state_base *state)
+void rat_state_manager::update()
 {
-	VERIFY					(!this->state(state_id));
-	state->construct		(m_object);
-	m_states.insert			(std::make_pair(state_id, state));
-}
+    VERIFY(!m_stack.empty());
+    state_id_type new_state_id = m_stack.top();
+    if (new_state_id == m_last_state_id)
+    {
+        rat_state_base* current = state(m_last_state_id);
+        VERIFY(current);
+        current->execute();
+        return;
+    }
 
-void rat_state_manager::update			()
-{
-	VERIFY					(!m_stack.empty());
-	state_id_type			new_state_id = m_stack.top();
-	if (new_state_id == m_last_state_id) {
-		rat_state_base		*current = state(m_last_state_id);
-		VERIFY				(current);
-		current->execute	();
-		return;
-	}
+    rat_state_base* old_state = state(m_last_state_id);
+    if (old_state)
+        old_state->finalize();
 
-	rat_state_base			*old_state = state(m_last_state_id);
-	if (old_state)
-		old_state->finalize	();
-
-	m_last_state_id			= new_state_id;
-	rat_state_base			*new_state = state(new_state_id);
-	VERIFY					(new_state);
-	new_state->initialize	();
-	new_state->execute		();
+    m_last_state_id           = new_state_id;
+    rat_state_base* new_state = state(new_state_id);
+    VERIFY(new_state);
+    new_state->initialize();
+    new_state->execute();
 }

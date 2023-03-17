@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 
 #include "shared_data.h"
 #include "phrase.h"
@@ -8,26 +8,25 @@
 
 typedef CGraphAbstract<CPhrase*, float, shared_str> CPhraseGraph;
 
-
-struct SPhraseDialogData : CSharedResource
+struct SPhraseDialogData: CSharedResource
 {
-	SPhraseDialogData ();
-	virtual ~SPhraseDialogData ();
+    SPhraseDialogData();
+    virtual ~SPhraseDialogData();
 
-	//заголовок диалога, если NULL, то принимается за стартовую фразу
-	shared_str		m_sCaption;
+    // Р·Р°РіРѕР»РѕРІРѕРє РґРёР°Р»РѕРіР°, РµСЃР»Рё NULL, С‚Рѕ РїСЂРёРЅРёРјР°РµС‚СЃСЏ Р·Р° СЃС‚Р°СЂС‚РѕРІСѓСЋ С„СЂР°Р·Сѓ
+    shared_str m_sCaption;
 
-	//однонаправленый граф фраз
-	//описывает все возможные варианты развития диалога
-	CPhraseGraph	m_PhraseGraph;
+    // РѕРґРЅРѕРЅР°РїСЂР°РІР»РµРЅС‹Р№ РіСЂР°С„ С„СЂР°Р·
+    // РѕРїРёСЃС‹РІР°РµС‚ РІСЃРµ РІРѕР·РјРѕР¶РЅС‹Рµ РІР°СЂРёР°РЅС‚С‹ СЂР°Р·РІРёС‚РёСЏ РґРёР°Р»РѕРіР°
+    CPhraseGraph m_PhraseGraph;
 
-	//список скриптовых предикатов, выполнение, которых необходимо
-	//для начала диалога
-	CDialogScriptHelper		m_ScriptDialogHelper;
+    // СЃРїРёСЃРѕРє СЃРєСЂРёРїС‚РѕРІС‹С… РїСЂРµРґРёРєР°С‚РѕРІ, РІС‹РїРѕР»РЅРµРЅРёРµ, РєРѕС‚РѕСЂС‹С… РЅРµРѕР±С…РѕРґРёРјРѕ
+    // РґР»СЏ РЅР°С‡Р°Р»Р° РґРёР°Р»РѕРіР°
+    CDialogScriptHelper m_ScriptDialogHelper;
 
-	//произвольное число - приоритет диалога (0 по умолчанию), может быть отрицательным
-	//в окне выбора у актера диалоги будут сортироваться по этому значению от меньшего (снизу) к большему (сверху)
-	int	m_iPriority;
+    // РїСЂРѕРёР·РІРѕР»СЊРЅРѕРµ С‡РёСЃР»Рѕ - РїСЂРёРѕСЂРёС‚РµС‚ РґРёР°Р»РѕРіР° (0 РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ), РјРѕР¶РµС‚ Р±С‹С‚СЊ РѕС‚СЂРёС†Р°С‚РµР»СЊРЅС‹Рј
+    // РІ РѕРєРЅРµ РІС‹Р±РѕСЂР° Сѓ Р°РєС‚РµСЂР° РґРёР°Р»РѕРіРё Р±СѓРґСѓС‚ СЃРѕСЂС‚РёСЂРѕРІР°С‚СЊСЃСЏ РїРѕ СЌС‚РѕРјСѓ Р·РЅР°С‡РµРЅРёСЋ РѕС‚ РјРµРЅСЊС€РµРіРѕ (СЃРЅРёР·Сѓ) Рє Р±РѕР»СЊС€РµРјСѓ (СЃРІРµСЂС…Сѓ)
+    int m_iPriority;
 };
 
 DEFINE_VECTOR(CPhrase*, PHRASE_VECTOR, PHRASE_VECTOR_IT);
@@ -35,106 +34,160 @@ DEFINE_VECTOR(CPhrase*, PHRASE_VECTOR, PHRASE_VECTOR_IT);
 class CPhraseDialog;
 class CPhraseDialogManager;
 
-class CPhraseDialog	:
-	public CSharedClass<SPhraseDialogData, shared_str, false>,
-	public CXML_IdToIndex<CPhraseDialog>,
-	public intrusive_base
+class CPhraseDialog:
+    public CSharedClass<SPhraseDialogData, shared_str, false>,
+    public CXML_IdToIndex<CPhraseDialog>,
+    public intrusive_base
 {
 private:
-	typedef CSharedClass<SPhraseDialogData, shared_str, false>				inherited_shared;
-	typedef CXML_IdToIndex<CPhraseDialog>									id_to_index;
+    typedef CSharedClass<SPhraseDialogData, shared_str, false> inherited_shared;
+    typedef CXML_IdToIndex<CPhraseDialog>                      id_to_index;
 
-	friend id_to_index;
+    friend id_to_index;
+
 public:
-							CPhraseDialog		();
-	virtual					~CPhraseDialog		();
+    CPhraseDialog();
+    virtual ~CPhraseDialog();
 
-							CPhraseDialog		(const CPhraseDialog& pharase_dialog) {*this = pharase_dialog;}
-							CPhraseDialog&		operator = (const CPhraseDialog& pharase_dialog) {*this = pharase_dialog; return *this;}
+    CPhraseDialog(const CPhraseDialog& pharase_dialog)
+    {
+        *this = pharase_dialog;
+    }
+    CPhraseDialog& operator=(const CPhraseDialog& pharase_dialog)
+    {
+        *this = pharase_dialog;
+        return *this;
+    }
 
-	
-	virtual void			Load				(shared_str dialog_id);
+    virtual void Load(shared_str dialog_id);
 
-	//связь диалога между двумя DialogManager
-	virtual void			Init				(CPhraseDialogManager* speaker_first, CPhraseDialogManager* speaker_second);
+    // СЃРІСЏР·СЊ РґРёР°Р»РѕРіР° РјРµР¶РґСѓ РґРІСѓРјСЏ DialogManager
+    virtual void Init(CPhraseDialogManager* speaker_first, CPhraseDialogManager* speaker_second);
 
-	IC		bool			IsInited			() const {return ((FirstSpeaker()!=NULL)&& (SecondSpeaker()!=NULL));}
+    IC bool IsInited() const
+    {
+        return ((FirstSpeaker() != NULL) && (SecondSpeaker() != NULL));
+    }
 
-	//реинициализация диалога
-	virtual void			Reset				();
+    // СЂРµРёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РґРёР°Р»РѕРіР°
+    virtual void Reset();
 
-	//список предикатов начала диалога
-	virtual bool			Precondition		(const CGameObject* pSpeaker1, const CGameObject* pSpeaker2);
+    // СЃРїРёСЃРѕРє РїСЂРµРґРёРєР°С‚РѕРІ РЅР°С‡Р°Р»Р° РґРёР°Р»РѕРіР°
+    virtual bool Precondition(const CGameObject* pSpeaker1, const CGameObject* pSpeaker2);
 
-	//список доступных в данный момент фраз
-	virtual const PHRASE_VECTOR& PhraseList		() const			{return m_PhraseVector;}
-			bool				allIsDummy		();
-	//сказать фразу и перейти к следующей стадии диалога
-	//если вернули false, то считаем, что диалог закончился
-	//(сделано статическим, так как мы должны передавать имеенно DIALOG_SHARED_PTR&,
-	//а не обычный указатель)
-	static bool				SayPhrase			(DIALOG_SHARED_PTR& phrase_dialog, const shared_str& phrase_id);
+    // СЃРїРёСЃРѕРє РґРѕСЃС‚СѓРїРЅС‹С… РІ РґР°РЅРЅС‹Р№ РјРѕРјРµРЅС‚ С„СЂР°Р·
+    virtual const PHRASE_VECTOR& PhraseList() const
+    {
+        return m_PhraseVector;
+    }
+    bool allIsDummy();
+    // СЃРєР°Р·Р°С‚СЊ С„СЂР°Р·Сѓ Рё РїРµСЂРµР№С‚Рё Рє СЃР»РµРґСѓСЋС‰РµР№ СЃС‚Р°РґРёРё РґРёР°Р»РѕРіР°
+    // РµСЃР»Рё РІРµСЂРЅСѓР»Рё false, С‚Рѕ СЃС‡РёС‚Р°РµРј, С‡С‚Рѕ РґРёР°Р»РѕРі Р·Р°РєРѕРЅС‡РёР»СЃСЏ
+    //(СЃРґРµР»Р°РЅРѕ СЃС‚Р°С‚РёС‡РµСЃРєРёРј, С‚Р°Рє РєР°Рє РјС‹ РґРѕР»Р¶РЅС‹ РїРµСЂРµРґР°РІР°С‚СЊ РёРјРµРµРЅРЅРѕ DIALOG_SHARED_PTR&,
+    // Р° РЅРµ РѕР±С‹С‡РЅС‹Р№ СѓРєР°Р·Р°С‚РµР»СЊ)
+    static bool SayPhrase(DIALOG_SHARED_PTR& phrase_dialog, const shared_str& phrase_id);
 
-		LPCSTR				GetPhraseText		(const shared_str& phrase_id, bool current_speaking = true);
-		LPCSTR				GetLastPhraseText	() {return GetPhraseText(m_SaidPhraseID, false);}
-		const shared_str&	GetDialogID			() const {return m_DialogId;}
+    LPCSTR GetPhraseText(const shared_str& phrase_id, bool current_speaking = true);
+    LPCSTR GetLastPhraseText()
+    {
+        return GetPhraseText(m_SaidPhraseID, false);
+    }
+    const shared_str& GetDialogID() const
+    {
+        return m_DialogId;
+    }
 
-	//заголовок, диалога, если не задан, то 0-я фраза
-		const shared_str&	GetLastPhraseID		() {return m_SaidPhraseID;}
-			LPCSTR			DialogCaption		();
-			int				Priority			();
+    // Р·Р°РіРѕР»РѕРІРѕРє, РґРёР°Р»РѕРіР°, РµСЃР»Рё РЅРµ Р·Р°РґР°РЅ, С‚Рѕ 0-СЏ С„СЂР°Р·Р°
+    const shared_str& GetLastPhraseID()
+    {
+        return m_SaidPhraseID;
+    }
+    LPCSTR DialogCaption();
+    int    Priority();
 
+    bool IsFinished() const
+    {
+        return m_bFinished;
+    }
 
-			bool			IsFinished			()	const {return m_bFinished;}
-	
-	IC	CPhraseDialogManager* FirstSpeaker		()	const {return m_pSpeakerFirst;}
-	IC	CPhraseDialogManager* SecondSpeaker		()	const {return m_pSpeakerSecond;}
-	   
-		//кто собирается говорить и кто слушать
-		CPhraseDialogManager* CurrentSpeaker	()	const;
-	    CPhraseDialogManager* OtherSpeaker		()	const;
-		//кто последний сказал фразу
-		CPhraseDialogManager* LastSpeaker		()	const {return m_bFirstIsSpeaking?SecondSpeaker():FirstSpeaker();}
+    IC CPhraseDialogManager* FirstSpeaker() const
+    {
+        return m_pSpeakerFirst;
+    }
+    IC CPhraseDialogManager* SecondSpeaker() const
+    {
+        return m_pSpeakerSecond;
+    }
 
-	IC bool					FirstIsSpeaking		()	const {return m_bFirstIsSpeaking;}
-	IC bool					SecondIsSpeaking	()	const {return !m_bFirstIsSpeaking;}
+    // РєС‚Рѕ СЃРѕР±РёСЂР°РµС‚СЃСЏ РіРѕРІРѕСЂРёС‚СЊ Рё РєС‚Рѕ СЃР»СѓС€Р°С‚СЊ
+    CPhraseDialogManager* CurrentSpeaker() const;
+    CPhraseDialogManager* OtherSpeaker() const;
+    // РєС‚Рѕ РїРѕСЃР»РµРґРЅРёР№ СЃРєР°Р·Р°Р» С„СЂР°Р·Сѓ
+    CPhraseDialogManager* LastSpeaker() const
+    {
+        return m_bFirstIsSpeaking ? SecondSpeaker() : FirstSpeaker();
+    }
 
-	IC bool					IsWeSpeaking		(CPhraseDialogManager* dialog_manager) const  {return (FirstSpeaker()==dialog_manager && FirstIsSpeaking()) ||
-																							(SecondSpeaker()==dialog_manager && SecondIsSpeaking());}
-	CPhraseDialogManager*	OurPartner			(CPhraseDialogManager* dialog_manager) const;
+    IC bool FirstIsSpeaking() const
+    {
+        return m_bFirstIsSpeaking;
+    }
+    IC bool SecondIsSpeaking() const
+    {
+        return !m_bFirstIsSpeaking;
+    }
+
+    IC bool IsWeSpeaking(CPhraseDialogManager* dialog_manager) const
+    {
+        return (FirstSpeaker() == dialog_manager && FirstIsSpeaking()) ||
+            (SecondSpeaker() == dialog_manager && SecondIsSpeaking());
+    }
+    CPhraseDialogManager* OurPartner(CPhraseDialogManager* dialog_manager) const;
 
 protected:
-	//идентификатор диалога
-	shared_str				m_DialogId;
+    // РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РґРёР°Р»РѕРіР°
+    shared_str m_DialogId;
 
-	//ID последней сказанной фразы в диалоге, "" если такой не было
-	shared_str				m_SaidPhraseID;
-	//диалог закончен
-	bool					m_bFinished;
+    // ID РїРѕСЃР»РµРґРЅРµР№ СЃРєР°Р·Р°РЅРЅРѕР№ С„СЂР°Р·С‹ РІ РґРёР°Р»РѕРіРµ, "" РµСЃР»Рё С‚Р°РєРѕР№ РЅРµ Р±С‹Р»Рѕ
+    shared_str m_SaidPhraseID;
+    // РґРёР°Р»РѕРі Р·Р°РєРѕРЅС‡РµРЅ
+    bool m_bFinished;
 
-	//список указателей на фразы доступные в данный момент
-	PHRASE_VECTOR			m_PhraseVector;
+    // СЃРїРёСЃРѕРє СѓРєР°Р·Р°С‚РµР»РµР№ РЅР° С„СЂР°Р·С‹ РґРѕСЃС‚СѓРїРЅС‹Рµ РІ РґР°РЅРЅС‹Р№ РјРѕРјРµРЅС‚
+    PHRASE_VECTOR m_PhraseVector;
 
-	//указатели на собеседников в диалоге
-	CPhraseDialogManager*	m_pSpeakerFirst;
-	CPhraseDialogManager*	m_pSpeakerSecond;
-	bool					m_bFirstIsSpeaking;
+    // СѓРєР°Р·Р°С‚РµР»Рё РЅР° СЃРѕР±РµСЃРµРґРЅРёРєРѕРІ РІ РґРёР°Р»РѕРіРµ
+    CPhraseDialogManager* m_pSpeakerFirst;
+    CPhraseDialogManager* m_pSpeakerSecond;
+    bool                  m_bFirstIsSpeaking;
 
-	const SPhraseDialogData* data		() const	{ VERIFY(inherited_shared::get_sd()); return inherited_shared::get_sd();}
-	SPhraseDialogData*		data		()			{ VERIFY(inherited_shared::get_sd()); return inherited_shared::get_sd();}
+    const SPhraseDialogData* data() const
+    {
+        VERIFY(inherited_shared::get_sd());
+        return inherited_shared::get_sd();
+    }
+    SPhraseDialogData* data()
+    {
+        VERIFY(inherited_shared::get_sd());
+        return inherited_shared::get_sd();
+    }
 
-	//загрузка диалога из XML файла
-	virtual void			load_shared	(LPCSTR);
-	
-	//рекурсивное добавление фраз в граф
-	void					AddPhrase	(CUIXml* pXml, XML_NODE* phrase_node, const shared_str& phrase_id, const shared_str& prev_phrase_id);
+    // Р·Р°РіСЂСѓР·РєР° РґРёР°Р»РѕРіР° РёР· XML С„Р°Р№Р»Р°
+    virtual void load_shared(LPCSTR);
+
+    // СЂРµРєСѓСЂСЃРёРІРЅРѕРµ РґРѕР±Р°РІР»РµРЅРёРµ С„СЂР°Р· РІ РіСЂР°С„
+    void AddPhrase(CUIXml* pXml, XML_NODE* phrase_node, const shared_str& phrase_id, const shared_str& prev_phrase_id);
+
 public:
-	CPhrase*				AddPhrase			(LPCSTR text, const shared_str& phrase_id, const shared_str& prev_phrase_id, int goodwil_level);
-	CPhrase*				AddPhrase_script	(LPCSTR text, LPCSTR phrase_id, LPCSTR prev_phrase_id, int goodwil_level){return AddPhrase(text, phrase_id, prev_phrase_id, goodwil_level);};
-	void					SetCaption			(LPCSTR str);
-	void					SetPriority			(int val);
-	CPhrase*				GetPhrase			(const shared_str& phrase_id);
-protected:
+    CPhrase* AddPhrase(LPCSTR text, const shared_str& phrase_id, const shared_str& prev_phrase_id, int goodwil_level);
+    CPhrase* AddPhrase_script(LPCSTR text, LPCSTR phrase_id, LPCSTR prev_phrase_id, int goodwil_level)
+    {
+        return AddPhrase(text, phrase_id, prev_phrase_id, goodwil_level);
+    };
+    void     SetCaption(LPCSTR str);
+    void     SetPriority(int val);
+    CPhrase* GetPhrase(const shared_str& phrase_id);
 
-	static void				InitXmlIdToIndex();
+protected:
+    static void InitXmlIdToIndex();
 };

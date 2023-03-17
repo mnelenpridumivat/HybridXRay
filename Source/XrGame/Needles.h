@@ -1,16 +1,17 @@
-///////////////////////////////////////////////////////////////
+п»ї///////////////////////////////////////////////////////////////
 // Needles.h
-// Needles - артефакт иголки
+// Needles - Р°СЂС‚РµС„Р°РєС‚ РёРіРѕР»РєРё
 ///////////////////////////////////////////////////////////////
 
 #pragma once
 #include "artefact.h"
 
-class CNeedles: public CArtefact 
+class CNeedles: public CArtefact
 {
 private:
-	typedef CArtefact inherited;
+    typedef CArtefact inherited;
+
 public:
-	CNeedles(void);
-	virtual ~CNeedles(void);
+    CNeedles(void);
+    virtual ~CNeedles(void);
 };

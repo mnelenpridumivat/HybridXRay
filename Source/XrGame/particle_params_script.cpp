@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: particle_params.cpp
 //	Created 	: 30.09.2003
 //  Modified 	: 29.06.2004
@@ -11,15 +11,12 @@
 
 using namespace luabind;
 
-#pragma optimize("s",on)
-void CParticleParams::script_register(lua_State *L)
+#pragma optimize("s", on)
+void CParticleParams::script_register(lua_State* L)
 {
-	module(L)
-	[
-		class_<CParticleParams>("particle_params")
-			.def(								constructor<>())
-			.def(								constructor<const Fvector &>())
-			.def(								constructor<const Fvector &,const Fvector &>())
-			.def(								constructor<const Fvector &,const Fvector &,const Fvector &>())
-	];
+    module(L)[class_<CParticleParams>("particle_params")
+                  .def(constructor<>())
+                  .def(constructor<const Fvector&>())
+                  .def(constructor<const Fvector&, const Fvector&>())
+                  .def(constructor<const Fvector&, const Fvector&, const Fvector&>())];
 }

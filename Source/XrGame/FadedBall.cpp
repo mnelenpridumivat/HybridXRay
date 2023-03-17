@@ -1,23 +1,17 @@
-///////////////////////////////////////////////////////////////
+п»ї///////////////////////////////////////////////////////////////
 // FadedBall.cpp
-// FadedBall - артефакт блеклый шар
+// FadedBall - Р°СЂС‚РµС„Р°РєС‚ Р±Р»РµРєР»С‹Р№ С€Р°СЂ
 ///////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
 #include "FadedBall.h"
 #include "../xrphysics/PhysicsShell.h"
 
+CFadedBall::CFadedBall(void) {}
 
-CFadedBall::CFadedBall(void) 
+CFadedBall::~CFadedBall(void) {}
+
+void CFadedBall::Load(LPCSTR section)
 {
+    inherited::Load(section);
 }
-
-CFadedBall::~CFadedBall(void) 
-{
-}
-
-void CFadedBall::Load(LPCSTR section) 
-{
-	inherited::Load(section);
-}
-

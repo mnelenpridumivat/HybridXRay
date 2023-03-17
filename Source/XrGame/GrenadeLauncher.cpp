@@ -1,55 +1,52 @@
-///////////////////////////////////////////////////////////////
+ï»¿///////////////////////////////////////////////////////////////
 // GrenadeLauncher.cpp
-// GrenadeLauncher - àïãðåéä îðóæèÿ ïîñòâîëüíûé ãðàíàòîìåò
+// GrenadeLauncher - Ð°Ð¿Ð³Ñ€ÐµÐ¹Ð´ Ð¾Ñ€ÑƒÐ¶Ð¸Ñ Ð¿Ð¾ÑÑ‚Ð²Ð¾Ð»ÑŒÐ½Ñ‹Ð¹ Ð³Ñ€Ð°Ð½Ð°Ñ‚Ð¾Ð¼ÐµÑ‚
 ///////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
 
 #include "grenadelauncher.h"
-//#include "PhysicsShell.h"
+// #include "PhysicsShell.h"
 
 CGrenadeLauncher::CGrenadeLauncher()
 {
-	m_fGrenadeVel = 0.f;
+    m_fGrenadeVel = 0.f;
 }
 
-CGrenadeLauncher::~CGrenadeLauncher() 
+CGrenadeLauncher::~CGrenadeLauncher() {}
+
+BOOL CGrenadeLauncher::net_Spawn(CSE_Abstract* DC)
 {
+    return (inherited::net_Spawn(DC));
 }
 
-BOOL CGrenadeLauncher::net_Spawn(CSE_Abstract* DC) 
+void CGrenadeLauncher::Load(LPCSTR section)
 {
-	return		(inherited::net_Spawn(DC));
+    m_fGrenadeVel = pSettings->r_float(section, "grenade_vel");
+    inherited::Load(section);
 }
 
-void CGrenadeLauncher::Load(LPCSTR section) 
+void CGrenadeLauncher::net_Destroy()
 {
-	m_fGrenadeVel = pSettings->r_float(section, "grenade_vel");
-	inherited::Load(section);
+    inherited::net_Destroy();
 }
 
-void CGrenadeLauncher::net_Destroy() 
+void CGrenadeLauncher::UpdateCL()
 {
-	inherited::net_Destroy();
+    inherited::UpdateCL();
 }
 
-void CGrenadeLauncher::UpdateCL() 
+void CGrenadeLauncher::OnH_A_Chield()
 {
-	inherited::UpdateCL();
+    inherited::OnH_A_Chield();
 }
 
-
-void CGrenadeLauncher::OnH_A_Chield() 
+void CGrenadeLauncher::OnH_B_Independent(bool just_before_destroy)
 {
-	inherited::OnH_A_Chield		();
+    inherited::OnH_B_Independent(just_before_destroy);
 }
 
-void CGrenadeLauncher::OnH_B_Independent(bool just_before_destroy) 
+void CGrenadeLauncher::renderable_Render()
 {
-	inherited::OnH_B_Independent(just_before_destroy);
-}
-
-void CGrenadeLauncher::renderable_Render() 
-{
-	inherited::renderable_Render();
+    inherited::renderable_Render();
 }

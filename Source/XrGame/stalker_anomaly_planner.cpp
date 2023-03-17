@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: stalker_anomaly_planner.cpp
 //	Created 	: 25.03.2004
 //  Modified 	: 27.09.2004
@@ -16,51 +16,50 @@
 
 using namespace StalkerDecisionSpace;
 
-CStalkerAnomalyPlanner::CStalkerAnomalyPlanner	(CAI_Stalker *object, LPCSTR action_name) :
-	inherited									(object,action_name)
+CStalkerAnomalyPlanner::CStalkerAnomalyPlanner(CAI_Stalker* object, LPCSTR action_name): inherited(object, action_name)
 {
 }
 
-CStalkerAnomalyPlanner::~CStalkerAnomalyPlanner	()
+CStalkerAnomalyPlanner::~CStalkerAnomalyPlanner() {}
+
+void CStalkerAnomalyPlanner::setup(CAI_Stalker* object, CPropertyStorage* storage)
 {
+    inherited::setup(object, storage);
+
+    CScriptActionPlanner::m_storage.set_property(eWorldPropertyAnomaly, false);
+    CScriptActionBase::m_storage->set_property(eWorldPropertyAnomaly, false);
+
+    clear();
+    add_evaluators();
+    add_actions();
 }
 
-void CStalkerAnomalyPlanner::setup				(CAI_Stalker *object, CPropertyStorage *storage)
+void CStalkerAnomalyPlanner::add_evaluators()
 {
-	inherited::setup		(object,storage);
-
-	CScriptActionPlanner::m_storage.set_property	(eWorldPropertyAnomaly,false);
-	CScriptActionBase::m_storage->set_property		(eWorldPropertyAnomaly,false);
-
-	clear					();
-	add_evaluators			();
-	add_actions				();
+    add_evaluator(
+        eWorldPropertyInsideAnomaly, xr_new<CStalkerPropertyEvaluatorInsideAnomaly>(m_object, "inside anomaly"));
+    add_evaluator(eWorldPropertyAnomaly, xr_new<CStalkerPropertyEvaluatorAnomaly>(m_object, "undetected anomaly"));
 }
 
-void CStalkerAnomalyPlanner::add_evaluators		()
+void CStalkerAnomalyPlanner::add_actions()
 {
-	add_evaluator			(eWorldPropertyInsideAnomaly	,xr_new<CStalkerPropertyEvaluatorInsideAnomaly>		(m_object,"inside anomaly"));
-	add_evaluator			(eWorldPropertyAnomaly			,xr_new<CStalkerPropertyEvaluatorAnomaly>			(m_object,"undetected anomaly"));
+    CStalkerActionBase* action;
+
+    action = xr_new<CStalkerActionGetOutOfAnomaly>(m_object, "get_out_of_anomaly");
+    add_condition(action, eWorldPropertyInsideAnomaly, true);
+    add_effect(action, eWorldPropertyInsideAnomaly, false);
+    add_operator(eWorldOperatorGetOutOfAnomaly, action);
+
+    action = xr_new<CStalkerActionDetectAnomaly>(m_object, "detect_anomaly");
+    add_condition(action, eWorldPropertyInsideAnomaly, false);
+    add_condition(action, eWorldPropertyAnomaly, true);
+    add_effect(action, eWorldPropertyAnomaly, false);
+    add_operator(eWorldOperatorDetectAnomaly, action);
 }
 
-void CStalkerAnomalyPlanner::add_actions		()
+void CStalkerAnomalyPlanner::update()
 {
-	CStalkerActionBase		*action;
-
-	action					= xr_new<CStalkerActionGetOutOfAnomaly>	(m_object,"get_out_of_anomaly");
-	add_condition			(action,eWorldPropertyInsideAnomaly,true);
-	add_effect				(action,eWorldPropertyInsideAnomaly,false);
-	add_operator			(eWorldOperatorGetOutOfAnomaly,		action);
-
-	action					= xr_new<CStalkerActionDetectAnomaly>	(m_object,"detect_anomaly");
-	add_condition			(action,eWorldPropertyInsideAnomaly,false);
-	add_condition			(action,eWorldPropertyAnomaly,		true);
-	add_effect				(action,eWorldPropertyAnomaly,		false);
-	add_operator			(eWorldOperatorDetectAnomaly,		action);
-}
-
-void CStalkerAnomalyPlanner::update				()
-{
-	inherited::update		();
-	CScriptActionBase::m_storage->set_property	(eWorldPropertyAnomaly,CScriptActionPlanner::m_storage.property(eWorldPropertyAnomaly));
+    inherited::update();
+    CScriptActionBase::m_storage->set_property(
+        eWorldPropertyAnomaly, CScriptActionPlanner::m_storage.property(eWorldPropertyAnomaly));
 }

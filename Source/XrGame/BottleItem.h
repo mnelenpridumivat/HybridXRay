@@ -1,35 +1,31 @@
-///////////////////////////////////////////////////////////////
+п»ї///////////////////////////////////////////////////////////////
 // BottleItem.h
-// BottleItem - бутылка с напитком, которую можно разбить
+// BottleItem - Р±СѓС‚С‹Р»РєР° СЃ РЅР°РїРёС‚РєРѕРј, РєРѕС‚РѕСЂСѓСЋ РјРѕР¶РЅРѕ СЂР°Р·Р±РёС‚СЊ
 ///////////////////////////////////////////////////////////////
-
 
 #pragma once
 
 #include "fooditem.h"
 
-
 class CBottleItem: public CFoodItem
 {
 private:
-    typedef	CFoodItem inherited;
+    typedef CFoodItem inherited;
+
 public:
-				CBottleItem			();
-	virtual		~CBottleItem		();
+    CBottleItem();
+    virtual ~CBottleItem();
 
+    virtual void Load(LPCSTR section);
 
-	virtual void Load				(LPCSTR section);
-	
+    void OnEvent(NET_Packet& P, u16 type);
 
-	void	OnEvent					(NET_Packet& P, u16 type);
+    virtual void Hit(SHit* pHDS);
 
+    void BreakToPieces();
 
-	virtual	void	Hit				(SHit* pHDS);
-	
-
-			void					BreakToPieces		();
 protected:
-	//партиклы разбивания бутылки
-	shared_str m_sBreakParticles;
-	ref_sound sndBreaking;
+    // РїР°СЂС‚РёРєР»С‹ СЂР°Р·Р±РёРІР°РЅРёСЏ Р±СѓС‚С‹Р»РєРё
+    shared_str m_sBreakParticles;
+    ref_sound  sndBreaking;
 };

@@ -1,6 +1,6 @@
-// Level_Bullet_Manager.cpp:	для обеспечения полета пули по траектории
-//								все пули и осколки передаются сюда
-//								(для просчета столкновений и их визуализации)
+п»ї// Level_Bullet_Manager.cpp:	РґР»СЏ РѕР±РµСЃРїРµС‡РµРЅРёСЏ РїРѕР»РµС‚Р° РїСѓР»Рё РїРѕ С‚СЂР°РµРєС‚РѕСЂРёРё
+//								РІСЃРµ РїСѓР»Рё Рё РѕСЃРєРѕР»РєРё РїРµСЂРµРґР°СЋС‚СЃСЏ СЃСЋРґР°
+//								(РґР»СЏ РїСЂРѕСЃС‡РµС‚Р° СЃС‚РѕР»РєРЅРѕРІРµРЅРёР№ Рё РёС… РІРёР·СѓР°Р»РёР·Р°С†РёРё)
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
@@ -23,52 +23,57 @@
 #include "actor.h"
 #include "ai/monsters/basemonster/base_monster.h"
 
-//константы ShootFactor, определяющие 
-//поведение пули при столкновении с объектом
-#define RICOCHET_THRESHOLD		0.1
-#define STUCK_THRESHOLD			0.4
+// РєРѕРЅСЃС‚Р°РЅС‚С‹ ShootFactor, РѕРїСЂРµРґРµР»СЏСЋС‰РёРµ
+// РїРѕРІРµРґРµРЅРёРµ РїСѓР»Рё РїСЂРё СЃС‚РѕР»РєРЅРѕРІРµРЅРёРё СЃ РѕР±СЉРµРєС‚РѕРј
+#define RICOCHET_THRESHOLD 0.1
+#define STUCK_THRESHOLD 0.4
 
-//расстояния не пролетев которого пуля не трогает того кто ее пустил
+// СЂР°СЃСЃС‚РѕСЏРЅРёСЏ РЅРµ РїСЂРѕР»РµС‚РµРІ РєРѕС‚РѕСЂРѕРіРѕ РїСѓР»СЏ РЅРµ С‚СЂРѕРіР°РµС‚ С‚РѕРіРѕ РєС‚Рѕ РµРµ РїСѓСЃС‚РёР»
 extern float gCheckHitK;
 
-//test callback функция 
-//  object - object for testing
-//return TRUE-тестировать объект / FALSE-пропустить объект
+// test callback С„СѓРЅРєС†РёСЏ
+//   object - object for testing
+// return TRUE-С‚РµСЃС‚РёСЂРѕРІР°С‚СЊ РѕР±СЉРµРєС‚ / FALSE-РїСЂРѕРїСѓСЃС‚РёС‚СЊ РѕР±СЉРµРєС‚
 BOOL CBulletManager::test_callback(const collide::ray_defs& rd, CObject* object, LPVOID params)
 {
-	bullet_test_callback_data* pData	= (bullet_test_callback_data*)params;
-	SBullet* bullet = pData->pBullet;
+    bullet_test_callback_data* pData  = (bullet_test_callback_data*)params;
+    SBullet*                   bullet = pData->pBullet;
 
-	if( (object->ID() == bullet->parent_id)		&&  
-		(bullet->fly_dist<parent_ignore_distance)	&&
-		(!bullet->flags.ricochet_was))			return FALSE;
+    if ((object->ID() == bullet->parent_id) && (bullet->fly_dist < parent_ignore_distance) &&
+        (!bullet->flags.ricochet_was))
+        return FALSE;
 
-	BOOL bRes						= TRUE;
-	if (object){
-		CEntity*	entity			= smart_cast<CEntity*>(object);
-		if (entity&&entity->g_Alive()&&(entity->ID()!=bullet->parent_id)){
-			ICollisionForm*	cform	= entity->collidable.model;
-			if ((NULL!=cform) && (cftObject==cform->Type())){
-				CActor* actor		= smart_cast<CActor*>(entity);
-				CAI_Stalker* stalker= smart_cast<CAI_Stalker*>(entity);
-				// в кого попали?
-				if (actor && IsGameTypeSingle()/**/||stalker/**/){
-					// попали в актера или сталкера
-					Fsphere S		= cform->getSphere();
-					entity->XFORM().transform_tiny	(S.P)	;
-					float dist		= rd.range;
-					// проверим попали ли мы в описывающую сферу 
-					if (Fsphere::rpNone!=S.intersect_full(bullet->bullet_pos, bullet->dir, dist))
-					{
-						// да попали, найдем кто стрелял
-						bool play_whine				= true;
-						CObject* initiator			= Level().Objects.net_Find	(bullet->parent_id);
-						if (actor){
-							// попали в актера
-							float hpf				= 1.f;
-							float ahp				= actor->HitProbability();
+    BOOL bRes = TRUE;
+    if (object)
+    {
+        CEntity* entity = smart_cast<CEntity*>(object);
+        if (entity && entity->g_Alive() && (entity->ID() != bullet->parent_id))
+        {
+            ICollisionForm* cform = entity->collidable.model;
+            if ((NULL != cform) && (cftObject == cform->Type()))
+            {
+                CActor*      actor   = smart_cast<CActor*>(entity);
+                CAI_Stalker* stalker = smart_cast<CAI_Stalker*>(entity);
+                // РІ РєРѕРіРѕ РїРѕРїР°Р»Рё?
+                if (actor && IsGameTypeSingle() /**/ || stalker /**/)
+                {
+                    // РїРѕРїР°Р»Рё РІ Р°РєС‚РµСЂР° РёР»Рё СЃС‚Р°Р»РєРµСЂР°
+                    Fsphere S = cform->getSphere();
+                    entity->XFORM().transform_tiny(S.P);
+                    float dist = rd.range;
+                    // РїСЂРѕРІРµСЂРёРј РїРѕРїР°Р»Рё Р»Рё РјС‹ РІ РѕРїРёСЃС‹РІР°СЋС‰СѓСЋ СЃС„РµСЂСѓ
+                    if (Fsphere::rpNone != S.intersect_full(bullet->bullet_pos, bullet->dir, dist))
+                    {
+                        // РґР° РїРѕРїР°Р»Рё, РЅР°Р№РґРµРј РєС‚Рѕ СЃС‚СЂРµР»СЏР»
+                        bool     play_whine = true;
+                        CObject* initiator  = Level().Objects.net_Find(bullet->parent_id);
+                        if (actor)
+                        {
+                            // РїРѕРїР°Р»Рё РІ Р°РєС‚РµСЂР°
+                            float hpf = 1.f;
+                            float ahp = actor->HitProbability();
 #if 1
-#	if 0
+#if 0
 							CObject					*weapon_object = Level().Objects.net_Find	(bullet->weapon_id);
 							if (weapon_object) {
 								CWeapon				*weapon = smart_cast<CWeapon*>(weapon_object);
@@ -78,444 +83,468 @@ BOOL CBulletManager::test_callback(const collide::ray_defs& rd, CObject* object,
 									ahp					= dist_factor*weapon->hit_probability() + (1.f-dist_factor)*1.f;
 								}
 							}
-#	else
-							float					game_difficulty_hit_probability = actor->HitProbability();
-							CAI_Stalker				*stalker = smart_cast<CAI_Stalker*>(initiator);
-							if (stalker)
-								hpf					= stalker->SpecificCharacter().hit_probability_factor();
-
-							float					dist_factor = 1.f;
-							CObject					*weapon_object = Level().Objects.net_Find	(bullet->weapon_id);
-							if (weapon_object) {
-								CWeapon				*weapon = smart_cast<CWeapon*>(weapon_object);
-								if (weapon) {
-									game_difficulty_hit_probability = weapon->hit_probability();
-									float fly_dist	= bullet->fly_dist+dist;
-									dist_factor		= _min(1.f,fly_dist/Level().BulletManager().m_fHPMaxDist);
-								}
-							}
-
-							ahp						= dist_factor*game_difficulty_hit_probability + (1.f-dist_factor)*1.f;
-#	endif
 #else
-							CAI_Stalker* i_stalker	= smart_cast<CAI_Stalker*>(initiator);
-							// если стрелял сталкер, учитываем - hit_probability_factor сталкерa иначе - 1.0
-							if (i_stalker) {
-								hpf					= i_stalker->SpecificCharacter().hit_probability_factor();
-								float fly_dist		= bullet->fly_dist+dist;
-								float dist_factor	= _min(1.f,fly_dist/Level().BulletManager().m_fHPMaxDist);
-								ahp					= dist_factor*actor->HitProbability() + (1.f-dist_factor)*1.f;
-							}
+                            float        game_difficulty_hit_probability = actor->HitProbability();
+                            CAI_Stalker* stalker                         = smart_cast<CAI_Stalker*>(initiator);
+                            if (stalker)
+                                hpf = stalker->SpecificCharacter().hit_probability_factor();
+
+                            float    dist_factor   = 1.f;
+                            CObject* weapon_object = Level().Objects.net_Find(bullet->weapon_id);
+                            if (weapon_object)
+                            {
+                                CWeapon* weapon = smart_cast<CWeapon*>(weapon_object);
+                                if (weapon)
+                                {
+                                    game_difficulty_hit_probability = weapon->hit_probability();
+                                    float fly_dist                  = bullet->fly_dist + dist;
+                                    dist_factor = _min(1.f, fly_dist / Level().BulletManager().m_fHPMaxDist);
+                                }
+                            }
+
+                            ahp = dist_factor * game_difficulty_hit_probability + (1.f - dist_factor) * 1.f;
 #endif
-							if (Random.randF(0.f,1.f)>(ahp*hpf)){ 
-								bRes				= FALSE;	// don't hit actor
-								play_whine			= true;		// play whine sound
-							}else{
-								// real test actor CFORM
-								Level().BulletManager().m_rq_results.r_clear();
+#else
+                            CAI_Stalker* i_stalker = smart_cast<CAI_Stalker*>(initiator);
+                            // РµСЃР»Рё СЃС‚СЂРµР»СЏР» СЃС‚Р°Р»РєРµСЂ, СѓС‡РёС‚С‹РІР°РµРј - hit_probability_factor СЃС‚Р°Р»РєРµСЂa РёРЅР°С‡Рµ - 1.0
+                            if (i_stalker)
+                            {
+                                hpf               = i_stalker->SpecificCharacter().hit_probability_factor();
+                                float fly_dist    = bullet->fly_dist + dist;
+                                float dist_factor = _min(1.f, fly_dist / Level().BulletManager().m_fHPMaxDist);
+                                ahp               = dist_factor * actor->HitProbability() + (1.f - dist_factor) * 1.f;
+                            }
+#endif
+                            if (Random.randF(0.f, 1.f) > (ahp * hpf))
+                            {
+                                bRes       = FALSE;   // don't hit actor
+                                play_whine = true;    // play whine sound
+                            }
+                            else
+                            {
+                                // real test actor CFORM
+                                Level().BulletManager().m_rq_results.r_clear();
 
-								if (cform->_RayQuery(rd,Level().BulletManager().m_rq_results)){
-									bRes			= TRUE;		// hit actor
-									play_whine		= false;	// don't play whine sound
-								}else{
-									bRes			= FALSE;	// don't hit actor
-									play_whine		= true;		// play whine sound
-								}
-							}
-						}
-						// play whine sound
-						if (play_whine){
-							Fvector					pt;
-							pt.mad					(bullet->bullet_pos, bullet->dir, dist);
-							Level().BulletManager().PlayWhineSound				(bullet,initiator,pt);
-						}
-					}else{
-						// don't test this object again (return FALSE)
-						bRes		= FALSE;
-					}
+                                if (cform->_RayQuery(rd, Level().BulletManager().m_rq_results))
+                                {
+                                    bRes       = TRUE;    // hit actor
+                                    play_whine = false;   // don't play whine sound
+                                }
+                                else
+                                {
+                                    bRes       = FALSE;   // don't hit actor
+                                    play_whine = true;    // play whine sound
+                                }
+                            }
+                        }
+                        // play whine sound
+                        if (play_whine)
+                        {
+                            Fvector pt;
+                            pt.mad(bullet->bullet_pos, bullet->dir, dist);
+                            Level().BulletManager().PlayWhineSound(bullet, initiator, pt);
+                        }
+                    }
+                    else
+                    {
+                        // don't test this object again (return FALSE)
+                        bRes = FALSE;
+                    }
+                }
+            }
+        }
+    }
 
-				}
-			}
-		}
-	}
-	
-	return bRes;
+    return bRes;
 }
 
-//callback функция 
+// callback С„СѓРЅРєС†РёСЏ
 //	result.O;		// 0-static else CObject*
-//	result.range;	// range from start to element 
+//	result.range;	// range from start to element
 //	result.element;	// if (O) "num tri" else "num bone"
 //	params;			// user defined abstract data
 //	Device->Statistic.TEST0.End();
-//return TRUE-продолжить трассировку / FALSE-закончить трассировку
+// return TRUE-РїСЂРѕРґРѕР»Р¶РёС‚СЊ С‚СЂР°СЃСЃРёСЂРѕРІРєСѓ / FALSE-Р·Р°РєРѕРЅС‡РёС‚СЊ С‚СЂР°СЃСЃРёСЂРѕРІРєСѓ
 
-void CBulletManager::FireShotmark (SBullet* bullet, const Fvector& vDir, const Fvector &vEnd, collide::rq_result& R, u16 target_material, const Fvector& vNormal, bool ShowMark)
+void CBulletManager::FireShotmark(
+    SBullet*            bullet,
+    const Fvector&      vDir,
+    const Fvector&      vEnd,
+    collide::rq_result& R,
+    u16                 target_material,
+    const Fvector&      vNormal,
+    bool                ShowMark)
 {
-	SGameMtlPair* mtl_pair	= GameMaterialLibrary->GetMaterialPair(bullet->bullet_material_idx, target_material);
-	Fvector particle_dir	= vNormal;
+    SGameMtlPair* mtl_pair     = GameMaterialLibrary->GetMaterialPair(bullet->bullet_material_idx, target_material);
+    Fvector       particle_dir = vNormal;
 
-	if (R.O)
-	{
-/*  add_SkeletonWallmark not implemented now...
-		particle_dir		 = vDir;
-		particle_dir.invert	();
+    if (R.O)
+    {
+        /*  add_SkeletonWallmark not implemented now...
+                particle_dir		 = vDir;
+                particle_dir.invert	();
 
-		//на текущем актере отметок не ставим
-		if(Level().CurrentEntity() && Level().CurrentEntity()->ID() == R.O->ID()) return;
+                //РЅР° С‚РµРєСѓС‰РµРј Р°РєС‚РµСЂРµ РѕС‚РјРµС‚РѕРє РЅРµ СЃС‚Р°РІРёРј
+                if(Level().CurrentEntity() && Level().CurrentEntity()->ID() == R.O->ID()) return;
 
-		if (mtl_pair && !mtl_pair->m_pCollideMarks->empty() && ShowMark)
-		{
-			//добавить отметку на материале
-			Fvector p;
-			p.mad(bullet->bullet_pos,bullet->dir,R.range-0.01f);
-			if(!g_dedicated_server)
-				::Render->add_SkeletonWallmark	(	&R.O->renderable.xform, 
-													PKinematics(R.O->Visual()), 
-													&*mtl_pair->m_pCollideMarks,
-													p, 
-													bullet->dir, 
-													bullet->wallmark_size);
-		}
-*/
-	} 
-	else 
-	{
-		//вычислить нормаль к пораженной поверхности
-		Fvector*	pVerts	= Level().ObjectSpace.GetStaticVerts();
-		CDB::TRI*	pTri	= Level().ObjectSpace.GetStaticTris()+R.element;
+                if (mtl_pair && !mtl_pair->m_pCollideMarks->empty() && ShowMark)
+                {
+                    //РґРѕР±Р°РІРёС‚СЊ РѕС‚РјРµС‚РєСѓ РЅР° РјР°С‚РµСЂРёР°Р»Рµ
+                    Fvector p;
+                    p.mad(bullet->bullet_pos,bullet->dir,R.range-0.01f);
+                    if(!g_dedicated_server)
+                        ::Render->add_SkeletonWallmark	(	&R.O->renderable.xform,
+                                                            PKinematics(R.O->Visual()),
+                                                            &*mtl_pair->m_pCollideMarks,
+                                                            p,
+                                                            bullet->dir,
+                                                            bullet->wallmark_size);
+                }
+        */
+    }
+    else
+    {
+        // РІС‹С‡РёСЃР»РёС‚СЊ РЅРѕСЂРјР°Р»СЊ Рє РїРѕСЂР°Р¶РµРЅРЅРѕР№ РїРѕРІРµСЂС…РЅРѕСЃС‚Рё
+        Fvector*  pVerts = Level().ObjectSpace.GetStaticVerts();
+        CDB::TRI* pTri   = Level().ObjectSpace.GetStaticTris() + R.element;
 
-		if (mtl_pair && !mtl_pair->m_pCollideMarks->empty() && ShowMark)
-		{
-			//добавить отметку на материале
-			::Render->add_StaticWallmark	(&*mtl_pair->m_pCollideMarks, vEnd, bullet->wallmark_size, pTri, pVerts);
-		}
-	}
+        if (mtl_pair && !mtl_pair->m_pCollideMarks->empty() && ShowMark)
+        {
+            // РґРѕР±Р°РІРёС‚СЊ РѕС‚РјРµС‚РєСѓ РЅР° РјР°С‚РµСЂРёР°Р»Рµ
+            ::Render->add_StaticWallmark(&*mtl_pair->m_pCollideMarks, vEnd, bullet->wallmark_size, pTri, pVerts);
+        }
+    }
 
-	ref_sound* pSound = (!mtl_pair || mtl_pair->CollideSounds.empty())?
-						NULL:&mtl_pair->CollideSounds[::Random.randI(0,mtl_pair->CollideSounds.size())];
+    ref_sound* pSound = (!mtl_pair || mtl_pair->CollideSounds.empty()) ?
+        NULL :
+        &mtl_pair->CollideSounds[::Random.randI(0, mtl_pair->CollideSounds.size())];
 
-	//проиграть звук
-	if(pSound && ShowMark)
-	{
-		CObject* O			= Level().Objects.net_Find(bullet->parent_id );
-		bullet->m_mtl_snd	= *pSound;
-		bullet->m_mtl_snd.play_at_pos(O, vEnd, 0);
-	}
+    // РїСЂРѕРёРіСЂР°С‚СЊ Р·РІСѓРє
+    if (pSound && ShowMark)
+    {
+        CObject* O        = Level().Objects.net_Find(bullet->parent_id);
+        bullet->m_mtl_snd = *pSound;
+        bullet->m_mtl_snd.play_at_pos(O, vEnd, 0);
+    }
 
-	LPCSTR ps_name = ( !mtl_pair || mtl_pair->CollideParticles.empty() ) ? NULL : 
-		*mtl_pair->CollideParticles[ ::Random.randI(0,mtl_pair->CollideParticles.size()) ];
+    LPCSTR ps_name = (!mtl_pair || mtl_pair->CollideParticles.empty()) ?
+        NULL :
+        *mtl_pair->CollideParticles[::Random.randI(0, mtl_pair->CollideParticles.size())];
 
-	SGameMtl*	tgt_mtl = GameMaterialLibrary->GetMaterialByIdx(target_material);
-	BOOL bStatic = !tgt_mtl->Flags.test(SGameMtl::flDynamic);
+    SGameMtl* tgt_mtl = GameMaterialLibrary->GetMaterialByIdx(target_material);
+    BOOL      bStatic = !tgt_mtl->Flags.test(SGameMtl::flDynamic);
 
-	if( (ps_name && ShowMark) || (bullet->flags.explosive && bStatic) )
-	{
-		VERIFY2					(
-			(particle_dir.x*particle_dir.x+particle_dir.y*particle_dir.y+particle_dir.z*particle_dir.z) > flt_zero,
-			make_string("[%f][%f][%f]", VPUSH(particle_dir))
-		);
-		Fmatrix pos;
-		pos.k.normalize(particle_dir);
-		Fvector::generate_orthonormal_basis(pos.k, pos.j, pos.i);
-		pos.c.set(vEnd);
-		if(ps_name && ShowMark)
-		{
-			//отыграть партиклы попадания в материал
-			CParticlesObject* ps = CParticlesObject::Create(ps_name,TRUE);
+    if ((ps_name && ShowMark) || (bullet->flags.explosive && bStatic))
+    {
+        VERIFY2(
+            (particle_dir.x * particle_dir.x + particle_dir.y * particle_dir.y + particle_dir.z * particle_dir.z) >
+                flt_zero,
+            make_string("[%f][%f][%f]", VPUSH(particle_dir)));
+        Fmatrix pos;
+        pos.k.normalize(particle_dir);
+        Fvector::generate_orthonormal_basis(pos.k, pos.j, pos.i);
+        pos.c.set(vEnd);
+        if (ps_name && ShowMark)
+        {
+            // РѕС‚С‹РіСЂР°С‚СЊ РїР°СЂС‚РёРєР»С‹ РїРѕРїР°РґР°РЅРёСЏ РІ РјР°С‚РµСЂРёР°Р»
+            CParticlesObject* ps = CParticlesObject::Create(ps_name, TRUE);
 
-			ps->UpdateParent( pos, zero_vel );
-			GamePersistent().ps_needtoplay.push_back( ps );
-		}
+            ps->UpdateParent(pos, zero_vel);
+            GamePersistent().ps_needtoplay.push_back(ps);
+        }
 
-		if( bullet->flags.explosive && bStatic )
-		{
-			PlayExplodePS( pos );
-		}
-	}
+        if (bullet->flags.explosive && bStatic)
+        {
+            PlayExplodePS(pos);
+        }
+    }
 }
 
-void CBulletManager::StaticObjectHit	(CBulletManager::_event& E)
+void CBulletManager::StaticObjectHit(CBulletManager::_event& E)
 {
-//	Fvector hit_normal;
-	FireShotmark(&E.bullet, E.bullet.dir,	E.point, E.R, E.tgt_material, E.normal);
-//	ObjectHit	(&E.bullet,					E.point, E.R, E.tgt_material, hit_normal);
+    //	Fvector hit_normal;
+    FireShotmark(&E.bullet, E.bullet.dir, E.point, E.R, E.tgt_material, E.normal);
+    //	ObjectHit	(&E.bullet,					E.point, E.R, E.tgt_material, hit_normal);
 }
 
 static bool g_clear = false;
-void CBulletManager::DynamicObjectHit	(CBulletManager::_event& E)
+void        CBulletManager::DynamicObjectHit(CBulletManager::_event& E)
 {
-	//только для динамических объектов
-	VERIFY(E.R.O);
+    // С‚РѕР»СЊРєРѕ РґР»СЏ РґРёРЅР°РјРёС‡РµСЃРєРёС… РѕР±СЉРµРєС‚РѕРІ
+    VERIFY(E.R.O);
 
-	if ( CEntity* entity = smart_cast<CEntity*>(E.R.O) )
-	{
-		if ( !entity->in_solid_state() )
-		{
-			return;
-		}
-	}
+    if (CEntity* entity = smart_cast<CEntity*>(E.R.O))
+    {
+        if (!entity->in_solid_state())
+        {
+            return;
+        }
+    }
 
-	if (g_clear) E.Repeated = false;
-	if (GameID() == eGameIDSingle) E.Repeated = false;
-	bool NeedShootmark = true;//!E.Repeated;
-	
-	if (smart_cast<CActor*>(E.R.O))
-	{
-		game_PlayerState* ps = Game().GetPlayerByGameID(E.R.O->ID());
-		if (ps && ps->testFlag(GAME_PLAYER_FLAG_INVINCIBLE))
-		{
-			NeedShootmark = false;
-		};
-	}
-	else if ( CBaseMonster * monster = smart_cast<CBaseMonster *>(E.R.O) )
-	{
-		NeedShootmark	=	monster->need_shotmark();
-	}
-	
-	//визуальное обозначение попадание на объекте
-//	Fvector			hit_normal;
-	FireShotmark	(&E.bullet, E.bullet.dir, E.point, E.R, E.tgt_material, E.normal, NeedShootmark);
-	
-	Fvector original_dir = E.bullet.dir;
-	//ObjectHit(&E.bullet, E.end_point, E.R, E.tgt_material, hit_normal);
+    if (g_clear)
+        E.Repeated = false;
+    if (GameID() == eGameIDSingle)
+        E.Repeated = false;
+    bool NeedShootmark = true;   //! E.Repeated;
 
-	SBullet_Hit hit_param = E.hit_result;
+    if (smart_cast<CActor*>(E.R.O))
+    {
+        game_PlayerState* ps = Game().GetPlayerByGameID(E.R.O->ID());
+        if (ps && ps->testFlag(GAME_PLAYER_FLAG_INVINCIBLE))
+        {
+            NeedShootmark = false;
+        };
+    }
+    else if (CBaseMonster* monster = smart_cast<CBaseMonster*>(E.R.O))
+    {
+        NeedShootmark = monster->need_shotmark();
+    }
 
-	// object-space
-	//вычислить координаты попадания
-	Fvector				p_in_object_space,position_in_bone_space;
-	Fmatrix				m_inv;
-	m_inv.invert		(E.R.O->XFORM());
-	m_inv.transform_tiny(p_in_object_space, E.point);
+    // РІРёР·СѓР°Р»СЊРЅРѕРµ РѕР±РѕР·РЅР°С‡РµРЅРёРµ РїРѕРїР°РґР°РЅРёРµ РЅР° РѕР±СЉРµРєС‚Рµ
+    //	Fvector			hit_normal;
+    FireShotmark(&E.bullet, E.bullet.dir, E.point, E.R, E.tgt_material, E.normal, NeedShootmark);
 
-	// bone-space
-	IKinematics* V = smart_cast<IKinematics*>(E.R.O->Visual());
+    Fvector original_dir = E.bullet.dir;
+    // ObjectHit(&E.bullet, E.end_point, E.R, E.tgt_material, hit_normal);
 
-	if(V)
-	{
-		VERIFY3(V->LL_GetBoneVisible(u16(E.R.element)),*E.R.O->cNameVisual(),V->LL_BoneName_dbg(u16(E.R.element)));
-		Fmatrix& m_bone = (V->LL_GetBoneInstance(u16(E.R.element))).mTransform;
-		Fmatrix  m_inv_bone;
-		m_inv_bone.invert(m_bone);
-		m_inv_bone.transform_tiny(position_in_bone_space, p_in_object_space);
-	}
-	else
-	{
-		position_in_bone_space.set(p_in_object_space);
-	}
+    SBullet_Hit hit_param = E.hit_result;
 
-	//отправить хит пораженному объекту
-	if (E.bullet.flags.allow_sendhit && !E.Repeated)
-	{
-		//-------------------------------------------------
-		bool AddStatistic = false;
-		if (GameID() != eGameIDSingle && E.bullet.flags.allow_sendhit && smart_cast<CActor*>(E.R.O)
-			&& Game().m_WeaponUsageStatistic->CollectData())
-		{
-			CActor* pActor = smart_cast<CActor*>(E.R.O);
-			if (pActor)// && pActor->g_Alive())
-			{
-				Game().m_WeaponUsageStatistic->OnBullet_Hit(&E.bullet, E.R.O->ID(), (s16)E.R.element, E.point);
-				AddStatistic = true;
-			};
-		};
+    // object-space
+    // РІС‹С‡РёСЃР»РёС‚СЊ РєРѕРѕСЂРґРёРЅР°С‚С‹ РїРѕРїР°РґР°РЅРёСЏ
+    Fvector p_in_object_space, position_in_bone_space;
+    Fmatrix m_inv;
+    m_inv.invert(E.R.O->XFORM());
+    m_inv.transform_tiny(p_in_object_space, E.point);
 
-		SHit	Hit = SHit(	hit_param.power,
-							original_dir,
-							NULL,
-							u16(E.R.element),
-							position_in_bone_space,
-							hit_param.impulse,
-							E.bullet.hit_type,
-							E.bullet.armor_piercing,
-							E.bullet.flags.aim_bullet);
+    // bone-space
+    IKinematics* V = smart_cast<IKinematics*>(E.R.O->Visual());
 
-		Hit.GenHeader(u16((AddStatistic)? GE_HIT_STATISTIC : GE_HIT)&0xffff, E.R.O->ID());
-		Hit.whoID			= E.bullet.parent_id;
-		Hit.weaponID		= E.bullet.weapon_id;
-		Hit.BulletID		= E.bullet.m_dwID;
+    if (V)
+    {
+        VERIFY3(V->LL_GetBoneVisible(u16(E.R.element)), *E.R.O->cNameVisual(), V->LL_BoneName_dbg(u16(E.R.element)));
+        Fmatrix& m_bone = (V->LL_GetBoneInstance(u16(E.R.element))).mTransform;
+        Fmatrix  m_inv_bone;
+        m_inv_bone.invert(m_bone);
+        m_inv_bone.transform_tiny(position_in_bone_space, p_in_object_space);
+    }
+    else
+    {
+        position_in_bone_space.set(p_in_object_space);
+    }
 
-		NET_Packet			np;
-		Hit.Write_Packet	(np);
-		
-//		Msg("Hit sended: %d[%d,%d]", Hit.whoID, Hit.weaponID, Hit.BulletID);
-		CGameObject::u_EventSend(np);
-	}
+    // РѕС‚РїСЂР°РІРёС‚СЊ С…РёС‚ РїРѕСЂР°Р¶РµРЅРЅРѕРјСѓ РѕР±СЉРµРєС‚Сѓ
+    if (E.bullet.flags.allow_sendhit && !E.Repeated)
+    {
+        //-------------------------------------------------
+        bool AddStatistic = false;
+        if (GameID() != eGameIDSingle && E.bullet.flags.allow_sendhit && smart_cast<CActor*>(E.R.O) &&
+            Game().m_WeaponUsageStatistic->CollectData())
+        {
+            CActor* pActor = smart_cast<CActor*>(E.R.O);
+            if (pActor)   // && pActor->g_Alive())
+            {
+                Game().m_WeaponUsageStatistic->OnBullet_Hit(&E.bullet, E.R.O->ID(), (s16)E.R.element, E.point);
+                AddStatistic = true;
+            };
+        };
+
+        SHit Hit = SHit(
+            hit_param.power, original_dir, NULL, u16(E.R.element), position_in_bone_space, hit_param.impulse,
+            E.bullet.hit_type, E.bullet.armor_piercing, E.bullet.flags.aim_bullet);
+
+        Hit.GenHeader(u16((AddStatistic) ? GE_HIT_STATISTIC : GE_HIT) & 0xffff, E.R.O->ID());
+        Hit.whoID    = E.bullet.parent_id;
+        Hit.weaponID = E.bullet.weapon_id;
+        Hit.BulletID = E.bullet.m_dwID;
+
+        NET_Packet np;
+        Hit.Write_Packet(np);
+
+        //		Msg("Hit sended: %d[%d,%d]", Hit.whoID, Hit.weaponID, Hit.BulletID);
+        CGameObject::u_EventSend(np);
+    }
 }
 
 #ifdef DEBUG
 FvectorVec g_hit[3];
 #endif
 
-extern void random_dir	(Fvector& tgt_dir, const Fvector& src_dir, float dispersion);
+extern void random_dir(Fvector& tgt_dir, const Fvector& src_dir, float dispersion);
 
-bool CBulletManager::ObjectHit( SBullet_Hit* hit_res, SBullet* bullet, const Fvector& end_point, 
-							    collide::rq_result& R, u16 target_material, Fvector& hit_normal )
+bool CBulletManager::ObjectHit(
+    SBullet_Hit*        hit_res,
+    SBullet*            bullet,
+    const Fvector&      end_point,
+    collide::rq_result& R,
+    u16                 target_material,
+    Fvector&            hit_normal)
 {
-	//----------- normal - start
-	if ( R.O )
-	{
-		//вернуть нормаль по которой играть партиклы
-		CCF_Skeleton* skeleton = smart_cast<CCF_Skeleton*>(R.O->CFORM());
-		if ( skeleton )
-		{
-			Fvector			e_center;
-			hit_normal.set	(0,0,0);
-			if ( skeleton->_ElementCenter( (u16)R.element,e_center ) )
-				hit_normal.sub							(end_point, e_center);
-			float len		= hit_normal.square_magnitude();
-			if ( !fis_zero(len) )	hit_normal.div		(_sqrt(len));
-			else				hit_normal.invert	(bullet->dir);
-		}
-	}
-	else
-	{
-		//вычислить нормаль к поверхности
-		Fvector*	pVerts	=  Level().ObjectSpace.GetStaticVerts();
-		CDB::TRI*	pTri	= Level().ObjectSpace.GetStaticTris()+R.element;
-		hit_normal.mknormal	(pVerts[pTri->verts[0]],pVerts[pTri->verts[1]],pVerts[pTri->verts[2]]);
-		if ( bullet->density_mode )
-		{
-			Fvector new_pos;
-			new_pos.mad(bullet->bullet_pos, bullet->dir, R.range);
-			float l = bullet->begin_density.distance_to(new_pos);
-			float shootFactor = l * bullet->density;
-			bullet->speed -= shootFactor;
-			if ( bullet->speed < 0 ) bullet->speed = 0;
-		}
-		if ( DOT( hit_normal, bullet->dir ) < 0 )
-		{
-			if ( bullet->density_mode )
-			{
-//				Log("WARNING: Material in material found while bullet tracing. Incorrect behaviour of shooting is possible.");
-			}
-			bullet->density_mode = true;
-			SGameMtl* mtl = GameMaterialLibrary->GetMaterialByIdx(target_material);
-			bullet->density = mtl->fDensityFactor;
-			bullet->begin_density.mad( bullet->bullet_pos, bullet->dir,R.range );
-		}
-		else
-		{
-			bullet->density_mode=false;
-		}
-	}		
-	//----------- normal - end
-	float old_speed = bullet->speed;
+    //----------- normal - start
+    if (R.O)
+    {
+        // РІРµСЂРЅСѓС‚СЊ РЅРѕСЂРјР°Р»СЊ РїРѕ РєРѕС‚РѕСЂРѕР№ РёРіСЂР°С‚СЊ РїР°СЂС‚РёРєР»С‹
+        CCF_Skeleton* skeleton = smart_cast<CCF_Skeleton*>(R.O->CFORM());
+        if (skeleton)
+        {
+            Fvector e_center;
+            hit_normal.set(0, 0, 0);
+            if (skeleton->_ElementCenter((u16)R.element, e_center))
+                hit_normal.sub(end_point, e_center);
+            float len = hit_normal.square_magnitude();
+            if (!fis_zero(len))
+                hit_normal.div(_sqrt(len));
+            else
+                hit_normal.invert(bullet->dir);
+        }
+    }
+    else
+    {
+        // РІС‹С‡РёСЃР»РёС‚СЊ РЅРѕСЂРјР°Р»СЊ Рє РїРѕРІРµСЂС…РЅРѕСЃС‚Рё
+        Fvector*  pVerts = Level().ObjectSpace.GetStaticVerts();
+        CDB::TRI* pTri   = Level().ObjectSpace.GetStaticTris() + R.element;
+        hit_normal.mknormal(pVerts[pTri->verts[0]], pVerts[pTri->verts[1]], pVerts[pTri->verts[2]]);
+        if (bullet->density_mode)
+        {
+            Fvector new_pos;
+            new_pos.mad(bullet->bullet_pos, bullet->dir, R.range);
+            float l           = bullet->begin_density.distance_to(new_pos);
+            float shootFactor = l * bullet->density;
+            bullet->speed -= shootFactor;
+            if (bullet->speed < 0)
+                bullet->speed = 0;
+        }
+        if (DOT(hit_normal, bullet->dir) < 0)
+        {
+            if (bullet->density_mode)
+            {
+                //				Log("WARNING: Material in material found while bullet tracing. Incorrect behaviour of shooting
+                //is possible.");
+            }
+            bullet->density_mode = true;
+            SGameMtl* mtl        = GameMaterialLibrary->GetMaterialByIdx(target_material);
+            bullet->density      = mtl->fDensityFactor;
+            bullet->begin_density.mad(bullet->bullet_pos, bullet->dir, R.range);
+        }
+        else
+        {
+            bullet->density_mode = false;
+        }
+    }
+    //----------- normal - end
+    float old_speed = bullet->speed;
 
-	//коэффициент уменьшение силы с падением скорости
-	float speed_factor = bullet->speed / bullet->max_speed;
-	//получить силу хита выстрела с учетом патрона
-	*hit_res = bullet->hit_param; //default param
-	
-	hit_res->power = bullet->hit_param.power*speed_factor;
-	
-	//(Если = 0, то пуля либо рикошетит(если контакт идёт по касательной), либо застряёт в текущем 
-	//объекте, если больше 0, то пуля прошивает объект)
+    // РєРѕСЌС„С„РёС†РёРµРЅС‚ СѓРјРµРЅСЊС€РµРЅРёРµ СЃРёР»С‹ СЃ РїР°РґРµРЅРёРµРј СЃРєРѕСЂРѕСЃС‚Рё
+    float speed_factor = bullet->speed / bullet->max_speed;
+    // РїРѕР»СѓС‡РёС‚СЊ СЃРёР»Сѓ С…РёС‚Р° РІС‹СЃС‚СЂРµР»Р° СЃ СѓС‡РµС‚РѕРј РїР°С‚СЂРѕРЅР°
+    *hit_res = bullet->hit_param;   // default param
 
-	SGameMtl* mtl = GameMaterialLibrary->GetMaterialByIdx( target_material );
-	float mtl_ap = mtl->fShootFactor;
-	float shoot_factor = 0.0f; //default >> пуля НЕ пробила материал!
-	float ap = bullet->armor_piercing;
+    hit_res->power = bullet->hit_param.power * speed_factor;
 
-	if ( ap > EPS && ap >= mtl_ap )
-	{
-		//пуля пробила материал
-		shoot_factor = (( ap - mtl_ap ) / ap);
-	}
+    //(Р•СЃР»Рё = 0, С‚Рѕ РїСѓР»СЏ Р»РёР±Рѕ СЂРёРєРѕС€РµС‚РёС‚(РµСЃР»Рё РєРѕРЅС‚Р°РєС‚ РёРґС‘С‚ РїРѕ РєР°СЃР°С‚РµР»СЊРЅРѕР№), Р»РёР±Рѕ Р·Р°СЃС‚СЂСЏС‘С‚ РІ С‚РµРєСѓС‰РµРј
+    // РѕР±СЉРµРєС‚Рµ, РµСЃР»Рё Р±РѕР»СЊС€Рµ 0, С‚Рѕ РїСѓР»СЏ РїСЂРѕС€РёРІР°РµС‚ РѕР±СЉРµРєС‚)
 
-	hit_res->impulse = 0.0f;
-	float speed_scale = 0.0f;
+    SGameMtl* mtl          = GameMaterialLibrary->GetMaterialByIdx(target_material);
+    float     mtl_ap       = mtl->fShootFactor;
+    float     shoot_factor = 0.0f;   // default >> РїСѓР»СЏ РќР• РїСЂРѕР±РёР»Р° РјР°С‚РµСЂРёР°Р»!
+    float     ap           = bullet->armor_piercing;
+
+    if (ap > EPS && ap >= mtl_ap)
+    {
+        // РїСѓР»СЏ РїСЂРѕР±РёР»Р° РјР°С‚РµСЂРёР°Р»
+        shoot_factor = ((ap - mtl_ap) / ap);
+    }
+
+    hit_res->impulse  = 0.0f;
+    float speed_scale = 0.0f;
 
 #ifdef DEBUG
-	//Fvector dbg_bullet_pos;
-	//dbg_bullet_pos.mad(bullet->bullet_pos,bullet->dir,R.range);
-	int bullet_state = 0;
+    // Fvector dbg_bullet_pos;
+    // dbg_bullet_pos.mad(bullet->bullet_pos,bullet->dir,R.range);
+    int bullet_state = 0;
 #endif
 
-	if ( fsimilar( mtl_ap, 0.0f ) )//Если материал полностью простреливаемый (кусты)
-	{
+    if (fsimilar(mtl_ap, 0.0f))   // Р•СЃР»Рё РјР°С‚РµСЂРёР°Р» РїРѕР»РЅРѕСЃС‚СЊСЋ РїСЂРѕСЃС‚СЂРµР»РёРІР°РµРјС‹Р№ (РєСѓСЃС‚С‹)
+    {
 #ifdef DEBUG
-		bullet_state = 2;
-#endif	
-		return true;
-	}
-
-	if (bullet->flags.magnetic_beam && (shoot_factor > EPS))
-	{
-#ifdef DEBUG
-		bullet_state = 2;
+        bullet_state = 2;
 #endif
-		//air resistance of magnetic_beam bullet is armor resistance too
-		bullet->armor_piercing	-= mtl_ap * bullet->air_resistance;
-		return true;
-	}
+        return true;
+    }
 
-	//рикошет
-	Fvector			new_dir;
-	new_dir.reflect	( bullet->dir,hit_normal );
-	Fvector			tgt_dir;
-	random_dir		( tgt_dir, new_dir, deg2rad( 10.0f ) );
-	float ricoshet_factor = bullet->dir.dotproduct( tgt_dir );
-
-	float f			= Random.randF( 0.5f, 0.8f ); //(0.5f,1.f);
-	if ( (f < ricoshet_factor) && !mtl->Flags.test(SGameMtl::flNoRicoshet) && bullet->flags.allow_ricochet )	
-	{
-		// уменьшение скорости полета в зависимости от угла падения пули (чем прямее угол, тем больше потеря)
-		bullet->flags.allow_ricochet = 0;
-		float scale = 1.0f - _abs(bullet->dir.dotproduct(hit_normal)) * m_fCollisionEnergyMin;
-		clamp(scale, 0.0f, m_fCollisionEnergyMax);
-		speed_scale = scale;
-
-		// вычисление рикошета, делается немного фейком, т.к. пуля остается в точке столкновения
-		// и сразу выходит из RayQuery()
-		bullet->dir.set				(tgt_dir);
-		bullet->bullet_pos			= end_point;
-		bullet->flags.ricochet_was	= 1;
-
+    if (bullet->flags.magnetic_beam && (shoot_factor > EPS))
+    {
 #ifdef DEBUG
-		bullet_state = 0;
-#endif		
-	}
-	else if ( shoot_factor < EPS )
-	{
-		//застрявание пули в материале
-		speed_scale = 0.0f;
-#ifdef DEBUG
-		bullet_state = 1;
-#endif		
-	}
-	else
-	{
-		//пробивание материала
-		speed_scale = shoot_factor;//mtl->fShootFactor;
-		
-		bullet->bullet_pos.mad(bullet->bullet_pos,bullet->dir,EPS);//fake
-		//ввести коэффициент случайности при простреливании
-		Fvector rand_normal;
-		rand_normal.random_dir(bullet->dir, deg2rad(2.0f), Random);
-		bullet->dir.set(rand_normal);
-#ifdef DEBUG
-		bullet_state = 2;
+        bullet_state = 2;
 #endif
-	}
+        // air resistance of magnetic_beam bullet is armor resistance too
+        bullet->armor_piercing -= mtl_ap * bullet->air_resistance;
+        return true;
+    }
 
-	//уменьшить скорость в зависимости от простреливаемости
-	bullet->speed *= speed_scale;
-	//сколько энергии в процентах потеряла пуля при столкновении
-	float energy_lost = 1.0f - bullet->speed / old_speed;
-	//импульс переданный объекту равен прямопропорционален потерянной энергии
-	hit_res->impulse = bullet->hit_param.impulse * speed_factor * energy_lost;
+    // СЂРёРєРѕС€РµС‚
+    Fvector new_dir;
+    new_dir.reflect(bullet->dir, hit_normal);
+    Fvector tgt_dir;
+    random_dir(tgt_dir, new_dir, deg2rad(10.0f));
+    float ricoshet_factor = bullet->dir.dotproduct(tgt_dir);
 
+    float f = Random.randF(0.5f, 0.8f);   //(0.5f,1.f);
+    if ((f < ricoshet_factor) && !mtl->Flags.test(SGameMtl::flNoRicoshet) && bullet->flags.allow_ricochet)
+    {
+        // СѓРјРµРЅСЊС€РµРЅРёРµ СЃРєРѕСЂРѕСЃС‚Рё РїРѕР»РµС‚Р° РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ СѓРіР»Р° РїР°РґРµРЅРёСЏ РїСѓР»Рё (С‡РµРј РїСЂСЏРјРµРµ СѓРіРѕР», С‚РµРј Р±РѕР»СЊС€Рµ РїРѕС‚РµСЂСЏ)
+        bullet->flags.allow_ricochet = 0;
+        float scale                  = 1.0f - _abs(bullet->dir.dotproduct(hit_normal)) * m_fCollisionEnergyMin;
+        clamp(scale, 0.0f, m_fCollisionEnergyMax);
+        speed_scale = scale;
+
+        // РІС‹С‡РёСЃР»РµРЅРёРµ СЂРёРєРѕС€РµС‚Р°, РґРµР»Р°РµС‚СЃСЏ РЅРµРјРЅРѕРіРѕ С„РµР№РєРѕРј, С‚.Рє. РїСѓР»СЏ РѕСЃС‚Р°РµС‚СЃСЏ РІ С‚РѕС‡РєРµ СЃС‚РѕР»РєРЅРѕРІРµРЅРёСЏ
+        // Рё СЃСЂР°Р·Сѓ РІС‹С…РѕРґРёС‚ РёР· RayQuery()
+        bullet->dir.set(tgt_dir);
+        bullet->bullet_pos         = end_point;
+        bullet->flags.ricochet_was = 1;
 
 #ifdef DEBUG
-	extern BOOL g_bDrawBulletHit;
-	if(g_bDrawBulletHit)
-	{
-//		g_hit[bullet_state].push_back(dbg_bullet_pos);
-		g_hit[bullet_state].push_back(end_point);
-	}
-#endif 
+        bullet_state = 0;
+#endif
+    }
+    else if (shoot_factor < EPS)
+    {
+        // Р·Р°СЃС‚СЂСЏРІР°РЅРёРµ РїСѓР»Рё РІ РјР°С‚РµСЂРёР°Р»Рµ
+        speed_scale = 0.0f;
+#ifdef DEBUG
+        bullet_state = 1;
+#endif
+    }
+    else
+    {
+        // РїСЂРѕР±РёРІР°РЅРёРµ РјР°С‚РµСЂРёР°Р»Р°
+        speed_scale = shoot_factor;   // mtl->fShootFactor;
 
-	return true;
+        bullet->bullet_pos.mad(bullet->bullet_pos, bullet->dir, EPS);   // fake
+        // РІРІРµСЃС‚Рё РєРѕСЌС„С„РёС†РёРµРЅС‚ СЃР»СѓС‡Р°Р№РЅРѕСЃС‚Рё РїСЂРё РїСЂРѕСЃС‚СЂРµР»РёРІР°РЅРёРё
+        Fvector rand_normal;
+        rand_normal.random_dir(bullet->dir, deg2rad(2.0f), Random);
+        bullet->dir.set(rand_normal);
+#ifdef DEBUG
+        bullet_state = 2;
+#endif
+    }
+
+    // СѓРјРµРЅСЊС€РёС‚СЊ СЃРєРѕСЂРѕСЃС‚СЊ РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ РїСЂРѕСЃС‚СЂРµР»РёРІР°РµРјРѕСЃС‚Рё
+    bullet->speed *= speed_scale;
+    // СЃРєРѕР»СЊРєРѕ СЌРЅРµСЂРіРёРё РІ РїСЂРѕС†РµРЅС‚Р°С… РїРѕС‚РµСЂСЏР»Р° РїСѓР»СЏ РїСЂРё СЃС‚РѕР»РєРЅРѕРІРµРЅРёРё
+    float energy_lost = 1.0f - bullet->speed / old_speed;
+    // РёРјРїСѓР»СЊСЃ РїРµСЂРµРґР°РЅРЅС‹Р№ РѕР±СЉРµРєС‚Сѓ СЂР°РІРµРЅ РїСЂСЏРјРѕРїСЂРѕРїРѕСЂС†РёРѕРЅР°Р»РµРЅ РїРѕС‚РµСЂСЏРЅРЅРѕР№ СЌРЅРµСЂРіРёРё
+    hit_res->impulse = bullet->hit_param.impulse * speed_factor * energy_lost;
+
+#ifdef DEBUG
+    extern BOOL g_bDrawBulletHit;
+    if (g_bDrawBulletHit)
+    {
+        //		g_hit[bullet_state].push_back(dbg_bullet_pos);
+        g_hit[bullet_state].push_back(end_point);
+    }
+#endif
+
+    return true;
 }

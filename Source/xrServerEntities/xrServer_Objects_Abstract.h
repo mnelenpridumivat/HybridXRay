@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: xrServer_Objects_Abstract.h
 //	Created 	: 19.09.2002
 //  Modified 	: 18.06.2004
@@ -6,30 +6,28 @@
 //	Description : Server objects
 ////////////////////////////////////////////////////////////////////////////
 #pragma once
-#pragma pack(push,4)
+#pragma pack(push, 4)
 #include "xrServer_Space.h"
-#	include "../xrCDB/xrCDB.h"
+#include "../xrCDB/xrCDB.h"
 
 class NET_Packet;
 class CDUInterface;
 
 #ifndef _EDITOR
-    #ifndef XRGAME_EXPORTS
-		#include "../xrSound/Sound.h"
-    #endif
+#ifndef XRGAME_EXPORTS
+#include "../xrSound/Sound.h"
 #endif
-
+#endif
 
 #include "..\Editors\Public\xrEProps.h"
 
 #ifndef XRGAME_EXPORTS
-	#include "DrawUtils.h"
+#include "DrawUtils.h"
 #else
-	#include "DrawUtils.h"
+#include "DrawUtils.h"
 #endif
 #pragma warning(push)
-#pragma warning(disable:4005)
-
+#pragma warning(disable : 4005)
 
 #include "xrServer_Objects_Abstract_Base.h"
 #pragma warning(pop)

@@ -275,7 +275,7 @@ public:
                     //						timer.Start			();
                     //						float				fValue = ai().m_tpAStar->ffFindMinimalPath(id1,id2);
                     //						Msg					("* %7.2f[%d] : %11I64u cycles (%.3f
-                    //microseconds)",fValue,ai().m_tpAStar->m_tpaNodes.size(),timer.GetElapsed_ticks(),timer.GetElapsed_ms()*1000.f);
+                    // microseconds)",fValue,ai().m_tpAStar->m_tpaNodes.size(),timer.GetElapsed_ticks(),timer.GetElapsed_ms()*1000.f);
                 }
             else
                 Msg("! not enough parameters!");

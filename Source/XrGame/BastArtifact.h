@@ -1,6 +1,6 @@
-///////////////////////////////////////////////////////////////
+п»ї///////////////////////////////////////////////////////////////
 // BastArtifact.h
-// BastArtefact - артефакт мочалка
+// BastArtefact - Р°СЂС‚РµС„Р°РєС‚ РјРѕС‡Р°Р»РєР°
 ///////////////////////////////////////////////////////////////
 
 #pragma once
@@ -10,71 +10,75 @@
 #include "entity_alive.h"
 
 struct SGameMtl;
-struct	dContact;
+struct dContact;
 
-DEFINE_VECTOR (CEntityAlive*, ALIVE_LIST, ALIVE_LIST_it);
+DEFINE_VECTOR(CEntityAlive*, ALIVE_LIST, ALIVE_LIST_it);
 
-
-class CBastArtefact : public CArtefact,
-					  public Feel::Touch
+class CBastArtefact: public CArtefact, public Feel::Touch
 {
 private:
-	typedef CArtefact inherited;
+    typedef CArtefact inherited;
+
 public:
-	CBastArtefact(void);
-	virtual ~CBastArtefact(void);
+    CBastArtefact(void);
+    virtual ~CBastArtefact(void);
 
-	virtual void Load				(LPCSTR section);
-	virtual void shedule_Update		(u32 dt);
-	
-	virtual BOOL net_Spawn			(CSE_Abstract* DC);
-	virtual void net_Destroy		();
+    virtual void Load(LPCSTR section);
+    virtual void shedule_Update(u32 dt);
 
-	virtual	void Hit				(SHit* pHDS);
+    virtual BOOL net_Spawn(CSE_Abstract* DC);
+    virtual void net_Destroy();
 
-	virtual bool Useful() const;
+    virtual void Hit(SHit* pHDS);
 
+    virtual bool Useful() const;
 
-	virtual void feel_touch_new	(CObject* O);
-	virtual void feel_touch_delete	(CObject* O);
-	virtual BOOL feel_touch_contact	(CObject* O);
+    virtual void feel_touch_new(CObject* O);
+    virtual void feel_touch_delete(CObject* O);
+    virtual BOOL feel_touch_contact(CObject* O);
 
-	bool IsAttacking() {return NULL!=m_AttakingEntity;}
+    bool IsAttacking()
+    {
+        return NULL != m_AttakingEntity;
+    }
 
 protected:
-	virtual void	UpdateCLChild	();
+    virtual void UpdateCLChild();
 
-	static	void	ObjectContactCallback(bool& do_colide,bool bo1,dContact& c,SGameMtl * /*material_1*/,SGameMtl * /*material_2*/);
-	//столкновение мочалки с сущностью
-	void BastCollision(CEntityAlive* pEntityAlive);
+    static void ObjectContactCallback(
+        bool&     do_colide,
+        bool      bo1,
+        dContact& c,
+        SGameMtl* /*material_1*/,
+        SGameMtl* /*material_2*/);
+    // СЃС‚РѕР»РєРЅРѕРІРµРЅРёРµ РјРѕС‡Р°Р»РєРё СЃ СЃСѓС‰РЅРѕСЃС‚СЊСЋ
+    void BastCollision(CEntityAlive* pEntityAlive);
 
+    // РїР°СЂР°РјРµС‚СЂС‹ Р°СЂС‚РµС„Р°РєС‚Р°
 
-	//параметры артефакта
-	
-	//пороговое значение импульса после получения 
-	//которого артефакт активизируется
-	float m_fImpulseThreshold;
-	
-	float m_fEnergy;
-	float m_fEnergyMax;
-	float m_fEnergyDecreasePerTime;
-	shared_str	m_sParticleName;
+    // РїРѕСЂРѕРіРѕРІРѕРµ Р·РЅР°С‡РµРЅРёРµ РёРјРїСѓР»СЊСЃР° РїРѕСЃР»Рµ РїРѕР»СѓС‡РµРЅРёСЏ
+    // РєРѕС‚РѕСЂРѕРіРѕ Р°СЂС‚РµС„Р°РєС‚ Р°РєС‚РёРІРёР·РёСЂСѓРµС‚СЃСЏ
+    float m_fImpulseThreshold;
 
+    float      m_fEnergy;
+    float      m_fEnergyMax;
+    float      m_fEnergyDecreasePerTime;
+    shared_str m_sParticleName;
 
-	float m_fRadius;
-	float m_fStrikeImpulse;
+    float m_fRadius;
+    float m_fStrikeImpulse;
 
-	//флаг, того что артефакт получил хит 
-	//и теперь может совершить бросок
-	bool m_bStrike;	
+    // С„Р»Р°Рі, С‚РѕРіРѕ С‡С‚Рѕ Р°СЂС‚РµС„Р°РєС‚ РїРѕР»СѓС‡РёР» С…РёС‚
+    // Рё С‚РµРїРµСЂСЊ РјРѕР¶РµС‚ СЃРѕРІРµСЂС€РёС‚СЊ Р±СЂРѕСЃРѕРє
+    bool m_bStrike;
 
-	//список живых существ в зоне досягаемости артефакта
-	ALIVE_LIST m_AliveList;
-	//то, что мы ударили
-	CEntityAlive* m_pHitedEntity; 
-	//то что атакуем
-	CEntityAlive* m_AttakingEntity;
+    // СЃРїРёСЃРѕРє Р¶РёРІС‹С… СЃСѓС‰РµСЃС‚РІ РІ Р·РѕРЅРµ РґРѕСЃСЏРіР°РµРјРѕСЃС‚Рё Р°СЂС‚РµС„Р°РєС‚Р°
+    ALIVE_LIST m_AliveList;
+    // С‚Рѕ, С‡С‚Рѕ РјС‹ СѓРґР°СЂРёР»Рё
+    CEntityAlive* m_pHitedEntity;
+    // С‚Рѕ С‡С‚Рѕ Р°С‚Р°РєСѓРµРј
+    CEntityAlive* m_AttakingEntity;
 
 public:
-	virtual	void setup_physic_shell	();
+    virtual void setup_physic_shell();
 };

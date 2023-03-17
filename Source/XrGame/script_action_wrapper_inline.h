@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: script_action_wrapper_inline.h
 //	Created 	: 19.03.2004
 //  Modified 	: 26.03.2004
@@ -8,8 +8,7 @@
 
 #pragma once
 
-IC	CScriptActionWrapper::CScriptActionWrapper	(CScriptGameObject *object, LPCSTR action_name) : 
-	CScriptActionBase					(object,action_name)
+IC CScriptActionWrapper::CScriptActionWrapper(CScriptGameObject* object, LPCSTR action_name):
+    CScriptActionBase(object, action_name)
 {
 }
-

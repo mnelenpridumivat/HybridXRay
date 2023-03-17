@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: stalker_danger_unknown_actions.h
 //	Created 	: 31.05.2005
 //  Modified 	: 31.05.2005
@@ -14,46 +14,49 @@
 // CStalkerActionDangerUnknownTakeCover
 //////////////////////////////////////////////////////////////////////////
 
-class CStalkerActionDangerUnknownTakeCover : public CStalkerActionCombatBase {
+class CStalkerActionDangerUnknownTakeCover: public CStalkerActionCombatBase
+{
 protected:
-	typedef CStalkerActionCombatBase inherited;
+    typedef CStalkerActionCombatBase inherited;
 
 private:
-	bool				m_direction_sight;
+    bool m_direction_sight;
 
 public:
-						CStalkerActionDangerUnknownTakeCover	(CAI_Stalker *object, LPCSTR action_name = "");
-	virtual void		initialize								();
-	virtual void		execute									();
-	virtual void		finalize								();
+    CStalkerActionDangerUnknownTakeCover(CAI_Stalker* object, LPCSTR action_name = "");
+    virtual void initialize();
+    virtual void execute();
+    virtual void finalize();
 };
 
 //////////////////////////////////////////////////////////////////////////
 // CStalkerActionDangerUnknownLookAround
 //////////////////////////////////////////////////////////////////////////
 
-class CStalkerActionDangerUnknownLookAround : public CStalkerActionCombatBase {
+class CStalkerActionDangerUnknownLookAround: public CStalkerActionCombatBase
+{
 protected:
-	typedef CStalkerActionCombatBase inherited;
+    typedef CStalkerActionCombatBase inherited;
 
 public:
-						CStalkerActionDangerUnknownLookAround	(CAI_Stalker *object, LPCSTR action_name = "");
-	virtual void		initialize								();
-	virtual void		execute									();
-	virtual void		finalize								();
+    CStalkerActionDangerUnknownLookAround(CAI_Stalker* object, LPCSTR action_name = "");
+    virtual void initialize();
+    virtual void execute();
+    virtual void finalize();
 };
 
 //////////////////////////////////////////////////////////////////////////
 // CStalkerActionDangerUnknownSearch
 //////////////////////////////////////////////////////////////////////////
 
-class CStalkerActionDangerUnknownSearch : public CStalkerActionCombatBase {
+class CStalkerActionDangerUnknownSearch: public CStalkerActionCombatBase
+{
 protected:
-	typedef CStalkerActionCombatBase inherited;
+    typedef CStalkerActionCombatBase inherited;
 
 public:
-						CStalkerActionDangerUnknownSearch	(CAI_Stalker *object, LPCSTR action_name = "");
-	virtual void		initialize							();
-	virtual void		execute								();
-	virtual void		finalize							();
+    CStalkerActionDangerUnknownSearch(CAI_Stalker* object, LPCSTR action_name = "");
+    virtual void initialize();
+    virtual void execute();
+    virtual void finalize();
 };

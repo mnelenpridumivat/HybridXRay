@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: script_world_property.h
 //	Created 	: 19.03.2004
 //  Modified 	: 19.03.2004
@@ -13,9 +13,10 @@
 
 typedef GraphEngineSpace::CWorldProperty CScriptWorldProperty;
 
-class CScriptWorldPropertyWrapper {
+class CScriptWorldPropertyWrapper
+{
 public:
-	DECLARE_SCRIPT_REGISTER_FUNCTION
+    DECLARE_SCRIPT_REGISTER_FUNCTION
 };
 add_to_type_list(CScriptWorldPropertyWrapper)
 #undef script_type_list

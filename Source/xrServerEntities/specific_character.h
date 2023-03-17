@@ -1,15 +1,13 @@
-//////////////////////////////////////////////////////////////////////////
-// specific_character.h:	игровая информация для о конкретном 
-//							персонажей в игре
+п»ї//////////////////////////////////////////////////////////////////////////
+// specific_character.h:	РёРіСЂРѕРІР°СЏ РёРЅС„РѕСЂРјР°С†РёСЏ РґР»СЏ Рѕ РєРѕРЅРєСЂРµС‚РЅРѕРј
+//							РїРµСЂСЃРѕРЅР°Р¶РµР№ РІ РёРіСЂРµ
 //////////////////////////////////////////////////////////////////////////
 
-#pragma		once
-
+#pragma once
 
 #include "character_info_defs.h"
 #include "shared_data.h"
 #include "xml_str_id_loader.h"
-
 
 #ifdef XRGAME_EXPORTS
 
@@ -18,76 +16,74 @@
 
 #endif
 
-
 //////////////////////////////////////////////////////////////////////////
-// SSpecificCharacterData: данные о конкретном персонаже
+// SSpecificCharacterData: РґР°РЅРЅС‹Рµ Рѕ РєРѕРЅРєСЂРµС‚РЅРѕРј РїРµСЂСЃРѕРЅР°Р¶Рµ
 //////////////////////////////////////////////////////////////////////////
-struct SSpecificCharacterData : CSharedResource
+struct SSpecificCharacterData: CSharedResource
 {
+#ifdef XRGAME_EXPORTS
 
-#ifdef  XRGAME_EXPORTS
+    SSpecificCharacterData();
+    virtual ~SSpecificCharacterData();
 
-	SSpecificCharacterData ();
-	virtual ~SSpecificCharacterData ();
+    // РёРіСЂРѕРІРѕРµ РёРјСЏ РїРµСЂСЃРѕРЅР°Р¶Р°
+    xr_string m_sGameName;
+    // С‚РµРєСЃС‚ СЃ Р±РёРѕРіСЂР°С„РёРµР№ РїРµСЂСЃРѕРЅР°Р¶Р° (Р»РёРЅРє РЅР° string table)
+    shared_str m_sBioText;
+    // СЃС‚СЂРѕРєР° СЃРѕРґРµСЂР¶Р°С‰Р°СЏ РїСЂРµРґРјРµС‚С‹, РєРѕС‚РѕСЂС‹Рµ РЅСѓР¶РЅРѕ РїСЂРѕСЃРїР°РІРЅРёС‚СЊ
+    xr_string m_sSupplySpawn;
+    // РёРјСЏ СЃРµРєС†РёРё РєРѕРЅС„РёРіСѓСЂР°С†РёРё РЅР°СЃС‚СЂРѕРµРє NPC РґР»СЏ РїРµСЂСЃРѕРЅР°Р¶Р°
+    xr_string m_sNpcConfigSect;
+    // РёРјСЏ СЃРµРєС†РёРё РєРѕРЅС„РёРіСѓСЂР°С†РёРё Р·РІСѓРєР° РґР»СЏ NPC РїРµСЂСЃРѕРЅР°Р¶Р°
+    xr_string m_sound_voice_prefix;
 
-	//игровое имя персонажа
-	xr_string	m_sGameName;
-	//текст с биографией персонажа (линк на string table)
-	shared_str	m_sBioText;
-	//строка содержащая предметы, которые нужно проспавнить 
-	xr_string	m_sSupplySpawn;
-	//имя секции конфигурации настроек NPC для персонажа
-	xr_string	m_sNpcConfigSect;
-	//имя секции конфигурации звука для NPC персонажа
-	xr_string	m_sound_voice_prefix;
+    float m_fPanic_threshold;
+    float m_fHitProbabilityFactor;
+    int   m_crouch_type;
+    bool  m_upgrade_mechanic;
 
-	float		m_fPanic_threshold;
-	float		m_fHitProbabilityFactor;
-	int			m_crouch_type;
-	bool		m_upgrade_mechanic;
-
-	xr_string	m_critical_wound_weights;
+    xr_string m_critical_wound_weights;
 #endif
-	shared_str	m_terrain_sect;
+    shared_str m_terrain_sect;
 
-	//имя модели
-	xr_string m_sVisual;
+    // РёРјСЏ РјРѕРґРµР»Рё
+    xr_string m_sVisual;
 
-#ifdef  XRGAME_EXPORTS
-	
-	//начальный диалог
-	shared_str					m_StartDialog;
-	//диалоги актера, которые будут доступны только при встрече с данным персонажем
-	DIALOG_ID_VECTOR			m_ActorDialogs;
+#ifdef XRGAME_EXPORTS
 
-	shared_str					m_icon_name;
-	//команда 
-	CHARACTER_COMMUNITY			m_Community;
+    // РЅР°С‡Р°Р»СЊРЅС‹Р№ РґРёР°Р»РѕРі
+    shared_str m_StartDialog;
+    // РґРёР°Р»РѕРіРё Р°РєС‚РµСЂР°, РєРѕС‚РѕСЂС‹Рµ Р±СѓРґСѓС‚ РґРѕСЃС‚СѓРїРЅС‹ С‚РѕР»СЊРєРѕ РїСЂРё РІСЃС‚СЂРµС‡Рµ СЃ РґР°РЅРЅС‹Рј РїРµСЂСЃРѕРЅР°Р¶РµРј
+    DIALOG_ID_VECTOR m_ActorDialogs;
+
+    shared_str m_icon_name;
+    // РєРѕРјР°РЅРґР°
+    CHARACTER_COMMUNITY m_Community;
 
 #endif
-	
-	//ранг
-	CHARACTER_RANK_VALUE		m_Rank;
-	//репутация
-	CHARACTER_REPUTATION_VALUE	m_Reputation;
 
-	//классы персонажа (военные-ветераны, ученые и т.д.)
-	//к которым он принадлежит
-	xr_vector<CHARACTER_CLASS>	m_Classes;
+    // СЂР°РЅРі
+    CHARACTER_RANK_VALUE m_Rank;
+    // СЂРµРїСѓС‚Р°С†РёСЏ
+    CHARACTER_REPUTATION_VALUE m_Reputation;
 
+    // РєР»Р°СЃСЃС‹ РїРµСЂСЃРѕРЅР°Р¶Р° (РІРѕРµРЅРЅС‹Рµ-РІРµС‚РµСЂР°РЅС‹, СѓС‡РµРЅС‹Рµ Рё С‚.Рґ.)
+    // Рє РєРѕС‚РѕСЂС‹Рј РѕРЅ РїСЂРёРЅР°РґР»РµР¶РёС‚
+    xr_vector<CHARACTER_CLASS> m_Classes;
 
-	//указание на то что персонаж не предназначен для случайного выбора
-	//и задается только через явное указание ID
-	bool m_bNoRandom;
-	//если персонаж является заданым по умолчанию для своей команды
-	bool m_bDefaultForCommunity;
-#ifdef  XRGAME_EXPORTS
-	struct SMoneyDef{
-		u32				min_money;
-		u32				max_money;
-		bool			inf_money;
-	};
-	SMoneyDef			money_def;
+    // СѓРєР°Р·Р°РЅРёРµ РЅР° С‚Рѕ С‡С‚Рѕ РїРµСЂСЃРѕРЅР°Р¶ РЅРµ РїСЂРµРґРЅР°Р·РЅР°С‡РµРЅ РґР»СЏ СЃР»СѓС‡Р°Р№РЅРѕРіРѕ РІС‹Р±РѕСЂР°
+    // Рё Р·Р°РґР°РµС‚СЃСЏ С‚РѕР»СЊРєРѕ С‡РµСЂРµР· СЏРІРЅРѕРµ СѓРєР°Р·Р°РЅРёРµ ID
+    bool m_bNoRandom;
+    // РµСЃР»Рё РїРµСЂСЃРѕРЅР°Р¶ СЏРІР»СЏРµС‚СЃСЏ Р·Р°РґР°РЅС‹Рј РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ РґР»СЏ СЃРІРѕРµР№ РєРѕРјР°РЅРґС‹
+    bool m_bDefaultForCommunity;
+#ifdef XRGAME_EXPORTS
+    struct SMoneyDef
+    {
+        u32  min_money;
+        u32  max_money;
+        bool inf_money;
+    };
+    SMoneyDef money_def;
 #endif
 };
 
@@ -95,61 +91,74 @@ class CInventoryOwner;
 class CCharacterInfo;
 class CSE_ALifeTraderAbstract;
 
-
-class CSpecificCharacter: public CSharedClass<SSpecificCharacterData, shared_str, false>,
-						  public CXML_IdToIndex<CSpecificCharacter>
+class CSpecificCharacter:
+    public CSharedClass<SSpecificCharacterData, shared_str, false>,
+    public CXML_IdToIndex<CSpecificCharacter>
 {
 private:
-	typedef CSharedClass	<SSpecificCharacterData, shared_str, false>				inherited_shared;
-	typedef CXML_IdToIndex	<CSpecificCharacter>									id_to_index;
+    typedef CSharedClass<SSpecificCharacterData, shared_str, false> inherited_shared;
+    typedef CXML_IdToIndex<CSpecificCharacter>                      id_to_index;
 
-	friend id_to_index;
-	friend CInventoryOwner;
-	friend CCharacterInfo;
-	friend CSE_ALifeTraderAbstract;
+    friend id_to_index;
+    friend CInventoryOwner;
+    friend CCharacterInfo;
+    friend CSE_ALifeTraderAbstract;
+
 public:
+    CSpecificCharacter();
+    ~CSpecificCharacter();
 
-								CSpecificCharacter		();
-								~CSpecificCharacter		();
-
-	virtual void				Load					(shared_str		id);
+    virtual void Load(shared_str id);
 
 protected:
-	const SSpecificCharacterData* data					() const	{ VERIFY(inherited_shared::get_sd()); return inherited_shared::get_sd();}
-	SSpecificCharacterData*		  data					()			{ VERIFY(inherited_shared::get_sd()); return inherited_shared::get_sd();}
+    const SSpecificCharacterData* data() const
+    {
+        VERIFY(inherited_shared::get_sd());
+        return inherited_shared::get_sd();
+    }
+    SSpecificCharacterData* data()
+    {
+        VERIFY(inherited_shared::get_sd());
+        return inherited_shared::get_sd();
+    }
 
-	//загрузка из XML файла
-	virtual void				load_shared				(LPCSTR);
-	static void					InitXmlIdToIndex		();
+    // Р·Р°РіСЂСѓР·РєР° РёР· XML С„Р°Р№Р»Р°
+    virtual void load_shared(LPCSTR);
+    static void  InitXmlIdToIndex();
 
-	shared_str		m_OwnId;
+    shared_str m_OwnId;
+
 public:
-
-#ifdef  XRGAME_EXPORTS
-	LPCSTR						Name					() const ;
-	shared_str					Bio						() const ;
-	const CHARACTER_COMMUNITY&	Community				() const ;
-	SSpecificCharacterData::SMoneyDef& MoneyDef			() 	{return data()->money_def;}
+#ifdef XRGAME_EXPORTS
+    LPCSTR                             Name() const;
+    shared_str                         Bio() const;
+    const CHARACTER_COMMUNITY&         Community() const;
+    SSpecificCharacterData::SMoneyDef& MoneyDef()
+    {
+        return data()->money_def;
+    }
 #endif
 
-	CHARACTER_RANK_VALUE		Rank					() const ;
-	CHARACTER_REPUTATION_VALUE	Reputation				() const ;
-	LPCSTR						Visual					() const ;
+    CHARACTER_RANK_VALUE       Rank() const;
+    CHARACTER_REPUTATION_VALUE Reputation() const;
+    LPCSTR                     Visual() const;
 
-#ifdef  XRGAME_EXPORTS
-	LPCSTR						SupplySpawn				() const ;
-	LPCSTR						NpcConfigSect			() const ;
-	LPCSTR						sound_voice_prefix		() const ;
-	float						panic_threshold			() const ;
-	float						hit_probability_factor	() const ;
-	int							crouch_type				() const ;
-	bool						upgrade_mechanic		() const ;
-	LPCSTR						critical_wound_weights	() const ;
+#ifdef XRGAME_EXPORTS
+    LPCSTR SupplySpawn() const;
+    LPCSTR NpcConfigSect() const;
+    LPCSTR sound_voice_prefix() const;
+    float  panic_threshold() const;
+    float  hit_probability_factor() const;
+    int    crouch_type() const;
+    bool   upgrade_mechanic() const;
+    LPCSTR critical_wound_weights() const;
 
-	const shared_str&			IconName				() const	{return data()->m_icon_name;};
+    const shared_str& IconName() const
+    {
+        return data()->m_icon_name;
+    };
 #endif
-	shared_str					terrain_sect			() const;
+    shared_str terrain_sect() const;
 };
-
 
 //////////////////////////////////////////////////////////////////////////

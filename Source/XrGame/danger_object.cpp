@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: danger_object.cpp
 //	Created 	: 14.02.2005
 //  Modified 	: 14.02.2005
@@ -9,6 +9,4 @@
 #include "stdafx.h"
 #include "danger_object.h"
 
-CDangerObject::~CDangerObject	()
-{
-}
+CDangerObject::~CDangerObject() {}

@@ -1,4 +1,4 @@
-
+Ôªø
 #ifndef UI_ANIMATED_STATIC_H_
 #define UI_ANIMATED_STATIC_H_
 
@@ -8,62 +8,95 @@
 
 class CUIAnimatedStatic: public CUIStatic
 {
-	typedef CUIStatic inherited;
-	//  ÓÎË˜ÂÍÒÚ‚Ó Í‡‰Ó‚ ‡ÌËÏ‡ˆËË
-	u32		m_uFrameCount;
-	// “ÂÍÛ˘ËÈ ÙÂÈÏ
-	u32		m_uCurFrame;
-	// –‡ÁÏÂ˚ ÚÂÍÒÚÛ˚ Ò ‡ÌËÏ‡ˆËÂÈ ‚ Í‡‰‡ı
-	u32		m_uAnimRows, m_uAnimCols;
-	// –‡ÁÏÂ˚ Í‡‰‡ Ì‡ ÚÂÍÚÛÂ
-	float	m_uFrameWidth, m_uFrameHeight;
-	// ¬ÂÏˇ ÔÓÍ‡Á‡ ‚ÒÂÈ ‡ÌËÏ‡ˆËË ‚ ms.
-	u32		m_uAnimationDuration;
-	// ¬ÂÏˇ ÔÓ¯Â‰¯ÂÂ Ò Ì‡˜‡Î‡ ‡ÌËÏ‡ˆËË
-	u32		m_uTimeElapsed;
-	// ÙÎ‡„-ÔËÁÌ‡Í ÌÂÓ·ıÓ‰ËÏÓÒÚË ÔÂÂÒ˜ÂÚ‡ ÒÚ‡ÚË˜Ì˚ı Ô‡‡ÏÂÚÓ‚ ‡ÌËÏ‡ˆËË
-	bool	m_bParamsChanged;
-	// œËÁÌ‡Í ÔÓË„˚‚‡ÌËˇ ‡ÌËÏ‡ˆËË
-	bool	m_bPlaying;
+    typedef CUIStatic inherited;
+    // –ö–æ–ª–∏—á–µ–∫—Å—Ç–≤–æ –∫–∞–¥—Ä–æ–≤ –∞–Ω–∏–º–∞—Ü–∏–∏
+    u32 m_uFrameCount;
+    // –¢–µ–∫—É—â–∏–π —Ñ—Ä–µ–π–º
+    u32 m_uCurFrame;
+    // –†–∞–∑–º–µ—Ä—ã —Ç–µ–∫—Å—Ç—É—Ä—ã —Å –∞–Ω–∏–º–∞—Ü–∏–µ–π –≤ –∫–∞–¥—Ä–∞—Ö
+    u32 m_uAnimRows, m_uAnimCols;
+    // –†–∞–∑–º–µ—Ä—ã –∫–∞–¥—Ä–∞ –Ω–∞ —Ç–µ–∫—Ç—É—Ä–µ
+    float m_uFrameWidth, m_uFrameHeight;
+    // –í—Ä–µ–º—è –ø–æ–∫–∞–∑–∞ –≤—Å–µ–π –∞–Ω–∏–º–∞—Ü–∏–∏ –≤ ms.
+    u32 m_uAnimationDuration;
+    // –í—Ä–µ–º—è –ø—Ä–æ—à–µ–¥—à–µ–µ —Å –Ω–∞—á–∞–ª–∞ –∞–Ω–∏–º–∞—Ü–∏–∏
+    u32 m_uTimeElapsed;
+    // —Ñ–ª–∞–≥-–ø—Ä–∏–∑–Ω–∞–∫ –Ω–µ–æ–±—Ö–æ–¥–∏–º–æ—Å—Ç–∏ –ø–µ—Ä–µ—Å—á–µ—Ç–∞ —Å—Ç–∞—Ç–∏—á–Ω—ã—Ö –ø–∞—Ä–∞–º–µ—Ç—Ä–æ–≤ –∞–Ω–∏–º–∞—Ü–∏–∏
+    bool m_bParamsChanged;
+    // –ü—Ä–∏–∑–Ω–∞–∫ –ø—Ä–æ–∏–≥—Ä—ã–≤–∞–Ω–∏—è –∞–Ω–∏–º–∞—Ü–∏–∏
+    bool m_bPlaying;
 
-	Fvector2 m_pos;
+    Fvector2 m_pos;
 
-	u32		m_prevTime;
+    u32 m_prevTime;
 
-	// »ÌËˆË‡ÎËÁ‡ˆËˇ ÔÂ‚Ó„Ó Í‡‰‡
-	// Params:	frameNum	- ÌÓÏÂ Í‡‰‡: [0..m_uFrameCount)
-	void SetFrame(const u32 frameNum);
+    // –ò–Ω–∏—Ü–∏–∞–ª–∏–∑–∞—Ü–∏—è –ø–µ—Ä–≤–æ–≥–æ –∫–∞–¥—Ä–∞
+    // Params:	frameNum	- –Ω–æ–º–µ—Ä –∫–∞–¥—Ä–∞: [0..m_uFrameCount)
+    void SetFrame(const u32 frameNum);
+
 public:
-	CUIAnimatedStatic();
-	
-	// ”ÒÚ‡Ì‡‚ÎË‚‡ÂÏ Ô‡‡ÏÂÚ˚
-	void SetOffset(float x, float y)					{m_pos.set(x,y);};
-	void SetFramesCount(u32 frameCnt)					{ m_uFrameCount = frameCnt; m_bParamsChanged = true; }
-	void SetAnimCols(u32 animCols)						{ m_uAnimCols = animCols; m_bParamsChanged = true; }
-	void SetAnimationDuration(u32 animDur)				{ m_uAnimationDuration = animDur; m_bParamsChanged = true; }
-	void SetFrameDimentions(float frameW, float frameH)	{ m_uFrameHeight = frameH; m_uFrameWidth = frameW; m_bParamsChanged = true; }
-	// ”Ô‡‚ÎÂÌËÂ
-	void Play()											{ m_bPlaying = true; m_prevTime = Device->dwTimeContinual;}
-	void Stop()											{ m_bPlaying = false; }
-	void Rewind(u32 delta = 0)							{ m_uCurFrame = 0xffffffff; m_uTimeElapsed = delta; }
-	void SetAnimPos(float pos);
-	// ‘Î‡„-ÔËÁÌ‡Í ˆËÍÎË˜ÂÒÍÓ„Ó ÔÓË„˚‚‡ÌËˇ
-	bool m_bCyclic;
+    CUIAnimatedStatic();
 
-	virtual void Update();
+    // –£—Å—Ç–∞–Ω–∞–≤–ª–∏–≤–∞–µ–º –ø–∞—Ä–∞–º–µ—Ç—Ä—ã
+    void SetOffset(float x, float y)
+    {
+        m_pos.set(x, y);
+    };
+    void SetFramesCount(u32 frameCnt)
+    {
+        m_uFrameCount    = frameCnt;
+        m_bParamsChanged = true;
+    }
+    void SetAnimCols(u32 animCols)
+    {
+        m_uAnimCols      = animCols;
+        m_bParamsChanged = true;
+    }
+    void SetAnimationDuration(u32 animDur)
+    {
+        m_uAnimationDuration = animDur;
+        m_bParamsChanged     = true;
+    }
+    void SetFrameDimentions(float frameW, float frameH)
+    {
+        m_uFrameHeight   = frameH;
+        m_uFrameWidth    = frameW;
+        m_bParamsChanged = true;
+    }
+    // –£–ø—Ä–∞–≤–ª–µ–Ω–∏–µ
+    void Play()
+    {
+        m_bPlaying = true;
+        m_prevTime = Device->dwTimeContinual;
+    }
+    void Stop()
+    {
+        m_bPlaying = false;
+    }
+    void Rewind(u32 delta = 0)
+    {
+        m_uCurFrame    = 0xffffffff;
+        m_uTimeElapsed = delta;
+    }
+    void SetAnimPos(float pos);
+    // –§–ª–∞–≥-–ø—Ä–∏–∑–Ω–∞–∫ —Ü–∏–∫–ª–∏—á–µ—Å–∫–æ–≥–æ –ø—Ä–æ–∏–≥—Ä—ã–≤–∞–Ω–∏—è
+    bool m_bCyclic;
+
+    virtual void Update();
 };
 
 class CUISleepStatic: public CUIStatic
 {
 private:
-	typedef			CUIStatic inherited;
+    typedef CUIStatic inherited;
 
-	int				m_cur_time;
-	CUIStaticItem	m_UIStaticItem2;
+    int           m_cur_time;
+    CUIStaticItem m_UIStaticItem2;
+
 public:
-					CUISleepStatic();
-	virtual	void	Draw				();
-	virtual	void	Update				();
-	virtual void	InitTextureEx		(LPCSTR tex_name, LPCSTR sh_name="hud\\default");
+    CUISleepStatic();
+    virtual void Draw();
+    virtual void Update();
+    virtual void InitTextureEx(LPCSTR tex_name, LPCSTR sh_name = "hud\\default");
 };
-#endif	//UI_ANIMATED_STATIC_H_
+#endif   // UI_ANIMATED_STATIC_H_

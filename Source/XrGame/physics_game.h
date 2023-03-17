@@ -1,3 +1,3 @@
-#pragma once
-extern ContactCallbackFun *ContactShotMark;
-extern ContactCallbackFun *CharacterContactShotMark;
+﻿#pragma once
+extern ContactCallbackFun* ContactShotMark;
+extern ContactCallbackFun* CharacterContactShotMark;

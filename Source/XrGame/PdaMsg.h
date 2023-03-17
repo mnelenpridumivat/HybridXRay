@@ -1,6 +1,6 @@
-/////////////////////////////////////////////////////
+п»ї/////////////////////////////////////////////////////
 //
-// PdaMsg.h - сообщение посылаемое при помощи PDA
+// PdaMsg.h - СЃРѕРѕР±С‰РµРЅРёРµ РїРѕСЃС‹Р»Р°РµРјРѕРµ РїСЂРё РїРѕРјРѕС‰Рё PDA
 //
 /////////////////////////////////////////////////////
 
@@ -8,38 +8,37 @@
 #include "../xrEngine/alife_space.h"
 #include "pda_space.h"
 
-//структура для описания сообщения PDA,
-//используется для ведения логов
-typedef struct tagSPdaMessage 
+// СЃС‚СЂСѓРєС‚СѓСЂР° РґР»СЏ РѕРїРёСЃР°РЅРёСЏ СЃРѕРѕР±С‰РµРЅРёСЏ PDA,
+// РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РґР»СЏ РІРµРґРµРЅРёСЏ Р»РѕРіРѕРІ
+typedef struct tagSPdaMessage
 {
-	EPdaMsg			msg;
-	
-	//true если мы получали сообщение 
-	//и false если мы его посылали
-	bool			receive;
-	
-	//true, если сообщение - вопрос
-	//и false, если ответ
-	bool			question;
-	
-	// информаци
-	shared_str		info_id;
+    EPdaMsg msg;
 
-	//время получения/отправки сообщения
-	ALife::_TIME_ID	time;
-		
+    // true РµСЃР»Рё РјС‹ РїРѕР»СѓС‡Р°Р»Рё СЃРѕРѕР±С‰РµРЅРёРµ
+    // Рё false РµСЃР»Рё РјС‹ РµРіРѕ РїРѕСЃС‹Р»Р°Р»Рё
+    bool receive;
+
+    // true, РµСЃР»Рё СЃРѕРѕР±С‰РµРЅРёРµ - РІРѕРїСЂРѕСЃ
+    // Рё false, РµСЃР»Рё РѕС‚РІРµС‚
+    bool question;
+
+    // РёРЅС„РѕСЂРјР°С†Рё
+    shared_str info_id;
+
+    // РІСЂРµРјСЏ РїРѕР»СѓС‡РµРЅРёСЏ/РѕС‚РїСЂР°РІРєРё СЃРѕРѕР±С‰РµРЅРёСЏ
+    ALife::_TIME_ID time;
+
 } SPdaMessage;
 
-
-//информация о контактах персонажей по PDA и во время диалога
+// РёРЅС„РѕСЂРјР°С†РёСЏ Рѕ РєРѕРЅС‚Р°РєС‚Р°С… РїРµСЂСЃРѕРЅР°Р¶РµР№ РїРѕ PDA Рё РІРѕ РІСЂРµРјСЏ РґРёР°Р»РѕРіР°
 struct TALK_CONTACT_DATA
 {
-	TALK_CONTACT_DATA():id(u16(-1)),time(0){};
-	TALK_CONTACT_DATA(u16 contact_id, ALife::_TIME_ID contact_time):id(contact_id),time(contact_time){};
-	//время контакта
-	ALife::_TIME_ID	time;
-	//id персонажа с которым говорили
-	u16				id;
+    TALK_CONTACT_DATA(): id(u16(-1)), time(0){};
+    TALK_CONTACT_DATA(u16 contact_id, ALife::_TIME_ID contact_time): id(contact_id), time(contact_time){};
+    // РІСЂРµРјСЏ РєРѕРЅС‚Р°РєС‚Р°
+    ALife::_TIME_ID time;
+    // id РїРµСЂСЃРѕРЅР°Р¶Р° СЃ РєРѕС‚РѕСЂС‹Рј РіРѕРІРѕСЂРёР»Рё
+    u16 id;
 };
 
 DEFINE_VECTOR(TALK_CONTACT_DATA, TALK_CONTACT_VECTOR, TALK_CONTACT_VECTOR_IT);
