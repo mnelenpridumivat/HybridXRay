@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 #include "XrSEFactoryManager.h"
-#include "..\..\XrAPI\xrGameManager.h"
+
 XrSEFactoryManager* g_SEFactoryManager = nullptr;
 
 XrSEFactoryManager::XrSEFactoryManager()
