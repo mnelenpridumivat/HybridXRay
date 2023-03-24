@@ -257,6 +257,7 @@ void STextureParams::FillProp(LPCSTR base_name, PropItemVec& items, PropValue::T
             PHelper().CreateColor(items, "Border\\Color", &border_color);
             break;
         case ttBumpMap:
+            PHelper().CreateToken32(items, "Format", (u32*)&fmt, tfmt_token);
             PHelper().CreateChoose(items, "Bump\\Special NormalMap", &ext_normal_map_name, smTexture, base_name);
             PHelper().CreateFloat(items, "Bump\\Virtual Height (m)", &bump_virtual_height, 0.f, 0.1f, 0.001f, 3);
             break;
