@@ -142,11 +142,19 @@ void ConvertAlphaToNormalMap_4x(NVI_Image* pSrc, float scale, bool wrap)
     //	0	1/2		0
     //	0	0		0
     //	0	-1/2	0
-    int                      numelem     = 2;   // num elements in each kernel
-    ConvolutionKernelElement du_elem[]   = {{-1, 0, -1.0f / 2.0f}, {1, 0, 1.0f / 2.0f}};
-    ConvolutionKernelElement dv_elem[]   = {{0, 1, 1.0f / 2.0f}, {0, -1, -1.0f / 2.0f}};
-    int                      num_kernels = 2;
-    ConvolutionKernel        kernels[2];
+    int numelem = 2;   // num elements in each kernel
+    ConvolutionKernelElement du_elem[] =
+    {
+        { -1, 0, -1.0f / 2.0f },
+        { 1, 0, 1.0f / 2.0f }
+    };
+    ConvolutionKernelElement dv_elem[] =
+    {
+        { 0, 1, 1.0f / 2.0f },
+        { 0, -1, -1.0f / 2.0f }
+    };
+    int num_kernels = 2;
+    ConvolutionKernel kernels[2];
     kernels[0].SetElements(numelem, du_elem);
     kernels[1].SetElements(numelem, dv_elem);
     // Calc ARGB normal map & write to the "in." file
@@ -167,18 +175,25 @@ void ConvertAlphaToNormalMap_3x3(NVI_Image* pSrc, float scale, bool wrap)
     //  -1/6	0	1/6
     //  -1/6	0	1/6
     //  -1/6	0	1/6
-    ConvolutionKernelElement du_elem[] = {{-1, 1, -wt}, {1, 1, wt},    {-1, 0, -wt},
-                                          {1, 0, wt},   {-1, -1, -wt}, {1, -1, wt}};
+    ConvolutionKernelElement du_elem[] =
+    {
+        { -1, 1, -wt }, { 1, 1, wt },
+        { -1, 0, -wt }, { 1, 0, wt },
+        { -1, -1, -wt }, { 1, -1, wt }
+    };
     // Kernel for change of height in v axis:
     //						 1,1
     //   1/6	 1/6	 1/6
     //     0	   0	   0
     //  -1/6	-1/6	-1/6
     // 0,0
-    ConvolutionKernelElement dv_elem[]   = {{-1, 1, wt},   {0, 1, wt},   {1, 1, wt},
-                                            {-1, -1, -wt}, {0, -1, -wt}, {1, -1, -wt}};
-    int                      num_kernels = 2;
-    ConvolutionKernel        kernels[2];
+    ConvolutionKernelElement dv_elem[] =
+    {
+        { -1, 1, wt }, { 0, 1, wt }, { 1, 1, wt },
+        { -1, -1, -wt }, { 0, -1, -wt }, { 1, -1, -wt }
+    };
+    int num_kernels = 2;
+    ConvolutionKernel kernels[2];
     kernels[0].SetElements(numelem, du_elem);
     kernels[1].SetElements(numelem, dv_elem);
     // Calc ARGB normal map & write to the "in." file
@@ -192,7 +207,7 @@ void ConvertAlphaToNormalMap_5x5(NVI_Image* pSrc, float scale, bool wrap)
     //		height + kernel heigh - 1 ) to make wrap code easy for arbitrary
     //		kernels.  Edge texels are duplicated into the border regions or
     //      copied from the other side of the source image if wrapping is on.
-    int   numelem;   // num elements in each kernel
+    int numelem;   // num elements in each kernel
     float wt1 = 1.0f / 6.0f;
     float wt2 = 1.0f / 48.0f;
     /*
@@ -228,23 +243,28 @@ void ConvertAlphaToNormalMap_5x5(NVI_Image* pSrc, float scale, bool wrap)
     {-2,-1,-wt1}, {-1,-1,-wt1},   {1,-1,-wt1}, {2,-1,-wt1},
     {-2,-2, wt2}, {-1,-2, wt2},   {1,-2, wt2}, {2,-2, wt2}   };
     */
-    numelem    = 20;
+    numelem = 20;
     float wt22 = 1.0f / 16.0f;
     float wt12 = 1.0f / 10.0f;
     float wt02 = 1.0f / 8.0f;
     float wt11 = 1.0f / 2.8f;
     // Kernels using slope based on distance of that point from the 0,0
     // This is not from math derivation, but makes nice result
-    ConvolutionKernelElement du_elem[] = {{-2, 2, -wt22},  {-1, 2, -wt12},  {1, 2, wt12},  {2, 2, wt22},
-                                          {-2, 1, -wt12},  {-1, 1, -wt11},  {1, 1, wt11},  {2, 1, wt12},
-                                          {-2, 0, -wt02},  {-1, 0, -0.5f},  {1, 0, 0.5f},  {2, 0, wt02},
-                                          {-2, -1, -wt12}, {-1, -1, -wt11}, {1, -1, wt11}, {2, -1, wt12},
-                                          {-2, -2, -wt22}, {-1, -2, -wt12}, {1, -2, wt12}, {2, -2, wt22}};
-    ConvolutionKernelElement dv_elem[] = {
-        {-2, 2, wt22},   {-1, 2, wt12},   {0, 2, 1.0f / 4.0f},   {1, 2, wt12},   {2, 2, wt22},
-        {-2, 1, wt12},   {-1, 1, wt11},   {0, 1, 1.0f / 2.0f},   {1, 1, wt11},   {2, 1, wt12},
-        {-2, -1, -wt12}, {-1, -1, -wt11}, {0, -1, -1.0f / 2.0f}, {1, -1, -wt11}, {2, -1, -wt12},
-        {-2, -2, -wt22}, {-1, -2, -wt12}, {0, -2, -1.0f / 4.0f}, {1, -2, -wt12}, {2, -2, -wt22}};
+    ConvolutionKernelElement du_elem[] =
+    {
+        { -2, 2, -wt22  }, { -1, 2, -wt12  }, { 1, 2, wt12  }, { 2, 2, wt22  },
+        { -2, 1, -wt12  }, { -1, 1, -wt11  }, { 1, 1, wt11  }, { 2, 1, wt12  },
+        { -2, 0, -wt02  }, { -1, 0, -0.5f  }, { 1, 0, 0.5f  }, { 2, 0, wt02  },
+        { -2, -1, -wt12 }, { -1, -1, -wt11 }, { 1, -1, wt11 }, { 2, -1, wt12 },
+        { -2, -2, -wt22 }, { -1, -2, -wt12 }, { 1, -2, wt12 }, { 2, -2, wt22 }
+    };
+    ConvolutionKernelElement dv_elem[] =
+    {
+        { -2, 2, wt22   }, { -1, 2, wt12   }, { 0, 2, 1.0f / 4.0f   }, { 1, 2, wt12   }, { 2, 2, wt22   },
+        { -2, 1, wt12   }, { -1, 1, wt11   }, { 0, 1, 1.0f / 2.0f   }, { 1, 1, wt11   }, { 2, 1, wt12   },
+        { -2, -1, -wt12 }, { -1, -1, -wt11 }, { 0, -1, -1.0f / 2.0f }, { 1, -1, -wt11 }, { 2, -1, -wt12 },
+        { -2, -2, -wt22 }, { -1, -2, -wt12 }, { 0, -2, -1.0f / 4.0f }, { 1, -2, -wt12 }, { 2, -2, -wt22 }
+    };
     // normalize the kernel so abs of all weights add to one
     float usum = 0.0f, vsum = 0.0f;
     for (int i = 0; i < numelem; i++)
@@ -257,7 +277,7 @@ void ConvertAlphaToNormalMap_5x5(NVI_Image* pSrc, float scale, bool wrap)
         du_elem[i].weight /= usum;
         dv_elem[i].weight /= vsum;
     }
-    int               num_kernels = 2;
+    int num_kernels = 2;
     ConvolutionKernel kernels[2];
     kernels[0].SetElements(numelem, du_elem);
     kernels[1].SetElements(numelem, dv_elem);
@@ -354,8 +374,16 @@ void ConvertAlphaToNormalMap_7x7(NVI_Image* pSrc, float scale, bool wrap)
     // Kernel for change of height in u axis:
     // A Sobel filter kernel
     numelem      = 49;
-    float du_f[] = {-1, -2, -3, 0,  3,  2,  1, -2, -3, -4, 0,  4,  3,  2, -3, -4, -5, 0,  5,  4,  3, -4, -5, -6, 0,
-                    6,  5,  4,  -3, -4, -5, 0, 5,  4,  3,  -2, -3, -4, 0, 4,  3,  2,  -1, -2, -3, 0, 3,  2,  1};
+    float du_f[] =
+    {
+        -1, -2, -3, 0, 3, 2, 1,
+        -2, -3, -4, 0, 4, 3, 2,
+        -3, -4, -5, 0, 5, 4, 3,
+        -4, -5, -6, 0, 6, 5, 4,
+        -3, -4, -5, 0, 5, 4, 3,
+        -2, -3, -4, 0, 4, 3, 2,
+        -1, -2, -3, 0, 3, 2, 1
+    };
     ConvolutionKernelElement du_elem[49];
     MakeKernelElems(du_f, 7, 7, &(du_elem[0]));
     // Kernel for change of height in v axis:
@@ -376,7 +404,7 @@ void ConvertAlphaToNormalMap_7x7(NVI_Image* pSrc, float scale, bool wrap)
         du_elem[i].weight /= usum;
         dv_elem[i].weight /= vsum;
     }
-    int               num_kernels = 2;
+    int num_kernels = 2;
     ConvolutionKernel kernels[2];
     kernels[0].SetElements(numelem, du_elem);
     kernels[1].SetElements(numelem, dv_elem);
@@ -395,9 +423,18 @@ void ConvertAlphaToNormalMap_9x9(NVI_Image* pSrc, float scale, bool wrap)
     // Kernel for change of height in u axis:
     // A Sobel filter kernel
     numelem      = 81;
-    float du_f[] = {-1, -2, -3, -4, 0, 4, 3, 2, 1, -2, -3, -4, -5, 0, 5, 4, 3, 2, -3, -4, -5, -6, 0, 6, 5, 4, 3,
-                    -4, -5, -6, -7, 0, 7, 6, 5, 4, -5, -6, -7, -8, 0, 8, 7, 6, 5, -4, -5, -6, -7, 0, 7, 6, 5, 4,
-                    -3, -4, -5, -6, 0, 6, 5, 4, 3, -2, -3, -4, -5, 0, 5, 4, 3, 2, -1, -2, -3, -4, 0, 4, 3, 2, 1};
+    float du_f[] =
+    {
+        -1, -2, -3, -4, 0, 4, 3, 2, 1,
+        -2, -3, -4, -5, 0, 5, 4, 3, 2,
+        -3, -4, -5, -6, 0, 6, 5, 4, 3,
+        -4, -5, -6, -7, 0, 7, 6, 5, 4,
+        -5, -6, -7, -8, 0, 8, 7, 6, 5,
+        -4, -5, -6, -7, 0, 7, 6, 5, 4,
+        -3, -4, -5, -6, 0, 6, 5, 4, 3,
+        -2, -3, -4, -5, 0, 5, 4, 3, 2,
+        -1, -2, -3, -4, 0, 4, 3, 2, 1
+    };
     ConvolutionKernelElement du_elem[81];
     MakeKernelElems(du_f, 9, 9, &(du_elem[0]));
     // Kernel for change of height in v axis:
@@ -418,7 +455,7 @@ void ConvertAlphaToNormalMap_9x9(NVI_Image* pSrc, float scale, bool wrap)
         du_elem[i].weight /= usum;
         dv_elem[i].weight /= vsum;
     }
-    int               num_kernels = 2;
+    int num_kernels = 2;
     ConvolutionKernel kernels[2];
     kernels[0].SetElements(numelem, du_elem);
     kernels[1].SetElements(numelem, dv_elem);
@@ -457,7 +494,10 @@ IC u32 it_gloss_rev(u32 d, u32 s)
     gloss_power += float(color_get_A(s)) / 255.f;
     return color_rgba(
         //.	color_get_A(s)+1, // gloss
-        clampr(color_get_A(s) + 1, u32(0), u32(255)), color_get_B(d), color_get_G(d), color_get_R(d));
+        clampr(color_get_A(s) + 1, u32(0), u32(255)),
+        color_get_B(d),
+        color_get_G(d),
+        color_get_R(d));
 }
 
 IC u32 it_difference(u32 d, u32 orig, u32 ucomp)
@@ -478,7 +518,8 @@ IC u32 it_height_rev(u32 d, u32 s)
         color_get_R(s));   // height
 }
 
-template <class _It> IC void TW_Iterate_1OP(u32 width, u32 height, u32 pitch, u8* dst, u8* src, const _It pred)
+template <class _It>
+IC void TW_Iterate_1OP(u32 width, u32 height, u32 pitch, u8* dst, u8* src, const _It pred)
 {
     for (u32 y = 0; y < height; y++)
     {
@@ -486,7 +527,7 @@ template <class _It> IC void TW_Iterate_1OP(u32 width, u32 height, u32 pitch, u8
         {
             u32& pSrc = *((u32*)(src + y * pitch) + x);
             u32& pDst = *((u32*)(dst + y * pitch) + x);
-            pDst      = pred(pDst, pSrc);
+            pDst = pred(pDst, pSrc);
         }
     }
 }
@@ -501,7 +542,7 @@ IC void TW_Iterate_2OP(u32 width, u32 height, u32 pitch, u8* dst, u8* src0, u8* 
             u32& pSrc0 = *((u32*)(src0 + y * pitch) + x);
             u32& pSrc1 = *((u32*)(src1 + y * pitch) + x);
             u32& pDst  = *((u32*)(dst + y * pitch) + x);
-            pDst       = pred(pDst, pSrc0, pSrc1);
+            pDst = pred(pDst, pSrc0, pSrc1);
         }
     }
 }
@@ -525,15 +566,8 @@ u32 hsample(s32 w, s32 h, s32 p, s32 x, s32 y, u8* src)
 
 extern int DXTCompressImage(LPCSTR out_name, u8* raw_data, u32 w, u32 h, u32 pitch, STextureParams* fmt, u32 depth);
 
-int DXTCompressBump(
-    LPCSTR          out_name,
-    u8*             T_height_gloss,
-    u8*             T_normal_map,
-    u32             w,
-    u32             h,
-    u32             pitch,
-    STextureParams* fmt,
-    u32             depth)
+int DXTCompressBump(LPCSTR out_name, u8* T_height_gloss, u8* T_normal_map,
+    u32 w, u32 h, u32 pitch, STextureParams* fmt, u32 depth)
 {
     VERIFY(4 == depth);
 
@@ -642,7 +676,8 @@ int DXTCompressBump(
                 {
                     u32& dst = *((u32*)(T_height_pf + y * pitch) + x);
 #ifdef XR_DXT_BUMP_FILTERING
-                    u32 val = hsample(w, h, p, x - 1, y - 1, T) + hsample(w, h, p, x + 0, y - 1, T) +
+                    u32 val = 
+                        hsample(w, h, p, x - 1, y - 1, T) + hsample(w, h, p, x + 0, y - 1, T) +
                         hsample(w, h, p, x + 1, y - 1, T) + hsample(w, h, p, x - 1, y + 0, T) +
                         hsample(w, h, p, x + 0, y + 0, T) + hsample(w, h, p, x + 1, y + 0, T) +
                         hsample(w, h, p, x - 1, y + 1, T) + hsample(w, h, p, x + 0, y + 1, T) +

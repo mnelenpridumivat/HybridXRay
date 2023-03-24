@@ -66,7 +66,7 @@ Comments:
     {                        \
         if (p)               \
         {                    \
-            delete[] (p);    \
+            delete[](p);     \
             p = NULL;        \
         }                    \
     }

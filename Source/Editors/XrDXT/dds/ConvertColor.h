@@ -1,5 +1,5 @@
 #pragma once
-#include "tPixel.h" 
+#include "tPixel.h"
 
 namespace nv
 {
@@ -44,7 +44,7 @@ class nvColorConvert
 public:
     void RGBAToFloat(const RGBAImage& srcImage, fpImage& dstImage);
     void RGBAToFloat(const RGBAMipMappedImage& srcMIPImage, fpMipMappedImage& dstMIPImage);
-    void FloatToRGBA(const fpImage& srcImage, RGBAImage&  dstImage);
+    void FloatToRGBA(const fpImage& srcImage, RGBAImage& dstImage);
     void FloatToRGBA(const fpMipMappedImage& srcMIPImage, RGBAMipMappedImage& dstMIPImage);
     fpPixel RGBEtoFloat(int r, int g, int b, int e);
     // photoshop import export
@@ -80,7 +80,7 @@ public:
     static float HalfToFloat(nvhalf val)
     {
         nv_half_data h;
-        //h.bits = val.value_bits;
+        // h.bits = val.value_bits;
         h.bits = val;
         nv_ieee_single sng;
         sng.ieee.s = h.ieee.s;
@@ -97,7 +97,7 @@ public:
             const float half_denorm = 1.0f / 16384.0f; // 2^-14
             float mantissa = (float)h.ieee.m / 1024.0f;
             float sgn = (h.ieee.s) ? -1.0f : 1.0f;
-            sng.f = sgn*mantissa*half_denorm;
+            sng.f = sgn * mantissa * half_denorm;
         }
         else if (h.ieee.e == 31 && h.ieee.m == 0)
         {
@@ -211,7 +211,7 @@ public:
         nv_half_data h;
         h.ieee.s = f.ieee.s;
         // handle special cases
-        //const float half_denorm = (1.0f/16384.0f);
+        // const float half_denorm = (1.0f/16384.0f);
         if (f.ieee.e == 0 && f.ieee.m == 0)
         {
             // zero
@@ -253,19 +253,39 @@ public:
                 switch (exp_val)
                 {
                 case 0:
-                    //fprintf(stderr, "ftoh: logical error in denorm creation!\n"); 
+                    // fprintf(stderr, "ftoh: logical error in denorm creation!\n");
                     h.ieee.m = 0;
                     break;
-                case 1: h.ieee.m = 512 + (f.ieee.m >> 14); break;
-                case 2: h.ieee.m = 256 + (f.ieee.m >> 15); break;
-                case 3: h.ieee.m = 128 + (f.ieee.m >> 16); break;
-                case 4: h.ieee.m = 64 + (f.ieee.m >> 17); break;
-                case 5: h.ieee.m = 32 + (f.ieee.m >> 18); break;
-                case 6: h.ieee.m = 16 + (f.ieee.m >> 19); break;
-                case 7: h.ieee.m = 8 + (f.ieee.m >> 20); break;
-                case 8: h.ieee.m = 4 + (f.ieee.m >> 21); break;
-                case 9: h.ieee.m = 2 + (f.ieee.m >> 22); break;
-                case 10: h.ieee.m = 1; break;
+                case 1:
+                    h.ieee.m = 512 + (f.ieee.m >> 14);
+                    break;
+                case 2:
+                    h.ieee.m = 256 + (f.ieee.m >> 15);
+                    break;
+                case 3:
+                    h.ieee.m = 128 + (f.ieee.m >> 16);
+                    break;
+                case 4:
+                    h.ieee.m = 64 + (f.ieee.m >> 17);
+                    break;
+                case 5:
+                    h.ieee.m = 32 + (f.ieee.m >> 18);
+                    break;
+                case 6:
+                    h.ieee.m = 16 + (f.ieee.m >> 19);
+                    break;
+                case 7:
+                    h.ieee.m = 8 + (f.ieee.m >> 20);
+                    break;
+                case 8:
+                    h.ieee.m = 4 + (f.ieee.m >> 21);
+                    break;
+                case 9:
+                    h.ieee.m = 2 + (f.ieee.m >> 22);
+                    break;
+                case 10:
+                    h.ieee.m = 1;
+                    break;
                 }
             }
             else if (new_exp > 15)

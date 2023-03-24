@@ -170,8 +170,9 @@ void Convolver::Convolve_Alpha_At(int i, int j, float* results, int num_results)
         {
             // extract alpha
             DWORD color;
-            m_BorderedImage.GetPixel(
-                &color, i + m_pKernels[nkern].m_pElements[n].x_offset, j + m_pKernels[nkern].m_pElements[n].y_offset);
+            m_BorderedImage.GetPixel(&color,
+                                     i + m_pKernels[nkern].m_pElements[n].x_offset,
+                                     j + m_pKernels[nkern].m_pElements[n].y_offset);
             // byte_to_float takes 0,255 to 0,1
             float height = (float)(color >> 24) * byte_to_float;
             height *= m_pKernels[nkern].m_pElements[n].weight;

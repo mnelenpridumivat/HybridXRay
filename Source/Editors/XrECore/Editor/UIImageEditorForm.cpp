@@ -151,7 +151,7 @@ void UIImageEditorForm::ImportTextures()
 {
     VERIFY(!Form);
     FS_FileSet TextureMap;
-    int        new_cnt = ImageLib.GetLocalNewTextures(TextureMap);
+    int new_cnt = ImageLib.GetLocalNewTextures(TextureMap);
     if (new_cnt)
     {
         if (ELog.DlgMsg(mtInformation, "Found %d new texture(s)", new_cnt))
@@ -214,7 +214,8 @@ void UIImageEditorForm::OnCubeMapBtnClick(ButtonValue* value, bool& bModif, bool
     bModif = false;
     switch (B->btn_num)
     {
-        case 0: {
+        case 0:
+        {
             RStringVec items;
             if (0 != m_ItemList->GetSelected(items))
             {
@@ -271,7 +272,7 @@ void UIImageEditorForm::UpdateLib()
         // rename with folder
         FS_FileSet files = texture_map;
         texture_map.clear();
-        xr_string    fn;
+        xr_string fn;
         FS_FileSetIt it = files.begin();
         FS_FileSetIt _E = files.end();
 
@@ -360,7 +361,7 @@ void UIImageEditorForm::FilterUpdate()
         ETextureThumbnail* thm = (ETextureThumbnail*)I->m_Object;
 
         BOOL bVis = FALSE;
-        int  type = thm->_Format().type;
+        int type = thm->_Format().type;
         if (STextureParams::ttImage == type && m_bFilterImage)
             bVis = TRUE;
         else if (STextureParams::ttCubeMap == type && m_bFilterCube)

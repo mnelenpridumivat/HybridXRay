@@ -1,8 +1,8 @@
 ﻿#pragma once
-#include <assert.h>
 #include <windows.h>
 
-template <class _Type> class nvVector
+template <class _Type>
+class nvVector
 {
     _Type* m_data;
 

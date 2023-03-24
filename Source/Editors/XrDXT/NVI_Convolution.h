@@ -37,10 +37,10 @@ namespace xray_nvi
         ~ConvolutionKernel();
         HRESULT Initialize(int numElements);
         HRESULT Free();
-        void    SetElements(int numElements, ConvolutionKernelElement* pElements);
+        void SetElements(int numElements, ConvolutionKernelElement* pElements);
         // Find extent (rectangle) over which the kernel samples
         // Values are the offset from the (0,0) element
-        void               GetKernelExtents(int* xlow, int* xhigh, int* ylow, int* yhigh);
+        void GetKernelExtents(int* xlow, int* xhigh, int* ylow, int* yhigh);
         ConvolutionKernel& operator=(const ConvolutionKernel& src);
     };
 

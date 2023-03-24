@@ -70,25 +70,12 @@ int DXTCompressImage(LPCSTR out_name, u8* raw_data, u32 w, u32 h, u32 pitch, STe
     ;
 }
 
-extern int DXTCompressBump(
-    LPCSTR          out_name,
-    u8*             raw_data,
-    u8*             normal_map,
-    u32             w,
-    u32             h,
-    u32             pitch,
-    STextureParams* fmt,
-    u32             depth);
+extern int DXTCompressBump(LPCSTR out_name, u8* raw_data, u8* normal_map,
+    u32 w, u32 h, u32 pitch, STextureParams* fmt, u32 depth);
 
-extern "C" __declspec(dllexport) int DXTCompress(
-    LPCSTR          out_name,
-    u8*             raw_data,
-    u8*             normal_map,
-    u32             w,
-    u32             h,
-    u32             pitch,
-    STextureParams* fmt,
-    u32             depth)
+extern "C" __declspec(dllexport)
+int DXTCompress(LPCSTR out_name, u8* raw_data, u8* normal_map,
+    u32 w, u32 h, u32 pitch, STextureParams* fmt, u32 depth)
 {
     switch (fmt->type)
     {

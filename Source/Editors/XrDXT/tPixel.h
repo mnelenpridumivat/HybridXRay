@@ -20,7 +20,7 @@ public:
             unsigned short g;
         };
     };
-    u16v16_t& operator+=(const u16v16_t& v);   // incrementation by a Vec4f
+    u16v16_t& operator += (const u16v16_t & v);   // incrementation by a Vec4f
 
     void set(unsigned short _r, unsigned short _g)
     {
@@ -41,7 +41,7 @@ public:
             unsigned long b : 8;
         };
     };
-    r12g12b8_t& operator+=(const r12g12b8_t& v);   // incrementation by a Vec4f
+    r12g12b8_t& operator += (const r12g12b8_t& v);   // incrementation by a Vec4f
 
     void set(unsigned long _r, unsigned long _g, unsigned long _b)
     {
@@ -93,7 +93,7 @@ public:
         b = _b;
     }
 
-    rgba_t& operator+=(const rgba_t& v)   // incrementation by a rgba_t
+    rgba_t& operator += (const rgba_t& v)   // incrementation by a rgba_t
     {
         r = iClamp((int)r + (int)v.r, 0, 255);
         g = iClamp((int)g + (int)v.g, 0, 255);
@@ -230,7 +230,7 @@ public:
     union
     {
         unsigned long u;
-        char          rgba[4];
+        char rgba[4];
         struct
         {
             char r;
@@ -379,7 +379,10 @@ public:
 
 inline int operator==(const fpPixel& v1, const fpPixel& v2)
 {
-    return v1.a == v2.a && v1.r == v2.r && v1.b == v2.b && v1.g == v2.g;
+    return v1.a == v2.a &&
+           v1.r == v2.r &&
+           v1.b == v2.b &&
+           v1.g == v2.g;
 }
 
 inline fpPixel& fpPixel::operator=(const fpPixel& v)
@@ -413,7 +416,8 @@ public:
     fpPixel* normals;
 };
 
-template <class _type> class CImage
+template <class _type>
+class CImage
 {
     int             m_width;
     int             m_height;

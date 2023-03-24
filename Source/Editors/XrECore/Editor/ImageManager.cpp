@@ -5,11 +5,11 @@
 
 #include "ImageManager.h"
 #include "xrImage_Resampler.h"
-#include "..\Engine\Image.h"
+#include "../Engine/Image.h"
 #include "ui_main.h"
 #include "EditObject.h"
 #include "ResourceManager.h"
-#include "StbImage\stb_image.h"
+#include "StbImage/stb_image.h"
 #include "../XrETools/ETools.h"
 CImageManager ImageLib;
 //---------------------------------------------------------------------------
@@ -261,8 +261,7 @@ bool CImageManager::MakeGameTexture(ETextureThumbnail* THM, LPCSTR game_name, u3
                 }
                 else if ((_w != w) || (_h != h))
                 {
-                    ELog.DlgMsg(
-                        mtError, "Invalid load special normal map size '%s'. It should be [%dx%d]", e_name, w, h);
+                    ELog.DlgMsg(mtError, "Invalid load special normal map size '%s'. It should be [%dx%d]", e_name, w, h);
                     e_res = false;
                 }
             }
@@ -282,8 +281,7 @@ bool CImageManager::MakeGameTexture(ETextureThumbnail* THM, LPCSTR game_name, u3
             return false;
     }
     // compress
-    int res = DXTCompress(
-        game_name, (u8*)load_data, (u8*)(ext_data.empty() ? 0 : ext_data.data()), w, h, w4, &THM->m_TexParams, 4);
+    int res = DXTCompress(game_name, (u8*)load_data, (u8*)(ext_data.empty() ? 0 : ext_data.data()), w, h, w4, &THM->m_TexParams, 4);
     if (1 != res)
     {
         if (-1000 != res)
@@ -478,9 +476,7 @@ void CImageManager::SynchronizeTextures(
             break;
 
         if (bProgress)
-            pb->Inc(
-                bUpdated ? xr_string(base_name + (bFailed ? " - FAILED" : " - UPDATED.")).c_str() : base_name.c_str(),
-                bUpdated);
+            pb->Inc(bUpdated ? xr_string(base_name + (bFailed ? " - FAILED" : " - UPDATED.")).c_str() : base_name.c_str(), bUpdated);
 
         if (bUpdated)
         {
@@ -575,7 +571,7 @@ int CImageManager::GetLocalNewTextures(FS_FileSet& files)
 // output: 	соответствие
 //------------------------------------------------------------------------------
 #define SQR(a) ((a) * (a))
-BOOL CImageManager::CheckCompliance(LPCSTR fname, int & compl )
+BOOL CImageManager::CheckCompliance(LPCSTR fname, int & compl)
 {
     compl = 0;
     U32Vec data;
@@ -633,7 +629,8 @@ BOOL CImageManager::CheckCompliance(LPCSTR fname, int & compl )
     xr_free(pRestored);
     return TRUE;
 }
-void CImageManager::CheckCompliance(FS_FileSet& files, FS_FileSet & compl )
+
+void CImageManager::CheckCompliance(FS_FileSet& files, FS_FileSet & compl)
 {
     SPBItem*     pb = UI->ProgressStart(files.size(), "Check texture compliance: ");
     FS_FileSetIt it = files.begin();
@@ -647,7 +644,7 @@ void CImageManager::CheckCompliance(FS_FileSet& files, FS_FileSet & compl )
             ELog.Msg(mtError, "Bad texture: '%s'", it->name.c_str());
         FS_File F(*it);
         F.attrib = val;
-        compl .insert(F);
+        compl.insert(F);
         pb->Inc();
         if (UI->NeedAbort())
             break;

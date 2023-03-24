@@ -267,17 +267,15 @@ void NVI_ImageBordered::CopyDataFromSource()
             // Use (- low bound) as the low will be <= 0
             memcpy(&pPadArray[j * m_nSizeX], &pPadArray[(j * m_nSizeX) + sx], sizeof(DWORD) * (-m_nBorderXLow));
             // Copy left side image pixels into right edge border padded area
-            memcpy(
-                &pPadArray[j * m_nSizeX - m_nBorderXLow + sx], &pPadArray[j * m_nSizeX - m_nBorderXLow],
-                sizeof(DWORD) * (m_nBorderXHigh));
+            memcpy(&pPadArray[j * m_nSizeX - m_nBorderXLow + sx],
+                   &pPadArray[j * m_nSizeX - m_nBorderXLow], sizeof(DWORD) * (m_nBorderXHigh));
         }
         for (int j = 0; j < m_nBorderYHigh; j++)
         {
             // Copy low source image pixels into upper edge border padded area
             // krn_v_lowbound is negative or zero
-            memcpy(
-                &pPadArray[(j + sy - m_nBorderYLow) * m_nSizeX], &pPadArray[(j - m_nBorderYLow) * m_nSizeX],
-                sizeof(DWORD) * m_nSizeX);
+            memcpy(&pPadArray[(j + sy - m_nBorderYLow) * m_nSizeX],
+                   &pPadArray[(j - m_nBorderYLow) * m_nSizeX], sizeof(DWORD) * m_nSizeX);
         }
         for (int j = 0; j < -m_nBorderYLow; j++)
         {
@@ -295,9 +293,8 @@ void NVI_ImageBordered::CopyDataFromSource()
         {
             // Copy highest source image pixel row into upper edge border padded area
             // krn_v_lowbound is negative or zero
-            memcpy(
-                &pPadArray[(j + sy - m_nBorderYLow) * m_nSizeX], &pPadArray[(sy - 1 - m_nBorderYLow) * m_nSizeX],
-                sizeof(DWORD) * m_nSizeX);
+            memcpy(&pPadArray[(j + sy - m_nBorderYLow) * m_nSizeX],
+                   &pPadArray[(sy - 1 - m_nBorderYLow) * m_nSizeX], sizeof(DWORD) * m_nSizeX);
         }
         for (int j = 0; j < -m_nBorderYLow; j++)
         {

@@ -28,8 +28,9 @@ Comments:
 // should be in ddraw.h
 
 #ifndef MAKEFOURCC
-#define MAKEFOURCC(ch0, ch1, ch2, ch3) \
-    ((DWORD)(BYTE)(ch0) | ((DWORD)(BYTE)(ch1) << 8) | ((DWORD)(BYTE)(ch2) << 16) | ((DWORD)(BYTE)(ch3) << 24))
+#define MAKEFOURCC(ch0, ch1, ch2, ch3)                \
+    ((DWORD)(BYTE)(ch0) | ((DWORD)(BYTE)(ch1) << 8) | \
+    ((DWORD)(BYTE)(ch2) << 16) | ((DWORD)(BYTE)(ch3) << 24))
 #endif   // defined(MAKEFOURCC)
 
 /////////////////////////////////////
@@ -99,7 +100,7 @@ bool Image_DXTC::LoadFromFile(LPCSTR filename)
     // TRACE( "\n" );
     // TRACE( "\n" );
 
-    int  i;
+	int i;
     bool knownformat = false;
 
     for (i = 0; i < next; i++)
@@ -160,7 +161,10 @@ bool Image_DXTC::LoadFromFile(LPCSTR filename)
     // I sure hope pixelformat is valid!
     DecodePixelFormat(m_strFormat, &(ddsd.ddspf));
 
-    if (m_CompFormat == PF_DXT1 || m_CompFormat == PF_DXT2 || m_CompFormat == PF_DXT3 || m_CompFormat == PF_DXT4 ||
+    if (m_CompFormat == PF_DXT1 ||
+        m_CompFormat == PF_DXT2 ||
+        m_CompFormat == PF_DXT3 ||
+        m_CompFormat == PF_DXT4 ||
         m_CompFormat == PF_DXT5)
     {
         // TRACE("Yay, a recognized format!\n\n");
@@ -177,7 +181,7 @@ bool Image_DXTC::LoadFromFile(LPCSTR filename)
     // TRACE("w * h					%d\n", ddsd.dwWidth * ddsd.dwHeight );
     Msg("ddsd.dwRGBBitCount:            %d\n", ddsd.ddspf.dwRGBBitCount);
     // Store the return copy of this surfacedesc
-    m_DDSD = ddsd;
+    m_DDSD    = ddsd;
 
     m_nHeight = ddsd.dwHeight;
     m_nWidth  = ddsd.dwWidth;
@@ -217,6 +221,7 @@ bool Image_DXTC::LoadFromFile(LPCSTR filename)
         u8* pDest = m_pCompBytes;
         fread(pDest, m_nCompSize, 1, file);
     }
+
     // done reading file
     fclose(file);
     file = NULL;
@@ -243,7 +248,6 @@ void Image_DXTC::AllocateDecompBytes()
 void Image_DXTC::Decompress()
 {
     VERIFY(m_pCompBytes);
-
     AllocateDecompBytes();
 
     VERIFY(m_pDecompBytes);   // must already have allocated memory
@@ -311,8 +315,7 @@ struct DXTAlphaBlock3BitLinear
     u8 stuff[6];
 };
 
-// use cast to struct instead of RGBA_MAKE as struct is
-//  much
+// use cast to struct instead of RGBA_MAKE as struct is much
 struct Color8888
 {
     u8 r;   // change the order of names to change the
@@ -349,8 +352,7 @@ inline void GetColorBlockColors(
     // This method is fastest
 
     Color565* pCol;
-
-    pCol = (Color565*)&pBlock->col0;
+    pCol = (Color565*)&(pBlock->col0);
 
     col_0->a = 0xff;
     col_0->r = pCol->nRed;
@@ -360,7 +362,7 @@ inline void GetColorBlockColors(
     col_0->b = pCol->nBlue;
     col_0->b <<= 3;
 
-    pCol     = (Color565*)&pBlock->col1;
+    pCol = (Color565*)&(pBlock->col1);
     col_1->a = 0xff;
     col_1->r = pCol->nRed;
     col_1->r <<= 3;   // shift to full precision
@@ -405,9 +407,7 @@ inline void GetColorBlockColors(
         // 11 = transparent.
         // These two bit codes correspond to the 2-bit fields
         // stored in the 64-bit block.
-
         // explicit for each component, unlike some refrasts...
-
         // //TRACE("block has alpha\n");
 
         wrd      = ((u16)col_0->r + (u16)col_1->r) / 2;
@@ -442,9 +442,7 @@ inline void
     {
         // width * 4 bytes per pixel per line
         // each j dxtc row is 4 lines of pixels
-
         // pImPos = (DWORD*)((DWORD)pBase + i*16 + (r+j*4) * m_nWidth * 4 );
-
         // n steps through pixels
         for (n = 0; n < 4; n++)
         {
@@ -495,14 +493,12 @@ inline void DecodeAlphaExplicit(u32* pImPos, DXTAlphaBlockExplicit* pAlphaBlock,
     Color8888 col;
     col.r = col.g = col.b = 0;
 
-    ////TRACE("\n");
+    // TRACE("\n");
 
     for (row = 0; row < 4; row++, pImPos += width - 4)
     {
         // pImPow += pImPos += width-4 moves to next row down
-
         wrd = pAlphaBlock->row[row];
-
         // //TRACE("0x%.8x\t\t", wrd);
 
         for (pix = 0; pix < 4; pix++)
@@ -539,9 +535,7 @@ inline void DecodeAlpha3BitLinear(u32* pImPos, DXTAlphaBlock3BitLinear* pAlphaBl
 {
     gAlphas[0] = pAlphaBlock->alpha0;
     gAlphas[1] = pAlphaBlock->alpha1;
-
     // 8-alpha or 6-alpha block?
-
     if (gAlphas[0] > gAlphas[1])
     {
         // 8-alpha block:  derive the other 6 alphas.
@@ -648,12 +642,12 @@ void Image_DXTC::DecompressDXT1()
     // This was hacked up pretty quick & slopily
     // decompresses to 32 bit format 0xARGB
 
-    int xblocks, yblocks;
+	int xblocks, yblocks;
 
     xblocks = m_DDSD.dwWidth / 4;
     yblocks = m_DDSD.dwHeight / 4;
 
-    int i, j;
+	int i, j;
 
     u32* pBase  = (u32*)m_pDecompBytes;
     u32* pImPos = (u32*)pBase;          // pos in decompressed data
@@ -663,7 +657,7 @@ void Image_DXTC::DecompressDXT1()
 
     u16 wrd;
 
-    //	//TRACE("blocks: x: %d    y: %d\n", xblocks, yblocks );
+    // TRACE("blocks: x: %d    y: %d\n", xblocks, yblocks );
 
     for (j = 0; j < yblocks; j++)
     {
@@ -690,18 +684,17 @@ void Image_DXTC::DecompressDXT2()
     // Can do color & alpha same as dxt3, but color is pre-multiplied
     //   so the result will be wrong unless corrected.
     // DecompressDXT3();
-
     VERIFY(false);
 }
 
 void Image_DXTC::DecompressDXT3()
 {
-    int xblocks, yblocks;
+	int xblocks, yblocks;
 
     xblocks = m_DDSD.dwWidth / 4;
     yblocks = m_DDSD.dwHeight / 4;
 
-    int i, j;
+	int i, j;
 
     u32* pBase  = (u32*)m_pDecompBytes;
     u32* pImPos = (u32*)pBase;          // pos in decompressed data
@@ -758,23 +751,27 @@ void Image_DXTC::DecompressDXT4()
     // Can do color & alpha same as dxt5, but color is pre-multiplied
     //   so the result will be wrong unless corrected.
     // DecompressDXT5();
-
     VERIFY(false);
 }
 
 void Image_DXTC::DecompressDXT5()
 {
-    int xblocks = m_DDSD.dwWidth / 4;
-    int yblocks = m_DDSD.dwHeight / 4;
+	int xblocks, yblocks;
+
+    xblocks = m_DDSD.dwWidth / 4;
+    yblocks = m_DDSD.dwHeight / 4;
+
+	int i, j;
+
 
     u32* pBase  = (u32*)m_pDecompBytes;
     u32* pImPos = (u32*)pBase;          // pos in decompressed data
     u16* pPos   = (u16*)m_pCompBytes;   // pos in compressed data
+	DXTColBlock *pBlock;
+	DXTAlphaBlock3BitLinear *pAlphaBlock;
 
-    DXTColBlock*             pBlock;
-    DXTAlphaBlock3BitLinear* pAlphaBlock;
-    Color8888                col_0, col_1, col_2, col_3;
-    u16                      wrd;
+    Color8888 col_0, col_1, col_2, col_3;
+    WORD wrd;
 
     // fill alphazero with appropriate value to zero out alpha when
     //  alphazero is ANDed with the image color 32 bit DWORD:
@@ -785,26 +782,24 @@ void Image_DXTC::DecompressDXT5()
     ////////////////////////////////
     // TRACE("blocks: x: %d    y: %d\n", xblocks, yblocks );
 
-    for (int j = 0; j < yblocks; j++)
+    for (j = 0; j < yblocks; j++)
     {
         // 8 bytes per block
         // 1 block for alpha, 1 block for color
 
         DXTColBlock* pBlock = (DXTColBlock*)((std::uintptr_t)m_pCompBytes + j * xblocks * 16);
 
-        for (int i = 0; i < xblocks; i++, pBlock++)
+        for (i = 0; i < xblocks; i++, pBlock++)
         {
             // inline
             // Get alpha block
-
-            DXTAlphaBlock3BitLinear* pAlphaBlock = (DXTAlphaBlock3BitLinear*)pBlock;
+            pAlphaBlock = (DXTAlphaBlock3BitLinear*)pBlock;
 
             // inline func:
             // Get color block & colors
             pBlock++;
 
             // TRACE("pBlock:   0x%.8x\n", pBlock );
-
             GetColorBlockColors(pBlock, &col_0, &col_1, &col_2, &col_3, wrd);
 
             // Decode the color block into the bitmap bits
@@ -886,7 +881,6 @@ inline void GetColorBlockColors_m2(
     // normal math
 
     Color565* pCol;
-
     pCol = (Color565*)&(pBlock->col0);
 
     col_0->a = 0xff;
@@ -942,9 +936,7 @@ inline void GetColorBlockColors_m2(
         // 11 = transparent.
         // These two bit codes correspond to the 2-bit fields
         // stored in the 64-bit block.
-
         // explicit for each component, unlike some refrasts...
-
         // //TRACE("block has alpha\n");
 
         wrd      = ((u16)col_0->r + (u16)col_1->r) / 2;
@@ -980,7 +972,6 @@ inline void GetColorBlockColors_m3(
     //  or overflow!! =)
 
     Color565* pCol;
-
     pCol = (Color565*)&(pBlock->col0);
 
     col_0->a = 0x00;   // must set to 0 to avoid overflow in DWORD add
@@ -1054,7 +1045,7 @@ inline void GetColorBlockColors_m4(
     // m1 color extraction from 5-6-5
     // m3 color math on DWORD before bit shift to full precision
 
-    wrd      = pBlock->col0;
+    wrd = pBlock->col0;
     col_0->a = 0x00;   // must set to 0 to avoid possible overflow & carry to next field in DWORD add
 
     // extract r,g,b bits
