@@ -41,3 +41,7 @@ gamedata/textures/
 /*.ini
 *.vcxproj.user
 *.bat
+*.ltx
+*.cmd
+*.lnk
+*.ini
