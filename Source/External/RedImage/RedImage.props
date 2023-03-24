@@ -3,7 +3,7 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <OutDir>$(ProjectDir)..\libraries\$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
+    <OutDir>$(ProjectDir)..\libraries\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)..\intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup>
@@ -19,6 +19,7 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <SDLCheck>false</SDLCheck>
+      <PreprocessorDefinitions>_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup />

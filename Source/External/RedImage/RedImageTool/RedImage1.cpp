@@ -193,15 +193,14 @@ void RedImage::SetPixel(const RedColor& color, size_t x, size_t y, size_t d)
 void RedImage::SwapRB()
 {
 	if (Empty())return;
-	assert(m_Mips == 1);
 	if (m_Mips != 1)return;
 	if (m_PixelFotmat != RedTexturePixelFormat::R8G8B8A8)
 	{
 		for (size_t i = 0; i < m_Depth; i++)
 		{
-			for (size_t x = 0; x < m_Width * m_Height; x++)
+			for (size_t x = 0; x < m_Width ; x++)
 			{
-				for (size_t y = 0; y < m_Width * m_Height; y++)
+				for (size_t y = 0; y <m_Height; y++)
 				{
 					RedColor Color = GetPixel(x, y, i);
 					std::swap(Color.R8U, Color.B8U);
