@@ -101,7 +101,7 @@ void UIImageEditorForm::Draw()
                     u32 mem   = 0;
                     m_Texture = RImplementation.texture_load("ed\\ed_nodata", mem);
                 }
-                ImGui::Image(m_Texture, ImVec2(128, 128));
+                ImGui::Image(m_Texture, ImVec2(256, 256));
                 m_ItemProps->Draw();
             }
             ImGui::EndChild();
