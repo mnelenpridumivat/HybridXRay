@@ -7728,6 +7728,9 @@
     <ProjectReference Include="..\XrEngine\XrEngine.vcxproj">
       <Project>{2820680f-79fe-4477-a14c-007f273a5fa8}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\XrNetServer\XrNetServer.vcxproj">
+      <Project>{5a93a01a-05bd-4bf8-8d6e-2a5ae2e0bf14}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\XrSound\XrSound.vcxproj">
       <Project>{57601b62-902a-4ec8-bcc7-b6a2e30b0676}</Project>
     </ProjectReference>
