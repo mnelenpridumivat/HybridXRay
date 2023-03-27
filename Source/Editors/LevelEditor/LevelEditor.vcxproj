@@ -160,6 +160,7 @@
     <ClCompile Include="UI\UITopBarForm.cpp" />
     <ClCompile Include="UI\UIWorldPropertiesFrom.cpp" />
     <ClCompile Include="UI\UIEditLibrary.cpp" />
+    <ClCompile Include="resources\splash.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\XrRender\Private\DetailManager.h" />
@@ -305,6 +306,7 @@
     <ClInclude Include="UI\UITopBarForm_ButtonList.h" />
     <ClInclude Include="UI\UIWorldPropertiesFrom.h" />
     <ClInclude Include="UI\UIEditLibrary.h" />
+    <ClInclude Include="resources\splash.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\XrAPI\XrAPI.vcxproj">
@@ -346,6 +348,9 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\icon_LE.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\Splash_LE.bmp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7E13BFCC-55B0-4715-8BBB-84A143CCE84B}</ProjectGuid>

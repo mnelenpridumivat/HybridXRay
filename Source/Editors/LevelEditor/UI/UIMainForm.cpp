@@ -1,5 +1,6 @@
 ﻿#include "stdafx.h"
 #include "..\XrECore\Editor\EditorChooseEvents.h"
+#include "..\resources\splash.h"
 
 UIMainForm* MainForm = nullptr;
 UIMainForm::UIMainForm()
@@ -95,6 +96,7 @@ void UIMainForm::Draw()
     static bool Demo = true;
     ImGui::ShowDemoWindow(&Demo);
     m_Render->Draw();
+    splash::hide();
 }
 
 bool UIMainForm::Frame()

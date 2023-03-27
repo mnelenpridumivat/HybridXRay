@@ -650,6 +650,9 @@
     <ClCompile Include="Editor\Scene\CFromBuilder.cpp">
       <Filter>Editor\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="resources\splash.cpp">
+      <Filter>General</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -1074,11 +1077,17 @@
       <Filter>Editor\Scene</Filter>
     </ClInclude>
     <ClInclude Include="resources\resource.h" />
+    <ClInclude Include="resources\splash.h">
+      <Filter>General</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources\LevelEditor.rc" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\icon_LE.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\Splash_LE.bmp" />
   </ItemGroup>
 </Project>
