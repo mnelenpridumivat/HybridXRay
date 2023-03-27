@@ -31,8 +31,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     }
     Core._initialize("Patricle_Editor", ELogCallback, 1, FSName, true);
 
-    UI = xr_new<CParticleMain>();
-    UI->RegisterCommands();
+    PTools = xr_new<CParticleTool>();
+    Tools  = PTools;
 
     UI = xr_new<CParticleMain>();
     UI->RegisterCommands();
