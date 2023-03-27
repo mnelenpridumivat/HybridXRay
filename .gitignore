@@ -39,6 +39,7 @@ gamedata/sounds/
 gamedata/spawns/
 gamedata/textures/
 /*.ini
+*.aps
 *.vcxproj.user
 *.bat
 *.ltx

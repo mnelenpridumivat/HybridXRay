@@ -348,8 +348,6 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\icon_LE.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Image Include="resources\Splash_LE.bmp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -22,6 +22,7 @@
     <ClCompile Include="UI_ParticleMain.cpp" />
     <ClCompile Include="UI_ParticleTools.cpp" />
     <ClCompile Include="UI_ParticleToolsProps.cpp" />
+    <ClCompile Include="resources\splash.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="noise.h" />
@@ -36,6 +37,7 @@
     <ClInclude Include="UI_ParticleMain.h" />
     <ClInclude Include="UI_ParticleTools.h" />
     <ClInclude Include="resources\resource.h" />
+    <ClInclude Include="resources\splash.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\XrAPI\XrAPI.vcxproj">
@@ -68,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\icon_PE.ico" />
+    <Image Include="resources\Splash_PE.bmp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{19DC7E82-12AF-4110-93CA-E7C30500A3F5}</ProjectGuid>

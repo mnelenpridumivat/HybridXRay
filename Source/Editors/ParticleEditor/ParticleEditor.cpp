@@ -1,9 +1,16 @@
 ﻿// ParticleEditor.cpp : Определяет точку входа для приложения.
 //
 #include "stdafx.h"
+#include "resources\splash.h"
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
 {
+    if (strstr(GetCommandLine(), "-nosplash") == nullptr)
+    {
+        constexpr bool topmost = false;
+        splash::show(topmost);
+    }
+
     if (!IsDebuggerPresent())
         Debug._initialize(false);
 
@@ -34,11 +41,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     ::MainForm           = MainForm;
     UI->Push(MainForm, false);
 
-    while (MainForm->Frame())
-    {
-    }
+    while (MainForm->Frame()) {}
 
     xr_delete(MainForm);
     Core._destroy();
+    splash::hide();
     return 0;
 }

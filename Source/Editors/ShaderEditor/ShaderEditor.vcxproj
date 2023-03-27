@@ -21,6 +21,7 @@
     <ClCompile Include="UITopBarForm.cpp" />
     <ClCompile Include="ui_shadermain.cpp" />
     <ClCompile Include="UI_shadertools.cpp" />
+    <ClCompile Include="resources\splash.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SHCompilerTools.h" />
@@ -38,6 +39,7 @@
     <ClInclude Include="ui_shadermain.h" />
     <ClInclude Include="UI_shadertools.h" />
     <ClInclude Include="resources\resource.h" />
+    <ClInclude Include="resources\splash.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\XrAPI\XrAPI.vcxproj">
@@ -67,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\icon_SE.ico" />
+    <Image Include="resources\Splash_SE.bmp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3B20191B-7CA1-4D9C-8306-4D9EBB29E24A}</ProjectGuid>

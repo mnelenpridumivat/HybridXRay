@@ -142,6 +142,7 @@
     <ClCompile Include="UI_ActorToolsMotions.cpp" />
     <ClCompile Include="UI_ActorToolsProps.cpp" />
     <ClCompile Include="UI_ActorToolsUndo.cpp" />
+    <ClCompile Include="resources\splash.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\XrAPI\XrAPI.vcxproj">
@@ -181,12 +182,14 @@
     <ClInclude Include="UI_ActorMain.h" />
     <ClInclude Include="UI_ActorTools.h" />
     <ClInclude Include="resources\resource.h" />
+    <ClInclude Include="resources\splash.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources\ActorEditor.rc" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\icon_AE.ico" />
+    <Image Include="resources\Splash_AE.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

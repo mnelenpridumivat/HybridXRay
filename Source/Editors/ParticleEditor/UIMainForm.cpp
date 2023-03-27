@@ -1,6 +1,7 @@
 ﻿#include "stdafx.h"
 
-#include "../XrECore/Editor/EditorChooseEvents.h"
+#include "..\XrECore\Editor\EditorChooseEvents.h"
+#include "resources\splash.h"
 UIMainForm* MainForm = nullptr;
 UIMainForm::UIMainForm()
 {
@@ -38,6 +39,7 @@ void UIMainForm::Draw()
     m_RightBar->Draw();
     m_LeftBar->Draw();
     m_Render->Draw();
+    splash::hide();
 }
 
 bool UIMainForm::Frame()
