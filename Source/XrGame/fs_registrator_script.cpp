@@ -273,7 +273,7 @@ void fs_registrator::script_register(lua_State* L)
              .def("r_close", (void(ILocatorAPI::*)(IReader*&))(&ILocatorAPI::r_close))
 
              .def("w_open", (IWriter * (ILocatorAPI::*)(LPCSTR, LPCSTR))(&ILocatorAPI::w_open))
-             .def("w_open", (IWriter * (ILocatorAPI::*)(LPCSTR))(&ILocatorAPI::w_close))
+             .def("w_open", (IWriter * (ILocatorAPI::*)(LPCSTR))(&ILocatorAPI::w_open))
              .def("w_close", &ILocatorAPI::w_close)
 
              .def("file_list_open", &file_list_open_script)
