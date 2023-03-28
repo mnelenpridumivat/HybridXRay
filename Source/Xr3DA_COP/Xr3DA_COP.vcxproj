@@ -187,6 +187,12 @@
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resources\resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\Icon_CoP.ico" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

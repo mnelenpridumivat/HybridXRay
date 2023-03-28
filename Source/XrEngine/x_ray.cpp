@@ -18,7 +18,7 @@
 #include "x_ray.h"
 #include "std_classes.h"
 #include "GameFont.h"
-#include "resource.h"
+#include "../Xr3DA_COP/resources/resource.h"
 #include "LightAnimLibrary.h"
 #include "../xrcdb/ispatial.h"
 #include "CopyProtection.h"
@@ -29,7 +29,7 @@
 #include "xrSash.h"
 
 #include "securom_api.h"
-#include "..\XrAPI\xrGameManager.h"
+#include "../XrAPI/xrGameManager.h"
 #include "GameMtlLib.h"
 #include "device.h"
 //---------------------------------------------------------------------
@@ -427,6 +427,10 @@ static INT_PTR CALLBACK logDlgProc(HWND hw, UINT msg, WPARAM wp, LPARAM lp)
 {
     switch (msg)
     {
+    case WM_INITDIALOG:
+        if (auto hBMP = LoadImage(nullptr, "splash.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE))
+            SendDlgItemMessage(hw, IDC_STATIC, STM_SETIMAGE, IMAGE_BITMAP, reinterpret_cast<LPARAM>(hBMP));
+        break;
         case WM_DESTROY:
             break;
         case WM_CLOSE:
@@ -774,7 +778,7 @@ ENGINE_API int EngineLaunch(EGamePath Game)
     // Title window
     logoWindow = CreateDialog(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_STARTUP), 0, logDlgProc);
 
-    HWND logoPicture = GetDlgItem(logoWindow, IDC_STATIC_LOGO);
+    HWND logoPicture = GetDlgItem(logoWindow, IDC_STATIC);
     RECT logoRect;
     GetWindowRect(logoPicture, &logoRect);
 

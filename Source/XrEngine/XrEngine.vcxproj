@@ -398,6 +398,7 @@
     <ClInclude Include="xr_object_list.h" />
     <ClInclude Include="x_ray.h" />
     <ClInclude Include="_d3d_extensions.h" />
+    <ClInclude Include="..\Xr3DA_COP\resources\resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ai_script_lua_debug.cpp" />
@@ -565,11 +566,11 @@
     <ClCompile Include="_scripting.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="resource.rc" />
+    <ResourceCompile Include="..\Xr3DA_COP\resources\resource.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="splash_xrcs_en.bmp" />
-    <Image Include="stalker_cs.ico" />
+    <Image Include="..\Xr3DA_COP\resources\Splash_CoP.bmp" />
+    <Image Include="..\Xr3DA_COP\resources\Icon_CoP.ico" />
   </ItemGroup>
   <ItemGroup>
     <None Include="My Amplifier Results\r000hs\r000hs.ampl" />

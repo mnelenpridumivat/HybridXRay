@@ -390,7 +390,7 @@
     <ClInclude Include="x_ray.h">
       <Filter>General</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="..\Xr3DA_COP\resources\resource.h">
       <Filter>General\Resources</Filter>
     </ClInclude>
     <ClInclude Include="psystem.h">
@@ -1345,15 +1345,15 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="resource.rc">
+    <ResourceCompile Include="..\Xr3DA_COP\resources\resource.rc">
       <Filter>General\Resources</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="splash_xrcs_en.bmp">
+    <Image Include="..\Xr3DA_COP\resources\Splash_CoP.bmp">
       <Filter>General\Resources</Filter>
     </Image>
-    <Image Include="stalker_cs.ico">
+    <Image Include="..\Xr3DA_COP\resources\Icon_CoP.ico">
       <Filter>General\Resources</Filter>
     </Image>
   </ItemGroup>

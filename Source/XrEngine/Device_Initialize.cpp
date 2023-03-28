@@ -1,5 +1,5 @@
 ﻿#include "stdafx.h"
-#include "resource.h"
+#include "../Xr3DA_COP/resources/resource.h"
 #include "dedicated_server_only.h"
 
 #include "device.h"
@@ -59,7 +59,7 @@ void CRenderDevice::Initialize()
             0,
             0,
             hInstance,
-            LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON1)),
+            LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON)),
             LoadCursor(NULL, IDC_ARROW),
             (HBRUSH)GetStockObject(BLACK_BRUSH),
             NULL,
