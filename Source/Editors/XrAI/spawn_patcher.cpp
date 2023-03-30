@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: spawn_patcher.cpp
 //	Created 	: 12.06.2007
 //  Modified 	: 12.06.2007
@@ -9,10 +9,10 @@
 #include "stdafx.h"
 
 #if 0
-#	include "spawn_patcher.h"
-#	include "game_graph.h"
-#	include "game_spawn_constructor.h"
-#	include "patrol_path_storage.h"
+#include "spawn_patcher.h"
+#include "game_graph.h"
+#include "game_spawn_constructor.h"
+#include "patrol_path_storage.h"
 
 struct reader_guard {
 	IReader *m_reader;

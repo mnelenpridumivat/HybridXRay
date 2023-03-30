@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: space_restrictor_wrapper_inline.h
 //	Created 	: 28.11.2005
 //  Modified 	: 28.11.2005
@@ -8,20 +8,20 @@
 
 #pragma once
 
-IC	CSpaceRestrictorWrapper::object_type &CSpaceRestrictorWrapper::object	() const
+IC CSpaceRestrictorWrapper::object_type& CSpaceRestrictorWrapper::object() const
 {
-	VERIFY	(m_object);
-	return	(*m_object);
+    VERIFY(m_object);
+    return (*m_object);
 }
 
-IC	CLevelGraph &CSpaceRestrictorWrapper::level_graph						() const
+IC CLevelGraph& CSpaceRestrictorWrapper::level_graph() const
 {
-	VERIFY	(m_level_graph);
-	return	(*m_level_graph);
+    VERIFY(m_level_graph);
+    return (*m_level_graph);
 }
 
-IC	CGraphEngine &CSpaceRestrictorWrapper::graph_engine						() const
+IC CGraphEngine& CSpaceRestrictorWrapper::graph_engine() const
 {
-	VERIFY	(m_graph_engine);
-	return	(*m_graph_engine);
+    VERIFY(m_graph_engine);
+    return (*m_graph_engine);
 }

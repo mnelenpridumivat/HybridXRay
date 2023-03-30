@@ -1,4 +1,4 @@
-// cl_collector.cpp: implementation of the Collector class.
+﻿// cl_collector.cpp: implementation of the Collector class.
 //
 //////////////////////////////////////////////////////////////////////
 
