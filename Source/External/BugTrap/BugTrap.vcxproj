@@ -509,7 +509,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\BearBundle\External\zlib\zlib.vcxproj">
+    <ProjectReference Include="..\zlib\zlib.vcxproj">
       <Project>{86d28925-9f85-43ec-980e-e99d7ff2501c}</Project>
     </ProjectReference>
   </ItemGroup>

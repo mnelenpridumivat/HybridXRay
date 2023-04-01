@@ -1,38 +1,44 @@
-XRayEngine [![Discord](https://img.shields.io/discord/530968529311367178?label=discord)](https://discord.gg/AyyCFs7)
-==========================
-It is open source version of the original XRay Engine 1.6, used in game S.T.A.L.K.E.R.:Call of Pripyat by GSC Game World.
+# X-RAY - SDK (OMP fix v1)
 
-### Supported Platform
-||Windows(x32/x64)|
-|---|---|
-|Engine(COP with Renders)|[![Build status](https://ci.appveyor.com/api/projects/status/l7x79iufq7n0mcs0/branch/master?svg=true)](https://ci.appveyor.com/project/BearIvan/xrayengine/branch/master)|
-|Editors|[![Build status](https://ci.appveyor.com/api/projects/status/rqhakafae4ljeo99?svg=true)](https://ci.appveyor.com/project/BearIvan/xrayengine-sdk)|
-|Clear Sky|[![Build status](https://ci.appveyor.com/api/projects/status/oxbuqwxa4shl3p8b?svg=true)](https://ci.appveyor.com/project/BearIvan/xrayengine-cs)|
+[Группа VK](https://vk.com/xray_omp)
 
-###  Особенности:
-* Оригинальный движок Зова припяти с минимальными изменениями
-* Полный порт Editors на  visual studio и x64
-* Прототип рендера на DX12 и Vulkan
-* Робочий ЧН на ЗП
+### Описание:
+Попытка привести в более менее рабочее состояние [SDK от Red Panda](https://github.com/RedPandaProjects/XRayEngine).  
+**Фиксы затрагивают только редакторы. Компиляторы не фиксились!**
 
-### Features:
-* Original Call of Pripyat engine with minimal changes
-* Full port of Editors on visual studio and x64
-* Prototype render on DX12 and Vulkan
-* Working CS on COP Engine
+### Установка:
+[Скачать](https://github.com/xray-omp/omp-sdk/releases/download/omp-fix-v1/SDK.OMP.fix.v1.zip). Закинуть файлы из папки SDK в папку editors оригинального SDK 0.7 с заменой (пример С:\X-RayCoPSDK\editors).
 
-### More details
-This repository contains XRay Engine 1.6 sources based on T-6638
+### Список изменений (OMP fix v1):
+- Исправлено создание порталов на х64.
+- Исправлена возможность поворачивать объекты.
+- Исправлены лютые лаги при взаимодействии с объектом, после изменения чего либо в Properties.
+- Исправлена возможность создания $rpoint.
+- Расширено количество Team у $rpoint'a до 32 (для МП проектов).
+- Исправлены галочки GameType.
+- Исправлен вылет при попытке задать имя Waypoint'у.
+- Исправлена ситуации когда объекту не назначается имя (после сохранения\загрузки происходил вылет _name).
+- Добавлены недостающие параметры в Properties к Sound source.
+- Добавлена возможность загрузить лог xrAI после verify (облегчен поиск некоректных нодов).
+- В Object List добавлена кнопка Focus on Selected - для фокусировки камеры на выделенный объект в списке.
+- В контекстное меню (по ПКМ) добавлена кнопка Duplicate - дублирует выделенный объект.
+- Добавлен фикс битых .thm (взято из https://github.com/OGSR/OGSR-Engine).
+- Увеличен максимальный размер LOD текстуры до 8192х8192.
+- Увеличен максимальный размер Detail текстуры до 8192х8192, количество detail object до 512.
+- Исправлен контрол выбора цвета (например в секторах).
+- Исправлен баг с созданием дерева каталогов, приводило к вылету если у файла и папки рядом с ним одинаковое имя. Так же добавлен пропуск и предупреждение при ошибке в построении древа каталогов\файлов.
+- Добавлен фокус на Properties после выбора другого объекта во вьюпорте.
+- Увеличена максимальная длина текста в TextView с 20 до 40.
+- Исправлена генерация *_bump#.
+- Ускорена компрессия текстур.
+- Добавлена фозможность растягивать Image Editor.
+- Добавлен горизонтальный скролл в Image Editor.
+- Исправлена не правильная позиция во вью порте при изменении параметра Quality.
+- Исправлен не корректный поиск пути к файлу если в названии папок присутствуют точки (взято из https://github.com/Graff46/XRayEngine).
+- Измененена цветовая палитра редакторов.
+- Исправлен Object List при низких или высоких разрешениях (теперь имеет фиксированый размер и добавлен общий скролл).
+- Прочие мелкие изменения.
 
-It is a place to share ideas on what to implement, gather people that want to work on the engine,
-and work on the source code.
-
-If you find a bug or have an enhancement request, file an [Issue](https://github.com/TheBearProject/XRayEngine/issues).
-
-Pull requests appreciated! However, the following things should be taken into consideration:
-* We want to keep the game as close as possible to the vanilla game, so instead of introducing new gameplay features,
-  consider adding non-gameplay features, fixing bugs, improving performance and code quality
-* Major changes should be discussed before implementation
-
-Be advised that this project is not sanctioned by GSC Game World in any way – and they remain the copyright holders
-of all the original source code.
+### Известные баги:
+- После просчетка ИИ сетки ФПС падает в два раза, и так каждый раз. Помогает перезапуск СДК.
+- Кнопка apply при изменение имени, custom data - работает не корректно. Юзаем ОК.

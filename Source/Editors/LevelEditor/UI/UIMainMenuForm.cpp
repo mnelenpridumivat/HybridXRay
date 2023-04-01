@@ -66,9 +66,9 @@ void UIMainMenuForm::Draw()
         }
         if (ImGui::BeginMenu("Compile"))
 		{
-            if (ImGui::BeginMenu("Make"))
+            if (ImGui::BeginMenu("Make All"))
             {
-                if (ImGui::MenuItem("Make All", ""))
+                if (ImGui::MenuItem("Build", ""))
                 {
                     ExecCommand(COMMAND_BUILD);
                 }
@@ -151,6 +151,10 @@ void UIMainMenuForm::Draw()
 			{
 				ExecCommand(COMMAND_IMPORT_COMPILER_ERROR);
 			}
+            if (ImGui::MenuItem("Import xrAI Error List", ""))
+            {
+                ExecCommand(COMMAND_IMPORT_AICOMPILER_ERROR);
+            }
 			if (ImGui::MenuItem("Export Error List", ""))
 			{
 				ExecCommand(COMMAND_EXPORT_COMPILER_ERROR);
@@ -175,7 +179,7 @@ void UIMainMenuForm::Draw()
                 if (ImGui::MenuItem("Reload Textures", "")) { ExecCommand(COMMAND_RELOAD_TEXTURES); }
                 ImGui::Separator();
                 if (ImGui::MenuItem("Synchronize Textures", "")) { ExecCommand(COMMAND_REFRESH_TEXTURES); }
-                if (ImGui::MenuItem("Cheack New Textures", "")) { ExecCommand(COMMAND_CHECK_TEXTURES); }
+                if (ImGui::MenuItem("Check New Textures", "")) { ExecCommand(COMMAND_CHECK_TEXTURES); }
                 ImGui::Separator();
                 if (ImGui::MenuItem("Sync THM", ""))
                 {

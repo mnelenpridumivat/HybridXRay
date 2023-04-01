@@ -111,7 +111,7 @@ void CCustomObject::RotateParent(Fvector& axis, float angle)
     UI->UpdateScene();
     Fvector r	= FRotation;
     r.mad		(axis,angle);
-    FRotation		= r;
+    SetRotation(r);
 }
 
 void CCustomObject::RotateLocal(Fvector& axis, float angle)

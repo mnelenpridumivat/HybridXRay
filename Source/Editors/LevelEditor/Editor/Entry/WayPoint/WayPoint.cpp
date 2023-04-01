@@ -780,13 +780,21 @@ bool CWayObject::OnWayPointNameAfterEdit(PropValue* sender, shared_str& edit_val
     return !FindWayPoint(edit_val);
 }
 
+void CWayObject::OnNameChange(PropValue* sender)
+{
+    SetName(FName.c_str());
+    ExecCommand(COMMAND_UPDATE_PROPERTIES);
+}
+
 void CWayObject::FillProp(LPCSTR pref, PropItemVec& items)
 {
 //.	inherited::FillProp	(pref,items);
 
     PropValue* V;
-    V = PHelper().CreateNameCB	(items, PrepareKey(pref, "Way Name"),&EName,NULL,NULL,RTextValue::TOnAfterEditEvent(this,&CCustomObject::OnObjectNameAfterEdit));
-    V->OnChangeEvent.bind		(this,&CCustomObject::OnNameChange);
+
+    FName = GetName();
+    V = PHelper().CreateNameCB(items, PrepareKey(pref, "Way Name"), &FName, NULL, NULL, RTextValue::TOnAfterEditEvent(this, &CCustomObject::OnObjectNameAfterEdit));
+    V->OnChangeEvent.bind(this, &CWayObject::OnNameChange);
 
 	if(IsPointMode())
     {

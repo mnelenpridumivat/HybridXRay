@@ -7336,6 +7336,12 @@
     <ClInclude Include="XrLevelEditor.h">
       <Filter>Editor</Filter>
     </ClInclude>
+    <ClInclude Include="PermanentBox.h">
+      <Filter>Core\Client\Objects\inventory_box</Filter>
+    </ClInclude>
+    <ClInclude Include="PersonalBox.h">
+      <Filter>Core\Client\Objects\inventory_box</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="damage_manager.cpp">
@@ -10985,6 +10991,12 @@
     </ClCompile>
     <ClCompile Include="game_graph.cpp">
       <Filter>AI\ANavigation\GameGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="PermanentBox.cpp">
+      <Filter>Core\Client\Objects\inventory_box</Filter>
+    </ClCompile>
+    <ClCompile Include="PersonalBox.cpp">
+      <Filter>Core\Client\Objects\inventory_box</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

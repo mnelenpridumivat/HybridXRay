@@ -255,7 +255,7 @@ void UIPropertiesItem::DrawProp()
 
 		PItem->BeforeEdit<ColorValue, Fcolor>(edit_val);
 		float a = edit_val.a;
-		float color[3] = { edit_val.r,edit_val.b,edit_val.b };
+		float color[3] = { edit_val.r,edit_val.g,edit_val.b };
 		if (ImGui::ColorEdit3("##value", color))
 		{
 			edit_val.r = color[0];
@@ -436,106 +436,155 @@ void UIPropertiesItem::DrawProp()
 		}
 	}
 	break;
-	
-		case PROP_CTEXT:
+
+	case PROP_CTEXT:
+	{
+		CTextValue* V = dynamic_cast<CTextValue*>(PItem->GetFrontValue()); R_ASSERT(V);
 		{
-			CTextValue* V = dynamic_cast<CTextValue*>(PItem->GetFrontValue()); R_ASSERT(V);
+			string128 Str;
+			xr_string Source = PItem->GetDrawText();
+			strncpy_s(Str, Source.c_str(), sizeof(string128) - 4);
+			if (Source.size()>128&& strrchr(Str, '\n'))
 			{
-				string128 Str;
-				xr_string Source = PItem->GetDrawText();
-				strncpy_s(Str, Source.c_str(), sizeof(string128) - 4);
-				if (Source.size()>128&& strrchr(Str, '\n'))
-				{
-					strrchr(Str, '\n')[0] = 0;
-				}
-				xr_strcat(Str, "...");
-				if (ImGui::Button(Str, ImVec2(-1, 0)))
-				{
-				}
+				strrchr(Str, '\n')[0] = 0;
 			}
-			if (ImGui::OpenPopupOnItemClick2("EditText", 0))
+			xr_strcat(Str, "...");
+			if (ImGui::Button(Str, ImVec2(-1, 0)))
 			{
-				if (PropertiesFrom->m_EditTextValueData)
-				{
-					xr_delete(PropertiesFrom->m_EditTextValueData);
-				}
-				PropertiesFrom->m_EditTextValueData = xr_strdup(V->GetValue());
-				PropertiesFrom->m_EditTextValueDataSize = xr_strlen(PropertiesFrom->m_EditTextValueData)+1;
-				PropertiesFrom->m_EditTextValue = PItem;
 			}
-			PropertiesFrom->DrawEditText();
 		}
-			break;
-		case PROP_RTEXT:
+		if (ImGui::OpenPopupOnItemClick2("EditText", 0))
 		{
-			RTextValue* V = dynamic_cast<RTextValue*>(PItem->GetFrontValue()); R_ASSERT(V);
+			if (PropertiesFrom->m_EditTextValueData)
 			{
-				string128 Str;
-				xr_string Source = PItem->GetDrawText();
-				strncpy_s(Str, Source.c_str(), sizeof(string128) - 4);
-				if (Source.size() > 128 && strrchr(Str, '\n'))
-				{
-					strrchr(Str, '\n')[0] = 0;
-				}
-				xr_strcat(Str, "...");
-				if (ImGui::Button(Str, ImVec2(-1, 0)))
-				{
-				}
+				xr_delete(PropertiesFrom->m_EditTextValueData);
 			}
-			if (ImGui::OpenPopupOnItemClick2("EditText", 0))
-			{
-				if (PropertiesFrom->m_EditTextValueData)xr_delete(PropertiesFrom->m_EditTextValueData);
-				PropertiesFrom->m_EditTextValueData = xr_strdup(V->GetValue().c_str()? V->GetValue().c_str():"");
-				PropertiesFrom->m_EditTextValueDataSize = xr_strlen(PropertiesFrom->m_EditTextValueData) + 1;
-				PropertiesFrom->m_EditTextValue = PItem;
-			}
-			PropertiesFrom->DrawEditText();
+			PropertiesFrom->m_EditTextValueData = xr_strdup(V->GetValue());
+			PropertiesFrom->m_EditTextValueDataSize = xr_strlen(PropertiesFrom->m_EditTextValueData) + 1;
+			PropertiesFrom->m_EditTextValue = PItem;
 		}
-			break;
-		
-		case PROP_STEXT:
+		PropertiesFrom->DrawEditText();
+	}
+	break;
+	case PROP_RTEXT:
+	{
+		RTextValue* V = dynamic_cast<RTextValue*>(PItem->GetFrontValue()); R_ASSERT(V);
 		{
-			STextValue* V = dynamic_cast<STextValue*>(PItem->GetFrontValue()); R_ASSERT(V);
+			string128 Str;
+			xr_string Source = PItem->GetDrawText();
+			strncpy_s(Str, Source.c_str(), sizeof(string128) - 4);
+			if (Source.size() > 128 && strrchr(Str, '\n'))
 			{
-				string128 Str;
-				xr_string Source = PItem->GetDrawText();
-				strncpy_s(Str, Source.c_str(), sizeof(string128) - 4);
-				if (Source.size() > 128 && strrchr(Str, '\n'))
-				{
-					strrchr(Str, '\n')[0] = 0;
-				}
-				xr_strcat(Str, "...");
-				if (ImGui::Button(Str, ImVec2(-1, 0)))
-				{
-				}
+				strrchr(Str, '\n')[0] = 0;
 			}
-			if (ImGui::OpenPopupOnItemClick2("EditText", 0))
+			xr_strcat(Str, "...");
+			if (ImGui::Button(Str, ImVec2(-1, 0)))
 			{
-				if (PropertiesFrom->m_EditTextValueData)xr_delete(PropertiesFrom->m_EditTextValueData);
-				PropertiesFrom->m_EditTextValueData = xr_strdup(V->GetValue().c_str());
-				PropertiesFrom->m_EditTextValueDataSize = xr_strlen(PropertiesFrom->m_EditTextValueData) + 1;
-				PropertiesFrom->m_EditTextValue = PItem;
 			}
-			PropertiesFrom->DrawEditText();
 		}
-			break;
-			/*case PROP_TIME:
-			break;*/
-		
-		
-		case PROP_GAMETYPE:
+		if (ImGui::OpenPopupOnItemClick2("EditText", 0))
 		{
-			GameTypeValue* V = dynamic_cast<GameTypeValue*>(PItem->GetFrontValue()); R_ASSERT(V);
-			ImGui::Text(PItem->GetDrawText().c_str());
-			PropertiesFrom->m_EditGameTypeChooser = V->GetValue();
-			PItem->BeforeEdit<GameTypeValue, GameTypeChooser>(PropertiesFrom->m_EditGameTypeChooser);
-			if (ImGui::OpenPopupOnItemClick2("EditGameType", 0))
-			{
-				PropertiesFrom->m_EditGameTypeValue = PItem;
-			}
-			PropertiesFrom->DrawEditGameType();
+			if (PropertiesFrom->m_EditTextValueData)
+				xr_delete(PropertiesFrom->m_EditTextValueData);
+			PropertiesFrom->m_EditTextValueData = xr_strdup(V->GetValue().c_str() ? V->GetValue().c_str() : "");
+			PropertiesFrom->m_EditTextValueDataSize = xr_strlen(PropertiesFrom->m_EditTextValueData) + 1;
+			PropertiesFrom->m_EditTextValue = PItem;
 		}
-			break;
+		PropertiesFrom->DrawEditText();
+	}
+	break;
+
+	case PROP_STEXT:
+	{
+		STextValue* V = dynamic_cast<STextValue*>(PItem->GetFrontValue()); R_ASSERT(V);
+		{
+			string128 Str;
+			xr_string Source = PItem->GetDrawText();
+			strncpy_s(Str, Source.c_str(), sizeof(string128) - 4);
+			if (Source.size() > 128 && strrchr(Str, '\n'))
+			{
+				strrchr(Str, '\n')[0] = 0;
+			}
+			xr_strcat(Str, "...");
+			if (ImGui::Button(Str, ImVec2(-1, 0)))
+			{
+			}
+		}
+		if (ImGui::OpenPopupOnItemClick2("EditText", 0))
+		{
+			if (PropertiesFrom->m_EditTextValueData)
+				xr_delete(PropertiesFrom->m_EditTextValueData);
+			PropertiesFrom->m_EditTextValueData = xr_strdup(V->GetValue().c_str());
+			PropertiesFrom->m_EditTextValueDataSize = xr_strlen(PropertiesFrom->m_EditTextValueData) + 1;
+			PropertiesFrom->m_EditTextValue = PItem;
+		}
+		PropertiesFrom->DrawEditText();
+	}
+	break;
+
+	case PROP_TIME:
+	{
+		FloatValue* V = dynamic_cast<FloatValue*>(PItem->GetFrontValue()); R_ASSERT(V);
+		{
+			float edit_val = V->GetValue();
+			PItem->BeforeEdit<FloatValue, float>(edit_val);
+
+			xr_string buf = "";
+			int h = 0, m = 0, s = 0, ms;
+			xr_string t;
+			h = iFloor(edit_val / 3600);
+			t.sprintf("%02d", h); buf += t;
+			m = iFloor((edit_val - h * 3600) / 60);
+			t.sprintf("%02d", m); buf += buf.empty() ? t : ":" + t;
+			s = iFloor(edit_val - h * 3600 - m * 60);
+			t.sprintf("%02d", s); buf += buf.empty() ? t : ":" + t;
+			ms = iFloor((edit_val - h * 3600 - m * 60 - s) * 1000.f);
+
+			if (ImGui::InputText(buf.c_str(), (char*)buf.c_str(), sizeof(buf), ImGuiInputTextFlags_CharsDecimal))
+			{
+				float t[4] = {0.f, 0.f, 0.f, 0.f};
+				char* pch = strtok((char*)buf.c_str(), ":");
+				int count = 0;
+				while (pch != NULL)
+				{
+					t[count] = atof(pch);
+					count++;
+					pch = strtok(NULL, ":");
+				}
+				edit_val = t[0] * 3600 + t[1] * 60 + t[2];
+
+				if (!ImGui::IsItemActive())
+				{
+					PItem->AfterEdit<FloatValue, float>(edit_val);
+					PItem->ApplyValue<FloatValue, float>(edit_val);
+					PropertiesFrom->Modified();
+				}
+			}
+		}
+	}
+	break;
+
+	case PROP_GAMETYPE:
+	{
+		GameTypeValue* V = dynamic_cast<GameTypeValue*>(PItem->GetFrontValue()); R_ASSERT(V);
+		ImGui::Text(PItem->GetDrawText().c_str());
+		PropertiesFrom->m_EditGameTypeChooser = V->GetValue();
+		PItem->BeforeEdit<GameTypeValue, GameTypeChooser>(PropertiesFrom->m_EditGameTypeChooser);
+		if (ImGui::OpenPopupOnItemClick2("EditGameType", 0))
+		{
+			PropertiesFrom->m_EditGameTypeValue = PItem;
+			/*
+			m_EditGameTypeValue = node;
+			m_bSingle = m_EditGameTypeChooser.MatchType(eGameIDSingle);
+			m_bDM = m_EditGameTypeChooser.MatchType(eGameIDDeathmatch);
+			m_bTDM = m_EditGameTypeChooser.MatchType(eGameIDTeamDeathmatch);
+			m_bAH = m_EditGameTypeChooser.MatchType(eGameIDArtefactHunt);
+			m_bCTA = m_EditGameTypeChooser.MatchType(eGameIDCaptureTheArtefact);
+			*/
+		}
+		PropertiesFrom->DrawEditGameType();
+	}
+	break;
 	default:
 		ImGui::Text("");
 		break;

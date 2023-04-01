@@ -22,8 +22,6 @@ CLevelMain::~CLevelMain()
    // TClipMaker::DestroyForm(g_clip_maker);
 }
 
-
-
 // Tools commands
 CCommandVar CLevelTool::CommandChangeTarget(CCommandVar p1, CCommandVar p2)
 {
@@ -36,6 +34,7 @@ CCommandVar CLevelTool::CommandChangeTarget(CCommandVar p1, CCommandVar p2)
     	return 		FALSE;
     }
 }
+
 CCommandVar CLevelTool::CommandShowObjectList(CCommandVar p1, CCommandVar p2)
 {
     if (LUI->GetEState()==esEditScene) ShowObjectList();
@@ -53,16 +52,19 @@ CCommandVar CommandLibraryEditor(CCommandVar p1, CCommandVar p2)
     }*/
     return TRUE;
 }
+
 CCommandVar CommandLAnimEditor(CCommandVar p1, CCommandVar p2)
 {
     //TfrmEditLightAnim::ShowEditor();
     return TRUE;
 }
+
 CCommandVar CommandFileMenu(CCommandVar p1, CCommandVar p2)
 {
     //FHelper.ShowPPMenu(fraLeftBar->pmSceneFile,0);
     return TRUE;
 }
+
 CCommandVar CLevelTool::CommandEnableTarget(CCommandVar p1, CCommandVar p2)
 {
 	ESceneToolBase* M 	= Scene->GetTool(p1);
@@ -148,6 +150,7 @@ CCommandVar CLevelTool::CommandMultiRenameObjects(CCommandVar p1, CCommandVar p2
     }
     return 					FALSE;
 }
+
 CCommandVar CommandLoadLevelPart(CCommandVar p1, CCommandVar p2)
 {
     xr_string temp_fn	= LTools->m_LastFileName.c_str();
@@ -155,6 +158,7 @@ CCommandVar CommandLoadLevelPart(CCommandVar p1, CCommandVar p2)
         return			Scene->LoadLevelPart(temp_fn.c_str(),p1);
     return				TRUE;
 }
+
 CCommandVar CommandUnloadLevelPart(CCommandVar p1, CCommandVar p2)
 {
     xr_string temp_fn	= LTools->m_LastFileName.c_str();
@@ -162,6 +166,7 @@ CCommandVar CommandUnloadLevelPart(CCommandVar p1, CCommandVar p2)
         return			Scene->UnloadLevelPart(temp_fn.c_str(),p1);
     return				TRUE;
 }
+
 CCommandVar CommandLoad(CCommandVar p1, CCommandVar p2)
 {
     if( !Scene->locked() )
@@ -228,6 +233,7 @@ CCommandVar CommandLoad(CCommandVar p1, CCommandVar p2)
     }
     return TRUE;
 }
+
 CCommandVar CommandSaveBackup(CCommandVar p1, CCommandVar p2)
 {
     string_path 	fn;
@@ -235,6 +241,7 @@ CCommandVar CommandSaveBackup(CCommandVar p1, CCommandVar p2)
     FS.update_path	(fn,_maps_,fn);
     return 			ExecCommand(COMMAND_SAVE,xr_string(fn));
 }
+
 CCommandVar CommandSave(CCommandVar p1, CCommandVar p2)
 {
     if( !Scene->locked() )
@@ -363,6 +370,18 @@ CCommandVar CommandImportCompilerError(CCommandVar p1, CCommandVar p2)
     UI->RedrawScene		();
     return TRUE;
 }
+
+CCommandVar CommandImportXrAICompilerError(CCommandVar p1, CCommandVar p2)
+{
+    xr_string fn;
+    if (EFS.GetOpenName(EDevice->m_hWnd, "$app_root$", fn, false, NULL, 0))
+    {
+        Scene->LoadXrAICompilerError(fn.c_str());
+    }
+    UI->RedrawScene();
+    return TRUE;
+}
+
 CCommandVar CommandExportCompilerError(CCommandVar p1, CCommandVar p2)
 {
     xr_string fn;
@@ -371,6 +390,7 @@ CCommandVar CommandExportCompilerError(CCommandVar p1, CCommandVar p2)
     }
     return TRUE;
 }
+
 CCommandVar CommandValidateScene(CCommandVar p1, CCommandVar p2)
 {
     if( !Scene->locked() ){
@@ -381,6 +401,7 @@ CCommandVar CommandValidateScene(CCommandVar p1, CCommandVar p2)
 	    return 			FALSE;
     }
 }
+
 CCommandVar CommandCleanLibrary(CCommandVar p1, CCommandVar p2)
 {
     if ( !Scene->locked() ){
@@ -412,6 +433,7 @@ CCommandVar CommandCut(CCommandVar p1, CCommandVar p2)
     }
     return FALSE;
 }
+
 CCommandVar CommandCopy(CCommandVar p1, CCommandVar p2)
 {
       if( !Scene->locked() ){
@@ -419,6 +441,21 @@ CCommandVar CommandCopy(CCommandVar p1, CCommandVar p2)
         return 			TRUE;
     } else {
         ELog.DlgMsg		( mtError, "Scene sharing violation" );
+        return 			FALSE;
+    }
+    return FALSE;
+}
+
+CCommandVar CommandDuplicate(CCommandVar p1, CCommandVar p2)
+{
+    if (!Scene->locked()) {
+        Scene->CopySelection(LTools->CurrentClassID());
+        Scene->PasteSelection();
+        Scene->UndoSave();
+        return 			TRUE;
+    }
+    else {
+        ELog.DlgMsg(mtError, "Scene sharing violation");
         return 			FALSE;
     }
     return FALSE;
@@ -462,7 +499,8 @@ CCommandVar CommandLoadSelection(CCommandVar p1, CCommandVar p2)
         ELog.DlgMsg( mtError, "Scene sharing violation" );
     }
     return FALSE;
-}        
+}
+
 CCommandVar CommandSaveSelection(CCommandVar p1, CCommandVar p2)
 {
     if( !Scene->locked() ){
@@ -522,6 +560,7 @@ CCommandVar CommandClearSceneSummary(CCommandVar p1, CCommandVar p2)
 	    return 					FALSE;
     }
 }
+
 CCommandVar CommandCollectSceneSummary(CCommandVar p1, CCommandVar p2)
 {
     if( !Scene->locked() ){
@@ -532,6 +571,7 @@ CCommandVar CommandCollectSceneSummary(CCommandVar p1, CCommandVar p2)
 	    return 					FALSE;
     }
 }
+
 CCommandVar CommandShowSceneSummary(CCommandVar p1, CCommandVar p2)
 {
     if( !Scene->locked() ){
@@ -542,6 +582,7 @@ CCommandVar CommandShowSceneSummary(CCommandVar p1, CCommandVar p2)
 	    return 					FALSE;
     }
 }
+
 CCommandVar CommandExportSceneSummary(CCommandVar p1, CCommandVar p2)
 {
     if( !Scene->locked() ){
@@ -589,6 +630,7 @@ CCommandVar CommandBuild(CCommandVar p1, CCommandVar p2)
     }
     return 						FALSE;
 }
+
 CCommandVar CommandMakeAIMap(CCommandVar p1, CCommandVar p2)
 {
     if( !Scene->locked() ){
@@ -599,6 +641,7 @@ CCommandVar CommandMakeAIMap(CCommandVar p1, CCommandVar p2)
     }
     return 						FALSE;
 }
+
 CCommandVar CommandMakeGame(CCommandVar p1, CCommandVar p2)
 {
     if( !Scene->locked() ){
@@ -609,6 +652,7 @@ CCommandVar CommandMakeGame(CCommandVar p1, CCommandVar p2)
     }
     return 						FALSE;
 }
+
 CCommandVar CommandMakeDetails(CCommandVar p1, CCommandVar p2)
 {
     if( !Scene->locked() ){
@@ -619,6 +663,7 @@ CCommandVar CommandMakeDetails(CCommandVar p1, CCommandVar p2)
     }
     return 						FALSE;
 }
+
 CCommandVar CommandMakeHOM(CCommandVar p1, CCommandVar p2)
 {
     if( !Scene->locked() ){
@@ -629,6 +674,7 @@ CCommandVar CommandMakeHOM(CCommandVar p1, CCommandVar p2)
     }
     return 						FALSE;
 }
+
 CCommandVar CommandMakeSOM(CCommandVar p1, CCommandVar p2)
 {
     if( !Scene->locked() ){
@@ -639,6 +685,7 @@ CCommandVar CommandMakeSOM(CCommandVar p1, CCommandVar p2)
     }
     return 						FALSE;
 }
+
 CCommandVar CommandInvertSelectionAll(CCommandVar p1, CCommandVar p2)
 {
     if( !Scene->locked() ){
@@ -696,6 +743,7 @@ CCommandVar CommandHideUnsel(CCommandVar p1, CCommandVar p2)
 	    return 					FALSE;
     }
 }
+
 CCommandVar CommandHideSel(CCommandVar p1, CCommandVar p2)
 {
     if( !Scene->locked() ){
@@ -708,6 +756,7 @@ CCommandVar CommandHideSel(CCommandVar p1, CCommandVar p2)
 	    return 					FALSE;
     }
 }
+
 CCommandVar CommandHideAll(CCommandVar p1, CCommandVar p2)
 {
     if( !Scene->locked() ){
@@ -720,6 +769,7 @@ CCommandVar CommandHideAll(CCommandVar p1, CCommandVar p2)
 	    return 					FALSE;
     }
 }
+
 CCommandVar CommandSetSnapObjects(CCommandVar p1, CCommandVar p2)
 {
     if( !Scene->locked() ){
@@ -730,6 +780,7 @@ CCommandVar CommandSetSnapObjects(CCommandVar p1, CCommandVar p2)
 	    return 					FALSE;
     }
 }
+
 CCommandVar CommandAddSelSnapObjects(CCommandVar p1, CCommandVar p2)
 {
     if( !Scene->locked() ){
@@ -740,6 +791,7 @@ CCommandVar CommandAddSelSnapObjects(CCommandVar p1, CCommandVar p2)
 	    return 					FALSE;
     }
 }
+
 CCommandVar CommandDelSelSnapObjects(CCommandVar p1, CCommandVar p2)
 {
     if( !Scene->locked() ){
@@ -750,6 +802,7 @@ CCommandVar CommandDelSelSnapObjects(CCommandVar p1, CCommandVar p2)
 	    return 					FALSE;
     }
 }
+
 CCommandVar CommandClearSnapObjects(CCommandVar p1, CCommandVar p2)
 {
     if( !Scene->locked() ){
@@ -760,6 +813,7 @@ CCommandVar CommandClearSnapObjects(CCommandVar p1, CCommandVar p2)
 	    return 					FALSE;
     }
 }
+
 CCommandVar CommandSelectSnapObjects(CCommandVar p1, CCommandVar p2)
 {
     if( !Scene->locked() ){
@@ -770,11 +824,13 @@ CCommandVar CommandSelectSnapObjects(CCommandVar p1, CCommandVar p2)
 	    return 					FALSE;
     }
 }
+
 CCommandVar CommandRefreshSnapObjects(CCommandVar p1, CCommandVar p2)
 {
  //   fraLeftBar->UpdateSnapList();
     return 						TRUE;
 }
+
 /*
 CCommandVar CommandRefreshSoundEnvs(CCommandVar p1, CCommandVar p2)
 {
@@ -789,6 +845,7 @@ CCommandVar CommandRefreshSoundEnvGeometry(CCommandVar p1, CCommandVar p2)
     LSndLib->RefreshEnvGeometry();
     return 						TRUE;
 }
+
 CCommandVar CommandShowContextMenu(CCommandVar p1, CCommandVar p2)
 {
     LUI->ShowContextMenu		(p1);
@@ -805,6 +862,7 @@ CCommandVar CommandRefreshUIBar(CCommandVar p1, CCommandVar p2)
     fraBottomBar->RefreshBar	();*/
     return 						TRUE;
 }
+
 CCommandVar CommandRestoreUIBar(CCommandVar p1, CCommandVar p2)
 {
     /*fraTopBar->fsStorage->RestoreFormPlacement();
@@ -812,6 +870,7 @@ CCommandVar CommandRestoreUIBar(CCommandVar p1, CCommandVar p2)
     fraBottomBar->fsStorage->RestoreFormPlacement();*/
     return 						TRUE;
 }
+
 CCommandVar CommandSaveUIBar(CCommandVar p1, CCommandVar p2)
 {
    /* fraTopBar->fsStorage->SaveFormPlacement();
@@ -819,11 +878,13 @@ CCommandVar CommandSaveUIBar(CCommandVar p1, CCommandVar p2)
     fraBottomBar->fsStorage->SaveFormPlacement();*/
     return 						TRUE;
 }
+
 CCommandVar CommandUpdateToolBar(CCommandVar p1, CCommandVar p2)
 {
  /*   fraLeftBar->UpdateBar		();*/
     return 						TRUE;
 }
+
 CCommandVar CommandUpdateCaption(CCommandVar p1, CCommandVar p2)
 {
   /*  frmMain->UpdateCaption		();*/
@@ -889,12 +950,14 @@ void CLevelMain::RegisterCommands()
 	REGISTER_CMD_SE	    (COMMAND_LOAD_FIRSTRECENT,          "File\\Load First Recent",		CommandLoadFirstRecent, true);
 	REGISTER_CMD_S	    (COMMAND_CLEAR_DEBUG_DRAW, 		    CommandClearDebugDraw);
 	REGISTER_CMD_S	    (COMMAND_IMPORT_COMPILER_ERROR,     CommandImportCompilerError);
+    REGISTER_CMD_S      (COMMAND_IMPORT_AICOMPILER_ERROR,   CommandImportXrAICompilerError);
 	REGISTER_CMD_S	    (COMMAND_EXPORT_COMPILER_ERROR,     CommandExportCompilerError);
 	REGISTER_CMD_S	    (COMMAND_VALIDATE_SCENE,            CommandValidateScene);
 	REGISTER_CMD_S	    (COMMAND_CLEAN_LIBRARY,           	CommandCleanLibrary);
 	REGISTER_CMD_S	    (COMMAND_RELOAD_OBJECTS,            CommandReloadObjects);
 	REGISTER_CMD_SE	    (COMMAND_CUT,              			"Edit\\Cut",					CommandCut,false);
 	REGISTER_CMD_SE	    (COMMAND_COPY,              		"Edit\\Copy",					CommandCopy,false);
+    REGISTER_CMD_SE     (COMMAND_DUPLICATE,                 "Edit\\Duplicate",              CommandDuplicate, false);
 	REGISTER_CMD_SE	    (COMMAND_PASTE,              		"Edit\\Paste",					CommandPaste,false);
 	REGISTER_CMD_S	    (COMMAND_LOAD_SELECTION,            CommandLoadSelection);
 	REGISTER_CMD_S	    (COMMAND_SAVE_SELECTION,            CommandSaveSelection);
@@ -950,7 +1013,6 @@ bool  CLevelMain::ApplyShortCut(DWORD Key, TShiftState Shift)
     return inherited::ApplyShortCut(Key,Shift);
 }
 
-
 bool  CLevelMain::ApplyGlobalShortCut(DWORD Key, TShiftState Shift)
 {
     return inherited::ApplyGlobalShortCut(Key,Shift);
@@ -997,7 +1059,6 @@ void RetrieveSceneObjPointAndNormal( Fvector& hitpoint, Fvector* hitnormal, cons
     }
 }
 
-
 bool EditLibPickObjectGeometry(  Fvector& hitpoint,  const Fvector& start, const Fvector& direction, int bSnap, Fvector* hitnormal )
 {
 	SRayPickInfo pinf;
@@ -1011,58 +1072,49 @@ bool EditLibPickObjectGeometry(  Fvector& hitpoint,  const Fvector& start, const
 
 bool ScenePickObjectGeometry( Fvector& hitpoint,  const Fvector& start, const Fvector& direction, int bSnap, Fvector* hitnormal )
 {
-
 	SRayPickInfo pinf;
 
-   
     SRayPickInfo l_pinf;
     bool bResult = false;
 
     {
-      SRayPickInfo l_pinf;
-      bool l_bres = Scene->RayPickObject( l_pinf.inf.range, start,direction, OBJCLASS_SPAWNPOINT , &l_pinf, Scene->GetSnapList(false) );
-      
-      if( l_bres )
-      {
-          pinf = l_pinf;
-          bResult = true;
-      }
-      
+        SRayPickInfo l_pinf;
+        bool l_bres = Scene->RayPickObject( l_pinf.inf.range, start,direction, OBJCLASS_SPAWNPOINT , &l_pinf, Scene->GetSnapList(false) );
+
+        if( l_bres )
+        {
+            pinf = l_pinf;
+            bResult = true;
+        }
     }
     {
-    
-     SRayPickInfo l_pinf;
-     bool l_bres = Scene->RayPickObject( l_pinf.inf.range, start, direction, OBJCLASS_SCENEOBJECT , &l_pinf, Scene->GetSnapList(false) );
+        SRayPickInfo l_pinf;
+        bool l_bres = Scene->RayPickObject( l_pinf.inf.range, start, direction, OBJCLASS_SCENEOBJECT , &l_pinf, Scene->GetSnapList(false) );
 
-     if( !bResult||(l_bres && l_pinf.inf.range < pinf.inf.range) )
-          pinf = l_pinf;
-     if( l_bres )
-           bResult = true;
-           
+        if( !bResult||(l_bres && l_pinf.inf.range < pinf.inf.range) )
+            pinf = l_pinf;
+        if( l_bres )
+            bResult = true;
     }
 
-
-     if( bResult )
-     	    RetrieveSceneObjPointAndNormal( hitpoint,  hitnormal, pinf, bSnap );
-            
-     return  bResult;
-
+    if( bResult )
+        RetrieveSceneObjPointAndNormal( hitpoint,  hitnormal, pinf, bSnap );
+    return  bResult;
 }
 
 
 bool PickObjectGeometry( EEditorState est, Fvector& hitpoint,  const Fvector& start, const Fvector& direction, int bSnap, Fvector* hitnormal )
 {
-
-	switch(est)
+    switch(est)
     {
-       case esEditLibrary:
-         	return EditLibPickObjectGeometry( hitpoint, start, direction, bSnap, hitnormal );
-       case esEditScene:
-         	return ScenePickObjectGeometry( hitpoint, start, direction, bSnap, hitnormal );
+        case esEditLibrary:
+            return EditLibPickObjectGeometry( hitpoint, start, direction, bSnap, hitnormal );
+        case esEditScene:
+            return ScenePickObjectGeometry( hitpoint, start, direction, bSnap, hitnormal );
         default:
-         	NODEFAULT;
+            NODEFAULT;
     }
-	return false;
+    return false;
 }
 
 bool PickGrid(  Fvector& hitpoint,  const Fvector& start, const Fvector& direction, int bSnap, Fvector* hitnormal )
@@ -1115,7 +1167,6 @@ bool CLevelMain::PickGround(Fvector& hitpoint, const Fvector& start, const Fvect
     return   PickGrid( hitpoint, start, direction, bSnap,  hitnormal );
 
 }
-
 
 bool CLevelMain::SelectionFrustum(CFrustum& frustum)
 {
@@ -1173,8 +1224,6 @@ void CLevelMain::RealUpdateScene()
     }
 }
 
-
-
 void CLevelMain::ShowContextMenu(int cls)
 {
 	VERIFY(m_bReady);
@@ -1187,13 +1236,7 @@ void CLevelMain::ShowContextMenu(int cls)
     fraLeftBar->pmObjectContext->Popup(pt.x,pt.y);*/
 }
 
-
-
-
-
-
 // Common
-
 void CLevelMain::ResetStatus()
 {
 	VERIFY(m_bReady);
@@ -1201,6 +1244,7 @@ void CLevelMain::ResetStatus()
 	    fraBottomBar->paStatus->Caption=""; fraBottomBar->paStatus->Repaint();
     }*/
 }
+
 void CLevelMain::SetStatus(LPCSTR s, bool bOutLog)
 {
 	VERIFY(m_bReady);
@@ -1209,6 +1253,7 @@ void CLevelMain::SetStatus(LPCSTR s, bool bOutLog)
     	if (bOutLog&&s&&s[0]) ELog.Msg(mtInformation,s);
     }*/
 }
+
 void CLevelMain::ProgressDraw()
 {
     inherited::ProgressDraw();
@@ -1217,14 +1262,14 @@ void CLevelMain::ProgressDraw()
 
 void CLevelMain::OutCameraPos()
 {
-	if (m_bReady){
+	if (m_bReady)
+    {
         xr_string s;
         const Fvector& c 	= EDevice->m_Camera.GetPosition();
         s.sprintf("C: %3.1f, %3.1f, %3.1f",c.x,c.y,c.z);
-    //	const Fvector& hpb 	= EDevice->m_Camera.GetHPB();
-    //	s.sprintf(" Cam: %3.1f�, %3.1f�, %3.1f�",rad2deg(hpb.y),rad2deg(hpb.x),rad2deg(hpb.z));
-       // fraBottomBar->paCamera->Caption=s; fraBottomBar->paCamera->Repaint();
-
+        // const Fvector& hpb 	= EDevice->m_Camera.GetHPB();
+        // s.sprintf(" Cam: %3.1f�, %3.1f�, %3.1f�",rad2deg(hpb.y),rad2deg(hpb.x),rad2deg(hpb.z));
+        // fraBottomBar->paCamera->Caption=s; fraBottomBar->paCamera->Repaint();
     }
 }
 
@@ -1255,12 +1300,12 @@ void CLevelMain::RealQuit()
 	//frmMain->Close();
 }
 
-
 void CLevelMain::SaveSettings(CInifile* I)
 {
 	inherited::SaveSettings(I);
     SSceneSummary::Save(I);
 }
+
 void CLevelMain::LoadSettings(CInifile* I)
 {
 	inherited::LoadSettings(I);
@@ -1304,13 +1349,8 @@ void CLevelMain::OnStats(CGameFont* font)
 	{
         font->OutNext("NEED REBUILD GAME GRAPH");
 	}
-
-
 	font->SetHeight(Height);
 }
-
-
-
 
 bool CLevelMain::IsPlayInEditor()
 {

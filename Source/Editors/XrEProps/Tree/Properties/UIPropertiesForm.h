@@ -12,6 +12,7 @@ public:
 	void ClearProperties();
 	IC void SetReadOnly(bool enable) { m_Flags.set(plReadOnly, enable); }
 	IC bool IsModified() { return m_bModified;}
+	IC void setModified(bool val) { m_bModified = val; }
 	IC bool Empty() { return m_Items.size() == 0; }
 	void SetModifiedEvent(TOnModifiedEvent modif = 0) { OnModifiedEvent = modif; }
 public:
@@ -19,6 +20,7 @@ public:
 		plReadOnly = (1 << 0),
 	};
 	Flags32 m_Flags;
+	void SetFocusOnMe();
 	IC bool IsReadOnly()const { return m_Flags.is(plReadOnly); }
 private:
 	PropItemVec m_Items;
@@ -36,6 +38,12 @@ private:
 private:
 	GameTypeChooser m_EditGameTypeChooser;
 	PropItem* m_EditGameTypeValue;
+	bool m_bSingle;
+	bool m_bDM;
+	bool m_bTDM;
+	bool m_bAH;
+	bool m_bCTA;
+
 	void DrawEditGameType();
 	bool m_bModified;
 	void Modified() { m_bModified = true; if (!OnModifiedEvent.empty()) OnModifiedEvent(); }

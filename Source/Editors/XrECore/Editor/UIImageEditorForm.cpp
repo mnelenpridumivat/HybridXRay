@@ -32,52 +32,62 @@ void UIImageEditorForm::Draw()
         m_TextureRemove->Release();
         m_TextureRemove = nullptr;
     }
-    ImGui::BeginChild("Left", ImVec2(200, 400), true);
+    ImGui::Columns(2);
     {
-        m_ItemList->Draw();
-    }
-    ImGui::EndChild();
-    ImGui::SameLine();
-    ImGui::BeginChild("Right", ImVec2(300, 400));
-    {
-        if (m_Texture == nullptr)
         {
-            u32 mem = 0;
-            m_Texture = RImplementation.texture_load("ed\\ed_nodata", mem);
-        }
-        ImGui::Image(m_Texture, ImVec2(128, 128));
-        m_ItemProps->Draw();
-    }
-    ImGui::EndChild();
-    ImGui::Separator();
-    if (!bImportMode)
-    {
-        if (ImGui::Checkbox("Image", &m_bFilterImage))FilterUpdate(); ImGui::SameLine();
-        if (ImGui::Checkbox("Cube", &m_bFilterCube))FilterUpdate(); ImGui::SameLine();
-        if (ImGui::Checkbox("Bump", &m_bFilterBump))FilterUpdate(); ImGui::SameLine();
-        if (ImGui::Checkbox("Normal", &m_bFilterNormal))FilterUpdate(); ImGui::SameLine();
-        if (ImGui::Checkbox("Terrain", &m_bFilterTerrain))FilterUpdate();
-        ImGui::Separator();
-    }
-    if (ImGui::Button("Close"))
-    {
-        HideLib();
-    }
-    ImGui::SameLine();
-    if (ImGui::Button("Ok"))
-    {
-        UpdateLib();
-        HideLib();
-    }
-    if (!bImportMode)
-    {
-        ImGui::SameLine();
-        if (ImGui::Button("Remove Texture"))
-        {
-            m_ItemList->RemoveSelectItem();
-        }
-    }
+            float min_width = ImGui::GetWindowWidth() * 0.57f;
+            if (ImGui::GetColumnWidth() < min_width)
+                ImGui::SetColumnOffset(1, min_width);
 
+            ImGui::BeginGroup();
+            ImGui::BeginChild("Left", ImVec2(0, -ImGui::GetFrameHeight() - (bImportMode ? 4 : 24)), true, ImGuiWindowFlags_HorizontalScrollbar);
+            {
+                m_ItemList->Draw();
+            }
+            ImGui::EndChild();
+            if (!bImportMode)
+            {
+                if (ImGui::Checkbox("Image", &m_bFilterImage))FilterUpdate(); ImGui::SameLine();
+                if (ImGui::Checkbox("Cube", &m_bFilterCube))FilterUpdate(); ImGui::SameLine();
+                if (ImGui::Checkbox("Bump", &m_bFilterBump))FilterUpdate(); ImGui::SameLine();
+                if (ImGui::Checkbox("Normal", &m_bFilterNormal))FilterUpdate(); ImGui::SameLine();
+                if (ImGui::Checkbox("Terrain", &m_bFilterTerrain))FilterUpdate();
+            }
+            if (ImGui::Button("Close"))
+            {
+                HideLib();
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("Ok"))
+            {
+                UpdateLib();
+                HideLib();
+            }
+            if (!bImportMode)
+            {
+                ImGui::SameLine();
+                if (ImGui::Button("Remove Texture"))
+                {
+                    m_ItemList->RemoveSelectItem();
+                }
+            }
+            ImGui::EndGroup();
+        }
+        ImGui::NextColumn();
+        {
+            ImGui::BeginChild("Right", ImVec2(0, 0));
+            {
+                if (m_Texture == nullptr)
+                {
+                    u32 mem = 0;
+                    m_Texture = RImplementation.texture_load("ed\\ed_nodata", mem);
+                }
+                ImGui::Image(m_Texture, ImVec2(128, 128));
+                m_ItemProps->Draw();
+            }
+            ImGui::EndChild();
+        }
+    }
 }
 
 void UIImageEditorForm::Update()
@@ -86,9 +96,11 @@ void UIImageEditorForm::Update()
     {
         if (!Form->IsClosed())
         {
-            if (ImGui::BeginPopupModal("ImageEditor", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoResize, true))
+            ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(600, 400));
+            if (ImGui::BeginPopupModal("ImageEditor", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar, true))
             {
                 Form->Draw();
+                ImGui::PopStyleVar(1);
                 ImGui::EndPopup();
             }
         }
