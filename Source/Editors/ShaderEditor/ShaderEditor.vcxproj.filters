@@ -110,17 +110,17 @@
     <ClInclude Include="UIMainMenuForm.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="resources\resource.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="ShaderEditor.rc">
+    <ResourceCompile Include="resources\ShaderEditor.rc">
       <Filter>Файлы ресурсов</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="icon.ico">
+    <Image Include="resources\icon_SE.ico">
       <Filter>Файлы ресурсов</Filter>
     </Image>
   </ItemGroup>

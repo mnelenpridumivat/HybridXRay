@@ -40,7 +40,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="noise.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="StatGraph.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="UILeftBarForm.h" />
@@ -51,6 +50,7 @@
     <ClInclude Include="UITopBarForm_ButtonList.h" />
     <ClInclude Include="UI_ParticleMain.h" />
     <ClInclude Include="UI_ParticleTools.h" />
+    <ClInclude Include="resources\resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\XrCore\XrCore.vcxproj">
@@ -73,10 +73,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="ParticleEditor.rc" />
+    <ResourceCompile Include="resources\ParticleEditor.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="icon.ico" />
+    <Image Include="resources\icon_PE.ico" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

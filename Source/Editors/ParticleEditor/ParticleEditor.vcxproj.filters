@@ -104,17 +104,17 @@
     <ClInclude Include="UIRightBarForm.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="resources\resource.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="ParticleEditor.rc">
+    <ResourceCompile Include="resources\ParticleEditor.rc">
       <Filter>Файлы ресурсов</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="icon.ico">
+    <Image Include="resources\icon_PE.ico">
       <Filter>Файлы ресурсов</Filter>
     </Image>
   </ItemGroup>

@@ -3,6 +3,7 @@
 #include "Utils\Cursor3D.h"
 #include "..\xrengine\GameFont.h"
 #include "UI\UIEditLibrary.h"
+#include "..\resources\resource.h"
 
 #ifdef _LEVEL_EDITOR
 //.    if (m_Cursor->GetVisible()) RedrawScene();
@@ -1362,4 +1363,9 @@ void CLevelMain::OnStats(CGameFont* font)
 bool CLevelMain::IsPlayInEditor()
 {
 	return Scene->IsPlayInEditor();
+}
+
+HICON CLevelMain::EditorIcon()
+{
+    return LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_ICON));
 }

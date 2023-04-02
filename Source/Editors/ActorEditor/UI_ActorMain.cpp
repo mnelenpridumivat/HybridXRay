@@ -3,6 +3,7 @@
 #pragma hdrstop
 
 #include "UI_ActorMain.h"
+#include "resources\resource.h"
 
 //---------------------------------------------------------------------------
 CActorMain*	AUI=(CActorMain*)UI;
@@ -539,3 +540,7 @@ Ivector2 CActorMain::GetRenderMousePosition() const
     return MainForm->GetRenderForm()->GetMousePos();
 }
 
+HICON CActorMain::EditorIcon()
+{
+    return LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_ICON));
+}

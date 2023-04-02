@@ -38,7 +38,6 @@
     <ClCompile Include="UI_shadertools.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="resource.h" />
     <ClInclude Include="SHCompilerTools.h" />
     <ClInclude Include="SHEngineTools.h" />
     <ClInclude Include="SHGameMtlPairTools.h" />
@@ -53,6 +52,7 @@
     <ClInclude Include="UITopBarForm_ButtonList.h" />
     <ClInclude Include="ui_shadermain.h" />
     <ClInclude Include="UI_shadertools.h" />
+    <ClInclude Include="resources\resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\XrAPI\XrAPI.vcxproj">
@@ -78,10 +78,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="ShaderEditor.rc" />
+    <ResourceCompile Include="resources\ShaderEditor.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="icon.ico" />
+    <Image Include="resources\icon_SE.ico" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

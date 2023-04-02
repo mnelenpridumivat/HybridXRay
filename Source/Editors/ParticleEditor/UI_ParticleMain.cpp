@@ -1,10 +1,11 @@
 //---------------------------------------------------------------------------
 #include "stdafx.h"
-#pragma hdrstop       
+#pragma hdrstop
 
 #include "UI_ParticleMain.h"
 #include "UI_ParticleTools.h"     
 #include "xr_input.h"
+#include "resources\resource.h"
 
 //---------------------------------------------------------------------------
 CParticleMain*	PUI=(CParticleMain*)UI;
@@ -253,3 +254,7 @@ void CParticleMain::RealQuit()
 }
 //---------------------------------------------------------------------------
 
+HICON CParticleMain::EditorIcon()
+{
+    return LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_ICON));
+}

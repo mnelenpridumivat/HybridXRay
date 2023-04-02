@@ -1,8 +1,7 @@
-#ifndef UI_ShaderMainH
-#define UI_ShaderMainH
+#pragma once
 
-
-enum {
+enum 
+{
 	COMMAND_EXTFIRST_EXT = COMMAND_MAIN_LAST-1,
 	COMMAND_UPDATE_LIST,
 };
@@ -28,6 +27,7 @@ public:
 
     virtual LPCSTR	EditorName				(){return "shader";}
     virtual LPCSTR	EditorDesc				(){return "Shader Editor";}
+    HICON EditorIcon() override;
 
     virtual bool 	ApplyShortCut			(DWORD Key, TShiftState Shift);
     virtual bool 	ApplyGlobalShortCut		(DWORD Key, TShiftState Shift);
@@ -36,9 +36,4 @@ public:
 	virtual	void		RegisterCommands	(); 
 protected:
     virtual void    OnDrawUI();
-};    
-
-#endif //UI_MainCommandH
-
-
-
+};

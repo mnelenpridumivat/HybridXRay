@@ -5,6 +5,7 @@
 #include "UI_ShaderMain.h"
 #include "UI_ShaderTools.h"
 #include "xr_input.h"
+#include "resources\resource.h"
 
 //---------------------------------------------------------------------------
 
@@ -192,3 +193,7 @@ void CShaderMain::RealQuit()
 }
 //---------------------------------------------------------------------------
 
+HICON CShaderMain::EditorIcon()
+{
+    return LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_ICON));
+}

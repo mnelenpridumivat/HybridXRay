@@ -1,8 +1,7 @@
-#ifndef UI_ParticleMainH
-#define UI_ParticleMainH
+#pragma once
 
-
-enum {
+enum
+{
 	COMMAND_EXTFIRST_EXT = COMMAND_MAIN_LAST-1,
 
     COMMAND_VALIDATE,
@@ -41,6 +40,7 @@ public:
 
     virtual LPCSTR	EditorName				(){return "particle";}
     virtual LPCSTR	EditorDesc				(){return "Particle Editor";}
+    HICON EditorIcon() override;
 
     virtual bool 	ApplyShortCut			(DWORD Key, TShiftState Shift);
     virtual bool 	ApplyGlobalShortCut		(DWORD Key, TShiftState Shift);
@@ -50,8 +50,3 @@ public:
     virtual void OnDrawUI();
 };    
 extern CParticleMain*	PUI;
-//---------------------------------------------------------------------------
-#endif //UI_MainCommandH
-
-
-

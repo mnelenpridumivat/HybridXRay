@@ -86,17 +86,17 @@
     <ClInclude Include="UIBoneForm.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="resources\resource.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="ActorEditor.rc">
+    <ResourceCompile Include="resources\ActorEditor.rc">
       <Filter>Файлы ресурсов</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="icon.ico">
+    <Image Include="resources\icon_AE.ico">
       <Filter>Файлы ресурсов</Filter>
     </Image>
   </ItemGroup>
