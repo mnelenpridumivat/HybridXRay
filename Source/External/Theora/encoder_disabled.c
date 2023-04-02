@@ -19,7 +19,7 @@
 #ifdef _MSC_VER
 #pragma warning(disable:4100)
 #endif
-
+/*
 th_enc_ctx *th_encode_alloc(const th_info *_info){
   return NULL;
 }
@@ -68,3 +68,4 @@ int theora_encode_comment(theora_comment *_tc,ogg_packet *_op){
 int theora_encode_tables(theora_state *_te,ogg_packet *_op){
   return OC_DISABLED;
 }
+*/

@@ -16,7 +16,7 @@
 #include <io.h>
 #include <fcntl.h>
 #include <sys\stat.h>
-#pragma warning(default:4995)
+// #pragma warning(default:4995)
 
 //#include "cl_log.h"
 #include "_d3d_extensions.h"
