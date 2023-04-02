@@ -123,7 +123,7 @@ int UIItemListForm::GetSelected(LPCSTR pref, ListItemsVec& items, bool bOnlyObje
     }
     return items.size();
 }
-void UIItemListForm::AssignItems(ListItemsVec& items, const char* name_selection, bool clear_floder, bool save_selected)
+void UIItemListForm::AssignItems(ListItemsVec& items, const char* name_selection, bool clear_Folder, bool save_selected)
 {
     RStringVec selection_items;
     if (save_selected)
@@ -131,7 +131,7 @@ void UIItemListForm::AssignItems(ListItemsVec& items, const char* name_selection
     ClearList();
     m_Items = items;
 
-    if (!clear_floder)
+    if (!clear_Folder)
     {
         ClearObject(&m_GeneralNode);
     }
@@ -201,7 +201,7 @@ void UIItemListForm::DrawMenuEdit()
                     {
                         xr_strcpy(path, N->Path.c_str());
                     }
-                    if (N->IsFloder() && N->Name.c_str() && N->Name.c_str()[0])
+                    if (N->IsFolder() && N->Name.c_str() && N->Name.c_str()[0])
                     {
                         if (path[0])
                             xr_strcat(path, "\\");
@@ -243,7 +243,7 @@ void UIItemListForm::DrawMenuEdit()
                     {
                         xr_strcpy(path, N->Path.c_str());
                     }
-                    if (m_edit_node->IsFloder())
+                    if (m_edit_node->IsFolder())
                     {
                         if (path[0])
                             xr_strcat(path, "\\");
@@ -267,22 +267,22 @@ void UIItemListForm::DrawMenuEdit()
             }
         }
 
-        if (ImGui::MenuItem("Create Floder"))
+        if (ImGui::MenuItem("Create Folder"))
         {
             Node* N = m_edit_node == 0 ? &m_GeneralNode : m_edit_node;
             for (int i = 0; i < 256; i++)
             {
                 string4096 full_path, name;
                 if (i == 0)
-                    xr_strcpy(name, "new_floder");
+                    xr_strcpy(name, "new_Folder");
                 else
-                    xr_sprintf(name, "new_floder_%d", i);
+                    xr_sprintf(name, "new_Folder_%d", i);
 
                 if (N->Path.c_str() && N->Path.c_str()[0])
                     xr_strcpy(full_path, N->Path.c_str());
                 else
                     full_path[0] = 0;
-                if (N->IsFloder() && N->Name.c_str() && N->Name.c_str()[0])
+                if (N->IsFolder() && N->Name.c_str() && N->Name.c_str()[0])
                 {
                     if (full_path[0])
                         xr_strcat(full_path, "\\");
@@ -292,7 +292,7 @@ void UIItemListForm::DrawMenuEdit()
                     xr_strcat(full_path, "\\");
                 xr_strcat(full_path, name);
 
-                if (!FindFloder(&m_GeneralNode, full_path) && AppendFloder(&m_GeneralNode, full_path))
+                if (!FindFolder(&m_GeneralNode, full_path) && AppendFolder(&m_GeneralNode, full_path))
                 {
                     ImGui::CloseCurrentPopup();
                     m_edit_node = nullptr;
@@ -367,7 +367,7 @@ void UIItemListForm::DrawMenuEdit()
     }
 }
 
-void UIItemListForm::DrawAfterFloderNode(bool is_open, Node* Node)
+void UIItemListForm::DrawAfterFolderNode(bool is_open, Node* Node)
 {
     if (m_Flags.is(fMenuEdit))
     {
@@ -454,7 +454,7 @@ void UIItemListForm::DrawItem(Node* Node)
     }
 }
 
-bool UIItemListForm::IsDrawFloder(Node* node)
+bool UIItemListForm::IsDrawFolder(Node* node)
 {
     if (node->Object)
         return node->Object->Visible();
@@ -462,7 +462,7 @@ bool UIItemListForm::IsDrawFloder(Node* node)
     ;
     for (Node& N : node->Nodes)
     {
-        result = result | IsDrawFloder(&N);
+        result = result | IsDrawFolder(&N);
     }
     return result;
 }
@@ -481,12 +481,12 @@ void UIItemListForm::IsItemClicked(Node* Node)
     }
 }
 
-bool UIItemListForm::IsFloderBullet(Node* Node)
+bool UIItemListForm::IsFolderBullet(Node* Node)
 {
     return false;
 }
 
-bool UIItemListForm::IsFloderSelected(Node* Node)
+bool UIItemListForm::IsFolderSelected(Node* Node)
 {
     if (m_Flags.test(fMultiSelect))
     {

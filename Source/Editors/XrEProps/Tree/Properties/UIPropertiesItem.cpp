@@ -23,8 +23,8 @@ void UIPropertiesItem::Draw()
     }
     if (Items.size())
     {
-        ImGuiTreeNodeFlags FloderFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
-        bool               open        = ImGui::TreeNodeEx(Name.c_str(), FloderFlags);
+        ImGuiTreeNodeFlags FolderFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
+        bool               open        = ImGui::TreeNodeEx(Name.c_str(), FolderFlags);
         ImGui::TableNextColumn();
         DrawItem();
         if (open)

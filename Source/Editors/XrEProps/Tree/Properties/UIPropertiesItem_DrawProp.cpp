@@ -3,8 +3,12 @@
 //-----------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------
 #define TSTRING_COUNT 10
-const LPSTR                       TEXTUREString[TSTRING_COUNT] = {"Custom...", "$null",  "$base0", "$base1", "$base2",
-                                                                  "$base3",    "$base4", "$base5", "$base6", "$base7"};
+const LPSTR TEXTUREString[TSTRING_COUNT] =
+    {
+        "Custom...", "$null",  "$base0", "$base1", "$base2",
+        "$base3",    "$base4", "$base5", "$base6", "$base7"
+    };
+
 template <typename T> inline bool DrawNumeric(PropItem* item, bool& change, bool read_only)
 {
     change             = false;
