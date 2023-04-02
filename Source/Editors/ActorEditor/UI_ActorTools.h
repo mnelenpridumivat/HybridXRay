@@ -80,10 +80,9 @@ public:
     CMotion*    FindMotionKeys(LPCSTR name, u16 slot);
 
 private:
-    //	virtual	Fmatrix&				   	_BCL	ObjectXFORM							()				 { return m_pobject_matrix;
-    //} 	virtual	Fvector&					_BCL	ObjectPosition						()				 { return
-    //m_pobject_matrix.c; } virtual	IRenderVisual*				_BCL	ObjectVisual						()
-    // { return m_pVisual;}
+    // virtual Fmatrix&       _BCL ObjectXFORM()    { return m_pobject_matrix; }
+    // virtual Fvector&       _BCL ObjectPosition() { return m_pobject_matrix.c; }
+    // virtual IRenderVisual* _BCL ObjectVisual()   { return m_pVisual;}
     virtual IKinematics* _BCL ObjectKinematics()
     {
         if (!m_pVisual)

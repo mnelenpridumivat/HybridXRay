@@ -202,8 +202,7 @@ void UIMainMenuForm::Draw()
                 }
                 if (ImGui::BeginMenu("Shader Mode"))
                 {
-                    bool selected[2] = {
-                        EDevice->dwShadeMode == D3DSHADE_FLAT, EDevice->dwShadeMode == D3DSHADE_GOURAUD};
+                    bool selected[2] = {EDevice->dwShadeMode == D3DSHADE_FLAT, EDevice->dwShadeMode == D3DSHADE_GOURAUD};
                     if (ImGui::MenuItem("Flat", "", &selected[0]))
                     {
                         EDevice->dwShadeMode = D3DSHADE_FLAT;

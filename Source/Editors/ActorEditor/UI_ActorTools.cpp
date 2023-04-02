@@ -198,8 +198,7 @@ void CActorTools::Render()
         if (m_RenderObject.IsRenderable() &&
             MainForm->GetLeftBarForm()->GetRenderMode() == UILeftBarForm::Render_Engine)
         {
-            RImplementation.model_RenderSingle(
-                m_RenderObject.m_pVisual, m_RenderObject.ObjectXFORM(), m_RenderObject.m_fLOD);
+            RImplementation.model_RenderSingle(m_RenderObject.m_pVisual, m_RenderObject.ObjectXFORM(), m_RenderObject.m_fLOD);
             RCache.set_xform_world(World);
             if (EPrefs->object_flags.is(epoDrawJoints))
             {
@@ -1250,7 +1249,7 @@ void CActorTools::PhysicsStopSimulate()
 }
 
 CObjectSpace* os = 0;
-void          CActorTools::CreatePhysicsWorld()
+void CActorTools::CreatePhysicsWorld()
 {
     VERIFY(!os);
     VERIFY(!physics_world());

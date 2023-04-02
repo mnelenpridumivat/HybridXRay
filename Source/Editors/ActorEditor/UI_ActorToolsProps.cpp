@@ -3,6 +3,7 @@
 #pragma hdrstop
 #include "..\..\XrRender\Private\KinematicAnimatedDefs.h"
 #include "SkeletonAnimated.h"
+#include "UI_ActorMain.h"
 //------------------------------------------------------------------------------
 
 void CActorTools::OnObjectItemsFocused(xr_vector<ListItem*>& items)

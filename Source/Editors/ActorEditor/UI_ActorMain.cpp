@@ -61,9 +61,7 @@ CCommandVar CActorTools::CommandSave(CCommandVar p1, CCommandVar p2)
             CCommandVar res;
             if (Tools->Save(temp_fn.c_str()))
             {
-                ELog.Msg(
-                    mtInformation, "Object '%s' successfully saved. Saving time - %3.2f(s).", m_LastFileName.c_str(),
-                    T.GetElapsed_sec());
+                ELog.Msg(mtInformation, "Object '%s' successfully saved. Saving time - %3.2f(s).", m_LastFileName.c_str(), T.GetElapsed_sec());
                 m_LastFileName = temp_fn.c_str();
                 EPrefs->AppendRecentFile(m_LastFileName.c_str());
                 ExecCommand(COMMAND_UPDATE_CAPTION);
@@ -98,9 +96,7 @@ CCommandVar CActorTools::CommandImport(CCommandVar p1, CCommandVar p2)
                 return FALSE;
 
             m_LastFileName = temp_fn.c_str();
-            ELog.Msg(
-                mtInformation, "Object '%s' successfully imported. Loading time - %3.2f(s).", m_LastFileName.c_str(),
-                T.GetElapsed_sec());
+            ELog.Msg(mtInformation, "Object '%s' successfully imported. Loading time - %3.2f(s).", m_LastFileName.c_str(), T.GetElapsed_sec());
             if (ExecCommand(COMMAND_SAVE, temp_fn, 1))
             {
                 xr_string mfn;
@@ -331,7 +327,7 @@ void CAEPreferences::Save(CInifile* I)
     I->w_bool("ae_prefs", "always_show_keybar34", bAlwaysShowKeyBar34);
 }
 extern ECORE_API BOOL g_force16BitTransformQuant;
-void                  CAEPreferences::FillProp(PropItemVec& props)
+void CAEPreferences::FillProp(PropItemVec& props)
 {
     inherited::FillProp(props);
 
@@ -497,9 +493,7 @@ CCommandVar CActorTools::CommandLoad(CCommandVar p1, CCommandVar p2)
             return FALSE;
         }
         m_LastFileName = temp_fn.c_str();
-        ELog.Msg(
-            mtInformation, "Object '%s' successfully loaded. Loading time - %3.2f(s).", m_LastFileName.c_str(),
-            T.GetElapsed_sec());
+        ELog.Msg(mtInformation, "Object '%s' successfully loaded. Loading time - %3.2f(s).", m_LastFileName.c_str(), T.GetElapsed_sec());
         EPrefs->AppendRecentFile(m_LastFileName.c_str());
         ExecCommand(COMMAND_UPDATE_CAPTION);
         ExecCommand(COMMAND_UPDATE_PROPERTIES);
