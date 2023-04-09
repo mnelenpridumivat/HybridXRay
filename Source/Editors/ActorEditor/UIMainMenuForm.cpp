@@ -27,7 +27,8 @@ void UIMainMenuForm::Draw()
                 ExecCommand(COMMAND_SAVE, 0, 1);
             }
             ImGui::Separator();
-            if (ImGui::BeginMenu("Open Recent", ""))
+            
+            if (ImGui::BeginMenu("Open Recent"_RU >> u8"Открыть недавние файлы", ""))
             {
                 for (auto& str : EPrefs->scene_recent_list)
                 {
@@ -327,6 +328,20 @@ void UIMainMenuForm::Draw()
                     ExecCommand(COMMAND_LOG_COMMANDS);
                 }
             }
+            ImGui::EndMenu();
+        }
+        if (ImGui::BeginMenu("EN/RU"))
+        {
+            if (ImGui::MenuItem("EN", "", EditorLocalization == ELocalization::EN))
+            {
+              EditorLocalization = ELocalization::EN;
+            }
+
+            if (ImGui::MenuItem("RU", "", EditorLocalization == ELocalization::RU))
+            {
+              EditorLocalization = ELocalization::RU;
+            }
+
             ImGui::EndMenu();
         }
         ImGui::EndMainMenuBar();

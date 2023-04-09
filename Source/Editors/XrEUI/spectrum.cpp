@@ -13,7 +13,7 @@ namespace ImGui
         void LoadFont(float size)
         {
             ImGuiIO& io   = ImGui::GetIO();
-            ImFont*  font = io.Fonts->AddFontFromMemoryCompressedTTF(SourceSansProRegular_compressed_data, SourceSansProRegular_compressed_size, size);
+            ImFont*  font = io.Fonts->AddFontFromMemoryCompressedTTF(SourceSansProRegular_compressed_data, SourceSansProRegular_compressed_size, size, nullptr, io.Fonts->GetGlyphRangesCyrillic());
             assert(font != nullptr);
             io.FontDefault = font;
         }
