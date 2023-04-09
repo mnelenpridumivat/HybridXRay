@@ -159,7 +159,7 @@ enum class ELocalization
   RU
 };
 
-extern ELocalization EditorLocalization;
+ECORE_API ELocalization EditorLocalization;
 
 struct SEnglishStringToRussify
 {

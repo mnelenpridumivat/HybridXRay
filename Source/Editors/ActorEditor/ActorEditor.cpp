@@ -3,7 +3,6 @@
 #include "stdafx.h"
 #include "resources\splash.h"
 
-extern ELocalization EditorLocalization = ELocalization::EN;
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
 {
