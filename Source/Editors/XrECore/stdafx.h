@@ -153,29 +153,6 @@ inline u32 TColor(u32 r)
     return r;
 }
 
-enum class ELocalization 
-{
-  EN,
-  RU
-};
-
-ECORE_API ELocalization EditorLocalization;
-
-struct SEnglishStringToRussify
-{
-  const char* String;
-};
-
-inline SEnglishStringToRussify operator"" _RU(const char* _Source, size_t)
-{
-  return SEnglishStringToRussify{_Source};
-}
-
-inline const char* operator>>(const SEnglishStringToRussify& _EnglishStringToRussify, const char* _ItsRussification)
-{
-  return EditorLocalization == ELocalization::EN ? _EnglishStringToRussify.String : _ItsRussification;
-}
-
 #ifdef XRECORE_EXPORTS
 inline void not_implemented()
 {
