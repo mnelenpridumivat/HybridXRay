@@ -412,6 +412,41 @@ void ImGui::BulletTextV(const char* fmt, va_list args)
     RenderText(bb.Min + ImVec2(g.FontSize + style.FramePadding.x * 2, 0.0f), text_begin, text_end, false);
 }
 
+void ImGui::BulletTextColored(const ImVec4& col, const char* fmt, ...)
+{
+    va_list args;
+    va_start(args, fmt);
+    BulletTextColoredV(col, fmt, args);
+    va_end(args);
+}
+
+// Text with a little bullet aligned to the typical tree node.
+void ImGui::BulletTextColoredV(const ImVec4& col, const char* fmt, va_list args)
+{
+    ImGuiWindow* window = GetCurrentWindow();
+    if (window->SkipItems)
+        return;
+
+    ImGuiContext& g = *GImGui;
+    const ImGuiStyle& style = g.Style;
+
+    const char* text_begin = g.TempBuffer;
+    const char* text_end = text_begin + ImFormatStringV(g.TempBuffer, IM_ARRAYSIZE(g.TempBuffer), fmt, args);
+    const ImVec2 label_size = CalcTextSize(text_begin, text_end, false);
+    const ImVec2 total_size = ImVec2(g.FontSize + (label_size.x > 0.0f ? (label_size.x + style.FramePadding.x * 2) : 0.0f), label_size.y);  // Empty text doesn't add padding
+    ImVec2 pos = window->DC.CursorPos;
+    pos.y += window->DC.CurrLineTextBaseOffset;
+    ItemSize(total_size, 0.0f);
+    const ImRect bb(pos, pos + total_size);
+    if (!ItemAdd(bb, 0))
+        return;
+
+    // Render
+    ImU32 text_col = GetColorU32(col);
+    RenderBullet(window->DrawList, bb.Min + ImVec2(style.FramePadding.x + g.FontSize * 0.5f, g.FontSize * 0.5f), text_col);
+    RenderText(bb.Min + ImVec2(g.FontSize + style.FramePadding.x * 2, 0.0f), text_begin, text_end, text_col);
+}
+
 //-------------------------------------------------------------------------
 // [SECTION] Widgets: Main
 //-------------------------------------------------------------------------

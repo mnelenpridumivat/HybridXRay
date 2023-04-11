@@ -1,4 +1,5 @@
 ﻿#include "stdafx.h"
+
 UIBoneForm* UIBoneForm::Form = nullptr;
 UIBoneForm::UIBoneForm() {}
 
@@ -6,8 +7,7 @@ UIBoneForm::~UIBoneForm() {}
 
 void UIBoneForm::Draw()
 {
-    if (!ImGui::BeginPopupModal(
-            "BoneForm", &bOpen, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoResize, true))
+    if (!ImGui::BeginPopupModal("BoneForm"_RU >> u8"Части костей", &bOpen, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoResize, true))
     {
         bOpen = false;
         ImGui::CloseCurrentPopup();
@@ -15,17 +15,17 @@ void UIBoneForm::Draw()
     }
     else
     {
-        ImGui::Text("Total bone:%d", m_EditObject->BoneCount());
+        ImGui::Text("Total bone:%d"_RU >> u8"Всего костей:%d", m_EditObject->BoneCount());
         {
-            ImGui::BeginChild("Part1", ImVec2(300, 300));
+            ImGui::BeginChild("Part1"_RU >> u8"Часть1", ImVec2(300, 300));
             ImGui::AlignTextToFramePadding();
-            ImGui::Text("Part #1:(%d B)", m_List[0].size());
+            ImGui::Text("Part #1:(%d B)"_RU >> u8"Часть #1:(%d B)", m_List[0].size());
             ImGui::SameLine();
             ImGui::SetNextItemWidth(-50);
             ImGui::InputText("##name", m_Name[0], sizeof(m_Name[0]));
             ImGui::SameLine();
-            if (ImGui::Button("set", ImVec2(-1, 0)))
-                Move(0);
+            if (ImGui::Button("Clear"_RU >> u8"Сброс", ImVec2(-1, 0)))
+                Clear(1);
             {
                 ImGui::BeginChild("List", ImVec2(0, 0), true, ImGuiWindowFlags_None);
                 for (int n = 0; n < m_List[0].size(); n++)
@@ -36,15 +36,15 @@ void UIBoneForm::Draw()
         }
         ImGui::SameLine();
         {
-            ImGui::BeginChild("Part2", ImVec2(300, 300));
+            ImGui::BeginChild("Part2"_RU >> u8"Часть2", ImVec2(300, 300));
             ImGui::AlignTextToFramePadding();
-            ImGui::Text("Part #2:(%d B)", m_List[1].size());
+            ImGui::Text("Part #2:(%d B)"_RU >> u8"Часть #2:(%d B)", m_List[1].size());
             ImGui::SameLine();
             ImGui::SetNextItemWidth(-50);
             ImGui::InputText("##name", m_Name[1], sizeof(m_Name[1]));
             ImGui::SameLine();
-            if (ImGui::Button("set", ImVec2(-1, 0)))
-                Move(1);
+            if (ImGui::Button("Clear"_RU >> u8"Сброс", ImVec2(-1, 0)))
+                Clear(2);
             {
                 ImGui::BeginChild("List", ImVec2(0, 0), true, ImGuiWindowFlags_None);
                 for (int n = 0; n < m_List[1].size(); n++)
@@ -55,15 +55,15 @@ void UIBoneForm::Draw()
         }
 
         {
-            ImGui::BeginChild("Part3", ImVec2(300, 300));
+            ImGui::BeginChild("Part3"_RU >> u8"Часть3", ImVec2(300, 300));
             ImGui::AlignTextToFramePadding();
-            ImGui::Text("Part #3:(%d B)", m_List[2].size());
+            ImGui::Text("Part #3:(%d B)"_RU >> u8"Часть #3:(%d B)", m_List[2].size());
             ImGui::SameLine();
             ImGui::SetNextItemWidth(-50);
             ImGui::InputText("##name", m_Name[2], sizeof(m_Name[2]));
             ImGui::SameLine();
-            if (ImGui::Button("set", ImVec2(-1, 0)))
-                Move(2);
+            if (ImGui::Button("Clear"_RU >> u8"Сброс", ImVec2(-1, 0)))
+                Clear(3);
             {
                 ImGui::BeginChild("List", ImVec2(0, 0), true, ImGuiWindowFlags_None);
                 for (int n = 0; n < m_List[2].size(); n++)
@@ -74,15 +74,15 @@ void UIBoneForm::Draw()
         }
         ImGui::SameLine();
         {
-            ImGui::BeginChild("Part4", ImVec2(300, 300));
+            ImGui::BeginChild("Part4"_RU >> u8"Часть4", ImVec2(300, 300));
             ImGui::AlignTextToFramePadding();
-            ImGui::Text("Part #4:(%d B)", m_List[3].size());
+            ImGui::Text("Part #4:(%d B)"_RU >> u8"Часть #3:(%d B)", m_List[3].size());
             ImGui::SameLine();
             ImGui::SetNextItemWidth(-50);
             ImGui::InputText("##name", m_Name[3], sizeof(m_Name[3]));
             ImGui::SameLine();
-            if (ImGui::Button("set", ImVec2(-1, 0)))
-                Move(3);
+            if (ImGui::Button("Clear"_RU >> u8"Сброс", ImVec2(-1, 0)))
+                Clear(4);
             {
                 ImGui::BeginChild("List", ImVec2(0, 0), true, ImGuiWindowFlags_None);
                 for (int n = 0; n < m_List[3].size(); n++)
@@ -97,28 +97,46 @@ void UIBoneForm::Draw()
             Save();
         }
         ImGui::SameLine();
-        if (ImGui::Button("Cancel", ImVec2(70, 0)))
+        if (ImGui::Button("Cancel"_RU >> u8"Отменить", ImVec2(70, 0)))
         {
             bOpen = false;
             ImGui::CloseCurrentPopup();
         }
         ImGui::SameLine(0, 20);
-        if (ImGui::Button("Reset To Default"))
+        if (ImGui::Button("Reset To Default"_RU >> u8"Сброс на Дефолт"))
         {
             ToDefault();
         }
         ImGui::SameLine(0, 20);
-        if (ImGui::Button("Load From"))
+        if (ImGui::Button("Load From"_RU >> u8"Открыть из..."))
         {
             LoadFrom();
         }
         ImGui::SameLine();
-        if (ImGui::Button("Save To"))
+        if (ImGui::Button("Save To"_RU >> u8"Сохранить в..."))
         {
             SaveTo();
         }
         ImGui::EndPopup();
     }
+}
+
+void UIBoneForm::Clear(int to)
+{
+    if (!Form->m_EditObject)
+        return;
+    auto& to_vector = m_List[to];
+    for (int i = 0; i < 4; i++)
+    {
+        if (i == to)
+            continue;
+        for (auto b = m_List[i].begin(), e = m_List[i].end(); b != e; b++)
+        {
+            m_List[i].clear();
+            m_Name[i][0] = 0;
+        }
+    }
+    // Update();
 }
 
 void UIBoneForm::Update()

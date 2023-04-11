@@ -35,4 +35,5 @@ private:
     void SaveTo();
     void LoadFrom();
     void ToDefault();
+    void Clear(int to);
 };

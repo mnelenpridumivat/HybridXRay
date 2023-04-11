@@ -39,19 +39,27 @@ void UITopBarForm::Draw()
     ImGui::Begin("TOOLBAR", NULL, window_flags);
     {
         m_tUndo->Load();
-        if (ImGui::ImageButton(m_tUndo->surface_get(), ImVec2(20, 20), ImVec2(m_timeUndo > EDevice->TimerAsync() ? 0.5 : 0, 0),
-            ImVec2(m_timeUndo > EDevice->TimerAsync() ? 1 : 0.5, 1), 0))
+        if (ImGui::ImageButton(m_tUndo->surface_get(), ImVec2(20, 20), ImVec2(m_timeUndo > EDevice->TimerAsync() ? 0.5 : 0, 0), ImVec2(m_timeUndo > EDevice->TimerAsync() ? 1 : 0.5, 1), 0))
         {
             m_timeUndo = EDevice->TimerAsync() + 130;
             ClickUndo();
         }
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SetTooltip("Undo the last action."_RU >> u8"Отменить последнее действие.");
+        }
         ImGui::SameLine();
         m_tRedo->Load();
-        if (ImGui::ImageButton(m_tRedo->surface_get(), ImVec2(20, 20), ImVec2(m_timeRedo > EDevice->TimerAsync() ? 0.5 : 0, 0),
-            ImVec2(m_timeRedo > EDevice->TimerAsync() ? 1 : 0.5, 1), 0))
+        if (ImGui::ImageButton(m_tRedo->surface_get(), ImVec2(20, 20), ImVec2(m_timeRedo > EDevice->TimerAsync() ? 0.5 : 0, 0), ImVec2(m_timeRedo > EDevice->TimerAsync() ? 1 : 0.5, 1), 0))
         {
             m_timeRedo = EDevice->TimerAsync() + 130;
             ClickRedo();
+        }
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SetTooltip("Repeat the last action."_RU >> u8"Повторить последнее действие.");
         }
         ImGui::SameLine();
 
@@ -60,17 +68,32 @@ void UITopBarForm::Draw()
         {
             ClickNew();
         }
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SetTooltip("Clear/New Scene"_RU >> u8"Очистить/Новая сцена");
+        }
         ImGui::SameLine();
         m_tOpen->Load();
         if (ImGui::ImageButton(m_tOpen->surface_get(), ImVec2(20, 20), ImVec2(0, 0), ImVec2(1, 1), 0))
         {
             ClickOpen();
         }
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SetTooltip("Open file"_RU >> u8"Открыть файл");
+        }
         ImGui::SameLine();
         m_tSave->Load();
         if (ImGui::ImageButton(m_tSave->surface_get(), ImVec2(20, 20), ImVec2(0, 0), ImVec2(1, 1), 0))
         {
             ClickSave();
+        }
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SetTooltip("Save file"_RU >> u8"Сохранить файл");
         }
         ImGui::SameLine();
 
@@ -79,15 +102,25 @@ void UITopBarForm::Draw()
         {
             ClickOpenGameData();
         }
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SetTooltip("Open folder 'GameData'"_RU >> u8"Открыть папку 'GameData'");
+        }
         ImGui::SameLine();
 
         m_Simulate = ATools->IsPhysics();
-        if (ImGui::Checkbox("Simulate", &m_Simulate))
+        if (ImGui::Checkbox("Simulate"_RU >> u8"Симуляция физики", &m_Simulate))
         {
             if (m_Simulate)
                 ATools->PhysicsSimulate();
             else
                 ATools->PhysicsStopSimulate();
+        }
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SetTooltip("Activates physics simulation."_RU >> u8"Активирует симуляцию физики.");
         }
     }
     ImGui::SameLine(0, 1);
