@@ -36,4 +36,6 @@ private:
     void LoadFrom();
     void ToDefault();
     void Clear(int to);
+    void DragDropSource(int list, int n);
+    void DragDropTarget(int list);
 };

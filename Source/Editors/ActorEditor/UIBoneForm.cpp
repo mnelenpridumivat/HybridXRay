@@ -5,6 +5,11 @@ UIBoneForm::UIBoneForm() {}
 
 UIBoneForm::~UIBoneForm() {}
 
+struct DragDropData
+{
+    int list, bone;
+};
+
 void UIBoneForm::Draw()
 {
     if (!ImGui::BeginPopupModal("BoneForm"_RU >> u8"Части костей", &bOpen, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoResize, true))
@@ -25,14 +30,18 @@ void UIBoneForm::Draw()
             ImGui::InputText("##name", m_Name[0], sizeof(m_Name[0]));
             ImGui::SameLine();
             if (ImGui::Button("Clear"_RU >> u8"Сброс", ImVec2(-1, 0)))
-                Clear(1);
+                Clear(0);
             {
                 ImGui::BeginChild("List", ImVec2(0, 0), true, ImGuiWindowFlags_None);
                 for (int n = 0; n < m_List[0].size(); n++)
-                    ImGui::Checkbox(m_List[0][n].name.c_str(), &m_List[0][n].select);
+                {
+                    ImGui::Selectable(m_List[0][n].name.c_str(), &m_List[0][n].select);
+                    DragDropSource(0, n);
+                }
                 ImGui::EndChild();
             }
             ImGui::EndChild();
+            DragDropTarget(0);
         }
         ImGui::SameLine();
         {
@@ -44,14 +53,18 @@ void UIBoneForm::Draw()
             ImGui::InputText("##name", m_Name[1], sizeof(m_Name[1]));
             ImGui::SameLine();
             if (ImGui::Button("Clear"_RU >> u8"Сброс", ImVec2(-1, 0)))
-                Clear(2);
+                Clear(1);
             {
                 ImGui::BeginChild("List", ImVec2(0, 0), true, ImGuiWindowFlags_None);
                 for (int n = 0; n < m_List[1].size(); n++)
-                    ImGui::Checkbox(m_List[1][n].name.c_str(), &m_List[1][n].select);
+                {
+                    ImGui::Selectable(m_List[1][n].name.c_str(), &m_List[1][n].select);
+                    DragDropSource(1, n);
+                }
                 ImGui::EndChild();
             }
             ImGui::EndChild();
+            DragDropTarget(1);
         }
 
         {
@@ -63,14 +76,18 @@ void UIBoneForm::Draw()
             ImGui::InputText("##name", m_Name[2], sizeof(m_Name[2]));
             ImGui::SameLine();
             if (ImGui::Button("Clear"_RU >> u8"Сброс", ImVec2(-1, 0)))
-                Clear(3);
+                Clear(2);
             {
                 ImGui::BeginChild("List", ImVec2(0, 0), true, ImGuiWindowFlags_None);
                 for (int n = 0; n < m_List[2].size(); n++)
-                    ImGui::Checkbox(m_List[2][n].name.c_str(), &m_List[2][n].select);
+                {
+                    ImGui::Selectable(m_List[2][n].name.c_str(), &m_List[2][n].select);
+                    DragDropSource(2, n);
+                }
                 ImGui::EndChild();
             }
             ImGui::EndChild();
+            DragDropTarget(2);
         }
         ImGui::SameLine();
         {
@@ -82,14 +99,18 @@ void UIBoneForm::Draw()
             ImGui::InputText("##name", m_Name[3], sizeof(m_Name[3]));
             ImGui::SameLine();
             if (ImGui::Button("Clear"_RU >> u8"Сброс", ImVec2(-1, 0)))
-                Clear(4);
+                Clear(3);
             {
                 ImGui::BeginChild("List", ImVec2(0, 0), true, ImGuiWindowFlags_None);
                 for (int n = 0; n < m_List[3].size(); n++)
-                    ImGui::Checkbox(m_List[3][n].name.c_str(), &m_List[3][n].select);
+                {
+                    ImGui::Selectable(m_List[3][n].name.c_str(), &m_List[3][n].select);
+                    DragDropSource(3, n);
+                }
                 ImGui::EndChild();
             }
             ImGui::EndChild();
+            DragDropTarget(3);
         }
 
         if (ImGui::Button("Ok", ImVec2(70, 0)))
@@ -123,20 +144,16 @@ void UIBoneForm::Draw()
 
 void UIBoneForm::Clear(int to)
 {
-    if (!Form->m_EditObject)
-        return;
-    auto& to_vector = m_List[to];
-    for (int i = 0; i < 4; i++)
+    for (int k = 0; k < 4; k++)
     {
-        if (i == to)
+        if (k == to)
             continue;
-        for (auto b = m_List[i].begin(), e = m_List[i].end(); b != e; b++)
+        if (m_List[to].size() && !xr_strlen(m_Name[k]))
         {
-            m_List[i].clear();
-            m_Name[i][0] = 0;
+            m_List[to].clear();
+            m_Name[k][0] = 0;
         }
     }
-    // Update();
 }
 
 void UIBoneForm::Update()
@@ -340,5 +357,30 @@ void UIBoneForm::ToDefault()
     for (BoneIt it = m_EditObject->FirstBone(); it != m_EditObject->LastBone(); it++)
     {
         m_List[0].push_back((*it)->Name());
+    }
+}
+
+void UIBoneForm::DragDropSource(int list, int n)
+{
+    if (ImGui::BeginDragDropSource())
+    {
+        ImGui::SetDragDropPayload("BONE", &DragDropData{list, n}, sizeof DragDropData);
+        ImGui::Text(m_List[list][n].name.c_str());
+        ImGui::EndDragDropSource();
+    }
+}
+
+void UIBoneForm::DragDropTarget(int list)
+{
+    if (ImGui::BeginDragDropTarget())
+    {
+        if (const auto payload = ImGui::AcceptDragDropPayload("BONE"))
+        {
+            auto  data    = (const DragDropData*)payload->Data;
+            auto& srcList = m_List[data->list];
+            m_List[list].push_back(srcList[data->bone]);
+            srcList.erase(srcList.begin() + data->bone);
+        }
+        ImGui::EndDragDropTarget();
     }
 }
