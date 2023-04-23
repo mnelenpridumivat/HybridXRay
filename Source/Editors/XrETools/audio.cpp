@@ -345,7 +345,7 @@ int wav_id(unsigned char* buf, int len)
         return 0; /* Something screwed up */
 
     if (memcmp(buf, "RIFF", 4))
-        return 0; /* Not wave */
+        return 0;                /* Not wave */
 
     flen = READ_U32_LE(buf + 4); /* We don't use this */
 

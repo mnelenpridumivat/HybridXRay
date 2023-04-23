@@ -357,9 +357,7 @@ bool CActorTools::IfModified()
 {
     if (IsModified())
     {
-        int mr = ELog.DlgMsg(
-            mtConfirmation, "The '%s' has been modified.\nDo you want to save your changes?",
-            GetEditFileName().c_str());
+        int mr = ELog.DlgMsg(mtConfirmation, "The '%s' has been modified.\nDo you want to save your changes?", GetEditFileName().c_str());
         switch (mr)
         {
             case mrYes:
@@ -560,9 +558,9 @@ void CActorTools::Clear()
     UI->RedrawScene();
 }
 
-void             CActorTools::OnShowHint(AStringVec& SS) {}
+void CActorTools::OnShowHint(AStringVec& SS) {}
 extern xr_string MakeFullBoneName(CBone* bone);
-bool             CActorTools::MouseStart(TShiftState Shift)
+bool CActorTools::MouseStart(TShiftState Shift)
 {
     inherited::MouseStart(Shift);
     switch (m_Action)
@@ -570,7 +568,8 @@ bool             CActorTools::MouseStart(TShiftState Shift)
         case etaSelect:
             switch (MainForm->GetLeftBarForm()->GetPickMode())
             {
-                case 2: {
+                case 2:
+				{
                     CBone* B    = m_pEditObject->PickBone(UI->m_CurrentRStart, UI->m_CurrentRDir, m_AVTransform);
                     bool   bVal = B ? (Shift | ssAlt) ? false : ((Shift | ssCtrl) ? !B->Selected() : true) : false;
                     if (B)
@@ -579,7 +578,8 @@ bool             CActorTools::MouseStart(TShiftState Shift)
                             (Shift | ssCtrl) || (Shift | ssAlt), true);
                 }
                 break;
-                case 1: {
+                case 1:
+				{
                     SRayPickInfo pinf;
                     float        dis = UI->ZFar();
                     Fmatrix      iTransform;

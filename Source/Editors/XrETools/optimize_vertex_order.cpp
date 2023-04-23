@@ -1312,8 +1312,8 @@ float FindBestScore(
 			pwBest[2] = pwIndices[2];
 #else
             ScoreTri* pTemp;
-            pTemp        = *ppstBest;
-            *ppstBest    = *ppstCurTris;
+            pTemp     = *ppstBest;
+            *ppstBest = *ppstCurTris;
 #endif
 
             // float fScore = CacheAddTri ( wTemp[0], wTemp[1], wTemp[2] );

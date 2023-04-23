@@ -264,6 +264,16 @@ void UIMainMenuForm::Draw()
                     ExecCommand(COMMAND_LOG_COMMANDS);
                 }
             }
+            {
+                if (ImGui::MenuItem("Demo ImGui Helper"_RU >> u8"Демонстрационный помощник ImGui", "", bDemoImGui))
+                    bDemoImGui = !bDemoImGui;
+                if (ImGui::IsItemHovered())
+                {
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                    ImGui::SetTooltip("Opens the ImGui Demo Helper, where you can get acquainted with ImGui functionality, visually see demo examples, etc. and so on.."_RU >>
+                                    u8"Открывает Демонстрационный Хелпер по ImGui, где можно ознакомиться с функционалом ImGui, наглядно посмотреть демонстрационные примеры и т.д. и т.п..");
+                }
+            }
             ImGui::EndMenu();
         }
         ImGui::EndMainMenuBar();

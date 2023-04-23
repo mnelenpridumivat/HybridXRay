@@ -1,4 +1,4 @@
-// dear imgui, v1.88 WIP
+﻿// dear imgui, v1.88 WIP
 // (widgets code)
 
 /*
@@ -6144,7 +6144,7 @@ float ImGui::GetTreeNodeToLabelSpacing()
     return g.FontSize + (g.Style.FramePadding.x * 2.0f);
 }
 
-// Set next TreeNode/CollapsingHeader open state.
+// Установить следующий TreeNode/CollapsingHeader открытое состояние.
 void ImGui::SetNextItemOpen(bool is_open, ImGuiCond cond)
 {
     ImGuiContext& g = *GImGui;
@@ -6155,8 +6155,8 @@ void ImGui::SetNextItemOpen(bool is_open, ImGuiCond cond)
     g.NextItemData.OpenCond = cond ? cond : ImGuiCond_Always;
 }
 
-// CollapsingHeader returns true when opened but do not indent nor push into the ID stack (because of the ImGuiTreeNodeFlags_NoTreePushOnOpen flag).
-// This is basically the same as calling TreeNodeEx(label, ImGuiTreeNodeFlags_CollapsingHeader). You can remove the _NoTreePushOnOpen flag if you want behavior closer to normal TreeNode().
+// CollapsingHeader возвращает true при открытии, но не делает отступ и не вставляется в стек идентификаторов (из-за флага ImGuiTreeNodeFlags_NoTreePushOnOpen).
+// Это в основном то же самое, что и вызов TreeNodeEx(label, ImGuiTreeNodeFlags_CollapsingHeader). Вы можете удалить флаг _NoTreePushOnOpen если вы хотите, чтобы поведение было ближе к нормальному TreeNode().
 bool ImGui::CollapsingHeader(const char* label, ImGuiTreeNodeFlags flags)
 {
     ImGuiWindow* window = GetCurrentWindow();

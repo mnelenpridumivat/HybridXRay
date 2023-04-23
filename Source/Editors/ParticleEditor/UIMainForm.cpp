@@ -38,6 +38,8 @@ void UIMainForm::Draw()
     m_TopBar->Draw();
     m_RightBar->Draw();
     m_LeftBar->Draw();
+    if (bDemoImGui)
+        ImGui::ShowDemoWindow(&bDemoImGui);
     m_Render->Draw();
     splash::hide();
 }

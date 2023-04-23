@@ -11,7 +11,7 @@ _appdata_soc_/
 Intermediate/
 /Lib/
 import/
-#rawdata/
+rawdata/
 rawdata_soc/
 rawdata_cs/
 rawdata/backup/

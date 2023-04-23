@@ -75,7 +75,7 @@ struct GeneralCollapseInfo
 
     int iSlidingWindowLevel;   // Which sliding window level the binned tris will belong to.
     ArbitraryList<GeneralTriInfo>
-        TriNextLevel;   // On collapses that change levels, lists the tris that were on the next level.
+        TriNextLevel;          // On collapses that change levels, lists the tris that were on the next level.
 
     MeshPt* pptBin;
     MeshPt* pptKeep;

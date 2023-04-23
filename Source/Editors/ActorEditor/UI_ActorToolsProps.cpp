@@ -373,39 +373,32 @@ void    CActorTools::FillMotionProperties(PropItemVec& items, LPCSTR pref, ListI
         tmp += m_pEditObject->m_SMotionRefs[i].c_str();
     }
     m_tmp_mot_refs = tmp.c_str();
-    V              = PHelper().CreateChoose(
-        items, PrepareKey(pref, "Global\\Motion reference"), &m_tmp_mot_refs, smGameSMotions, 0, 0, MAX_ANIM_SLOT);
+    V = PHelper().CreateChoose(items, PrepareKey(pref, "Global\\Motion reference"), &m_tmp_mot_refs, smGameSMotions, 0, 0, MAX_ANIM_SLOT);
     // m_pEditObject->m_SMotionRefs
     V->OnChangeEvent.bind(this, &CActorTools::OnMotionRefsChange);
     ButtonValue* B;
 
-    B = PHelper().CreateButton(
-        items, PrepareKey(pref, "Export Import"), "ExportRefs,ImportRefs", ButtonValue::flFirstOnly);
+    B = PHelper().CreateButton(items, PrepareKey(pref, "Export Import"), "ExportRefs,ImportRefs", ButtonValue::flFirstOnly);
     B->OnBtnClickEvent.bind(this, &CActorTools::OnExportImportRefsClick);
 
     if (m_pEditObject->m_SMotionRefs.size() == 0)
     {
-        B = PHelper().CreateButton(
-            items, PrepareKey(pref, "Global\\Edit"), "Append,Delete,Save", ButtonValue::flFirstOnly);
-        B->OnBtnClickEvent.bind(this, &CActorTools::OnMotionEditClick);
+        B = PHelper().CreateButton(items, PrepareKey(pref, "Global\\Edit"), "Append,Delete,Save", ButtonValue::flFirstOnly);
+        B->OnBtnClickEvent.bind   (this, &CActorTools::OnMotionEditClick);
     }
     if (SM)
     {
-        B = PHelper().CreateButton(
-            items, PrepareKey(pref, "Motion\\Control"), "Play,Stop,Pause", ButtonValue::flFirstOnly);
-        B->OnBtnClickEvent.bind(this, &CActorTools::OnMotionControlClick);
-        PHelper().CreateCaption(
-            items, PrepareKey(pref, "Motion\\Frame\\Start"), shared_str().printf("%d", SM->FrameStart()));
-        PHelper().CreateCaption(
-            items, PrepareKey(pref, "Motion\\Frame\\End"), shared_str().printf("%d", SM->FrameEnd()));
-        PHelper().CreateCaption(
-            items, PrepareKey(pref, "Motion\\Frame\\Length"), shared_str().printf("%d", SM->Length()));
+        B = PHelper().CreateButton(items, PrepareKey(pref, "Motion\\Control"), "Play,Stop,Pause", ButtonValue::flFirstOnly);
+        B->OnBtnClickEvent.bind   (this, &CActorTools::OnMotionControlClick);
+        PHelper().CreateCaption   (items, PrepareKey(pref, "Motion\\Frame\\Start"), shared_str().printf("%d", SM->FrameStart()));
+        PHelper().CreateCaption   (items, PrepareKey(pref, "Motion\\Frame\\End"), shared_str().printf("%d", SM->FrameEnd()));
+        PHelper().CreateCaption   (items, PrepareKey(pref, "Motion\\Frame\\Length"), shared_str().printf("%d", SM->Length()));
         PropValue* P = 0;
-        P            = PHelper().CreateName(items, PrepareKey(pref, "Motion\\Name"), &SM->name, sender);
-        P->OnChangeEvent.bind(this, &CActorTools::OnMotionNameChange);
-        PHelper().CreateFloat(items, PrepareKey(pref, "Motion\\Speed"), &SM->fSpeed, 0.f, 10.f, 0.01f, 2);
-        PHelper().CreateFloat(items, PrepareKey(pref, "Motion\\Accrue"), &SM->fAccrue, 0.f, 10.f, 0.01f, 2);
-        PHelper().CreateFloat(items, PrepareKey(pref, "Motion\\Falloff"), &SM->fFalloff, 0.f, 10.f, 0.01f, 2);
+        P = PHelper().CreateName  (items, PrepareKey(pref, "Motion\\Name"), &SM->name, sender);
+        P->OnChangeEvent.bind     (this, &CActorTools::OnMotionNameChange);
+        PHelper().CreateFloat     (items, PrepareKey(pref, "Motion\\Speed"), &SM->fSpeed, 0.f, 10.f, 0.01f, 2);
+        PHelper().CreateFloat     (items, PrepareKey(pref, "Motion\\Accrue"), &SM->fAccrue, 0.f, 10.f, 0.01f, 2);
+        PHelper().CreateFloat     (items, PrepareKey(pref, "Motion\\Falloff"), &SM->fFalloff, 0.f, 10.f, 0.01f, 2);
 
         PropValue /**C=0,*/* TV = 0;
         TV = PHelper().CreateFlag8(items, PrepareKey(pref, "Motion\\Type FX"), &SM->m_Flags, esmFX);
@@ -416,8 +409,7 @@ void    CActorTools::FillMotionProperties(PropItemVec& items, LPCSTR pref, ListI
             for (BoneIt it = m_pEditObject->FirstBone(); it != m_pEditObject->LastBone(); it++)
                 m_BoneParts.push_back(xr_rtoken((*it)->Name().c_str(), (*it)->SelfID));
             PHelper().CreateRToken16(
-                items, PrepareKey(pref, "Motion\\FX\\Start bone"), (u16*)&SM->m_BoneOrPart, &*m_BoneParts.begin(),
-                m_BoneParts.size());
+                items, PrepareKey(pref, "Motion\\FX\\Start bone"), (u16*)&SM->m_BoneOrPart, &*m_BoneParts.begin(), m_BoneParts.size());
 
             PHelper().CreateFloat(items, PrepareKey(pref, "Motion\\FX\\Power"), &SM->fPower, 0.f, 10.f, 0.01f, 2);
         }

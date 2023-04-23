@@ -25,6 +25,7 @@ enum class ELocalization
 };
 
 extern XREUI_API ELocalization EditorLocalization;
+extern XREUI_API bool bDemoImGui;
 
 struct SEnglishStringToRussify
 {

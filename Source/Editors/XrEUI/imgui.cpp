@@ -1,4 +1,4 @@
-// dear imgui, 1.88 WIP
+﻿// dear imgui, 1.88 WIP
 // (main code and documentation)
 
 // Help:
@@ -9211,9 +9211,10 @@ ImVec2 ImGui::GetWindowContentRegionMax()
     return window->ContentRegionRect.Max - window->Pos;
 }
 
-// Lock horizontal starting position + capture group bounding box into one "item" (so you can use IsItemHovered() or layout primitives such as SameLine() on whole group, etc.)
-// Groups are currently a mishmash of functionalities which should perhaps be clarified and separated.
-// FIXME-OPT: Could we safely early out on ->SkipItems?
+// Заблокируйте начальную позицию по горизонтали + ограничительную рамку группы захвата в один «элемент»
+// (чтобы вы могли использовать IsItemHovered() или примитивы макета, такие как SameLine() на всю группу и т.д.)
+// В настоящее время группы представляют собой мешанину функций, которые, возможно, следует прояснить и разделить.
+// FIXME-OPT: Можем ли мы безопасно выйти на ранней стадии ->SkipItems?
 void ImGui::BeginGroup()
 {
     ImGuiContext& g = *GImGui;
@@ -9238,17 +9239,17 @@ void ImGui::BeginGroup()
     window->DC.CursorMaxPos = window->DC.CursorPos;
     window->DC.CurrLineSize = ImVec2(0.0f, 0.0f);
     if (g.LogEnabled)
-        g.LogLinePosY = -FLT_MAX; // To enforce a carriage return
+        g.LogLinePosY = -FLT_MAX; // Для принудительного возврата каретки
 }
 
 void ImGui::EndGroup()
 {
     ImGuiContext& g = *GImGui;
     ImGuiWindow* window = g.CurrentWindow;
-    IM_ASSERT(g.GroupStack.Size > 0); // Mismatched BeginGroup()/EndGroup() calls
+    IM_ASSERT(g.GroupStack.Size > 0); // Несоответствующий вызов BeginGroup()/EndGroup()
 
     ImGuiGroupData& group_data = g.GroupStack.back();
-    IM_ASSERT(group_data.WindowID == window->ID); // EndGroup() in wrong window?
+    IM_ASSERT(group_data.WindowID == window->ID); // EndGroup() не в том окне?
 
     ImRect group_bb(group_data.BackupCursorPos, ImMax(window->DC.CursorMaxPos, group_data.BackupCursorPos));
 
@@ -9259,7 +9260,7 @@ void ImGui::EndGroup()
     window->DC.CurrLineSize = group_data.BackupCurrLineSize;
     window->DC.CurrLineTextBaseOffset = group_data.BackupCurrLineTextBaseOffset;
     if (g.LogEnabled)
-        g.LogLinePosY = -FLT_MAX; // To enforce a carriage return
+        g.LogLinePosY = -FLT_MAX; // Для принудительного возврата каретки
 
     if (!group_data.EmitItem)
     {
@@ -9267,14 +9268,15 @@ void ImGui::EndGroup()
         return;
     }
 
-    window->DC.CurrLineTextBaseOffset = ImMax(window->DC.PrevLineTextBaseOffset, group_data.BackupCurrLineTextBaseOffset);      // FIXME: Incorrect, we should grab the base offset from the *first line* of the group but it is hard to obtain now.
+    window->DC.CurrLineTextBaseOffset = ImMax(window->DC.PrevLineTextBaseOffset, group_data.BackupCurrLineTextBaseOffset);      // FIXME: Неверно, мы должны получить базовое смещение от *первой строки* группы, но сейчас это трудно получить.
     ItemSize(group_bb.GetSize());
     ItemAdd(group_bb, 0, NULL, ImGuiItemFlags_NoTabStop);
 
-    // If the current ActiveId was declared within the boundary of our group, we copy it to LastItemId so IsItemActive(), IsItemDeactivated() etc. will be functional on the entire group.
-    // It would be be neater if we replaced window.DC.LastItemId by e.g. 'bool LastItemIsActive', but would put a little more burden on individual widgets.
-    // Also if you grep for LastItemId you'll notice it is only used in that context.
-    // (The two tests not the same because ActiveIdIsAlive is an ID itself, in order to be able to handle ActiveId being overwritten during the frame.)
+    // IЕсли текущий ActiveId был объявлен в пределах нашей группы, мы копируем его в LastItemId so IsItemActive(), IsItemDeactivated() и т. д..
+    // будет работать во всей группе.
+    // Было бы лучше, если бы мы заменили window.DC.LastItemId, например, на 'bool LastItemIsActive', но добавил бы немного больше нагрузки на отдельные виджеты.
+    // Также, если вы grep для LastItemId вы заметите, что он используется только в этом контексте.
+    // (Два теста не одинаковы, потому что ActiveIdIsAlive является идентификатором, чтобы иметь возможность обрабатывать ActiveId перезаписывается во время кадра.)
     const bool group_contains_curr_active_id = (group_data.BackupActiveIdIsAlive != g.ActiveId) && (g.ActiveIdIsAlive == g.ActiveId) && g.ActiveId;
     const bool group_contains_prev_active_id = (group_data.BackupActiveIdPreviousFrameIsAlive == false) && (g.ActiveIdPreviousFrameIsAlive == true);
     if (group_contains_curr_active_id)
@@ -9298,7 +9300,7 @@ void ImGui::EndGroup()
         g.LastItemData.StatusFlags |= ImGuiItemStatusFlags_Deactivated;
 
     g.GroupStack.pop_back();
-    //window->DrawList->AddRect(group_bb.Min, group_bb.Max, IM_COL32(255,0,255,255));   // [Debug]
+    // window->DrawList->AddRect(group_bb.Min, group_bb.Max, IM_COL32(255,0,255,255));   // [Debug]
 }
 
 

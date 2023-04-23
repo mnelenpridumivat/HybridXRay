@@ -128,8 +128,8 @@ private:
 public:
     MeshPt*  pPt1;
     MeshPt*  pPt2;
-    MeshTri* pTri12;   // Tri that numbers pt1, pt2 in that order.
-    MeshTri* pTri21;   // Tri that numbers pt2, pt1 in that order.
+    MeshTri* pTri12;       // Tri that numbers pt1, pt2 in that order.
+    MeshTri* pTri21;       // Tri that numbers pt2, pt1 in that order.
 
     MeshEdge* pEdgeProx;   // The edge that this is close to, if any.
 
@@ -191,9 +191,9 @@ private:
     ArbitraryList<MeshTri*>  TriList;      // The list of tris that use this point (in no order).
     ArbitraryList<MeshPt*>   ProxPtList;   // The list of prox pts (in no order).
 
-    int iCurTriNum;    // Used with First/NextTri.
-    int iCurEdgeNum;   // Used with First/NextEdge.
-    int iCurProxNum;   // Used with First/NextProx.
+    int iCurTriNum;                        // Used with First/NextTri.
+    int iCurEdgeNum;                       // Used with First/NextEdge.
+    int iCurProxNum;                       // Used with First/NextProx.
 
     DlinkDefine(MeshPt, List);
     DWORD dwListId;   // For use when doing consistency checks.

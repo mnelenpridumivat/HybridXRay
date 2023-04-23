@@ -93,8 +93,8 @@ void UIMainForm::Draw()
     m_LeftBar->Draw();
     m_Properties->Draw();
     m_WorldProperties->Draw();
-    static bool Demo = true;
-    ImGui::ShowDemoWindow(&Demo);
+    if (bDemoImGui)
+        ImGui::ShowDemoWindow(&bDemoImGui);
     m_Render->Draw();
     splash::hide();
 }
