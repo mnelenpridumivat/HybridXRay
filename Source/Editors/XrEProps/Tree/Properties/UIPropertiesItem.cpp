@@ -63,6 +63,7 @@ void UIPropertiesItem::DrawItem()
 
     EPropType type = PItem->Type();
     //
+    ImGui::BeginGroup();
     switch (type)
     {
         case PROP_CANVAS: {
@@ -174,6 +175,9 @@ void UIPropertiesItem::DrawItem()
             ImGui::PopID();
             break;
     }
+    ImGui::EndGroup();
+    if (ImGui::IsItemHovered())
+        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
 }
 
 UITreeItem* UIPropertiesItem::CreateItem(shared_str Name)

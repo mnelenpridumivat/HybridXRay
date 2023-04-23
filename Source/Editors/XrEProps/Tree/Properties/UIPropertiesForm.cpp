@@ -90,12 +90,11 @@ void UIPropertiesForm::Draw()
         }
     }
 
-    static ImGuiTableFlags flags = ImGuiTableFlags_BordersV | ImGuiTableFlags_BordersOuterH |
-        ImGuiTableFlags_Resizable | ImGuiTableFlags_RowBg | ImGuiTableFlags_NoBordersInBody;
+    static ImGuiTableFlags flags = ImGuiTableFlags_Borders | ImGuiTableFlags_Resizable | ImGuiTableFlags_RowBg;
     if (ImGui::BeginTable("props", 2, flags))
     {
-        ImGui::TableSetupColumn("Name", ImGuiTableColumnFlags_NoHide);
-        ImGui::TableSetupColumn("Prop", ImGuiTableColumnFlags_WidthFixed);
+        ImGui::TableSetupColumn("Name"_RU >> u8"Имя", ImGuiTableColumnFlags_NoHide);
+        ImGui::TableSetupColumn("Prop"_RU >> u8"Значение", ImGuiTableColumnFlags_WidthFixed);
         ImGui::TableHeadersRow();
         m_Root.DrawRoot();
         ImGui::EndTable();
