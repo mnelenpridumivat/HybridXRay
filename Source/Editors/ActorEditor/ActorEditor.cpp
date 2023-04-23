@@ -41,9 +41,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     UIMainForm* MainForm = xr_new<UIMainForm>();
     ::MainForm           = MainForm;
     UI->Push(MainForm, false);
+    GameMaterialLibraryEditors->Load();
 
     while (MainForm->Frame()) {}
 
+    GameMaterialLibraryEditors->Unload();
     xr_delete(MainForm);
     Core._destroy();
     splash::hide();

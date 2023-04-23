@@ -26,16 +26,23 @@ void CActorTools::OnObjectItemsFocused(xr_vector<ListItem*>& items)
             switch (m_EditMode)
             {
                 case emObject:
+                {
+                    m_Props->ClearProperties();
                     FillObjectProperties(props, OBJECT_PREFIX, prop);
+                }
                     break;
-                case emMotion: {
+                case emMotion:
+                {
+                    m_Props->ClearProperties();
                     LPCSTR m_name = ExtractMotionName(prop->Key());
                     u16    slot   = ExtractMotionSlot(prop->Key());
                     FillMotionProperties(props, MOTIONS_PREFIX, prop);
                     SetCurrentMotion(m_name, slot);
                 }
                 break;
-                case emBone: {
+                case emBone:
+                {
+                    m_Props->ClearProperties();
                     FillBoneProperties(props, BONES_PREFIX, prop);
                     CBone* BONE = (CBone*)prop->m_Object;
                     if (BONE)
@@ -43,7 +50,10 @@ void CActorTools::OnObjectItemsFocused(xr_vector<ListItem*>& items)
                 }
                 break;
                 case emSurface:
+                {
+                    m_Props->ClearProperties();
                     FillSurfaceProperties(props, SURFACES_PREFIX, prop);
+                }
                     break;
                 case emMesh:
                     break;

@@ -104,7 +104,7 @@ void CEditorRenderDevice::Initialize()
 #endif
 
     // game materials
-    GameMaterialLibraryEditors->Load();
+    // GameMaterialLibraryEditors->Load();
 
     // compiler shader
     string_path fn;
@@ -138,7 +138,8 @@ void CEditorRenderDevice::ShutDown()
     ::RImplementation.ShutDown();
 
     ShaderXRLC.Unload();
-    GameMaterialLibraryEditors->Unload();
+    // game materials
+    // GameMaterialLibraryEditors->Unload();
 
     // destroy context
     Destroy();
