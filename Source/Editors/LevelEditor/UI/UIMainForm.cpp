@@ -87,7 +87,6 @@ UIMainForm::~UIMainForm()
 
 void UIMainForm::Draw()
 {
-    bOpen = true;
     m_MainMenu->Draw();
     m_TopBar->Draw();
     m_LeftBar->Draw();
