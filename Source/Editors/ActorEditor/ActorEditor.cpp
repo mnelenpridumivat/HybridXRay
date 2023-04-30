@@ -11,6 +11,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
         constexpr bool topmost = false;
         splash::show(topmost);
     }
+    splash::update_progress(1);
 
     if (!IsDebuggerPresent())
         Debug._initialize(false);
@@ -30,19 +31,27 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
             FSName = "fs_cs.ltx";
         }
     }
+    splash::update_progress(5);
     Core._initialize("Actor_Editor", ELogCallback, 1, FSName, true);
 
+    splash::update_progress(25);
     ATools = xr_new<CActorTools>();
     Tools  = ATools;
 
+    splash::update_progress(9);
     UI = xr_new<CActorMain>();
     UI->RegisterCommands();
 
+    splash::update_progress(15);
     UIMainForm* MainForm = xr_new<UIMainForm>();
     ::MainForm           = MainForm;
     UI->Push(MainForm, false);
-    GameMaterialLibraryEditors->Load();
 
+    splash::update_progress(22);
+    GameMaterialLibraryEditors->Load();
+    splash::update_progress(22);
+
+    splash::update_progress(1);
     while (MainForm->Frame()) {}
 
     GameMaterialLibraryEditors->Unload();
