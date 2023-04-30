@@ -10,6 +10,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
         constexpr bool topmost = false;
         splash::show(topmost);
     }
+    splash::update_progress(1);
 
     if (!IsDebuggerPresent())
         Debug._initialize(false);
@@ -29,18 +30,24 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
             FSName = "fs_cs.ltx";
         }
     }
+    splash::update_progress(5);
     Core._initialize("Shader_Editor", ELogCallback, 1, FSName, true);
 
+    splash::update_progress(39);
     STools = xr_new<CShaderTool>();
     Tools  = STools;
 
+    splash::update_progress(5);
     UI = xr_new<CShaderMain>();
     UI->RegisterCommands();
 
+    splash::update_progress(20);
     UIMainForm* MainForm = xr_new<UIMainForm>();
     ::MainForm           = MainForm;
     UI->Push(MainForm, false);
+    splash::update_progress(29);
 
+    splash::update_progress(1);
     while (MainForm->Frame()) {}
 
     xr_delete(MainForm);
