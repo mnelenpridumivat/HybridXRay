@@ -18,6 +18,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
         constexpr bool topmost = false;
         splash::show(topmost);
     }
+    splash::update_progress(1);
 
     if (!IsDebuggerPresent())
         Debug._initialize(false);
@@ -37,15 +38,19 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
             FSName = "fs_cs.ltx";
         }
     }
+    splash::update_progress(5);
     Core._initialize("Level_Editor", ELogCallback, 1, FSName, true);
 
+    splash::update_progress(24);
     LTools = xr_new<CLevelTool>();
     Tools  = LTools;
 
+    splash::update_progress(5);
     LUI = xr_new<CLevelMain>();
     UI  = LUI;
     UI->RegisterCommands();
 
+    splash::update_progress(15);
     Scene                = xr_new<EScene>();
     EditorScene          = Scene;
     UIMainForm* MainForm = xr_new<UIMainForm>();
@@ -53,6 +58,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     g_XrGameManager      = xr_new<XrGameManager>();
     g_SEFactoryManager   = xr_new<XrSEFactoryManager>();
 
+    splash::update_progress(24);
     g_pGamePersistent = (IGame_Persistent*)g_XrGameManager->Create(CLSID_GAME_PERSISTANT);
     EDevice->seqAppStart.Process(rp_AppStart);
     Console->Execute("default_controls");
@@ -60,7 +66,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 
     ::MainForm = MainForm;
     UI->Push(MainForm, false);
+    splash::update_progress(25);
 
+    splash::update_progress(1);
     while (MainForm->Frame()) {}
 
     xr_delete(MainForm);
