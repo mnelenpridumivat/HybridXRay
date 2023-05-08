@@ -888,6 +888,7 @@ bool CActorTools::Import(LPCSTR initial, LPCSTR obj_name)
     {
         O->m_objectFlags.set(CEditableObject::eoDynamic, TRUE);
         O->m_objectFlags.set(CEditableObject::eoProgressive, TRUE);
+        O->m_objectFlags.set(CEditableObject::eoStripify, TRUE);
         xr_delete(m_pEditObject);
         m_pEditObject = O;
         // delete visual

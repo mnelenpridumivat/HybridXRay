@@ -27,25 +27,88 @@ CObjectOGFCollectorPacked::CObjectOGFCollectorPacked(const Fbox& bb, int apx_ver
     m_Verts.reserve(apx_vertices);
     m_Faces.reserve(apx_faces);
 
-    /*int		_size = (clpOGFMX + 1) * (clpOGFMY + 1) * (clpOGFMZ + 1);
-     int		_average= (apx_vertices/_size)/2;
-     for (int ix=0; ix<clpOGFMX+1; ++ix)
-         for (int iy=0; iy<clpOGFMY+1; ++iy)
-             for (int iz=0; iz<clpOGFMZ+1; ++iz)
-                 m_VM[ix][iy][iz].reserve	(_average);*/
+    int _size    = (clpOGFMX + 1) * (clpOGFMY + 1) * (clpOGFMZ + 1);
+    int _average = (apx_vertices / _size) / 2;
+    for (int ix = 0; ix < clpOGFMX + 1; ++ix)
+        for (int iy = 0; iy < clpOGFMY + 1; ++iy)
+            for (int iz = 0; iz < clpOGFMZ + 1; ++iz)
+                m_VM[ix][iy][iz].reserve(_average);
 }
 
 u16 CObjectOGFCollectorPacked::VPack(SOGFVert& V)
 {
     u32 P = 0xffffffff;
 
-    P = m_Verts.size();
-    if (P >= 0xFFFF)
+    u32 ix, iy, iz;
+    ix = iFloor(float(V.P.x - m_VMmin.x) / m_VMscale.x * clpOGFMX);
+    iy = iFloor(float(V.P.y - m_VMmin.y) / m_VMscale.y * clpOGFMY);
+    iz = iFloor(float(V.P.z - m_VMmin.z) / m_VMscale.z * clpOGFMZ);
+    R_ASSERT(ix <= clpOGFMX && iy <= clpOGFMY && iz <= clpOGFMZ);
+
+    int similar_pos = -1;
     {
-        return 0xffff;
+        U32Vec& vl = m_VM[ix][iy][iz];
+        for (U32It it = vl.begin(); it != vl.end(); it++)
+        {
+            SOGFVert& src = m_Verts[*it];
+            if (src.similar_pos(V))
+            {
+                if (src.similar(V))
+                {
+                    P = *it;
+                    break;
+                }
+                similar_pos = *it;
+            }
+        }
     }
-    m_Verts.push_back(V);
+    if (0xffffffff == P)
+    {
+        if (similar_pos >= 0)
+            V.P.set(m_Verts[similar_pos].P);
+        P = m_Verts.size();
+        if (P >= 0xFFFF)
+            return 0xffff;
+        m_Verts.push_back(V);
+
+        m_VM[ix][iy][iz].push_back(P);
+
+        u32 ixE, iyE, izE;
+        ixE = iFloor(float(V.P.x + m_VMeps.x - m_VMmin.x) / m_VMscale.x * clpOGFMX);
+        iyE = iFloor(float(V.P.y + m_VMeps.y - m_VMmin.y) / m_VMscale.y * clpOGFMY);
+        izE = iFloor(float(V.P.z + m_VMeps.z - m_VMmin.z) / m_VMscale.z * clpOGFMZ);
+
+        R_ASSERT(ixE <= clpOGFMX && iyE <= clpOGFMY && izE <= clpOGFMZ);
+
+        if (ixE != ix)
+            m_VM[ixE][iy][iz].push_back(P);
+        if (iyE != iy)
+            m_VM[ix][iyE][iz].push_back(P);
+        if (izE != iz)
+            m_VM[ix][iy][izE].push_back(P);
+        if ((ixE != ix) && (iyE != iy))
+            m_VM[ixE][iyE][iz].push_back(P);
+        if ((ixE != ix) && (izE != iz))
+            m_VM[ixE][iy][izE].push_back(P);
+        if ((iyE != iy) && (izE != iz))
+            m_VM[ix][iyE][izE].push_back(P);
+        if ((ixE != ix) && (iyE != iy) && (izE != iz))
+            m_VM[ixE][iyE][izE].push_back(P);
+    }
     VERIFY(P < u16(-1));
+    return (u16)P;
+}
+
+u16 CObjectOGFCollectorPacked::VPackHQ(SOGFVert& V)
+{
+    u32 P = m_Verts.size();
+    m_Verts.push_back(V);
+
+    if (P > u16(-1))
+    {
+        Core._destroy();
+        exit(1);
+    }
     return (u16)P;
 }
 
@@ -106,7 +169,7 @@ void CExportObjectOGF::SSplit::SavePart(IWriter& F, CObjectOGFCollectorPacked* p
         F.w(&(pV.P), sizeof(float) * 3);   // position (offset)
         F.w(&(pV.N), sizeof(float) * 3);   // normal
         F.w_float(pV.UV.x);
-        F.w_float(pV.UV.y);   // tu,tv
+        F.w_float(pV.UV.y);                // tu,tv
     }
     F.close_chunk();
 
@@ -146,46 +209,45 @@ void CExportObjectOGF::SSplit::Save(IWriter& F, int& chunk_id)
 
 void CObjectOGFCollectorPacked::MakeProgressive()
 {
-    return;
-    /*
-    VIPM_Init	();
+    VIPM_Init();
 
-    for (OGFVertIt vert_it=m_Verts.begin(); vert_it!=m_Verts.end(); ++vert_it)
-        VIPM_AppendVertex(vert_it->P,vert_it->UV);
+    for (OGFVertIt vert_it = m_Verts.begin(); vert_it != m_Verts.end(); ++vert_it)
+        VIPM_AppendVertex(vert_it->P, vert_it->UV);
 
-    for (OGFFaceIt f_it=m_Faces.begin(); f_it!=m_Faces.end(); ++f_it)
-        VIPM_AppendFace(f_it->v[0],f_it->v[1],f_it->v[2]);
+    for (OGFFaceIt f_it = m_Faces.begin(); f_it != m_Faces.end(); ++f_it)
+        VIPM_AppendFace(f_it->v[0], f_it->v[1], f_it->v[2]);
 
-    VIPM_Result* R = VIPM_Convert(u32(-1),1.f,1);
+    VIPM_Result* R = VIPM_Convert(u32(-1), 1.f, 1);
 
     if (R)
     {
         // Permute vertices
-        OGFVertVec const temp_list	= m_Verts;
-        for(u32 i=0; i<temp_list.size(); ++i)
-            m_Verts[R->permute_verts[i]]=temp_list[i];
+        OGFVertVec const temp_list = m_Verts;
+        for (u32 i = 0; i < temp_list.size(); ++i)
+            m_Verts[R->permute_verts[i]] = temp_list[i];
 
         // Fill indices
-        m_Faces.resize	(R->indices.size()/3);
-        for (u32 f_idx=0; f_idx<m_Faces.size(); ++f_idx)
+        m_Faces.resize(R->indices.size() / 3);
+        for (u32 f_idx = 0; f_idx < m_Faces.size(); ++f_idx)
         {
-            SOGFFace& F		= m_Faces[f_idx];
-            F.v[0]			= R->indices[f_idx*3+0];
-            F.v[1]			= R->indices[f_idx*3+1];
-            F.v[2]			= R->indices[f_idx*3+2];
+            SOGFFace& F = m_Faces[f_idx];
+            F.v[0]      = R->indices[f_idx * 3 + 0];
+            F.v[1]      = R->indices[f_idx * 3 + 1];
+            F.v[2]      = R->indices[f_idx * 3 + 2];
         }
 
         // Fill SWR
-        m_SWR.resize		(R->swr_records.size());
-        for (u32 swr_idx=0; swr_idx!=m_SWR.size(); ++swr_idx)
-            m_SWR[swr_idx]	= R->swr_records[swr_idx];
-
-    }else{
+        m_SWR.resize(R->swr_records.size());
+        for (u32 swr_idx = 0; swr_idx != m_SWR.size(); ++swr_idx)
+            m_SWR[swr_idx] = R->swr_records[swr_idx];
+    }
+    else
+    {
         Log("!..Can't make progressive.");
     }
 
     // cleanup
-    VIPM_Destroy		();*/
+    VIPM_Destroy();
 }
 
 void CObjectOGFCollectorPacked::OptimizeTextureCoordinates()
@@ -311,7 +373,7 @@ bool CExportObjectOGF::PrepareMESH(CEditableMesh* MESH)
                         v[k].set(MESH->m_Vertices[fv.pindex], MESH->m_VertexNormals[norm_id], *uv);
                     }
                     --elapsed_faces;
-                    if (!split->m_CurrentPart->add_face(v[0], v[1], v[2]))
+                    if (!split->m_CurrentPart->add_face(v[0], v[1], v[2], m_Source->m_objectFlags.is(CEditableObject::eoHQExportPlus)))
                         bNewPart = true;
 
                     if (b2sided)
@@ -319,7 +381,7 @@ bool CExportObjectOGF::PrepareMESH(CEditableMesh* MESH)
                         v[0].N.invert();
                         v[1].N.invert();
                         v[2].N.invert();
-                        if (!split->m_CurrentPart->add_face(v[2], v[1], v[0]))
+                        if (!split->m_CurrentPart->add_face(v[2], v[1], v[0], m_Source->m_objectFlags.is(CEditableObject::eoHQExportPlus)))
                             bNewPart = true;
                     }
                 }

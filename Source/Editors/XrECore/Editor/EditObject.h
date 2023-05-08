@@ -274,6 +274,7 @@ public:
         eoHQExport      = (1 << 6),
         eoHQExportPlus  = (1 << 7),
         eoOptimizeSurf  = (1 << 8),
+        eoStripify      = (1 << 9),
         eoFORCE32       = u32(-1)
     };
     IC BOOL IsDynamic()
