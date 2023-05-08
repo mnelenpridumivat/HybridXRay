@@ -91,54 +91,35 @@ u16 CSkeletonCollectorPacked::VPack(SSkelVert& V)
     return (u16)P;
 }
 
-u16 CSkeletonCollectorPacked::VPackHQ(SSkelVert& V)
+CSkeletonCollectorPacked::CSkeletonCollectorPacked(const Fbox& _bb, int apx_vertices, int apx_faces)
 {
-    u32 P = m_Verts.size();
-    m_Verts.push_back(V);
+    Fbox bb;
+    bb.set(_bb);
+    bb.grow(EPS_L);
+    // Params
+    m_VMscale.set(bb.max.x - bb.min.x + EPS, bb.max.y - bb.min.y + EPS, bb.max.z - bb.min.z + EPS);
+    m_VMmin.set(bb.min).sub(EPS);
+    m_VMeps.set(m_VMscale.x / clpSMX / 2, m_VMscale.y / clpSMY / 2, m_VMscale.z / clpSMZ / 2);
+    m_VMeps.x = (m_VMeps.x < EPS_L) ? m_VMeps.x : EPS_L;
+    m_VMeps.y = (m_VMeps.y < EPS_L) ? m_VMeps.y : EPS_L;
+    m_VMeps.z = (m_VMeps.z < EPS_L) ? m_VMeps.z : EPS_L;
 
-    if (P > u16(-1))
-    {
-        Core._destroy();
-        exit(1);
-    }
-    return (u16)P;
-}
-
-CSkeletonCollectorPacked::CSkeletonCollectorPacked(const Fbox& _bb, bool hq, int apx_vertices, int apx_faces)
-{
-    if (!hq)
-    {
-        Fbox bb;
-        bb.set(_bb);
-        bb.grow(EPS_L);
-        // Params
-        m_VMscale.set(bb.max.x - bb.min.x + EPS, bb.max.y - bb.min.y + EPS, bb.max.z - bb.min.z + EPS);
-        m_VMmin.set(bb.min).sub(EPS);
-        m_VMeps.set(m_VMscale.x / clpSMX / 2, m_VMscale.y / clpSMY / 2, m_VMscale.z / clpSMZ / 2);
-        m_VMeps.x = (m_VMeps.x < EPS_L) ? m_VMeps.x : EPS_L;
-        m_VMeps.y = (m_VMeps.y < EPS_L) ? m_VMeps.y : EPS_L;
-        m_VMeps.z = (m_VMeps.z < EPS_L) ? m_VMeps.z : EPS_L;
-
-        invalid_faces = 0;
-    }
+    invalid_faces = 0;
 
     // Preallocate memory
     m_Verts.reserve(apx_vertices);
     m_Faces.reserve(apx_faces);
 
-    if (!hq)
-    {
-        int _size    = (clpSMX + 1) * (clpSMY + 1) * (clpSMZ + 1);
-        int _average = (apx_vertices / _size) / 2;
-        for (int ix = 0; ix < clpSMX + 1; ix++)
-            for (int iy = 0; iy < clpSMY + 1; iy++)
-                for (int iz = 0; iz < clpSMZ + 1; iz++)
-                    m_VM[ix][iy][iz].reserve(_average);
-    }
+    int _size    = (clpSMX + 1) * (clpSMY + 1) * (clpSMZ + 1);
+    int _average = (apx_vertices / _size) / 2;
+    for (int ix = 0; ix < clpSMX + 1; ix++)
+        for (int iy = 0; iy < clpSMY + 1; iy++)
+            for (int iz = 0; iz < clpSMZ + 1; iz++)
+                m_VM[ix][iy][iz].reserve(_average);
 }
 //----------------------------------------------------
 
-CExportSkeleton::SSplit::SSplit(CSurface* surf, const Fbox& bb, u16 part, bool HQ): CSkeletonCollectorPacked(bb, HQ)
+CExportSkeleton::SSplit::SSplit(CSurface* surf, const Fbox& bb, u16 part): CSkeletonCollectorPacked(bb)
 {
     //.	m_b2Link	= FALSE;
     m_SkeletonLinkType = 1;
@@ -742,7 +723,7 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
                     int mtl_idx = FindSplit(surf->m_ShaderName, surf->m_Texture, bone_brk_part, surf->m_id);
                     if (mtl_idx < 0)
                     {
-                        m_Splits.push_back(SSplit(surf, m_Source->GetBox(), bone_brk_part, m_Source->m_objectFlags.is(CEditableObject::eoHQExportPlus)));
+                        m_Splits.push_back(SSplit(surf, m_Source->GetBox(), bone_brk_part));
                         mtl_idx                              = m_Splits.size() - 1;
                         m_Splits[mtl_idx].m_SkeletonLinkType = 0;
                     }

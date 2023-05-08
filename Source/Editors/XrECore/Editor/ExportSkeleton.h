@@ -86,13 +86,12 @@ protected:
     Fvector m_VMeps;
 
     u16 VPack(SSkelVert& V);
-    u16 VPackHQ(SSkelVert& V);
 
 public:
     u32 invalid_faces;
 
 public:
-    CSkeletonCollectorPacked(const Fbox& bb, bool hq, int apx_vertices = 5000, int apx_faces = 5000);
+    CSkeletonCollectorPacked(const Fbox& bb, int apx_vertices = 5000, int apx_faces = 5000);
     bool check(SSkelFace& F)
     {
         if ((F.v[0] == F.v[1]) || (F.v[0] == F.v[2]) || (F.v[1] == F.v[2]))
@@ -115,38 +114,28 @@ public:
         }
         return true;
     }
-    bool add_face(SSkelVert& v0, SSkelVert& v1, SSkelVert& v2, bool HQ)
+    bool add_face(SSkelVert& v0, SSkelVert& v1, SSkelVert& v2, bool hq)
     {
-        if (!HQ && ((v0.offs.similar(v1.offs, EPS) || v0.offs.similar(v2.offs, EPS) || v1.offs.similar(v2.offs, EPS))))
+        if (!hq && ((v0.offs.similar(v1.offs, EPS) || v0.offs.similar(v2.offs, EPS) || v1.offs.similar(v2.offs, EPS))))
         {
-            if (g_EpsSkelPositionDelta <= EPS)
-                ELog.Msg(mtError, "Degenerate face found. Removed.");
+            ELog.Msg(mtError, "Degenerate face found. Removed.");
             invalid_faces++;
             return false;
         }
         SSkelFace F;
 
-        if (!HQ)
-        {
-            F.v[0] = VPack(v0);
-            F.v[1] = VPack(v1);
-            F.v[2] = VPack(v2);
-        }
-        else
-        {
-            F.v[0] = VPackHQ(v0);
-            F.v[1] = VPackHQ(v1);
-            F.v[2] = VPackHQ(v2);
-        }
-        if (HQ || check(F))
+        F.v[0] = VPack(v0);
+        F.v[1] = VPack(v1);
+        F.v[2] = VPack(v2);
+
+        if (hq || check(F))
         {
             m_Faces.push_back(F);
             return true;
         }
         else
         {
-            if (g_EpsSkelPositionDelta <= EPS)
-                ELog.Msg(mtError, "Duplicate face found. Removed.");
+            ELog.Msg(mtError, "Duplicate face found. Removed.");
             invalid_faces++;
             return false;
         }
@@ -192,7 +181,7 @@ protected:
         u32                     m_SkeletonLinkType;
 
     public:
-        SSplit(CSurface* surf, const Fbox& bb, u16 part, bool HQ);
+        SSplit(CSurface* surf, const Fbox& bb, u16 part);
 
         bool valid()
         {

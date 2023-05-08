@@ -13,32 +13,26 @@
 #include "ui_main.h"
 #endif
 
-CObjectOGFCollectorPacked::CObjectOGFCollectorPacked(const Fbox& bb, bool hq, int apx_vertices, int apx_faces)
+CObjectOGFCollectorPacked::CObjectOGFCollectorPacked(const Fbox& bb, int apx_vertices, int apx_faces)
 {
-    if (!hq)
-    {
-        // Params
-        m_VMscale.set(bb.max.x - bb.min.x + EPS, bb.max.y - bb.min.y + EPS, bb.max.z - bb.min.z + EPS);
-        m_VMmin.set(bb.min).sub(EPS);
-        m_VMeps.set(m_VMscale.x / clpOGFMX / 2, m_VMscale.y / clpOGFMY / 2, m_VMscale.z / clpOGFMZ / 2);
-        m_VMeps.x = (m_VMeps.x < EPS_L) ? m_VMeps.x : EPS_L;
-        m_VMeps.y = (m_VMeps.y < EPS_L) ? m_VMeps.y : EPS_L;
-        m_VMeps.z = (m_VMeps.z < EPS_L) ? m_VMeps.z : EPS_L;
-    }
+    // Params
+    m_VMscale.set(bb.max.x - bb.min.x + EPS, bb.max.y - bb.min.y + EPS, bb.max.z - bb.min.z + EPS);
+    m_VMmin.set(bb.min).sub(EPS);
+    m_VMeps.set(m_VMscale.x / clpOGFMX / 2, m_VMscale.y / clpOGFMY / 2, m_VMscale.z / clpOGFMZ / 2);
+    m_VMeps.x = (m_VMeps.x < EPS_L) ? m_VMeps.x : EPS_L;
+    m_VMeps.y = (m_VMeps.y < EPS_L) ? m_VMeps.y : EPS_L;
+    m_VMeps.z = (m_VMeps.z < EPS_L) ? m_VMeps.z : EPS_L;
 
     // Preallocate memory
     m_Verts.reserve(apx_vertices);
     m_Faces.reserve(apx_faces);
 
-    if (!hq)
-    {
-        int _size    = (clpOGFMX + 1) * (clpOGFMY + 1) * (clpOGFMZ + 1);
-        int _average = (apx_vertices / _size) / 2;
-        for (int ix = 0; ix < clpOGFMX + 1; ++ix)
-            for (int iy = 0; iy < clpOGFMY + 1; ++iy)
-                for (int iz = 0; iz < clpOGFMZ + 1; ++iz)
-                    m_VM[ix][iy][iz].reserve(_average);
-    }
+    int _size    = (clpOGFMX + 1) * (clpOGFMY + 1) * (clpOGFMZ + 1);
+    int _average = (apx_vertices / _size) / 2;
+    for (int ix = 0; ix < clpOGFMX + 1; ++ix)
+        for (int iy = 0; iy < clpOGFMY + 1; ++iy)
+            for (int iz = 0; iz < clpOGFMZ + 1; ++iz)
+                m_VM[ix][iy][iz].reserve(_average);
 }
 
 u16 CObjectOGFCollectorPacked::VPack(SOGFVert& V)
@@ -105,19 +99,6 @@ u16 CObjectOGFCollectorPacked::VPack(SOGFVert& V)
     return (u16)P;
 }
 
-u16 CObjectOGFCollectorPacked::VPackHQ(SOGFVert& V)
-{
-    u32 P = m_Verts.size();
-    m_Verts.push_back(V);
-
-    if (P > u16(-1))
-    {
-        Core._destroy();
-        exit(1);
-    }
-    return (u16)P;
-}
-
 void CObjectOGFCollectorPacked::ComputeBounding()
 {
     m_Box.invalidate();
@@ -138,9 +119,9 @@ CExportObjectOGF::SSplit::~SSplit()
         xr_delete(*it);
 }
 
-void CExportObjectOGF::SSplit::AppendPart(int apx_vertices, int apx_faces, bool hq)
+void CExportObjectOGF::SSplit::AppendPart(int apx_vertices, int apx_faces)
 {
-    m_Parts.push_back(xr_new<CObjectOGFCollectorPacked>(apx_box, hq, apx_vertices, apx_faces));
+    m_Parts.push_back(xr_new<CObjectOGFCollectorPacked>(apx_box, apx_vertices, apx_faces));
     m_CurrentPart = m_Parts.back();
 }
 
@@ -346,8 +327,7 @@ bool CExportObjectOGF::PrepareMESH(CEditableMesh* MESH)
 
         if (0 == split->m_CurrentPart)
             split->AppendPart((elapsed_faces > 0xffff) ? 0xffff : elapsed_faces,
-                              (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces,
-                              m_Source->m_objectFlags.is(CEditableObject::eoHQExportPlus));
+                              (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces);
 
         if (MESH->m_Normals)
             Log("Export custom normals");
@@ -402,8 +382,7 @@ bool CExportObjectOGF::PrepareMESH(CEditableMesh* MESH)
                 }
                 if (bNewPart && (elapsed_faces > 0))
                     split->AppendPart((elapsed_faces > 0xffff) ? 0xffff : elapsed_faces,
-                                      (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces,
-                                      m_Source->m_objectFlags.is(CEditableObject::eoHQExportPlus));
+                                      (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces);
             }
         } while (elapsed_faces > 0);
     }
@@ -672,6 +651,8 @@ bool CEditableObject::PrepareSkeletonOGF(IWriter& F, u8 infl)
     float           prev = g_EpsSkelPositionDelta;
     if (m_objectFlags.test(eoHQExport))
         g_EpsSkelPositionDelta = EPS;
+    if (m_objectFlags.test(eoHQExportPlus))
+        g_EpsSkelPositionDelta = EPS_S;
 
     bool res               = E.Export(F, infl);
     g_EpsSkelPositionDelta = prev;
@@ -685,6 +666,8 @@ bool CEditableObject::PrepareRigidOGF(IWriter& F, bool gen_tb, CEditableMesh* me
     float            prev = g_EpsSkelPositionDelta;
     if (m_objectFlags.test(eoHQExport))
         g_EpsSkelPositionDelta = EPS;
+    if (m_objectFlags.test(eoHQExportPlus))
+        g_EpsSkelPositionDelta = EPS_S;
 
     g_EpsSkelPositionDelta = prev;
 
@@ -699,6 +682,8 @@ bool CEditableObject::PrepareSVGeometry(IWriter& F, u8 infl)
     float prev = g_EpsSkelPositionDelta;
     if (m_objectFlags.test(eoHQExport))
         g_EpsSkelPositionDelta = EPS;
+    if (m_objectFlags.test(eoHQExportPlus))
+        g_EpsSkelPositionDelta = EPS_S;
 
     bool res = E.ExportGeometry(F, infl);
 

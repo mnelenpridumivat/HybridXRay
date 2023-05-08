@@ -75,12 +75,11 @@ public:
     Fvector m_VMeps;
 
     u16  VPack(SOGFVert& V);
-    u16  VPackHQ(SOGFVert& V);
     void ComputeBounding();
     void OptimizeTextureCoordinates();
 
 public:
-    CObjectOGFCollectorPacked(const Fbox& bb, bool hq, int apx_vertices, int apx_faces);
+    CObjectOGFCollectorPacked(const Fbox& bb, int apx_vertices, int apx_faces);
     void    CalculateTB();
     void    MakeProgressive();
     IC bool check(SOGFFace& F)
@@ -90,29 +89,20 @@ public:
         else
             return true;
     }
-    IC bool add_face(SOGFVert& v0, SOGFVert& v1, SOGFVert& v2, bool HQ)
+    IC bool add_face(SOGFVert& v0, SOGFVert& v1, SOGFVert& v2, bool hq)
     {
-        if (!HQ && ((v0.P.similar(v1.P, EPS) || v0.P.similar(v2.P, EPS) || v1.P.similar(v2.P, EPS))))
+        if (!hq && ((v0.P.similar(v1.P, EPS) || v0.P.similar(v2.P, EPS) || v1.P.similar(v2.P, EPS))))
         {
             ELog.Msg(mtError, "Degenerate face found. Removed.");
             return true;
         }
         SOGFFace F;
         u16      v;
-        if (!HQ)
-        {
-            F.v[0] = VPack(v0);
-            F.v[1] = VPack(v1);
-            F.v[2] = VPack(v2);
-        }
-        else
-        {
-            F.v[0] = VPackHQ(v0);
-            F.v[1] = VPackHQ(v1);
-            F.v[2] = VPackHQ(v2);
-        }
+        F.v[0] = VPack(v0);
+        F.v[1] = VPack(v1);
+        F.v[2] = VPack(v2);
 
-        if (HQ || check(F))
+        if (hq || check(F))
             m_Faces.push_back(F);
         else
         {
@@ -158,7 +148,7 @@ class ECORE_API CExportObjectOGF
         CSurface* m_Surf;
 
         // Progressive
-        void AppendPart(int apx_vertices, int apx_faces, bool hq);
+        void AppendPart(int apx_vertices, int apx_faces);
         void SavePart(IWriter& F, CObjectOGFCollectorPacked* part);
         void Save(IWriter& F, int& chunk_id);
 
