@@ -346,6 +346,8 @@ void CActorTools::OnCylinderAxisClick(ButtonValue* V, bool& bModif, bool& bSafe)
     ExecCommand(COMMAND_UPDATE_PROPERTIES);
 }
 
+extern ECORE_API BOOL g_force16BitTransformQuant;
+extern ECORE_API BOOL g_forceFloatTransformQuant;
 #include "envelope.h"
 Fvector StartMotionPoint, EndMotionPoint;
 void    CActorTools::FillMotionProperties(PropItemVec& items, LPCSTR pref, ListItem* sender)
@@ -395,6 +397,8 @@ void    CActorTools::FillMotionProperties(PropItemVec& items, LPCSTR pref, ListI
     {
         B = PHelper().CreateButton(items, PrepareKey(pref, "Global\\Edit"), "Append,Delete,Save", ButtonValue::flFirstOnly);
         B->OnBtnClickEvent.bind   (this, &CActorTools::OnMotionEditClick);
+        PHelper().CreateBOOL(items, PrepareKey(pref, "Global\\MotionExport\\Force 16bit Motion"), &g_force16BitTransformQuant);
+        PHelper().CreateBOOL(items, PrepareKey(pref, "Global\\MotionExport\\Force No Compress Motion"), &g_forceFloatTransformQuant);
     }
     if (SM)
     {
@@ -1036,10 +1040,10 @@ void CActorTools::FillObjectProperties(PropItemVec& items, LPCSTR pref, ListItem
 
     if (m_pEditObjectType & CEditableObject::eoDynamic)
     {
-        PHelper().CreateFlag32(
-            items, "Object\\Flags\\Make Progressive", &m_pEditObject->m_objectFlags, CEditableObject::eoProgressive);
-        PHelper().CreateFlag32(
-            items, "Object\\Flags\\HQ Geometry", &m_pEditObject->m_objectFlags, CEditableObject::eoHQExport);
+        PHelper().CreateFlag32(items, "Object\\Flags\\HQ Geometry", &m_pEditObject->m_objectFlags, CEditableObject::eoHQExport);
+        PHelper().CreateFlag32(items, "Object\\Flags\\HQ Geometry Plus", &m_pEditObject->m_objectFlags, CEditableObject::eoHQExportPlus);
+        PHelper().CreateFlag32(items, "Object\\Flags\\Make progressive meshes", &m_pEditObject->m_objectFlags, CEditableObject::eoProgressive);
+        PHelper().CreateFlag32(items, "Object\\Flags\\Optimize surfaces", &m_pEditObject->m_objectFlags, CEditableObject::eoOptimizeSurf);
     }
     else if (m_pEditObjectType & CEditableObject::eoMultipleUsage)
     {

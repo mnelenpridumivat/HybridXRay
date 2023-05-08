@@ -252,6 +252,7 @@ void CEnvelope::LoadA(IReader& F)
 
 void CEnvelope::Optimize()
 {
+/*
     if (keys.empty())
         return;
 
@@ -277,4 +278,5 @@ void CEnvelope::Optimize()
         keys.clear_and_free();
         keys = new_keys;
     }
+*/
 }

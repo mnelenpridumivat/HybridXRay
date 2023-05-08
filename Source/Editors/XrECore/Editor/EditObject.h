@@ -272,6 +272,8 @@ public:
         eoMultipleUsage = (1 << 4),
         eoSoundOccluder = (1 << 5),
         eoHQExport      = (1 << 6),
+        eoHQExportPlus  = (1 << 7),
+        eoOptimizeSurf  = (1 << 8),
         eoFORCE32       = u32(-1)
     };
     IC BOOL IsDynamic()

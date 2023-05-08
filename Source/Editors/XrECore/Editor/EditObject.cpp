@@ -292,11 +292,13 @@ void CEditableObject::GetFaceWorld(const Fmatrix& parent, CEditableMesh* M, int 
 
 void CEditableObject::Optimize()
 {
+/*
     for (EditMeshIt m_def = m_Meshes.begin(); m_def != m_Meshes.end(); m_def++)
     {
         (*m_def)->OptimizeMesh(false);
         (*m_def)->RebuildVMaps();
     }
+*/
 }
 
 bool CEditableObject::Validate()
