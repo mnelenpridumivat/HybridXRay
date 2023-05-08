@@ -398,7 +398,7 @@ void    CActorTools::FillMotionProperties(PropItemVec& items, LPCSTR pref, ListI
         B = PHelper().CreateButton(items, PrepareKey(pref, "Global\\Edit"), "Append,Delete,Save", ButtonValue::flFirstOnly);
         B->OnBtnClickEvent.bind   (this, &CActorTools::OnMotionEditClick);
         PHelper().CreateBOOL(items, PrepareKey(pref, "Global\\MotionExport\\Force 16bit Motion"), &g_force16BitTransformQuant);
-        PHelper().CreateBOOL(items, PrepareKey(pref, "Global\\MotionExport\\Force No Compress Motion"), &g_forceFloatTransformQuant);
+        PHelper().CreateBOOL(items, PrepareKey(pref, "Global\\MotionExport\\No Compress Motion"), &g_forceFloatTransformQuant);
     }
     if (SM)
     {
@@ -1040,6 +1040,7 @@ void CActorTools::FillObjectProperties(PropItemVec& items, LPCSTR pref, ListItem
 
     if (m_pEditObjectType & CEditableObject::eoDynamic)
     {
+        PHelper().CreateFlag32(items, "Object\\Flags\\Use split normals", &m_pEditObject->m_objectFlags, CEditableObject::eoNormals);
         PHelper().CreateFlag32(items, "Object\\Flags\\Make stripify meshes", &m_pEditObject->m_objectFlags, CEditableObject::eoStripify);
         PHelper().CreateFlag32(items, "Object\\Flags\\HQ Geometry", &m_pEditObject->m_objectFlags, CEditableObject::eoHQExport);
         PHelper().CreateFlag32(items, "Object\\Flags\\HQ Geometry Plus", &m_pEditObject->m_objectFlags, CEditableObject::eoHQExportPlus);

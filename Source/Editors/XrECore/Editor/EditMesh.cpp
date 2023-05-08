@@ -146,7 +146,7 @@ BOOL CEditableMesh::m_bDraftMeshMode = FALSE;
 void CEditableMesh::GenerateVNormals(const Fmatrix* parent_xform)
 {
     m_VNormalsRefs++;
-    if (m_VertexNormals || m_Normals)
+    if (m_VertexNormals || (m_Normals && m_Parent->m_objectFlags.is(CEditableObject::eoNormals)))
         return;
     m_VertexNormals = xr_alloc<Fvector>(m_FaceCount * 3);
 
@@ -340,8 +340,10 @@ void CEditableMesh::GenerateSVertices(u32 influence)
     GenerateFNormals();
     GenerateVNormals(0);
 
-    if (m_Normals)
+    if (m_Normals && m_Parent->m_objectFlags.is(CEditableObject::eoNormals))
         Log("Export custom normals");
+    else
+        Log("Export smooth groups");
 
     for (u32 f_id = 0; f_id < m_FaceCount; f_id++)
     {
@@ -350,7 +352,7 @@ void CEditableMesh::GenerateSVertices(u32 influence)
         for (int k = 0; k < 3; ++k)
         {
             st_SVert&          SV = m_SVertices[f_id * 3 + k];
-            const Fvector&     N  = m_Normals ? m_Normals[f_id * 3 + k] : m_VertexNormals[f_id * 3 + k];
+            const Fvector&     N  = m_Normals && m_Parent->m_objectFlags.is(CEditableObject::eoNormals) ? m_Normals[f_id * 3 + k] : m_VertexNormals[f_id * 3 + k];
             const st_FaceVert& fv = F.pv[k];
             const Fvector&     P  = m_Vertices[fv.pindex];
 

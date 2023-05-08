@@ -297,7 +297,7 @@ CExportObjectOGF::SSplit* CExportObjectOGF::FindSplit(CSurface* surf)
 
 bool CExportObjectOGF::PrepareMESH(CEditableMesh* MESH)
 {
-    //        // generate normals
+    // generate normals
     bool bResult = true;
     MESH->GenerateVNormals(0);
     // fill faces
@@ -329,8 +329,10 @@ bool CExportObjectOGF::PrepareMESH(CEditableMesh* MESH)
             split->AppendPart((elapsed_faces > 0xffff) ? 0xffff : elapsed_faces,
                               (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces);
 
-        if (MESH->m_Normals)
+        if (MESH->m_Normals && m_Source->m_objectFlags.is(CEditableObject::eoNormals))
             Log("Export custom normals");
+        else
+            Log("Export smooth groups");
 
         do
         {
@@ -360,7 +362,7 @@ bool CExportObjectOGF::PrepareMESH(CEditableMesh* MESH)
                         R_ASSERT2(uv, "uv empty");
                         u32 norm_id = (*f_it) * 3 + k;
                         R_ASSERT2(norm_id < MESH->GetFCount() * 3, "Normal index out of range.");
-                        if (MESH->m_Normals)
+                        if (MESH->m_Normals && m_Source->m_objectFlags.is(CEditableObject::eoNormals))
                             v[k].set(MESH->m_Vertices[fv.pindex], MESH->m_Normals[norm_id], *uv);
                         else
                             v[k].set(MESH->m_Vertices[fv.pindex], MESH->m_VertexNormals[norm_id], *uv);
