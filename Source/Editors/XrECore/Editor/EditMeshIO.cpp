@@ -154,9 +154,16 @@ bool CEditableMesh::LoadMesh(IReader& F)
     u32 normal_chunk_size = F.find_chunk(EMESH_CHUNK_NORMALS);
     if (normal_chunk_size)
     {
+        Msg("Custom normals chunk size: %d, needed size: %d", normal_chunk_size, m_FaceCount * 3 * sizeof(Fvector));
         VERIFY(m_FaceCount * 3 * sizeof(Fvector) == normal_chunk_size);
         m_Normals = xr_alloc<Fvector>(m_FaceCount * 3);
         F.r(m_Normals, m_FaceCount * 3 * sizeof(Fvector));
+
+        for (size_t i = 0; i < m_FaceCount * 3; i++)
+        {
+            m_Normals[i].x = -m_Normals[i].x;
+            m_Normals[i].z = -m_Normals[i].z;
+        }
     }
 
     R_ASSERT(F.find_chunk(EMESH_CHUNK_VMREFS));
