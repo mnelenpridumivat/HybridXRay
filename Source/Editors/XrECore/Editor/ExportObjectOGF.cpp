@@ -13,26 +13,32 @@
 #include "ui_main.h"
 #endif
 
-CObjectOGFCollectorPacked::CObjectOGFCollectorPacked(const Fbox& bb, int apx_vertices, int apx_faces)
+CObjectOGFCollectorPacked::CObjectOGFCollectorPacked(const Fbox& bb, bool hq, int apx_vertices, int apx_faces)
 {
-    // Params
-    m_VMscale.set(bb.max.x - bb.min.x + EPS, bb.max.y - bb.min.y + EPS, bb.max.z - bb.min.z + EPS);
-    m_VMmin.set(bb.min).sub(EPS);
-    m_VMeps.set(m_VMscale.x / clpOGFMX / 2, m_VMscale.y / clpOGFMY / 2, m_VMscale.z / clpOGFMZ / 2);
-    m_VMeps.x = (m_VMeps.x < EPS_L) ? m_VMeps.x : EPS_L;
-    m_VMeps.y = (m_VMeps.y < EPS_L) ? m_VMeps.y : EPS_L;
-    m_VMeps.z = (m_VMeps.z < EPS_L) ? m_VMeps.z : EPS_L;
+    if (!hq)
+    {
+        // Params
+        m_VMscale.set(bb.max.x - bb.min.x + EPS, bb.max.y - bb.min.y + EPS, bb.max.z - bb.min.z + EPS);
+        m_VMmin.set(bb.min).sub(EPS);
+        m_VMeps.set(m_VMscale.x / clpOGFMX / 2, m_VMscale.y / clpOGFMY / 2, m_VMscale.z / clpOGFMZ / 2);
+        m_VMeps.x = (m_VMeps.x < EPS_L) ? m_VMeps.x : EPS_L;
+        m_VMeps.y = (m_VMeps.y < EPS_L) ? m_VMeps.y : EPS_L;
+        m_VMeps.z = (m_VMeps.z < EPS_L) ? m_VMeps.z : EPS_L;
+    }
 
     // Preallocate memory
     m_Verts.reserve(apx_vertices);
     m_Faces.reserve(apx_faces);
 
-    int _size    = (clpOGFMX + 1) * (clpOGFMY + 1) * (clpOGFMZ + 1);
-    int _average = (apx_vertices / _size) / 2;
-    for (int ix = 0; ix < clpOGFMX + 1; ++ix)
-        for (int iy = 0; iy < clpOGFMY + 1; ++iy)
-            for (int iz = 0; iz < clpOGFMZ + 1; ++iz)
-                m_VM[ix][iy][iz].reserve(_average);
+    if (!hq)
+    {
+        int _size    = (clpOGFMX + 1) * (clpOGFMY + 1) * (clpOGFMZ + 1);
+        int _average = (apx_vertices / _size) / 2;
+        for (int ix = 0; ix < clpOGFMX + 1; ++ix)
+            for (int iy = 0; iy < clpOGFMY + 1; ++iy)
+                for (int iz = 0; iz < clpOGFMZ + 1; ++iz)
+                    m_VM[ix][iy][iz].reserve(_average);
+    }
 }
 
 u16 CObjectOGFCollectorPacked::VPack(SOGFVert& V)
@@ -132,9 +138,9 @@ CExportObjectOGF::SSplit::~SSplit()
         xr_delete(*it);
 }
 
-void CExportObjectOGF::SSplit::AppendPart(int apx_vertices, int apx_faces)
+void CExportObjectOGF::SSplit::AppendPart(int apx_vertices, int apx_faces, bool hq)
 {
-    m_Parts.push_back(xr_new<CObjectOGFCollectorPacked>(apx_box, apx_vertices, apx_faces));
+    m_Parts.push_back(xr_new<CObjectOGFCollectorPacked>(apx_box, hq, apx_vertices, apx_faces));
     m_CurrentPart = m_Parts.back();
 }
 
@@ -339,8 +345,9 @@ bool CExportObjectOGF::PrepareMESH(CEditableMesh* MESH)
         const bool b2sided       = !!surf->m_Flags.is(CSurface::sf2Sided);
 
         if (0 == split->m_CurrentPart)
-            split->AppendPart(
-                (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces, (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces);
+            split->AppendPart((elapsed_faces > 0xffff) ? 0xffff : elapsed_faces,
+                              (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces,
+                              m_Source->m_objectFlags.is(CEditableObject::eoHQExportPlus));
 
         do
         {
@@ -373,7 +380,8 @@ bool CExportObjectOGF::PrepareMESH(CEditableMesh* MESH)
                         v[k].set(MESH->m_Vertices[fv.pindex], MESH->m_VertexNormals[norm_id], *uv);
                     }
                     --elapsed_faces;
-                    if (!split->m_CurrentPart->add_face(v[0], v[1], v[2], m_Source->m_objectFlags.is(CEditableObject::eoHQExportPlus)))
+                    if (!split->m_CurrentPart->add_face(
+                            v[0], v[1], v[2], m_Source->m_objectFlags.is(CEditableObject::eoHQExportPlus)))
                         bNewPart = true;
 
                     if (b2sided)
@@ -381,14 +389,15 @@ bool CExportObjectOGF::PrepareMESH(CEditableMesh* MESH)
                         v[0].N.invert();
                         v[1].N.invert();
                         v[2].N.invert();
-                        if (!split->m_CurrentPart->add_face(v[2], v[1], v[0], m_Source->m_objectFlags.is(CEditableObject::eoHQExportPlus)))
+                        if (!split->m_CurrentPart->add_face(
+                                v[2], v[1], v[0], m_Source->m_objectFlags.is(CEditableObject::eoHQExportPlus)))
                             bNewPart = true;
                     }
                 }
                 if (bNewPart && (elapsed_faces > 0))
-                    split->AppendPart(
-                        (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces,
-                        (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces);
+                    split->AppendPart((elapsed_faces > 0xffff) ? 0xffff : elapsed_faces,
+                                      (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces,
+                                      m_Source->m_objectFlags.is(CEditableObject::eoHQExportPlus));
             }
         } while (elapsed_faces > 0);
     }
