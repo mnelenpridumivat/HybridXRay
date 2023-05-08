@@ -61,7 +61,7 @@ DEFINE_VECTOR(SOGFFace, OGFFaceVec, OGFFaceIt);
 class CObjectOGFCollectorPacked
 {
 public:
-    //	Fobb			m_OBB;
+    // Fobb m_OBB;
     Fbox m_Box;
 
     OGFVertVec m_Verts;
@@ -92,7 +92,7 @@ public:
     }
     IC bool add_face(SOGFVert& v0, SOGFVert& v1, SOGFVert& v2, bool HQ)
     {
-        if (v0.P.similar(v1.P, EPS) || v0.P.similar(v2.P, EPS) || v1.P.similar(v2.P, EPS))
+        if (!HQ && ((v0.P.similar(v1.P, EPS) || v0.P.similar(v2.P, EPS) || v1.P.similar(v2.P, EPS))))
         {
             ELog.Msg(mtError, "Degenerate face found. Removed.");
             return true;
@@ -112,7 +112,7 @@ public:
             F.v[2] = VPackHQ(v2);
         }
 
-        if (check(F))
+        if (HQ || check(F))
             m_Faces.push_back(F);
         else
         {

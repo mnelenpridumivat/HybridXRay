@@ -26,7 +26,7 @@
 
 ECORE_API BOOL  g_force16BitTransformQuant = FALSE;
 ECORE_API BOOL  g_forceFloatTransformQuant = FALSE;
-ECORE_API float g_EpsSkelPositionDelta     = EPS_L;
+ECORE_API float g_EpsSkelPositionDelta     = EPS;
 
 u16 CSkeletonCollectorPacked::VPack(SSkelVert& V)
 {
