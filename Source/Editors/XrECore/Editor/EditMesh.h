@@ -512,7 +512,6 @@ public:
     }
     IC const Fvector* GetNormals()
     {
-        VERIFY(0 != m_Normals);
         return m_Normals;
     }
     IC const st_SVert* GetSVertices()

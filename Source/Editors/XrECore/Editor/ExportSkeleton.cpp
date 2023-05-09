@@ -407,6 +407,7 @@ void CExportSkeleton::SSplit::Save(IWriter& F)
 
 void CExportSkeleton::SSplit::MakeProgressive()
 {
+    Msg("..Make progressive");
     VIPM_Init();
     for (SkelVertIt vert_it = m_Verts.begin(); vert_it != m_Verts.end(); vert_it++)
         VIPM_AppendVertex(vert_it->offs, vert_it->uv);
@@ -448,6 +449,7 @@ void CExportSkeleton::SSplit::MakeProgressive()
 
 void CExportSkeleton::SSplit::MakeStripify()
 {
+    Msg("..Make stripify");
     //	int ccc 	= xrSimulate	((u16*)&m_Faces.front(),m_Faces.size()*3,24);
     //	Log("SRC:",ccc);
     // alternative stripification - faces
@@ -582,6 +584,7 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
 
     R_ASSERT(m_Source->IsDynamic() && m_Source->IsSkeleton());
 
+    Msg("..Prepare skeleton geometry");
 #if 1
     SPBItem* pb = UI->ProgressStart(5 + m_Source->MeshCount() * 2 + m_Source->SurfaceCount(), "..Prepare skeleton geometry");
     pb->Inc();
@@ -611,6 +614,7 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
     }
 
     bool bRes = true;
+    Msg("..Split meshes"); 
 
 #if 1
     UI->SetStatus("..Split meshes");
@@ -791,6 +795,7 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
         }
     }
     // calculate TB
+    Msg("..Calculate TB"); 
     for (SplitIt split_it = m_Splits.begin(); split_it != m_Splits.end(); split_it++)
     {
         split_it->CalculateTB();
@@ -894,6 +899,7 @@ bool CExportSkeleton::ExportGeometry(IWriter& F, u8 infl)
     // OGF_CHILDREN
     F.open_chunk(OGF_CHILDREN);
     int chield = 0;
+    Msg("..Export children");
     for (auto split_it = m_Splits.begin(); split_it != m_Splits.end(); split_it++)
     {
         F.open_chunk(chield++);
@@ -923,6 +929,7 @@ bool CExportSkeleton::ExportGeometry(IWriter& F, u8 infl)
     bool bRes = true;
 
     F.open_chunk(OGF_S_IKDATA);
+    Msg("..Export bones");
     for (auto bone_it = m_Source->FirstBone(); bone_it != m_Source->LastBone(); ++bone_it, ++bone_idx)
         if (!(*bone_it)->ExportOGF(F, m_Source->a_vScale, m_Source->a_vAdjustMass))
             bRes = false;
@@ -1031,6 +1038,11 @@ bool CExportSkeleton::ExportMotionKeys(IWriter& F)
     mRotate.setHPB(m_Source->a_vRotate.y, m_Source->a_vRotate.x, m_Source->a_vRotate.z);
     mTranslate.translate(m_Source->a_vPosition);
     mGT.mul(mTranslate, mRotate);
+
+    if (g_force16BitTransformQuant)
+        Msg("..Export 16 bit motions");
+    else if (g_forceFloatTransformQuant)
+        Msg("..Export no compress motions");
 
     for (SMotionIt motion_it = m_Source->FirstSMotion(); motion_it != m_Source->LastSMotion(); motion_it++, smot++)
     {
@@ -1306,7 +1318,7 @@ bool CExportSkeleton::ExportMotionDefs(IWriter& F)
         ELog.Msg(mtError, "Object doesn't have any motion or motion refs.");
         return false;
     }
-
+    Msg("..Export skeleton motions defs");
     bool bRes = true;
 
 #if 1
@@ -1480,10 +1492,6 @@ bool CBone::ExportOGF(IWriter& F, float scale, BOOL adjust_mass)
     F.w(&scaled_shape, sizeof(SBoneShape));
 
     IK_data.Export(F);
-
-    //	Fvector xyz;
-    //	Fmatrix& R	= _RTransform();
-    //	R.getXYZi	(xyz);
 
     Fvector scaled_offset = rest_offset;
     scaled_offset.mul(scale);

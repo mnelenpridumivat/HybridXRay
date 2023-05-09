@@ -185,7 +185,6 @@ void CBone::ResetData()
     shape.Reset();
 
     mass = 10.f;
-    ;
     center_of_mass.set(0.f, 0.f, 0.f);
 }
 
