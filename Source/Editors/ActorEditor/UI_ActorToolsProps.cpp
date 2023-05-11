@@ -1031,20 +1031,24 @@ void CActorTools::FillObjectProperties(PropItemVec& items, LPCSTR pref, ListItem
     R_ASSERT(m_pEditObject);
     PropValue* V      = 0;
     m_pEditObjectType = m_pEditObject->m_objectFlags.flags &
-        (CEditableObject::eoDynamic | CEditableObject::eoHOM | CEditableObject::eoSoundOccluder |
-         CEditableObject::eoMultipleUsage);
-    PHelper()
-        .CreateToken32(items, "Object\\Object Type", &m_pEditObjectType, eo_type_token)
-        ->OnChangeEvent.bind(this, &CActorTools::OnTypeChange);
+        (CEditableObject::eoDynamic | CEditableObject::eoHOM | CEditableObject::eoSoundOccluder | CEditableObject::eoMultipleUsage);
+    PHelper().CreateToken32(items, "Object\\Object Type", &m_pEditObjectType, eo_type_token)->OnChangeEvent.bind(this, &CActorTools::OnTypeChange);
 
     if (m_pEditObjectType & CEditableObject::eoDynamic)
     {
-        PHelper().CreateFlag32(items, "Object\\Flags\\Use split normals", &m_pEditObject->m_objectFlags, CEditableObject::eoNormals);
-        PHelper().CreateFlag32(items, "Object\\Flags\\Make stripify meshes", &m_pEditObject->m_objectFlags, CEditableObject::eoStripify);
-        PHelper().CreateFlag32(items, "Object\\Flags\\HQ Geometry", &m_pEditObject->m_objectFlags, CEditableObject::eoHQExport);
-        PHelper().CreateFlag32(items, "Object\\Flags\\HQ Geometry Plus", &m_pEditObject->m_objectFlags, CEditableObject::eoHQExportPlus);
-        PHelper().CreateFlag32(items, "Object\\Flags\\Make progressive meshes", &m_pEditObject->m_objectFlags, CEditableObject::eoProgressive);
-        PHelper().CreateFlag32(items, "Object\\Flags\\Optimize surfaces", &m_pEditObject->m_objectFlags, CEditableObject::eoOptimizeSurf);
+        auto FlagOpt1 = PHelper().CreateFlag32(items, "Object\\Flags\\Optimize:\\Make progressive meshes", &m_pEditObject->m_objectFlags, CEditableObject::eoProgressive);
+        auto FlagOpt2 = PHelper().CreateFlag32(items, "Object\\Flags\\Optimize:\\Make stripify meshes", &m_pEditObject->m_objectFlags, CEditableObject::eoStripify);
+        FlagOpt1->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
+        FlagOpt2->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
+
+        PHelper().CreateFlag32(items, "Object\\Flags\\Optimize:\\Optimize surfaces", &m_pEditObject->m_objectFlags, CEditableObject::eoOptimizeSurf);
+
+        auto FlagHQ1 = PHelper().CreateFlag32(items, "Object\\Flags\\Optimize:\\HQ Geometry", &m_pEditObject->m_objectFlags, CEditableObject::eoHQExport);
+        auto FlagHQ2 = PHelper().CreateFlag32(items, "Object\\Flags\\Optimize:\\HQ Geometry Plus", &m_pEditObject->m_objectFlags,  CEditableObject::eoHQExportPlus);
+        FlagHQ1->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
+        FlagHQ2->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
+
+        PHelper().CreateFlag32(items, "Object\\Flags\\Smooth Type:\\Use split normals", &m_pEditObject->m_objectFlags, CEditableObject::eoNormals);
     }
     else if (m_pEditObjectType & CEditableObject::eoMultipleUsage)
     {
@@ -1087,3 +1091,39 @@ void CActorTools::SelectListItem(LPCSTR pref, LPCSTR name, bool bVal, bool bLeav
     }*/
 }
 //------------------------------------------------------------------------------
+
+void CActorTools::OnChangeFlag(PropValue* sender)
+{
+    const auto flag = dynamic_cast<Flag32Value*>(sender);
+
+    // HQ Geometry / HQ Geometry+
+    const bool changingHqGeom = !strcmp(flag->Owner()->Key(), "Object\\Flags\\Optimize:\\HQ Geometry");
+    const auto hqFlag         = CEditableObject::eoHQExport;
+    const auto hq2Flag        = CEditableObject::eoHQExportPlus;
+
+    const bool hqSet  = m_pEditObject->m_objectFlags.test(hqFlag);
+    const bool hq2Set = m_pEditObject->m_objectFlags.test(hq2Flag);
+
+    if (hqSet && hq2Set)
+    {
+        if (changingHqGeom)   // включение hq, когда hq2 уже включен, отключить hq2
+            m_pEditObject->m_objectFlags.set(hq2Flag, FALSE);
+        else   // включение hq2, когда hq уже включен, отключить hq
+            m_pEditObject->m_objectFlags.set(hqFlag, FALSE);
+    }
+    // Make progressive / Make stripify
+    const bool changingProgressive = !strcmp(flag->Owner()->Key(), "Object\\Flags\\Optimize:\\Make progressive meshes");
+    const auto ProgFlag            = CEditableObject::eoProgressive;
+    const auto Prog2Flag           = CEditableObject::eoStripify;
+
+    const bool ProgSet  = m_pEditObject->m_objectFlags.test(ProgFlag);
+    const bool Prog2Set = m_pEditObject->m_objectFlags.test(Prog2Flag);
+
+    if (ProgSet && Prog2Set)
+    {
+        if (changingProgressive)
+            m_pEditObject->m_objectFlags.set(Prog2Flag, FALSE);
+        else
+            m_pEditObject->m_objectFlags.set(ProgFlag, FALSE);
+    }
+}
