@@ -276,6 +276,8 @@ public:
         eoOptimizeSurf  = (1 << 8),
         eoStripify      = (1 << 9),
         eoNormals       = (1 << 10),
+        eoSoCSmooth     = (1 << 11),
+        eoCoPSmooth     = (1 << 12),
         eoFORCE32       = u32(-1)
     };
     IC BOOL IsDynamic()

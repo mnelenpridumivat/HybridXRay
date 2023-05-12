@@ -1037,18 +1037,23 @@ void CActorTools::FillObjectProperties(PropItemVec& items, LPCSTR pref, ListItem
     if (m_pEditObjectType & CEditableObject::eoDynamic)
     {
         auto FlagOpt1 = PHelper().CreateFlag32(items, "Object\\Flags\\Optimize:\\Make progressive meshes", &m_pEditObject->m_objectFlags, CEditableObject::eoProgressive);
-        auto FlagOpt2 = PHelper().CreateFlag32(items, "Object\\Flags\\Optimize:\\Make stripify meshes", &m_pEditObject->m_objectFlags, CEditableObject::eoStripify);
         FlagOpt1->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
+        auto FlagOpt2 = PHelper().CreateFlag32(items, "Object\\Flags\\Optimize:\\Make stripify meshes", &m_pEditObject->m_objectFlags, CEditableObject::eoStripify);
         FlagOpt2->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
 
         PHelper().CreateFlag32(items, "Object\\Flags\\Optimize:\\Optimize surfaces", &m_pEditObject->m_objectFlags, CEditableObject::eoOptimizeSurf);
 
         auto FlagHQ1 = PHelper().CreateFlag32(items, "Object\\Flags\\Optimize:\\HQ Geometry", &m_pEditObject->m_objectFlags, CEditableObject::eoHQExport);
-        auto FlagHQ2 = PHelper().CreateFlag32(items, "Object\\Flags\\Optimize:\\HQ Geometry Plus", &m_pEditObject->m_objectFlags,  CEditableObject::eoHQExportPlus);
         FlagHQ1->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
+        auto FlagHQ2 = PHelper().CreateFlag32(items, "Object\\Flags\\Optimize:\\HQ Geometry Plus", &m_pEditObject->m_objectFlags,  CEditableObject::eoHQExportPlus);
         FlagHQ2->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
 
-        PHelper().CreateFlag32(items, "Object\\Flags\\Smooth Type:\\Use split normals", &m_pEditObject->m_objectFlags, CEditableObject::eoNormals);
+        auto FlagSM1 = PHelper().CreateFlag32(items, "Object\\Flags\\Smooth Type:\\Use split normals", &m_pEditObject->m_objectFlags, CEditableObject::eoNormals);
+        FlagSM1->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
+        auto FlagSM2 = PHelper().CreateFlag32(items, "Object\\Flags\\Smooth Type:\\Smooth CS/CoP", &m_pEditObject->m_objectFlags, CEditableObject::eoCoPSmooth);
+        FlagSM2->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
+        auto FlagSM3 = PHelper().CreateFlag32(items, "Object\\Flags\\Smooth Type:\\Smooth SoC", &m_pEditObject->m_objectFlags, CEditableObject::eoSoCSmooth);
+        FlagSM3->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
     }
     else if (m_pEditObjectType & CEditableObject::eoMultipleUsage)
     {
@@ -1125,5 +1130,35 @@ void CActorTools::OnChangeFlag(PropValue* sender)
             m_pEditObject->m_objectFlags.set(Prog2Flag, FALSE);
         else
             m_pEditObject->m_objectFlags.set(ProgFlag, FALSE);
+    }
+    // split normals / CS/CoP Smooth / SoC Smooth
+    const bool changingNormals = !strcmp(flag->Owner()->Key(), "Object\\Flags\\Smooth Type:\\Use split normals");
+    const bool changingCoP     = !strcmp(flag->Owner()->Key(), "Object\\Flags\\Smooth Type:\\Smooth CS/CoP");
+    const bool changingSoC     = !strcmp(flag->Owner()->Key(), "Object\\Flags\\Smooth Type:\\Smooth SoC");
+    const auto Smooth1Flag     = CEditableObject::eoNormals;
+    const auto Smooth2Flag     = CEditableObject::eoCoPSmooth;
+    const auto Smooth3Flag     = CEditableObject::eoSoCSmooth;
+
+    const bool Smooth1Set = m_pEditObject->m_objectFlags.test(Smooth1Flag);
+    const bool Smooth2Set = m_pEditObject->m_objectFlags.test(Smooth2Flag);
+    const bool Smooth3Set = m_pEditObject->m_objectFlags.test(Smooth3Flag);
+
+    if (Smooth1Set || Smooth2Set || Smooth3Set)
+    {
+        if (changingNormals)
+        {
+            m_pEditObject->m_objectFlags.set(Smooth2Flag, FALSE);
+            m_pEditObject->m_objectFlags.set(Smooth3Flag, FALSE);
+        }
+        if (changingCoP)
+        {
+            m_pEditObject->m_objectFlags.set(Smooth1Flag, FALSE);
+            m_pEditObject->m_objectFlags.set(Smooth3Flag, FALSE);
+        }
+        if (changingSoC)
+        {
+            m_pEditObject->m_objectFlags.set(Smooth1Flag, FALSE);
+            m_pEditObject->m_objectFlags.set(Smooth2Flag, FALSE);
+        }
     }
 }

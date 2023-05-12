@@ -942,7 +942,7 @@ bool CActorTools::ExportCPP(LPCSTR name)
         for (EditMeshIt m_it = meshes.begin(); m_it != meshes.end(); m_it++)
         {
             CEditableMesh* mesh = *m_it;
-            mesh->GenerateVNormals(0, true);
+            mesh->GenerateVNormals(true);
             const st_Face* faces    = mesh->GetFaces();
             const Fvector* verts    = mesh->GetVertices();
             const Fvector* vnormals = mesh->GetVNormals();
