@@ -1171,7 +1171,7 @@ void CActorTools::RealGenerateLOD(bool hq)
     }
 }
 
-bool CActorTools::BatchConvert(LPCSTR fn)
+bool CActorTools::BatchConvert(LPCSTR fn, int flags, float scale)
 {
     bool      bRes = true;
     CInifile* ini  = CInifile::Create(fn);
@@ -1193,6 +1193,8 @@ bool CActorTools::BatchConvert(LPCSTR fn)
                 Msg(".Converting '%s' <-> '%s'", it->first.c_str(), it->second.c_str());
                 CEditableObject* O   = xr_new<CEditableObject>("convert");
                 BOOL             res = O->Load(src_name);
+                O->a_vScale          = scale;
+                O->a_vAdjustMass     = (flags & m_pEditObject->a_vAdjustMass);
                 if (res)
                     res = O->ExportOGF(tgt_name, 4);
                 Log(res ? ".OK" : "!.FAILED");
@@ -1224,6 +1226,8 @@ bool CActorTools::BatchConvert(LPCSTR fn)
                 Msg(".Converting '%s' <-> '%s'", it->first.c_str(), it->second.c_str());
                 CEditableObject* O   = xr_new<CEditableObject>("convert");
                 BOOL             res = O->Load(src_name);
+                O->a_vScale          = scale;
+                O->a_vAdjustMass     = (flags & m_pEditObject->a_vAdjustMass);
                 if (res)
                     res = O->ExportOMF(tgt_name);
                 Log(res ? ".OK" : "!.FAILED");

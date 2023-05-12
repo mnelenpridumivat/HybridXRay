@@ -141,7 +141,7 @@ void CEditableMesh::GenerateFNormals()
             m_Vertices[m_Faces[k].pv[0].pindex], m_Vertices[m_Faces[k].pv[1].pindex],
             m_Vertices[m_Faces[k].pv[2].pindex]);
 }
-BOOL CEditableMesh::m_bDraftMeshMode = FALSE;
+// BOOL CEditableMesh::m_bDraftMeshMode = FALSE;
 
 void CEditableMesh::GenerateVNormals(bool force)
 {
@@ -167,8 +167,8 @@ void CEditableMesh::GenerateVNormals(bool force)
                 VERIFY(face_adj_it != a_lst.end());
                 //
                 N.set(m_FaceNormals[a_lst.front()]);
-                if (m_bDraftMeshMode)
-                    continue;
+                // if (m_bDraftMeshMode)
+                //     continue;
 
                 using iterate_adj = itterate_adjacents<itterate_adjacents_params_dynamic<st_FaceVert>>;
                 iterate_adj::recurse_tri_params p(N, m_SmoothGroups, m_FaceNormals, a_lst, m_Faces, m_FaceCount);

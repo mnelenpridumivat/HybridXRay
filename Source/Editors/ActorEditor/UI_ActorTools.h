@@ -379,7 +379,7 @@ public:
     void      OptimizeMotions();
     void      RealMakeThumbnail();
     void      RealGenerateLOD(bool hq);
-    bool      BatchConvert(LPCSTR fn);
+    bool      BatchConvert(LPCSTR fn, int flags, float scale);
 
     void PhysicsSimulate();
     void PhysicsStopSimulate();
