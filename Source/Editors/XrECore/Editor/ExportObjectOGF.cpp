@@ -319,7 +319,13 @@ bool CExportObjectOGF::PrepareMESH(CEditableMesh* MESH)
                 break;
             }
 #endif
-            m_Splits.push_back(xr_new<SSplit>(surf, m_Source->GetBox()));
+            Fmatrix mScale;
+            mScale.scale(m_Source->a_vScale, m_Source->a_vScale, m_Source->a_vScale);
+
+            Fbox box;
+            box.xform(m_Source->GetBox(), mScale);
+
+            m_Splits.push_back(xr_new<SSplit>(surf, box));
             split = m_Splits.back();
         }
         int        elapsed_faces = surf->m_Flags.is(CSurface::sf2Sided) ? face_lst.size() * 2 : face_lst.size();
@@ -362,10 +368,14 @@ bool CExportObjectOGF::PrepareMESH(CEditableMesh* MESH)
                         R_ASSERT2(uv, "uv empty");
                         u32 norm_id = (*f_it) * 3 + k;
                         R_ASSERT2(norm_id < MESH->GetFCount() * 3, "Normal index out of range.");
+
+                        Fvector offset = MESH->m_Vertices[fv.pindex];
+                        offset.mul(m_Source->a_vScale);
+
                         if (MESH->m_Normals && m_Source->m_objectFlags.is(CEditableObject::eoNormals))
-                            v[k].set(MESH->m_Vertices[fv.pindex], MESH->m_Normals[norm_id], *uv);
-                        else
-                            v[k].set(MESH->m_Vertices[fv.pindex], MESH->m_VertexNormals[norm_id], *uv);
+                            v[k].set(offset, MESH->m_Normals[norm_id], *uv);
+                        else 
+                            v[k].set(offset, MESH->m_VertexNormals[norm_id], *uv);
                     }
                     --elapsed_faces;
                     if (!split->m_CurrentPart->add_face(
