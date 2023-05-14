@@ -97,7 +97,7 @@ void COMotion::SaveMotion(const char* buf)
     Save(F);
     F.close_chunk();
     if (!F.save_to(buf))
-        Log("!Can't save object motion:", buf);
+        Log("! Can't save object motion:", buf);
 }
 
 bool COMotion::LoadMotion(const char* buf)
@@ -387,7 +387,7 @@ void CSMotion::SaveMotion(const char* buf)
     Save(F);
     F.close_chunk();
     if (!F.save_to(buf))
-        Log("!Can't save skeleton motion:", buf);
+        Log("! Can't save skeleton motion:", buf);
 }
 
 bool CSMotion::LoadMotion(const char* buf)
@@ -543,7 +543,7 @@ void CSMotion::SortBonesBySkeleton(BoneVec& bones)
             for (int ch = 0; ch < ctMaxChannel; ++ch)
             {
                 bm.envs[ch] = xr_new<CEnvelope>();
-                //.                bm.envs[ch]->Load_2(F);
+                // bm.envs[ch]->Load_2(F);
             }
             bm.envs[ctPositionX]->InsertKey(0.0f, B->_Offset().x);
             bm.envs[ctPositionY]->InsertKey(0.0f, B->_Offset().y);

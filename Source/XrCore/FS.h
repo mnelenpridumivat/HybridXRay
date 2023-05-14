@@ -587,7 +587,7 @@ public:
         Pos = ptr;
         /*VERIFY((Pos <= Size) && (Pos >= 0));*/
         if (!((Pos <= Size) && (Pos >= 0)))
-            MsgE("Error seek! Pos+cnt<=Size");
+            MsgE("! Error seek! Pos+cnt<=Size");
     };
     IC int length() const
     {
@@ -602,7 +602,7 @@ public:
         Pos += cnt;
         /*VERIFY((Pos <= Size) && (Pos >= 0));*/
         if (!((Pos <= Size) && (Pos >= 0)))
-            MsgE("Error advance! Pos+cnt<=Size");
+            MsgE("! Error advance! Pos+cnt<=Size");
     };
 
 public:
