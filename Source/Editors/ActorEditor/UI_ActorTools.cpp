@@ -357,7 +357,7 @@ bool CActorTools::IfModified()
 {
     if (IsModified())
     {
-        int mr = ELog.DlgMsg(mtConfirmation, "The '%s' has been modified.\nDo you want to save your changes?", GetEditFileName().c_str());
+        int mr = ELog.DlgMsg(mtConfirmation, "# The '%s' has been modified.\nDo you want to save your changes?", GetEditFileName().c_str());
         switch (mr)
         {
             case mrYes:
@@ -488,7 +488,7 @@ bool CActorTools::Load(LPCSTR obj_name)
     }
     else
     {
-        ELog.DlgMsg(mtError, "Can't load object file '%s'.", obj_name);
+        ELog.DlgMsg(mtError, "! Can't load object file '%s'.", obj_name);
     }
     xr_delete(O);
     return false;
@@ -593,7 +593,6 @@ bool CActorTools::MouseStart(TShiftState Shift)
                 }
                 break;
             }
-
             break;
         case etaAdd:
             break;
@@ -900,7 +899,7 @@ bool CActorTools::Import(LPCSTR initial, LPCSTR obj_name)
     }
     else
     {
-        ELog.DlgMsg(mtError, "Can't load object file '%s'.", obj_name);
+        ELog.DlgMsg(mtError, "! Can't load object file '%s'.", obj_name);
     }
     xr_delete(O);
 
@@ -1114,16 +1113,16 @@ void CActorTools::RealMakeThumbnail()
 
         if (ImageLib.CreateOBJThumbnail(tex_name.c_str(), obj, F.time_write))
         {
-            ELog.Msg(mtInformation, "Thumbnail successfully created.");
+            ELog.Msg(mtInformation, "+ Thumbnail successfully created.");
         }
         else
         {
-            ELog.Msg(mtError, "Making thumbnail failed.");
+            ELog.Msg(mtError, "! Making thumbnail failed.");
         }
     }
     else
     {
-        ELog.DlgMsg(mtError, "Can't create thumbnail. Empty scene.");
+        ELog.DlgMsg(mtError, "! Can't create thumbnail. Empty scene.");
     }
 }
 
@@ -1160,11 +1159,11 @@ void CActorTools::RealGenerateLOD(bool hq)
                 O, tex_name.c_str(), LOD_IMAGE_SIZE, LOD_IMAGE_SIZE, LOD_SAMPLE_COUNT, O->Version(), hq ? 4 /*7*/ : 1);
             O->OnDeviceDestroy();
             O->m_objectFlags.set(CEditableObject::eoUsingLOD, bLod);
-            ELog.Msg(mtInformation, "LOD for object '%s' successfully created.", O->GetName());
+            ELog.Msg(mtInformation, "+ LOD for object '%s' successfully created.", O->GetName());
         }
         else
         {
-            ELog.Msg(mtError, "Can't create LOD texture from non 'Multiple Usage' object.", O->GetName());
+            ELog.Msg(mtError, "! Can't create LOD texture from non 'Multiple Usage' object.", O->GetName());
         }
         MainForm->GetLeftBarForm()->SetRenderMode(engine_render);
     }
@@ -1178,7 +1177,7 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, float scale)
     if (ini->section_exist("ogf"))
     {
         CInifile::Sect& sect = ini->r_section("ogf");
-        Msg("Start converting %d items...", sect.Data.size());
+        Msg("# Start converting %d items...", sect.Data.size());
         for (auto it = sect.Data.begin(); it != sect.Data.end(); it++)
         {
             string_path src_name;
@@ -1189,19 +1188,19 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, float scale)
             strcpy(tgt_name, EFS.ChangeFileExt(tgt_name, ".ogf").c_str());
             if (FS.exist(src_name))
             {
-                Msg(".Converting '%s' <-> '%s'", it->first.c_str(), it->second.c_str());
+                Msg("+ Converting '%s' <-> '%s'", it->first.c_str(), it->second.c_str());
                 CEditableObject* O   = xr_new<CEditableObject>("convert");
                 BOOL             res = O->Load(src_name);
                 O->a_vScale          = scale;
                 O->a_vAdjustMass     = (flags & m_pEditObject->a_vAdjustMass);
                 if (res)
                     res = O->ExportOGF(tgt_name, (O->m_objectFlags.is(CEditableObject::eoSoCInfluence) ? 2 : 4));
-                Log(res ? ".OK" : "!.FAILED");
+                Log(res ? "+ OK" : "! FAILED");
                 xr_delete(O);
             }
             else
             {
-                Log("!Invalid source file name:", it->first.c_str());
+                Log("! Invalid source file name:", it->first.c_str());
                 bRes = false;
             }
             if (UI->NeedAbort())
@@ -1211,7 +1210,7 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, float scale)
     if (ini->section_exist("omf"))
     {
         CInifile::Sect& sect = ini->r_section("omf");
-        Msg("Start converting %d items...", sect.Data.size());
+        Msg("# Start converting %d items...", sect.Data.size());
         for (auto it = sect.Data.begin(); it != sect.Data.end(); ++it)
         {
             string_path src_name;
@@ -1222,19 +1221,19 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, float scale)
             strcpy(tgt_name, EFS.ChangeFileExt(tgt_name, ".omf").c_str());
             if (FS.exist(src_name))
             {
-                Msg(".Converting '%s' <-> '%s'", it->first.c_str(), it->second.c_str());
+                Msg("+ Converting '%s' <-> '%s'", it->first.c_str(), it->second.c_str());
                 CEditableObject* O   = xr_new<CEditableObject>("convert");
                 BOOL             res = O->Load(src_name);
                 O->a_vScale          = scale;
                 O->a_vAdjustMass     = (flags & m_pEditObject->a_vAdjustMass);
                 if (res)
                     res = O->ExportOMF(tgt_name);
-                Log(res ? ".OK" : "!.FAILED");
+                Log(res ? "+ OK" : "! FAILED");
                 xr_delete(O);
             }
             else
             {
-                Log("!Invalid source file name:", it->first.c_str());
+                Log("! Invalid source file name:", it->first.c_str());
                 bRes = false;
             }
             if (UI->NeedAbort())

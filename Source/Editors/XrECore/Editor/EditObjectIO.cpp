@@ -26,7 +26,7 @@ bool CEditableObject::Load(const char* fname)
         R_ASSERT(F);
         IReader* OBJ = F->open_chunk(EOBJ_CHUNK_OBJECT_BODY);
         R_ASSERT2(OBJ, "Corrupted file.");
-        ELog.Msg(mtInformation, "\n..Import object '%s'", fname);
+        Msg("\n+ ..Import object '%s'", fname);
         bool bRes = Load(*OBJ);
         OBJ->close();
         FS.r_close(F);
@@ -218,7 +218,7 @@ bool CEditableObject::Load(IReader& F)
         R_ASSERT(F.r_chunk(EOBJ_CHUNK_VERSION, &version));
         if (version != EOBJ_CURRENT_VERSION)
         {
-            ELog.DlgMsg(mtError, "CEditableObject: unsupported file version. Object can't load.");
+            ELog.DlgMsg(mtError, "! CEditableObject: unsupported file version. Object can't load.");
             bRes = false;
             break;
         }
@@ -255,7 +255,7 @@ bool CEditableObject::Load(IReader& F)
                 (*s_it)->SetFVF(F.r_u32());
                 cnt = F.r_u32();
                 if (cnt > 1)
-                    ELog.DlgMsg(mtError, "Object surface '%s' has more than one TC's.", buf.c_str());
+                    ELog.DlgMsg(mtError, "! Object surface '%s' has more than one TC's.", buf.c_str());
                 R_ASSERT(1 <= cnt);
             }
         }
@@ -280,7 +280,7 @@ bool CEditableObject::Load(IReader& F)
                 (*s_it)->SetFVF(F.r_u32());
                 cnt = F.r_u32();
                 if (cnt > 1)
-                    ELog.DlgMsg(mtError, "Object surface '%s' has more than one TC's.", buf.c_str());
+                    ELog.DlgMsg(mtError, "! Object surface '%s' has more than one TC's.", buf.c_str());
                 R_ASSERT(1 <= cnt);
             }
         }
@@ -299,7 +299,7 @@ bool CEditableObject::Load(IReader& F)
                 (*s_it)->SetFVF(F.r_u32());
                 cnt = F.r_u32();
                 if (cnt > 1)
-                    ELog.DlgMsg(mtError, "Object surface '%s' has more than one TC's.", buf.c_str());
+                    ELog.DlgMsg(mtError, "! Object surface '%s' has more than one TC's.", buf.c_str());
                 R_ASSERT(1 <= cnt);
                 F.r_stringZ(buf);
                 (*s_it)->SetTexture(buf.c_str());
@@ -330,7 +330,7 @@ bool CEditableObject::Load(IReader& F)
                     m_Meshes.push_back(mesh);
                 else
                 {
-                    ELog.DlgMsg(mtError, "CEditableObject: Can't load mesh '%s'!", *mesh->m_Name);
+                    ELog.DlgMsg(mtError, "! CEditableObject: Can't load mesh '%s'!", *mesh->m_Name);
                     xr_delete(mesh);
                     bRes = false;
                 }
@@ -379,7 +379,7 @@ bool CEditableObject::Load(IReader& F)
                     *s_it = xr_new<CSMotion>();
                     if (!(*s_it)->Load(F))
                     {
-                        Log("!Motions has different version. Load failed.");
+                        Msg("! Motions has different version. Load failed.");
                         xr_delete(*s_it);
                         m_SMotions.clear();
                         break;
@@ -435,7 +435,7 @@ bool CEditableObject::Load(IReader& F)
                         }
                         else
                         {
-                            Log("!Invalid bone parts.", GetName());
+                            Log("! Invalid bone parts.", GetName());
                             bBPok = false;
                             break;
                         }
@@ -446,7 +446,7 @@ bool CEditableObject::Load(IReader& F)
                 if (!bBPok)
                     m_BoneParts.clear();
                 if (!m_BoneParts.empty() && !VerifyBoneParts())
-                    Log("!Invalid bone parts. Found duplicate bones in object '%s'.", GetName());
+                    Log("! Invalid bone parts. Found duplicate bones in object '%s'.", GetName());
             }
             else if (F.find_chunk(EOBJ_CHUNK_BONEPARTS2))
             {
@@ -460,7 +460,7 @@ bool CEditableObject::Load(IReader& F)
                         F.r_stringZ(*s_it);
                 }
                 if (!m_BoneParts.empty() && !VerifyBoneParts())
-                    Log("!Invalid bone parts. Found duplicate bones in object '%s'.", GetName());
+                    Log("! Invalid bone parts. Found duplicate bones in object '%s'.", GetName());
             }
         }
 

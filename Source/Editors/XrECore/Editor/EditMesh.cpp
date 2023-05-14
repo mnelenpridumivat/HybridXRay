@@ -157,6 +157,7 @@ void CEditableMesh::GenerateVNormals(bool force)
 
     if (!m_Parent->m_objectFlags.is(CEditableObject::eoSoCSmooth))   // cop
     {
+        Msg("+ ..Generate CoP Smooth groups.");
         for (u32 f_i = 0; f_i < m_FaceCount; f_i++)
         {
             for (int k = 0; k < 3; k++)
@@ -168,8 +169,6 @@ void CEditableMesh::GenerateVNormals(bool force)
                 VERIFY(face_adj_it != a_lst.end());
                 //
                 N.set(m_FaceNormals[a_lst.front()]);
-                // if (m_bDraftMeshMode)
-                //     continue;
 
                 using iterate_adj = itterate_adjacents<itterate_adjacents_params_dynamic<st_FaceVert>>;
                 iterate_adj::recurse_tri_params p(N, m_SmoothGroups, m_FaceNormals, a_lst, m_Faces, m_FaceCount);
@@ -181,7 +180,7 @@ void CEditableMesh::GenerateVNormals(bool force)
                 }
                 else
                 {
-                    Msg("!Invalid smooth group found (Maya type). Object: '%s'. Vertex: [%3.2f, %3.2f, %3.2f]",
+                    Msg("! Invalid smooth group found (Maya type). Object: '%s'. Vertex: [%3.2f, %3.2f, %3.2f]",
                         m_Parent->GetName(), VPUSH(m_Vertices[m_Faces[f_i].pv[k].pindex]));
                     N.set(m_FaceNormals[a_lst.front()]);
                 }
@@ -190,6 +189,7 @@ void CEditableMesh::GenerateVNormals(bool force)
     }
     else   // soc
     {
+        Msg("+ ..Generate SoC Smooth groups.");
         if (m_Flags.is(flSGMask))
         {
             for (u32 f_i = 0; f_i < m_FaceCount; f_i++)
@@ -214,7 +214,7 @@ void CEditableMesh::GenerateVNormals(bool force)
                         }
                         else
                         {
-                            Msg("!Invalid smooth group found (MAX type). Object: '%s'. Vertex: [%3.2f, %3.2f, %3.2f]",
+                            Msg("! Invalid smooth group found (MAX type). Object: '%s'. Vertex: [%3.2f, %3.2f, %3.2f]",
                                 m_Parent->GetName(), VPUSH(m_Vertices[m_Faces[f_i].pv[k].pindex]));
                             N.set(m_FaceNormals[a_lst.front()]);
                         }
@@ -253,7 +253,7 @@ void CEditableMesh::GenerateVNormals(bool force)
                         }
                         else
                         {
-                            Msg("!Invalid smooth group found (Maya type). Object: '%s'. Vertex: [%3.2f, %3.2f, %3.2f]",
+                            Msg("! Invalid smooth group found (Maya type). Object: '%s'. Vertex: [%3.2f, %3.2f, %3.2f]",
                                 m_Parent->GetName(), VPUSH(m_Vertices[m_Faces[f_i].pv[k].pindex]));
                             N.set(m_FaceNormals[a_lst.front()]);
                         }
@@ -266,7 +266,6 @@ void CEditableMesh::GenerateVNormals(bool force)
             }
         }
     }
-
     UnloadFNormals();
     UnloadAdjacency();
 }
@@ -292,9 +291,9 @@ void CEditableMesh::GenerateSVertices(u32 influence)
     GenerateVNormals();
 
     if (m_Normals && m_Parent->m_objectFlags.is(CEditableObject::eoNormals))
-        ELog.Msg(mtInformation, "..Export custom normals.");
+        Msg("# ..Export custom normals.");
     else
-        ELog.Msg(mtInformation, "..Export smooth groups.");
+        Msg("# ..Export smooth groups.");
 
     for (u32 f_id = 0; f_id < m_FaceCount; f_id++)
     {
@@ -320,7 +319,7 @@ void CEditableMesh::GenerateSVertices(u32 influence)
 
                     if (wb.back().bone == BI_NONE)
                     {
-                        ELog.DlgMsg(mtError, "Can't find bone assigned to weight map %s", *VM.name);
+                        ELog.DlgMsg(mtError, "! Can't find bone assigned to weight map %s", *VM.name);
                         FATAL("Editor crashed.");
                         return;
                     }
@@ -357,7 +356,7 @@ void CEditableMesh::GenerateAdjacency()
     m_Adjs = xr_new<AdjVec>();
     VERIFY(m_Faces);
     m_Adjs->resize(m_VertCount);
-    //.	Log				(".. Update adjacency");
+    // Log(".. Update adjacency");
     for (u32 f_id = 0; f_id < m_FaceCount; f_id++)
         for (int k = 0; k < 3; k++)
             (*m_Adjs)[m_Faces[f_id].pv[k].pindex].push_back(f_id);
@@ -372,7 +371,7 @@ CSurface* CEditableMesh::GetSurfaceByFaceID(u32 fid)
         IntIt   f_it     = std::lower_bound(face_lst.begin(), face_lst.end(), (int)fid);
         if ((f_it != face_lst.end()) && (*f_it == (int)fid))
             return sp_it->first;
-        //.		if (std::find(face_lst.begin(),face_lst.end(),fid)!=face_lst.end()) return sp_it->first;
+        // if (std::find(face_lst.begin(),face_lst.end(),fid)!=face_lst.end()) return sp_it->first;
     }
     return 0;
 }
@@ -451,7 +450,7 @@ float CEditableMesh::CalculateSurfacePixelArea(CSurface* surf, bool bMatch2Sided
     IntVec& pol_lst = sp_it->second;
     for (int k = 0; k < int(pol_lst.size()); k++)
     {
-        //		st_Face& F		= m_Faces[pol_lst[k]];
+        // st_Face& F = m_Faces[pol_lst[k]];
         Fvector         c, e01, e02;
         const Fvector2* tc[3];
         GetFaceTC(pol_lst[k], tc);
@@ -477,7 +476,7 @@ int CEditableMesh::GetSurfFaceCount(CSurface* surf, bool bMatch2Sided)
 
 void CEditableMesh::DumpAdjacency()
 {
-    Log("Adjacency dump.");
+    Log("& Adjacency dump.");
     Log("------------------------------------------------------------------------");
     /*    for (u32 i=0; i<m_Adjs.size(); i++){
             IntVec& a_lst	= m_Adjs[i];

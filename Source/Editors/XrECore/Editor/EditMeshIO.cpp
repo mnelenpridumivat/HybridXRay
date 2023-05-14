@@ -111,7 +111,7 @@ bool CEditableMesh::LoadMesh(IReader& F)
     R_ASSERT(F.r_chunk(EMESH_CHUNK_VERSION, &version));
     if (version != EMESH_CURRENT_VERSION)
     {
-        ELog.DlgMsg(mtError, "CEditableMesh: unsuported file version. Mesh can't load.");
+        ELog.DlgMsg(mtError, "! CEditableMesh: unsuported file version. Mesh can't load.");
         return false;
     }
 
@@ -126,7 +126,7 @@ bool CEditableMesh::LoadMesh(IReader& F)
     m_VertCount = F.r_u32();
     if (m_VertCount < 3)
     {
-        Log("!CEditableMesh: Vertices<3.");
+        Log("& CEditableMesh: Vertices<3.");
         return false;
     }
     m_Vertices = xr_alloc<Fvector>(m_VertCount);
@@ -137,7 +137,7 @@ bool CEditableMesh::LoadMesh(IReader& F)
     m_Faces     = xr_alloc<st_Face>(m_FaceCount);
     if (m_FaceCount == 0)
     {
-        Log("!CEditableMesh: Faces==0.");
+        Log("! CEditableMesh: Faces==0.");
         return false;
     }
     F.r(m_Faces, m_FaceCount * sizeof(st_Face));
@@ -154,7 +154,7 @@ bool CEditableMesh::LoadMesh(IReader& F)
     u32 normal_chunk_size = F.find_chunk(EMESH_CHUNK_NORMALS);
     if (normal_chunk_size)
     {
-        Msg("Custom normals chunk size: %d, needed size: %d", normal_chunk_size, m_FaceCount * 3 * sizeof(Fvector));
+        Msg("# Custom normals chunk size: %d, needed size: %d", normal_chunk_size, m_FaceCount * 3 * sizeof(Fvector));
         VERIFY(m_FaceCount * 3 * sizeof(Fvector) == normal_chunk_size);
         m_Normals = xr_alloc<Fvector>(m_FaceCount * 3);
         F.r(m_Normals, m_FaceCount * 3 * sizeof(Fvector));
@@ -183,7 +183,7 @@ bool CEditableMesh::LoadMesh(IReader& F)
         face_lst.resize(F.r_u32());
         if (face_lst.empty())
         {
-            Log("!Empty surface found: %s", surf->_Name());
+            Log("! Empty surface found: %s", surf->_Name());
             return false;
         }
         F.r(&*face_lst.begin(), face_lst.size() * sizeof(int));

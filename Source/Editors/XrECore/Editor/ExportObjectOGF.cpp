@@ -200,6 +200,7 @@ void CExportObjectOGF::SSplit::Save(IWriter& F, int& chunk_id)
 
 void CObjectOGFCollectorPacked::MakeProgressive()
 {
+    Msg("# ..Make progressive");
     VIPM_Init();
 
     for (OGFVertIt vert_it = m_Verts.begin(); vert_it != m_Verts.end(); ++vert_it)
@@ -234,11 +235,12 @@ void CObjectOGFCollectorPacked::MakeProgressive()
     }
     else
     {
-        Log("!..Can't make progressive.");
+        Log("! ..Can't make progressive.");
     }
 
     // cleanup
     VIPM_Destroy();
+    Msg("+ ..Progressive end");
 }
 
 void CObjectOGFCollectorPacked::OptimizeTextureCoordinates()
@@ -304,6 +306,12 @@ bool CExportObjectOGF::PrepareMESH(CEditableMesh* MESH)
     // generate normals
     bool bResult = true;
     MESH->GenerateVNormals();
+
+    if (MESH->m_Normals && m_Source->m_objectFlags.is(CEditableObject::eoNormals))
+        Msg("- ..Export custom normals");
+    else
+        Msg("- ..Export smooth groups");
+
     // fill faces
     for (SurfFacesPairIt sp_it = MESH->m_SurfFaces.begin(); sp_it != MESH->m_SurfFaces.end(); ++sp_it)
     {
@@ -318,7 +326,7 @@ bool CExportObjectOGF::PrepareMESH(CEditableMesh* MESH)
             SGameMtl* M = GameMaterialLibrary->GetMaterialByID(surf->_GameMtl());
             if (0 == M)
             {
-                ELog.DlgMsg(mtError, "Surface: '%s' contains undefined game material.", surf->_Name());
+                ELog.DlgMsg(mtError, "! Surface: '%s' contains undefined game material.", surf->_Name());
                 bResult = false;
                 break;
             }
@@ -332,24 +340,19 @@ bool CExportObjectOGF::PrepareMESH(CEditableMesh* MESH)
             m_Splits.push_back(xr_new<SSplit>(surf, box));
             split = m_Splits.back();
         }
-        int        elapsed_faces = surf->m_Flags.is(CSurface::sf2Sided) ? face_lst.size() * 2 : face_lst.size();
-        const bool b2sided       = !!surf->m_Flags.is(CSurface::sf2Sided);
+        int elapsed_faces  = surf->m_Flags.is(CSurface::sf2Sided) ? face_lst.size() * 2 : face_lst.size();
+        const bool b2sided = !!surf->m_Flags.is(CSurface::sf2Sided);
 
         if (0 == split->m_CurrentPart)
             split->AppendPart((elapsed_faces > 0xffff) ? 0xffff : elapsed_faces,
                               (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces);
 
-        if (MESH->m_Normals && m_Source->m_objectFlags.is(CEditableObject::eoNormals))
-            Log("Export custom normals");
-        else
-            Log("Export smooth groups");
-
         do
         {
             for (IntIt f_it = face_lst.begin(); f_it != face_lst.end(); ++f_it)
             {
-                bool     bNewPart = false;
-                st_Face& face     = MESH->m_Faces[*f_it];
+                bool bNewPart = false;
+                st_Face& face = MESH->m_Faces[*f_it];
                 {
                     SOGFVert v[3];
                     for (int k = 0; k < 3; ++k)
@@ -382,8 +385,7 @@ bool CExportObjectOGF::PrepareMESH(CEditableMesh* MESH)
                             v[k].set(offset, MESH->m_VertexNormals[norm_id], *uv);
                     }
                     --elapsed_faces;
-                    if (!split->m_CurrentPart->add_face(
-                            v[0], v[1], v[2], m_Source->m_objectFlags.is(CEditableObject::eoHQExportPlus)))
+                    if (!split->m_CurrentPart->add_face(v[0], v[1], v[2], m_Source->m_objectFlags.is(CEditableObject::eoHQExportPlus)))
                         bNewPart = true;
 
                     if (b2sided)
@@ -391,8 +393,7 @@ bool CExportObjectOGF::PrepareMESH(CEditableMesh* MESH)
                         v[0].N.invert();
                         v[1].N.invert();
                         v[2].N.invert();
-                        if (!split->m_CurrentPart->add_face(
-                                v[2], v[1], v[0], m_Source->m_objectFlags.is(CEditableObject::eoHQExportPlus)))
+                        if (!split->m_CurrentPart->add_face(v[2], v[1], v[0], m_Source->m_objectFlags.is(CEditableObject::eoHQExportPlus)))
                             bNewPart = true;
                     }
                 }
@@ -412,17 +413,20 @@ bool CExportObjectOGF::Prepare(bool gen_tb, CEditableMesh* mesh)
     if ((m_Source->MeshCount() == 0))
         return false;
 
+    Msg("# ..Prepare geometry");
     bool bResult = true;
     if (mesh)
         bResult = PrepareMESH(mesh);
     else
     {
         for (EditMeshIt mesh_it = m_Source->FirstMesh(); mesh_it != m_Source->LastMesh(); ++mesh_it)
+        {
             if (!PrepareMESH(*mesh_it))
             {
                 bResult = false;
                 break;
             }
+        }
     }
 
     if (!bResult)
@@ -432,14 +436,12 @@ bool CExportObjectOGF::Prepare(bool gen_tb, CEditableMesh* mesh)
     if (gen_tb)
     {
 #if !defined(_DEBUG) && defined(_WIN64)
-        ELog.Msg(mtInformation, "..MT Calculate TB");
+        Msg("# ..MT Calculate TB");
 #else
-        ELog.Msg(mtInformation, "..MT Calculate TB");
+        Msg("# ..MT Calculate TB");
 #endif
         FOR_START(u32, 0, m_Splits.size(), it)
-        {
             m_Splits[it]->CalculateTB();
-        }
         FOR_END
         // Log("Time B: ",T.GetElapsed_sec());
     }
@@ -447,13 +449,19 @@ bool CExportObjectOGF::Prepare(bool gen_tb, CEditableMesh* mesh)
     // fill per bone vertices
     if (m_Source->m_objectFlags.is(CEditableObject::eoProgressive))
     {
-        for (SplitIt split_it = m_Splits.begin(); split_it != m_Splits.end(); ++split_it)
-            (*split_it)->MakeProgressive();
+        if (m_Splits.size() > 1) // MT
+        {
+            FOR_START(u32, 0, m_Splits.size(), it)
+                m_Splits[it]->MakeProgressive();
+            FOR_END
+        }
+        else if (m_Splits.size() == 1)
+            m_Splits[0]->MakeProgressive();
     }
-
     // Compute bounding...
     ComputeBounding();
-    //    Log				("Time C: ",T.GetElapsed_sec());
+    Msg("# ..Compute Bounding");
+    // Log("Time C: ",T.GetElapsed_sec());
     return bResult;
 }
 
@@ -563,6 +571,7 @@ bool CExportObjectOGF::ExportAsWavefrontOBJ(IWriter& F, LPCSTR fn)
 {
     if (!Prepare(false, NULL))
         return false;
+    Msg("..Prepare OBJ");
 
     string_path tmp, tex_path, tex_name;
     string_path name, ext;

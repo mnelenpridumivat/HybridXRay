@@ -804,8 +804,7 @@ void MeshMender::OrthogonalizeTangentsAndBinormals(xr_vector<Vertex>& theVerts)
 
 		if (D3DXVec3Length(&(theVerts[i].normal)) <= 0.00001f)
 		{
-			Msg("!..Found zero length normal [%f] when calculating tangent basis!, if you are not using mesh mender to compute normals, you must still pass in valid normals to be used when calculating tangents and binormals.", D3DXVec3Length(&(theVerts[i].normal)));
-			ELog.Msg(mtInformation, "..Found zero length normal [%f] when calculating tangent basis!", D3DXVec3Length(&(theVerts[i].normal)));
+			Msg("- ..Found zero length normal [%f] when calculating tangent basis! if you are not using mesh mender to compute normals, you must still pass in valid normals to be used when calculating tangents and binormals.", D3DXVec3Length(&(theVerts[i].normal)));
 		}
 
         // now with T and B and N we can get from tangent space to object space
