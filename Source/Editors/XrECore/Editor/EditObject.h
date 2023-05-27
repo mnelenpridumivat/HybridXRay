@@ -68,6 +68,7 @@ public:
     u32           tag;
     SSimpleImage* m_ImageData;
     u16           m_id;
+    u16           m_sort_id;
 
 public:
     CSurface()
@@ -75,11 +76,12 @@ public:
         m_GameMtlName = "default";
         m_ImageData   = 0;
         m_Shader      = 0;
+        m_dwFVF       = 0;
+        tag           = 0;
+        m_id          = 0;
+        m_sort_id     = 0;
         m_RTFlags.zero();
         m_Flags.zero();
-        m_dwFVF = 0;
-        tag     = 0;
-        m_id    = 0;
     }
     IC bool Validate()
     {

@@ -92,6 +92,7 @@ public:
 
 public:
     CSkeletonCollectorPacked(const Fbox& bb, int apx_vertices = 5000, int apx_faces = 5000);
+    CSkeletonCollectorPacked() {}
     bool check(SSkelFace& F)
     {
         if ((F.v[0] == F.v[1]) || (F.v[0] == F.v[2]) || (F.v[1] == F.v[2]))
@@ -177,6 +178,7 @@ protected:
         Fbox       m_Box;
         U16Vec     m_UsedBones;
         u16        m_id;
+        u16        m_sort_id;
         BOOL       m_bSoC;
 
         // Progressive
@@ -185,6 +187,7 @@ protected:
 
     public:
         SSplit(CSurface* surf, const Fbox& bb, u16 part);
+        SSplit() {}
 
         bool valid()
         {

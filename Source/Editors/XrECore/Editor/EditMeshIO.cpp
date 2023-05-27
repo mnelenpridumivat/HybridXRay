@@ -181,6 +181,7 @@ bool CEditableMesh::LoadMesh(IReader& F)
         VERIFY(surf);
         IntVec& face_lst = m_SurfFaces[surf];
         face_lst.resize(F.r_u32());
+        surf->m_sort_id = surf_id;
         if (face_lst.empty())
         {
             Log("! Empty surface found: %s", surf->_Name());

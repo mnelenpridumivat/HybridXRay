@@ -120,6 +120,7 @@ CExportObjectOGF::SSplit::SSplit(CSurface* surf, const Fbox& bb)
     m_id          = surf->m_id;
     m_Shader      = surf->m_ShaderName;
     m_Texture     = surf->m_Texture;
+    m_sort_id     = surf->m_sort_id;
 }
 
 CExportObjectOGF::SSplit::~SSplit()
@@ -493,6 +494,19 @@ bool CExportObjectOGF::Prepare(bool gen_tb, CEditableMesh* mesh)
     if (!bResult)
         return false;
 
+    for (int i = 0; i < m_Splits.size() - 1; i++)
+    {
+        for (int j = 0; j < m_Splits.size() - i - 1; j++)
+        {
+            if (m_Splits[j]->m_sort_id < m_Splits[j + 1]->m_sort_id)
+            {
+                SSplit* temp = m_Splits[j];
+                m_Splits[j] = m_Splits[j + 1];
+                m_Splits[j + 1] = temp;
+            }
+        }
+    }
+
     for (u32 it = 0; it < m_Splits.size(); it++)
     {
         m_Splits[it]->SplitStats(it);
@@ -590,6 +604,7 @@ bool CExportObjectOGF::Export(IWriter& F, bool gen_tb, CEditableMesh* mesh)
     if ((m_Splits.size() == 1) && (m_Splits[0]->m_Parts.size() == 1))
     {
         // export as single mesh
+        Msg("# ..Save as single");
         m_Splits[0]->SavePart(F, m_Splits[0]->m_Parts[0]);
     }
     else
@@ -676,6 +691,7 @@ bool CExportObjectOGF::ExportAsSimple(IWriter& F)
         if ((m_Splits.size() == 1) && (m_Splits[0]->m_Parts.size() == 1))
         {
             // export as single mesh
+            Msg("# ..Save as single");
             m_Splits[0]->SavePart(F, m_Splits[0]->m_Parts[0]);
             return true;
         }
