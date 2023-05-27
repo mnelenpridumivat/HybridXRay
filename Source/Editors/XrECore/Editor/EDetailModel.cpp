@@ -19,6 +19,17 @@
 void EDetail::EVertexIn::remapUV(const fvfVertexIn& src, const Fvector2& offs, const Fvector2& scale, bool bRotate)
 {
     P.set(src.P);
+
+    if (bRotate)
+    {
+        u = scale.x * src.v + offs.x;
+        v = scale.y * src.u + offs.y;
+    }
+    else
+    {
+        u = scale.x * src.u + offs.x;
+        v = scale.y * src.v + offs.y;
+    }
     ImageLib.MergedTextureRemapUV(u, v, src.u, src.v, offs, scale, bRotate);
 }
 
@@ -122,6 +133,7 @@ bool EDetail::Update(LPCSTR name)
     m_sRefs = name;
     // update link
     CEditableObject* R = Lib.CreateEditObject(name);
+
     if (!R)
     {
         ELog.Msg(mtError, "! Can't load detail object '%s'.", name);
@@ -153,10 +165,11 @@ bool EDetail::Update(LPCSTR name)
     for (u32 f_id = 0; f_id < M->GetFCount(); f_id++)
     {
         const st_Face& F = M->GetFaces()[f_id];
-        u16            ind[3];
+        u16 ind[3];
         for (int k = 0; k < 3; k++, idx++)
         {
-            const Fvector& P  = M->GetVertices()[F.pv[k].pindex];
+            Fvector P  = M->GetVertices()[F.pv[k].pindex];
+            P.mul(m_pRefs->a_vScale);
             st_VMapPt&     vm = M->GetVMRefs()[F.pv[k].vmref].pts[0];
             Fvector2&      uv = M->GetVMaps()[vm.vmap_index]->getUV(vm.index);
             ind[k]            = _AddVert(P, uv.x, uv.y);
