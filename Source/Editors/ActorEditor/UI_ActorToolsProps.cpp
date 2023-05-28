@@ -989,6 +989,8 @@ void CActorTools::FillObjectProperties(PropItemVec& items, LPCSTR pref, ListItem
         auto FlagHQ2 = PHelper().CreateFlag32(items, "Object\\Model export\\Optimize:\\HQ Geometry Plus", &m_pEditObject->m_objectFlags,  CEditableObject::eoHQExportPlus);
         FlagHQ2->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
 
+        auto FlagSM0 = PHelper().CreateFlag32(items, "Object\\Model export\\Smooth Type:\\Auto Smooth", &m_pEditObject->m_objectFlags.set(CEditableObject::eoAutoSmooth, true), CEditableObject::eoAutoSmooth);
+        FlagSM0->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
         auto FlagSM1 = PHelper().CreateFlag32(items, "Object\\Model export\\Smooth Type:\\Use split normals", &m_pEditObject->m_objectFlags, CEditableObject::eoNormals);
         FlagSM1->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
         auto FlagSM2 = PHelper().CreateFlag32(items, "Object\\Model export\\Smooth Type:\\Smooth CS/CoP", &m_pEditObject->m_objectFlags, CEditableObject::eoCoPSmooth);
@@ -1069,31 +1071,43 @@ void CActorTools::OnChangeFlag(PropValue* sender)
             m_pEditObject->m_objectFlags.set(ProgFlag, FALSE);
     }
     // split normals / CS/CoP Smooth / SoC Smooth
-    const bool changingNormals = !strcmp(flag->Owner()->Key(), "Object\\Model export\\Smooth Type:\\Use split normals");
-    const bool changingCoP     = !strcmp(flag->Owner()->Key(), "Object\\Model export\\Smooth Type:\\Smooth CS/CoP");
-    const bool changingSoC     = !strcmp(flag->Owner()->Key(), "Object\\Model export\\Smooth Type:\\Smooth SoC");
-    const auto Smooth1Flag     = CEditableObject::eoNormals;
-    const auto Smooth2Flag     = CEditableObject::eoCoPSmooth;
-    const auto Smooth3Flag     = CEditableObject::eoSoCSmooth;
+    const bool changingAutoSmooth = !strcmp(flag->Owner()->Key(), "Object\\Model export\\Smooth Type:\\Auto Smooth");
+    const bool changingNormals    = !strcmp(flag->Owner()->Key(), "Object\\Model export\\Smooth Type:\\Use split normals");
+    const bool changingCoP        = !strcmp(flag->Owner()->Key(), "Object\\Model export\\Smooth Type:\\Smooth CS/CoP");
+    const bool changingSoC        = !strcmp(flag->Owner()->Key(), "Object\\Model export\\Smooth Type:\\Smooth SoC");
+    const auto Smooth0Flag        = CEditableObject::eoAutoSmooth;
+    const auto Smooth1Flag        = CEditableObject::eoNormals;
+    const auto Smooth2Flag        = CEditableObject::eoCoPSmooth;
+    const auto Smooth3Flag        = CEditableObject::eoSoCSmooth;
 
+    const bool Smooth0Set = m_pEditObject->m_objectFlags.test(Smooth0Flag);
     const bool Smooth1Set = m_pEditObject->m_objectFlags.test(Smooth1Flag);
     const bool Smooth2Set = m_pEditObject->m_objectFlags.test(Smooth2Flag);
     const bool Smooth3Set = m_pEditObject->m_objectFlags.test(Smooth3Flag);
 
-    if (Smooth1Set || Smooth2Set || Smooth3Set)
+    if (Smooth0Set || Smooth1Set || Smooth2Set || Smooth3Set)
     {
+        if (changingAutoSmooth)
+        {
+            m_pEditObject->m_objectFlags.set(Smooth1Flag, FALSE);
+            m_pEditObject->m_objectFlags.set(Smooth2Flag, FALSE);
+            m_pEditObject->m_objectFlags.set(Smooth3Flag, FALSE);
+        }
         if (changingNormals)
         {
+            m_pEditObject->m_objectFlags.set(Smooth0Flag, FALSE);
             m_pEditObject->m_objectFlags.set(Smooth2Flag, FALSE);
             m_pEditObject->m_objectFlags.set(Smooth3Flag, FALSE);
         }
         if (changingCoP)
         {
+            m_pEditObject->m_objectFlags.set(Smooth0Flag, FALSE);
             m_pEditObject->m_objectFlags.set(Smooth1Flag, FALSE);
             m_pEditObject->m_objectFlags.set(Smooth3Flag, FALSE);
         }
         if (changingSoC)
         {
+            m_pEditObject->m_objectFlags.set(Smooth0Flag, FALSE);
             m_pEditObject->m_objectFlags.set(Smooth1Flag, FALSE);
             m_pEditObject->m_objectFlags.set(Smooth2Flag, FALSE);
         }

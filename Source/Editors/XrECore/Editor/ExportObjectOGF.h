@@ -93,7 +93,7 @@ public:
     }
     IC bool add_face(SOGFVert& v0, SOGFVert& v1, SOGFVert& v2, bool hq)
     {
-        if (m_Verts.size() >= 60000 || m_Faces.size() >= 0xffff)
+        if (m_Verts.size() >= 0xffff || m_Faces.size() >= 0xffff)
             return false;
         if (!hq && ((v0.P.similar(v1.P, EPS) || v0.P.similar(v2.P, EPS) || v1.P.similar(v2.P, EPS))))
         {
@@ -168,7 +168,7 @@ class ECORE_API CExportObjectOGF
                 (*it)->CalculateTB();
         }
 
-        bool SplitStats(u32& id, size_t& verts_, size_t& faces_)
+        bool SplitStats(u32& id, size_t& verts_, size_t& faces_, bool silent)
         {
             for (COGFCPIt it = m_Parts.begin(); it != m_Parts.end(); it++)
             {
@@ -177,16 +177,19 @@ class ECORE_API CExportObjectOGF
                 verts_ += verts;
                 faces_ += faces;
 
-                if (faces == 0 || verts == 0)
+                if (!silent)
                 {
-                    Msg("& ..Empty split found (Texture: %s).", *m_Texture);
-                    return false;
+                    if (faces == 0 || verts == 0)
+                    {
+                        Msg("& ..Empty split found (Texture: %s).", *m_Texture);
+                        return false;
+                    }
+                    else
+                    {
+                        Msg("# ..Split %d: [Faces: %d, Verts: %d, Shader/Texture: '%s'/'%s']", id, faces, verts, *m_Shader, *m_Texture);
+                    }
+                    id++;
                 }
-                else
-                {
-                    Msg("& ..Split %d: [Faces: %d, Verts: %d, Shader/Texture: '%s'/'%s']", id, faces, verts, *m_Shader, *m_Texture);
-                }
-                id++;
             }
             return true;
         }
@@ -231,6 +234,7 @@ class ECORE_API CExportObjectOGF
         }
     }
     bool PrepareMESH(CEditableMesh* mesh);
+    void DetectSmoothType(CEditableMesh* mesh, xr_vector<CEditableMesh*> mesh_vec);
     bool Prepare(bool gen_tb, CEditableMesh* mesh);
 
 public:

@@ -146,7 +146,7 @@ void CEditableMesh::GenerateFNormals()
 }
 // BOOL CEditableMesh::m_bDraftMeshMode = FALSE;
 
-void CEditableMesh::GenerateVNormals(bool force)
+void CEditableMesh::GenerateVNormals(bool force, bool silent)
 {
     m_VNormalsRefs++;
     if ((m_VertexNormals || (m_Normals && m_Parent->m_objectFlags.is(CEditableObject::eoNormals))) && !force)
@@ -159,8 +159,11 @@ void CEditableMesh::GenerateVNormals(bool force)
 
     if (!m_Parent->m_objectFlags.is(CEditableObject::eoSoCSmooth))   // cop
     {
-        if (g_extendedLog)
-            Msg("+ ..Generate CoP Smooth groups.");
+        if (!silent)
+        {
+            if (g_extendedLog)
+                Msg("+ ..Generate CoP Smooth groups.");
+        }
         for (u32 f_i = 0; f_i < m_FaceCount; f_i++)
         {
             for (int k = 0; k < 3; k++)
@@ -183,8 +186,11 @@ void CEditableMesh::GenerateVNormals(bool force)
                 }
                 else
                 {
-                    Msg("! Invalid smooth group found (Maya type). Object: '%s'. Vertex: [%3.2f, %3.2f, %3.2f]",
-                        m_Parent->GetName(), VPUSH(m_Vertices[m_Faces[f_i].pv[k].pindex]));
+                    if (!silent)
+                    {
+                        Msg("! Invalid smooth group found (Maya type). Object: '%s'. Vertex: [%3.2f, %3.2f, %3.2f]",
+                            m_Parent->GetName(), VPUSH(m_Vertices[m_Faces[f_i].pv[k].pindex]));
+                    }
                     N.set(m_FaceNormals[a_lst.front()]);
                 }
             }
@@ -192,8 +198,11 @@ void CEditableMesh::GenerateVNormals(bool force)
     }
     else   // soc
     {
-        if (g_extendedLog)
-            Msg("+ ..Generate SoC Smooth groups.");
+        if (!silent)
+        {
+            if (g_extendedLog)
+                Msg("+ ..Generate SoC Smooth groups.");
+        }
         if (m_Flags.is(flSGMask))
         {
             for (u32 f_i = 0; f_i < m_FaceCount; f_i++)
@@ -218,8 +227,11 @@ void CEditableMesh::GenerateVNormals(bool force)
                         }
                         else
                         {
-                            Msg("! Invalid smooth group found (MAX type). Object: '%s'. Vertex: [%3.2f, %3.2f, %3.2f]",
-                                m_Parent->GetName(), VPUSH(m_Vertices[m_Faces[f_i].pv[k].pindex]));
+                            if (!silent)
+                            {
+                                Msg("! Invalid smooth group found (MAX type). Object: '%s'. Vertex: [%3.2f, %3.2f, %3.2f]",
+                                    m_Parent->GetName(), VPUSH(m_Vertices[m_Faces[f_i].pv[k].pindex]));
+                            }
                             N.set(m_FaceNormals[a_lst.front()]);
                         }
                     }
@@ -257,8 +269,11 @@ void CEditableMesh::GenerateVNormals(bool force)
                         }
                         else
                         {
-                            Msg("! Invalid smooth group found (Maya type). Object: '%s'. Vertex: [%3.2f, %3.2f, %3.2f]",
-                                m_Parent->GetName(), VPUSH(m_Vertices[m_Faces[f_i].pv[k].pindex]));
+                            if (!silent)
+                            {
+                                Msg("! Invalid smooth group found (Maya type). Object: '%s'. Vertex: [%3.2f, %3.2f, %3.2f]",
+                                    m_Parent->GetName(), VPUSH(m_Vertices[m_Faces[f_i].pv[k].pindex]));
+                            }
                             N.set(m_FaceNormals[a_lst.front()]);
                         }
                     }
@@ -308,8 +323,8 @@ void CEditableMesh::GenerateSVertices(u32 influence)
 
         for (int k = 0; k < 3; ++k)
         {
-            st_SVert&          SV = m_SVertices[f_id * 3 + k];
-            const Fvector&     N  = m_Normals && m_Parent->m_objectFlags.is(CEditableObject::eoNormals) ? m_Normals[f_id * 3 + k] : m_VertexNormals[f_id * 3 + k];
+            st_SVert&      SV = m_SVertices[f_id * 3 + k];
+            const Fvector& N  = m_Normals && m_Parent->m_objectFlags.is(CEditableObject::eoNormals) ? m_Normals[f_id * 3 + k] : m_VertexNormals[f_id * 3 + k];
             const st_FaceVert& fv = F.pv[k];
             const Fvector&     P  = m_Vertices[fv.pindex];
 
@@ -327,6 +342,83 @@ void CEditableMesh::GenerateSVertices(u32 influence)
                     if (wb.back().bone == BI_NONE)
                     {
                         ELog.DlgMsg(mtError, "! Can't find bone assigned to weight map %s", *VM.name);
+                        FATAL("Editor crashed.");
+                        return;
+                    }
+                }
+                else if (VM.type == vmtUV)
+                    SV.uv.set(VM.getUV(vmpt_lst.pts[vmpt_id].index));
+            }
+
+            VERIFY(m_SVertInfl <= 4);
+
+            wb.prepare_weights(m_SVertInfl);
+
+            SV.offs = P;
+            SV.norm = N;
+            SV.bones.resize(wb.size());
+            for (u8 k = 0; k < (u8)SV.bones.size(); k++)
+            {
+                SV.bones[k].id = wb[k].bone;
+                SV.bones[k].w  = wb[k].weight;
+            }
+        }
+    }
+
+    // restore active motion
+    UnloadFNormals();
+    UnloadVNormals();
+}
+
+void CEditableMesh::GenerateSVerticesFast(u32 influence)
+{
+    if (!m_Parent->IsSkeleton())
+        return;
+
+    m_SVertRefs++;
+    if (m_SVertInfl != influence)
+        UnloadSVertices(true);
+    if (m_SVertices)
+        return;
+    m_SVertices = xr_alloc<st_SVert>(m_FaceCount * 3);
+    m_SVertInfl = influence;
+
+    //	CSMotion* active_motion=m_Parent->ResetSAnimation();
+    m_Parent->CalculateAnimation(0);
+
+    // generate normals
+    GenerateFNormals();
+    GenerateVNormals();
+
+    for (u32 f_id = 0; f_id < m_FaceCount; f_id++)
+    {
+        st_Face& F = m_Faces[f_id];
+
+        for (int k = 0; k < 3; ++k)
+        {
+            st_SVert&          SV = m_SVertices[f_id * 3 + k];
+            const Fvector&     N  = m_Normals && m_Parent->m_objectFlags.is(CEditableObject::eoNormals) ?
+                     m_Normals[f_id * 3 + k] :
+                     m_VertexNormals[f_id * 3 + k];
+            const st_FaceVert& fv = F.pv[k];
+            const Fvector&     P  = m_Vertices[fv.pindex];
+
+            const st_VMapPtLst& vmpt_lst = m_VMRefs[fv.vmref];
+
+            st_VertexWB wb;
+            for (u8 vmpt_id = 0; vmpt_id != vmpt_lst.count; ++vmpt_id)
+            {
+                const st_VMap& VM = *m_VMaps[vmpt_lst.pts[vmpt_id].vmap_index];
+
+                if (VM.type == vmtWeight)
+                {
+                    u16 bone = m_Parent->GetBoneIndexByWMap(VM.name.c_str());
+
+                    wb.push_back(st_WB(bone, VM.getW(vmpt_lst.pts[vmpt_id].index)));
+
+                    if (wb.back().bone == BI_NONE)
+                    {
+                        ELog.DlgMsg(mtError, "! ..Can't find bone assigned to weight map '%s'", *VM.name);
                         FATAL("Editor crashed.");
                         return;
                     }
