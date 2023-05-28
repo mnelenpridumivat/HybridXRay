@@ -68,7 +68,7 @@ void CExportSkeleton::SSplit::OptimizeTextureCoordinates()
     Fvector2 Tsize;
     Tsize.sub(Tmax, Tmin);
     if ((Tsize.x > 32) || (Tsize.y > 32))
-        Msg("#!Surface [T:'%s', S:'%s'] has UV tiled more than 32 times.", *m_Texture, *m_Shader);
+        Msg("#! Surface [T:'%s', S:'%s'] has UV tiled more than 32 times.", *m_Texture, *m_Shader);
     {
         // 2. Recalc UV mapping
         for (u32 v_idx = 0; v_idx != v_cnt; v_idx++)

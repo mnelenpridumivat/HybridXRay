@@ -148,7 +148,7 @@ bool CCustomObject::LoadStream(IReader& F)
         m_Motion = xr_new<COMotion>();
         if (!m_Motion->Load(F))
         {
-            ELog.Msg(mtError, "CustomObject: '%s' - motion has different version. Load failed.", GetName());
+            ELog.Msg(mtError, "! CustomObject: '%s' - motion has different version. Load failed.", GetName());
             xr_delete(m_Motion);
         }
         m_MotionParams = xr_new<SAnimParams>();

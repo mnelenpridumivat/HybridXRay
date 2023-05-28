@@ -358,11 +358,11 @@ void UIEditLibrary::GenerateLOD(RStringVec& props, bool bHighQuality)
                 bHighQuality ? 4 /*7*/ : 1);
             O->OnDeviceDestroy();
             O->m_objectFlags.set(CEditableObject::eoUsingLOD, bLod);
-            ELog.Msg(mtInformation, "LOD for object '%s' successfully created.", O->GetName());
+            ELog.Msg(mtInformation, "+ LOD for object '%s' successfully created.", O->GetName());
             lodsCnt++;
         }
         else
-            ELog.Msg(mtError, "Can't create LOD texture from non 'Multiple Usage' object.", SO->RefName());
+            ELog.Msg(mtError, "! Can't create LOD texture from non 'Multiple Usage' object.", SO->RefName());
 
         if (UI->NeedAbort())
             break;
@@ -371,19 +371,18 @@ void UIEditLibrary::GenerateLOD(RStringVec& props, bool bHighQuality)
     UI->ProgressEnd(pb);
 
     if (lodsCnt)
-        ELog.DlgMsg(mtInformation, "'%u' LOD's succesfully created.", lodsCnt);
+        ELog.DlgMsg(mtInformation, "+ '%u' LOD's succesfully created.", lodsCnt);
 }
 
 void UIEditLibrary::MakeLOD(bool bHighQuality)
 {
     // if (ebSave->Enabled)
     //{
-    //	ELog.DlgMsg(mtError, "Save library changes before generating LOD.");
+    //	ELog.DlgMsg(mtError, "& Save library changes before generating LOD.");
     //	return;
     // }
 
-    int res = ELog.DlgMsg(
-        mtConfirmation, TMsgDlgButtons() | mbYes | mbNo | mbCancel, "Do you want to select multiple objects?");
+    int res = ELog.DlgMsg(mtConfirmation, TMsgDlgButtons() | mbYes | mbNo | mbCancel, "Do you want to select multiple objects?");
 
     if (res == mrCancel)
         return;
@@ -428,15 +427,15 @@ void UIEditLibrary::OnMakeThmClick()
 
             // m_Items->SelectItem(item->Key(), true, false, true);
             if (ImageLib.CreateOBJThumbnail(fn, obj, obj->Version()))
-                ELog.Msg(mtInformation, "Thumbnail successfully created.");
+                ELog.Msg(mtInformation, "+ Thumbnail successfully created.");
         }
         else
-            ELog.DlgMsg(mtError, "Can't create thumbnail. Set preview mode.");
+            ELog.DlgMsg(mtError, "& Can't create thumbnail. Set preview mode.");
 
         Lib.RemoveEditObject(obj);
     }
 
-    ELog.DlgMsg(mtInformation, "Done.");
+    ELog.DlgMsg(mtInformation, "+ Done.");
 }
 
 void UIEditLibrary::OnPropertiesClick()

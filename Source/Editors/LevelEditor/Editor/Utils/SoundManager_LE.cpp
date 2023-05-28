@@ -11,7 +11,7 @@ bool CLevelSoundManager::Validate()
         R_ASSERT(E);
         if (E->m_EnvInner == E->m_EnvOuter)
         {
-            ELog.DlgMsg(mtError, "SoundEnvironment: '%s' inner and outer environment must be different.", E->GetName());
+            ELog.DlgMsg(mtError, "& SoundEnvironment: '%s' inner and outer environment must be different.", E->GetName());
             return false;
         }
     }
@@ -22,7 +22,7 @@ bool CLevelSoundManager::Validate()
         R_ASSERT(S);
         if (!S->GetSourceWAV() || (0 == strlen(S->GetSourceWAV())))
         {
-            ELog.DlgMsg(mtError, "SoundSource: '%s' hasn't wave.", S->GetName());
+            ELog.DlgMsg(mtError, "& SoundSource: '%s' hasn't wave.", S->GetName());
             return false;
         }
     }
@@ -43,7 +43,7 @@ bool CLevelSoundManager::MakeEnvGeometry(CMemoryWriter& F, bool bErrMsg)
     ObjectList& snd_envs = Scene->ListObj(OBJCLASS_SOUND_ENV);
 
     if (snd_envs.empty()){
-        if (bErrMsg) ELog.Msg(mtError,"Scene hasn't sound environment geometry.");
+        if (bErrMsg) ELog.Msg(mtError,"& Scene hasn't sound environment geometry.");
         return false;
     }
 

@@ -42,7 +42,7 @@ bool Stbi_Load(LPCSTR full_name, U32Vec& data, u32& w, u32& h, u32& a)
 {
     if (!FS.exist(full_name))
     {
-        ELog.Msg(mtError, "Can't find file: '%s'", full_name);
+        ELog.Msg(mtError, "! Can't find file: '%s'", full_name);
         return false;
     }
     if (strstr(full_name, ".tga"))
@@ -57,7 +57,7 @@ bool Stbi_Load(LPCSTR full_name, U32Vec& data, u32& w, u32& h, u32& a)
         for (int y = 0; y < h; y++)
             CopyMemory(data.data() + y * w, img.pData + (y * w), sizeof(u32) * w);
         if (!IsValidSize(w, h))
-            ELog.Msg(mtError, "Texture (%s) - invalid size: [%d, %d]", full_name, w, h);
+            ELog.Msg(mtError, "! Texture (%s) - invalid size: [%d, %d]", full_name, w, h);
         return true;
     }
     else
@@ -74,7 +74,7 @@ bool Stbi_Load(LPCSTR full_name, U32Vec& data, u32& w, u32& h, u32& a)
             a = c == 4;
             stbi_image_free(raw_data);
             if (!IsValidSize(w, h))
-                ELog.Msg(mtError, "Texture (%s) - invalid size: [%d, %d]", full_name, w, h);
+                ELog.Msg(mtError, "! Texture (%s) - invalid size: [%d, %d]", full_name, w, h);
             return true;
         }
         else
@@ -158,7 +158,7 @@ void CImageManager::CreateTextureThumbnail(
     {
         if (!Stbi_Load(base_name, data, w, h, a))
         {
-            ELog.Msg(mtError, "Can't load texture '%s'.\nCheck file existence", fn.c_str());
+            ELog.Msg(mtError, "! Can't load texture '%s'.\nCheck file existence", fn.c_str());
             return;
         }
     }
@@ -220,10 +220,10 @@ bool CImageManager::MakeGameTexture(LPCSTR game_name, u32* data, const STextureP
         switch (res)
         {
             case 0:
-                ELog.DlgMsg(mtError, "Can't make game texture '%s'.", game_name);
+                ELog.DlgMsg(mtError, "& Can't make game texture '%s'.", game_name);
                 break;
             case -1000:
-                ELog.Msg(mtError, "Invalid gloss mask '%s'.", game_name);
+                ELog.Msg(mtError, "! Invalid gloss mask '%s'.", game_name);
                 return true;
         }
         return false;
@@ -256,24 +256,24 @@ bool CImageManager::MakeGameTexture(ETextureThumbnail* THM, LPCSTR game_name, u3
                 u32 _w, _h;
                 if (!LoadTextureData(e_name, ext_data, _w, _h))
                 {
-                    ELog.DlgMsg(mtError, "Can't load special normal map texture '%s'.", e_name);
+                    ELog.DlgMsg(mtError, "& Can't load special normal map texture '%s'.", e_name);
                     e_res = false;
                 }
                 else if ((_w != w) || (_h != h))
                 {
-                    ELog.DlgMsg(mtError, "Invalid load special normal map size '%s'. It should be [%dx%d]", e_name, w, h);
+                    ELog.DlgMsg(mtError, "& Invalid load special normal map size '%s'. It should be [%dx%d]", e_name, w, h);
                     e_res = false;
                 }
             }
             else
             {
-                ELog.DlgMsg(mtError, "Invalid special normal map format '%s'. It should be '32 bit (8:8:8:8)'", e_name);
+                ELog.DlgMsg(mtError, "& Invalid special normal map format '%s'. It should be '32 bit (8:8:8:8)'", e_name);
                 e_res = false;
             }
         }
         else
         {
-            ELog.DlgMsg(mtError, "Invalid special normal map type '%s'. It should be 'NormalMap'", e_name);
+            ELog.DlgMsg(mtError, "& Invalid special normal map type '%s'. It should be 'NormalMap'", e_name);
             e_res = false;
         }
         xr_delete(NM_THM);
@@ -292,10 +292,10 @@ bool CImageManager::MakeGameTexture(ETextureThumbnail* THM, LPCSTR game_name, u3
         switch (res)
         {
             case 0:
-                ELog.DlgMsg(mtError, "Can't make game texture '%s'.", THM->m_SrcName.c_str());
+                ELog.DlgMsg(mtError, "! Can't make game texture '%s'.", THM->m_SrcName.c_str());
                 break;
             case -1000:
-                ELog.Msg(mtError, "Invalid gloss mask '%s'.", THM->m_SrcName.c_str());
+                ELog.Msg(mtError, "! Invalid gloss mask '%s'.", THM->m_SrcName.c_str());
                 return true;
         }
         return false;
@@ -467,7 +467,7 @@ void CImageManager::SynchronizeTextures(
             }
             else
             {
-                ELog.DlgMsg(mtError, "Can't make game texture '%s'.\nInvalid size (%dx%d).", base_name.c_str(), w, h);
+                ELog.DlgMsg(mtError, "! Can't make game texture '%s'.\nInvalid size (%dx%d).", base_name.c_str(), w, h);
             }
         }
         if (THM)
@@ -476,7 +476,7 @@ void CImageManager::SynchronizeTextures(
             break;
 
         if (bProgress)
-            pb->Inc(bUpdated ? xr_string(base_name + (bFailed ? " - FAILED" : " - UPDATED.")).c_str() : base_name.c_str(), bUpdated);
+            pb->Inc(bUpdated ? xr_string(base_name + (bFailed ? " ! FAILED" : " - UPDATED.")).c_str() : base_name.c_str(), bUpdated);
 
         if (bUpdated)
         {
@@ -593,7 +593,7 @@ BOOL CImageManager::CheckCompliance(LPCSTR fname, int & compl)
     }
     catch (...)
     {
-        Msg("* ERROR: imf_Process");
+        Msg("! ERROR: imf_Process");
         xr_free(pScaled);
         xr_free(pRestored);
         return FALSE;
@@ -641,7 +641,7 @@ void CImageManager::CheckCompliance(FS_FileSet& files, FS_FileSet & compl)
         string_path fname;
         FS.update_path(fname, _textures_, it->name.c_str());
         if (!CheckCompliance(fname, val))
-            ELog.Msg(mtError, "Bad texture: '%s'", it->name.c_str());
+            ELog.Msg(mtError, "& Bad texture: '%s'", it->name.c_str());
         FS_File F(*it);
         F.attrib = val;
         compl.insert(F);
@@ -711,7 +711,7 @@ BOOL _ApplyBorders(U32Vec& pixels, u32 w, u32 h, u32 ref)
     }
     catch (...)
     {
-        Msg("* ERROR: ApplyBorders");
+        Msg("& ERROR: ApplyBorders");
     }
     return bNeedContinue;
 }
@@ -748,7 +748,7 @@ BOOL CImageManager::CreateOBJThumbnail(LPCSTR tex_name, CEditableObject* obj, in
     else
     {
         bResult = FALSE;
-        ELog.DlgMsg(mtError, "Can't make screenshot.");
+        ELog.DlgMsg(mtError, "! Can't make screenshot.");
     }
 
     // restore render params
@@ -823,7 +823,7 @@ void CImageManager::RefreshTextures(AStringVec* modif)
     }
     else
     {
-        Log("#!You don't have permisions to modify textures.");
+        Log("& You don't have permisions to modify textures.");
     }
 }
 
@@ -847,12 +847,12 @@ BOOL CImageManager::CreateSmallerCubeMap(LPCSTR src_name, LPCSTR dst_name)
         u32 sm_w = 32, sm_wf = 6 * sm_w, sm_h = 32;
         if (!btwIsPow2(h) || (h * 6 != wf) || (wf < sm_wf) || (h < sm_h))
         {
-            ELog.Msg(mtError, "Texture '%s' - invalid size: [%d, %d]", src_name, wf, h);
+            ELog.Msg(mtError, "! Texture '%s' - invalid size: [%d, %d]", src_name, wf, h);
             return FALSE;
         }
         // generate smaller
         U32Vec   sm_data(sm_wf * sm_h, 0);
-        SPBItem* PB = UI->ProgressStart(1.f, "Cube Map: scale image...");
+        SPBItem* PB = UI->ProgressStart(1.f, "# Cube Map: scale image...");
         CTimer   T;
         T.Start();
         ETOOLS::SimplifyCubeMap(data.data(), w, h, sm_data.data(), sm_w, sm_h, 16.f, pb_callback, PB);
@@ -871,12 +871,12 @@ BOOL CImageManager::CreateSmallerCubeMap(LPCSTR src_name, LPCSTR dst_name)
         tp.flags.zero();
         if (!MakeGameTexture(out_name, &*sm_data.begin(), tp))
             return FALSE;
-        ELog.DlgMsg(mtInformation, "Smaller cubemap successfylly created [%3.2f sec].", tm_scm);
+        ELog.DlgMsg(mtInformation, "+ Smaller cubemap successfylly created [%3.2f sec].", tm_scm);
         return TRUE;
     }
     else
     {
-        ELog.Msg(mtError, "Can't load texture '%s'.", src_name);
+        ELog.Msg(mtError, "! Can't load texture '%s'.", src_name);
     }
     return FALSE;
 }

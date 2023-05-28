@@ -358,7 +358,7 @@ void CExportSkeleton::SSplit::Save(IWriter& F)
                         F.w_float(0.0f);
                     }
                 }
-                F.w(&pV.uv, sizeof(Fvector2));		// tu,tv
+                F.w(&pV.uv, sizeof(Fvector2));   // tu, tv
             }
         }
     }
@@ -373,12 +373,12 @@ void CExportSkeleton::SSplit::Save(IWriter& F)
                 // write vertex
                 F.w_u16(pV.bones[0].id);
                 F.w_u16(pV.bones[1].id);
-                F.w(&pV.offs, sizeof(Fvector));		// position (offset)
-                F.w(&pV.norm, sizeof(Fvector));		// normal
-                F.w(&pV.tang, sizeof(Fvector));		// T        
-                F.w(&pV.binorm, sizeof(Fvector));	// B        
-                F.w_float(pV.bones[1].w / (pV.bones[0].w + pV.bones[1].w));	// SV.w	= wb[1].weight/(wb[0].weight+wb[1].weight);
-                F.w(&pV.uv, sizeof(Fvector2));		// tu,tv
+                F.w(&pV.offs, sizeof(Fvector));     // position (offset)
+                F.w(&pV.norm, sizeof(Fvector));     // normal
+                F.w(&pV.tang, sizeof(Fvector));     // T
+                F.w(&pV.binorm, sizeof(Fvector));   // B
+                F.w_float(pV.bones[1].w / (pV.bones[0].w + pV.bones[1].w));   // SV.w = wb[1].weight/(wb[0].weight+wb[1].weight);
+                F.w(&pV.uv, sizeof(Fvector2));     // tu,tv
             }
         }
         else
@@ -387,11 +387,11 @@ void CExportSkeleton::SSplit::Save(IWriter& F)
             {
                 SSkelVert& pV = *v_it;
                 pV.sort_by_weight();
-                F.w(&pV.offs, sizeof(Fvector));		// position (offset)
-                F.w(&pV.norm, sizeof(Fvector));		// normal
-                F.w(&pV.tang, sizeof(Fvector));		// T        
-                F.w(&pV.binorm, sizeof(Fvector));	// B        
-                F.w(&pV.uv, sizeof(Fvector2));		// tu,tv
+                F.w(&pV.offs, sizeof(Fvector));     // position (offset)
+                F.w(&pV.norm, sizeof(Fvector));     // normal
+                F.w(&pV.tang, sizeof(Fvector));     // T
+                F.w(&pV.binorm, sizeof(Fvector));   // B
+                F.w(&pV.uv, sizeof(Fvector2));      // tu,tv
                 F.w_u32(pV.bones[0].id);
             }
         }
@@ -700,9 +700,9 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
         // fill faces
 
         if (influence == 4)
-            Msg("- Export as CoP");
+            Msg("~ Export bones as CoP");
         else
-            Msg("- Export as SoC");
+            Msg("~ Export bones as SoC");
 
         for (SurfFacesPairIt sp_it = MESH->m_SurfFaces.begin(); sp_it != MESH->m_SurfFaces.end(); sp_it++)
         {

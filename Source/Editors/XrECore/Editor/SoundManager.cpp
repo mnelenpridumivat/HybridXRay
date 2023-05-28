@@ -455,6 +455,6 @@ void CSoundManager::RefreshSounds(bool bSync)
     }
     else
     {
-        Log("#!You don't have permisions to modify sounds.");
+        Log("& You don't have permisions to modify sounds.");
     }
 }

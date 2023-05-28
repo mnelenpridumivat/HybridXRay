@@ -418,7 +418,7 @@ bool PS::CPEDef::Validate(bool bMsg)
         }
 
     if (bMsg && (false == have_kill_old))
-        Msg("!.'%s': dosn't contains 'Kill Old' action.", *m_Name);
+        Msg("! '%s': dosn't contains 'Kill Old' action.", *m_Name);
     return have_kill_old;
 }
 #endif

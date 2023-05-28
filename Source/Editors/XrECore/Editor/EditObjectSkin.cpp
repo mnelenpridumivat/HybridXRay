@@ -62,9 +62,9 @@ bool CEditableObject::LoadBoneData(IReader& F)
             }
             else
             {
-                ELog.Msg(mtError, "Can't find bone: '%s'.", *(*b_it)->Name());
+                ELog.Msg(mtError, "! Can't find bone: '%s'.", *(*b_it)->Name());
                 bRes = false;
-                //                break;
+                // break;
             }
         }
 
@@ -75,7 +75,7 @@ bool CEditableObject::LoadBoneData(IReader& F)
     }
     else
     {
-        ELog.Msg(mtError, "Empty bone list.");
+        ELog.Msg(mtError, "& Empty bone list.");
         bRes = false;
     }
     // load bone part
@@ -92,11 +92,11 @@ bool CEditableObject::LoadBoneData(IReader& F)
                 F.r_stringZ(*s_it);
         }
         if (!m_BoneParts.empty() && !VerifyBoneParts())
-            ELog.Msg(mtError, "Invalid bone parts. Found missing or duplicate bone.");
+            ELog.Msg(mtError, "! Invalid bone parts. Found missing or duplicate bone.");
     }
     else
     {
-        ELog.Msg(mtError, "Can't load bone parts. Invalid version.");
+        ELog.Msg(mtError, "! Can't load bone parts. Invalid version.");
     }
     return bRes;
 }

@@ -41,9 +41,7 @@ bool ESceneObjectTool::Validate(bool full_test)
                 if (A->GetPosition().similar(B->GetPosition(), EPS_L))
                 {
                     bRes = false;
-                    ELog.Msg(
-                        mtError, "Duplicate object position '%s'-'%s' with reference '%s'.", A->GetName(), B->GetName(),
-                        A->RefName());
+                    ELog.Msg(mtError, "& Duplicate object position '%s'-'%s' with reference '%s'.", A->GetName(), B->GetName(), A->RefName());
                 }
             }
         }
@@ -60,24 +58,24 @@ bool ESceneObjectTool::Validate(bool full_test)
             FS.update_path(fn, _game_textures_, EFS.ChangeFileExt(l_name, ".dds").c_str());
             age = FS.get_file_age(fn);
             if (age == -1)
-                Msg("!There is no texture '%s'", fn);
+                Msg("! There is no texture '%s'", fn);
             l_name += "_nm";
             //.         FS.update_path		(fn,_textures_,EFS.ChangeFileExt(l_name,".tga").c_str());
             FS.update_path(fn, _game_textures_, EFS.ChangeFileExt(l_name, ".dds").c_str());
             age_nm = FS.get_file_age(fn);
             if (age_nm == -1)
-                Msg("!There is no texture '%s'", fn);
+                Msg("! There is no texture '%s'", fn);
 
             if (age_nm == -1 || age == -1)
                 bRes = false;
             /*
-                        if ((age!=E->Version()) || (age_nm!=E->Version()) )
-                        {
-                            Msg				("!Invalid LOD texture version: '%s'",E->GetName());
-                            Msg             ("tex=%d obj=%d", age, E->Version());
-                            Msg             ("tex=%d obj=%d", age_nm, E->Version());
-                            bRes 			= false;
-                        }
+                if ((age!=E->Version()) || (age_nm!=E->Version()))
+                {
+                    Msg("! Invalid LOD texture version: '%s'",E->GetName());
+                    Msg("tex=%d obj=%d", age, E->Version());
+                    Msg("tex=%d obj=%d", age_nm, E->Version());
+                    bRes = false;
+                }
             */
         }
     }

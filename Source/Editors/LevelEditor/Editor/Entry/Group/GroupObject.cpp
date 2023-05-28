@@ -69,7 +69,7 @@ bool CGroupObject::LL_AppendObject(CCustomObject* object)
 {
     if (!object->CanAttach())
     {
-        ELog.Msg(mtError, "Can't attach object: '%s'", object->GetName());
+        ELog.Msg(mtError, "! Can't attach object: '%s'", object->GetName());
         return false;
     }
     if (object->GetOwner())
@@ -103,7 +103,7 @@ bool CGroupObject::AppendObjectLoadCB(CCustomObject* object)
     LPCSTR N = object->GetName();
     if (xr_strcmp(N, buf) != 0)
     {
-        Msg("Load_Append name changed from[%s] to[%s]", object->GetName(), buf);
+        Msg("~ Load_Append name changed from[%s] to[%s]", object->GetName(), buf);
         object->SetName(buf);
     }
 
@@ -126,7 +126,7 @@ bool CGroupObject::LoadLTX(CInifile& ini, LPCSTR sect_name)
     u32 version = ini.r_u32(sect_name, "version");
     if (version < 0x0011)
     {
-        ELog.DlgMsg(mtError, "CGroupObject: unsupported file version. Object can't load.");
+        ELog.DlgMsg(mtError, "! CGroupObject: unsupported file version. Object can't load.");
         return false;
     }
     CCustomObject::LoadLTX(ini, sect_name);

@@ -351,9 +351,9 @@ bool CExportObjectOGF::PrepareMESH(CEditableMesh* MESH)
     MESH->GenerateVNormals();
 
     if (MESH->m_Normals && m_Source->m_objectFlags.is(CEditableObject::eoNormals))
-        Msg("- ..Export custom normals");
+        Msg("~ ..Export custom normals");
     else
-        Msg("- ..Export smooth groups");
+        Msg("~ ..Export smooth groups");
 
     u16 surf_counter = 0;
     for (SurfFacesPairIt sp_it = MESH->m_SurfFaces.begin(); sp_it != MESH->m_SurfFaces.end(); sp_it++)
@@ -507,7 +507,7 @@ bool CExportObjectOGF::Prepare(bool gen_tb, CEditableMesh* mesh)
         else
             Msg("# ..Calculate TB");
 #else
-        Msg("# ..MT Calculate TB");
+        Msg("# ..Calculate TB");
 #endif
         if (!g_BatchWorking)
         {
@@ -687,7 +687,7 @@ bool CExportObjectOGF::ExportAsWavefrontOBJ(IWriter& F, LPCSTR fn)
 {
     if (!Prepare(false, NULL))
         return false;
-    Msg("..Prepare OBJ");
+    Msg("# ..Prepare OBJ");
 
     string_path tmp, tex_path, tex_name;
     string_path name, ext;

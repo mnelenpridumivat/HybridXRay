@@ -152,7 +152,7 @@ bool EParticlesObject::LoadLTX(CInifile& ini, LPCSTR sect_name)
     m_RefName = ini.r_string(sect_name, "ref_name");
     if (!Compile(*m_RefName))
     {
-        ELog.DlgMsg(mtError, "EParticlesObject: '%s' not found in library", *m_RefName);
+        ELog.DlgMsg(mtError, "& EParticlesObject: '%s' not found in library", *m_RefName);
         return false;
     }
     return true;
@@ -175,7 +175,7 @@ bool EParticlesObject::LoadStream(IReader& F)
     R_ASSERT(F.r_chunk(CPSOBJECT_CHUNK_VERSION, &version));
     if (version < 0x0011)
     {
-        ELog.DlgMsg(mtError, "PSObject: Unsupported version.");
+        ELog.DlgMsg(mtError, "& PSObject: Unsupported version.");
         return false;
     }
 
@@ -193,7 +193,7 @@ bool EParticlesObject::LoadStream(IReader& F)
 
     if (!Compile(*m_RefName))
     {
-        ELog.DlgMsg(mtError, "EParticlesObject: '%s' not found in library", *m_RefName);
+        ELog.DlgMsg(mtError, "! EParticlesObject: '%s' not found in library", *m_RefName);
         return false;
     }
 
@@ -264,7 +264,7 @@ void EParticlesObject::OnRefChange(PropValue* V)
 {
     if (!Compile(*m_RefName))
     {
-        ELog.Msg(mtError, "Can't compile particle system '%s'", *m_RefName);
+        ELog.Msg(mtError, "! Can't compile particle system '%s'", *m_RefName);
     }
     else
     {

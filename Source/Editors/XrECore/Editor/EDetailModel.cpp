@@ -124,18 +124,18 @@ bool EDetail::Update(LPCSTR name)
     CEditableObject* R = Lib.CreateEditObject(name);
     if (!R)
     {
-        ELog.Msg(mtError, "Can't load detail object '%s'.", name);
+        ELog.Msg(mtError, "! Can't load detail object '%s'.", name);
         return false;
     }
     if (R->SurfaceCount() != 1)
     {
-        ELog.Msg(mtError, "Object must contain 1 material.");
+        ELog.Msg(mtError, "& Object must contain 1 material.");
         Lib.RemoveEditObject(R);
         return false;
     }
     if (R->MeshCount() == 0)
     {
-        ELog.Msg(mtError, "Object must contain 1 mesh.");
+        ELog.Msg(mtError, "& Object must contain 1 mesh.");
         Lib.RemoveEditObject(R);
         return false;
     }
@@ -188,7 +188,7 @@ bool EDetail::Load(IReader& F)
     u32 version = F.r_u32();
     if (version != DETOBJ_VERSION)
     {
-        ELog.Msg(mtError, "EDetail: unsupported version.");
+        ELog.Msg(mtError, "& EDetail: unsupported version.");
         return false;
     }
 
@@ -287,6 +287,6 @@ void EDetail::Export(LPCSTR name)
     }
     else
     {
-        Log("!Can't export detail:", name);
+        Log("! Can't export detail:", name);
     }
 }

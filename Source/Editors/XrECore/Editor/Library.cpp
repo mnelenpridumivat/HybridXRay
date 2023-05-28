@@ -43,7 +43,7 @@ void ELibrary::OnDestroy()
     {
         if (0 != O->second->m_RefCount)
         {
-            //.        	ELog.DlgMsg(mtError,"Object '%s' still referenced.",O->first.c_str());
+            //.        	ELog.DlgMsg(mtError,"& Object '%s' still referenced.",O->first.c_str());
             //.	    	R_ASSERT(0==O->second->m_RefCount);
         }
         xr_delete(O->second);
@@ -134,7 +134,7 @@ CEditableObject* ELibrary::LoadEditObject(LPCSTR name)
     }
     else
     {
-        ELog.Msg(mtError, "Can't find file '%s'", fn);
+        ELog.Msg(mtError, "! Can't find file '%s'", fn);
     }
     xr_delete(m_EditObject);
     return 0;
@@ -190,7 +190,7 @@ void ELibrary::Save(FS_FileSet* modif_map)
                 strcpy(nm, EFS.ChangeFileExt(nm, ".object").c_str());
 
                 if (!O->second->Save(nm))
-                    Log("!Can't save object:", nm);
+                    Log("! Can't save object:", nm);
             }
     }
     else
@@ -203,7 +203,7 @@ void ELibrary::Save(FS_FileSet* modif_map)
                 strcpy(nm, EFS.ChangeFileExt(nm, ".object").c_str());
 
                 if (!O->second->Save(nm))
-                    Log("!Can't save object:", nm);
+                    Log("! Can't save object:", nm);
             }
     }
 }
@@ -289,7 +289,7 @@ void ELibrary::UnloadEditObject(LPCSTR full_name)
     {
         if (0 != it->second->m_RefCount)
         {
-            ELog.DlgMsg(mtError, "Object '%s' still referenced.", it->first.c_str());
+            ELog.DlgMsg(mtError, "& Object '%s' still referenced.", it->first.c_str());
             THROW;
         }
         m_EditObjects.erase(it);

@@ -48,8 +48,7 @@ bool PS::CPGDef::Validate(bool bMsg)
         if (!ped)
         {
             failed = failed || true;
-            Msg("Validation FAILED (non-existent effect used) group[%s] effect[%s]", m_Name.c_str(),
-                Eff->m_EffectName.c_str());
+            Msg("! Validation FAILED (non-existent effect used) group[%s] effect[%s]", m_Name.c_str(), Eff->m_EffectName.c_str());
             break;
         }
 
@@ -61,8 +60,7 @@ bool PS::CPGDef::Validate(bool bMsg)
             failed = failed || true;
 
         if (failed && bMsg)
-            Msg("Validation FAILED (incorrect child event settings) group[%s] effect[%s]", m_Name.c_str(),
-                Eff->m_EffectName.c_str());
+            Msg("! Validation FAILED (incorrect child event settings) group[%s] effect[%s]", m_Name.c_str(), Eff->m_EffectName.c_str());
         if (failed)
             break;
     }

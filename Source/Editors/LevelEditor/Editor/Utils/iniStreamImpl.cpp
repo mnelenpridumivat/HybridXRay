@@ -112,7 +112,7 @@ void SIniFileStream::r_string(LPSTR dest, u32 dest_size)
     S = ini->r_string_wb(sect.c_str(), gen_name());
     R_ASSERT(dest_size >= S.size());
     xr_strcpy(dest, dest_size, S.c_str());
-    //.    Msg("[%s] [%s]=[%s]",sect.c_str(),tmp_buff,dest);
+    // Msg("[%s] [%s]=[%s]",sect.c_str(),tmp_buff,dest);
 }
 
 void SIniFileStream::r_string(xr_string& name)

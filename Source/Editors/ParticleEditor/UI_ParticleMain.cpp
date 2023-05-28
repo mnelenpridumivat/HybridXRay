@@ -200,22 +200,26 @@ void CParticleMain::RealUpdateScene()
 void CParticleMain::ResetStatus()
 {
     /*VERIFY(m_bReady);
-    if (fraBottomBar->paStatus->Caption!=""){
-        fraBottomBar->paStatus->Caption=""; fraBottomBar->paStatus->Repaint();
+    if (fraBottomBar->paStatus->Caption!="")
+	{
+        fraBottomBar->paStatus->Caption="";
+		fraBottomBar->paStatus->Repaint();
     }*/
 }
 void CParticleMain::SetStatus(LPCSTR s, bool bOutLog)
 {
     /*VERIFY(m_bReady);
-    if (fraBottomBar->paStatus->Caption!=s){
+    if (fraBottomBar->paStatus->Caption!=s)
+	{
         fraBottomBar->paStatus->Caption=s; fraBottomBar->paStatus->Repaint();
-        if (bOutLog&&s&&s[0]) ELog.Msg(mtInformation,s);
+        if (bOutLog&&s&&s[0])
+			ELog.Msg(mtInformation,s);
     }*/
 }
 void CParticleMain::ProgressDraw()
 {
     inherited::ProgressDraw();
-    /*	fraBottomBar->RedrawBar();*/
+    /* fraBottomBar->RedrawBar();*/
 }
 //---------------------------------------------------------------------------
 void CParticleMain::OutCameraPos()

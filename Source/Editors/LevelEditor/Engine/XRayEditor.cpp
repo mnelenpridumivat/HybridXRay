@@ -4,8 +4,7 @@ struct _SoundProcessor: public pureFrame
 {
     virtual void _BCL OnFrame()
     {
-        // Msg							("------------- sound: %d
-        // [%3.2f,%3.2f,%3.2f]",u32(EngineDevice->dwFrame),VPUSH(EngineDevice->vCameraPosition));
+        // Msg("------------- sound: %d [%3.2f,%3.2f,%3.2f]",u32(EngineDevice->dwFrame),VPUSH(EngineDevice->vCameraPosition));
         Device->Statistic->Sound.Begin();
         ::Sound->update(Device->vCameraPosition, Device->vCameraDirection, Device->vCameraTop);
         Device->Statistic->Sound.End();

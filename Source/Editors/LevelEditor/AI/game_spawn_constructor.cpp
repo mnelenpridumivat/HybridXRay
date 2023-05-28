@@ -91,10 +91,7 @@ bool CGameSpawnConstructor::load_spawns(LPCSTR name, bool no_separator_check)
     string256 temp;
     if (m_level_spawns.empty())
     {
-        xr_sprintf(
-            temp,
-            "! There are no valid levels (with AI-map and graph) in the section 'levels' in the '%s' to build spawn file from!",
-            "UwU");
+        xr_sprintf(temp, "! There are no valid levels (with AI-map and graph) in the section 'levels' in the '%s' to build spawn file from!", "UwU");
         Msg(temp);
         return false;
     }
@@ -168,14 +165,13 @@ bool CGameSpawnConstructor::verify_level_changers()
     if (m_level_changers.empty())
         return true;
 
-    Msg("List of the level changers which are invalid for some reasons");
+    Msg("& List of the level changers which are invalid for some reasons");
     LEVEL_CHANGER_STORAGE::const_iterator I = m_level_changers.begin();
     LEVEL_CHANGER_STORAGE::const_iterator E = m_level_changers.end();
     for (; I != E; ++I)
         Msg("%s", (*I)->CastAbstract()->name_replace());
 
-    // VERIFY2									(m_level_changers.empty(),"Some of the level changers setup
-    // incorrectly");
+    // VERIFY2(m_level_changers.empty(),"Some of the level changers setup incorrectly");
     return true;
 }
 
@@ -285,12 +281,10 @@ void CGameSpawnConstructor::add_story_object(ALife::_STORY_ID id, ISE_ALifeDynam
     auto I = m_story_objects.find(id);
     if (I != m_story_objects.end())
     {
-        Msg("Object %s, story id %d", object->CastAbstract()->name_replace(), object->CastALifeObject()->m_story_id);
-        Msg("Object %s, story id %d", (*I).second->CastAbstract()->name_replace(),
+        Msg("# Object %s, story id %d", object->CastAbstract()->name_replace(), object->CastALifeObject()->m_story_id);
+        Msg("# Object %s, story id %d", (*I).second->CastAbstract()->name_replace(),
             (*I).second->CastALifeObject()->m_story_id);
-        VERIFY3(
-            I == m_story_objects.end(), "There are several objects which has the same unique story ID, level ",
-            level_name);
+        VERIFY3(I == m_story_objects.end(), "There are several objects which has the same unique story ID, level ", level_name);
     }
 
     m_story_objects.insert(std::make_pair(id, object));
@@ -320,11 +314,8 @@ bool CGameSpawnConstructor::process_actor(LPCSTR start_level_name)
         if (!(*I)->actor())
             continue;
 
-        Msg("Actor is on the level %s",
-            *game_graph()
-                 .header()
-                 .level(game_graph().vertex((*I)->actor()->CastALifeObject()->m_tGraphID)->level_id())
-                 .name());
+        Msg("~ Actor is on the level %s",
+            *game_graph().header().level(game_graph().vertex((*I)->actor()->CastALifeObject()->m_tGraphID)->level_id()).name());
 
         if (m_actor)
         {
@@ -386,7 +377,7 @@ CGameSpawnConstructor::CGameSpawnConstructor() {}
 
 bool CGameSpawnConstructor::build(LPCSTR name, LPCSTR output, LPCSTR start, bool no_separator_check)
 {
-    Msg("Start build spawn");
+    Msg("# Start build spawn");
     if (!load_spawns(name, no_separator_check))
         return false;
     if (!process_spawns())
@@ -400,7 +391,7 @@ bool CGameSpawnConstructor::build(LPCSTR name, LPCSTR output, LPCSTR start, bool
 
 bool CGameSpawnConstructor::build(LPCSTR name, CMemoryWriter& output, LPCSTR start, bool no_separator_check)
 {
-    Msg("Start build spawn");
+    Msg("# Start build spawn");
     if (!load_spawns(name, no_separator_check))
         return false;
     if (!process_spawns())
@@ -438,8 +429,8 @@ void clear_temp_folder()
     for (; I != E; ++I)
     {
         if (DeleteFile(**I))
-            Msg("file %s is successfully deleted", **I);
+            Msg("+ file %s is successfully deleted", **I);
         else
-            Msg("cannot delete file %s", **I);
+            Msg("& cannot delete file %s", **I);
     }
 }

@@ -99,7 +99,7 @@ bool SBPart::prepare(SBAdjVec& adjs, u32 bone_face_min)
         SBFace* F = (*f_it);
         if (F->adjs.empty())
         {
-            ELog.Msg(mtError, "Error face found at pos: [%3.2f,%3.2f,%3.2f]", VPUSH(F->o[0]));
+            ELog.Msg(mtError, "& Error face found at pos: [%3.2f,%3.2f,%3.2f]", VPUSH(F->o[0]));
             Tools->m_DebugDraw.AppendWireFace(F->o[0], F->o[1], F->o[2]);
             m_bValid = false;
         }
@@ -242,7 +242,7 @@ bool SBPart::Export(IWriter& F, u8 infl)
     VERIFY(!m_Bones.empty());
     if (m_Bones.size() > 63)
     {
-        ELog.Msg(mtError, "Breakable object cannot handle more than 63 parts.");
+        ELog.Msg(mtError, "& Breakable object cannot handle more than 63 parts.");
         return false;
     }
 
@@ -290,15 +290,13 @@ bool SBPart::Export(IWriter& F, u8 infl)
     {
         if (!split_it->valid())
         {
-            ELog.Msg(mtError, "Degenerate part found (Texture '%s').", *split_it->m_Texture);
+            ELog.Msg(mtError, "& Degenerate part found (Texture '%s').", *split_it->m_Texture);
             bRes = false;
             break;
         }
         if (0 != split_it->invalid_faces)
         {
-            ELog.Msg(
-                mtError, "Part [texture '%s'] have %d duplicate(degenerate) face(s).", *split_it->m_Texture,
-                split_it->invalid_faces);
+            ELog.Msg(mtError, "& Part [texture '%s'] have %d duplicate(degenerate) face(s).", *split_it->m_Texture, split_it->invalid_faces);
         }
         // calculate T&B components
         split_it->CalculateTB();

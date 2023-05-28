@@ -200,7 +200,7 @@ bool EDetailManager::ImportColorIndices(LPCSTR fname)
     }
     else
     {
-        ELog.DlgMsg(mtError, "Can't open file '%s'.", fname);
+        ELog.DlgMsg(mtError, "! Can't open file '%s'.", fname);
         return false;
     }
 }
@@ -339,7 +339,7 @@ bool EDetailManager::LoadStream(IReader& F)
 
     if (version != DETMGR_VERSION)
     {
-        ELog.Msg(mtError, "EDetailManager: unsupported version.");
+        ELog.Msg(mtError, "& EDetailManager: unsupported version.");
         return false;
     }
 
@@ -360,7 +360,7 @@ bool EDetailManager::LoadStream(IReader& F)
     // objects
     if (!LoadColorIndices(F))
     {
-        ELog.DlgMsg(mtError, "EDetailManager: Some objects removed. Reinitialize objects.", buf);
+        ELog.DlgMsg(mtError, "! EDetailManager: Some objects removed. Reinitialize objects.", buf);
         InvalidateSlots();
     }
 
@@ -379,7 +379,7 @@ bool EDetailManager::LoadStream(IReader& F)
                 F.r_stringZ(buf, sizeof(buf));
                 CCustomObject* O = Scene->FindObjectByName(buf, OBJCLASS_SCENEOBJECT);
                 if (!O)
-                    ELog.Msg(mtError, "EDetailManager: Can't find snap object '%s'.", buf);
+                    ELog.Msg(mtError, "! EDetailManager: Can't find snap object '%s'.", buf);
                 else
                     m_SnapObjects.push_back(O);
             }
@@ -400,7 +400,7 @@ bool EDetailManager::LoadStream(IReader& F)
         }
         else
         {
-            ELog.Msg(mtError, "EDetailManager: Can't find base texture '%s'.", buf);
+            ELog.Msg(mtError, "! EDetailManager: Can't find base texture '%s'.", buf);
             ClearSlots();
             ClearBase();
         }
@@ -527,7 +527,7 @@ bool EDetailManager::Export(LPCSTR path)
                 F.open_chunk(object_idx++);
                 if (!((EDetail*)(*it))->m_pRefs)
                 {
-                    ELog.DlgMsg(mtError, "Bad object or object not found '%s'.", ((EDetail*)(*it))->m_sRefs.c_str());
+                    ELog.DlgMsg(mtError, "! Bad object or object not found '%s'.", ((EDetail*)(*it))->m_sRefs.c_str());
                     bRes = false;
                 }
                 else

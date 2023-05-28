@@ -29,7 +29,7 @@ public:
     {
         if (m_pReference && m_pReference->IsDynamic())
         {
-            ELog.Msg(mtError, "Dynamic object %s - can't scale.", GetName());
+            ELog.Msg(mtError, "& Dynamic object %s - can't scale.", GetName());
         }
         else
         {

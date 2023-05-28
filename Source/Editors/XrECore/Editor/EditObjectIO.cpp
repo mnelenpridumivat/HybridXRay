@@ -26,7 +26,7 @@ bool CEditableObject::Load(const char* fname)
         R_ASSERT(F);
         IReader* OBJ = F->open_chunk(EOBJ_CHUNK_OBJECT_BODY);
         R_ASSERT2(OBJ, "Corrupted file.");
-        Msg("\n+ ..Import object '%s'", fname);
+        Msg("+ ..Import object '%s'", fname);
         bool bRes = Load(*OBJ);
         OBJ->close();
         FS.r_close(F);
@@ -501,11 +501,13 @@ bool CEditableObject::Load(IReader& F)
 
 bool CEditableObject::ExportOGF(LPCSTR fn, u8 infl)
 {
+    Msg("# ..Export [%s]", fn);
     UpdateBox();
     CMemoryWriter F;
 
     if (PrepareOGF(F, infl, true, NULL))
     {
+        Msg("+ ..File [%s] exported", fn);
         return F.save_to(fn);
     }
     return false;
@@ -513,10 +515,12 @@ bool CEditableObject::ExportOGF(LPCSTR fn, u8 infl)
 //------------------------------------------------------------------------------
 bool CEditableObject::ExportOMF(LPCSTR fn)
 {
+    Msg("# ..Export [%s]", fn);
     UpdateBox();
     CMemoryWriter F;
     if (PrepareOMF(F))
     {
+        Msg("+ ..File [%s] exported", fn);
         return F.save_to(fn);
     }
     return false;
@@ -524,11 +528,13 @@ bool CEditableObject::ExportOMF(LPCSTR fn)
 //------------------------------------------------------------------------------
 bool CEditableObject::ExportOBJ(LPCSTR fn)
 {
+    Msg("# ..Export [%s]", fn);
     UpdateBox();
     CExportObjectOGF E(this);
     CMemoryWriter    F;
     if (E.ExportAsWavefrontOBJ(F, fn))
     {
+        Msg("+ ..File [%s] exported", fn);
         return F.save_to(fn);
     }
     return false;

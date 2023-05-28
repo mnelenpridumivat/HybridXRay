@@ -54,7 +54,7 @@ int CEditableMesh::FindSimilarWeight(st_VMap* vmap, float _w)
 
 void CEditableMesh::RebuildVMaps()
 {
-    //.	Log			("Rebuilding VMaps...");
+    // Log("# Rebuilding VMaps...");
     IntVec m_VertVMap;
     m_VertVMap.resize(m_VertCount, -1);
     VMapVec   nVMaps;
@@ -234,7 +234,7 @@ bool              CEditableMesh::OptimizeFace(st_Face& face)
 
     if ((mface[0] == mface[1]) || (mface[1] == mface[2]) || (mface[0] == mface[2]))
     {
-        Msg("!Optimize: Invalid face found. Removed.");
+        Msg("! Optimize: Invalid face found. Removed.");
         return false;
     }
     else

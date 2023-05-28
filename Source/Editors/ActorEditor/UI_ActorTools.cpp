@@ -893,7 +893,6 @@ bool CActorTools::Import(LPCSTR initial, LPCSTR obj_name)
     {
         O->m_objectFlags.set(CEditableObject::eoDynamic, TRUE);
         O->m_objectFlags.set(CEditableObject::eoProgressive, TRUE);
-        O->m_objectFlags.set(CEditableObject::eoStripify, TRUE);
         xr_delete(m_pEditObject);
         m_pEditObject = O;
         // delete visual
@@ -999,10 +998,12 @@ bool CActorTools::ExportDM(LPCSTR name)
     VERIFY(m_bReady);
     if (m_pEditObject)
     {
+        Msg("# ..Export [%s]", name);
         EDetail DM;
         if (!DM.Update(m_pEditObject->GetName()))
             return false;
         DM.Export(name);
+        Msg("+ ..File [%s] exported", name);
         return true;
     }
     return false;
@@ -1214,7 +1215,7 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, float scale)
             }
             else
             {
-                Log("! Invalid source file name:", sect.Data[i].first.c_str());
+                Log("! Invalid source file name: '%s'", sect.Data[i].first.c_str());
                 bRes = false;
             }
             if (UI->NeedAbort())
@@ -1248,7 +1249,7 @@ bool CActorTools::BatchConvert(LPCSTR fn, int flags, float scale)
             }
             else
             {
-                Log("! Invalid source file name:", sect.Data[i].first.c_str());
+                Log("! Invalid source file name: '%s'", sect.Data[i].first.c_str());
                 bRes = false;
             }
             if (UI->NeedAbort())

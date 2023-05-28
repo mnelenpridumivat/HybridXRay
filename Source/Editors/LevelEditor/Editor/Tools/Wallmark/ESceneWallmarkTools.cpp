@@ -372,7 +372,7 @@ bool ESceneWallmarkTool::LoadStream(IReader& F)
 
     if (version != 0x0003 && version != WM_VERSION)
     {
-        ELog.Msg(mtError, "Static Wallmark: Unsupported version.");
+        ELog.Msg(mtError, "& Static Wallmark: Unsupported version.");
         return false;
     }
 
@@ -477,9 +477,7 @@ bool ESceneWallmarkTool::LoadStream(IReader& F)
             wallmark*& W = *w_it;
             if (W->verts.size() > MAX_WALLMARK_VERTEX_COUNT)
             {
-                ELog.Msg(
-                    mtError, "ERROR: Invalid wallmark (Contain more than %d vertices). Removed.",
-                    MAX_WALLMARK_VERTEX_COUNT);
+                ELog.Msg(mtError, "! ERROR: Invalid wallmark (Contain more than %d vertices). Removed.", MAX_WALLMARK_VERTEX_COUNT);
                 wm_destroy(W);
                 W = 0;
             }
@@ -748,19 +746,19 @@ BOOL ESceneWallmarkTool::AddWallmark_internal(
 {
     /*
     if (ObjectCount()>=MAX_WALLMARK_COUNT){
-        ELog.DlgMsg			(mtError,"Maximum wallmark per level is reached [Max: %d].",MAX_WALLMARK_COUNT);
+        ELog.DlgMsg			(mtError, "& Maximum wallmark per level is reached [Max: %d].",MAX_WALLMARK_COUNT);
         return FALSE;
     }
     */
 
     if (0 == sh.size())
     {
-        ELog.DlgMsg(mtError, "Select texture before add wallmark.");
+        ELog.DlgMsg(mtError, "& Select texture before add wallmark.");
         return FALSE;
     }
     if (0 == tx.size())
     {
-        ELog.DlgMsg(mtError, "Select texture before add wallmark.");
+        ELog.DlgMsg(mtError, "& Select texture before add wallmark.");
         return FALSE;
     }
     // pick contact poly
@@ -769,7 +767,7 @@ BOOL ESceneWallmarkTool::AddWallmark_internal(
     ObjectList* snap_list = Scene->GetSnapList(false);
     if (!snap_list)
     {
-        ELog.DlgMsg(mtError, "Fill and activate snap list.");
+        ELog.DlgMsg(mtError, "& Fill and activate snap list.");
         return FALSE;
     }
     // pick contact poly
@@ -824,7 +822,7 @@ BOOL ESceneWallmarkTool::AddWallmark_internal(
     // calc sphere
     if ((W->verts.size() < 3) || (W->verts.size() > MAX_WALLMARK_VERTEX_COUNT))
     {
-        ELog.DlgMsg(mtError, "Invalid wallmark vertex count. [Min: %d. Max: %d].", 3, MAX_WALLMARK_VERTEX_COUNT);
+        ELog.DlgMsg(mtError, "! Invalid wallmark vertex count. [Min: %d. Max: %d].", 3, MAX_WALLMARK_VERTEX_COUNT);
         wm_destroy(W);
         return FALSE;
     }
@@ -936,7 +934,7 @@ bool ESceneWallmarkTool::Validate(bool)
             IBlender* B = EDevice->Resources->_FindBlender(*slot->sh_name);
             if (!B || B->canBeLMAPped())
             {
-                ELog.Msg(mtError, "Wallmarks: Invalid or missing shader '%s'.", *slot->sh_name);
+                ELog.Msg(mtError, "& Wallmarks: Invalid or missing shader '%s'.", *slot->sh_name);
                 bRes = false;
             }
         }

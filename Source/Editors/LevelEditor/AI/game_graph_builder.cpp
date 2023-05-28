@@ -27,7 +27,7 @@ CGameGraphBuilder::CGameGraphBuilder()
 
 CGameGraphBuilder::~CGameGraphBuilder()
 {
-    Msg("Freeing resources");
+    Msg("- Freeing resources");
     xr_delete(m_graph);
     xr_delete(m_cross_table);
 }
@@ -42,9 +42,9 @@ void CGameGraphBuilder::create_graph()
 
 void CGameGraphBuilder::load_level_graph()
 {
-    Msg("Loading AI map");
+    Msg("# Loading AI map");
     m_level_graph = Scene->GetLevelGraph();
-    Msg("%d nodes loaded", level_graph().header().vertex_count());
+    Msg("+ %d nodes loaded", level_graph().header().vertex_count());
 }
 
 void CGameGraphBuilder::load_graph_point(ISE_Abstract* entity)
@@ -112,14 +112,14 @@ void CGameGraphBuilder::load_graph_point(ISE_Abstract* entity)
 
 void CGameGraphBuilder::load_graph_points()
 {
-    Msg("Loading graph points");
+    Msg("# Loading graph points");
     for (auto& Obj : Scene->ListObj(OBJCLASS_SPAWNPOINT))
     {
         CSpawnPoint* Spawn = dynamic_cast<CSpawnPoint*>(Obj);
         load_graph_point(Spawn->GetEntity());
     }
 
-    Msg("%d graph points loaded", graph().vertices().size());
+    Msg("+ %d graph points loaded", graph().vertices().size());
 }
 
 template <typename T> IC bool sort_predicate_less(const T& first, const T& second)
@@ -263,15 +263,15 @@ void CGameGraphBuilder::iterate_distances()
 
 void CGameGraphBuilder::build_cross_table()
 {
-    Msg("Building cross table");
+    Msg("# Building cross table");
 
-    //	CTimer					timer;
-    //	timer.Start				();
+    // CTimer timer;
+    // timer.Start();
 
     fill_marks();
-    //	Msg						("CT : %f",timer.GetElapsed_sec());
+    // Msg("# CT : %f",timer.GetElapsed_sec());
     fill_distances();
-    //	Msg						("CT : %f",timer.GetElapsed_sec());
+    // Msg("# CT : %f",timer.GetElapsed_sec());
     iterate_distances();
 
     IGameLevelCrossTable::CHeader tCrossTableHeader;
@@ -370,8 +370,8 @@ float CGameGraphBuilder::path_distance(const u32& game_vertex_id0, const u32& ga
     if (successfull)
         return (parameters.m_distance);
 
-    Msg("Cannot build path from [%d] to [%d]", game_vertex_id0, game_vertex_id1);
-    Msg("Cannot build path from [%f][%f][%f] to [%f][%f][%f]", VPUSH(vertex0.data().level_point()),
+    Msg("& Cannot build path from [%d] to [%d]", game_vertex_id0, game_vertex_id1);
+    Msg("& Cannot build path from [%f][%f][%f] to [%f][%f][%f]", VPUSH(vertex0.data().level_point()),
         VPUSH(vertex1.data().level_point()));
     R_ASSERT2(false, "Cannot build path, check AI map");
     return (flt_max);
@@ -393,7 +393,7 @@ void CGameGraphBuilder::generate_edges(const u32& game_vertex_id)
 
 void CGameGraphBuilder::generate_edges()
 {
-    Msg("Generating edges");
+    Msg("# Generating edges");
 
     graph_type::const_vertex_iterator I = graph().vertices().begin();
     graph_type::const_vertex_iterator E = graph().vertices().end();
@@ -403,12 +403,12 @@ void CGameGraphBuilder::generate_edges()
         generate_edges((*I).second->vertex_id());
     }
 
-    Msg("%d edges built", graph().edge_count());
+    Msg("+ %d edges built", graph().edge_count());
 }
 
 void CGameGraphBuilder::connectivity_check()
 {
-    Msg("Checking graph connectivity");
+    Msg("# Checking graph connectivity");
 }
 
 void CGameGraphBuilder::create_tripples()
@@ -494,9 +494,9 @@ void CGameGraphBuilder::process_tripple(const TRIPPLE& tripple)
 
 void CGameGraphBuilder::optimize_graph()
 {
-    Msg("Optimizing graph");
+    Msg("# Optimizing graph");
 
-    Msg("edges before optimization : %d", graph().edge_count());
+    Msg("~ edges before optimization: %d", graph().edge_count());
 
     create_tripples();
 
@@ -505,44 +505,44 @@ void CGameGraphBuilder::optimize_graph()
     for (; I != E; ++I)
         process_tripple(*I);
 
-    Msg("edges after optimization : %d", graph().edge_count());
+    Msg("~ edges after optimization: %d", graph().edge_count());
 }
 
 void CGameGraphBuilder::build_game_graph()
 {
-    Msg("Building graph");
+    Msg("# Building graph");
 
     CTimer timer;
     timer.Start();
 
     m_graph_engine = xr_new<CGraphEngineEditor>(level_graph().header().vertex_count());
-    //	Msg						("BG : %f",timer.GetElapsed_sec());
+    // Msg("# BG : %f",timer.GetElapsed_sec());
 
     generate_edges();
-    //	Msg						("BG : %f",timer.GetElapsed_sec());
+    // Msg("# BG : %f",timer.GetElapsed_sec());
 
     xr_delete(m_graph_engine);
-    //	Msg						("BG : %f",timer.GetElapsed_sec());
+    // Msg("# BG : %f",timer.GetElapsed_sec());
 
     connectivity_check();
-    //	Msg						("BG : %f",timer.GetElapsed_sec());
+    // Msg("# BG : %f",timer.GetElapsed_sec());
     optimize_graph();
-    //	Msg						("BG : %f",timer.GetElapsed_sec());
+    // Msg("# BG : %f",timer.GetElapsed_sec());
 }
 
 bool CGameGraphBuilder::build_graph()
 {
     Msg("Building level game graph");
 
-    //	CTimer					timer;
-    //	timer.Start				();
+    // CTimer timer;
+    // timer.Start();
 
     create_graph();
-    //	Msg						("%f",timer.GetElapsed_sec());
+    // Msg("# %f",timer.GetElapsed_sec());
     load_level_graph();
-    //	Msg						("%f",timer.GetElapsed_sec());
+    // Msg("# %f",timer.GetElapsed_sec());
     load_graph_points();
-    //	Msg						("%f",timer.GetElapsed_sec());
+    // Msg("# %f",timer.GetElapsed_sec());
 
     if (graph().vertices().size() == 0)
     {
@@ -551,9 +551,9 @@ bool CGameGraphBuilder::build_graph()
     }
 
     build_cross_table();
-    //	Msg						("%f",timer.GetElapsed_sec());
+    // Msg("# %f",timer.GetElapsed_sec());
     build_game_graph();
-    //	Msg						("%f",timer.GetElapsed_sec());
+    // Msg("# %f",timer.GetElapsed_sec());
 
     IGameGraph::CHeader GameGraphHeader;
     switch (xrGameManager::GetGame())
@@ -630,6 +630,6 @@ bool CGameGraphBuilder::build_graph()
         }
     }
 
-    Msg("Level graph is generated successfully");
+    Msg("+ Level graph is generated successfully");
     return true;
 }

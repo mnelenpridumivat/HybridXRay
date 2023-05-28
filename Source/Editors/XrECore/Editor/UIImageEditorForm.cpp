@@ -140,7 +140,7 @@ void UIImageEditorForm::Show(bool bImport)
     Form->bReadonlyMode = !FS.can_write_to_alias(_textures_);
     if (Form->bReadonlyMode)
     {
-        Log("#!You don't have permisions to modify textures.");
+        Log("& You don't have permisions to modify textures.");
         Form->m_ItemProps->SetReadOnly(TRUE);
     }
     Form->modif_map.clear();

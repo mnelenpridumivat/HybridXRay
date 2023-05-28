@@ -20,7 +20,7 @@ bool CSceneObject::LoadLTX(CInifile& ini, LPCSTR sect_name)
 
         if (!SetReference(ref_name.c_str()))
         {
-            ELog.Msg(mtError, "CSceneObject: '%s' not found in library", ref_name.c_str());
+            ELog.Msg(mtError, "! CSceneObject: '%s' not found in library", ref_name.c_str());
             bRes   = false;
             int mr = mrNone;
 
@@ -49,8 +49,8 @@ bool CSceneObject::LoadLTX(CInifile& ini, LPCSTR sect_name)
 
             Scene->Modified();
         }
-        //        if(!CheckVersion())
-        //            ELog.Msg( mtError, "CSceneObject: '%s' different file version!", ref_name.c_str() );
+        // if(!CheckVersion())
+        //     ELog.Msg( mtError, "! CSceneObject: '%s' different file version!", ref_name.c_str() );
 
         m_Flags.assign(ini.r_u32(sect_name, "flags"));
         if (m_Flags.test(flUseSurface))
@@ -173,7 +173,7 @@ bool CSceneObject::LoadStream(IReader& F)
 
         if (!SetReference(buf))
         {
-            ELog.Msg(mtError, "CSceneObject: '%s' not found in library", buf);
+            ELog.Msg(mtError, "! CSceneObject: '%s' not found in library", buf);
             bRes   = false;
             int mr = mrNone;
 
@@ -203,9 +203,8 @@ bool CSceneObject::LoadStream(IReader& F)
             Scene->Modified();
         }
 
-        //        if(!CheckVersion()){
-        //            ELog.Msg( mtError, "CSceneObject: '%s' different file version!", buf );
-        //            }
+        // if(!CheckVersion())
+        //     ELog.Msg( mtError, "! CSceneObject: '%s' different file version!", buf );
 
         // flags
         if (F.find_chunk(SCENEOBJ_CHUNK_FLAGS))

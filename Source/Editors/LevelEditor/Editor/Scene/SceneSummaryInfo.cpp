@@ -62,7 +62,7 @@ void SSceneSummary::SObjectInfo::Prepare()
     }
     else
     {
-        Msg("!Empty object name found.");
+        Msg("! Empty object name found.");
     }
 }
 void SSceneSummary::SObjectInfo::FillProp(PropItemVec& items, LPCSTR main_pref)
@@ -92,7 +92,7 @@ void SSceneSummary::STextureInfo::Prepare()
             (ETextureThumbnail*)ImageLib.CreateThumbnail(file_name.c_str(), ECustomThumbnail::ETTexture, true);
         if (!T->Valid())
         {
-            Msg("!Can't get info from texture: '%s'", file_name.c_str());
+            Msg("! Can't get info from texture: '%s'", file_name.c_str());
         }
         else
         {
@@ -104,7 +104,7 @@ void SSceneSummary::STextureInfo::Prepare()
     }
     else
     {
-        Msg("!Empty texture name found.");
+        Msg("! Empty texture name found.");
     }
 }
 
@@ -175,7 +175,7 @@ void SSceneSummary::STextureInfo::FillProp(PropItemVec& items, LPCSTR main_pref,
             else
             {
                 PHelper().CreateCaption(items, PrepareKey(pref.c_str(), "Detail Texture"), "INVALID");
-                ELog.Msg(mtError, "Empty details on texture: '%s'", *file_name);
+                ELog.Msg(mtError, "& Empty details on texture: '%s'", *file_name);
             }
         }
         if (info.bump_mode == STextureParams::tbmUse)
@@ -188,7 +188,7 @@ void SSceneSummary::STextureInfo::FillProp(PropItemVec& items, LPCSTR main_pref,
             else
             {
                 PHelper().CreateCaption(items, PrepareKey(pref.c_str(), "Bump Texture"), "INVALID");
-                ELog.Msg(mtError, "Empty bump on texture: '%s'", *file_name);
+                ELog.Msg(mtError, "& Empty bump on texture: '%s'", *file_name);
             }
         }
         ButtonValue* B = PHelper().CreateButton(
