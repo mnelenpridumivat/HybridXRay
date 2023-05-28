@@ -28,10 +28,12 @@
 #endif
 // #include "../../../xrRender/Private/SkeletonAnimated.h"
 
-ECORE_API BOOL  g_force16BitTransformQuant = FALSE;
+ECORE_API BOOL  g_force16BitTransformQuant = TRUE;
 ECORE_API BOOL  g_forceFloatTransformQuant = FALSE;
 ECORE_API float g_EpsSkelPositionDelta     = EPS;
 ECORE_API BOOL g_BatchWorking              = FALSE;
+ECORE_API BOOL g_extendedLog               = TRUE;
+ECORE_API BOOL g_extendedLogPlus           = FALSE;
 
 u16 CSkeletonCollectorPacked::VPack(SSkelVert& V)
 {
@@ -454,7 +456,7 @@ void CExportSkeleton::SSplit::Save(IWriter& F)
 
 void CExportSkeleton::SSplit::MakeProgressive()
 {
-    Msg("# ..Make progressive for '%s'", m_Texture.c_str());
+    Msg("..Make progressive for '%s'", m_Texture.c_str());
     VIPM_Init();
     for (SkelVertIt vert_it = m_Verts.begin(); vert_it != m_Verts.end(); vert_it++)
         VIPM_AppendVertex(vert_it->offs, vert_it->uv);
@@ -490,14 +492,15 @@ void CExportSkeleton::SSplit::MakeProgressive()
         Log("! ..Can't make progressive.");
     }
 
-    Msg("+ ..Progressive end for '%s'", m_Texture.c_str());
+    Msg("..Progressive end for '%s'", m_Texture.c_str());
     // cleanup
     VIPM_Destroy();
 }
 
 void CExportSkeleton::SSplit::MakeStripify()
 {
-    Msg("# ..Make stripify");
+    if (g_extendedLog)
+        Msg("..Make stripify");
     // int ccc 	= xrSimulate	((u16*)&m_Faces.front(),m_Faces.size()*3,24);
     // Log("SRC:",ccc);
     // alternative stripification - faces
@@ -530,8 +533,8 @@ void CExportSkeleton::SSplit::MakeStripify()
 
         xr_free(remap);
 
-        //	    int ccc 	= xrSimulate	((u16*)&m_Faces.front(),m_Faces.size()*3,24);
-        //		Log("Y:",ccc);
+        // int ccc = xrSimulate((u16*)&m_Faces.front(),m_Faces.size()*3,24);
+        // Log("Y:",ccc);
     }
 }
 
@@ -633,7 +636,6 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
 
     R_ASSERT(m_Source->IsDynamic() && m_Source->IsSkeleton());
 
-    Msg("# ..Prepare skeleton geometry");
 #if 1
     SPBItem* pb = UI->ProgressStart(5 + m_Source->MeshCount() * 2 + m_Source->SurfaceCount(), "..Prepare skeleton geometry");
     pb->Inc();
@@ -659,21 +661,23 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
 
     for (U16It uit = bone_brk_parts.begin(); uit != bone_brk_parts.end(); uit++)
     {
-        Msg("# Bone: %s - Part: %d", *m_Source->GetBone(uit - bone_brk_parts.begin())->Name(), *uit);
+        if (g_extendedLogPlus)
+            Msg("# Bone: %s - Part: %d", *m_Source->GetBone(uit - bone_brk_parts.begin())->Name(), *uit);
     }
 
     bool bRes = true;
 
 #if 1
-    UI->SetStatus("# ..Split meshes");
+    UI->SetStatus("..Split meshes");
 #endif
 
     U16Vec tmp_bone_lst;
 
-    if (m_Source->m_objectFlags.is(CEditableObject::eoOptimizeSurf))
-        Msg("# ..Optimize surfaces.");
+    if (m_Source->m_objectFlags.is(CEditableObject::eoOptimizeSurf) && g_extendedLog)
+        Msg("..Optimize surfaces.");
 
-    Msg("# ..Split meshes");
+    if (g_extendedLog)
+        Msg("..Split meshes");
     for (EditMeshIt mesh_it = m_Source->FirstMesh(); mesh_it != m_Source->LastMesh(); mesh_it++)
     {
         if (!bRes)
@@ -859,9 +863,10 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
 #endif
     }
 #if 1
-    UI->SetStatus("# ..Calculate TB");
+    UI->SetStatus("..Calculate TB");
 #endif
-    Msg("# Split statistic:");
+    if (g_extendedLog)
+        Msg("~ Split statistic:");
 
     // check splits
     if (bRes)
@@ -896,22 +901,24 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
             std::sort(split.m_UsedBones.begin(), split.m_UsedBones.end());
             U16It ne = std::unique(split.m_UsedBones.begin(), split.m_UsedBones.end());
             split.m_UsedBones.erase(ne, split.m_UsedBones.end());
-            Msg("# ..Split %d: [Bones: %d, Links: %d, Faces: %d, Verts: %d, BrPart: %d, Shader/Texture: '%s'/'%s']",
+            if (g_extendedLog)
+                Msg("# ..Split %d: [Bones: %d, Links: %d, Faces: %d, Verts: %d, BrPart: %d, Shader/Texture: '%s'/'%s']",
                 k, split.m_UsedBones.size(), split.m_SkeletonLinkType, split.getTS(), split.getVS(), split.m_PartID, *m_Splits[k].m_Shader, *m_Splits[k].m_Texture);
             verts += split.getVS();
             faces += split.getTS();
         }
-        Msg("# ..Total [Faces: %d, Verts: %d]", faces, verts);
+        if (g_extendedLog)
+            Msg("# ..Total [Faces: %d, Verts: %d]", faces, verts);
     }
 
     // calculate TB
 #if !defined(_DEBUG) && defined(_WIN64)
     if (!g_BatchWorking)
-        Msg("# ..MT Calculate TB");
+        Msg("..MT Calculate TB");
     else
-        Msg("# ..Calculate TB");
+        Msg("..Calculate TB");
 #else
-    Msg("# ..MT Calculate TB");
+    Msg("..MT Calculate TB");
 #endif
 
     if (!g_BatchWorking)
@@ -931,7 +938,8 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
 #endif
     // compute bounding
     ComputeBounding();
-    Msg("# ..Compute Bounding");
+    if (g_extendedLog)
+        Msg("..Compute Bounding");
 
 #if 1
     UI->ProgressEnd(pb);
@@ -951,7 +959,8 @@ bool CExportSkeleton::ExportAsSimple(IWriter& F)
         if (m_Splits.size() == 1)
         {
             // export as single mesh
-            Msg("# ..Save as simple");
+            if (g_extendedLog)
+                Msg("# ..Save as simple");
             m_Splits[0].Save(F);
             return true;
         }
@@ -967,10 +976,9 @@ bool CExportSkeleton::ExportGeometry(IWriter& F, u8 infl)
     if (!PrepareGeometry(infl))
         return false;
 
-    Msg("# ..Export skeleton geometry");
 #if 1
-    SPBItem* pb = UI->ProgressStart(3 + m_Splits.size(), "+ ..Export skeleton geometry");
-    pb->Inc("# Make Progressive...");
+    SPBItem* pb = UI->ProgressStart(3 + m_Splits.size(), "..Export skeleton geometry");
+    pb->Inc("Make Progressive...");
 #endif
     // fill per bone vertices
     BoneVec&              bones = m_Source->Bones();
@@ -983,9 +991,9 @@ bool CExportSkeleton::ExportGeometry(IWriter& F, u8 infl)
         {
 #if !defined(_DEBUG) && defined(_WIN64) 
             if (!g_BatchWorking)
-                Msg("+ ..MT Calculate Progressive");
+                Msg("..MT Calculate Progressive");
             else
-                Msg("+ ..Calculate Progressive");
+                Msg("..Calculate Progressive");
 #endif
             if (!g_BatchWorking)
             {
@@ -1008,9 +1016,12 @@ bool CExportSkeleton::ExportGeometry(IWriter& F, u8 infl)
         {
 #if !defined(_DEBUG) && defined(_WIN64)
             if (!g_BatchWorking)
-                Msg("+ ..MT Calculate Stripify");
-            else
-                Msg("+ ..Calculate Stripify");
+		    {
+                if (g_extendedLog)
+                    Msg("..MT Calculate Stripify");
+                else
+                    Msg("..Calculate Stripify");
+			}
 #endif
             if (!g_BatchWorking)
             {
@@ -1069,7 +1080,8 @@ bool CExportSkeleton::ExportGeometry(IWriter& F, u8 infl)
     // OGF_CHILDREN
     F.open_chunk(OGF_CHILDREN);
     int chield = 0;
-    Msg("+ ..Export children");
+    if (g_extendedLog)
+        Msg("..Export children");
     for (auto split_it = m_Splits.begin(); split_it != m_Splits.end(); split_it++)
     {
         F.open_chunk(chield++);
@@ -1079,7 +1091,7 @@ bool CExportSkeleton::ExportGeometry(IWriter& F, u8 infl)
     F.close_chunk();
 
 #if 1
-    pb->Inc("# Compute bone bounding volume...");
+    pb->Inc("Compute bone bounding volume...");
 #endif
 
     // BoneNames
@@ -1099,7 +1111,7 @@ bool CExportSkeleton::ExportGeometry(IWriter& F, u8 infl)
     bool bRes = true;
 
     F.open_chunk(OGF_S_IKDATA);
-    Msg("+ ..Export bones");
+    Msg("..Export bones");
     for (auto bone_it = m_Source->FirstBone(); bone_it != m_Source->LastBone(); ++bone_it, ++bone_idx)
         if (!(*bone_it)->ExportOGF(F, m_Source->a_vScale, m_Source->a_vAdjustMass))
             bRes = false;
@@ -1130,7 +1142,7 @@ bool CExportSkeleton::ExportGeometry(IWriter& F, u8 infl)
         {
             CExportSkeleton E(lod_src);
 #else
-        Msg("+ Export lod [%s]", m_Source->GetLODs());
+        Msg("Export lod [%s]", m_Source->GetLODs());
         F.w_string(m_Source->GetLODs());
 #endif
 
@@ -1189,10 +1201,9 @@ bool CExportSkeleton::ExportMotionKeys(IWriter& F)
     }
 
 #if 1
-    SPBItem* pb = UI->ProgressStart(1 + m_Source->SMotionCount(), "+ ..Export skeleton motions keys");
+    SPBItem* pb = UI->ProgressStart(1 + m_Source->SMotionCount(), "..Export skeleton motions keys");
     pb->Inc();
 #endif
-    Msg("# ..Export skeleton motions keys");
     // mem active motion
     CSMotion* active_motion = m_Source->ResetSAnimation();
 
@@ -1210,9 +1221,9 @@ bool CExportSkeleton::ExportMotionKeys(IWriter& F)
     mGT.mul(mTranslate, mRotate);
 
     if (g_force16BitTransformQuant)
-        Msg("+ ..Export 16 bit motions");
+        Msg("~ ..Export 16 bit motions");
     else if (g_forceFloatTransformQuant)
-        Msg("+ ..Export no compressed motions");
+        Msg("& ..Export no compressed motions");
     else
         Msg("= ..Export 8 bit motions");
 
@@ -1257,7 +1268,8 @@ bool CExportSkeleton::ExportMotionKeys(IWriter& F)
 
                 if (bone_id == 0 && frame == (cur_motion->FrameEnd()))
                 {
-                    Msg("# motion [%s] end frame %f,%f,%f", cur_motion->Name(), T.x, T.y, T.z);
+                    if (g_extendedLogPlus)
+                        Msg("* motion [%s] end frame %f,%f,%f", cur_motion->Name(), T.x, T.y, T.z);
                 }
             }
 
@@ -1337,14 +1349,16 @@ bool CExportSkeleton::ExportMotionKeys(IWriter& F)
             if (g_force16BitTransformQuant || St.magnitude() > 1.5f)
             {
                 bTransform16Bit = true;
-                Msg("+ animation [%s] is 16bit-transform (%f)m", cur_motion->Name(), St.magnitude());
+                if (g_extendedLogPlus)
+                    Msg("animation [%s] is 16bit-transform (%f)m", cur_motion->Name(), St.magnitude());
             }
 
             bool bTransformWithoutCompress = false;
             if (g_forceFloatTransformQuant || St.magnitude() > 1.5f)
             {
                 bTransformWithoutCompress = true;
-                Msg("+ animation [%s] ..Export motions without compress (%f)m", cur_motion->Name(), St.magnitude());
+                if (g_extendedLogPlus)
+                    Msg("animation [%s] ..Export motions without compress (%f)m", cur_motion->Name(), St.magnitude());
             }
 
             if (bTransformWithoutCompress)
@@ -1493,11 +1507,10 @@ bool CExportSkeleton::ExportMotionDefs(IWriter& F)
     bool bRes = true;
 
 #if 1
-    SPBItem* pb = UI->ProgressStart(3, "+ ..Export skeleton motions defs");
+    SPBItem* pb = UI->ProgressStart(3, "..Export skeleton motions defs");
     pb->Inc();
 #endif
 
-    Msg("# ..Export skeleton motions defs");
     if (m_Source->m_SMotionRefs.size())
     {
         F.open_chunk(OGF_S_MOTION_REFS2);

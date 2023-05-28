@@ -98,7 +98,7 @@ public:
         if (!hq && ((v0.P.similar(v1.P, EPS) || v0.P.similar(v2.P, EPS) || v1.P.similar(v2.P, EPS))))
         {
             // ELog.Msg(mtError, "! ..Degenerate face found. Removed.");
-            Msg("& ..Degenerate face found. Removed.");
+            Msg("! ..Degenerate face found. Removed.");
             return true;
         }
         SOGFFace F;
@@ -112,7 +112,7 @@ public:
         else
         {
             // ELog.Msg(mtError, "! ..Duplicate(degenerate) face found. Removed.");
-            Msg("& ..Duplicate(degenerate) face found. Removed.");
+            Msg("! ..Duplicate(degenerate) face found. Removed.");
             return true;
         }
         return true;
@@ -179,12 +179,12 @@ class ECORE_API CExportObjectOGF
 
                 if (faces == 0 || verts == 0)
                 {
-                    Msg("# ..Empty split found (Texture: %s).", *m_Texture);
+                    Msg("& ..Empty split found (Texture: %s).", *m_Texture);
                     return false;
                 }
                 else
                 {
-                    Msg("# ..Split %d: [Faces: %d, Verts: %d, Shader/Texture: '%s'/'%s']", id, faces, verts, *m_Shader, *m_Texture);
+                    Msg("& ..Split %d: [Faces: %d, Verts: %d, Shader/Texture: '%s'/'%s']", id, faces, verts, *m_Shader, *m_Texture);
                 }
                 id++;
             }

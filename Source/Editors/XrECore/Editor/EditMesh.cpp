@@ -15,6 +15,8 @@
 #include "UI_ToolsCustom.h"
 #include "..\XrETools\ETools.h"
 
+extern ECORE_API BOOL g_extendedLog;
+
 CEditableMesh::~CEditableMesh()
 {
     Clear();
@@ -157,7 +159,8 @@ void CEditableMesh::GenerateVNormals(bool force)
 
     if (!m_Parent->m_objectFlags.is(CEditableObject::eoSoCSmooth))   // cop
     {
-        Msg("+ ..Generate CoP Smooth groups.");
+        if (g_extendedLog)
+            Msg("+ ..Generate CoP Smooth groups.");
         for (u32 f_i = 0; f_i < m_FaceCount; f_i++)
         {
             for (int k = 0; k < 3; k++)
@@ -189,7 +192,8 @@ void CEditableMesh::GenerateVNormals(bool force)
     }
     else   // soc
     {
-        Msg("+ ..Generate SoC Smooth groups.");
+        if (g_extendedLog)
+            Msg("+ ..Generate SoC Smooth groups.");
         if (m_Flags.is(flSGMask))
         {
             for (u32 f_i = 0; f_i < m_FaceCount; f_i++)
@@ -291,9 +295,12 @@ void CEditableMesh::GenerateSVertices(u32 influence)
     GenerateVNormals();
 
     if (m_Normals && m_Parent->m_objectFlags.is(CEditableObject::eoNormals))
-        Msg("# ..Export custom normals.");
-    else
-        Msg("# ..Export smooth groups.");
+    {
+        if (g_extendedLog)
+            Msg("- ..Custom normals.");
+        else
+            Msg("- ..Smooth groups.");
+    }
 
     for (u32 f_id = 0; f_id < m_FaceCount; f_id++)
     {

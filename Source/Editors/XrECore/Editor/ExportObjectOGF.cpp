@@ -18,6 +18,7 @@
 #endif
 
 extern ECORE_API BOOL g_BatchWorking;
+extern ECORE_API BOOL g_extendedLog;
 
 CObjectOGFCollectorPacked::CObjectOGFCollectorPacked(const Fbox& bb, int apx_vertices, int apx_faces)
 {
@@ -206,7 +207,7 @@ void CExportObjectOGF::SSplit::Save(IWriter& F, int& chunk_id)
 
 void CObjectOGFCollectorPacked::MakeProgressive()
 {
-    Msg("# ..Make progressive");
+    Msg("..Make progressive");
     VIPM_Init();
 
     for (OGFVertIt vert_it = m_Verts.begin(); vert_it != m_Verts.end(); ++vert_it)
@@ -246,12 +247,13 @@ void CObjectOGFCollectorPacked::MakeProgressive()
 
     // cleanup
     VIPM_Destroy();
-    Msg("+ ..Progressive end");
+    Msg("..Progressive end");
 }
 
 void CObjectOGFCollectorPacked::MakeStripify()
 {
-    Msg("# ..Make stripify");
+    if (g_extendedLog)
+        Msg("..Make stripify");
     // alternative stripification - faces
     {
         DWORD*  remap = xr_alloc<DWORD>(m_Faces.size());
@@ -485,7 +487,7 @@ bool CExportObjectOGF::Prepare(bool gen_tb, CEditableMesh* mesh)
     if ((m_Source->MeshCount() == 0))
         return false;
 
-    Msg("# ..Prepare geometry");
+    Msg("..Prepare geometry");
     bool bResult = true;
     if (mesh)
         bResult = PrepareMESH(mesh);
@@ -530,11 +532,11 @@ bool CExportObjectOGF::Prepare(bool gen_tb, CEditableMesh* mesh)
     {
 #if !defined(_DEBUG) && defined(_WIN64)
         if (!g_BatchWorking)
-            Msg("# ..MT Calculate TB");
+            Msg("..MT Calculate TB");
         else
-            Msg("# ..Calculate TB");
+            Msg("..Calculate TB");
 #else
-        Msg("# ..Calculate TB");
+        Msg("..Calculate TB");
 #endif
         if (!g_BatchWorking)
         {
@@ -556,9 +558,9 @@ bool CExportObjectOGF::Prepare(bool gen_tb, CEditableMesh* mesh)
         {
 #if !defined(_DEBUG) && defined(_WIN64)
             if (!g_BatchWorking)
-                Msg("# ..MT Calculate Progressive");
+                Msg("..MT Calculate Progressive");
             else
-                Msg("# ..Calculate Progressive");
+                Msg("..Calculate Progressive");
 #endif
             if (!g_BatchWorking)
             {
@@ -581,9 +583,12 @@ bool CExportObjectOGF::Prepare(bool gen_tb, CEditableMesh* mesh)
         {
 #if !defined(_DEBUG) && defined(_WIN64)
             if (!g_BatchWorking)
-                Msg("# ..MT Calculate Stripify");
-            else
-                Msg("# ..Calculate Stripify");
+		    {
+                if (g_extendedLog)
+                    Msg("..MT Calculate Stripify");
+                else
+                    Msg("..Calculate Stripify");
+			}
 #endif
             if (!g_BatchWorking)
             {
@@ -603,7 +608,8 @@ bool CExportObjectOGF::Prepare(bool gen_tb, CEditableMesh* mesh)
 
     // Compute bounding...
     ComputeBounding();
-    Msg("# ..Compute Bounding");
+    if (g_extendedLog)
+        Msg("..Compute Bounding");
     // Log("Time C: ",T.GetElapsed_sec());
     return bResult;
 }
@@ -716,7 +722,7 @@ bool CExportObjectOGF::ExportAsWavefrontOBJ(IWriter& F, LPCSTR fn)
 {
     if (!Prepare(false, NULL))
         return false;
-    Msg("# ..Prepare OBJ");
+    Msg("..Prepare OBJ");
 
     string_path tmp, tex_path, tex_name;
     string_path name, ext;

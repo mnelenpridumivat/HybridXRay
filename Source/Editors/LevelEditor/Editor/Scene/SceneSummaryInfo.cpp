@@ -241,9 +241,9 @@ void SSceneSummary::OnFileClick(ButtonValue* sender, bool& bModif, bool& bSafe)
             xr_string fn = Scene->m_LevelOp.m_FNLevelPath.c_str();
             if (EFS.GetSaveName(_import_, fn, 0, 2))
                 if (ExportSummaryInfo(fn.c_str()))
-                    ELog.DlgMsg(mtInformation, "Export completed.");
+                    ELog.DlgMsg(mtInformation, "+ Export completed.");
                 else
-                    ELog.DlgMsg(mtInformation, "Export failed.");
+                    ELog.DlgMsg(mtInformation, "! Export failed.");
         }
         break;
     }

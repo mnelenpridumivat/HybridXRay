@@ -120,7 +120,7 @@ public:
         if (!hq && ((v0.offs.similar(v1.offs, EPS) || v0.offs.similar(v2.offs, EPS) || v1.offs.similar(v2.offs, EPS))))
         {
             // ELog.Msg(mtError, "! ..Degenerate face found. Removed.");
-            Msg("& ..Degenerate face found. Removed.");
+            Msg("! ..Degenerate face found. Removed.");
             invalid_faces++;
             return false;
         }
@@ -138,7 +138,7 @@ public:
         else
         {
             // ELog.Msg(mtError, "! ..Duplicate(degenerate) face found. Removed.");
-            Msg("& ..Duplicate(degenerate) face found. Removed.");
+            Msg("! ..Duplicate(degenerate) face found. Removed.");
             invalid_faces++;
             return false;
         }
