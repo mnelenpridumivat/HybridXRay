@@ -338,7 +338,6 @@
       <FILE FILENAME="Editor\ImageManagerLOD.cpp" FORMNAME="" UNITNAME="ImageManagerLOD" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Editor\DeviceScreenshot.cpp" FORMNAME="" UNITNAME="DeviceScreenshot" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Editor\D3DX_Wrapper.h" FORMNAME="" UNITNAME="D3DX_Wrapper.h" CONTAINERID="" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="Editor\PropSlimTools.h" FORMNAME="" UNITNAME="PropSlimTools.h" CONTAINERID="" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Editor\pDomain.cpp" FORMNAME="" UNITNAME="pDomain" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Editor\EThumbnailGroup.cpp" FORMNAME="" UNITNAME="EThumbnailGroup" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Editor\xrLoadSurface.cpp" FORMNAME="" UNITNAME="xrLoadSurface" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>

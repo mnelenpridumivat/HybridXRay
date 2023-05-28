@@ -351,20 +351,22 @@ void OGF::MakeProgressive(float metric_limit)
 
     {
         // prepare progressive geom
-        VIPM_Init();
+        VIPM* pVIPM = xr_new<VIPM>();
+        pVIPM->VIPM_Init();
+
         // clMsg("--- append v start .");
         for (u32 v_idx = 0; v_idx < data.vertices.size(); v_idx++)
-            VIPM_AppendVertex(data.vertices[v_idx].P, data.vertices[v_idx].UV[0]);
+            pVIPM->VIPM_AppendVertex(data.vertices[v_idx].P, data.vertices[v_idx].UV[0]);
         // clMsg("--- append f start .");
         for (u32 f_idx = 0; f_idx < data.faces.size(); f_idx++)
-            VIPM_AppendFace(data.faces[f_idx].v[0], data.faces[f_idx].v[1], data.faces[f_idx].v[2]);
+            pVIPM->VIPM_AppendFace(data.faces[f_idx].v[0], data.faces[f_idx].v[1], data.faces[f_idx].v[2]);
         // clMsg("--- append end.");
 
         // Convert
         VIPM_Result* VR = 0;
         try
         {
-            VR = VIPM_Convert(u32(25), 1.f, 1);
+            VR = pVIPM->VIPM_Convert(u32(25), 1.f, 1);
         }
         catch (...)
         {
@@ -426,7 +428,8 @@ void OGF::MakeProgressive(float metric_limit)
             break;
         }
         // cleanup
-        VIPM_Destroy();
+        pVIPM->VIPM_Destroy();
+        xr_delete(pVIPM);
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -434,19 +437,21 @@ void OGF::MakeProgressive(float metric_limit)
     if (progressive_test() && fast_path_data.vertices.size() && fast_path_data.faces.size())
     {
         // prepare progressive geom
-        VIPM_Init();
+        VIPM* pVIPM = xr_new<VIPM>();
+        pVIPM->VIPM_Init();
+
         Fvector2 zero;
         zero.set(0, 0);
         for (u32 v_idx = 0; v_idx < fast_path_data.vertices.size(); v_idx++)
-            VIPM_AppendVertex(fast_path_data.vertices[v_idx].P, zero);
+            pVIPM->VIPM_AppendVertex(fast_path_data.vertices[v_idx].P, zero);
         for (u32 f_idx = 0; f_idx < fast_path_data.faces.size(); f_idx++)
-            VIPM_AppendFace(
+            pVIPM->VIPM_AppendFace(
                 fast_path_data.faces[f_idx].v[0], fast_path_data.faces[f_idx].v[1], fast_path_data.faces[f_idx].v[2]);
 
         VIPM_Result* VR = 0;
         try
         {
-            VR = VIPM_Convert(u32(25), 1.f, 1);
+            VR = pVIPM->VIPM_Convert(u32(25), 1.f, 1);
         }
         catch (...)
         {
@@ -508,7 +513,8 @@ void OGF::MakeProgressive(float metric_limit)
         }
 
         // cleanup
-        VIPM_Destroy();
+        pVIPM->VIPM_Destroy();
+        xr_delete(pVIPM);
     }
 
     progressive_cs.Leave();

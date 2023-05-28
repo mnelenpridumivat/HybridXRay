@@ -457,13 +457,16 @@ void CExportSkeleton::SSplit::Save(IWriter& F)
 void CExportSkeleton::SSplit::MakeProgressive()
 {
     Msg("..Make progressive for '%s'", m_Texture.c_str());
-    VIPM_Init();
-    for (SkelVertIt vert_it = m_Verts.begin(); vert_it != m_Verts.end(); vert_it++)
-        VIPM_AppendVertex(vert_it->offs, vert_it->uv);
-    for (SkelFaceIt f_it = m_Faces.begin(); f_it != m_Faces.end(); f_it++)
-        VIPM_AppendFace(f_it->v[0], f_it->v[1], f_it->v[2]);
 
-    VIPM_Result* R = VIPM_Convert(u32(-1), 1.f, 1);
+    VIPM* pVIPM = xr_new<VIPM>();
+    pVIPM->VIPM_Init();
+
+    for (SkelVertIt vert_it = m_Verts.begin(); vert_it != m_Verts.end(); vert_it++)
+        pVIPM->VIPM_AppendVertex(vert_it->offs, vert_it->uv);
+    for (SkelFaceIt f_it = m_Faces.begin(); f_it != m_Faces.end(); f_it++)
+        pVIPM->VIPM_AppendFace(f_it->v[0], f_it->v[1], f_it->v[2]);
+
+    VIPM_Result* R = pVIPM->VIPM_Convert(u32(-1), 1.f, 1);
 
     if (R)
     {
@@ -494,7 +497,8 @@ void CExportSkeleton::SSplit::MakeProgressive()
 
     Msg("..Progressive end for '%s'", m_Texture.c_str());
     // cleanup
-    VIPM_Destroy();
+    pVIPM->VIPM_Destroy();
+    xr_delete(pVIPM);
 }
 
 void CExportSkeleton::SSplit::MakeStripify()
@@ -991,9 +995,12 @@ bool CExportSkeleton::ExportGeometry(IWriter& F, u8 infl)
         {
 #if !defined(_DEBUG) && defined(_WIN64) 
             if (!g_BatchWorking)
-                Msg("..MT Calculate Progressive");
-            else
-                Msg("..Calculate Progressive");
+            {
+                if (g_extendedLog)
+                    Msg("..MT Calculate Progressive");
+                else
+                    Msg("..Calculate Progressive");
+            }
 #endif
             if (!g_BatchWorking)
             {

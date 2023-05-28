@@ -208,15 +208,17 @@ void CExportObjectOGF::SSplit::Save(IWriter& F, int& chunk_id)
 void CObjectOGFCollectorPacked::MakeProgressive()
 {
     Msg("..Make progressive");
-    VIPM_Init();
+
+    VIPM* pVIPM = xr_new<VIPM>();
+    pVIPM->VIPM_Init();
 
     for (OGFVertIt vert_it = m_Verts.begin(); vert_it != m_Verts.end(); ++vert_it)
-        VIPM_AppendVertex(vert_it->P, vert_it->UV);
+        pVIPM->VIPM_AppendVertex(vert_it->P, vert_it->UV);
 
     for (OGFFaceIt f_it = m_Faces.begin(); f_it != m_Faces.end(); ++f_it)
-        VIPM_AppendFace(f_it->v[0], f_it->v[1], f_it->v[2]);
+        pVIPM->VIPM_AppendFace(f_it->v[0], f_it->v[1], f_it->v[2]);
 
-    VIPM_Result* R = VIPM_Convert(u32(-1), 1.f, 1);
+    VIPM_Result* R = pVIPM->VIPM_Convert(u32(-1), 1.f, 1);
 
     if (R)
     {
@@ -246,7 +248,9 @@ void CObjectOGFCollectorPacked::MakeProgressive()
     }
 
     // cleanup
-    VIPM_Destroy();
+    pVIPM->VIPM_Destroy();
+    xr_delete(pVIPM);
+
     Msg("..Progressive end");
 }
 
