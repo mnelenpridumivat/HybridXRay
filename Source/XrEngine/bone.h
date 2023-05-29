@@ -292,50 +292,9 @@ struct ENGINE_API SJointIKData
         break_torque = 0.f;
     }
     void clamp_by_limits(Fvector& dest_xyz);
-    void Export(IWriter& F)
-    {
-        F.w_u32(type);
-        for (int k = 0; k < 3; k++)
-        {
-            // Kostya Slipchenko say:
-            // направление вращения в ОДЕ отличается от направления вращение в X-Ray
-            // поэтому меняем знак у лимитов
-            // F.w_float	(_min(-limits[k].limit.x,-limits[k].limit.y)); // min (swap special for ODE)
-            // F.w_float	(_max(-limits[k].limit.x,-limits[k].limit.y)); // max (swap special for ODE)
+    void Export(IWriter& F);
+    bool Import(IReader& F, u16 vers);
 
-            VERIFY(_min(-limits[k].limit.x, -limits[k].limit.y) == -limits[k].limit.y);
-            VERIFY(_max(-limits[k].limit.x, -limits[k].limit.y) == -limits[k].limit.x);
-
-            F.w_float(-limits[k].limit.y);   // min (swap special for ODE)
-            F.w_float(-limits[k].limit.x);   // max (swap special for ODE)
-
-            F.w_float(limits[k].spring_factor);
-            F.w_float(limits[k].damping_factor);
-        }
-        F.w_float(spring_factor);
-        F.w_float(damping_factor);
-
-        F.w_u32(ik_flags.get());
-        F.w_float(break_force);
-        F.w_float(break_torque);
-
-        F.w_float(friction);
-    }
-    bool Import(IReader& F, u16 vers)
-    {
-        type = (EJointType)F.r_u32();
-        F.r(limits, sizeof(SJointLimit) * 3);
-        spring_factor  = F.r_float();
-        damping_factor = F.r_float();
-        ik_flags.flags = F.r_u32();
-        break_force    = F.r_float();
-        break_torque   = F.r_float();
-        if (vers > 0)
-        {
-            friction = F.r_float();
-        }
-        return true;
-    }
 };
 #pragma pack(pop)
 
