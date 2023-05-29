@@ -517,11 +517,17 @@ void CExportObjectOGF::DetectSmoothType(CEditableMesh* mesh, xr_vector<CEditable
         switch (i)
         {
             case 0:
+            {
                 m_Source->m_objectFlags.set(CEditableObject::eoSoCSmooth, TRUE);
-                break;
+                m_Source->m_objectFlags.set(CEditableObject::eoCoPSmooth, FALSE);
+            }
+            break;
             case 1:
+            {
                 m_Source->m_objectFlags.set(CEditableObject::eoSoCSmooth, FALSE);
-                break;
+                m_Source->m_objectFlags.set(CEditableObject::eoCoPSmooth, TRUE);
+            }
+            break;
         }
 
         for (EditMeshIt mesh_it = all_meshes.begin(); mesh_it != all_meshes.end(); mesh_it++)
@@ -648,9 +654,11 @@ void CExportObjectOGF::DetectSmoothType(CEditableMesh* mesh, xr_vector<CEditable
     }
 
     bool bCoP = (SoCverts > CoPverts);
+    bool bSoC = (SoCverts < CoPverts);
 
     m_Source->m_objectFlags.set(CEditableObject::eoNormals, !!Normals);
     m_Source->m_objectFlags.set(CEditableObject::eoSoCSmooth, !!(!bCoP));
+    m_Source->m_objectFlags.set(CEditableObject::eoCoPSmooth, !!(!bSoC));
 
     if (!Normals)
         Msg("# ..SoC\\CoP verts: [%d\\%d]", SoCverts, CoPverts);

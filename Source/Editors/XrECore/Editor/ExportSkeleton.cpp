@@ -32,7 +32,7 @@ ECORE_API BOOL  g_force16BitTransformQuant = TRUE;
 ECORE_API BOOL  g_forceFloatTransformQuant = FALSE;
 ECORE_API float g_EpsSkelPositionDelta     = EPS;
 ECORE_API BOOL  g_BatchWorking             = FALSE;
-ECORE_API BOOL  g_extendedLog              = TRUE;
+ECORE_API BOOL  g_extendedLog              = FALSE;
 ECORE_API BOOL  g_extendedLogPlus          = FALSE;
 
 u16 CSkeletonCollectorPacked::VPack(SSkelVert& V)
@@ -974,11 +974,17 @@ void CExportSkeleton::DetectSmoothType()
         switch (i)
         {
             case 0:
+            {
                 m_Source->m_objectFlags.set(CEditableObject::eoSoCSmooth, TRUE);
-                break;
+                m_Source->m_objectFlags.set(CEditableObject::eoCoPSmooth, FALSE);
+            }
+            break;
             case 1:
+            {
                 m_Source->m_objectFlags.set(CEditableObject::eoSoCSmooth, FALSE);
-                break;
+                m_Source->m_objectFlags.set(CEditableObject::eoCoPSmooth, TRUE);
+            }
+            break;
         }
 
         for (EditMeshIt mesh_it = m_Source->FirstMesh(); mesh_it != m_Source->LastMesh(); mesh_it++)
@@ -1084,9 +1090,11 @@ void CExportSkeleton::DetectSmoothType()
     }
 
     bool bCoP = (SoCverts > CoPverts);
+    bool bSoC = (SoCverts < CoPverts);
 
     m_Source->m_objectFlags.set(CEditableObject::eoNormals, !!Normals);
     m_Source->m_objectFlags.set(CEditableObject::eoSoCSmooth, !!(!bCoP));
+    m_Source->m_objectFlags.set(CEditableObject::eoCoPSmooth, !!(!bSoC));
     if (!Normals)
         Msg("# ..SoC\\CoP verts: [%d\\%d]", SoCverts, CoPverts);
     Msg("& ..Smooth type detected: %s", Normals ? "Normals" : (bCoP ? "CoP" : "SoC"));

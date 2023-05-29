@@ -227,6 +227,7 @@ void CEditableObject::Save(IWriter& F)
 bool CEditableObject::Load(IReader& F)
 {
     m_objectFlags.set(eoSoCRefs, FALSE);
+    m_objectFlags.set(eoDynamic, FALSE);
     bool bRes = true;
     do
     {
@@ -366,6 +367,7 @@ bool CEditableObject::Load(IReader& F)
             IReader* B_CHUNK = F.open_chunk(EOBJ_CHUNK_BONES2);
             if (B_CHUNK)
             {
+                m_objectFlags.set(eoDynamic, TRUE);
                 int      chunk = 0;
                 IReader* O;
                 while (0 != (O = B_CHUNK->open_chunk(chunk++)))
@@ -379,6 +381,7 @@ bool CEditableObject::Load(IReader& F)
             }
             else if (F.find_chunk(EOBJ_CHUNK_BONES))
             {
+                m_objectFlags.set(eoDynamic, TRUE);
                 m_Bones.resize(F.r_u32());
                 for (BoneIt b_it = m_Bones.begin(); b_it != m_Bones.end(); b_it++)
                 {
