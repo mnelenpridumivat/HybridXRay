@@ -8,6 +8,10 @@
 #include "..\XrECore\Editor\EditMesh.h"
 #include "KinematicAnimatedDefs.h"
 #include "SkeletonAnimated.h"
+#if !defined(_DEBUG) && defined(_WIN64) 
+#include "tbb/parallel_for.h" 
+#include "tbb/blocked_range.h"
+#endif
 CActorTools* ATools = (CActorTools*)Tools;
 //------------------------------------------------------------------------------
 #define CHECK_SNAP(R, A, C)   \
@@ -27,6 +31,8 @@ CActorTools* ATools = (CActorTools*)Tools;
 ECORE_API void ShapeRotate(CBone& Bone, const Fvector& _amount);
 ECORE_API void ShapeMove(CBone& Bone, const Fvector& _amount);
 ECORE_API void BoneRotate(CBone& Bone, const Fvector& _axis, float angle);
+
+extern ECORE_API BOOL g_BatchWorking;
 
 void EngineModel::DeleteVisual()
 {
@@ -248,11 +254,11 @@ void CActorTools::OnFrame()
     {
         // update matrix
         Fmatrix mTranslate, mRotate, mScale;
-        mRotate.setHPB(m_pEditObject->a_vRotate.y, m_pEditObject->a_vRotate.x, m_pEditObject->a_vRotate.z);
+        mRotate.setXYZ(m_pEditObject->a_vRotate);
         mTranslate.translate(m_pEditObject->a_vPosition);
-        mScale.scale(m_pEditObject->t_vScale);
+        mScale.scale(m_pEditObject->a_vScale, m_pEditObject->a_vScale, m_pEditObject->a_vScale);
         m_AVTransform.mul(mTranslate, mRotate);
-        m_AVTransform.mulB_43(mScale);
+        m_AVTransform.mulA_43(mScale);
 
         if (!MainForm->GetLeftBarForm()->GetRenderMode() == UILeftBarForm::Render_Engine)
             m_pEditObject->OnFrame();
@@ -280,7 +286,7 @@ void CActorTools::OnFrame()
 
             IKinematics* K = m_RenderObject.m_pVisual->dcast_PKinematics();
             VERIFY(K);
-            // K->Bone_Calculate			(&K->LL_GetData(K->LL_GetBoneRoot()),&Fidentity);
+            // K->Bone_Calculate(&K->LL_GetData(K->LL_GetBoneRoot()),&Fidentity);
             if (!MainForm->GetKeyForm()->AutoChange())
                 K->Bone_Calculate(&K->LL_GetData(K->LL_GetBoneRoot()), &Fidentity);
             else
@@ -357,7 +363,7 @@ bool CActorTools::IfModified()
 {
     if (IsModified())
     {
-        int mr = ELog.DlgMsg(mtConfirmation, "The '%s' has been modified.\nDo you want to save your changes?", GetEditFileName().c_str());
+        int mr = ELog.DlgMsg(mtConfirmation, "# The '%s' has been modified.\nDo you want to save your changes?", GetEditFileName().c_str());
         switch (mr)
         {
             case mrYes:
@@ -488,7 +494,7 @@ bool CActorTools::Load(LPCSTR obj_name)
     }
     else
     {
-        ELog.DlgMsg(mtError, "Can't load object file '%s'.", obj_name);
+        ELog.DlgMsg(mtError, "! Can't load object file '%s'.", obj_name);
     }
     xr_delete(O);
     return false;
@@ -593,7 +599,6 @@ bool CActorTools::MouseStart(TShiftState Shift)
                 }
                 break;
             }
-
             break;
         case etaAdd:
             break;
@@ -899,7 +904,7 @@ bool CActorTools::Import(LPCSTR initial, LPCSTR obj_name)
     }
     else
     {
-        ELog.DlgMsg(mtError, "Can't load object file '%s'.", obj_name);
+        ELog.DlgMsg(mtError, "! Can't load object file '%s'.", obj_name);
     }
     xr_delete(O);
 
@@ -908,8 +913,7 @@ bool CActorTools::Import(LPCSTR initial, LPCSTR obj_name)
 
 bool CActorTools::ExportOGF(LPCSTR name)
 {
-    VERIFY(m_bReady);
-    if (m_pEditObject && m_pEditObject->ExportOGF(name, 4))
+    if (m_pEditObject && m_pEditObject->ExportOGF(name, (m_pEditObject->m_objectFlags.is(CEditableObject::eoSoCInfluence) ? 2 : 4)))
         return true;
     return false;
 }
@@ -940,9 +944,12 @@ bool CActorTools::ExportCPP(LPCSTR name)
 
         for (EditMeshIt m_it = meshes.begin(); m_it != meshes.end(); m_it++)
         {
-            CEditableMesh* mesh  = *m_it;
-            const st_Face* faces = mesh->GetFaces();
-            const Fvector* verts = mesh->GetVertices();
+            CEditableMesh* mesh = *m_it;
+            mesh->GenerateVNormals(true);
+            const st_Face* faces    = mesh->GetFaces();
+            const Fvector* verts    = mesh->GetVertices();
+            const Fvector* vnormals = mesh->GetVNormals();
+            const Fvector* normals  = mesh->GetNormals();
             sprintf(tmp, "MESH %s {", mesh->Name().c_str());
             W->w_string(tmp);
             sprintf(tmp, "\tVERTEX_COUNT %d", mesh->GetVCount());
@@ -959,9 +966,21 @@ bool CActorTools::ExportCPP(LPCSTR name)
             W->w_string("\tconst u16 faces[FACE_COUNT*3] = {");
             for (u32 f_id = 0; f_id < mesh->GetFCount(); f_id++)
             {
-                sprintf(
-                    tmp, "\t\t%-d,\t\t%-d,\t\t%-d,", faces[f_id].pv[0].pindex, faces[f_id].pv[1].pindex,
-                    faces[f_id].pv[2].pindex);
+                sprintf(tmp, "\t\t%-d,\t\t%-d,\t\t%-d,", faces[f_id].pv[0].pindex, faces[f_id].pv[1].pindex, faces[f_id].pv[2].pindex);
+                W->w_string(tmp);
+            }
+            W->w_string("\t}");
+            W->w_string("\tconst Fvector normals[FACE_COUNT*3] = {");
+            for (u32 n_id = 0; n_id < mesh->GetFCount() * 3; n_id++)
+            {
+                sprintf(tmp, "\t\t{% 3.6f,\t% 3.6f,\t% 3.6f},", VPUSH(normals[n_id]));
+                W->w_string(tmp);
+            }
+            W->w_string("\t}");
+            W->w_string("\tconst Fvector vnormals[FACE_COUNT*3] = {");
+            for (u32 vn_id = 0; vn_id < mesh->GetFCount() * 3; vn_id++)
+            {
+                sprintf(tmp, "\t\t{% 3.6f,\t% 3.6f,\t% 3.6f},", VPUSH(vnormals[vn_id]));
                 W->w_string(tmp);
             }
             W->w_string("\t}");
@@ -979,10 +998,12 @@ bool CActorTools::ExportDM(LPCSTR name)
     VERIFY(m_bReady);
     if (m_pEditObject)
     {
+        Msg("# ..Export [%s]", name);
         EDetail DM;
         if (!DM.Update(m_pEditObject->GetName()))
             return false;
         DM.Export(name);
+        Msg("+ ..File [%s] exported", name);
         return true;
     }
     return false;
@@ -1099,16 +1120,16 @@ void CActorTools::RealMakeThumbnail()
 
         if (ImageLib.CreateOBJThumbnail(tex_name.c_str(), obj, F.time_write))
         {
-            ELog.Msg(mtInformation, "Thumbnail successfully created.");
+            ELog.Msg(mtInformation, "+ Thumbnail successfully created.");
         }
         else
         {
-            ELog.Msg(mtError, "Making thumbnail failed.");
+            ELog.Msg(mtError, "! Making thumbnail failed.");
         }
     }
     else
     {
-        ELog.DlgMsg(mtError, "Can't create thumbnail. Empty scene.");
+        ELog.DlgMsg(mtError, "! Can't create thumbnail. Empty scene.");
     }
 }
 
@@ -1145,82 +1166,96 @@ void CActorTools::RealGenerateLOD(bool hq)
                 O, tex_name.c_str(), LOD_IMAGE_SIZE, LOD_IMAGE_SIZE, LOD_SAMPLE_COUNT, O->Version(), hq ? 4 /*7*/ : 1);
             O->OnDeviceDestroy();
             O->m_objectFlags.set(CEditableObject::eoUsingLOD, bLod);
-            ELog.Msg(mtInformation, "LOD for object '%s' successfully created.", O->GetName());
+            ELog.Msg(mtInformation, "+ LOD for object '%s' successfully created.", O->GetName());
         }
         else
         {
-            ELog.Msg(mtError, "Can't create LOD texture from non 'Multiple Usage' object.", O->GetName());
+            ELog.Msg(mtError, "! Can't create LOD texture from non 'Multiple Usage' object.", O->GetName());
         }
         MainForm->GetLeftBarForm()->SetRenderMode(engine_render);
     }
 }
 
-bool CActorTools::BatchConvert(LPCSTR fn)
+struct NewBatch
 {
+    LPCSTR file;
+    shared_str source;
+};
+
+bool CActorTools::BatchConvert(LPCSTR fn, int flags, float scale)
+{
+    g_BatchWorking = true;
     bool      bRes = true;
     CInifile* ini  = CInifile::Create(fn);
     VERIFY(ini);
     if (ini->section_exist("ogf"))
     {
         CInifile::Sect& sect = ini->r_section("ogf");
-        Msg("Start converting %d items...", sect.Data.size());
-        for (auto it = sect.Data.begin(); it != sect.Data.end(); it++)
+        Msg("# Start converting %d items...", sect.Data.size());
+
+        FOR_START(u32, 0, sect.Data.size(), i)
         {
             string_path src_name;
             string_path tgt_name;
-            FS.update_path(src_name, _objects_, it->first.c_str());
-            FS.update_path(tgt_name, _game_meshes_, it->second.c_str());
+            FS.update_path(src_name, _objects_, sect.Data[i].first.c_str());
+            FS.update_path(tgt_name, _game_meshes_, sect.Data[i].second.c_str());
             strcpy(src_name, EFS.ChangeFileExt(src_name, ".object").c_str());
             strcpy(tgt_name, EFS.ChangeFileExt(tgt_name, ".ogf").c_str());
             if (FS.exist(src_name))
             {
-                Msg(".Converting '%s' <-> '%s'", it->first.c_str(), it->second.c_str());
+                Msg("+ Converting '%s' <-> '%s'", sect.Data[i].first.c_str(), sect.Data[i].second.c_str());
                 CEditableObject* O   = xr_new<CEditableObject>("convert");
                 BOOL             res = O->Load(src_name);
+                O->a_vScale          = scale;
+                O->a_vAdjustMass     = (flags & m_pEditObject->a_vAdjustMass);
                 if (res)
-                    res = O->ExportOGF(tgt_name, 4);
-                Log(res ? ".OK" : "!.FAILED");
+                    res = O->ExportOGF(tgt_name, (O->m_objectFlags.is(CEditableObject::eoSoCInfluence) ? 2 : 4));
+                Log(res ? "+ OK" : "! FAILED");
                 xr_delete(O);
             }
             else
             {
-                Log("!Invalid source file name:", it->first.c_str());
+                Log("! Invalid source file name: '%s'", sect.Data[i].first.c_str());
                 bRes = false;
             }
             if (UI->NeedAbort())
                 break;
         }
+        FOR_END
     }
     if (ini->section_exist("omf"))
     {
         CInifile::Sect& sect = ini->r_section("omf");
-        Msg("Start converting %d items...", sect.Data.size());
-        for (auto it = sect.Data.begin(); it != sect.Data.end(); ++it)
+        Msg("# Start converting %d items...", sect.Data.size());
+        FOR_START(u32, 0, sect.Data.size(), i)
         {
             string_path src_name;
             string_path tgt_name;
-            FS.update_path(src_name, _objects_, it->first.c_str());
-            FS.update_path(tgt_name, _game_meshes_, it->second.c_str());
+            FS.update_path(src_name, _objects_, sect.Data[i].first.c_str());
+            FS.update_path(tgt_name, _game_meshes_, sect.Data[i].second.c_str());
             strcpy(src_name, EFS.ChangeFileExt(src_name, ".object").c_str());
             strcpy(tgt_name, EFS.ChangeFileExt(tgt_name, ".omf").c_str());
             if (FS.exist(src_name))
             {
-                Msg(".Converting '%s' <-> '%s'", it->first.c_str(), it->second.c_str());
+                Msg("+ Converting '%s' <-> '%s'", sect.Data[i].first.c_str(), sect.Data[i].second.c_str());
                 CEditableObject* O   = xr_new<CEditableObject>("convert");
                 BOOL             res = O->Load(src_name);
+                O->a_vScale          = scale;
+                O->a_vAdjustMass     = (flags & m_pEditObject->a_vAdjustMass);
                 if (res)
                     res = O->ExportOMF(tgt_name);
-                Log(res ? ".OK" : "!.FAILED");
+                Log(res ? "+ OK" : "! FAILED");
                 xr_delete(O);
             }
             else
             {
-                Log("!Invalid source file name:", it->first.c_str());
+                Log("! Invalid source file name: '%s'", sect.Data[i].first.c_str());
                 bRes = false;
             }
             if (UI->NeedAbort())
                 break;
         }
+        FOR_END
     }
     return bRes;
 }

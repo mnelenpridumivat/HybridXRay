@@ -159,7 +159,6 @@
     <ClInclude Include="NV_Library\VertexCache.h" />
     <ClInclude Include="OGF_Face.h" />
     <ClInclude Include="progmesh.h" />
-    <ClInclude Include="PropSlimTools.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Sector.h" />
     <ClInclude Include="StdAfx.h" />

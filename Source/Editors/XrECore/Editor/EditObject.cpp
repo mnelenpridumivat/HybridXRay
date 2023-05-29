@@ -58,17 +58,18 @@ CEditableObject::CEditableObject(LPCSTR name): m_physics_shell(0), m_object_xfor
 
     a_vPosition.set(0.f, 0.f, 0.f);
     a_vRotate.set(0.f, 0.f, 0.f);
+    a_vScale      = 1.f;
+    a_vAdjustMass = TRUE;
 
-    bOnModified = false;
-
-    m_RefCount = 0;
-
-    m_LODShader = 0;
-
-    m_CreateName = "unknown";
-    m_CreateTime = 0;
-    m_ModifName  = "unknown";
-    m_ModifTime  = 0;
+    bOnModified             = false;
+    m_RefCount              = 0;
+    m_LODShader             = 0;
+    m_CreateName            = "unknown";
+    m_CreateTime            = 0;
+    m_ModifName             = "unknown";
+    m_ModifTime             = 0;
+    m_SmoothMsgSended       = false;
+    m_SmoothExportMsgSended = false;
 }
 
 CEditableObject::~CEditableObject()
@@ -292,11 +293,13 @@ void CEditableObject::GetFaceWorld(const Fmatrix& parent, CEditableMesh* M, int 
 
 void CEditableObject::Optimize()
 {
+/*
     for (EditMeshIt m_def = m_Meshes.begin(); m_def != m_Meshes.end(); m_def++)
     {
         (*m_def)->OptimizeMesh(false);
         (*m_def)->RebuildVMaps();
     }
+*/
 }
 
 bool CEditableObject::Validate()
@@ -305,13 +308,13 @@ bool CEditableObject::Validate()
     for (SurfaceIt s_it = m_Surfaces.begin(); s_it != m_Surfaces.end(); s_it++)
         if (false == (*s_it)->Validate())
         {
-            Msg("!Invalid surface found: Object [%s], Surface [%s].", GetName(), (*s_it)->_Name());
+            Msg("! Invalid surface found: Object [%s], Surface [%s].", GetName(), (*s_it)->_Name());
             bRes = false;
         }
     for (EditMeshIt m_def = m_Meshes.begin(); m_def != m_Meshes.end(); m_def++)
         if (false == (*m_def)->Validate())
         {
-            Msg("!Invalid mesh found: Object [%s], Mesh [%s].", m_LibName.c_str(), (*m_def)->Name().c_str());
+            Msg("! Invalid mesh found: Object [%s], Mesh [%s].", m_LibName.c_str(), (*m_def)->Name().c_str());
             bRes = false;
         }
     return bRes;

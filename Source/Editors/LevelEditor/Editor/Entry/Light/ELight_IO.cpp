@@ -74,7 +74,7 @@ bool CLight::LoadLTX(CInifile& ini, LPCSTR sect_name)
 
     if (version != LIGHT_VERSION)
     {
-        ELog.DlgMsg(mtError, "CLight: Unsupported version.");
+        ELog.DlgMsg(mtError, "! CLight: Unsupported version.");
         return false;
     }
 
@@ -99,7 +99,7 @@ bool CLight::LoadLTX(CInifile& ini, LPCSTR sect_name)
     {
         m_pAnimRef = LALib.FindItem(anm);
         if (!m_pAnimRef)
-            ELog.Msg(mtError, "Can't find light animation: %s", anm);
+            ELog.Msg(mtError, "! Can't find light animation: %s", anm);
     }
 
     m_FalloffTex = ini.r_string(sect_name, "fallof_texture");
@@ -153,7 +153,7 @@ bool CLight::LoadStream(IReader& F)
     R_ASSERT(F.r_chunk(LIGHT_CHUNK_VERSION, &version));
     if ((version != 0x0010) && (version != LIGHT_VERSION))
     {
-        ELog.DlgMsg(mtError, "CLight: Unsupported version.");
+        ELog.DlgMsg(mtError, "! CLight: Unsupported version.");
         return false;
     }
 
@@ -200,7 +200,7 @@ bool CLight::LoadStream(IReader& F)
         ESceneLightTool* lt = dynamic_cast<ESceneLightTool*>(FParentTools);
         VERIFY(lt);
         lt->m_SunShadowDir.set(FRotation.x, FRotation.y);
-        ELog.DlgMsg(mtError, "CLight: Can't load sun.");
+        ELog.DlgMsg(mtError, "! CLight: Can't load sun.");
         return false;
     }
 
@@ -209,7 +209,7 @@ bool CLight::LoadStream(IReader& F)
         F.r_stringZ(buf, sizeof(buf));
         m_pAnimRef = LALib.FindItem(buf);
         if (!m_pAnimRef)
-            ELog.Msg(mtError, "Can't find light animation: %s", buf);
+            ELog.Msg(mtError, "! Can't find light animation: %s", buf);
     }
 
     if (F.find_chunk(LIGHT_CHUNK_FALLOFF_TEXTURE))

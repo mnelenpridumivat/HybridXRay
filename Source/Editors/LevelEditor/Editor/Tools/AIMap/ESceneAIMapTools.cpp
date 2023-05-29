@@ -242,9 +242,7 @@ void ESceneAIMapTool::DenumerateNodes()
               (((u32)(*it)->n3 < cnt) || ((u32)(*it)->n3 == InvalidNode)) &&
               (((u32)(*it)->n4 < cnt) || ((u32)(*it)->n4 == InvalidNode))))
         {
-            ELog.Msg(
-                mtError, "Node: has wrong link [%3.2f, %3.2f, %3.2f], {%d,%d,%d,%d}", VPUSH((*it)->Pos), (*it)->n1,
-                (*it)->n2, (*it)->n3, (*it)->n4);
+            ELog.Msg(mtError, "! Node: has wrong link [%3.2f, %3.2f, %3.2f], {%d,%d,%d,%d}", VPUSH((*it)->Pos), (*it)->n1, (*it)->n2, (*it)->n3, (*it)->n4);
             (*it)->n1 = 0;
             (*it)->n2 = 0;
             (*it)->n3 = 0;
@@ -318,7 +316,7 @@ bool ESceneAIMapTool::LoadStream(IReader& F)
     R_ASSERT(F.r_chunk(AIMAP_CHUNK_VERSION, &version));
     if (version != AIMAP_VERSION)
     {
-        ELog.DlgMsg(mtError, "AIMap: Unsupported version.");
+        ELog.DlgMsg(mtError, "& AIMap: Unsupported version.");
         return false;
     }
 
@@ -362,7 +360,7 @@ bool ESceneAIMapTool::LoadStream(IReader& F)
                 F.r_stringZ(buf);
                 CCustomObject* O = Scene->FindObjectByName(buf.c_str(), OBJCLASS_SCENEOBJECT);
                 if (!O)
-                    ELog.Msg(mtError, "AIMap: Can't find snap object '%s'.", buf.c_str());
+                    ELog.Msg(mtError, "! AIMap: Can't find snap object '%s'.", buf.c_str());
                 else
                     m_SnapObjects.push_back(O);
             }
@@ -470,7 +468,7 @@ int ESceneAIMapTool::AddNode(const Fvector& pos, bool bIgnoreConstraints, bool b
         }
         else
         {
-            ELog.Msg(mtError, "Can't create node.");
+            ELog.Msg(mtError, "& Can't create node.");
             return 0;
         }
     }

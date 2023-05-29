@@ -112,7 +112,7 @@ bool ESoundSource::LoadLTX(CInifile& ini, LPCSTR sect_name)
 
     if (version != SOUND_SOURCE_VERSION)
     {
-        ELog.Msg(mtError, "ESoundSource: Unsupported version.");
+        ELog.Msg(mtError, "& ESoundSource: Unsupported version.");
         return false;
     }
 
@@ -182,7 +182,7 @@ bool ESoundSource::LoadStream(IReader& F)
     {
         if (version != SOUND_SOURCE_VERSION)
         {
-            ELog.Msg(mtError, "ESoundSource: Unsupported version.");
+            ELog.Msg(mtError, "& ESoundSource: Unsupported version.");
             return false;
         }
     }
@@ -227,7 +227,7 @@ bool ESoundSource::LoadStream(IReader& F)
     {
         if (!F.find_chunk(SOUND_CHUNK_SOURCE_PARAMS))
         {
-            ELog.DlgMsg(mtError, "ESoundSource: Can't load Sound Source '%s'. Unsupported version.", *m_WAVName);
+            ELog.DlgMsg(mtError, "! ESoundSource: Can't load Sound Source '%s'. Unsupported version.", *m_WAVName);
             return false;
         }
         m_Params.base_volume = 1.f;

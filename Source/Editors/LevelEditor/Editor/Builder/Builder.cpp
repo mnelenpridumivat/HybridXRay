@@ -54,7 +54,7 @@ BOOL SceneBuilder::Compile(bool b_selected_only, bool show_message)
     UI->ResetBreak();
     if (UI->ContainEState(esBuildLevel))
         return false;
-    ELog.Msg(mtInformation, "Building started...");
+    ELog.Msg(mtInformation, "# Building started...");
 
     UI->BeginEState(esBuildLevel);
     try
@@ -92,11 +92,11 @@ BOOL SceneBuilder::Compile(bool b_selected_only, bool show_message)
                     if (_I->second->Valid())
                     {
                         VERIFY_COMPILE(_I->second->Export(m_LevelPath), _I->second->ClassDesc(), "export failed.");
-                        ELog.Msg(mtInformation, "Process %s - done.", _I->second->ClassDesc());
+                        ELog.Msg(mtInformation, "+ Process %s - done.", _I->second->ClassDesc());
                     }
                     else
                     {
-                        ELog.Msg(mtError, "Process %s - failed.", _I->second->ClassDesc());
+                        ELog.Msg(mtError, "! Process %s - failed.", _I->second->ClassDesc());
                     }
                 }
             }
@@ -106,13 +106,13 @@ BOOL SceneBuilder::Compile(bool b_selected_only, bool show_message)
         if (!error_text.empty())
             ELog.DlgMsg(mtError, error_text.c_str());
         else if (UI->NeedAbort())
-            ELog.DlgMsg(mtInformation, "Building terminated.");
+            ELog.DlgMsg(mtInformation, "& Building terminated.");
         else if (show_message)
-            ELog.DlgMsg(mtInformation, "Building OK.");
+            ELog.DlgMsg(mtInformation, "+ Building OK.");
     }
     catch (...)
     {
-        ELog.DlgMsg(mtError, "Error has occured in builder routine. Editor aborted.");
+        ELog.DlgMsg(mtError, "! Error has occured in builder routine. Editor aborted.");
         UI->EndEState();
         return false;
     }
@@ -127,7 +127,7 @@ BOOL SceneBuilder::MakeGame()
     UI->ResetBreak();
     if (UI->ContainEState(esBuildLevel))
         return false;
-    ELog.Msg(mtInformation, "Making started...");
+    ELog.Msg(mtInformation, "# Making started...");
 
     UI->BeginEState(esBuildLevel);
     try
@@ -137,8 +137,7 @@ BOOL SceneBuilder::MakeGame()
             // clear error
             Tools->ClearDebugDraw();
             // validate scene
-            VERIFY_COMPILE(
-                Scene->Validate(false, false, false, false, false, false), "Validation failed.", "Invalid scene.");
+            VERIFY_COMPILE(Scene->Validate(false, false, false, false, false, false), "Validation failed.", "Invalid scene.");
             // build
             VERIFY_COMPILE(PreparePath(), "Failed to prepare level path.", "");
             VERIFY_COMPILE(GetBounding(), "Failed to acquire level bounding volume.", "");
@@ -150,13 +149,13 @@ BOOL SceneBuilder::MakeGame()
         if (!error_text.empty())
             ELog.DlgMsg(mtError, error_text.c_str());
         else if (UI->NeedAbort())
-            ELog.DlgMsg(mtInformation, "Making terminated.");
+            ELog.DlgMsg(mtInformation, "& Making terminated.");
         else
-            ELog.DlgMsg(mtInformation, "Making finished.");
+            ELog.DlgMsg(mtInformation, "+ Making finished.");
     }
     catch (...)
     {
-        ELog.DlgMsg(mtError, "Error has occured in builder routine. Editor aborted.");
+        ELog.DlgMsg(mtError, "! Error has occured in builder routine. Editor aborted.");
         abort();
     }
     UI->EndEState();
@@ -175,9 +174,9 @@ BOOL SceneBuilder::MakeAIMap()
     if (!error_text.empty())
         ELog.DlgMsg(mtError, error_text.c_str());
     else if (UI->NeedAbort())
-        ELog.DlgMsg(mtInformation, "Building terminated.");
+        ELog.DlgMsg(mtInformation, "& Building terminated.");
     else
-        ELog.DlgMsg(mtInformation, "AI-Map succesfully exported.");
+        ELog.DlgMsg(mtInformation, "+ AI-Map succesfully exported.");
 
     return error_text.empty();
 }
@@ -194,9 +193,9 @@ BOOL SceneBuilder::MakeDetails()
     if (!error_text.empty())
         ELog.DlgMsg(mtError, error_text.c_str());
     else if (UI->NeedAbort())
-        ELog.DlgMsg(mtInformation, "Building terminated.");
+        ELog.DlgMsg(mtInformation, "& Building terminated.");
     else
-        ELog.DlgMsg(mtInformation, "Details succesfully exported.");
+        ELog.DlgMsg(mtInformation, "+ Details succesfully exported.");
 
     return error_text.empty();
 }
@@ -207,7 +206,7 @@ BOOL SceneBuilder::MakeHOM()
     UI->ResetBreak();
     if (UI->ContainEState(esBuildLevel))
         return false;
-    ELog.Msg(mtInformation, "Making started...");
+    ELog.Msg(mtInformation, "# Making started...");
 
     UI->BeginEState(esBuildLevel);
     try
@@ -222,13 +221,13 @@ BOOL SceneBuilder::MakeHOM()
         if (!error_text.empty())
             ELog.DlgMsg(mtError, error_text.c_str());
         else if (UI->NeedAbort())
-            ELog.DlgMsg(mtInformation, "Building terminated...");
+            ELog.DlgMsg(mtInformation, "& Building terminated...");
         else
-            ELog.DlgMsg(mtInformation, "Building OK...");
+            ELog.DlgMsg(mtInformation, "+ Building OK...");
     }
     catch (...)
     {
-        ELog.DlgMsg(mtError, "Error has occured in builder routine. Editor aborted.");
+        ELog.DlgMsg(mtError, "! Error has occured in builder routine. Editor aborted.");
         abort();
     }
     UI->EndEState();
@@ -242,7 +241,7 @@ BOOL SceneBuilder::MakeSOM()
     UI->ResetBreak();
     if (UI->ContainEState(esBuildLevel))
         return false;
-    ELog.Msg(mtInformation, "Making started...");
+    ELog.Msg(mtInformation, "# Making started...");
 
     UI->BeginEState(esBuildLevel);
     try
@@ -257,13 +256,13 @@ BOOL SceneBuilder::MakeSOM()
         if (!error_text.empty())
             ELog.DlgMsg(mtError, error_text.c_str());
         else if (UI->NeedAbort())
-            ELog.DlgMsg(mtInformation, "Building terminated...");
+            ELog.DlgMsg(mtInformation, "& Building terminated...");
         else
-            ELog.DlgMsg(mtInformation, "Building OK...");
+            ELog.DlgMsg(mtInformation, "+ Building OK...");
     }
     catch (...)
     {
-        ELog.DlgMsg(mtError, "Error has occured in builder routine. Editor aborted.");
+        ELog.DlgMsg(mtError, "! Error has occured in builder routine. Editor aborted.");
         abort();
     }
     UI->EndEState();

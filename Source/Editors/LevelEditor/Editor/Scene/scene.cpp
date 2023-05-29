@@ -390,12 +390,12 @@ bool EScene::IfModified()
 {
     if (locked())
     {
-        ELog.DlgMsg(mtError, "Scene sharing violation");
+        ELog.DlgMsg(mtError, "& Scene sharing violation");
         return false;
     }
     if (m_RTFlags.is(flRT_Unsaved) && (ObjCount() || !Tools->GetEditFileName().empty()))
     {
-        int mr = ELog.DlgMsg(mtConfirmation, "The scene has been modified. Do you want to save your changes?");
+        int mr = ELog.DlgMsg(mtConfirmation, "& The scene has been modified. Do you want to save your changes?");
         switch (mr)
         {
             case mrYes:
@@ -477,7 +477,7 @@ bool EScene::Validate(
         {
             if (!t_it->second->Validate(bFullTest))
             {
-                ELog.Msg(mtError, "ERROR: Validate '%s' failed!", t_it->second->ClassDesc());
+                ELog.Msg(mtError, "! ERROR: Validate '%s' failed!", t_it->second->ClassDesc());
                 bRes = false;
             }
         }
@@ -504,36 +504,36 @@ bool EScene::Validate(
             }
         }
         if (!bHasHOM)
-            Msg("!Level doesn't contain HOM objects!");
-        //.			if (mrNo==ELog.DlgMsg(mtConfirmation,mbYes |mbNo,"Level doesn't contain HOM.\nContinue anyway?"))
-        //.				return false;
+            Msg("~ Level doesn't contain HOM objects!");
+        // if (mrNo==ELog.DlgMsg(mtConfirmation,mbYes |mbNo,"Level doesn't contain HOM.\nContinue anyway?"))
+        //     return false;
     }
     if (ObjCount(OBJCLASS_SPAWNPOINT) == 0)
     {
-        ELog.Msg(mtError, "*ERROR: Can't find any Spawn Object.");
+        ELog.Msg(mtError, "& ERROR: Can't find any Spawn Object.");
         bRes = false;
     }
     if (ObjCount(OBJCLASS_LIGHT) == 0)
     {
-        ELog.Msg(mtError, "*ERROR: Can't find any Light Object.");
+        ELog.Msg(mtError, "& ERROR: Can't find any Light Object.");
         bRes = false;
     }
     if (ObjCount(OBJCLASS_SCENEOBJECT) == 0)
     {
-        ELog.Msg(mtError, "*ERROR: Can't find any Scene Object.");
+        ELog.Msg(mtError, "& ERROR: Can't find any Scene Object.");
         bRes = false;
     }
     if (bTestGlow)
     {
         if (ObjCount(OBJCLASS_GLOW) == 0)
         {
-            ELog.Msg(mtError, "*ERROR: Can't find any Glow Object.");
+            ELog.Msg(mtError, "& ERROR: Can't find any Glow Object.");
             bRes = false;
         }
     }
     if (FindDuplicateName())
     {
-        ELog.Msg(mtError, "*ERROR: Found duplicate object name.");
+        ELog.Msg(mtError, "! ERROR: Found duplicate object name.");
         bRes = false;
     }
 
@@ -562,12 +562,12 @@ bool EScene::Validate(
         }
         if (!res)
         {
-            ELog.Msg(mtError, "*ERROR: Scene has non compatible shaders. See log.");
+            ELog.Msg(mtError, "! ERROR: Scene has non compatible shaders. See log.");
             bRes = false;
         }
         if (0 == static_obj)
         {
-            ELog.Msg(mtError, "*ERROR: Can't find static geometry.");
+            ELog.Msg(mtError, "& ERROR: Can't find static geometry.");
             bRes = false;
         }
     }
@@ -582,7 +582,7 @@ bool EScene::Validate(
             EParticlesObject* S = (EParticlesObject*)(*it);
             if (!S->GetParticles())
             {
-                ELog.Msg(mtError, "*ERROR: Particle System hasn't reference.");
+                ELog.Msg(mtError, "& ERROR: Particle System hasn't reference.");
                 bRes = false;
             }
         }
@@ -591,11 +591,11 @@ bool EScene::Validate(
     if (bRes)
     {
         if (bNeedOkMsg)
-            ELog.DlgMsg(mtInformation, "Validation OK!");
+            ELog.DlgMsg(mtInformation, "+ Validation OK!");
     }
     else
     {
-        ELog.DlgMsg(mtInformation, "Validation FAILED!");
+        ELog.DlgMsg(mtInformation, "! Validation FAILED!");
     }
     return bRes;
 }

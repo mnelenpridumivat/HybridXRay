@@ -5,14 +5,7 @@
 
 #pragma warning(disable : 4018)
 
-static Object*                g_pObject                      = 0;
-static ArbitraryList<MeshPt*> g_ppTempPts                    = 0;
-static float                  g_fSlidingWindowErrorTolerance = 0.1f;
-static BOOL                   g_bOptimiseVertexOrder         = FALSE;
-static u32                    g_bMaxSlidingWindow            = u32(-1);
-static VIPM_Result*           g_pResult                      = 0;
-
-ETOOLS_API void VIPM_Init()
+void VIPM::VIPM_Init()
 {
     //.	OutputDebugString("VIPM_INIT-------------------\n");
     R_ASSERT2(0 == g_pObject, "VIPM already in use!");
@@ -22,7 +15,7 @@ ETOOLS_API void VIPM_Init()
     g_pObject->iCurSlidingWindowLevel = 0;
 }
 
-ETOOLS_API void VIPM_AppendVertex(const Fvector3& p, const Fvector2& uv)
+void VIPM::VIPM_AppendVertex(const Fvector3& p, const Fvector2& uv)
 {
     MeshPt* pt = xr_new<MeshPt>(&g_pObject->CurPtRoot);
     g_ppTempPts.push_back(pt);
@@ -32,15 +25,12 @@ ETOOLS_API void VIPM_AppendVertex(const Fvector3& p, const Fvector2& uv)
     pt->mypt.dwIndex = g_ppTempPts.size() - 1;
 }
 
-ETOOLS_API void VIPM_AppendFace(u16 v0, u16 v1, u16 v2)
+void VIPM::VIPM_AppendFace(u16 v0, u16 v1, u16 v2)
 {
     xr_new<MeshTri>(g_ppTempPts[v0], g_ppTempPts[v1], g_ppTempPts[v2], &g_pObject->CurTriRoot, &g_pObject->CurEdgeRoot);
 }
 
-void CalculateAllCollapses(
-    Object* m_pObject,
-    u32     max_sliding_window             = u32(-1),
-    float   m_fSlidingWindowErrorTolerance = 1.f)
+void VIPM::CalculateAllCollapses(Object* m_pObject, u32 max_sliding_window, float m_fSlidingWindowErrorTolerance)
 {
     m_pObject->BinEdgeCollapse();
     while (true)
@@ -146,7 +136,7 @@ void CalculateAllCollapses(
     }
 }
 
-ETOOLS_API VIPM_Result* VIPM_Convert(u32 max_sliding_window, float error_tolerance, u32 optimize_vertex_order)
+VIPM_Result* VIPM::VIPM_Convert(u32 max_sliding_window, float error_tolerance, u32 optimize_vertex_order)
 {
     g_pObject->Initialize();
     if (!g_pObject->Valid())
@@ -158,7 +148,7 @@ ETOOLS_API VIPM_Result* VIPM_Convert(u32 max_sliding_window, float error_toleran
         return NULL;
 }
 
-ETOOLS_API void VIPM_Destroy()
+void VIPM::VIPM_Destroy()
 {
     //.	OutputDebugString	("VIPM_DESTROY-------------------\n");
     xr_delete(g_pResult);

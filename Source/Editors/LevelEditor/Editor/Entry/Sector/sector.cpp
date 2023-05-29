@@ -102,7 +102,7 @@ int CSector::DelMesh(CSceneObject* O, CEditableMesh* M)
     if (sector_items.empty())
     {
         res = 2;
-        ELog.Msg(mtInformation, "Last mesh deleted.\nSector has no meshes and will be removed.");
+        ELog.Msg(mtInformation, "& Last mesh deleted.\nSector has no meshes and will be removed.");
         DeleteThis();
     }
     return res;
@@ -420,14 +420,14 @@ void CSector::LoadSectorDef(IReader* F)
     sitem.object = (CSceneObject*)Scene->FindObjectByName(o_name, OBJCLASS_SCENEOBJECT);
     if (sitem.object == NULL)
     {
-        ELog.Msg(mtError, "Sector Item contains object '%s' - can't load.\nObject not found.", o_name);
+        ELog.Msg(mtError, "! Sector Item contains object '%s' - can't load.\nObject not found.", o_name);
         m_bHasLoadError = true;
         return;
     }
 
     if (!(sitem.object->IsStatic() || sitem.object->IsMUStatic()))
     {
-        ELog.Msg(mtError, "Sector Item contains object '%s' - can't load.\nObject is dynamic.", o_name);
+        ELog.Msg(mtError, "! Sector Item contains object '%s' - can't load.\nObject is dynamic.", o_name);
         m_bHasLoadError = true;
         return;
     }
@@ -436,7 +436,7 @@ void CSector::LoadSectorDef(IReader* F)
     sitem.mesh = sitem.object->GetReference()->FindMeshByName(m_name);
     if (sitem.mesh == 0)
     {
-        ELog.Msg(mtError, "Sector Item contains object '%s' mesh '%s' - can't load.\nMesh not found.", o_name, m_name);
+        ELog.Msg(mtError, "! Sector Item contains object '%s' mesh '%s' - can't load.\nMesh not found.", o_name, m_name);
         m_bHasLoadError = true;
         return;
     }
@@ -458,19 +458,19 @@ void CSector::LoadSectorDefLTX(CInifile& ini, LPCSTR sect_name, u32 item_idx)
     // sector item
     o_name = ini.r_string(sect_name, buff);
     if (!o_name)
-        ELog.Msg(mtError, "Sector Item contains not nnamed object - can't load");
+        ELog.Msg(mtError, "! Sector Item contains not nnamed object - can't load");
 
     sitem.object = (CSceneObject*)Scene->FindObjectByName(o_name, OBJCLASS_SCENEOBJECT);
     if (sitem.object == NULL)
     {
-        ELog.Msg(mtError, "Sector Item contains object '%s' - can't load.\nObject not found.", o_name);
+        ELog.Msg(mtError, "! Sector Item contains object '%s' - can't load.\nObject not found.", o_name);
         m_bHasLoadError = true;
         return;
     }
 
     if (!(sitem.object->IsStatic() || sitem.object->IsMUStatic()))
     {
-        ELog.Msg(mtError, "Sector Item contains object '%s' - can't load.\nObject is dynamic.", o_name);
+        ELog.Msg(mtError, "! Sector Item contains object '%s' - can't load.\nObject is dynamic.", o_name);
         m_bHasLoadError = true;
         return;
     }
@@ -481,7 +481,7 @@ void CSector::LoadSectorDefLTX(CInifile& ini, LPCSTR sect_name, u32 item_idx)
     sitem.mesh = sitem.object->GetReference()->FindMeshByName(m_name);
     if (sitem.mesh == 0)
     {
-        ELog.Msg(mtError, "Sector Item contains object '%s' mesh '%s' - can't load.\nMesh not found.", o_name, m_name);
+        ELog.Msg(mtError, "! Sector Item contains object '%s' mesh '%s' - can't load.\nMesh not found.", o_name, m_name);
         m_bHasLoadError = true;
         return;
     }
@@ -494,7 +494,7 @@ bool CSector::LoadLTX(CInifile& ini, LPCSTR sect_name)
     u32 version = ini.r_u32(sect_name, "version");
     if (version < 0x0011)
     {
-        ELog.Msg(mtError, "CSector: Unsupported version.");
+        ELog.Msg(mtError, "& CSector: Unsupported version.");
         return false;
     }
 
@@ -552,7 +552,7 @@ bool CSector::LoadStream(IReader& F)
     R_ASSERT(F.r_chunk(SECTOR_CHUNK_VERSION, &version));
     if (version != SECTOR_VERSION)
     {
-        ELog.Msg(mtError, "CSector: Unsupported version.");
+        ELog.Msg(mtError, "& CSector: Unsupported version.");
         return false;
     }
 

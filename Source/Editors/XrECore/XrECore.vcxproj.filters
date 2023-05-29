@@ -544,6 +544,9 @@
       <Filter>Render</Filter>
     </ClCompile>
     <ClCompile Include="LuaMemoryController.cpp" />
+    <ClCompile Include="..\Public\NVMeshMenderTwo.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WildMagic\WmlMath.h">
@@ -632,9 +635,6 @@
       <Filter>Editor</Filter>
     </ClInclude>
     <ClInclude Include="Editor\render.h">
-      <Filter>Editor</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\PropSlimTools.h">
       <Filter>Editor</Filter>
     </ClInclude>
     <ClInclude Include="Editor\pick_defs.h">

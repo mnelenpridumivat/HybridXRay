@@ -7,11 +7,18 @@
 #include "fmesh.h"
 #include "bone.h"
 #include "motion.h"
+#if !defined(_DEBUG) && defined(_WIN64)
+#include "tbb/parallel_for.h"
+#include "tbb/blocked_range.h"
+#endif
 
 #if 1
 #include "std_classes.h"
 #include "ui_main.h"
 #endif
+
+extern ECORE_API BOOL g_BatchWorking;
+extern ECORE_API BOOL g_extendedLog;
 
 CObjectOGFCollectorPacked::CObjectOGFCollectorPacked(const Fbox& bb, int apx_vertices, int apx_faces)
 {
@@ -27,24 +34,74 @@ CObjectOGFCollectorPacked::CObjectOGFCollectorPacked(const Fbox& bb, int apx_ver
     m_Verts.reserve(apx_vertices);
     m_Faces.reserve(apx_faces);
 
-    /*int		_size = (clpOGFMX + 1) * (clpOGFMY + 1) * (clpOGFMZ + 1);
-     int		_average= (apx_vertices/_size)/2;
-     for (int ix=0; ix<clpOGFMX+1; ++ix)
-         for (int iy=0; iy<clpOGFMY+1; ++iy)
-             for (int iz=0; iz<clpOGFMZ+1; ++iz)
-                 m_VM[ix][iy][iz].reserve	(_average);*/
+    int _size    = (clpOGFMX + 1) * (clpOGFMY + 1) * (clpOGFMZ + 1);
+    int _average = (apx_vertices / _size) / 2;
+    for (int ix = 0; ix < clpOGFMX + 1; ++ix)
+        for (int iy = 0; iy < clpOGFMY + 1; ++iy)
+            for (int iz = 0; iz < clpOGFMZ + 1; ++iz)
+                m_VM[ix][iy][iz].reserve(_average);
 }
 
 u16 CObjectOGFCollectorPacked::VPack(SOGFVert& V)
 {
     u32 P = 0xffffffff;
 
-    P = m_Verts.size();
-    if (P >= 0xFFFF)
+    u32 ix, iy, iz;
+    ix = iFloor(float(V.P.x - m_VMmin.x) / m_VMscale.x * clpOGFMX);
+    iy = iFloor(float(V.P.y - m_VMmin.y) / m_VMscale.y * clpOGFMY);
+    iz = iFloor(float(V.P.z - m_VMmin.z) / m_VMscale.z * clpOGFMZ);
+    R_ASSERT(ix <= clpOGFMX && iy <= clpOGFMY && iz <= clpOGFMZ);
+
+    int similar_pos = -1;
     {
-        return 0xffff;
+        U32Vec& vl = m_VM[ix][iy][iz];
+        for (U32It it = vl.begin(); it != vl.end(); it++)
+        {
+            SOGFVert& src = m_Verts[*it];
+            if (src.similar_pos(V))
+            {
+                if (src.similar(V))
+                {
+                    P = *it;
+                    break;
+                }
+                similar_pos = *it;
+            }
+        }
     }
-    m_Verts.push_back(V);
+    if (0xffffffff == P)
+    {
+        if (similar_pos >= 0)
+            V.P.set(m_Verts[similar_pos].P);
+        P = m_Verts.size();
+        if (P >= 0xFFFF)
+            return 0xffff;
+        m_Verts.push_back(V);
+
+        m_VM[ix][iy][iz].push_back(P);
+
+        u32 ixE, iyE, izE;
+        ixE = iFloor(float(V.P.x + m_VMeps.x - m_VMmin.x) / m_VMscale.x * clpOGFMX);
+        iyE = iFloor(float(V.P.y + m_VMeps.y - m_VMmin.y) / m_VMscale.y * clpOGFMY);
+        izE = iFloor(float(V.P.z + m_VMeps.z - m_VMmin.z) / m_VMscale.z * clpOGFMZ);
+
+        R_ASSERT(ixE <= clpOGFMX && iyE <= clpOGFMY && izE <= clpOGFMZ);
+
+        if (ixE != ix)
+            m_VM[ixE][iy][iz].push_back(P);
+        if (iyE != iy)
+            m_VM[ix][iyE][iz].push_back(P);
+        if (izE != iz)
+            m_VM[ix][iy][izE].push_back(P);
+        if ((ixE != ix) && (iyE != iy))
+            m_VM[ixE][iyE][iz].push_back(P);
+        if ((ixE != ix) && (izE != iz))
+            m_VM[ixE][iy][izE].push_back(P);
+        if ((iyE != iy) && (izE != iz))
+            m_VM[ix][iyE][izE].push_back(P);
+        if ((ixE != ix) && (iyE != iy) && (izE != iz))
+            m_VM[ixE][iyE][izE].push_back(P);
+    }
     VERIFY(P < u16(-1));
     return (u16)P;
 }
@@ -61,6 +118,10 @@ CExportObjectOGF::SSplit::SSplit(CSurface* surf, const Fbox& bb)
     apx_box       = bb;
     m_Surf        = surf;
     m_CurrentPart = NULL;
+    m_id          = surf->m_id;
+    m_Shader      = surf->m_ShaderName;
+    m_Texture     = surf->m_Texture;
+    m_sort_id     = surf->m_sort_id;
 }
 
 CExportObjectOGF::SSplit::~SSplit()
@@ -106,7 +167,7 @@ void CExportObjectOGF::SSplit::SavePart(IWriter& F, CObjectOGFCollectorPacked* p
         F.w(&(pV.P), sizeof(float) * 3);   // position (offset)
         F.w(&(pV.N), sizeof(float) * 3);   // normal
         F.w_float(pV.UV.x);
-        F.w_float(pV.UV.y);   // tu,tv
+        F.w_float(pV.UV.y);                // tu,tv
     }
     F.close_chunk();
 
@@ -146,46 +207,84 @@ void CExportObjectOGF::SSplit::Save(IWriter& F, int& chunk_id)
 
 void CObjectOGFCollectorPacked::MakeProgressive()
 {
-    return;
-    /*
-    VIPM_Init	();
+    Msg("..Make progressive");
 
-    for (OGFVertIt vert_it=m_Verts.begin(); vert_it!=m_Verts.end(); ++vert_it)
-        VIPM_AppendVertex(vert_it->P,vert_it->UV);
+    VIPM* pVIPM = xr_new<VIPM>();
+    pVIPM->VIPM_Init();
 
-    for (OGFFaceIt f_it=m_Faces.begin(); f_it!=m_Faces.end(); ++f_it)
-        VIPM_AppendFace(f_it->v[0],f_it->v[1],f_it->v[2]);
+    for (OGFVertIt vert_it = m_Verts.begin(); vert_it != m_Verts.end(); ++vert_it)
+        pVIPM->VIPM_AppendVertex(vert_it->P, vert_it->UV);
 
-    VIPM_Result* R = VIPM_Convert(u32(-1),1.f,1);
+    for (OGFFaceIt f_it = m_Faces.begin(); f_it != m_Faces.end(); ++f_it)
+        pVIPM->VIPM_AppendFace(f_it->v[0], f_it->v[1], f_it->v[2]);
+
+    VIPM_Result* R = pVIPM->VIPM_Convert(u32(-1), 1.f, 1);
 
     if (R)
     {
         // Permute vertices
-        OGFVertVec const temp_list	= m_Verts;
-        for(u32 i=0; i<temp_list.size(); ++i)
-            m_Verts[R->permute_verts[i]]=temp_list[i];
+        OGFVertVec const temp_list = m_Verts;
+        for (u32 i = 0; i < temp_list.size(); ++i)
+            m_Verts[R->permute_verts[i]] = temp_list[i];
 
         // Fill indices
-        m_Faces.resize	(R->indices.size()/3);
-        for (u32 f_idx=0; f_idx<m_Faces.size(); ++f_idx)
+        m_Faces.resize(R->indices.size() / 3);
+        for (u32 f_idx = 0; f_idx < m_Faces.size(); ++f_idx)
         {
-            SOGFFace& F		= m_Faces[f_idx];
-            F.v[0]			= R->indices[f_idx*3+0];
-            F.v[1]			= R->indices[f_idx*3+1];
-            F.v[2]			= R->indices[f_idx*3+2];
+            SOGFFace& F = m_Faces[f_idx];
+            F.v[0]      = R->indices[f_idx * 3 + 0];
+            F.v[1]      = R->indices[f_idx * 3 + 1];
+            F.v[2]      = R->indices[f_idx * 3 + 2];
         }
 
         // Fill SWR
-        m_SWR.resize		(R->swr_records.size());
-        for (u32 swr_idx=0; swr_idx!=m_SWR.size(); ++swr_idx)
-            m_SWR[swr_idx]	= R->swr_records[swr_idx];
-
-    }else{
-        Log("!..Can't make progressive.");
+        m_SWR.resize(R->swr_records.size());
+        for (u32 swr_idx = 0; swr_idx != m_SWR.size(); ++swr_idx)
+            m_SWR[swr_idx] = R->swr_records[swr_idx];
+    }
+    else
+    {
+        Log("! ..Can't make progressive.");
     }
 
     // cleanup
-    VIPM_Destroy		();*/
+    pVIPM->VIPM_Destroy();
+    xr_delete(pVIPM);
+
+    Msg("..Progressive end");
+}
+
+void CObjectOGFCollectorPacked::MakeStripify()
+{
+    if (g_extendedLog)
+        Msg("..Make stripify");
+    // alternative stripification - faces
+    {
+        DWORD*  remap = xr_alloc<DWORD>(m_Faces.size());
+        HRESULT rhr   = D3DXOptimizeFaces(&m_Faces.front(), m_Faces.size(), m_Verts.size(), FALSE, remap);
+        R_CHK(rhr);
+        OGFFaceVec _source = m_Faces;
+        for (u32 it = 0; it < _source.size(); it++)
+            m_Faces[it] = _source[remap[it]];
+
+        xr_free(remap);
+    }
+    // alternative stripification - vertices
+    {
+        DWORD*  remap = xr_alloc<DWORD>(m_Verts.size());
+        HRESULT rhr   = D3DXOptimizeVertices(&m_Faces.front(), m_Faces.size(), m_Verts.size(), FALSE, remap);
+        R_CHK(rhr);
+        OGFVertVec _source = m_Verts;
+
+        for (u32 vit = 0; vit < _source.size(); vit++)
+            m_Verts[remap[vit]] = _source[vit];
+
+        for (u32 fit = 0; fit < (u32)m_Faces.size(); ++fit)
+            for (u32 j = 0; j < 3; j++)
+                m_Faces[fit].v[j] = remap[m_Faces[fit].v[j]];
+
+        xr_free(remap);
+    }
 }
 
 void CObjectOGFCollectorPacked::OptimizeTextureCoordinates()
@@ -226,6 +325,12 @@ void CExportObjectOGF::SSplit::MakeProgressive()
         (*it)->MakeProgressive();
 }
 
+void CExportObjectOGF::SSplit::MakeStripify()
+{
+    for (COGFCPIt it = m_Parts.begin(); it != m_Parts.end(); ++it)
+        (*it)->MakeStripify();
+}
+
 CExportObjectOGF::CExportObjectOGF(CEditableObject* object)
 {
     m_Source = object;
@@ -237,10 +342,10 @@ CExportObjectOGF::~CExportObjectOGF()
         xr_delete(*it);
 }
 
-CExportObjectOGF::SSplit* CExportObjectOGF::FindSplit(CSurface* surf)
+CExportObjectOGF::SSplit* CExportObjectOGF::FindSplit(CSurface* surf, u16 surf_id)
 {
     for (SplitIt it = m_Splits.begin(); it != m_Splits.end(); ++it)
-        if ((*it)->m_Surf == surf)
+        if ((*it)->m_Surf == surf && ((*it)->m_id == surf_id) && (*it)->GetVertexBound())
             return *it;
 
     return 0;
@@ -248,9 +353,29 @@ CExportObjectOGF::SSplit* CExportObjectOGF::FindSplit(CSurface* surf)
 
 bool CExportObjectOGF::PrepareMESH(CEditableMesh* MESH)
 {
-    //        // generate normals
+    // generate normals
     bool bResult = true;
-    MESH->GenerateVNormals(0);
+    MESH->GenerateVNormals(false, false, true);
+
+    if (!m_Source->m_SmoothExportMsgSended)
+    {
+        m_Source->m_SmoothExportMsgSended = true;
+        if (MESH->m_Normals && m_Source->m_objectFlags.is(CEditableObject::eoNormals))
+            Msg("~ ..Export custom normals");
+        else
+            Msg("~ ..Export smooth groups");
+    }
+
+    u16 surf_counter = 0;
+    for (SurfFacesPairIt sp_it = MESH->m_SurfFaces.begin(); sp_it != MESH->m_SurfFaces.end(); sp_it++)
+    {
+        if (m_Source->m_objectFlags.is(CEditableObject::eoOptimizeSurf))
+            surf_counter = 0;
+        CSurface* surf = sp_it->first;
+        surf->m_id     = surf_counter;
+        surf_counter++;
+    }
+
     // fill faces
     for (SurfFacesPairIt sp_it = MESH->m_SurfFaces.begin(); sp_it != MESH->m_SurfFaces.end(); ++sp_it)
     {
@@ -258,35 +383,43 @@ bool CExportObjectOGF::PrepareMESH(CEditableMesh* MESH)
         CSurface* surf     = sp_it->first;
         u32       dwTexCnt = ((surf->_FVF() & D3DFVF_TEXCOUNT_MASK) >> D3DFVF_TEXCOUNT_SHIFT);
         R_ASSERT(dwTexCnt == 1);
-        SSplit* split = FindSplit(surf);
+
+        SSplit* split = FindSplit(surf, surf->m_id);
+
         if (0 == split)
         {
 #if 1
             SGameMtl* M = GameMaterialLibrary->GetMaterialByID(surf->_GameMtl());
             if (0 == M)
             {
-                ELog.DlgMsg(mtError, "Surface: '%s' contains undefined game material.", surf->_Name());
+                ELog.DlgMsg(mtError, "! Surface: '%s' contains undefined game material.", surf->_Name());
                 bResult = false;
                 break;
             }
 #endif
-            m_Splits.push_back(xr_new<SSplit>(surf, m_Source->GetBox()));
+            Fmatrix mScale;
+            mScale.scale(m_Source->a_vScale, m_Source->a_vScale, m_Source->a_vScale);
+
+            Fbox box;
+            box.xform(m_Source->GetBox(), mScale);
+
+            m_Splits.push_back(xr_new<SSplit>(surf, box));
             split = m_Splits.back();
         }
-        int        elapsed_faces = surf->m_Flags.is(CSurface::sf2Sided) ? face_lst.size() * 2 : face_lst.size();
-        const bool b2sided       = !!surf->m_Flags.is(CSurface::sf2Sided);
+
+        size_t elapsed_faces = surf->m_Flags.is(CSurface::sf2Sided) ? face_lst.size() * 2 : face_lst.size();
+        const bool b2sided   = !!surf->m_Flags.is(CSurface::sf2Sided);
 
         if (0 == split->m_CurrentPart)
-            split->AppendPart(
-                (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces, (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces);
+            split->AppendPart((elapsed_faces > 0xffff) ? 0xffff : elapsed_faces, (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces);
 
         do
         {
             for (IntIt f_it = face_lst.begin(); f_it != face_lst.end(); ++f_it)
             {
-                bool     bNewPart = false;
-                st_Face& face     = MESH->m_Faces[*f_it];
+                st_Face& face = MESH->m_Faces[*f_it];
                 {
+                    bool     bNewPart = false;
                     SOGFVert v[3];
                     for (int k = 0; k < 3; ++k)
                     {
@@ -308,31 +441,228 @@ bool CExportObjectOGF::PrepareMESH(CEditableMesh* MESH)
                         R_ASSERT2(uv, "uv empty");
                         u32 norm_id = (*f_it) * 3 + k;
                         R_ASSERT2(norm_id < MESH->GetFCount() * 3, "Normal index out of range.");
-                        v[k].set(MESH->m_Vertices[fv.pindex], MESH->m_VertexNormals[norm_id], *uv);
+
+                        Fvector offset = MESH->m_Vertices[fv.pindex];
+                        offset.mul(m_Source->a_vScale);
+
+                        if (MESH->m_Normals && m_Source->m_objectFlags.is(CEditableObject::eoNormals))
+                            v[k].set(offset, MESH->m_Normals[norm_id], *uv);
+                        else
+                            v[k].set(offset, MESH->m_VertexNormals[norm_id], *uv);
                     }
                     --elapsed_faces;
-                    if (!split->m_CurrentPart->add_face(v[0], v[1], v[2]))
+                    if (!split->m_CurrentPart->add_face(v[0], v[1], v[2], m_Source->m_objectFlags.is(CEditableObject::eoHQExportPlus)))
                         bNewPart = true;
+
+                    if (bNewPart && (elapsed_faces > 0))
+                    {
+                        bNewPart = false;
+                        split->AppendPart(
+                            (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces,
+                            (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces);
+                        split->m_CurrentPart->add_face(v[0], v[1], v[2], m_Source->m_objectFlags.is(CEditableObject::eoHQExportPlus));
+                    }
 
                     if (b2sided)
                     {
+                        --elapsed_faces;
                         v[0].N.invert();
                         v[1].N.invert();
                         v[2].N.invert();
-                        if (!split->m_CurrentPart->add_face(v[2], v[1], v[0]))
+                        if (!split->m_CurrentPart->add_face(v[2], v[1], v[0], m_Source->m_objectFlags.is(CEditableObject::eoHQExportPlus)))
                             bNewPart = true;
                     }
+
+                    if (bNewPart && (elapsed_faces > 0))
+                    {
+                        bNewPart = false;
+                        split->AppendPart(
+                            (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces,
+                            (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces);
+                        split->m_CurrentPart->add_face(v[2], v[1], v[0], m_Source->m_objectFlags.is(CEditableObject::eoHQExportPlus));
+                    }
                 }
-                if (bNewPart && (elapsed_faces > 0))
-                    split->AppendPart(
-                        (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces,
-                        (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces);
             }
         } while (elapsed_faces > 0);
     }
     // mesh fin
     MESH->UnloadVNormals();
     return bResult;
+}
+
+void CExportObjectOGF::DetectSmoothType(CEditableMesh* mesh, xr_vector<CEditableMesh*> mesh_vec)
+{
+    Msg("& ..Start detecting smooth type");
+
+    size_t SoCverts = 0, CoPverts = 0;
+
+    // generate normals
+    bool bResult = true;
+    bool Normals = false;
+
+    xr_vector<CEditableMesh*> all_meshes;
+    if (mesh != NULL)
+        all_meshes.push_back(mesh);
+    else
+    {
+        for (int i = 0; i < mesh_vec.size(); i++)
+            all_meshes.push_back(mesh_vec[i]);
+    }
+
+    for (u8 i = 0; i < 2; i++)
+    {
+        SplitVec OldSplits = m_Splits;
+
+        size_t TotalVerts = 0;
+        switch (i)
+        {
+            case 0:
+            {
+                m_Source->m_objectFlags.set(CEditableObject::eoSoCSmooth, TRUE);
+                m_Source->m_objectFlags.set(CEditableObject::eoCoPSmooth, FALSE);
+            }
+            break;
+            case 1:
+            {
+                m_Source->m_objectFlags.set(CEditableObject::eoSoCSmooth, FALSE);
+                m_Source->m_objectFlags.set(CEditableObject::eoCoPSmooth, TRUE);
+            }
+            break;
+        }
+
+        for (EditMeshIt mesh_it = all_meshes.begin(); mesh_it != all_meshes.end(); mesh_it++)
+        {
+            CEditableMesh* MESH = *mesh_it;
+
+            if (!!MESH->m_Normals)
+            {
+                Normals = true;
+                break;
+            }
+
+            for (SurfFacesPairIt sp_it = MESH->m_SurfFaces.begin(); sp_it != MESH->m_SurfFaces.end(); sp_it++)
+            {
+                CSurface* surf = sp_it->first;
+                surf->m_id     = 0;
+            }
+
+            MESH->GenerateVNormals(true, true);
+
+            // fill faces
+            for (SurfFacesPairIt sp_it = MESH->m_SurfFaces.begin(); sp_it != MESH->m_SurfFaces.end(); ++sp_it)
+            {
+                IntVec&   face_lst = sp_it->second;
+                CSurface* surf     = sp_it->first;
+                u32       dwTexCnt = ((surf->_FVF() & D3DFVF_TEXCOUNT_MASK) >> D3DFVF_TEXCOUNT_SHIFT);
+                R_ASSERT(dwTexCnt == 1);
+
+                SSplit* split = FindSplit(surf, surf->m_id);
+
+                if (0 == split)
+                {
+                    Fmatrix mScale;
+                    mScale.scale(m_Source->a_vScale, m_Source->a_vScale, m_Source->a_vScale);
+
+                    Fbox box;
+                    box.xform(m_Source->GetBox(), mScale);
+
+                    m_Splits.push_back(xr_new<SSplit>(surf, box));
+                    split = m_Splits.back();
+                }
+
+                size_t elapsed_faces = face_lst.size();
+
+                if (0 == split->m_CurrentPart)
+                    split->AppendPart(
+                        (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces,
+                        (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces);
+
+                do
+                {
+                    for (IntIt f_it = face_lst.begin(); f_it != face_lst.end(); ++f_it)
+                    {
+                        st_Face& face = MESH->m_Faces[*f_it];
+                        {
+                            bool     bNewPart = false;
+                            SOGFVert v[3];
+                            for (int k = 0; k < 3; ++k)
+                            {
+                                st_FaceVert&    fv   = face.pv[k];
+                                int             offs = 0;
+                                const Fvector2* uv   = 0;
+                                for (u32 t = 0; t < dwTexCnt; ++t)
+                                {
+                                    st_VMapPt& vm_pt = MESH->m_VMRefs[fv.vmref].pts[t + offs];
+                                    st_VMap&   vmap  = *MESH->m_VMaps[vm_pt.vmap_index];
+                                    if (vmap.type != vmtUV)
+                                    {
+                                        ++offs;
+                                        --t;
+                                        continue;
+                                    }
+                                    uv = &vmap.getUV(vm_pt.index);
+                                }
+                                R_ASSERT2(uv, "uv empty");
+                                u32 norm_id = (*f_it) * 3 + k;
+                                R_ASSERT2(norm_id < MESH->GetFCount() * 3, "Normal index out of range.");
+
+                                Fvector offset = MESH->m_Vertices[fv.pindex];
+                                offset.mul(m_Source->a_vScale);
+
+                                v[k].set(offset, MESH->m_VertexNormals[norm_id], *uv);
+                            }
+                            --elapsed_faces;
+                            if (!split->m_CurrentPart->add_face(v[0], v[1], v[2], m_Source->m_objectFlags.is(CEditableObject::eoHQExportPlus)))
+                                bNewPart = true;
+
+                            if (bNewPart && (elapsed_faces > 0))
+                            {
+                                bNewPart = false;
+                                split->AppendPart(
+                                    (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces,
+                                    (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces);
+                                split->m_CurrentPart->add_face(v[2], v[1], v[0], m_Source->m_objectFlags.is(CEditableObject::eoHQExportPlus));
+                            }
+                        }
+                    }
+                } while (elapsed_faces > 0);
+            }
+            // mesh fin
+            MESH->UnloadVNormals(true);
+        }
+
+        if (Normals)
+            break;
+
+        for (u32 it = 0; it < m_Splits.size(); it++)
+        {
+            u32    counter = 0;
+            size_t faces   = 0;
+            m_Splits[it]->SplitStats(counter, TotalVerts, faces, true);
+        }
+
+        switch (i)
+        {
+            case 0:
+                SoCverts = TotalVerts;
+                break;
+            case 1:
+                CoPverts = TotalVerts;
+                break;
+        }
+        m_Splits = OldSplits;
+    }
+
+    bool bCoP = (SoCverts > CoPverts);
+    bool bSoC = (SoCverts < CoPverts);
+
+    m_Source->m_objectFlags.set(CEditableObject::eoNormals, !!Normals);
+    m_Source->m_objectFlags.set(CEditableObject::eoSoCSmooth, !!(!bCoP));
+    m_Source->m_objectFlags.set(CEditableObject::eoCoPSmooth, !!(!bSoC));
+
+    if (!Normals)
+        Msg("# ..SoC\\CoP verts: [%d\\%d]", SoCverts, CoPverts);
+    Msg("& ..Smooth type detected: %s", Normals ? "Normals" : (bCoP ? "CoP" : "SoC"));
 }
 
 bool CExportObjectOGF::Prepare(bool gen_tb, CEditableMesh* mesh)
@@ -342,38 +672,145 @@ bool CExportObjectOGF::Prepare(bool gen_tb, CEditableMesh* mesh)
 
     bool bResult = true;
     if (mesh)
+    {
+        if (m_Source->m_objectFlags.is(CEditableObject::eoAutoSmooth))
+            DetectSmoothType(mesh, m_Source->Meshes());
+
+        Msg("..Prepare geometry");
         bResult = PrepareMESH(mesh);
+    }
     else
     {
+        if (m_Source->m_objectFlags.is(CEditableObject::eoAutoSmooth))
+            DetectSmoothType(NULL, m_Source->Meshes());
+
+        Msg("..Prepare geometry");
         for (EditMeshIt mesh_it = m_Source->FirstMesh(); mesh_it != m_Source->LastMesh(); ++mesh_it)
+        {
             if (!PrepareMESH(*mesh_it))
             {
                 bResult = false;
                 break;
             }
+        }
     }
 
     if (!bResult)
         return false;
 
+    for (int i = 0; i < m_Splits.size() - 1; i++)
+    {
+        for (int j = 0; j < m_Splits.size() - i - 1; j++)
+        {
+            if (m_Splits[j]->m_sort_id < m_Splits[j + 1]->m_sort_id)
+            {
+                SSplit* temp    = m_Splits[j];
+                m_Splits[j]     = m_Splits[j + 1];
+                m_Splits[j + 1] = temp;
+            }
+        }
+    }
+
+    u32 counter = 0;
+    size_t verts = 0, faces = 0;
+    for (u32 it = 0; it < m_Splits.size(); it++)
+    {
+        m_Splits[it]->SplitStats(counter, verts, faces, false);
+    }
+    Msg("# ..Total [Faces: %d, Verts: %d]", faces, verts);
+
     // calculate TB
     if (gen_tb)
     {
-        for (SplitIt split_it = m_Splits.begin(); split_it != m_Splits.end(); ++split_it)
-            (*split_it)->CalculateTB();
-        //        Log				("Time B: ",T.GetElapsed_sec());
+#if !defined(_DEBUG) && defined(_WIN64)
+        if (!g_BatchWorking && m_Splits.size() > 1)
+            Msg("..MT Calculate TB");
+        else
+            Msg("..Calculate TB");
+#else
+        Msg("..Calculate TB");
+#endif
+        if (!g_BatchWorking)
+        {
+            if (m_Splits.size() > 1) // MT
+            {
+                FOR_START(u32, 0, m_Splits.size(), it)
+                    m_Splits[it]->CalculateTB();
+                FOR_END
+            }
+            else
+            {
+                for (u32 it = 0; it < m_Splits.size(); it++)
+                    m_Splits[it]->CalculateTB();
+            }
+        }
+        else
+        {
+            for (u32 it = 0; it < m_Splits.size(); it++)
+                m_Splits[it]->CalculateTB();
+        }
     }
 
     // fill per bone vertices
     if (m_Source->m_objectFlags.is(CEditableObject::eoProgressive))
     {
-        for (SplitIt split_it = m_Splits.begin(); split_it != m_Splits.end(); ++split_it)
-            (*split_it)->MakeProgressive();
+        if (m_Splits.size() > 1)   // MT
+        {
+#if !defined(_DEBUG) && defined(_WIN64)
+            if (!g_BatchWorking)
+                Msg("..MT Calculate Progressive");
+            else
+                Msg("..Calculate Progressive");
+#endif
+            if (!g_BatchWorking)
+            {
+                FOR_START(u32, 0, m_Splits.size(), it)
+                    m_Splits[it]->MakeProgressive();
+                FOR_END
+            }
+            else
+            {
+                for (u32 it = 0; it < m_Splits.size(); it++)
+                    m_Splits[it]->MakeProgressive();
+            }
+        }
+        else if (m_Splits.size() == 1)
+            m_Splits[0]->MakeProgressive();
+    }
+    else if (m_Source->m_objectFlags.is(CEditableObject::eoStripify))
+    {
+        if (m_Splits.size() > 1)   // MT
+        {
+#if !defined(_DEBUG) && defined(_WIN64)
+            if (!g_BatchWorking)
+		    {
+                if (g_extendedLog)
+                    Msg("..MT Calculate Stripify");
+                else
+                    Msg("..Calculate Stripify");
+			}
+#endif
+            if (!g_BatchWorking)
+            {
+                FOR_START(u32, 0, m_Splits.size(), it)
+                    m_Splits[it]->MakeStripify();
+                FOR_END
+            }
+            else
+            {
+                for (u32 it = 0; it < m_Splits.size(); it++)
+                    m_Splits[it]->MakeStripify();
+            }
+        }
+        else if (m_Splits.size() == 1)
+            m_Splits[0]->MakeStripify();
     }
 
     // Compute bounding...
     ComputeBounding();
-    //    Log				("Time C: ",T.GetElapsed_sec());
+    if (g_extendedLog)
+        Msg("..Compute Bounding");
+    // Log("Time C: ",T.GetElapsed_sec());
     return bResult;
 }
 
@@ -386,6 +823,7 @@ bool CExportObjectOGF::Export(IWriter& F, bool gen_tb, CEditableMesh* mesh)
     if ((m_Splits.size() == 1) && (m_Splits[0]->m_Parts.size() == 1))
     {
         // export as single mesh
+        Msg("# ..Save as single");
         m_Splits[0]->SavePart(F, m_Splits[0]->m_Parts[0]);
     }
     else
@@ -472,6 +910,7 @@ bool CExportObjectOGF::ExportAsSimple(IWriter& F)
         if ((m_Splits.size() == 1) && (m_Splits[0]->m_Parts.size() == 1))
         {
             // export as single mesh
+            Msg("# ..Save as single");
             m_Splits[0]->SavePart(F, m_Splits[0]->m_Parts[0]);
             return true;
         }
@@ -483,6 +922,7 @@ bool CExportObjectOGF::ExportAsWavefrontOBJ(IWriter& F, LPCSTR fn)
 {
     if (!Prepare(false, NULL))
         return false;
+    Msg("..Prepare OBJ");
 
     string_path tmp, tex_path, tex_name;
     string_path name, ext;
@@ -595,6 +1035,8 @@ bool CEditableObject::PrepareSkeletonOGF(IWriter& F, u8 infl)
     float           prev = g_EpsSkelPositionDelta;
     if (m_objectFlags.test(eoHQExport))
         g_EpsSkelPositionDelta = EPS;
+    if (m_objectFlags.test(eoHQExportPlus))
+        g_EpsSkelPositionDelta = EPS_S;
 
     bool res               = E.Export(F, infl);
     g_EpsSkelPositionDelta = prev;
@@ -608,6 +1050,8 @@ bool CEditableObject::PrepareRigidOGF(IWriter& F, bool gen_tb, CEditableMesh* me
     float            prev = g_EpsSkelPositionDelta;
     if (m_objectFlags.test(eoHQExport))
         g_EpsSkelPositionDelta = EPS;
+    if (m_objectFlags.test(eoHQExportPlus))
+        g_EpsSkelPositionDelta = EPS_S;
 
     g_EpsSkelPositionDelta = prev;
 
@@ -622,6 +1066,8 @@ bool CEditableObject::PrepareSVGeometry(IWriter& F, u8 infl)
     float prev = g_EpsSkelPositionDelta;
     if (m_objectFlags.test(eoHQExport))
         g_EpsSkelPositionDelta = EPS;
+    if (m_objectFlags.test(eoHQExportPlus))
+        g_EpsSkelPositionDelta = EPS_S;
 
     bool res = E.ExportGeometry(F, infl);
 

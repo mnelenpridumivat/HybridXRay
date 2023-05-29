@@ -40,7 +40,7 @@ void CImage::SaveTGA(LPCSTR name, BOOL b24)
     }
     else
     {
-        Log("!Can't save tga:", name);
+        Log("! Can't save tga:", name);
     }
 }
 
@@ -213,23 +213,23 @@ bool CImage::LoadTGA(LPCSTR name)
 
     if (!((hdr.imgtype == 2) || (hdr.imgtype == 10)))
     {
-        Msg("Unsupported texture format (%s)", name);
+        Msg("& Unsupported texture format (%s)", name);
         return false;
     }
     if (!((hdr.pixsize == 24) || (hdr.pixsize == 32)))
     {
-        Msg("Texture (%s) - invalid pixsize: %d", name, hdr.pixsize);
+        Msg("& Texture (%s) - invalid pixsize: %d", name, hdr.pixsize);
         return false;
     }
 #ifndef _EDITOR
     if (!btwIsPow2(hdr.width))
     {
-        Msg("Texture (%s) - invalid width: %d", name, hdr.width);
+        Msg("& Texture (%s) - invalid width: %d", name, hdr.width);
         return false;
     }
     if (!btwIsPow2(hdr.height))
     {
-        Msg("Texture (%s) - invalid height: %d", name, hdr.height);
+        Msg("& Texture (%s) - invalid height: %d", name, hdr.height);
         return false;
     }
 #endif

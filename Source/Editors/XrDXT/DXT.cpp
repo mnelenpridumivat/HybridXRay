@@ -8,7 +8,7 @@ int DXTCompressImage(LPCSTR out_name, u8* raw_data, u32 w, u32 h, u32 pitch, STe
     CTimer T;
     T.Start();
 
-    Msg("DXT: Compressing Image: %s %uX%u", out_name, w, h);
+    Msg("# DXT: Compressing Image: %s %uX%u", out_name, w, h);
 
     R_ASSERT(0 != w && 0 != h);
     RedImageTool::RedImage              Image;
@@ -65,7 +65,7 @@ int DXTCompressImage(LPCSTR out_name, u8* raw_data, u32 w, u32 h, u32 pitch, STe
     }
     Image.GenerateMipmap(ResizeFilter);
     Image.Convert(Format);
-    Msg("DXT: Compressing Image: 2 [Closing File]. Time from start %f ms", T.GetElapsed_sec() * 1000.f);
+    Msg("# DXT: Compressing Image: 2 [Closing File]. Time from start %f ms", T.GetElapsed_sec() * 1000.f);
     return Image.SaveToDds(out_name);
     ;
 }

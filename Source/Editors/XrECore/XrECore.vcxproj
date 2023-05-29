@@ -94,6 +94,7 @@
     <ClCompile Include="..\..\XrRender\R1_PC\Blender_Shadow_World.cpp" />
     <ClCompile Include="..\..\XrRender\R1_PC\Blender_Vertex.cpp" />
     <ClCompile Include="..\..\XrRender\R1_PC\Blender_Vertex_aref.cpp" />
+    <ClCompile Include="..\Public\NVMeshMenderTwo.cpp" />
     <ClCompile Include="Editor\ColorPicker.cpp" />
     <ClCompile Include="Editor\c_dinput.cpp" />
     <ClCompile Include="Editor\D3DUtils.cpp" />
@@ -267,7 +268,6 @@
     <ClInclude Include="Editor\ParticleEffectActions.h" />
     <ClInclude Include="Editor\PhysicsShellHolderEditorBase.h" />
     <ClInclude Include="Editor\pick_defs.h" />
-    <ClInclude Include="Editor\PropSlimTools.h" />
     <ClInclude Include="Editor\render.h" />
     <ClInclude Include="Editor\SkeletonFace.h" />
     <ClInclude Include="Editor\SkeletonVert.h" />
@@ -511,7 +511,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;XRECORE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>.;..\..\XrEngine\;..\..\XrRender\Private;..\..\XrRender\Public;..\FreeMagic;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\XrEngine\;..\..\XrRender\Private;..\..\XrRender\Public;..\FreeMagic;$(SolutionDir)..\SDK\tbb\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
@@ -521,6 +521,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <AdditionalDependencies>d3d9.lib;d3dx9.lib;vfw32.lib;Winmm.lib;dxguid.lib;dinput8.lib;Rpcrt4.lib;XrEngine.lib;lua51.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\SDK\tbb\Lib\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

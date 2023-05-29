@@ -248,7 +248,7 @@ CCommandVar TUI::CommandBreakLastOperation(CCommandVar p1, CCommandVar p2)
     if (mrYes == ELog.DlgMsg(mtConfirmation, mbYes | mbNo, "Are you sure to break current action?"))
     {
         NeedBreak();
-        ELog.Msg(mtInformation, "Execution canceled.");
+        ELog.Msg(mtInformation, "~ Execution canceled.");
     }
     return 1;
 }
@@ -649,7 +649,7 @@ CCommandVar ExecuteCommandList(LPCSTR text)
                 SESubCommand* SUB = FindSubCommandByName(CMD, sub_cmd_name.c_str());
                 if (!sub_cmd_name.empty() && !SUB)
                 {
-                    ELog.DlgMsg(mtError, "Can't find sub-command: '%s'", sub_cmd_name.c_str());
+                    ELog.DlgMsg(mtError, "& Can't find sub-command: '%s'", sub_cmd_name.c_str());
                     res = FALSE;
                     break;
                 }
@@ -665,14 +665,14 @@ CCommandVar ExecuteCommandList(LPCSTR text)
                 // execute command
                 if (FALSE == ExecCommand(CMD->idx, p1, p2))
                 {
-                    ELog.DlgMsg(mtError, "Can't execute command: '%s'", cmd.c_str());
+                    ELog.DlgMsg(mtError, "& Can't execute command: '%s'", cmd.c_str());
                     res = FALSE;
                     break;
                 }
             }
             else
             {
-                ELog.DlgMsg(mtError, "Can't find command: '%s'", cmd.c_str());
+                ELog.DlgMsg(mtError, "& Can't find command: '%s'", cmd.c_str());
                 res = FALSE;
                 break;
             }

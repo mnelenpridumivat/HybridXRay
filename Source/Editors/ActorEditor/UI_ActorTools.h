@@ -327,6 +327,7 @@ public:
     void SetPreviewObjectPrefs();
 
     void SelectListItem(LPCSTR pref, LPCSTR name, bool bVal, bool bLeaveSel, bool bExpand);
+    void OnChangeFlag(PropValue* sender);
 
     void ShowClipMaker();
     bool Import(LPCSTR path, LPCSTR name);
@@ -378,7 +379,7 @@ public:
     void      OptimizeMotions();
     void      RealMakeThumbnail();
     void      RealGenerateLOD(bool hq);
-    bool      BatchConvert(LPCSTR fn);
+    bool      BatchConvert(LPCSTR fn, int flags, float scale);
 
     void PhysicsSimulate();
     void PhysicsStopSimulate();

@@ -85,6 +85,10 @@ void UILogForm::Update()
                 {
                     Color = {1, 0, 0, 1};
                 }
+                if (strncmp(Str, "& ", 2) == 0)
+                {
+                    Color = {1, 0.5, 0, 1};
+                }
                 if (strncmp(Str, "~ ", 2) == 0)
                 {
                     Color = {1, 1, 0, 1};
@@ -92,6 +96,22 @@ void UILogForm::Update()
                 if (strncmp(Str, "* ", 2) == 0)
                 {
                     Color = {0.5, 0.5, 0.5, 1};
+                }
+                if (strncmp(Str, "+ ", 2) == 0)
+                {
+                    Color = {0, 1, 0, 1};
+                }
+                if (strncmp(Str, "= ", 2) == 0)
+                {
+                    Color = {0.5, 0, 1, 1};
+                }
+                if (strncmp(Str, "- ", 2) == 0)
+                {
+                    Color = {0.25, 0, 0.25, 1};
+                }
+                if (strncmp(Str, "# ", 2) == 0)
+                {
+                    Color = {0, 0.8, 0.6, 1};
                 }
 
                 ImGui::TextColored(Color, Str);

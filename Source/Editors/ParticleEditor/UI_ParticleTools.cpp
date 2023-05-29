@@ -356,7 +356,7 @@ bool CParticleTool::Save(bool bAsXR)
     // validate
     if (!Validate(true))
     {
-        ELog.DlgMsg(mtError, "Invalid particle's found. Validate library and try again.");
+        ELog.DlgMsg(mtError, "& Invalid particle's found. Validate library and try again.");
         return false;
     }
     bool bRes = false;
@@ -404,9 +404,9 @@ void CheckEffect(const xr_string& group_path, const shared_str& eff_full_name, x
             new_ped         = (bRenameOnly) ? old_ped : RImplementation.PSLibrary.AppendPED(old_ped);
             new_ped->m_Name = res_name.c_str();
             if (bRenameOnly)
-                Msg("rename effect [%s]->[%s]", eff_full_name.c_str(), res_name.c_str());
+                Msg("~ rename effect [%s]->[%s]", eff_full_name.c_str(), res_name.c_str());
             else
-                Msg("create new effect [%s]", res_name.c_str());
+                Msg("+ create new effect [%s]", res_name.c_str());
         }
         VERIFY(0 == stricmp(new_ped->m_Name.c_str(), res_name.c_str()));
     }
@@ -417,7 +417,7 @@ CCommandVar CParticleTool::CreateGroupFromSelected(CCommandVar p1, CCommandVar p
     /*PS::CPEDef* curr = m_LibPED;
     if(!curr)
     {
-        ELog.DlgMsg	(mtError,"Select Effect first.");
+        ELog.DlgMsg	(mtError,"& Select Effect first.");
         return false;
     }
     const shared_str& eff_name		= curr->m_Name;
@@ -455,7 +455,7 @@ CCommandVar CParticleTool::Compact(CCommandVar p1, CCommandVar p2)
 {
     if (!Validate(true))
     {
-        ELog.DlgMsg(mtError, "Invalid particle's found. Validate library and try again.");
+        ELog.DlgMsg(mtError, "& Invalid particle's found. Validate library and try again.");
         return false;
     }
 
@@ -503,7 +503,7 @@ CCommandVar CParticleTool::Compact(CCommandVar p1, CCommandVar p2)
 bool CParticleTool::Validate(bool bMsg)
 {
     if (bMsg)
-        ELog.Msg(mtInformation, "Begin validation...");
+        ELog.Msg(mtInformation, "# Begin validation...");
     PS::PEDIt _eI       = RImplementation.PSLibrary.FirstPED();
     PS::PEDIt _eE       = RImplementation.PSLibrary.LastPED();
     u32       error_cnt = 0;
@@ -522,9 +522,9 @@ bool CParticleTool::Validate(bool bMsg)
     if (bMsg)
     {
         if (error_cnt > 0)
-            ELog.DlgMsg(mtError, "Validation FAILED! Found %d error's.", error_cnt);
+            ELog.DlgMsg(mtError, "! Validation FAILED! Found %d error's.", error_cnt);
         else
-            ELog.DlgMsg(mtInformation, "Validation OK.");
+            ELog.DlgMsg(mtInformation, "+ Validation OK.");
     }
     return error_cnt == 0;
 }
@@ -665,13 +665,13 @@ void CParticleTool::DrawReferenceList()
 void CParticleTool::CommandJumpToItem()
 {
     /* for(int i=0; i<fraLeftBar->refLB->Count; ++i)
-     {
-          if(fraLeftBar->refLB->Selected[i])
-          {
-              m_PList->SelectItem((fraLeftBar->refLB->Items->Strings[i]).c_str(),true,false,true);
-              break;
-          }
-      }*/
+    {
+        if(fraLeftBar->refLB->Selected[i])
+        {
+            m_PList->SelectItem((fraLeftBar->refLB->Items->Strings[i]).c_str(),true,false,true);
+            break;
+        }
+    }*/
 }
 
 PS::CPEDef* CParticleTool::FindPE(LPCSTR name)
@@ -942,7 +942,7 @@ void CParticleTool::OnChangeObject(PropValue* sender)
     {
         Lib.RemoveEditObject(m_EditObject);
         m_EditObject = V->value->c_str() ? Lib.CreateEditObject(V->value->c_str()) : 0;
-        //	ZoomObject(TRUE);
+        // ZoomObject(TRUE);
 
         UI->RedrawScene();
     }

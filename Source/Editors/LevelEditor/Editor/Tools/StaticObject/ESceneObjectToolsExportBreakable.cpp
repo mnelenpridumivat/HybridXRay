@@ -19,18 +19,14 @@ IC bool build_mesh(
         int           gm_id    = surf->_GameMtl();
         if (gm_id == GAMEMTL_NONE_ID)
         {
-            ELog.DlgMsg(
-                mtError, "Object '%s', surface '%s' contain invalid game material.", mesh->Parent()->m_LibName.c_str(),
-                surf->_Name());
+            ELog.DlgMsg(mtError, "! Object '%s', surface '%s' contain invalid game material.", mesh->Parent()->m_LibName.c_str(), surf->_Name());
             bResult = FALSE;
             break;
         }
         SGameMtl* M = GameMaterialLibrary->GetMaterialByID(gm_id);
         if (0 == M)
         {
-            ELog.DlgMsg(
-                mtError, "Object '%s', surface '%s' contain undefined game material.",
-                mesh->Parent()->m_LibName.c_str(), surf->_Name());
+            ELog.DlgMsg(mtError, "! Object '%s', surface '%s' contain undefined game material.", mesh->Parent()->m_LibName.c_str(), surf->_Name());
             bResult = FALSE;
             break;
         }
@@ -43,17 +39,13 @@ IC bool build_mesh(
             IBlender* B = EDevice->Resources->_FindBlender(surf->_ShaderName());
             if (FALSE == B)
             {
-                ELog.Msg(
-                    mtError, "Can't find engine shader '%s'. Object '%s', surface '%s'. Export interrupted.",
-                    surf->_ShaderName(), mesh->Parent()->m_LibName.c_str(), surf->_Name());
+                ELog.Msg(mtError, "! Can't find engine shader '%s'. Object '%s', surface '%s'. Export interrupted.", surf->_ShaderName(), mesh->Parent()->m_LibName.c_str(), surf->_Name());
                 bResult = FALSE;
                 break;
             }
             if (TRUE == B->canBeLMAPped())
             {
-                ELog.Msg(
-                    mtError, "Object '%s', surface '%s' contain static engine shader - '%s'. Export interrupted.",
-                    mesh->Parent()->m_LibName.c_str(), surf->_Name(), surf->_ShaderName());
+                ELog.Msg(mtError, "! Object '%s', surface '%s' contain static engine shader - '%s'. Export interrupted.", mesh->Parent()->m_LibName.c_str(), surf->_Name(), surf->_ShaderName());
                 bResult = FALSE;
                 break;
             }
@@ -144,7 +136,7 @@ bool ESceneObjectTool::ExportBreakableObjects(SExportStreams* F)
                 R_ASSERT(W);
                 if (!P->Export(*W, 1))
                 {
-                    ELog.DlgMsg(mtError, "Invalid breakable object.");
+                    ELog.DlgMsg(mtError, "& Invalid breakable object.");
                     bResult = false;
                     break;
                 }
@@ -185,7 +177,7 @@ bool ESceneObjectTool::ExportBreakableObjects(SExportStreams* F)
             }
             else
             {
-                ELog.Msg(mtError, "Can't export invalid part #%d", p_it - parts.begin());
+                ELog.Msg(mtError, "! Can't export invalid part #%d", p_it - parts.begin());
             }
         }
         UI->ProgressEnd(pb);
@@ -305,8 +297,7 @@ bool ESceneObjectTool::ExportClimableObjects(SExportStreams* F)
                     // orientate object
                     if (!OrientToNorm(local_normal, P->m_OBB.m_rotate, P->m_OBB.m_halfsize))
                     {
-                        ELog.Msg(
-                            mtError, "Invalid climable object found. [%3.2f, %3.2f, %3.2f]", VPUSH(P->m_RefOffset));
+                        ELog.Msg(mtError, "& Invalid climable object found. [%3.2f, %3.2f, %3.2f]", VPUSH(P->m_RefOffset));
                     }
                     else
                     {
@@ -337,7 +328,7 @@ bool ESceneObjectTool::ExportClimableObjects(SExportStreams* F)
             }
             else
             {
-                ELog.Msg(mtError, "Can't export invalid part #%d", p_it - parts.begin());
+                ELog.Msg(mtError, "& Can't export invalid part #%d", p_it - parts.begin());
             }
         }
         UI->ProgressEnd(pb);

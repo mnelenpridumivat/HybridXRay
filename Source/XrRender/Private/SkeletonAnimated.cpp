@@ -694,8 +694,7 @@ CKinematicsAnimated::~CKinematicsAnimated()
 CKinematicsAnimated::CKinematicsAnimated():
     CKinematics(), IKinematicsAnimated(), blend_instances(NULL), m_Partition(NULL), m_blend_destroy_callback(0),
     m_update_tracks_callback(0), Update_LastTime(0)
-{
-}
+{}
 
 void CKinematicsAnimated::IBoneInstances_Create()
 {

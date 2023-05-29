@@ -1,7 +1,7 @@
 ﻿#ifndef ExportSkeletonH
 #define ExportSkeletonH
 
-#include "PropSlimTools.h"
+#include "../../XrETools/PropSlimTools.h"
 // #include "../../../xrRender/Private/SkeletonCustom.h"
 #include "EditMesh.h"
 //---------------------------------------------------------------------------
@@ -12,6 +12,7 @@ class CEditableObject;
 class CSurface;
 class CInifile;
 extern ECORE_API BOOL  g_force16BitTransformQuant;
+extern ECORE_API BOOL  g_forceFloatTransformQuant;
 extern ECORE_API float g_EpsSkelPositionDelta;
 
 struct ECORE_API SSkelVert: public st_SVert
@@ -40,6 +41,30 @@ struct ECORE_API SSkelVert: public st_SVert
         }
         sort_by_bone();   // need to similar
     }
+    BOOL similar_pos(SSkelVert& V)
+    {
+        return offs.similar(V.offs, g_EpsSkelPositionDelta);
+    }
+    BOOL similar(SSkelVert& V)
+    {
+        if (bones.size() != V.bones.size())
+            return FALSE;
+        for (u8 k = 0; k < (u8)bones.size(); k++)
+        {
+            if (!bones[k].similar(V.bones[k]))
+                return FALSE;
+        }
+        if (!uv.similar(V.uv, EPS_S))
+            return FALSE;
+
+        if (!offs.similar(V.offs, g_EpsSkelPositionDelta))
+            return FALSE;
+
+        if (!norm.similar(V.norm, g_EpsSkelPositionDelta))
+            return FALSE;
+
+        return TRUE;
+    }
 };
 
 struct ECORE_API SSkelFace
@@ -56,6 +81,10 @@ protected:
     SkelVertVec m_Verts;
     SkelFaceVec m_Faces;
 
+    Fvector m_VMmin, m_VMscale;
+    U32Vec  m_VM[clpSMX + 1][clpSMY + 1][clpSMZ + 1];
+    Fvector m_VMeps;
+
     u16 VPack(SSkelVert& V);
 
 public:
@@ -63,6 +92,7 @@ public:
 
 public:
     CSkeletonCollectorPacked(const Fbox& bb, int apx_vertices = 5000, int apx_faces = 5000);
+    CSkeletonCollectorPacked() {}
     bool check(SSkelFace& F)
     {
         if ((F.v[0] == F.v[1]) || (F.v[0] == F.v[2]) || (F.v[1] == F.v[2]))
@@ -85,26 +115,30 @@ public:
         }
         return true;
     }
-    bool add_face(SSkelVert& v0, SSkelVert& v1, SSkelVert& v2)
+    bool add_face(SSkelVert& v0, SSkelVert& v1, SSkelVert& v2, bool hq)
     {
-        if (v0.offs.similar(v1.offs, EPS) || v0.offs.similar(v2.offs, EPS) || v1.offs.similar(v2.offs, EPS))
+        if (!hq && ((v0.offs.similar(v1.offs, EPS) || v0.offs.similar(v2.offs, EPS) || v1.offs.similar(v2.offs, EPS))))
         {
-            ELog.Msg(mtError, "Degenerate face found. Removed.");
+            // ELog.Msg(mtError, "! ..Degenerate face found. Removed.");
+            Msg("! ..Degenerate face found. Removed.");
             invalid_faces++;
             return false;
         }
         SSkelFace F;
+
         F.v[0] = VPack(v0);
         F.v[1] = VPack(v1);
         F.v[2] = VPack(v2);
-        if (check(F))
+
+        if (hq || check(F))
         {
             m_Faces.push_back(F);
             return true;
         }
         else
         {
-            ELog.Msg(mtError, "Duplicate face found. Removed.");
+            // ELog.Msg(mtError, "! ..Duplicate(degenerate) face found. Removed.");
+            Msg("! ..Duplicate(degenerate) face found. Removed.");
             invalid_faces++;
             return false;
         }
@@ -143,6 +177,9 @@ protected:
         u16        m_PartID;
         Fbox       m_Box;
         U16Vec     m_UsedBones;
+        u16        m_id;
+        u16        m_sort_id;
+        BOOL       m_bSoC;
 
         // Progressive
         ArbitraryList<VIPM_SWR> m_SWR;   // The records of the collapses.
@@ -150,6 +187,7 @@ protected:
 
     public:
         SSplit(CSurface* surf, const Fbox& bb, u16 part);
+        SSplit() {}
 
         bool valid()
         {
@@ -176,12 +214,13 @@ protected:
                 m_Box.modify(pV.offs);
             }
         }
+        bool GetVertexBound() { return m_Verts.size() < 60000; }
     };
     DEFINE_VECTOR(SSplit, SplitVec, SplitIt);
     SplitVec m_Splits;
     Fbox     m_Box;
     //----------------------------------------------------
-    int  FindSplit(shared_str shader, shared_str texture, u16 part_id);
+    int  FindSplit(shared_str shader, shared_str texture, u16 part_id, u16 surf_id);
     void ComputeBounding()
     {
         m_Box.invalidate();
@@ -200,6 +239,7 @@ class ECORE_API CExportSkeleton: public CExportSkeletonCustom
 {
     CEditableObject* m_Source;
     bool             PrepareGeometry(u8 influence);
+    void             DetectSmoothType();
 
 public:
     CExportSkeleton(CEditableObject* object);

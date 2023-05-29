@@ -496,8 +496,7 @@ void                   TUI::Redraw()
                 }
                 catch (...)
                 {
-                    ELog.DlgMsg(
-                        mtError, "Please notify AlexMX!!! Critical error has occured in render routine!!! [Type B]");
+                    ELog.DlgMsg(mtError, "& Please notify AlexMX!!! Critical error has occured in render routine!!! [Type B]");
                 }
 
                 // draw selection rect
@@ -533,17 +532,16 @@ void                   TUI::Redraw()
             }
             catch (...)
             {
-                ELog.DlgMsg(
-                    mtError, "Please notify AlexMX!!! Critical error has occured in render routine!!! [Type C]");
+                ELog.DlgMsg(mtError, "& Please notify AlexMX!!! Critical error has occured in render routine!!! [Type C]");
             }
         }
     }
     catch (...)
     {
-        ELog.DlgMsg(mtError, "Please notify AlexMX!!! Critical error has occured in render routine!!! [Type A]");
+        ELog.DlgMsg(mtError, "& Please notify AlexMX!!! Critical error has occured in render routine!!! [Type A]");
         //		_clear87();
         //		FPU::m24r();
-        //    	ELog.DlgMsg(mtError, "Critical error has occured in render routine.\nEditor may work incorrectly.");
+        //    	ELog.DlgMsg(mtError, "! Critical error has occured in render routine.\nEditor may work incorrectly.");
         EDevice->End();
         //		EDevice->Resize(m_D3DWindow->Width,m_D3DWindow->Height);
     }
@@ -656,8 +654,9 @@ bool TUI::OnCreate()
     m_bReady = true;
 
 #if 0
-    if (!CreateMailslot()) {
-        ELog.DlgMsg(mtError, "Can't create mail slot.\nIt's possible two Editors started.");
+    if (!CreateMailslot())
+	{
+        ELog.DlgMsg(mtError, "& Can't create mail slot.\nIt's possible two Editors started.");
         return 		false;
     }
 #endif
@@ -668,7 +667,7 @@ bool TUI::OnCreate()
     }
     if (!FS.path_exist(_local_root_))
     {
-        ELog.DlgMsg(mtError, "Undefined Editor local directory.");
+        ELog.DlgMsg(mtError, "& Undefined Editor local directory.");
         return false;
     }
 
@@ -677,15 +676,13 @@ bool TUI::OnCreate()
     GetRenderHeight() = 128;
     RTSize.set(GetRenderWidth(), GetRenderHeight());
     EDevice->fASPECT = (float)RTSize.x / (float)RTSize.y;
-    EDevice->mProject.build_projection(
-        deg2rad(EDevice->fFOV), EDevice->fASPECT, EDevice->m_Camera.m_Znear, EDevice->m_Camera.m_Zfar);
+    EDevice->mProject.build_projection(deg2rad(EDevice->fFOV), EDevice->fASPECT, EDevice->m_Camera.m_Znear, EDevice->m_Camera.m_Zfar);
     EDevice->m_fNearer = EDevice->mProject._43;
 
     RCache.set_xform_project(EDevice->mProject);
     RCache.set_xform_world(Fidentity);
     RT.create("rt_color", RTSize.x * EDevice->m_ScreenQuality, RTSize.y * EDevice->m_ScreenQuality, HW.Caps.fTarget);
-    ZB.create(
-        "rt_depth", RTSize.x * EDevice->m_ScreenQuality, RTSize.y * EDevice->m_ScreenQuality, D3DFORMAT::D3DFMT_D24X8);
+    ZB.create("rt_depth", RTSize.x * EDevice->m_ScreenQuality, RTSize.y * EDevice->m_ScreenQuality, D3DFORMAT::D3DFMT_D24X8);
 
     return true;
 }

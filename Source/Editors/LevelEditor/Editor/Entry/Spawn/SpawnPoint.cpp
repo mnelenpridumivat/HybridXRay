@@ -249,7 +249,7 @@ void CSpawnPoint::SSpawnData::Create(LPCSTR _entity_ref)
     }
     else
     {
-        Log("!Can't create entity: ", _entity_ref);
+        Log("! Can't create entity: ", _entity_ref);
     }
 
     if (pSettings->line_exist(_entity_ref, "$render_if_selected"))
@@ -368,7 +368,7 @@ bool CSpawnPoint::SSpawnData::ExportGame(SExportStreams* F, CSpawnPoint* owner)
     // SHAPE
     if (cform && !(owner->m_AttachedObject && (owner->m_AttachedObject->FClassID == OBJCLASS_SHAPE)))
     {
-        ELog.DlgMsg(mtError, "Spawn Point: '%s' must contain attached shape.", owner->GetName());
+        ELog.DlgMsg(mtError, "& Spawn Point: '%s' must contain attached shape.", owner->GetName());
         return false;
     }
     if (cform)
@@ -411,7 +411,7 @@ void CSpawnPoint::SSpawnData::PreExportSpawn(CSpawnPoint* owner)
     // SHAPE
     if (cform && !(owner->m_AttachedObject && (owner->m_AttachedObject->FClassID == OBJCLASS_SHAPE)))
     {
-        ELog.DlgMsg(mtError, "Spawn Point: '%s' must contain attached shape.", owner->GetName());
+        ELog.DlgMsg(mtError, "& Spawn Point: '%s' must contain attached shape.", owner->GetName());
         ;
     }
     if (cform)
@@ -1074,7 +1074,7 @@ bool CSpawnPoint::LoadLTX(CInifile& ini, LPCSTR sect_name)
 
     if (version < 0x0014)
     {
-        ELog.Msg(mtError, "SPAWNPOINT: Unsupported version.");
+        ELog.Msg(mtError, "& SPAWNPOINT: Unsupported version.");
         return false;
     }
 
@@ -1083,7 +1083,7 @@ bool CSpawnPoint::LoadLTX(CInifile& ini, LPCSTR sect_name)
 
     if (m_Type >= ptMaxType)
     {
-        ELog.Msg(mtError, "SPAWNPOINT: Unsupported spawn version.");
+        ELog.Msg(mtError, "& SPAWNPOINT: Unsupported spawn version.");
         return false;
     }
     switch (m_Type)
@@ -1093,7 +1093,7 @@ bool CSpawnPoint::LoadLTX(CInifile& ini, LPCSTR sect_name)
             strconcat(sizeof(buff), buff, sect_name, "_spawndata");
             if (!m_SpawnData.LoadLTX(ini, buff))
             {
-                ELog.Msg(mtError, "SPAWNPOINT: Can't load Spawn Data.");
+                ELog.Msg(mtError, "! SPAWNPOINT: Can't load Spawn Data.");
                 return false;
             }
             SetValid(true);
@@ -1194,7 +1194,7 @@ bool CSpawnPoint::LoadStream(IReader& F)
     R_ASSERT(F.r_chunk(SPAWNPOINT_CHUNK_VERSION, &version));
     if (version < 0x0014)
     {
-        ELog.Msg(mtError, "SPAWNPOINT: Unsupported version.");
+        ELog.Msg(mtError, "& SPAWNPOINT: Unsupported version.");
         return false;
     }
 
@@ -1205,7 +1205,7 @@ bool CSpawnPoint::LoadStream(IReader& F)
     {
         if (!m_SpawnData.LoadStream(F))
         {
-            ELog.Msg(mtError, "SPAWNPOINT: Can't load Spawn Data.");
+            ELog.Msg(mtError, "! SPAWNPOINT: Can't load Spawn Data.");
             return false;
         }
         SetValid(true);
@@ -1217,7 +1217,7 @@ bool CSpawnPoint::LoadStream(IReader& F)
             m_Type = (EPointType)F.r_u32();
         if (m_Type >= ptMaxType)
         {
-            ELog.Msg(mtError, "SPAWNPOINT: Unsupported spawn version.");
+            ELog.Msg(mtError, "& SPAWNPOINT: Unsupported spawn version.");
             return false;
         }
         switch (m_Type)
@@ -1345,7 +1345,7 @@ bool CSpawnPoint::ExportGame(SExportStreams* F)
         }
         else
         {
-            Log("!Invalid spawn data:", GetName());
+            Log("! Invalid spawn data:", GetName());
             return false;
         }
     }

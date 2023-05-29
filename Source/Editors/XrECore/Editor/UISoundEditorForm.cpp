@@ -16,7 +16,7 @@ UISoundEditorForm::UISoundEditorForm()
     InitItemList();
     if (!FS.can_write_to_alias(_sounds_))
     {
-        Log("#!You don't have permisions to modify sounds.");
+        Log("& You don't have permisions to modify sounds.");
         m_ItemProps->SetReadOnly(TRUE);
         m_Flags.set(flReadOnly, TRUE);
         bAutoPlay = TRUE;
@@ -174,10 +174,10 @@ void UISoundEditorForm::OnSyncCurrentClick(ButtonValue* V, bool& bModif, bool& b
         FS.update_path(game_name, _game_sounds_, pTHM->SrcName());
         strconcat(sizeof(game_name), game_name, game_name, ".ogg");
 
-        Msg("synchronizing [%s]", game_name);
+        Msg("# synchronizing [%s]", game_name);
         SndLib->MakeGameSound(pTHM, src_name, game_name);
     }
-    Msg("Done.");
+    Msg("+ Done.");
 }
 
 void UISoundEditorForm::OnAttClick(ButtonValue* V, bool& bModif, bool& bSafe)

@@ -215,7 +215,7 @@ bool Image_DXTC::LoadFromFile(LPCSTR filename)
 
         if (m_pCompBytes == NULL)
         {
-            Msg("Can't allocate m_pCompBytes on file read!\n");
+            Msg("& Can't allocate m_pCompBytes on file read!\n");
             return (false);
         }
 

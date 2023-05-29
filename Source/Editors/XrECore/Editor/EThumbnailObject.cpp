@@ -50,7 +50,7 @@ bool EObjectThumbnail::Load(LPCSTR src_name, LPCSTR path)
     R_ASSERT(F->r_chunk(THM_CHUNK_VERSION, &version));
     if (version != THM_OBJECT_VERSION)
     {
-        Msg("!Thumbnail: Unsupported version.");
+        Msg("! Thumbnail: Unsupported version.");
         return false;
     }
 
@@ -108,7 +108,7 @@ void EObjectThumbnail::Save(int age, LPCSTR path)
     }
     else
     {
-        Log("!Can't save thumbnail:", fn);
+        Log("! Can't save thumbnail:", fn);
     }
 }
 //------------------------------------------------------------------------------

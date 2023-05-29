@@ -647,37 +647,37 @@ BOOL SceneBuilder::BuildMesh(
         }
         if (gm_id < 0)
         {
-            ELog.DlgMsg(mtError, "Surface: '%s' contains bad game material.", surf->_Name());
+            ELog.DlgMsg(mtError, "! Surface: '%s' contains bad game material.", surf->_Name());
             bResult = FALSE;
             break;
         }
         SGameMtl* M = GameMaterialLibrary->GetMaterialByID(gm_id);
         if (0 == M)
         {
-            ELog.DlgMsg(mtError, "Surface: '%s' contains undefined game material.", surf->_Name());
+            ELog.DlgMsg(mtError, "! Surface: '%s' contains undefined game material.", surf->_Name());
             bResult = FALSE;
             break;
         }
         if (M->Flags.is(SGameMtl::flBreakable))
         {
-            ELog.Msg(mtInformation, "Surface: '%s' contains breakable game material.", surf->_Name());
+            ELog.Msg(mtInformation, "~ Surface: '%s' contains breakable game material.", surf->_Name());
             continue;
         }
         if (M->Flags.is(SGameMtl::flClimable))
         {
-            ELog.Msg(mtInformation, "Surface: '%s' contains climable game material.", surf->_Name());
+            ELog.Msg(mtInformation, "~ Surface: '%s' contains climable game material.", surf->_Name());
             continue;
         }
         if (M->Flags.is(SGameMtl::flDynamic))
         {
-            ELog.DlgMsg(mtError, "Surface: '%s' contains non-static game material.", surf->_Name());
+            ELog.DlgMsg(mtError, "! Surface: '%s' contains non-static game material.", surf->_Name());
             bResult = FALSE;
             break;
         }
         u32 dwTexCnt = ((surf->_FVF() & D3DFVF_TEXCOUNT_MASK) >> D3DFVF_TEXCOUNT_SHIFT);
         if (dwTexCnt != 1)
         {
-            ELog.DlgMsg(mtError, "Surface: '%s' contains more than 1 texture refs.", surf->_Name());
+            ELog.DlgMsg(mtError, "! Surface: '%s' contains more than 1 texture refs.", surf->_Name());
             bResult = FALSE;
             break;
         }
@@ -763,7 +763,7 @@ BOOL SceneBuilder::BuildMesh(
             }
         }
         if (dwInvalidFaces)
-            Msg("!Object '%s' - '%s' has %d invalid face(s). Removed.", object->GetName(), mesh->Name().c_str(),
+            Msg("! Object '%s' - '%s' has %d invalid face(s). Removed.", object->GetName(), mesh->Name().c_str(),
                 dwInvalidFaces);
 
         if (!bResult)
@@ -1104,7 +1104,7 @@ BOOL SceneBuilder::BuildLight(CLight* e)
 
     if (!e->GetLControlName())
     {
-        ELog.Msg(mtError, "Invalid light control name: light '%s'.", e->GetName());
+        ELog.Msg(mtError, "! Invalid light control name: light '%s'.", e->GetName());
         return FALSE;
     }
 
@@ -1237,7 +1237,7 @@ int SceneBuilder::BuildShader(const char* s)
     {
         if (!EDevice->Resources->_FindBlender(sh.name))
         {
-            ELog.DlgMsg(mtError, "Can't find engine shader: %s", sh.name);
+            ELog.DlgMsg(mtError, "! Can't find engine shader: %s", sh.name);
             return -1;
         }
         l_shaders.push_back(sh);
@@ -1265,7 +1265,7 @@ int SceneBuilder::BuildShaderXRLC(const char* s)
     {
         if (!EDevice->ShaderXRLC.Get(sh.name))
         {
-            ELog.DlgMsg(mtError, "Can't find compiler shader: %s", sh.name);
+            ELog.DlgMsg(mtError, "! Can't find compiler shader: %s", sh.name);
             return -1;
         }
         l_shaders_xrlc.push_back(sh);
@@ -1288,7 +1288,7 @@ int SceneBuilder::BuildTexture(const char* name)
 {
     if (!(name && name[0]))
     {
-        ELog.DlgMsg(mtError, "Invalid texture name found.");
+        ELog.DlgMsg(mtError, "! Invalid texture name found.");
         return -1;
     }
     int tex_idx = FindInTextures(name);
@@ -1412,7 +1412,7 @@ BOOL SceneBuilder::ParseStaticObjects(ObjectList& lst, LPCSTR prefix, bool b_sel
         }   // end switch
         if (!bResult)
         {
-            ELog.DlgMsg(mtError, "Failed to build object: '%s'", (*_F)->GetName());
+            ELog.DlgMsg(mtError, "! Failed to build object: '%s'", (*_F)->GetName());
             break;
         }
     }
@@ -1569,7 +1569,7 @@ BOOL SceneBuilder::CompileStatic(bool b_selected_only)
         }
         else
         {
-            ELog.DlgMsg(mtError, "Failed to build merged LOD texture. Merged texture more than [8192x8192].");
+            ELog.DlgMsg(mtError, "! Failed to build merged LOD texture. Merged texture more than [8192x8192].");
             bResult = FALSE;
         }
         UI->ProgressEnd(pb);

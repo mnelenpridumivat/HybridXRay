@@ -111,7 +111,7 @@ CCommandVar CActorTools::CommandImport(CCommandVar p1, CCommandVar p2)
         }
         else
         {
-            ELog.Msg(mtError, "Invalid file path. ");
+            ELog.Msg(mtError, "! Invalid file path. ");
         }
     }
     return FALSE;
@@ -123,9 +123,9 @@ CCommandVar CActorTools::CommandExportDM(CCommandVar p1, CCommandVar p2)
     if (p1.IsString() || EFS.GetSaveName("$game_dm$", fn))
     {
         if (0 != (res = ExportDM(fn.c_str())))
-            ELog.Msg(mtInformation, "Export complete.");
+            ELog.Msg(mtInformation, "+ Export complete.");
         else
-            ELog.Msg(mtError, "Export failed.");
+            ELog.Msg(mtError, "! Export failed.");
     }
     return res;
 }
@@ -137,9 +137,9 @@ CCommandVar CActorTools::CommandExportOBJ(CCommandVar p1, CCommandVar p2)
     if (p1.IsString() || EFS.GetSaveName("$import$", fn, 0, 5))
     {
         if (0 != (res = ExportOBJ(fn.c_str())))
-            ELog.Msg(mtInformation, "Export complete.");
+            ELog.Msg(mtInformation, "+ Export complete.");
         else
-            ELog.Msg(mtError, "Export failed.");
+            ELog.Msg(mtError, "! Export failed.");
     }
     return res;
 }
@@ -150,9 +150,9 @@ CCommandVar CActorTools::CommandExportOGF(CCommandVar p1, CCommandVar p2)
     if (p1.IsString() || EFS.GetSaveName("$game_meshes$", fn, 0, 0))
     {
         if (0 != (res = ATools->ExportOGF(fn.c_str())))
-            ELog.Msg(mtInformation, "Export complete.");
+            ELog.Msg(mtInformation, "+ Export complete.");
         else
-            ELog.Msg(mtError, "Export failed.");
+            ELog.Msg(mtError, "! Export failed.");
     }
     return res;
 }
@@ -164,9 +164,9 @@ CCommandVar CActorTools::CommandExportOMF(CCommandVar p1, CCommandVar p2)
     if (p1.IsString() || EFS.GetSaveName("$game_meshes$", fn, 0, 1))
     {
         if (0 != (res = ExportOMF(fn.c_str())))
-            ELog.Msg(mtInformation, "Export complete.");
+            ELog.Msg(mtInformation, "+ Export complete.");
         else
-            ELog.Msg(mtError, "Export failed.");
+            ELog.Msg(mtError, "! Export failed.");
     }
     return res;
 }
@@ -177,9 +177,9 @@ CCommandVar CActorTools::CommandExportCPP(CCommandVar p1, CCommandVar p2)
     if (p1.IsString() || EFS.GetSaveName(_import_, fn, 0, 7))
     {
         if (0 != (res = ExportCPP(fn.c_str())))
-            ELog.Msg(mtInformation, "Export complete.");
+            ELog.Msg(mtInformation, "+ Export complete.");
         else
-            ELog.Msg(mtError, "Export failed.");
+            ELog.Msg(mtError, "! Export failed.");
     }
     return res;
 }
@@ -187,7 +187,7 @@ CCommandVar CActorTools::CommandExportCPP(CCommandVar p1, CCommandVar p2)
 CCommandVar CActorTools::CommandUndo(CCommandVar p1, CCommandVar p2)
 {
     if (!Undo())
-        ELog.Msg(mtInformation, "Undo buffer empty");
+        ELog.Msg(mtInformation, "# Undo buffer empty");
     else
         return ExecCommand(COMMAND_CHANGE_ACTION, etaSelect);
 
@@ -196,7 +196,7 @@ CCommandVar CActorTools::CommandUndo(CCommandVar p1, CCommandVar p2)
 CCommandVar CActorTools::CommandRedo(CCommandVar p1, CCommandVar p2)
 {
     if (!Redo())
-        ELog.Msg(mtInformation, "Redo buffer empty");
+        ELog.Msg(mtInformation, "# Redo buffer empty");
     else
         return ExecCommand(COMMAND_CHANGE_ACTION, etaSelect);
 
@@ -214,16 +214,19 @@ CCommandVar CActorTools::CommandMakeThumbnail(CCommandVar p1, CCommandVar p2)
 }
 CCommandVar CActorTools::CommandBatchConvert(CCommandVar p1, CCommandVar p2)
 {
+    /*
     CCommandVar res = FALSE;
     xr_string   fn;
     if (EFS.GetOpenName(EDevice->m_hWnd, "$import$", fn, false, 0, 6))
     {
         if (0 != (res = BatchConvert(fn.c_str())))
-            ELog.Msg(mtInformation, "Convert complete.");
+            ELog.Msg(mtInformation, "+ Convert complete.");
         else
-            ELog.Msg(mtError, "Convert failed.");
+            ELog.Msg(mtError, "! Convert failed.");
     }
     return res;
+    */
+    return FALSE;
 }
 
 char* CActorMain::GetCaption()
@@ -326,7 +329,10 @@ void CAEPreferences::Save(CInifile* I)
     I->w_bool("ae_prefs", "always_show_keybar12", bAlwaysShowKeyBar12);
     I->w_bool("ae_prefs", "always_show_keybar34", bAlwaysShowKeyBar34);
 }
+
 extern ECORE_API BOOL g_force16BitTransformQuant;
+extern ECORE_API BOOL g_forceFloatTransformQuant;
+
 void CAEPreferences::FillProp(PropItemVec& props)
 {
     inherited::FillProp(props);
@@ -335,6 +341,7 @@ void CAEPreferences::FillProp(PropItemVec& props)
     PHelper().CreateBOOL(props, "Keybar\\show footsteps 34", &bAlwaysShowKeyBar34);
 
     PHelper().CreateBOOL(props, "Tools\\MotionExport\\Force 16bit MotionT", &g_force16BitTransformQuant);
+    PHelper().CreateBOOL(props, "Tools\\MotionExport\\Force No Compress Motion", &g_forceFloatTransformQuant);
 }
 
 CActorMain::CActorMain()
@@ -472,7 +479,7 @@ CCommandVar CActorTools::CommandLoad(CCommandVar p1, CCommandVar p2)
 
         if (!FS.exist(temp_fn.c_str()))
         {
-            Msg("#!Can't load file: %s", temp_fn.c_str());
+            Msg("! Can't load file: %s", temp_fn.c_str());
             return FALSE;
         }
 

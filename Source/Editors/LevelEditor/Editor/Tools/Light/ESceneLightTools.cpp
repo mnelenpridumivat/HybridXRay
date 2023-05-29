@@ -145,16 +145,16 @@ void ESceneLightTool::OnControlAppendClick(ButtonValue* sender, bool& bDataModif
 
 void ESceneLightTool::OnControlRenameRemoveClick(ButtonValue* V, bool& bDataModified, bool& bSafe)
 {
-    R_ASSERT(!"�������� �� �����������");
+    R_ASSERT(!"Сорян забыл релизовать(Red panda)");
     /*  xr_string item_name = V->Owner()->Item()->Text;
       switch (V->btn_num){
       case 0:{
           xr_string new_name=item_name;
           if (TfrmText::RunEditor(new_name,"Control name")){
               if (FindLightControl(new_name.c_str())){
-                  ELog.DlgMsg(mtError,"Duplicate name found.");
+                  ELog.DlgMsg(mtError,"! Duplicate name found.");
               }else if (new_name.IsEmpty()||new_name.Pos("\\")){
-                  ELog.DlgMsg(mtError,"Invalid control name.");
+                  ELog.DlgMsg(mtError,"! Invalid control name.");
               }else{
                   RTokenVecIt it	= FindLightControlIt(item_name.c_str());
                   it->rename 		(new_name.c_str());
@@ -262,7 +262,7 @@ bool ESceneLightTool::Validate(bool full_test)
         if (!L->GetLControlName())
         {
             bRes = false;
-            ELog.Msg(mtError, "%s: '%s' - Invalid light control.", ClassDesc(), L->GetName());
+            ELog.Msg(mtError, "! %s: '%s' - Invalid light control.", ClassDesc(), L->GetName());
         }
     }
     return bRes;
@@ -310,11 +310,11 @@ void ESceneLightTool::OnDrawUI()
         {
             if (FindLightControl(result.c_str()))
             {
-                ELog.DlgMsg(mtError, "Duplicate name found.");
+                ELog.DlgMsg(mtError, "& Duplicate name found.");
             }
             else if (result.empty() || result.find("\\") != result.npos)
             {
-                ELog.DlgMsg(mtError, "Invalid control name.");
+                ELog.DlgMsg(mtError, "& Invalid control name.");
             }
             else
             {

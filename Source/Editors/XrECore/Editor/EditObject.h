@@ -67,6 +67,8 @@ public:
     Flags32       m_RTFlags;
     u32           tag;
     SSimpleImage* m_ImageData;
+    u16           m_id;
+    u16           m_sort_id;
 
 public:
     CSurface()
@@ -74,10 +76,12 @@ public:
         m_GameMtlName = "default";
         m_ImageData   = 0;
         m_Shader      = 0;
+        m_dwFVF       = 0;
+        tag           = 0;
+        m_id          = 0;
+        m_sort_id     = 0;
         m_RTFlags.zero();
         m_Flags.zero();
-        m_dwFVF = 0;
-        tag     = 0;
     }
     IC bool Validate()
     {
@@ -258,6 +262,8 @@ public:
     xr_vector<shared_str> m_SMotionRefs;
     shared_str            m_LODs;
 
+    bool m_SmoothMsgSended;
+    bool m_SmoothExportMsgSended;
 public:
     // options
     Flags32 m_objectFlags;
@@ -270,6 +276,15 @@ public:
         eoMultipleUsage = (1 << 4),
         eoSoundOccluder = (1 << 5),
         eoHQExport      = (1 << 6),
+        eoHQExportPlus  = (1 << 7),
+        eoOptimizeSurf  = (1 << 8),
+        eoStripify      = (1 << 9),
+        eoNormals       = (1 << 10),
+        eoSoCSmooth     = (1 << 11),
+        eoCoPSmooth     = (1 << 12),
+        eoAutoSmooth    = (1 << 13),
+        eoSoCInfluence  = (1 << 14),
+        eoSoCRefs       = (1 << 15),
         eoFORCE32       = u32(-1)
     };
     IC BOOL IsDynamic()
@@ -295,6 +310,8 @@ public:
     // temp variable for actor
     Fvector a_vPosition;
     Fvector a_vRotate;
+    float   a_vScale;
+    BOOL    a_vAdjustMass;
 
     // temp variables for transformation
     Fvector t_vPosition;
@@ -534,7 +551,7 @@ public:
     void Render(const Fmatrix& parent, int priority, bool strictB2F, SurfaceVec* surfaces = nullptr);
     void RenderSelection(const Fmatrix& parent, CEditableMesh* m = 0, CSurface* s = 0, u32 c = 0x40E64646);
     void RenderEdge(const Fmatrix& parent, CEditableMesh* m = 0, CSurface* s = 0, u32 c = 0xFFC0C0C0);
-    void RenderBones(const Fmatrix& parent);
+    void RenderBones(const Fmatrix& _parent);
     void RenderAnimation(const Fmatrix& parent);
     void RenderSingle(const Fmatrix& parent);
     void RenderSkeletonSingle(const Fmatrix& parent);
@@ -843,6 +860,7 @@ private:
 #define EOBJ_CHUNK_SMOTIONS2 0x0924
 #define EOBJ_CHUNK_LODS 0x0925
 #define EOBJ_CHUNK_SMOTIONS3 0x0926
+#define EOBJ_CHUNK_SCALE 0x0927
 //----------------------------------------------------
 
 #endif /*_INCDEF_EditObject_H_*/

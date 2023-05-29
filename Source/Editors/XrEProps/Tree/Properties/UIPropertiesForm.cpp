@@ -289,7 +289,7 @@ void UIPropertiesForm::DrawEditText()
                 F.w_stringZ(m_EditTextValueData);
 
                 if (!F.save_to(fn.c_str()))
-                    Log("!Can't save text file:", fn.c_str());
+                    Log("! Can't save text file:", fn.c_str());
             }
         }
 

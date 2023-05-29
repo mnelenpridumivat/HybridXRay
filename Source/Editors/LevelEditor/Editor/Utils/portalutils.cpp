@@ -11,7 +11,7 @@ CSector* CPortalUtils::GetSelectedSector()
         return 0;
     if (lst.size() > 1)
     {
-        ELog.DlgMsg(mtError, "Please select only one sector.");
+        ELog.DlgMsg(mtError, "& Please select only one sector.");
         return 0;
     }
     CSector* sector = (CSector*)*lst.begin();
@@ -45,7 +45,7 @@ int CPortalUtils::CalculateSelectedPortals()
         int        s_cnt = Scene->GetQueryObjects(s_lst, OBJCLASS_SECTOR, 1, 1, -1);
         if (s_cnt < 2)
         {
-            ELog.DlgMsg(mtError, "Select at least 2 sectors.");
+            ELog.DlgMsg(mtError, "& Select at least 2 sectors.");
             return 0;
         }
         // remove exists portals
@@ -65,7 +65,7 @@ int CPortalUtils::CalculateSelectedPortals()
     }
     else
     {
-        ELog.DlgMsg(mtError, "*ERROR: Scene has non associated face (face without sector)!");
+        ELog.DlgMsg(mtError, "& ERROR: Scene has non associated face (face without sector)!");
     }
 
     UI->SetStatus("...");
@@ -141,7 +141,7 @@ int CPortalUtils::CalculateAllPortals2()
 
         Scene->UndoSave();
     }else{
-        ELog.DlgMsg(mtError,"*ERROR: Scene has non associated face (face without sector)!");
+        ELog.DlgMsg(mtError,"& ERROR: Scene has non associated face (face without sector)!");
     }
 
     UI->SetStatus("...");
@@ -174,7 +174,7 @@ bool CPortalUtils::Validate(bool bMsg)
         {
             if (bMsg)
             {
-                ELog.DlgMsg(mtError, "*ERROR: Scene has '%d' non associated face!", f_cnt);
+                ELog.DlgMsg(mtError, "& ERROR: Scene has '%d' non associated face!", f_cnt);
                 for (SItemIt it = sector_def->sector_items.begin(); it != sector_def->sector_items.end(); it++)
                     Msg("! - scene object: '%s' [O:'%s', M:'%s']", it->object->GetName(), it->object->RefName(),
                         it->mesh->Name().c_str());
@@ -192,7 +192,7 @@ bool CPortalUtils::Validate(bool bMsg)
     else
     {
         if (bMsg)
-            ELog.DlgMsg(mtInformation, "Validation failed! Can't compute bbox.");
+            ELog.DlgMsg(mtInformation, "! Validation failed! Can't compute bbox.");
     }
     return bResult;
 }
@@ -573,24 +573,18 @@ public:
                 else
                 {
                     xr_delete(_O);
-                    ELog.Msg(
-                        mtError, "Can't simplify Portal :(\nPlease check geometry.\n'%s'<->'%s'", p_it->s[0]->GetName(),
-                        p_it->s[1]->GetName());
+                    ELog.Msg(mtError, "& Can't simplify Portal :(\nPlease check geometry.\n'%s'<->'%s'", p_it->s[0]->GetName(), p_it->s[1]->GetName());
                 }
             }
             else if (p_it->e.size() == 0)
             {
-                ELog.Msg(
-                    mtError, "Can't create Portal from 0 edge :(\nPlease check geometry.\n'%s'<->'%s'\n",
-                    p_it->s[0]->GetName(), p_it->s[1]->GetName());
+                ELog.Msg(mtError, "& Can't create Portal from 0 edge :(\nPlease check geometry.\n'%s'<->'%s'\n", p_it->s[0]->GetName(), p_it->s[1]->GetName());
             }
             else
             {
                 Fvector& v0 = verts[edges[p_it->e[0]].v[0]];
                 Fvector& v1 = verts[edges[p_it->e[0]].v[1]];
-                ELog.Msg(
-                    mtError, "Can't create Portal from one edge :(\nPlease check geometry.\n'%s'<->'%s'",
-                    p_it->s[0]->GetName(), p_it->s[1]->GetName());
+                ELog.Msg(mtError, "& Can't create Portal from one edge :(\nPlease check geometry.\n'%s'<->'%s'", p_it->s[0]->GetName(), p_it->s[1]->GetName());
                 Tools->m_DebugDraw.AppendLine(v0, v1);
             }
         }
@@ -664,7 +658,7 @@ int CPortalUtils::CalculateAllPortals()
     }
     else
     {
-        ELog.DlgMsg(mtError, "*ERROR: Sector validation failed.");
+        ELog.DlgMsg(mtError, "! ERROR: Sector validation failed.");
     }
 
     UI->ResetStatus();
@@ -687,7 +681,7 @@ int CPortalUtils::CalculatePortals(CSector* SF, CSector* SB)
     }
     else
     {
-        ELog.DlgMsg(mtError, "*ERROR: Scene has non associated face (face without sector)!");
+        ELog.DlgMsg(mtError, "& ERROR: Scene has non associated face (face without sector)!");
     }
 
     UI->ResetStatus();

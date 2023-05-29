@@ -24,6 +24,7 @@
 #define EMESH_CHUNK_VMAPS_1 0x1011
 #define EMESH_CHUNK_VMAPS_2 0x1012
 #define EMESH_CHUNK_SG 0x1013
+#define EMESH_CHUNK_NORMALS 0x1014
 
 void CEditableMesh::SaveMesh(IWriter& F)
 {
@@ -54,6 +55,13 @@ void CEditableMesh::SaveMesh(IWriter& F)
     {
         F.open_chunk(EMESH_CHUNK_SG);
         F.w(GetSmoothGroups(), m_FaceCount * sizeof(u32));
+        F.close_chunk();
+    }
+
+    if (m_Normals)
+    {
+        F.open_chunk(EMESH_CHUNK_NORMALS);
+        F.w(m_Normals, m_FaceCount * 3 * sizeof(Fvector));
         F.close_chunk();
     }
 
@@ -103,7 +111,7 @@ bool CEditableMesh::LoadMesh(IReader& F)
     R_ASSERT(F.r_chunk(EMESH_CHUNK_VERSION, &version));
     if (version != EMESH_CURRENT_VERSION)
     {
-        ELog.DlgMsg(mtError, "CEditableMesh: unsuported file version. Mesh can't load.");
+        ELog.DlgMsg(mtError, "! CEditableMesh: unsuported file version. Mesh can't load.");
         return false;
     }
 
@@ -118,7 +126,7 @@ bool CEditableMesh::LoadMesh(IReader& F)
     m_VertCount = F.r_u32();
     if (m_VertCount < 3)
     {
-        Log("!CEditableMesh: Vertices<3.");
+        Log("& CEditableMesh: Vertices<3.");
         return false;
     }
     m_Vertices = xr_alloc<Fvector>(m_VertCount);
@@ -129,7 +137,7 @@ bool CEditableMesh::LoadMesh(IReader& F)
     m_Faces     = xr_alloc<st_Face>(m_FaceCount);
     if (m_FaceCount == 0)
     {
-        Log("!CEditableMesh: Faces==0.");
+        Log("! CEditableMesh: Faces==0.");
         return false;
     }
     F.r(m_Faces, m_FaceCount * sizeof(st_Face));
@@ -141,6 +149,18 @@ bool CEditableMesh::LoadMesh(IReader& F)
     {
         VERIFY(m_FaceCount * sizeof(u32) == sg_chunk_size);
         F.r(m_SmoothGroups, m_FaceCount * sizeof(u32));
+    }
+
+    u32 normal_chunk_size = F.find_chunk(EMESH_CHUNK_NORMALS);
+    if (normal_chunk_size)
+    {
+		if (m_FaceCount * 3 * sizeof(Fvector) == normal_chunk_size)
+		{
+			m_Normals = xr_alloc<Fvector>(m_FaceCount * 3);
+			F.r(m_Normals, m_FaceCount * 3 * sizeof(Fvector));
+		}
+		else
+			Msg("! ..Normals chunk size == %d. Needed size == %d", normal_chunk_size, m_FaceCount * 3 * sizeof(Fvector));
     }
 
     R_ASSERT(F.find_chunk(EMESH_CHUNK_VMREFS));
@@ -164,9 +184,10 @@ bool CEditableMesh::LoadMesh(IReader& F)
         VERIFY(surf);
         IntVec& face_lst = m_SurfFaces[surf];
         face_lst.resize(F.r_u32());
+        surf->m_sort_id = surf_id;
         if (face_lst.empty())
         {
-            Log("!Empty surface found: %s", surf->_Name());
+            Log("! Empty surface found: %s", surf->_Name());
             return false;
         }
         F.r(&*face_lst.begin(), face_lst.size() * sizeof(int));

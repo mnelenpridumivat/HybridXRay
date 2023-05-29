@@ -112,7 +112,7 @@ bool ETextureThumbnail::Load(LPCSTR src_name, LPCSTR path)
     R_ASSERT(F->r_chunk(THM_CHUNK_VERSION, &version));
     if (version != THM_TEXTURE_VERSION)
     {
-        Msg("!Thumbnail: Unsupported version.");
+        Msg("! Thumbnail: Unsupported version.");
         return false;
     }
 
@@ -168,7 +168,7 @@ void ETextureThumbnail::Save(int age, LPCSTR path)
     }
     else
     {
-        Log("!Can't save thumbnail:", fn);
+        Log("! Can't save thumbnail:", fn);
     }
 }
 //------------------------------------------------------------------------------
@@ -206,7 +206,7 @@ void ETextureThumbnail::Update(ImTextureID& Texture)
 
             if (!FS.exist(fn))
             {
-                ELog.Msg(mtError, "Can't make preview for texture '%s'.", m_Name.c_str());
+                ELog.Msg(mtError, "& Can't make preview for texture '%s'.", m_Name.c_str());
                 return;
             }
         }
@@ -219,7 +219,7 @@ void ETextureThumbnail::Update(ImTextureID& Texture)
             u32 mem = 0;
             Texture = ::RImplementation.texture_load(fn_img.c_str(), mem);
             if (!Texture)
-                ELog.Msg(mtError, "Can't make preview for texture '%s'.", m_Name.c_str());
+                ELog.Msg(mtError, "& Can't make preview for texture '%s'.", m_Name.c_str());
 
             return;
         }

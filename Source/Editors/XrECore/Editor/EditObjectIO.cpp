@@ -26,6 +26,7 @@ bool CEditableObject::Load(const char* fname)
         R_ASSERT(F);
         IReader* OBJ = F->open_chunk(EOBJ_CHUNK_OBJECT_BODY);
         R_ASSERT2(OBJ, "Corrupted file.");
+        Msg("+ ..Import object '%s'", fname);
         bool bRes = Load(*OBJ);
         OBJ->close();
         FS.r_close(F);
@@ -156,13 +157,30 @@ void CEditableObject::Save(IWriter& F)
     // skeleton motions refs
     if (m_SMotionRefs.size())
     {
-        F.open_chunk(EOBJ_CHUNK_SMOTIONS3);
-        F.w_u32(m_SMotionRefs.size());
+        if (!m_objectFlags.is(eoSoCRefs))
+        {
+            F.open_chunk(EOBJ_CHUNK_SMOTIONS3);
+            F.w_u32(m_SMotionRefs.size());
 
-        for (u32 i = 0; i < m_SMotionRefs.size(); ++i)
-            F.w_stringZ(m_SMotionRefs[i].c_str());
+            for (u32 i = 0; i < m_SMotionRefs.size(); ++i)
+                F.w_stringZ(m_SMotionRefs[i].c_str());
 
-        F.close_chunk();
+            F.close_chunk();
+        }
+        else
+        {
+            F.open_chunk(EOBJ_CHUNK_SMOTIONS2);
+
+            xr_string refs = m_SMotionRefs[0].c_str();
+            for (u32 i = 1; i < m_SMotionRefs.size(); ++i)
+            {
+                refs += ",";
+                refs += m_SMotionRefs[i].c_str();
+            }
+            F.w_stringZ(refs);
+
+            F.close_chunk();
+        }
     }
 
     // bone parts
@@ -196,6 +214,11 @@ void CEditableObject::Save(IWriter& F)
     F.w(&m_ModifTime, sizeof(m_ModifTime));
     F.close_chunk();
 
+    F.open_chunk(EOBJ_CHUNK_SCALE);
+    F.w_float(a_vScale);
+    F.w_u8(a_vAdjustMass);
+    F.close_chunk();
+
     // set modif desc
     SetVersionToCurrent(FALSE, TRUE);
 
@@ -206,6 +229,7 @@ void CEditableObject::Save(IWriter& F)
 
 bool CEditableObject::Load(IReader& F)
 {
+    m_objectFlags.set(eoSoCRefs, FALSE);
     bool bRes = true;
     do
     {
@@ -215,12 +239,13 @@ bool CEditableObject::Load(IReader& F)
         R_ASSERT(F.r_chunk(EOBJ_CHUNK_VERSION, &version));
         if (version != EOBJ_CURRENT_VERSION)
         {
-            ELog.DlgMsg(mtError, "CEditableObject: unsupported file version. Object can't load.");
+            ELog.DlgMsg(mtError, "! CEditableObject: unsupported file version. Object can't load.");
             bRes = false;
             break;
         }
 
         R_ASSERT(F.r_chunk(EOBJ_CHUNK_FLAGS, &m_objectFlags.flags));
+        m_objectFlags.set(eoDynamic, m_objectFlags.is(eoDynamic));
 
         if (F.find_chunk(EOBJ_CHUNK_CLASSSCRIPT))
             F.r_stringZ(m_ClassScript);
@@ -252,7 +277,7 @@ bool CEditableObject::Load(IReader& F)
                 (*s_it)->SetFVF(F.r_u32());
                 cnt = F.r_u32();
                 if (cnt > 1)
-                    ELog.DlgMsg(mtError, "Object surface '%s' has more than one TC's.", buf.c_str());
+                    ELog.DlgMsg(mtError, "! Object surface '%s' has more than one TC's.", buf.c_str());
                 R_ASSERT(1 <= cnt);
             }
         }
@@ -277,7 +302,7 @@ bool CEditableObject::Load(IReader& F)
                 (*s_it)->SetFVF(F.r_u32());
                 cnt = F.r_u32();
                 if (cnt > 1)
-                    ELog.DlgMsg(mtError, "Object surface '%s' has more than one TC's.", buf.c_str());
+                    ELog.DlgMsg(mtError, "! Object surface '%s' has more than one TC's.", buf.c_str());
                 R_ASSERT(1 <= cnt);
             }
         }
@@ -296,7 +321,7 @@ bool CEditableObject::Load(IReader& F)
                 (*s_it)->SetFVF(F.r_u32());
                 cnt = F.r_u32();
                 if (cnt > 1)
-                    ELog.DlgMsg(mtError, "Object surface '%s' has more than one TC's.", buf.c_str());
+                    ELog.DlgMsg(mtError, "! Object surface '%s' has more than one TC's.", buf.c_str());
                 R_ASSERT(1 <= cnt);
                 F.r_stringZ(buf);
                 (*s_it)->SetTexture(buf.c_str());
@@ -327,7 +352,7 @@ bool CEditableObject::Load(IReader& F)
                     m_Meshes.push_back(mesh);
                 else
                 {
-                    ELog.DlgMsg(mtError, "CEditableObject: Can't load mesh '%s'!", *mesh->m_Name);
+                    ELog.DlgMsg(mtError, "! CEditableObject: Can't load mesh '%s'!", *mesh->m_Name);
                     xr_delete(mesh);
                     bRes = false;
                 }
@@ -376,7 +401,7 @@ bool CEditableObject::Load(IReader& F)
                     *s_it = xr_new<CSMotion>();
                     if (!(*s_it)->Load(F))
                     {
-                        Log("!Motions has different version. Load failed.");
+                        Msg("! Motions has different version. Load failed.");
                         xr_delete(*s_it);
                         m_SMotions.clear();
                         break;
@@ -387,6 +412,7 @@ bool CEditableObject::Load(IReader& F)
             }
             if (F.find_chunk(EOBJ_CHUNK_SMOTIONS2))
             {
+                m_objectFlags.set(eoSoCRefs, TRUE);
                 shared_str tmp;
                 F.r_stringZ(tmp);
                 u32 set_cnt = _GetItemCount(tmp.c_str());
@@ -432,7 +458,7 @@ bool CEditableObject::Load(IReader& F)
                         }
                         else
                         {
-                            Log("!Invalid bone parts.", GetName());
+                            Log("! Invalid bone parts.", GetName());
                             bBPok = false;
                             break;
                         }
@@ -443,7 +469,7 @@ bool CEditableObject::Load(IReader& F)
                 if (!bBPok)
                     m_BoneParts.clear();
                 if (!m_BoneParts.empty() && !VerifyBoneParts())
-                    Log("!Invalid bone parts. Found duplicate bones in object '%s'.", GetName());
+                    Log("! Invalid bone parts. Found duplicate bones in object '%s'.", GetName());
             }
             else if (F.find_chunk(EOBJ_CHUNK_BONEPARTS2))
             {
@@ -457,16 +483,23 @@ bool CEditableObject::Load(IReader& F)
                         F.r_stringZ(*s_it);
                 }
                 if (!m_BoneParts.empty() && !VerifyBoneParts())
-                    Log("!Invalid bone parts. Found duplicate bones in object '%s'.", GetName());
+                    Log("! Invalid bone parts. Found duplicate bones in object '%s'.", GetName());
             }
         }
 
         if (bRes)
         {
-            if (F.find_chunk(EOBJ_CHUNK_ACTORTRANSFORM))
+            IReader* r = F.open_chunk(EOBJ_CHUNK_ACTORTRANSFORM);
+            if (r)
             {
-                F.r_fvector3(a_vPosition);
-                F.r_fvector3(a_vRotate);
+                r->r_fvector3(a_vPosition);
+                r->r_fvector3(a_vRotate);
+                if (r->elapsed() == 8)
+                {
+                    a_vScale      = r->r_float();
+                    a_vAdjustMass = !!r->r_u32();
+                }
+                r->close();
             }
 
             if (F.find_chunk(EOBJ_CHUNK_DESC))
@@ -475,6 +508,20 @@ bool CEditableObject::Load(IReader& F)
                 F.r(&m_CreateTime, sizeof(m_CreateTime));
                 F.r_stringZ(m_ModifName);
                 F.r(&m_ModifTime, sizeof(m_ModifTime));
+            }
+
+            if (F.find_chunk(EOBJ_CHUNK_SCALE))
+            {
+                IReader *r = F.open_chunk(EOBJ_CHUNK_SCALE);
+                if (r)
+                {
+                    if(r->elapsed() == 5)
+                    {
+                        a_vScale = r->r_float();
+                        a_vAdjustMass = !!r->r_u8();
+                    }
+                    r->close();
+                }
             }
 
             ResetSAnimation();
@@ -491,11 +538,13 @@ bool CEditableObject::Load(IReader& F)
 
 bool CEditableObject::ExportOGF(LPCSTR fn, u8 infl)
 {
+    Msg("# ..Export [%s]", fn);
     UpdateBox();
     CMemoryWriter F;
 
     if (PrepareOGF(F, infl, true, NULL))
     {
+        Msg("+ ..File [%s] exported", fn);
         return F.save_to(fn);
     }
     return false;
@@ -503,10 +552,12 @@ bool CEditableObject::ExportOGF(LPCSTR fn, u8 infl)
 //------------------------------------------------------------------------------
 bool CEditableObject::ExportOMF(LPCSTR fn)
 {
+    Msg("# ..Export [%s]", fn);
     UpdateBox();
     CMemoryWriter F;
     if (PrepareOMF(F))
     {
+        Msg("+ ..File [%s] exported", fn);
         return F.save_to(fn);
     }
     return false;
@@ -514,11 +565,13 @@ bool CEditableObject::ExportOMF(LPCSTR fn)
 //------------------------------------------------------------------------------
 bool CEditableObject::ExportOBJ(LPCSTR fn)
 {
+    Msg("# ..Export [%s]", fn);
     UpdateBox();
     CExportObjectOGF E(this);
     CMemoryWriter    F;
     if (E.ExportAsWavefrontOBJ(F, fn))
     {
+        Msg("+ ..File [%s] exported", fn);
         return F.save_to(fn);
     }
     return false;

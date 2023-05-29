@@ -342,6 +342,7 @@ bool CEditableObject::AppendSMotion(LPCSTR fname, SMotionVec* inserted)
     VERIFY(IsSkeleton());
 
     bool bRes = true;
+    Msg("# ..Append motion '%s'", fname);
 
     LPCSTR ext = strext(fname);
     if (0 == stricmp(ext, ".skl"))
@@ -349,7 +350,7 @@ bool CEditableObject::AppendSMotion(LPCSTR fname, SMotionVec* inserted)
         CSMotion* M = xr_new<CSMotion>();
         if (!M->LoadMotion(fname))
         {
-            ELog.Msg(mtError, "Motion '%s' can't load. Append failed.", fname);
+            ELog.Msg(mtError, "! ..Motion '%s' can't load. Append failed.", fname);
             xr_delete(M);
             bRes = false;
         }
@@ -371,7 +372,7 @@ bool CEditableObject::AppendSMotion(LPCSTR fname, SMotionVec* inserted)
             }
             else
             {
-                ELog.Msg(mtError, "Append failed.", fname);
+                ELog.Msg(mtError, "! Append failed.", fname);
                 xr_delete(M);
                 bRes = false;
             }
@@ -382,7 +383,7 @@ bool CEditableObject::AppendSMotion(LPCSTR fname, SMotionVec* inserted)
         IReader* F = FS.r_open(fname);
         if (!F)
         {
-            ELog.Msg(mtError, "Can't open file '%s'.", fname);
+            ELog.Msg(mtError, "! Can't open file '%s'.", fname);
             bRes = false;
         }
         if (bRes)
@@ -394,7 +395,8 @@ bool CEditableObject::AppendSMotion(LPCSTR fname, SMotionVec* inserted)
                 CSMotion* M = xr_new<CSMotion>();
                 if (!M->Load(*F))
                 {
-                    ELog.Msg(mtError, "Motion '%s' has different version. Load failed.", M->Name());
+                    ELog.Msg(mtError, "! Motion '%s' has different version. Load failed.", M->Name());
+                    Msg("& ..Motion '%s' can't load. Append failed.", M->Name());
                     xr_delete(M);
                     bRes = false;
                     break;
@@ -403,6 +405,7 @@ bool CEditableObject::AppendSMotion(LPCSTR fname, SMotionVec* inserted)
                 {
                     xr_delete(M);
                     bRes = false;
+                    Msg("! ..Append failed. '%s'", fname);
                     break;
                 }
                 if (bRes)
@@ -627,21 +630,23 @@ bool CEditableObject::CheckBoneCompliance(CSMotion* M)
     VERIFY(M);
     /*
         BoneMotionVec& lst = M->BoneMotions();
-        if (m_Bones.size()!=lst.size()){
-            Log		("!Different bone count.\nObject has '%d' bones. Motion has '%d' bones.",m_Bones.size(),lst.size());
+        if (m_Bones.size()!=lst.size())
+		{
+            Log("! Different bone count.\nObject has '%d' bones. Motion has '%d' bones.",m_Bones.size(),lst.size());
             return false;
         }
         for(BoneMotionIt bm_it=lst.begin(); bm_it!=lst.end(); bm_it++)
-            if (!FindBoneByName(*bm_it->name)){
-                Msg		("!Can't find bone '%s' in object.",bm_it->name);
+            if (!FindBoneByName(*bm_it->name))
+			{
+                Msg("! Can't find bone '%s' in object.",bm_it->name);
                 return false;
             }
     */
     for (BoneIt b_it = m_Bones.begin(); b_it != m_Bones.end(); b_it++)
         if (!M->FindBoneMotion((*b_it)->Name()))
         {
-            //        	Msg		("!Can't find bone '%s' in motion.",*(*b_it)->Name());
-            //        	return false;
+            // Msg("! Can't find bone '%s' in motion.",*(*b_it)->Name());
+            // return false;
             M->add_empty_motion((*b_it)->Name());
             continue;
         }
@@ -650,6 +655,7 @@ bool CEditableObject::CheckBoneCompliance(CSMotion* M)
 
 void CEditableObject::OptimizeSMotions()
 {
+/*
 #if 1
     SPBItem* pb = UI->ProgressStart(m_SMotions.size(), "Motions optimizing...");
 #endif
@@ -663,4 +669,5 @@ void CEditableObject::OptimizeSMotions()
 #if 1
     UI->ProgressEnd(pb);
 #endif
+*/
 }

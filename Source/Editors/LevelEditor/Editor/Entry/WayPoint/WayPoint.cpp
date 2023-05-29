@@ -579,7 +579,7 @@ void CWayObject::MoveTo(const Fvector& pos, const Fvector& up)
             {
                 if (sel_point)
                 {
-                    Msg("!Only one selected way point supported.");
+                    Msg("! Only one selected way point supported.");
                     return;
                 }
                 sel_point = *it;
@@ -660,7 +660,7 @@ bool CWayObject::LoadLTX(CInifile& ini, LPCSTR sect_name)
 
     if (version != WAYOBJECT_VERSION)
     {
-        ELog.DlgMsg(mtError, "CWayPoint: Unsupported version.");
+        ELog.DlgMsg(mtError, "& CWayPoint: Unsupported version.");
         return false;
     }
 
@@ -668,7 +668,7 @@ bool CWayObject::LoadLTX(CInifile& ini, LPCSTR sect_name)
 
     if (!GetName())
     {
-        ELog.DlgMsg(mtError, "Corrupted scene file.[%s] sect[%s] has empty name", ini.fname(), sect_name);
+        ELog.DlgMsg(mtError, "! Corrupted scene file.[%s] sect[%s] has empty name", ini.fname(), sect_name);
         return false;
     }
 
@@ -774,7 +774,7 @@ bool CWayObject::LoadStream(IReader& F)
     R_ASSERT(F.r_chunk(WAYOBJECT_CHUNK_VERSION, &version));
     if (version != WAYOBJECT_VERSION)
     {
-        ELog.DlgMsg(mtError, "CWayPoint: Unsupported version.");
+        ELog.DlgMsg(mtError, "& CWayPoint: Unsupported version.");
         return false;
     }
 

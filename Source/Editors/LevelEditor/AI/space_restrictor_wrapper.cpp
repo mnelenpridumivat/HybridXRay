@@ -268,7 +268,7 @@ void CSpaceRestrictorWrapper::verify_connectivity()
 
     if (!level_graph().valid_vertex_id(start_vertex_id))
     {
-        Msg("Warning : restrictor %s covers the whole AI map");
+        Msg("& Warning: ~ restrictor %s covers the whole AI map");
         return;
     }
 

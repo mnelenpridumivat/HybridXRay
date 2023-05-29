@@ -251,7 +251,7 @@ void XrGameMaterialLibraryEditors::Load()
     u16 version = fs.r_u16();
     if (GAMEMTL_CURRENT_VERSION != version)
     {
-        Log("CGameMtlLibrary: invalid version. Library can't load.");
+        Log("! CGameMtlLibrary: invalid version. Library can't load.");
         FS.r_close(F);
         return;
     }

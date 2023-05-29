@@ -35,7 +35,7 @@ void CEditableMesh::GenerateRenderBuffers()
         return;
     m_RenderBuffers = xr_new<RBMap>();
 
-    GenerateVNormals(0);
+    GenerateVNormals();
 
     VERIFY(m_VertexNormals);
 

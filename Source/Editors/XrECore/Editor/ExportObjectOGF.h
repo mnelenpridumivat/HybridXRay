@@ -3,9 +3,10 @@
 #ifndef ExportObjectOGFH
 #define ExportObjectOGFH
 
-#include "PropSlimTools.h"
+#include "../../XrETools/PropSlimTools.h"
 //---------------------------------------------------------------------------
-const int clpOGFMX = 48, clpOGFMY = 16, clpOGFMZ = 48;
+const int              clpOGFMX = 48, clpOGFMY = 16, clpOGFMZ = 48;
+extern ECORE_API float g_EpsSkelPositionDelta;
 //---------------------------------------------------------------------------
 // refs
 class CEditableObject;
@@ -36,15 +37,15 @@ struct SOGFVert
     }
     BOOL similar_pos(SOGFVert& V)
     {
-        return P.similar(V.P, EPS_L);
+        return P.similar(V.P, g_EpsSkelPositionDelta);
     }
     BOOL similar(SOGFVert& V)
     {
-        if (!P.similar(V.P, EPS_L))
+        if (!P.similar(V.P, g_EpsSkelPositionDelta))
             return FALSE;
         if (!UV.similar(V.UV, EPS_S))
             return FALSE;
-        if (!N.similar(V.N, EPS_L))
+        if (!N.similar(V.N, g_EpsSkelPositionDelta))
             return FALSE;
         return TRUE;
     }
@@ -61,7 +62,7 @@ DEFINE_VECTOR(SOGFFace, OGFFaceVec, OGFFaceIt);
 class CObjectOGFCollectorPacked
 {
 public:
-    //	Fobb			m_OBB;
+    // Fobb m_OBB;
     Fbox m_Box;
 
     OGFVertVec m_Verts;
@@ -82,6 +83,7 @@ public:
     CObjectOGFCollectorPacked(const Fbox& bb, int apx_vertices, int apx_faces);
     void    CalculateTB();
     void    MakeProgressive();
+    void    MakeStripify();
     IC bool check(SOGFFace& F)
     {
         if ((F.v[0] == F.v[1]) || (F.v[0] == F.v[2]) || (F.v[1] == F.v[2]))
@@ -89,33 +91,28 @@ public:
         else
             return true;
     }
-    IC bool add_face(SOGFVert& v0, SOGFVert& v1, SOGFVert& v2)
+    IC bool add_face(SOGFVert& v0, SOGFVert& v1, SOGFVert& v2, bool hq)
     {
-        if (v0.P.similar(v1.P, EPS) || v0.P.similar(v2.P, EPS) || v1.P.similar(v2.P, EPS))
+        if (m_Verts.size() >= 0xffff || m_Faces.size() >= 0xffff)
+            return false;
+        if (!hq && ((v0.P.similar(v1.P, EPS) || v0.P.similar(v2.P, EPS) || v1.P.similar(v2.P, EPS))))
         {
-            ELog.Msg(mtError, "Degenerate face found. Removed.");
+            // ELog.Msg(mtError, "! ..Degenerate face found. Removed.");
+            Msg("! ..Degenerate face found. Removed.");
             return true;
         }
         SOGFFace F;
         u16      v;
-        v = VPack(v0);
-        if (0xffff == v)
-            return false;
-        F.v[0] = v;
-        v      = VPack(v1);
-        if (0xffff == v)
-            return false;
-        F.v[1] = v;
-        v      = VPack(v2);
-        if (0xffff == v)
-            return false;
-        F.v[2] = v;
+        F.v[0] = VPack(v0);
+        F.v[1] = VPack(v1);
+        F.v[2] = VPack(v2);
 
-        if (check(F))
+        if (hq || check(F))
             m_Faces.push_back(F);
         else
         {
-            ELog.Msg(mtError, "Duplicate(degenerate) face found. Removed.");
+            // ELog.Msg(mtError, "! ..Duplicate(degenerate) face found. Removed.");
+            Msg("! ..Duplicate(degenerate) face found. Removed.");
             return true;
         }
         return true;
@@ -153,8 +150,12 @@ class ECORE_API CExportObjectOGF
         COGFCPVec                  m_Parts;
         CObjectOGFCollectorPacked* m_CurrentPart;
 
-        Fbox      m_Box;
-        CSurface* m_Surf;
+        Fbox       m_Box;
+        CSurface*  m_Surf;
+        u16        m_id;
+        u16        m_sort_id;
+        shared_str m_Shader;
+        shared_str m_Texture;
 
         // Progressive
         void AppendPart(int apx_vertices, int apx_faces);
@@ -167,7 +168,34 @@ class ECORE_API CExportObjectOGF
                 (*it)->CalculateTB();
         }
 
+        bool SplitStats(u32& id, size_t& verts_, size_t& faces_, bool silent)
+        {
+            for (COGFCPIt it = m_Parts.begin(); it != m_Parts.end(); it++)
+            {
+                u32 verts = (*it)->m_Verts.size();
+                u32 faces = (*it)->m_Faces.size();
+                verts_ += verts;
+                faces_ += faces;
+
+                if (!silent)
+                {
+                    if (faces == 0 || verts == 0)
+                    {
+                        Msg("& ..Empty split found (Texture: %s).", *m_Texture);
+                        return false;
+                    }
+                    else
+                    {
+                        Msg("# ..Split %d: [Faces: %d, Verts: %d, Shader/Texture: '%s'/'%s']", id, faces, verts, *m_Shader, *m_Texture);
+                    }
+                    id++;
+                }
+            }
+            return true;
+        }
+
         void MakeProgressive();
+        void MakeStripify();
         SSplit(CSurface* surf, const Fbox& bb);
         ~SSplit();
         void ComputeBounding()
@@ -180,6 +208,14 @@ class ECORE_API CExportObjectOGF
                 m_Box.merge(part->m_Box);
             }
         }
+        bool GetVertexBound()
+        {
+            u32 verts = 0;
+            for (COGFCPIt it = m_Parts.begin(); it != m_Parts.end(); it++)
+                verts += (*it)->m_Verts.size();
+
+            return verts < 60000;
+        }
     };
     DEFINE_VECTOR(SSplit*, SplitVec, SplitIt);
     SplitVec         m_Splits;
@@ -187,7 +223,7 @@ class ECORE_API CExportObjectOGF
     Fbox             m_Box;
     //----------------------------------------------------
     //	void 	ComputeOBB			(Fobb &B, FvectorVec& V);
-    SSplit* FindSplit(CSurface* surf);
+    SSplit* FindSplit(CSurface* surf, u16 surf_id);
     void    ComputeBounding()
     {
         m_Box.invalidate();
@@ -198,6 +234,7 @@ class ECORE_API CExportObjectOGF
         }
     }
     bool PrepareMESH(CEditableMesh* mesh);
+    void DetectSmoothType(CEditableMesh* mesh, xr_vector<CEditableMesh*> mesh_vec);
     bool Prepare(bool gen_tb, CEditableMesh* mesh);
 
 public:

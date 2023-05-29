@@ -195,7 +195,7 @@ void CLevelSpawnConstructor::add_free_object(ISE_Abstract* abstract)
 bool CLevelSpawnConstructor::load_objects()
 {
     // loading spawn points
-    Msg("Loading spawns ...");
+    Msg("# Loading spawns ...");
     u32 id;
 
     for (auto& Obj : Scene->ListObj(OBJCLASS_SPAWNPOINT))
@@ -314,7 +314,7 @@ bool CLevelSpawnConstructor::load_objects()
 
 bool CLevelSpawnConstructor::correct_objects()
 {
-    Msg("Correct objects ...");
+    Msg("# Correct objects ...");
     u32 m_level_graph_vertex_id = u32(-1);
     u32 dwStart = game_graph().header().vertex_count(), dwFinish = game_graph().header().vertex_count(), dwCount = 0;
     for (u32 i = 0; i < game_graph().header().vertex_count(); ++i)
@@ -497,7 +497,7 @@ void CLevelSpawnConstructor::generate_artefact_spawn_positions()
     // create graph engine
     CTimer Timer;
     Timer.Start();
-    Msg("Generate artefact spawn positions ...");
+    Msg("# Generate artefact spawn positions ...");
     size_t CountThread                                 = std::min(CPU::ID.n_threads, m_spawns.size());
     m_generate_artefact_spawn_positions_worker_counter = m_spawns.size();
     xr_vector<HANDLE> Threads;
@@ -787,7 +787,7 @@ bool CLevelSpawnConstructor::Execute()
     m_cross_table = 0;
     m_level_graph = 0;
     xr_delete(m_graph_engine);
-    Msg("Spawn build completed time %3.2f", Timer.GetElapsed_sec());
+    Msg("# Spawn build completed time %3.2f", Timer.GetElapsed_sec());
     return true;
 }
 
@@ -818,6 +818,6 @@ bool CLevelSpawnConstructor::verify_space_restrictors()
     delete_data(m_space_restrictors);
 
     if (m_no_separator_check)
-        Msg("Level [%s] : no separators found", *m_level.name());
+        Msg("& Level [%s] : no separators found", *m_level.name());
     return bResult;
 }

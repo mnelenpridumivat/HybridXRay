@@ -138,7 +138,7 @@ bool EngineModel::UpdateVisual(CEditableObject* source, bool bUpdGeom, bool bUpd
             bRes = UpdateGeometryStream(source);
         if (!bRes || !m_GeometryStream.size())
         {
-            ELog.Msg(mtError, "Can't create preview geometry.");
+            ELog.Msg(mtError, "! Can't create preview geometry.");
             return false;
         }
         F.w(m_GeometryStream.pointer(), m_GeometryStream.size());
@@ -158,7 +158,7 @@ bool EngineModel::UpdateVisual(CEditableObject* source, bool bUpdGeom, bool bUpd
             bRes = UpdateGeometryStream(source);
         if (!bRes)
         {
-            ELog.Msg(mtError, "Can't create preview geometry.");
+            ELog.Msg(mtError, "! Can't create preview geometry.");
             return false;
         }
         if (!m_GeometryStream.size())
