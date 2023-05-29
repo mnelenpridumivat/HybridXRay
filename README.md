@@ -9,9 +9,11 @@
 
 ### Авторы и форки, чьи наработки использовались:
 
-[Graff46](https://github.com/Graff46/XRayEngine).
-[tsmp-xraySdkEditors](https://github.com/tsmp/xraySdkEditors).
-[X-RAY - SDK(OMP fix v1)](https://github.com/xray-omp/omp-sdk).
+- [VaIeroK](https://github.com/VaIeroK).
+    + [XrayExportTool](https://github.com/VaIeroK/XrayExportTool).
+- [Graff46](https://github.com/Graff46/XRayEngine).
+- [tsmp-xraySdkEditors](https://github.com/tsmp/xraySdkEditors).
+- [X-RAY - SDK(OMP fix v1)](https://github.com/xray-omp/omp-sdk).
 
 
 **По результатам описание будет подробнее.
