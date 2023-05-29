@@ -128,8 +128,14 @@ void CCustomPreferences::OnKeyboardCommonFileClick(ButtonValue* B, bool& bModif,
     }
 }
 
+extern ECORE_API BOOL g_extendedLog;
+extern ECORE_API BOOL g_extendedLogPlus;
+
 void CCustomPreferences::FillProp(PropItemVec& props)
 {
+    PHelper().CreateBOOL(props, "Log\\Extended Log", &g_extendedLog);
+    PHelper().CreateBOOL(props, "Log\\Full Log", &g_extendedLogPlus);
+
     PHelper().CreateFlag32(props, "Objects\\Library\\Discard Instance", &object_flags, epoDiscardInstance);
     PHelper().CreateFlag32(props, "Objects\\Skeleton\\Draw Joints", &object_flags, epoDrawJoints);
     PHelper().CreateFlag32(props, "Objects\\Skeleton\\Draw Bone Axis", &object_flags, epoDrawBoneAxis);

@@ -332,15 +332,10 @@ void CAEPreferences::Save(CInifile* I)
 
 extern ECORE_API BOOL g_force16BitTransformQuant;
 extern ECORE_API BOOL g_forceFloatTransformQuant;
-extern ECORE_API BOOL g_extendedLog;
-extern ECORE_API BOOL g_extendedLogPlus;
 
 void CAEPreferences::FillProp(PropItemVec& props)
 {
     inherited::FillProp(props);
-
-    PHelper().CreateBOOL(props, "Log\\Extended Log", &g_extendedLog);
-    PHelper().CreateBOOL(props, "Log\\Log+ (Export bones & anims)", &g_extendedLogPlus);
 
     PHelper().CreateBOOL(props, "Keybar\\show footsteps 12", &bAlwaysShowKeyBar12);
     PHelper().CreateBOOL(props, "Keybar\\show footsteps 34", &bAlwaysShowKeyBar34);
