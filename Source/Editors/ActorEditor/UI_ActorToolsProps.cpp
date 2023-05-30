@@ -989,21 +989,21 @@ void CActorTools::FillObjectProperties(PropItemVec& items, LPCSTR pref, ListItem
         auto FlagHQ2 = PHelper().CreateFlag32(items, "Object\\Model export\\Optimize:\\HQ Geometry Plus", &m_pEditObject->m_objectFlags,  CEditableObject::eoHQExportPlus);
         FlagHQ2->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
 
-        auto FlagSM0 = PHelper().CreateFlag32(items, "Object\\Model export\\Smooth Type:\\Auto Smooth", &m_pEditObject->m_objectFlags.set(CEditableObject::eoAutoSmooth, true), CEditableObject::eoAutoSmooth);
-        FlagSM0->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
-        auto FlagSM1 = PHelper().CreateFlag32(items, "Object\\Model export\\Smooth Type:\\Use split normals", &m_pEditObject->m_objectFlags, CEditableObject::eoNormals);
-        FlagSM1->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
-        auto FlagSM2 = PHelper().CreateFlag32(items, "Object\\Model export\\Smooth Type:\\Smooth CS/CoP", &m_pEditObject->m_objectFlags, CEditableObject::eoCoPSmooth);
-        FlagSM2->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
-        auto FlagSM3 = PHelper().CreateFlag32(items, "Object\\Model export\\Smooth Type:\\Smooth SoC", &m_pEditObject->m_objectFlags, CEditableObject::eoSoCSmooth);
-        FlagSM3->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
-
         PHelper().CreateFlag32(items, "Object\\Model export\\SoC bone export", &m_pEditObject->m_objectFlags, CEditableObject::eoSoCInfluence);
     }
     else if (m_pEditObjectType & CEditableObject::eoMultipleUsage)
     {
         PHelper().CreateFlag32(items, "Object\\Flags\\Using LOD", &m_pEditObject->m_objectFlags, CEditableObject::eoUsingLOD)->OnChangeEvent.bind(this, &CActorTools::OnUsingLodFlagChange);
     }
+
+    auto FlagSM0 = PHelper().CreateFlag32(items, "Object\\Model export\\Smooth Type:\\Auto Smooth", &m_pEditObject->m_objectFlags, CEditableObject::eoAutoSmooth);
+    FlagSM0->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
+    auto FlagSM1 = PHelper().CreateFlag32(items, "Object\\Model export\\Smooth Type:\\Use split Normals", &m_pEditObject->m_objectFlags, CEditableObject::eoNormals);
+    FlagSM1->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
+    auto FlagSM2 = PHelper().CreateFlag32(items, "Object\\Model export\\Smooth Type:\\Smooth CS/CoP", &m_pEditObject->m_objectFlags, CEditableObject::eoCoPSmooth);
+    FlagSM2->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
+    auto FlagSM3 = PHelper().CreateFlag32(items, "Object\\Model export\\Smooth Type:\\Smooth SoC", &m_pEditObject->m_objectFlags, CEditableObject::eoSoCSmooth);
+    FlagSM3->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
 
     V = PHelper().CreateVector(items, "Object\\Transform\\Position", &m_pEditObject->a_vPosition, -10000, 10000, 0.01, 2);
     V->OnChangeEvent.bind(this, &CActorTools::OnChangeTransform);
