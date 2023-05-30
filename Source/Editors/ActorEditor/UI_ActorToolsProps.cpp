@@ -977,9 +977,9 @@ void CActorTools::FillObjectProperties(PropItemVec& items, LPCSTR pref, ListItem
 
     if (m_pEditObjectType & CEditableObject::eoDynamic)
     {
-        auto FlagOpt1 = PHelper().CreateFlag32(items, "Object\\Model export\\Optimize:\\Make progressive meshes", &m_pEditObject->m_objectFlags, CEditableObject::eoProgressive);
+        auto FlagOpt1 = PHelper().CreateFlag32(items, "Object\\Model export\\Optimize:\\Make progressive", &m_pEditObject->m_objectFlags, CEditableObject::eoProgressive);
         FlagOpt1->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
-        auto FlagOpt2 = PHelper().CreateFlag32(items, "Object\\Model export\\Optimize:\\Make stripify meshes", &m_pEditObject->m_objectFlags, CEditableObject::eoStripify);
+        auto FlagOpt2 = PHelper().CreateFlag32(items, "Object\\Model export\\Optimize:\\Make stripify", &m_pEditObject->m_objectFlags, CEditableObject::eoStripify);
         FlagOpt2->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
 
         PHelper().CreateFlag32(items, "Object\\Model export\\Optimize:\\Optimize surfaces", &m_pEditObject->m_objectFlags, CEditableObject::eoOptimizeSurf);

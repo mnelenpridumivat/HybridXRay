@@ -80,7 +80,7 @@ void UILeftBarForm::Draw()
     {
         ImGui::SameLine(0, 10);
         ImGui::BulletTextColored(ImVec4(0.75, 1.5, 0, 0.85), "", ImGuiStyleVar_WindowTitleAlign);
-        if (ImGui::BeginChild("Object Items"_RU >> u8"Структура объекта", ImVec2(0, 265), true, ImGuiStyleVar_WindowTitleAlign | ImGuiMouseCursor_Hand))
+        if (ImGui::BeginChild("Object Items"_RU >> u8"Структура объекта", ImVec2(0, 200), true, ImGuiStyleVar_WindowTitleAlign | ImGuiMouseCursor_Hand))
         {
             ImGui::Dummy(ImVec2(0, 1));
             ImGui::AlignTextToFramePadding();
