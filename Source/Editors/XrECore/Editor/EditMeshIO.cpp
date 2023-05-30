@@ -82,7 +82,7 @@ void CEditableMesh::SaveMesh(IWriter& F)
     {
         F.w_stringZ(plp_it->first->_Name()); /* surface name*/
         IntVec& pol_lst = plp_it->second;
-        F.w_u32(pol_lst.size()); /* surface-polygon indices*/
+        F.w_u32(pol_lst.size());             /* surface-polygon indices*/
         F.w(&*pol_lst.begin(), sizeof(int) * pol_lst.size());
     }
     F.close_chunk();
@@ -154,13 +154,13 @@ bool CEditableMesh::LoadMesh(IReader& F)
     u32 normal_chunk_size = F.find_chunk(EMESH_CHUNK_NORMALS);
     if (normal_chunk_size)
     {
-		if (m_FaceCount * 3 * sizeof(Fvector) == normal_chunk_size)
-		{
-			m_Normals = xr_alloc<Fvector>(m_FaceCount * 3);
-			F.r(m_Normals, m_FaceCount * 3 * sizeof(Fvector));
-		}
-		else
-			Msg("! ..Normals chunk size == %d. Needed size == %d", normal_chunk_size, m_FaceCount * 3 * sizeof(Fvector));
+        if (m_FaceCount * 3 * sizeof(Fvector) == normal_chunk_size)
+        {
+            m_Normals = xr_alloc<Fvector>(m_FaceCount * 3);
+            F.r(m_Normals, m_FaceCount * 3 * sizeof(Fvector));
+        }
+        else
+            Msg("! ..Normals chunk size == %d. Needed size == %d", normal_chunk_size, m_FaceCount * 3 * sizeof(Fvector));
     }
 
     R_ASSERT(F.find_chunk(EMESH_CHUNK_VMREFS));

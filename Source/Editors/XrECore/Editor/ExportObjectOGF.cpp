@@ -361,9 +361,9 @@ bool CExportObjectOGF::PrepareMESH(CEditableMesh* MESH)
     {
         m_Source->m_SmoothExportMsgSended = true;
         if (MESH->m_Normals && m_Source->m_objectFlags.is(CEditableObject::eoNormals))
-            Msg("~ ..Export custom normals");
+            Log("& ..Export custom Normals");
         else
-            Msg("~ ..Export smooth groups");
+            Log("& ..Export Smooth groups.");
     }
 
     u16 surf_counter = 0;

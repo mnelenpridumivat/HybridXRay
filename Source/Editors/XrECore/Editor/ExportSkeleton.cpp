@@ -1093,7 +1093,6 @@ void CExportSkeleton::DetectSmoothType()
                 CoPverts = TotalVerts;
                 break;
         }
-
         m_Splits = OldSplits;
     }
 
@@ -1103,6 +1102,7 @@ void CExportSkeleton::DetectSmoothType()
     m_Source->m_objectFlags.set(CEditableObject::eoNormals, !!Normals);
     m_Source->m_objectFlags.set(CEditableObject::eoSoCSmooth, !!(!bCoP));
     m_Source->m_objectFlags.set(CEditableObject::eoCoPSmooth, !!(!bSoC));
+
     if (!Normals)
         Msg("# ..SoC\\CoP verts: [%d\\%d]", SoCverts, CoPverts);
     Msg("& ..Smooth type detected: %s", Normals ? "Normals" : (bCoP ? "CoP" : "SoC"));

@@ -312,12 +312,9 @@ void CEditableMesh::GenerateSVertices(u32 influence)
     GenerateVNormals();
 
     if (m_Normals && m_Parent->m_objectFlags.is(CEditableObject::eoNormals))
-    {
-        if (g_extendedLog)
-            Msg("- ..Custom normals.");
-        else
-            Msg("- ..Smooth groups.");
-    }
+        Log("& ..Export custom Normals");
+    else
+        Log("& ..Export Smooth groups.");
 
     for (u32 f_id = 0; f_id < m_FaceCount; f_id++)
     {
@@ -399,9 +396,7 @@ void CEditableMesh::GenerateSVerticesFast(u32 influence)
         for (int k = 0; k < 3; ++k)
         {
             st_SVert&          SV = m_SVertices[f_id * 3 + k];
-            const Fvector&     N  = m_Normals && m_Parent->m_objectFlags.is(CEditableObject::eoNormals) ?
-                     m_Normals[f_id * 3 + k] :
-                     m_VertexNormals[f_id * 3 + k];
+            const Fvector&     N  = m_Normals && m_Parent->m_objectFlags.is(CEditableObject::eoNormals) ? m_Normals[f_id * 3 + k] : m_VertexNormals[f_id * 3 + k];
             const st_FaceVert& fv = F.pv[k];
             const Fvector&     P  = m_Vertices[fv.pindex];
 
