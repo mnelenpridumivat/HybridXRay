@@ -518,14 +518,14 @@ void CExportObjectOGF::DetectSmoothType(CEditableMesh* mesh, xr_vector<CEditable
         {
             case 0:
             {
-                m_Source->m_objectFlags.set(CEditableObject::eoSoCSmooth, TRUE);
-                m_Source->m_objectFlags.set(CEditableObject::eoCoPSmooth, FALSE);
+                m_Source->m_objectFlags.set(CEditableObject::eoSoCSmooth, true);
+                m_Source->m_objectFlags.set(CEditableObject::eoCoPSmooth, false);
             }
             break;
             case 1:
             {
-                m_Source->m_objectFlags.set(CEditableObject::eoSoCSmooth, FALSE);
-                m_Source->m_objectFlags.set(CEditableObject::eoCoPSmooth, TRUE);
+                m_Source->m_objectFlags.set(CEditableObject::eoSoCSmooth, false);
+                m_Source->m_objectFlags.set(CEditableObject::eoCoPSmooth, true);
             }
             break;
         }
@@ -660,6 +660,11 @@ void CExportObjectOGF::DetectSmoothType(CEditableMesh* mesh, xr_vector<CEditable
     m_Source->m_objectFlags.set(CEditableObject::eoSoCSmooth, !!(!bCoP));
     m_Source->m_objectFlags.set(CEditableObject::eoCoPSmooth, !!(!bSoC));
 
+    if (Normals)
+    {
+        m_Source->m_objectFlags.set(CEditableObject::eoSoCSmooth, false);
+        m_Source->m_objectFlags.set(CEditableObject::eoCoPSmooth, false);
+    }
     if (!Normals)
         Msg("# ..SoC\\CoP verts: [%d\\%d]", SoCverts, CoPverts);
     Msg("& ..Smooth type detected: %s", Normals ? "Normals" : (bCoP ? "CoP" : "SoC"));

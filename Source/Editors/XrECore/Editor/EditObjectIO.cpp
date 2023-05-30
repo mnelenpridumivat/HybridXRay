@@ -18,6 +18,8 @@
 
 bool CEditableObject::Load(const char* fname)
 {
+    CExportSkeleton D(this);
+
     if (FS.exist(fname))
     {
         int age = FS.get_file_age(fname);
@@ -35,6 +37,8 @@ bool CEditableObject::Load(const char* fname)
             m_LoadName      = fname;
             m_ObjectVersion = age;
         }
+        if (m_objectFlags.is(eoDynamic))
+            D.DetectSmoothType();
         return bRes;
     }
     return false;
