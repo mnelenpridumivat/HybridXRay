@@ -100,13 +100,17 @@ void CParticleTool::OnParticleItemFocused(ListItem* items)
             m_EditMode = EEditMode(item->Type());
             switch (m_EditMode)
             {
-                case emEffect: {
+                case emEffect:
+                {
+                    m_ItemProps->ClearProperties();
                     PS::CPEDef* def = ((PS::CPEDef*)item->m_Object);
                     SetCurrentPE(def);
                     def->FillProp(EFFECT_PREFIX, props, item);
                 }
                 break;
-                case emGroup: {
+                case emGroup:
+                {
+                    m_ItemProps->ClearProperties();
                     PS::CPGDef* def = ((PS::CPGDef*)item->m_Object);
                     SetCurrentPG(def);
                     def->FillProp(GROUP_PREFIX, props, item);
