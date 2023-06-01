@@ -102,10 +102,7 @@ public:
         if (bForced)
             RealUpdateProperties();
     }
-    virtual void RefreshProperties()
-    {
-        ;
-    }
+    virtual void RefreshProperties() {}
     virtual void UpdateList(bool bForced = false)
     {
         m_Flags.set(flRefreshList, TRUE);

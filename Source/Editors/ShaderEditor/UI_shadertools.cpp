@@ -338,6 +338,7 @@ void CShaderTool::OnItemFocused(ListItem* items)
     Current()->m_CurrentItem = items;
     name                     = Current()->m_CurrentItem->Key();
     Current()->SetCurrentItem(name, false);
+    m_ItemProps->ClearProperties();
     ExecCommand(COMMAND_UPDATE_PROPERTIES);
 }
 
