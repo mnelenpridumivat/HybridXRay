@@ -18,11 +18,13 @@ UIMainForm::UIMainForm()
     m_Render   = xr_new<UIRenderForm>();
     m_MainMenu = xr_new<UIMainMenuForm>();
     m_LeftBar  = xr_new<UILeftBarForm>();
+    m_RightBar = xr_new<UIRightBarForm>();
 }
 
 UIMainForm::~UIMainForm()
 {
     ClearChooseEvents();
+    xr_delete(m_RightBar);
     xr_delete(m_LeftBar);
     xr_delete(m_MainMenu);
     xr_delete(m_Render);
@@ -34,6 +36,7 @@ void UIMainForm::Draw()
 {
     m_MainMenu->Draw();
     m_TopBar->Draw();
+    m_RightBar->Draw();
     m_LeftBar->Draw();
     if (bDemoImGui)
         ImGui::ShowDemoWindow(&bDemoImGui);

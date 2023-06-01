@@ -21,28 +21,11 @@ void UILeftBarForm::Draw()
                 }
                 ImGui::BeginChild("main", ImVec2(0, 0), false, 0);
 
-                if (!STools->m_PreviewProps->Empty())
-                {
-                    ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-                    if (ImGui::TreeNode("Preview"))
-                    {
-                        STools->m_PreviewProps->Draw();
-                        ImGui::TreePop();
-                    }
-                }
                 ImGui::SetNextItemOpen(true, ImGuiCond_Once);
                 if (ImGui::TreeNode("Items"))
                 {
                     ImGui::BeginGroup();
                     STools->m_Items->Draw();
-                    ImGui::EndGroup();
-                    ImGui::TreePop();
-                }
-                ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-                if (ImGui::TreeNode("Item Properties"))
-                {
-                    ImGui::BeginGroup();
-                    STools->m_ItemProps->Draw();
                     ImGui::EndGroup();
                     ImGui::TreePop();
                 }

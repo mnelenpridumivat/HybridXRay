@@ -20,5 +20,6 @@ private:
     UIRenderForm*   m_Render;
     UIMainMenuForm* m_MainMenu;
     UILeftBarForm*  m_LeftBar;
+    UIRightBarForm* m_RightBar;
 };
 extern UIMainForm* MainForm;

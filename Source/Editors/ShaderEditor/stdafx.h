@@ -17,5 +17,6 @@
 #include "ui_shadermain.h"
 #include "UIMainMenuForm.h"
 #include "UILeftBarForm.h"
+#include "UIRightBarForm.h"
 #include "UITopBarForm.h"
 #include "UIMainForm.h"
