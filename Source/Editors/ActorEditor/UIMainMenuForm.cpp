@@ -462,9 +462,11 @@ void UIMainMenuForm::Draw()
         }
         if (ImGui::IsItemHovered())
             ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+        ImGui::SameLine();
         ImGui::Separator();
         ImGui::Separator();
         ImGui::Separator();
+        ImGui::SameLine();
         if (ImGui::BeginMenu("Language: EN/RU"_RU >> u8"Язык: EN/RU"))
         {
             if (ImGui::MenuItem("EN", "", EditorLocalization == ELocalization::EN))

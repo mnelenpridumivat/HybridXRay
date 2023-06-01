@@ -184,7 +184,7 @@ void UIItemListForm::DrawMenuEdit()
 
         if (!OnItemCreateEvent.empty())
         {
-            if (ImGui::MenuItem("Create"))
+            if (ImGui::MenuItem("Create"_RU >> u8"Создать"))
             {
                 for (int i = 0; i < 256; i++)
                 {
@@ -222,7 +222,7 @@ void UIItemListForm::DrawMenuEdit()
         }
         if (!OnItemCloneEvent.empty() && m_edit_node && m_edit_node->IsObject())
         {
-            if (ImGui::MenuItem("Clone"))
+            if (ImGui::MenuItem("Clone"_RU >> u8"Клонировать"))
             {
                 string_path parent_path;
                 parent_path[0] = 0;
@@ -267,7 +267,7 @@ void UIItemListForm::DrawMenuEdit()
             }
         }
 
-        if (ImGui::MenuItem("Create Folder"))
+        if (ImGui::MenuItem("Create Folder"_RU >> u8"Создать Папку"))
         {
             Node* N = m_edit_node == 0 ? &m_GeneralNode : m_edit_node;
             for (int i = 0; i < 256; i++)
@@ -303,9 +303,9 @@ void UIItemListForm::DrawMenuEdit()
         if (m_edit_node && m_edit_node != &m_GeneralNode)
         {
             ImGui::Separator();
-            if (ImGui::BeginMenu("Rename"))
+            if (ImGui::BeginMenu("Rename"_RU >> u8"Переименовать"))
             {
-                ImGui::InputText("New Name", m_edit_name, sizeof(m_edit_name));
+                ImGui::InputText("New Name"_RU >> u8"Новое Имя", m_edit_name, sizeof(m_edit_name));
                 if (ImGui::Button("Ok"))
                 {
                     string4096 full_path;
@@ -324,15 +324,15 @@ void UIItemListForm::DrawMenuEdit()
                     }
                 }
                 ImGui::SameLine();
-                if (ImGui::Button("Cancel"))
+                if (ImGui::Button("Cancel"_RU >> u8"Отмена"))
                 {
                     ImGui::CloseCurrentPopup();
                 }
                 ImGui::EndMenu();
             }
-            if (ImGui::BeginMenu("Move"))
+            if (ImGui::BeginMenu("Move"_RU >> u8"Переместить"))
             {
-                ImGui::InputText("New Path", m_edit_path, sizeof(m_edit_path));
+                ImGui::InputText("New Path"_RU >> u8"Новый Путь", m_edit_path, sizeof(m_edit_path));
                 if (ImGui::Button("Ok"))
                 {
                     string4096 full_path;
@@ -347,13 +347,13 @@ void UIItemListForm::DrawMenuEdit()
                     }
                 }
                 ImGui::SameLine();
-                if (ImGui::Button("Cancel"))
+                if (ImGui::Button("Cancel"_RU >> u8"Отмена"))
                 {
                     ImGui::CloseCurrentPopup();
                 }
                 ImGui::EndMenu();
             }
-            if (ImGui::MenuItem("Delete"))
+            if (ImGui::MenuItem("Delete"_RU >> u8"Удалить"))
             {
                 Remove(&m_GeneralNode, m_edit_node, true);
                 ImGui::CloseCurrentPopup();

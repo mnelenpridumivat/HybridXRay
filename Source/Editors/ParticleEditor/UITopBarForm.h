@@ -5,12 +5,29 @@ public:
     UITopBarForm();
     virtual ~UITopBarForm();
     virtual void Draw();
-    void         RefreshBar();
+    void RefreshBar();
 
 private:
-#define ADD_BUTTON_IMAGE_S(Name) \
-    void        Click##Name();   \
-    ref_texture m_t##Name;       \
-    u32         m_time##Name;
-#include "UITopBarForm_ButtonList.h"
+    void        ClickUndo();
+    ref_texture m_tUndo;
+    u32         m_timeUndo;
+    void        ClickRedo();
+    ref_texture m_tRedo;
+    u32         m_timeRedo;
+
+    void        ClickSaveParticles();
+    ref_texture m_tSaveParticles;
+    void        ClickReloadParticles();
+    ref_texture m_tReloadParticles;
+
+    void        ClickOpen();
+    ref_texture m_tOpen;
+    void        ClickSaveXr();
+    ref_texture m_tSaveXr;
+
+    void        ClickOpenGameData();
+    ref_texture m_tOpenGameData;
+
+    void        ClickValidate();
+    ref_texture m_tValidate;
 };
