@@ -1,4 +1,5 @@
 ﻿#pragma once
+
 class UITopBarForm: public XrUI
 {
 public:

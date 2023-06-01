@@ -7,6 +7,8 @@ UILeftBarForm::~UILeftBarForm() {}
 void UILeftBarForm::Draw()
 {
     ImGui::Begin("LeftBar", 0);
+    if (ImGui::IsItemHovered())
+        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
 
     if (ImGui::BeginTabBar("##tabs", ImGuiTabBarFlags_TabListPopupButton | ImGuiTabBarFlags_FittingPolicyScroll))
     {
@@ -18,22 +20,31 @@ void UILeftBarForm::Draw()
                 if (STools->m_Current != tool.second)
                 {
                     STools->OnChangeEditor(tool.second);
+                    if (ImGui::IsItemHovered())
+                        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 }
-                ImGui::BeginChild("main", ImVec2(0, 0), false, 0);
-
+                ImGui::Separator();
+                // ------------------------------------------------------------------------------------------------------ //
                 ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-                if (ImGui::TreeNode("Items"))
+                if (ImGui::CollapsingHeader(("  Items:"_RU >> u8"  Items:"), ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_Framed | ImGuiMouseCursor_Hand))
                 {
-                    ImGui::BeginGroup();
-                    STools->m_Items->Draw();
-                    ImGui::EndGroup();
-                    ImGui::TreePop();
+                    ImGui::SameLine(0, 10);
+                    ImGui::BulletTextColored(ImVec4(0.75, 1.5, 0, 0.85), "", ImGuiStyleVar_WindowTitleAlign);
+                    if (ImGui::BeginChild("Items:"_RU >> u8"Items:", ImVec2(0, 0), true, ImGuiStyleVar_WindowTitleAlign | ImGuiMouseCursor_Hand))
+                    {
+                        ImGui::Dummy(ImVec2(0, 1));
+                        ImGui::AlignTextToFramePadding();
+                        ImGui::BeginGroup();
+                        STools->m_Items->Draw();
+                        ImGui::EndGroup();
+                        if (ImGui::IsItemHovered())
+                            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                    }
+                    ImGui::EndChild();
                 }
-                ImGui::EndChild();
                 ImGui::EndTabItem();
             }
         }
-
         ImGui::EndTabBar();
     }
 
