@@ -10,13 +10,7 @@
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-
-    <ProjectConfiguration Include="Shipping|x64">
-      <Configuration>Shipping</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
-  </ItemGroup>
-
+    </ItemGroup>
   <ImportGroup Label="PropertySheets">
     <Import Project="xray_ProjectConfigurations.user.props" Condition="Exists('xray_ProjectConfigurations.user.props')"/>
   </ImportGroup>

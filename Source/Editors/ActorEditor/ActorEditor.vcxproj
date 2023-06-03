@@ -3,20 +3,6 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="..\..\xray_ProjectConfigurations.props" />
   </ImportGroup>
-  <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug|x64">
-      <Configuration>Debug</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|x64">
-      <Configuration>Release</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Shipping|x64">
-      <Configuration>Shipping</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3145D38A-574B-4841-8AA9-CCD160B95124}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
