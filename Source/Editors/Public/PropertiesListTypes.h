@@ -122,10 +122,12 @@ public:
 class PropItem
 {
 	friend class		CPropHelper;
-    friend class		UIPropertiesForm;
-    shared_str			key;
-    EPropType			type;
-	void*				item;
+  friend class		UIPropertiesForm;
+
+  shared_str			             key;
+  std::function<const char*()> hintFunctor;
+  EPropType			               type;
+	void*				                 item;
 public:
 	DEFINE_VECTOR		(PropValue*,PropValueVec,PropValueIt);
 private:
@@ -163,6 +165,10 @@ public:
     void				SetName			(const shared_str& name)
     {
     	key=name;
+    }
+    void SetHintFunctor(std::function<const char*()> _hintFunctor)
+    {
+        hintFunctor = _hintFunctor;
     }
     IC void				ResetValues		()
     {

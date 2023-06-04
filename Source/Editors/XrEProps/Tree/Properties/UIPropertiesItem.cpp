@@ -1,7 +1,7 @@
 ﻿#include "stdafx.h"
 
-UIPropertiesItem::UIPropertiesItem(shared_str Name, UIPropertiesForm* propertiesFrom):
-    UITreeItem(Name), PropertiesFrom(propertiesFrom)
+UIPropertiesItem::UIPropertiesItem(shared_str _Name, UIPropertiesForm* _PropertiesFrom, std::function<const char*()> _HintFunctor):
+    UITreeItem(_Name, _HintFunctor), PropertiesFrom(_PropertiesFrom)
 {
     PItem = nullptr;
 }
@@ -25,6 +25,7 @@ void UIPropertiesItem::Draw()
     {
         ImGuiTreeNodeFlags FolderFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
         bool               open        = ImGui::TreeNodeEx(Name.c_str(), FolderFlags);
+
         ImGui::TableNextColumn();
         DrawItem();
         if (open)
@@ -131,6 +132,8 @@ void UIPropertiesItem::DrawItem()
 
         default:
             ImGui::PushID(Name.c_str());
+            ShowHintIfHovered();
+
             if (PropertiesFrom->IsReadOnly())
             {
                 if (type == PROP_BOOLEAN)
@@ -176,11 +179,9 @@ void UIPropertiesItem::DrawItem()
             break;
     }
     ImGui::EndGroup();
-    if (ImGui::IsItemHovered())
-        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
 }
 
-UITreeItem* UIPropertiesItem::CreateItem(shared_str Name)
+UITreeItem* UIPropertiesItem::CreateItem(shared_str _Name, std::function<const char*()> _HintFunctor)
 {
-    return xr_new<UIPropertiesItem>(Name, PropertiesFrom);
+    return xr_new<UIPropertiesItem>(_Name, PropertiesFrom, _HintFunctor);
 }

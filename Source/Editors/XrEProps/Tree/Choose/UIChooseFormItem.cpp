@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 
-UIChooseFormItem::UIChooseFormItem(shared_str Name): Object(nullptr), UITreeItem(Name)
+UIChooseFormItem::UIChooseFormItem(shared_str Name): Object(nullptr), UITreeItem(Name, nullptr)
 {
     bIsFavorite      = false;
     m_bIsMixed       = false;

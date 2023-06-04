@@ -2,7 +2,7 @@
 class XREPROPS_API UIPropertiesItem: public UITreeItem
 {
 public:
-    UIPropertiesItem(shared_str Name, UIPropertiesForm* PropertiesFrom);
+    UIPropertiesItem(shared_str _Name, UIPropertiesForm* _PropertiesFrom, std::function<const char*()> _HintFunctor);
     virtual ~UIPropertiesItem();
     PropItem*         PItem;
     UIPropertiesForm* PropertiesFrom;
@@ -12,7 +12,7 @@ public:
     void              DrawProp();
 
 protected:
-    virtual UITreeItem* CreateItem(shared_str Name);
+    virtual UITreeItem* CreateItem(shared_str _Name, std::function<const char*()> _HintFunctor);
 
 private:
     void RemoveMixed();

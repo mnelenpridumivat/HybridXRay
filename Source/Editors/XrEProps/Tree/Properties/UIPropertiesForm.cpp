@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 
-UIPropertiesForm::UIPropertiesForm(): m_Root("", this)
+UIPropertiesForm::UIPropertiesForm(): m_Root("", this, nullptr)
 {
     m_bModified            = false;
     m_EditChooseValue      = nullptr;
@@ -107,7 +107,7 @@ void UIPropertiesForm::AssignItems(PropItemVec& items)
     for (PropItem* item : items)
     {
         item->m_Owner          = this;
-        UIPropertiesItem* Item = static_cast<UIPropertiesItem*>(m_Root.AppendItem(item->Key()));
+        UIPropertiesItem* Item = static_cast<UIPropertiesItem*>(m_Root.AppendItem(item->Key(), item->hintFunctor));
         VERIFY(Item);
         Item->PItem = item;
     }
@@ -137,7 +137,7 @@ void UIPropertiesForm::ClearProperties()
     {
         xr_delete(I);
     }
-    m_Root = UIPropertiesItem("", this);
+    m_Root = UIPropertiesItem("", this, nullptr);
     m_Items.clear();
 }
 

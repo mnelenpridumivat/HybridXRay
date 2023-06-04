@@ -41,3 +41,13 @@ inline const char* operator>>(const SEnglishStringToRussify& _EnglishStringToRus
 {
     return EditorLocalization == ELocalization::EN ? _EnglishStringToRussify.String : _ItsRussification;
 }
+
+inline auto operator>(const SEnglishStringToRussify& _EnglishStringToRussify, const char* _ItsRussification)
+{
+    auto lambda = [=]()->const char*
+    {
+        return _EnglishStringToRussify >> _ItsRussification;
+    };
+
+    return lambda;
+}

@@ -13,22 +13,23 @@ IPropHelper& PHelper()
     return PHelper_impl;
 }
 //---------------------------------------------------------------------------
-PropItem* CPropHelper::CreateItem(PropItemVec& items, const shared_str& key, EPropType type, u32 item_flags)
+PropItem* CPropHelper::CreateItem(PropItemVec& items, const shared_str& key, EPropType type, std::function<const char*()> hintFunctor, u32 item_flags)
 {
     PropItem* item = FindItem(items, key, type);
     if (!item)
     {
         item = xr_new<PropItem>(type);
         item->SetName(key);
+        item->SetHintFunctor(hintFunctor);
         item->m_Flags.set(item_flags, TRUE);
         items.push_back(item);
     }
     return item;
 }
 PropValue*
-    CPropHelper::AppendValue(PropItemVec& items, const shared_str& key, PropValue* val, EPropType type, u32 item_flags)
+    CPropHelper::AppendValue(PropItemVec& items, const shared_str& key, PropValue* val, EPropType type, std::function<const char*()> hintFunctor, u32 item_flags)
 {
-    PropItem* item = CreateItem(items, key, type, item_flags);
+    PropItem* item = CreateItem(items, key, type, hintFunctor, item_flags);
     val->m_Owner   = item;
     item->AppendValue(val);
     return val;
@@ -133,15 +134,16 @@ Flag16Value* CPropHelper::CreateFlag16(
     return (Flag16Value*)AppendValue(items, key, xr_new<Flag16Value>(val, mask, c0, c1, flags), PROP_FLAG);
 }
 Flag32Value* CPropHelper::CreateFlag32(
-    PropItemVec& items,
-    shared_str   key,
-    Flags32*     val,
-    u32          mask,
-    LPCSTR       c0,
-    LPCSTR       c1,
-    u32          flags)
+    PropItemVec&                 items,
+    shared_str                   key,
+    Flags32*                     val,
+    u32                          mask,
+    std::function<const char*()> hintFunctor,
+    LPCSTR                       c0,
+    LPCSTR                       c1,
+    u32                          flags)
 {
-    return (Flag32Value*)AppendValue(items, key, xr_new<Flag32Value>(val, mask, c0, c1, flags), PROP_FLAG);
+    return (Flag32Value*)AppendValue(items, key, xr_new<Flag32Value>(val, mask, c0, c1, flags), PROP_FLAG, hintFunctor);
 }
 Token8Value* CPropHelper::CreateToken8(PropItemVec& items, shared_str key, u8* val, xr_token* token)
 {

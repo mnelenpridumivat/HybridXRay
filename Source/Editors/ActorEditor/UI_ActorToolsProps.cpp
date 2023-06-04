@@ -977,7 +977,7 @@ void CActorTools::FillObjectProperties(PropItemVec& items, LPCSTR pref, ListItem
 
     if (m_pEditObjectType & CEditableObject::eoDynamic)
     {
-        auto FlagOpt1 = PHelper().CreateFlag32(items, "Object\\Model export\\Optimize:\\Make progressive", &m_pEditObject->m_objectFlags, CEditableObject::eoProgressive);
+        auto FlagOpt1 = PHelper().CreateFlag32(items, "Object\\Model export\\Optimize:\\Make progressive", &m_pEditObject->m_objectFlags, CEditableObject::eoProgressive  );
         FlagOpt1->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
         auto FlagOpt2 = PHelper().CreateFlag32(items, "Object\\Model export\\Optimize:\\Make stripify", &m_pEditObject->m_objectFlags, CEditableObject::eoStripify);
         FlagOpt2->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
@@ -996,9 +996,9 @@ void CActorTools::FillObjectProperties(PropItemVec& items, LPCSTR pref, ListItem
         PHelper().CreateFlag32(items, "Object\\Flags\\Using LOD", &m_pEditObject->m_objectFlags, CEditableObject::eoUsingLOD)->OnChangeEvent.bind(this, &CActorTools::OnUsingLodFlagChange);
     }
 
-    auto FlagSM0 = PHelper().CreateFlag32(items, "Object\\Model export\\Smooth Type:\\Auto Smooth", &m_pEditObject->m_objectFlags, CEditableObject::eoAutoSmooth);
+    auto FlagSM0 = PHelper().CreateFlag32(items, "Object\\Model export\\Smooth Type:\\Auto Smooth", &m_pEditObject->m_objectFlags, CEditableObject::eoAutoSmooth, "Description in English"_RU>u8"Описание на русском");
     FlagSM0->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
-    auto FlagSM1 = PHelper().CreateFlag32(items, "Object\\Model export\\Smooth Type:\\Use split Normals", &m_pEditObject->m_objectFlags, CEditableObject::eoNormals);
+    auto FlagSM1 = PHelper().CreateFlag32(items, "Object\\Model export\\Smooth Type:\\Use split Normals", &m_pEditObject->m_objectFlags, CEditableObject::eoNormals, "London is the capital of Great Britain"_RU>u8"Москва - столица России");
     FlagSM1->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
     auto FlagSM2 = PHelper().CreateFlag32(items, "Object\\Model export\\Smooth Type:\\Smooth CS/CoP", &m_pEditObject->m_objectFlags, CEditableObject::eoCoPSmooth);
     FlagSM2->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
