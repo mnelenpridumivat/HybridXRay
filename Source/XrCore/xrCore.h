@@ -195,7 +195,6 @@
 #pragma warning(push)
 #pragma warning(disable : 4702)
 #include <algorithm>
-#include <functional>
 #include <limits>
 #include <vector>
 #include <stack>

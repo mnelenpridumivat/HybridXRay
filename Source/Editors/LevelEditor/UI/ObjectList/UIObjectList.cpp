@@ -147,7 +147,7 @@ void UIObjectList::Refresh()
                 }
                 else
                 {
-                    UIObjectListItem* Item = static_cast<UIObjectListItem*>(Form->m_Root.AppendItem(Obj->GetName(), 0));
+                    UIObjectListItem* Item = static_cast<UIObjectListItem*>(Form->m_Root.AppendItem(Obj->GetName(), {}, 0));
                     VERIFY(Item);
                     Item->Object = Obj;
                 }

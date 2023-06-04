@@ -89,6 +89,9 @@
     <ClInclude Include="imgui_user.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="localization_types.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="imgui.natvis" />

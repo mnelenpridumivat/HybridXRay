@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 
-UIObjectListItem::UIObjectListItem(shared_str Name): UITreeItem(Name)
+UIObjectListItem::UIObjectListItem(shared_str Name): UITreeItem(Name, {})
 {
     bIsSelected = false;
     Object      = nullptr;

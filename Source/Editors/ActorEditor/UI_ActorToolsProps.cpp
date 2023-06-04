@@ -996,9 +996,11 @@ void CActorTools::FillObjectProperties(PropItemVec& items, LPCSTR pref, ListItem
         PHelper().CreateFlag32(items, "Object\\Flags\\Using LOD", &m_pEditObject->m_objectFlags, CEditableObject::eoUsingLOD)->OnChangeEvent.bind(this, &CActorTools::OnUsingLodFlagChange);
     }
 
-    auto FlagSM0 = PHelper().CreateFlag32(items, "Object\\Model export\\Smooth Type:\\Auto Smooth", &m_pEditObject->m_objectFlags, CEditableObject::eoAutoSmooth, "Description in English"_RU>u8"Описание на русском");
+    auto FlagSM0 = PHelper().CreateFlag32(items, "Object\\Model export\\Smooth Type:\\Auto Smooth", &m_pEditObject->m_objectFlags, CEditableObject::eoAutoSmooth);
     FlagSM0->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
-    auto FlagSM1 = PHelper().CreateFlag32(items, "Object\\Model export\\Smooth Type:\\Use split Normals", &m_pEditObject->m_objectFlags, CEditableObject::eoNormals, "London is the capital of Great Britain"_RU>u8"Москва - столица России");
+    FlagSM0->Owner()->hint_text = "Description in English"_RU > u8"Описание на русском";
+
+    auto FlagSM1 = PHelper().CreateFlag32(items, "Object\\Model export\\Smooth Type:\\Use split Normals", &m_pEditObject->m_objectFlags, CEditableObject::eoNormals);
     FlagSM1->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
     auto FlagSM2 = PHelper().CreateFlag32(items, "Object\\Model export\\Smooth Type:\\Smooth CS/CoP", &m_pEditObject->m_objectFlags, CEditableObject::eoCoPSmooth);
     FlagSM2->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);

@@ -1,7 +1,7 @@
 ﻿#include "stdafx.h"
 
-UIPropertiesItem::UIPropertiesItem(shared_str _Name, UIPropertiesForm* _PropertiesFrom, std::function<const char*()> _HintFunctor):
-    UITreeItem(_Name, _HintFunctor), PropertiesFrom(_PropertiesFrom)
+UIPropertiesItem::UIPropertiesItem(shared_str _Name, UIPropertiesForm* _PropertiesFrom, SLocalizedString _HintText):
+    UITreeItem(_Name, _HintText), PropertiesFrom(_PropertiesFrom)
 {
     PItem = nullptr;
 }
@@ -181,7 +181,7 @@ void UIPropertiesItem::DrawItem()
     ImGui::EndGroup();
 }
 
-UITreeItem* UIPropertiesItem::CreateItem(shared_str _Name, std::function<const char*()> _HintFunctor)
+UITreeItem* UIPropertiesItem::CreateItem(shared_str _Name, SLocalizedString _HintText)
 {
-    return xr_new<UIPropertiesItem>(_Name, PropertiesFrom, _HintFunctor);
+    return xr_new<UIPropertiesItem>(_Name, PropertiesFrom, _HintText);
 }

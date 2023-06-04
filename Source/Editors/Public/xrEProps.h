@@ -6,13 +6,6 @@
 #	endif
 #include "PropertiesListTypes.h"
 #include "ItemListTypes.h"
-                                        
-enum EItemType{
-	TYPE_INVALID= -1,
-	TYPE_FOLDER	= 0,
-	TYPE_OBJECT	= 1
-};
-
 
 typedef fastdelegate::FastDelegate2<LPCSTR, LPCSTR>	    TOnItemClone;
 typedef fastdelegate::FastDelegate1<LPCSTR>	            TOnItemCreate;
@@ -90,7 +83,7 @@ public:
     virtual VectorValue*  	 		CreateVector	    (PropItemVec& items, shared_str key, Fvector* val, float mn=0.f, float mx=1.f, float inc=0.01f, int decim=2)=0;
     virtual Flag8Value*				CreateFlag8		    (PropItemVec& items, shared_str key, Flags8* val, u8 mask, LPCSTR c0=0, LPCSTR c1=0, u32 flags=0)=0;
     virtual Flag16Value*			CreateFlag16	    (PropItemVec& items, shared_str key, Flags16* val, u16 mask, LPCSTR c0=0, LPCSTR c1=0, u32 flags=0)=0;
-    virtual Flag32Value*			CreateFlag32	    (PropItemVec& items, shared_str key, Flags32* val, u32 mask, std::function<const char*()> hintFunctor=nullptr, LPCSTR c0=0, LPCSTR c1=0, u32 flags=0)=0;
+    virtual Flag32Value*			CreateFlag32	    (PropItemVec& items, shared_str key, Flags32* val, u32 mask, LPCSTR c0=0, LPCSTR c1=0, u32 flags=0)=0;
 	virtual Token8Value*			CreateToken8	    (PropItemVec& items, shared_str key, u8* val, xr_token* token)=0;
 	virtual Token16Value*			CreateToken16	    (PropItemVec& items, shared_str key, u16* val, xr_token* token)=0;
 	virtual Token32Value*			CreateToken32	    (PropItemVec& items, shared_str key, u32* val, xr_token* token)=0;

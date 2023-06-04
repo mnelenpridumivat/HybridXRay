@@ -1,7 +1,7 @@
 ﻿#include "stdafx.h"
 
-UITreeItem::UITreeItem(shared_str _Name, std::function<const char*()> _HintFunctor):
-    Name(_Name), HintFunctor(_HintFunctor)
+UITreeItem::UITreeItem(shared_str _Name, SLocalizedString _HintText):
+    Name(_Name), HintText(_HintText)
 {
     Owner = nullptr;
 }
@@ -14,7 +14,7 @@ UITreeItem::~UITreeItem()
     }
 }
 
-UITreeItem* UITreeItem::AppendItem(const char* _Path, std::function<const char*()> _HintFunctor, char _PathChar)
+UITreeItem* UITreeItem::AppendItem(const char* _Path, SLocalizedString _HintText, char _PathChar)
 {
     VERIFY(_Path && *_Path);
     if (_PathChar && strchr(_Path, _PathChar))
@@ -25,18 +25,18 @@ UITreeItem* UITreeItem::AppendItem(const char* _Path, std::function<const char*(
         UITreeItem* Item          = FindItem(Name);
         if (!Item)
         {
-            Items.push_back(CreateItem(Name, _HintFunctor));
+            Items.push_back(CreateItem(Name, _HintText));
             Item        = Items.back();
             Item->Owner = this;
         }
-        return Item->AppendItem(strchr(_Path, _PathChar) + 1, _HintFunctor);
+        return Item->AppendItem(strchr(_Path, _PathChar) + 1, _HintText);
     }
     else
     {
         UITreeItem* Item = FindItem(_Path);
         if (!Item)
         {
-            Items.push_back(CreateItem(_Path, _HintFunctor));
+            Items.push_back(CreateItem(_Path, _HintText));
             Item        = Items.back();
             Item->Owner = this;
         }
@@ -71,15 +71,18 @@ UITreeItem* UITreeItem::FindItem(const char* _Path, char _PathChar)
     return nullptr;
 }
 
-UITreeItem* UITreeItem::CreateItem(shared_str _Name, std::function<const char*()> _HintFunctor)
+UITreeItem* UITreeItem::CreateItem(shared_str _Name, SLocalizedString _HintText)
 {
-    return xr_new<UITreeItem>(_Name, _HintFunctor);
+    return xr_new<UITreeItem>(_Name, _HintText);
 }
 
 void UITreeItem::ShowHintIfHovered() 
 {
-  if (HintFunctor && ImGui::IsItemHovered())
+  if (HintText.StringEN && HintText.StringRU && ImGui::IsItemHovered())
   {
-      ImGui::SetTooltip(HintFunctor());
+      if (EditorLocalization == ELocalization::EN)
+          ImGui::SetTooltip(HintText.StringEN);
+      else
+          ImGui::SetTooltip(HintText.StringRU);
   }
 }

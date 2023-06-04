@@ -17,20 +17,10 @@ using ImTextureID = IDirect3DBaseTexture9*;
 #define IMGUI_INCLUDE_IMGUI_USER_H
 
 #include "imgui.h"
-
-enum class ELocalization
-{
-    EN,
-    RU
-};
+#include "localization_types.h"
 
 extern XREUI_API ELocalization EditorLocalization;
 extern XREUI_API bool bDemoImGui;
-
-struct SEnglishStringToRussify
-{
-    const char* String;
-};
 
 inline SEnglishStringToRussify operator"" _RU(const char* _Source, size_t)
 {
@@ -42,12 +32,7 @@ inline const char* operator>>(const SEnglishStringToRussify& _EnglishStringToRus
     return EditorLocalization == ELocalization::EN ? _EnglishStringToRussify.String : _ItsRussification;
 }
 
-inline auto operator>(const SEnglishStringToRussify& _EnglishStringToRussify, const char* _ItsRussification)
+inline SLocalizedString operator>(const SEnglishStringToRussify& _EnglishStringToRussify, const char* _ItsRussification)
 {
-    auto lambda = [=]()->const char*
-    {
-        return _EnglishStringToRussify >> _ItsRussification;
-    };
-
-    return lambda;
+    return {_EnglishStringToRussify.String, _ItsRussification};
 }

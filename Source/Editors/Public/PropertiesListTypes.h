@@ -4,6 +4,7 @@
 
 
 #include "..\..\XrEngine\gametype_chooser.h"
+#include "..\XrEUI\localization_types.h"
 #include "WaveForm.H"
 
 
@@ -125,7 +126,6 @@ class PropItem
   friend class		UIPropertiesForm;
 
   shared_str			             key;
-  std::function<const char*()> hintFunctor;
   EPropType			               type;
 	void*				                 item;
 public:
@@ -140,9 +140,11 @@ public:
     TOnPropItemFocused	OnItemFocused;
     TOnClick			OnClickEvent;
 public:
-	u32					prop_color;
-	u32					val_color;
-    Irect				draw_rect;
+	u32					     prop_color;
+	u32					     val_color;
+  Irect				     draw_rect;
+  SLocalizedString hint_text;
+
 public:
     enum{
     	flDisabled		= (1<<0),
@@ -165,10 +167,6 @@ public:
     void				SetName			(const shared_str& name)
     {
     	key=name;
-    }
-    void SetHintFunctor(std::function<const char*()> _hintFunctor)
-    {
-        hintFunctor = _hintFunctor;
     }
     IC void				ResetValues		()
     {
