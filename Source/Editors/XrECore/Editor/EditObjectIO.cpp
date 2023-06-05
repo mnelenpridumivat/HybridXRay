@@ -19,6 +19,7 @@
 bool CEditableObject::Load(const char* fname)
 {
     CExportSkeleton D(this);
+    CExportObjectOGF E(this);
 
     if (FS.exist(fname))
     {
@@ -39,6 +40,8 @@ bool CEditableObject::Load(const char* fname)
         }
         if (m_objectFlags.is(eoDynamic))
             D.DetectSmoothType();
+        else
+            E.DetectSmoothType(NULL, m_Meshes);
         return bRes;
     }
     return false;

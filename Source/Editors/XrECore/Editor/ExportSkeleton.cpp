@@ -635,9 +635,6 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
         return false;
     }
 
-    if (m_Source->m_objectFlags.is(CEditableObject::eoAutoSmooth))
-        DetectSmoothType();
-
     // mem active motion
     CSMotion* active_motion = m_Source->ResetSAnimation();
 
@@ -699,7 +696,7 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
         pb->Inc();
 #endif
 
-        u16 surf_counter;
+        u16 surf_counter = 0;
         for (SurfFacesPairIt sp_it = MESH->m_SurfFaces.begin(); sp_it != MESH->m_SurfFaces.end(); sp_it++)
         {
             if (m_Source->m_objectFlags.is(CEditableObject::eoOptimizeSurf))
@@ -1067,8 +1064,7 @@ void CExportSkeleton::DetectSmoothType()
                         SSplit& cur_split = m_Splits[mtl_idx];
 
                         // append face
-                        cur_split.add_face(
-                            v[0], v[1], v[2], m_Source->m_objectFlags.is(CEditableObject::eoHQExportPlus));
+                        cur_split.add_face(v[0], v[1], v[2], m_Source->m_objectFlags.is(CEditableObject::eoHQExportPlus));
                     }
                 }
             }

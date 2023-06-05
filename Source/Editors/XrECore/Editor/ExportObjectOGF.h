@@ -234,7 +234,6 @@ class ECORE_API CExportObjectOGF
         }
     }
     bool PrepareMESH(CEditableMesh* mesh);
-    void DetectSmoothType(CEditableMesh* mesh, xr_vector<CEditableMesh*> mesh_vec);
     bool Prepare(bool gen_tb, CEditableMesh* mesh);
 
 public:
@@ -243,6 +242,7 @@ public:
     bool Export(IWriter& F, bool gen_tb = true, CEditableMesh* mesh = NULL);
     bool ExportAsSimple(IWriter& F);
     bool ExportAsWavefrontOBJ(IWriter& F, LPCSTR fn);
+    void DetectSmoothType(CEditableMesh* mesh, xr_vector<CEditableMesh*> mesh_vec);
 };
 
 #endif

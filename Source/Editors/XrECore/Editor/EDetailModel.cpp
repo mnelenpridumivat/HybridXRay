@@ -19,17 +19,6 @@
 void EDetail::EVertexIn::remapUV(const fvfVertexIn& src, const Fvector2& offs, const Fvector2& scale, bool bRotate)
 {
     P.set(src.P);
-
-    if (bRotate)
-    {
-        u = scale.x * src.v + offs.x;
-        v = scale.y * src.u + offs.y;
-    }
-    else
-    {
-        u = scale.x * src.u + offs.x;
-        v = scale.y * src.v + offs.y;
-    }
     ImageLib.MergedTextureRemapUV(u, v, src.u, src.v, offs, scale, bRotate);
 }
 

@@ -678,17 +678,11 @@ bool CExportObjectOGF::Prepare(bool gen_tb, CEditableMesh* mesh)
     bool bResult = true;
     if (mesh)
     {
-        if (m_Source->m_objectFlags.is(CEditableObject::eoAutoSmooth))
-            DetectSmoothType(mesh, m_Source->Meshes());
-
         Msg("..Prepare geometry");
         bResult = PrepareMESH(mesh);
     }
     else
     {
-        if (m_Source->m_objectFlags.is(CEditableObject::eoAutoSmooth))
-            DetectSmoothType(NULL, m_Source->Meshes());
-
         Msg("..Prepare geometry");
         for (EditMeshIt mesh_it = m_Source->FirstMesh(); mesh_it != m_Source->LastMesh(); ++mesh_it)
         {
