@@ -11,76 +11,86 @@ void UIGroupTool::Draw()
 {
     ImGui::Separator();
     {
-        ImGui::BulletText("Commands", ImGuiDir_Left);
+        ImGui::BulletText("Commands"_RU >> u8"Правка", ImGuiDir_Left);
         if (ImGui::BeginPopupContextItem("Commands", 1))
         {
-            if (ImGui::MenuItem("Group"))
+            if (ImGui::MenuItem("Group"_RU >> u8"Группировать"))
             {
                 ParentTools->GroupObjects();
             }
-            if (ImGui::MenuItem("Ungroup"))
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            if (ImGui::MenuItem("Ungroup"_RU >> u8"Разгруппировать"))
             {
                 ParentTools->UngroupObjects();
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::Separator();
-            if (ImGui::MenuItem("Make Thumbnail"))
+            if (ImGui::MenuItem("Make Thumbnail"_RU >> u8"Сделать миниатюру"))
             {
                 ParentTools->MakeThumbnail();
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::Separator();
-            if (ImGui::MenuItem("Save As ..."))
+            if (ImGui::MenuItem("Save As ..."_RU >> u8"Сохранить как ..."))
             {
                 ParentTools->SaveSelectedObject();
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::EndPopup();
         }
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         ImGui::OpenPopupOnItemClick("Commands", 0);
     }
     ImGui::Separator();
     ImGui::SetNextItemOpen(true, ImGuiCond_FirstUseEver);
-    if (ImGui::TreeNode("Current Object"))
+    if (ImGui::TreeNode("Current Object"_RU >> u8"Текущий объект"))
     {
         ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
         {
             ImGui::SetNextItemWidth(-1);
             float size = float(ImGui::CalcItemWidth());
             {
-                if (ImGui::Button("Select ...", ImVec2(size / 2, 0)))
+                if (ImGui::Button("Select ..."_RU >> u8"Выбрать ...", ImVec2(size / 2, 0)))
                 {
                     UIChooseForm::SelectItem(smGroup, 1, m_Current.c_str());
                     m_ChooseGroup = true;
                 }
                 ImGui::SameLine(0, 2);
-                if (ImGui::Button("Reload Refs", ImVec2(size / 2, 0)))
+                if (ImGui::Button("Reload Refs"_RU >> u8"Обновить", ImVec2(size / 2, 0)))
                 {
                     ParentTools->ReloadRefsSelectedObject();
                     // bForceInitListBox = TRUE;
                     Tools->UpdateProperties(TRUE);
                 }
             }
-            ImGui::Text("Current:%s", m_Current.c_str() ? m_Current.c_str() : "");
+            ImGui::Text("Current:%s"_RU >> u8"Текущий:%s", m_Current.c_str() ? m_Current.c_str() : "");
         }
         ImGui::Separator();
         ImGui::Indent(ImGui::GetTreeNodeToLabelSpacing());
         ImGui::TreePop();
     }
     ImGui::SetNextItemOpen(true, ImGuiCond_FirstUseEver);
-    if (ImGui::TreeNode("Reference Select"))
+    if (ImGui::TreeNode("Reference Select"_RU >> u8"Редактор выделенного"))
     {
         ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
         {
-            ImGui::Text("Select by Current: ");
-            ImGui::SameLine();
-            if (ImGui::Button(" +"))
+            ImGui::Text("Select by Current: "_RU >> u8"Выбрать по текущему:      ");
+            ImGui::SameLine(0, 10);
+            if (ImGui::Button(" + "))
             {
                 SelByRefObject(true);
             }
-            ImGui::SameLine();
-            if (ImGui::Button(" -"))
+            ImGui::SameLine(0, 8);
+            if (ImGui::Button(" - "))
             {
                 SelByRefObject(false);
             }
-            ImGui::Text("Select by Selected:");
+            ImGui::Text("Select by Selected:"_RU >> u8"Выбрать по выбранному: ");
             ImGui::SameLine();
             if (ImGui::Button("=%"))
             {
@@ -100,15 +110,15 @@ void UIGroupTool::Draw()
         ImGui::TreePop();
     }
     ImGui::SetNextItemOpen(true, ImGuiCond_FirstUseEver);
-    if (ImGui::TreeNode("Pivot Alignment"))
+    if (ImGui::TreeNode("Pivot Alignment"_RU >> u8"Выравнивание по оси"))
     {
         ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
         {
-            if (ImGui::Button("Center To Group", ImVec2(-1, 0)))
+            if (ImGui::Button("Center To Group"_RU >> u8"Центрировать по группе", ImVec2(-1, 0)))
             {
                 ParentTools->CenterToGroup();
             }
-            if (ImGui::Button("Align To Object...", ImVec2(-1, 0)))
+            if (ImGui::Button("Align To Object..."_RU >> u8"Выровнять по объекту...", ImVec2(-1, 0)))
             {
                 ParentTools->AlignToObject();
             }

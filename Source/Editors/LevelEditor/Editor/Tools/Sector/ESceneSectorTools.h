@@ -29,7 +29,7 @@ public:
     }
     IC LPCSTR ClassDesc()
     {
-        return "Sector";
+        return "Sector"_RU >> u8"Секторы";
     }
     IC int RenderPriority()
     {

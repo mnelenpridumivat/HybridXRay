@@ -21,7 +21,7 @@ public:
     }
     IC LPCSTR ClassDesc()
     {
-        return "Shape";
+        return "Shape"_RU >> u8"Зоны влияния";
     }
     IC int RenderPriority()
     {

@@ -13,14 +13,16 @@ void UILeftBarForm::Draw()
 {
     ImGui::Begin("LeftBar", 0);
     ImGui::SetNextItemOpen(true, ImGuiCond_FirstUseEver);
-    if (ImGui::TreeNode("Tools"))
+    if (ImGui::TreeNode("Tools"_RU >> u8"Режимы Редактирования"))
     {
         ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
-        static ObjClassID Tools[OBJCLASS_COUNT + 1] = {
+        static ObjClassID Tools[OBJCLASS_COUNT + 1] =
+        {
             OBJCLASS_SCENEOBJECT, OBJCLASS_LIGHT,      OBJCLASS_SOUND_SRC, OBJCLASS_SOUND_ENV, OBJCLASS_GLOW,
             OBJCLASS_SHAPE,       OBJCLASS_SPAWNPOINT, OBJCLASS_WAY,       OBJCLASS_SECTOR,    OBJCLASS_PORTAL,
             OBJCLASS_GROUP,       OBJCLASS_PS,         OBJCLASS_DO,        OBJCLASS_AIMAP,     OBJCLASS_WM,
-            OBJCLASS_FOG_VOL,     OBJCLASS_force_dword};
+            OBJCLASS_FOG_VOL,     OBJCLASS_force_dword
+        };
 
         ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
         ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 1));
@@ -58,7 +60,7 @@ void UILeftBarForm::Draw()
         ImGui::Indent(ImGui::GetTreeNodeToLabelSpacing());
     }
     ImGui::SetNextItemOpen(true, ImGuiCond_FirstUseEver);
-    if (ImGui::TreeNode("Snap List"))
+    if (ImGui::TreeNode("Snap List"_RU >> u8"Список привязанных объектов"))
     {
         ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
         ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
@@ -67,35 +69,45 @@ void UILeftBarForm::Draw()
         ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(4, 0));
         ImGui::Separator();
         {
-            ImGui::BulletText("Commands", ImGuiDir_Left);
+            ImGui::BulletText("Commands"_RU >> u8"Команды", ImGuiDir_Left);
             if (ImGui::BeginPopupContextItem("Commands", 1))
             {
-                if (ImGui::MenuItem("Make List From Selected"))
+                if (ImGui::MenuItem("Make List From Selected"_RU >> u8"Добавить из выделенного"))
                 {
                     ExecCommand(COMMAND_SET_SNAP_OBJECTS);
                 }
-                if (ImGui::MenuItem("Select Object From List"))
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                if (ImGui::MenuItem("Select Object From List"_RU >> u8"Выбрать объект из списка"))
                 {
                     ExecCommand(COMMAND_SELECT_SNAP_OBJECTS);
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 ImGui::Separator();
-                if (ImGui::MenuItem("Add Selected To List"))
+                if (ImGui::MenuItem("Add Selected To List"_RU >> u8"Добавить выделенное в список"))
                 {
                     ExecCommand(COMMAND_ADD_SEL_SNAP_OBJECTS);
                 }
-                if (ImGui::MenuItem("Remove Selected From List"))
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                if (ImGui::MenuItem("Remove Selected From List"_RU >> u8"Удалить выделенное из списка"))
                 {
                     ExecCommand(COMMAND_DEL_SEL_SNAP_OBJECTS);
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 ImGui::EndPopup();
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::OpenPopupOnItemClick("Commands", 0);
         }
         //	ImGui::Checkbox("Enable/Show Snap List", &test);
-        ImGui::Checkbox("Enable/Show Snap List", &m_UseSnapList);
+        ImGui::Checkbox("Enable/Show Snap List"_RU >> u8"Показать/Скрыть из списка", &m_UseSnapList);
 
         ImGui::Separator();
-        ImGui::Checkbox("+/- Mode", &m_SnapListMode);
+        ImGui::Checkbox("+/- Mode"_RU >> u8"+/- Режим", &m_SnapListMode);
         ImGui::SameLine(0, 10);
         if (ImGui::Button("X"))
         {

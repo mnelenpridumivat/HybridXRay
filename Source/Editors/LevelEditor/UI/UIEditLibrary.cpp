@@ -121,7 +121,7 @@ void UIEditLibrary::DrawObjects()
     // if (ImGui::TreeNode("Object List"))
     //{
     //	ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
-    ImGui::BeginChild("Object List");
+    ImGui::BeginChild("Object List"_RU >> u8"Список Объектов");
     ImGui::Separator();
     // m_ObjectList->m_Flags.set(m_ObjectList->fMultiSelect, true);
     m_ObjectList->Draw();
@@ -465,7 +465,7 @@ void UIEditLibrary::DrawRightBar()
             ImGui::PushStyleVar(ImGuiStyleVar_Alpha, ImGui::GetStyle().Alpha * 0.5f);
         }
 
-        if (ImGui::Button("Properties", ImVec2(-1, 0)))
+        if (ImGui::Button("Properties"_RU >> u8"Свойства", ImVec2(-1, 0)))
             OnPropertiesClick();
 
         // if (disabled)
@@ -484,13 +484,14 @@ void UIEditLibrary::DrawRightBar()
                 ImGui::PushStyleVar(ImGuiStyleVar_Alpha, ImGui::GetStyle().Alpha * 0.5f);
             }
 
-            if (ImGui::Button("Make Thumbnail", ImVec2(-1, 0)))
+            if (ImGui::Button("Make Thumbnail"_RU >> u8"Создать иконку", ImVec2(-1, 0)))
                 OnMakeThmClick();
 
-            if (ImGui::Button("Make LOD (High Quality)", ImVec2(-1, 0)))
+            if (ImGui::Button("Make LOD (High Quality)"_RU >> u8"Создать LOD(Высокое качество)", ImVec2(-1, 0)))
                 MakeLOD(true);
 
             if (ImGui::Button("Make LOD (Low Quality)", ImVec2(-1, 0)))
+            if (ImGui::Button("Make LOD (Low Quality)"_RU >> u8"Создать LOD(Среднее качество)", ImVec2(-1, 0)))
                 MakeLOD(false);
 
             if (!enableMakeThumbnailAndLod)
@@ -500,7 +501,7 @@ void UIEditLibrary::DrawRightBar()
             }
         }
 
-        if (ImGui::Checkbox("Preview", &m_Preview))
+        if (ImGui::Checkbox("Preview"_RU >> u8"Предпросмотр", &m_Preview))
             OnPreviewClick();
 
         // if (disabled)
@@ -509,21 +510,24 @@ void UIEditLibrary::DrawRightBar()
             ImGui::PushStyleVar(ImGuiStyleVar_Alpha, ImGui::GetStyle().Alpha * 0.5f);
         }
 
-        if (ImGui::Button("Rename Object", ImVec2(-1, 0)))
+        if (ImGui::Button("Rename Object"_RU >> u8"Переименовать объект", ImVec2(-1, 0)))
         {
         }
-        if (ImGui::Button("Remove Object", ImVec2(-1, 0)))
-        {
-        }
-
-        if (ImGui::Button("Import Object", ImVec2(-1, 0)))
-        {
-        }
-        if (ImGui::Button("Export LWO", ImVec2(-1, 0)))
+        if (ImGui::Button("Remove Object"_RU >> u8"Удалить объект", ImVec2(-1, 0)))
         {
         }
 
-        if (ImGui::Button("Save", ImVec2(-1, 0)))
+        if (ImGui::Button("Import Object"_RU >> u8"Импортировать объект", ImVec2(-1, 0)))
+        {
+        }
+        if (ImGui::Button("Export LWO"_RU >> u8"Экспорт LWO", ImVec2(-1, 0)))
+        {
+        }
+        if (ImGui::Button("Export OBJ"_RU >> u8"Экспорт OBJ", ImVec2(-1, 0)))
+        {
+        }
+
+        if (ImGui::Button("Save"_RU >> u8"Сохранить", ImVec2(-1, 0)))
         {
         }
 
@@ -533,7 +537,7 @@ void UIEditLibrary::DrawRightBar()
             ImGui::PopStyleVar();
         }
 
-        if (ImGui::Button("Close", ImVec2(-1, 0)))
+        if (ImGui::Button("Close"_RU >> u8"Закрыть", ImVec2(-1, 0)))
             Close();
         ImGui::EndChild();
     }
@@ -712,7 +716,7 @@ void UIEditLibrary::Draw()
 {
     ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(750, 650));
 
-    if (!ImGui::Begin("Object Library", &bOpen))
+    if (!ImGui::Begin("Object Library"_RU >> u8"Библиотека Объектов", &bOpen))
     {
         ImGui::PopStyleVar(1);
         ImGui::End();
@@ -727,7 +731,7 @@ void UIEditLibrary::Draw()
 
         ImGui::EndChild();
         ImGui::SetNextItemWidth(-256);
-        ImGui::Text(" Items count: %u", m_ObjectList->m_Items.size());
+        ImGui::Text(" Items count: %u"_RU >> u8" Количество объектов: %u", m_ObjectList->m_Items.size());
         // ImGui::InputText("##value", m_Filter, sizeof(m_Filter));
         ImGui::EndGroup();
     }

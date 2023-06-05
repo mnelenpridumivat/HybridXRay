@@ -132,7 +132,7 @@ public:
     }
     IC LPCSTR ClassDesc()
     {
-        return "Wallmark";
+        return "Wallmark"_RU >> u8"Воллмарки";
     }
     IC int RenderPriority()
     {

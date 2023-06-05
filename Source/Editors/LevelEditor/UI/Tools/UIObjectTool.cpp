@@ -45,11 +45,11 @@ void UIObjectTool::Draw()
     static bool bbool = false;
     float       a     = 1;
     ImGui::SetNextItemOpen(true, ImGuiCond_FirstUseEver);
-    if (ImGui::TreeNode("Commands"))
+    if (ImGui::TreeNode("Commands"_RU >> u8"Управление"))
     {
         ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
         {
-            if (ImGui::Button("Multiple Append", ImVec2(-1, 0)))
+            if (ImGui::Button("Multiple Append"_RU >> u8"Множественная вставка объектов", ImVec2(-1, 0)))
             {
                 UIChooseForm::SelectItem(smObject, 512, 0);
                 m_MultiAppend = true;
@@ -59,12 +59,12 @@ void UIObjectTool::Draw()
         {
             float size = float(ImGui::CalcItemWidth());
             {
-                if (ImGui::Checkbox("Random Append", &m_RandomAppend))
+                if (ImGui::Checkbox("Random Append"_RU >> u8"Беспорядочно", &m_RandomAppend))
                 {
                     ParentTools->ActivateAppendRandom(m_RandomAppend);
                 }
                 ImGui::SameLine(0, 10);
-                if (ImGui::Button("Random Props...", ImVec2(-1, 0)))
+                if (ImGui::Button("Random Props..."_RU >> u8"В разброс...", ImVec2(-1, 0)))
                 {
                     m_PropRandom = true;
                     ParentTools->FillAppendRandomPropertiesBegin();
@@ -76,32 +76,40 @@ void UIObjectTool::Draw()
         ImGui::TreePop();
     }
     ImGui::SetNextItemOpen(true, ImGuiCond_FirstUseEver);
-    if (ImGui::TreeNode("Reference Select"))
+    if (ImGui::TreeNode("Reference Select"_RU >> u8"Ссылка выбранного"))
     {
         ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
         {
-            ImGui::Text("Select by Current: ");
-            ImGui::SameLine();
-            if (ImGui::Button(" +"))
+            ImGui::Text("Select by Current:"_RU >> u8"Выбрать по текущему:   ");
+            ImGui::SameLine(0, 12);
+            if (ImGui::Button(" + "))
             {
                 SelByRefObject(true);
             }
-            ImGui::SameLine();
-            if (ImGui::Button(" -"))
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SameLine(0, 12);
+            if (ImGui::Button(" - "))
             {
                 SelByRefObject(false);
             }
-            ImGui::Text("Select by Selected:");
-            ImGui::SameLine();
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::Text("Select by Selected:"_RU >> u8"Выбрать по выбранному:");
+            ImGui::SameLine(0, 3);
             if (ImGui::Button("=%"))
             {
                 MultiSelByRefObject(true);
             }
-            ImGui::SameLine();
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SameLine(0, 3);
             if (ImGui::Button("+%"))
             {
                 MultiSelByRefObject(false);
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::SameLine();
             ImGui::SetNextItemWidth(-ImGui::GetTextLineHeight() - 8);
             ImGui::DragFloat("%", &m_selPercent, 1, 0, 100, "%.1f");
@@ -110,17 +118,18 @@ void UIObjectTool::Draw()
         ImGui::Indent(ImGui::GetTreeNodeToLabelSpacing());
         ImGui::TreePop();
     }
+	
     ImGui::SetNextItemOpen(true, ImGuiCond_FirstUseEver);
-    if (ImGui::TreeNode("Surface"))
+    if (ImGui::TreeNode("Surface"_RU >> u8"Поверхность"))
     {
         ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
         {
-            if (ImGui::Button("Clear Surface in select", ImVec2(-1, 0)))
+            if (ImGui::Button("Clear Surface in select"_RU >> u8"Очистить выбранную поверхность", ImVec2(-1, 0)))
             {
                 Scene->UndoSave();
                 ClearSurface(true);
             }
-            if (ImGui::Button("Clear Surface in level", ImVec2(-1, 0)))
+            if (ImGui::Button("Clear Surface in level"_RU >> u8"Очистить поверхности на уровне", ImVec2(-1, 0)))
             {
                 if (ELog.DlgMsg(mtConfirmation, mbYes | mbNo, "Are you sure to reset surface in level?") == mrYes)
                 {
@@ -133,17 +142,18 @@ void UIObjectTool::Draw()
         ImGui::Indent(ImGui::GetTreeNodeToLabelSpacing());
         ImGui::TreePop();
     }
+	
     ImGui::SetNextItemOpen(true, ImGuiCond_FirstUseEver);
-    if (ImGui::TreeNode("Current Object"))
+    if (ImGui::TreeNode("Current Object"_RU >> u8"Библиотека Объектов"))
     {
         ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
         {
-            if (ImGui::Button("Select ...", ImVec2(-1, 0)))
+            if (ImGui::Button("Select ..."_RU >> u8"Выбрать ...", ImVec2(-1, 0)))
             {
                 UIChooseForm::SelectItem(smObject, 1, m_Current, 0, 0, 0, 0, 0);
                 m_Selection = true;
             }
-            if (ImGui::Button("Refresh List", ImVec2(-1, 0)))
+            if (ImGui::Button("Refresh List"_RU >> u8"Обновить Список", ImVec2(-1, 0)))
             {
                 RefreshList();
             }
@@ -153,10 +163,10 @@ void UIObjectTool::Draw()
         ImGui::TreePop();
     }
     ImGui::SetNextItemOpen(true, ImGuiCond_FirstUseEver);
-    if (ImGui::TreeNode("Preview"))
+    if (ImGui::TreeNode("Preview"_RU >> u8"Предпросмотр"))
     {
         ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
-        ImGui::Image(m_RealTexture ? m_RealTexture : (m_TextureNull->surface_get()), ImVec2(128, 128));
+        ImGui::Image(m_RealTexture ? m_RealTexture : (m_TextureNull->surface_get()), ImVec2(160, 160));
         ImGui::SameLine();
         ImGui::BeginChild("Props", ImVec2(0, 128));
         m_Props->Draw();
@@ -169,12 +179,13 @@ void UIObjectTool::Draw()
     {
         ImGui::Separator();
         ImGui::SetNextItemOpen(true, ImGuiCond_FirstUseEver);
-        if (ImGui::TreeNode("Object List"))
+        if (ImGui::TreeNode("Object List"_RU >> u8"Список Объектов:"))
         {
             ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
-            ImGui::BeginChild("Object List", ImVec2(0, 225));
-            ImGui::Separator();
+            ImGui::BeginChild("Object List"_RU >> u8"Список Объектов:", ImVec2(0, 0), true, ImGuiStyleVar_WindowTitleAlign);
+            ImGui::BeginGroup();
             m_ObjectList->Draw();
+            ImGui::EndGroup();
             ImGui::Separator();
             ImGui::EndChild();
             ImGui::Indent(ImGui::GetTreeNodeToLabelSpacing());
@@ -258,7 +269,7 @@ void UIObjectTool::OnDrawUI()
                     CEditableObject* ref = obj->SetReference(it->c_str());
                     if (!ref)
                     {
-                        ELog.DlgMsg(mtError, "TfraObject:: Can't load reference object.");
+                        ELog.DlgMsg(mtError, "! TfraObject:: Can't load reference object.");
                         xr_delete(obj);
                         return;
                     }

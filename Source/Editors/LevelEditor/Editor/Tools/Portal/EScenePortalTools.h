@@ -27,7 +27,7 @@ public:
     }
     IC LPCSTR ClassDesc()
     {
-        return "Portal";
+        return "Portal"_RU >> u8"Порталы";
     }
     IC int RenderPriority()
     {

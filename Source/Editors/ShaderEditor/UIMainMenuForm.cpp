@@ -53,7 +53,7 @@ void UIMainMenuForm::Draw()
                 }
                 ImGui::EndMenu();
             }
-            if (ImGui::MenuItem("Light Anim Editor"_RU >> u8"Редактор световых анимаций", ""))
+            if (ImGui::MenuItem("Light Anim Editor"_RU >> u8"Редактор цветоанимаций(anm)", ""))
             {
                 ExecCommand(COMMAND_LIGHTANIM_EDITOR);
             }
@@ -201,7 +201,7 @@ void UIMainMenuForm::Draw()
             {
                 bool selected = psDeviceFlags.test(rsLighting);
                 ;
-                if (ImGui::MenuItem("Lighting"_RU >> u8"Свет", "", &selected))
+                if (ImGui::MenuItem("Lighting"_RU >> u8"Выключить Свет", "", &selected))
                 {
                     psDeviceFlags.set(rsLighting, selected);
                     UI->RedrawScene();

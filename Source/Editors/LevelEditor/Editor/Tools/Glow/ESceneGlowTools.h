@@ -28,7 +28,7 @@ public:
     }
     IC LPCSTR ClassDesc()
     {
-        return "Glow";
+        return "Glow"_RU >> u8"Источник свечения";
     }
     IC int RenderPriority()
     {

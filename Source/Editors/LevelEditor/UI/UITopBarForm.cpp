@@ -34,9 +34,13 @@ void UITopBarForm::Draw()
     ImGui::SetNextWindowSize(ImVec2(viewport->Size.x, UIToolBarSize));
     ImGui::SetNextWindowViewport(viewport->ID);
 
-    ImGuiWindowFlags window_flags = 0 | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoTitleBar |
-        ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar |
-        ImGuiWindowFlags_NoSavedSettings;
+    ImGuiWindowFlags window_flags = 0
+        | ImGuiWindowFlags_NoDocking
+        | ImGuiWindowFlags_NoTitleBar
+        | ImGuiWindowFlags_NoResize
+        | ImGuiWindowFlags_NoMove
+        | ImGuiWindowFlags_NoScrollbar
+        | ImGuiWindowFlags_NoSavedSettings;
     ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0);
     ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.f);
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(2, 2));
@@ -45,21 +49,27 @@ void UITopBarForm::Draw()
     ImGui::Begin("TOOLBAR", NULL, window_flags);
     {
         m_tUndo->Load();
-        if (ImGui::ImageButton(
-                m_tUndo->surface_get(), ImVec2(20, 20), ImVec2(m_timeUndo > EDevice->TimerAsync() ? 0.5 : 0, 0),
-                ImVec2(m_timeUndo > EDevice->TimerAsync() ? 1 : 0.5, 1), 0))
+        if (ImGui::ImageButton(m_tUndo->surface_get(), ImVec2(20, 20), ImVec2(m_timeUndo > EDevice->TimerAsync() ? 0.5 : 0, 0), ImVec2(m_timeUndo > EDevice->TimerAsync() ? 1 : 0.5, 1), 0))
         {
             m_timeUndo = EDevice->TimerAsync() + 130;
             ClickUndo();
         }
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SetTooltip("Undo the last action."_RU >> u8"Отменить последнее действие.");
+        }
         ImGui::SameLine();
         m_tRedo->Load();
-        if (ImGui::ImageButton(
-                m_tRedo->surface_get(), ImVec2(20, 20), ImVec2(m_timeRedo > EDevice->TimerAsync() ? 0.5 : 0, 0),
-                ImVec2(m_timeRedo > EDevice->TimerAsync() ? 1 : 0.5, 1), 0))
+        if (ImGui::ImageButton(m_tRedo->surface_get(), ImVec2(20, 20), ImVec2(m_timeRedo > EDevice->TimerAsync() ? 0.5 : 0, 0), ImVec2(m_timeRedo > EDevice->TimerAsync() ? 1 : 0.5, 1), 0))
         {
             m_timeRedo = EDevice->TimerAsync() + 130;
             ClickRedo();
+        }
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SetTooltip("Repeat the last action."_RU >> u8"Повторить последнее действие.");
         }
         ImGui::SameLine();
 
@@ -68,17 +78,32 @@ void UITopBarForm::Draw()
         {
             ClickNew();
         }
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SetTooltip("Clear/New Scene"_RU >> u8"Очистить/Новая сцена");
+        }
         ImGui::SameLine();
         m_tOpen->Load();
         if (ImGui::ImageButton(m_tOpen->surface_get(), ImVec2(20, 20), ImVec2(0, 0), ImVec2(1, 1), 0))
         {
             ClickOpen();
         }
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SetTooltip("Load level"_RU >> u8"Загрузить уровень");
+        }
         ImGui::SameLine();
         m_tSave->Load();
         if (ImGui::ImageButton(m_tSave->surface_get(), ImVec2(20, 20), ImVec2(0, 0), ImVec2(1, 1), 0))
         {
             ClickSave();
+        }
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SetTooltip("Save level"_RU >> u8"Сохранить уровень");
         }
         ImGui::SameLine();
 
@@ -87,17 +112,32 @@ void UITopBarForm::Draw()
         {
             ClickCForm();
         }
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SetTooltip("Need rebuild CFORM"_RU >> u8"Need rebuild CFORM");
+        }
         ImGui::SameLine();
         m_tAIMap->Load();
         if (ImGui::ImageButton(m_tAIMap->surface_get(), ImVec2(20, 20), ImVec2(0, 0), ImVec2(1, 1), 0))
         {
             ClickAIMap();
         }
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SetTooltip("Need rebuild AIMAP"_RU >> u8"Need rebuild AIMAP");
+        }
         ImGui::SameLine();
         m_tGGraph->Load();
         if (ImGui::ImageButton(m_tGGraph->surface_get(), ImVec2(20, 20), ImVec2(0, 0), ImVec2(1, 1), 0))
         {
             ClickGGraph();
+        }
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SetTooltip("Need rebuild GAME GRAPH"_RU >> u8"Need rebuild GAME GRAPH");
         }
         ImGui::SameLine();
 
@@ -116,16 +156,22 @@ void UITopBarForm::Draw()
             {
                 ClickPlayInEditor();
             }
+            if (ImGui::IsItemHovered())
+            {
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                ImGui::SetTooltip("Play In Editor"_RU >> u8"Играть в Редакторе(inGame)");
+            }
         }
+        ImGui::SameLine();
         {
-            ImGui::SameLine(0, 0);
+            ImGui::SameLine(0, 4);
             if (ImGui::ArrowButton("##PlaySettings", ImGuiDir_Down, ImVec2(ImGui::GetFrameHeight(), 20), 0))
                 ImGui::OpenPopup("test");
 
             ImGui::SameLine();
             if (ImGui::BeginPopup("test"))
             {
-                ImGui::Checkbox("Verify space restrictors", &m_VerifySpaceRestrictors);
+                ImGui::Checkbox("Verify space restrictors"_RU >> u8"Верификация рестрикторов", &m_VerifySpaceRestrictors);
                 ImGui::EndPopup();
             }
         }
@@ -140,12 +186,22 @@ void UITopBarForm::Draw()
         {
             ClickReloadConfigs();
         }
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SetTooltip("Reload all configs in folder 'Gamedata'"_RU >> u8"Перезагрузить все конфиги в папке 'Gamedata'");
+        }
         ImGui::SameLine();
 
         m_tBuildAndMake->Load();
         if (ImGui::ImageButton(m_tBuildAndMake->surface_get(), ImVec2(20, 20), ImVec2(0, 0), ImVec2(1, 1), 0))
         {
             ClickBuildAndMake();
+        }
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SetTooltip("Build And Make"_RU >> u8"Обновить и сбилдить");
         }
         ImGui::SameLine();
         m_tPlayPC->Load();
@@ -154,11 +210,21 @@ void UITopBarForm::Draw()
         {
             ClickPlayPC();
         }
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SetTooltip("Run current level on the engine outside of the editor."_RU >> u8"Запустить текущий уровень, на движке вне редактора.");
+        }
         ImGui::SameLine();
         m_tPlayCleanGame->Load();
         if (ImGui::ImageButton(m_tPlayCleanGame->surface_get(), ImVec2(20, 20), ImVec2(0, 0), ImVec2(1, 1), 0))
         {
             ClickPlayCleanGame();
+        }
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SetTooltip("Run a clean game on the engine outside of the editor."_RU >> u8"Запустить чистую игру, на движке вне редактора.");
         }
         ImGui::SameLine();
 
@@ -171,6 +237,11 @@ void UITopBarForm::Draw()
         if (ImGui::ImageButton(m_tOpenGameData->surface_get(), ImVec2(20, 20), ImVec2(0, 0), ImVec2(1, 1), 0))
         {
             ClickOpenGameData();
+        }
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SetTooltip("Open folder 'GameData'"_RU >> u8"Открыть папку 'GameData'");
         }
     }
     ImGui::SameLine(0, 1);

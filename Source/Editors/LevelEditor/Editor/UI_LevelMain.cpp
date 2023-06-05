@@ -162,7 +162,7 @@ CCommandVar CLevelTool::CommandMultiRenameObjects(CCommandVar p1, CCommandVar p2
     }
     else
     {
-        ELog.DlgMsg(mtError, "Scene sharing violation");
+        ELog.DlgMsg(mtError, "! Scene sharing violation");
     }
     return FALSE;
 }
@@ -201,7 +201,7 @@ CCommandVar CommandLoad(CCommandVar p1, CCommandVar p2)
             if (!Scene->IfModified())
                 return FALSE;
 
-            UI->SetStatus("Level loading...");
+            UI->SetStatus("# Level loading...");
             ExecCommand(COMMAND_CLEAR);
 
             IReader* R = FS.r_open(temp_fn.c_str());
@@ -239,7 +239,7 @@ CCommandVar CommandLoad(CCommandVar p1, CCommandVar p2)
             }
             else
             {
-                ELog.DlgMsg(mtError, "Can't load map '%s'", temp_fn.c_str());
+                ELog.DlgMsg(mtError, "! Can't load map '%s'", temp_fn.c_str());
                 LTools->m_LastFileName = "";
             }
             // update props
@@ -249,7 +249,7 @@ CCommandVar CommandLoad(CCommandVar p1, CCommandVar p2)
     }
     else
     {
-        ELog.DlgMsg(mtError, "Scene sharing violation");
+        ELog.DlgMsg(mtError, "! Scene sharing violation");
         return FALSE;
     }
     return TRUE;
@@ -289,7 +289,7 @@ CCommandVar CommandSave(CCommandVar p1, CCommandVar p2)
             {
                 xr_strlwr(temp_fn);
 
-                UI->SetStatus("Level saving...");
+                UI->SetStatus("# Level saving...");
                 if (xrGameManager::GetGame() == EGame::SHOC)
                 {
                     Scene->Save(temp_fn.c_str(), true, (p2 == 66));
@@ -312,7 +312,7 @@ CCommandVar CommandSave(CCommandVar p1, CCommandVar p2)
     }
     else
     {
-        ELog.DlgMsg(mtError, "Scene sharing violation");
+        ELog.DlgMsg(mtError, "! Scene sharing violation");
         return FALSE;
     }
 }
@@ -338,7 +338,7 @@ CCommandVar CommandClear(CCommandVar p1, CCommandVar p2)
     }
     else
     {
-        ELog.DlgMsg(mtError, "Scene sharing violation");
+        ELog.DlgMsg(mtError, "! Scene sharing violation");
         return FALSE;
     }
 }
@@ -431,7 +431,7 @@ CCommandVar CommandValidateScene(CCommandVar p1, CCommandVar p2)
     }
     else
     {
-        ELog.DlgMsg(mtError, "Scene sharing violation");
+        ELog.DlgMsg(mtError, "! Scene sharing violation");
         return FALSE;
     }
 }
@@ -445,7 +445,7 @@ CCommandVar CommandCleanLibrary(CCommandVar p1, CCommandVar p2)
     }
     else
     {
-        ELog.DlgMsg(mtError, "Scene must be empty before refreshing library!");
+        ELog.DlgMsg(mtError, "! Scene must be empty before refreshing library!");
         return FALSE;
     }
 }
@@ -468,7 +468,7 @@ CCommandVar CommandCut(CCommandVar p1, CCommandVar p2)
     }
     else
     {
-        ELog.DlgMsg(mtError, "Scene sharing violation");
+        ELog.DlgMsg(mtError, "! Scene sharing violation");
         return FALSE;
     }
     return FALSE;
@@ -483,7 +483,7 @@ CCommandVar CommandCopy(CCommandVar p1, CCommandVar p2)
     }
     else
     {
-        ELog.DlgMsg(mtError, "Scene sharing violation");
+        ELog.DlgMsg(mtError, "! Scene sharing violation");
         return FALSE;
     }
     return FALSE;
@@ -500,7 +500,7 @@ CCommandVar CommandDuplicate(CCommandVar p1, CCommandVar p2)
     }
     else
     {
-        ELog.DlgMsg(mtError, "Scene sharing violation");
+        ELog.DlgMsg(mtError, "! Scene sharing violation");
         return FALSE;
     }
     return FALSE;
@@ -516,7 +516,7 @@ CCommandVar CommandPaste(CCommandVar p1, CCommandVar p2)
     }
     else
     {
-        ELog.DlgMsg(mtError, "Scene sharing violation");
+        ELog.DlgMsg(mtError, "! Scene sharing violation");
         return FALSE;
     }
     return FALSE;
@@ -546,7 +546,7 @@ CCommandVar CommandLoadSelection(CCommandVar p1, CCommandVar p2)
     }
     else
     {
-        ELog.DlgMsg(mtError, "Scene sharing violation");
+        ELog.DlgMsg(mtError, "! Scene sharing violation");
     }
     return FALSE;
 }
@@ -569,7 +569,7 @@ CCommandVar CommandSaveSelection(CCommandVar p1, CCommandVar p2)
     }
     else
     {
-        ELog.DlgMsg(mtError, "Scene sharing violation");
+        ELog.DlgMsg(mtError, "! Scene sharing violation");
     }
     return FALSE;
 }
@@ -589,7 +589,7 @@ CCommandVar CommandUndo(CCommandVar p1, CCommandVar p2)
     }
     else
     {
-        ELog.DlgMsg(mtError, "Scene sharing violation");
+        ELog.DlgMsg(mtError, "! Scene sharing violation");
     }
     return FALSE;
 }
@@ -609,7 +609,7 @@ CCommandVar CommandRedo(CCommandVar p1, CCommandVar p2)
     }
     else
     {
-        ELog.DlgMsg(mtError, "Scene sharing violation");
+        ELog.DlgMsg(mtError, "! Scene sharing violation");
     }
     return FALSE;
 }
@@ -623,7 +623,7 @@ CCommandVar CommandClearSceneSummary(CCommandVar p1, CCommandVar p2)
     }
     else
     {
-        ELog.DlgMsg(mtError, "Scene sharing violation");
+        ELog.DlgMsg(mtError, "! Scene sharing violation");
         return FALSE;
     }
 }
@@ -637,7 +637,7 @@ CCommandVar CommandCollectSceneSummary(CCommandVar p1, CCommandVar p2)
     }
     else
     {
-        ELog.DlgMsg(mtError, "Scene sharing violation");
+        ELog.DlgMsg(mtError, "! Scene sharing violation");
         return FALSE;
     }
 }
@@ -651,7 +651,7 @@ CCommandVar CommandShowSceneSummary(CCommandVar p1, CCommandVar p2)
     }
     else
     {
-        ELog.DlgMsg(mtError, "Scene sharing violation");
+        ELog.DlgMsg(mtError, "! Scene sharing violation");
         return FALSE;
     }
 }
@@ -665,7 +665,7 @@ CCommandVar CommandExportSceneSummary(CCommandVar p1, CCommandVar p2)
     }
     else
     {
-        ELog.DlgMsg(mtError, "Scene sharing violation");
+        ELog.DlgMsg(mtError, "! Scene sharing violation");
         return FALSE;
     }
 }
@@ -694,7 +694,7 @@ CCommandVar CommandOptions(CCommandVar p1, CCommandVar p2)
     }
     else
     {
-        ELog.DlgMsg(mtError, "Scene sharing violation");
+        ELog.DlgMsg(mtError, "! Scene sharing violation");
         return FALSE;
     }
 }
@@ -708,7 +708,7 @@ CCommandVar CommandBuild(CCommandVar p1, CCommandVar p2)
     }
     else
     {
-        ELog.DlgMsg(mtError, "Scene sharing violation");
+        ELog.DlgMsg(mtError, "! Scene sharing violation");
     }
     return FALSE;
 }
@@ -722,7 +722,7 @@ CCommandVar CommandMakeAIMap(CCommandVar p1, CCommandVar p2)
     }
     else
     {
-        ELog.DlgMsg(mtError, "Scene sharing violation");
+        ELog.DlgMsg(mtError, "! Scene sharing violation");
     }
     return FALSE;
 }
@@ -736,7 +736,7 @@ CCommandVar CommandMakeGame(CCommandVar p1, CCommandVar p2)
     }
     else
     {
-        ELog.DlgMsg(mtError, "Scene sharing violation");
+        ELog.DlgMsg(mtError, "! Scene sharing violation");
     }
     return FALSE;
 }
@@ -750,7 +750,7 @@ CCommandVar CommandMakeDetails(CCommandVar p1, CCommandVar p2)
     }
     else
     {
-        ELog.DlgMsg(mtError, "Scene sharing violation");
+        ELog.DlgMsg(mtError, "! Scene sharing violation");
     }
     return FALSE;
 }
@@ -764,7 +764,7 @@ CCommandVar CommandMakeHOM(CCommandVar p1, CCommandVar p2)
     }
     else
     {
-        ELog.DlgMsg(mtError, "Scene sharing violation");
+        ELog.DlgMsg(mtError, "! Scene sharing violation");
     }
     return FALSE;
 }
@@ -778,7 +778,7 @@ CCommandVar CommandMakeSOM(CCommandVar p1, CCommandVar p2)
     }
     else
     {
-        ELog.DlgMsg(mtError, "Scene sharing violation");
+        ELog.DlgMsg(mtError, "! Scene sharing violation");
     }
     return FALSE;
 }
@@ -792,7 +792,7 @@ CCommandVar CommandInvertSelectionAll(CCommandVar p1, CCommandVar p2)
     }
     else
     {
-        ELog.DlgMsg(mtError, "Scene sharing violation");
+        ELog.DlgMsg(mtError, "! Scene sharing violation");
     }
     return FALSE;
 }
@@ -806,7 +806,7 @@ CCommandVar CommandSelectAll(CCommandVar p1, CCommandVar p2)
     }
     else
     {
-        ELog.DlgMsg(mtError, "Scene sharing violation");
+        ELog.DlgMsg(mtError, "! Scene sharing violation");
     }
     return FALSE;
 }
@@ -820,7 +820,7 @@ CCommandVar CommandDeselectAll(CCommandVar p1, CCommandVar p2)
     }
     else
     {
-        ELog.DlgMsg(mtError, "Scene sharing violation");
+        ELog.DlgMsg(mtError, "! Scene sharing violation");
         return FALSE;
     }
 }
@@ -835,7 +835,7 @@ CCommandVar CommandDeleteSelection(CCommandVar p1, CCommandVar p2)
     }
     else
     {
-        ELog.DlgMsg(mtError, "Scene sharing violation");
+        ELog.DlgMsg(mtError, "! Scene sharing violation");
         return FALSE;
     }
 }
@@ -851,7 +851,7 @@ CCommandVar CommandHideUnsel(CCommandVar p1, CCommandVar p2)
     }
     else
     {
-        ELog.DlgMsg(mtError, "Scene sharing violation");
+        ELog.DlgMsg(mtError, "! Scene sharing violation");
         return FALSE;
     }
 }
@@ -867,7 +867,7 @@ CCommandVar CommandHideSel(CCommandVar p1, CCommandVar p2)
     }
     else
     {
-        ELog.DlgMsg(mtError, "Scene sharing violation");
+        ELog.DlgMsg(mtError, "! Scene sharing violation");
         return FALSE;
     }
 }
@@ -883,7 +883,7 @@ CCommandVar CommandHideAll(CCommandVar p1, CCommandVar p2)
     }
     else
     {
-        ELog.DlgMsg(mtError, "Scene sharing violation");
+        ELog.DlgMsg(mtError, "! Scene sharing violation");
         return FALSE;
     }
 }
@@ -897,7 +897,7 @@ CCommandVar CommandSetSnapObjects(CCommandVar p1, CCommandVar p2)
     }
     else
     {
-        ELog.DlgMsg(mtError, "Scene sharing violation");
+        ELog.DlgMsg(mtError, "! Scene sharing violation");
         return FALSE;
     }
 }
@@ -911,7 +911,7 @@ CCommandVar CommandAddSelSnapObjects(CCommandVar p1, CCommandVar p2)
     }
     else
     {
-        ELog.DlgMsg(mtError, "Scene sharing violation");
+        ELog.DlgMsg(mtError, "! Scene sharing violation");
         return FALSE;
     }
 }
@@ -925,7 +925,7 @@ CCommandVar CommandDelSelSnapObjects(CCommandVar p1, CCommandVar p2)
     }
     else
     {
-        ELog.DlgMsg(mtError, "Scene sharing violation");
+        ELog.DlgMsg(mtError, "! Scene sharing violation");
         return FALSE;
     }
 }
@@ -939,7 +939,7 @@ CCommandVar CommandClearSnapObjects(CCommandVar p1, CCommandVar p2)
     }
     else
     {
-        ELog.DlgMsg(mtError, "Scene sharing violation");
+        ELog.DlgMsg(mtError, "! Scene sharing violation");
         return FALSE;
     }
 }
@@ -953,7 +953,7 @@ CCommandVar CommandSelectSnapObjects(CCommandVar p1, CCommandVar p2)
     }
     else
     {
-        ELog.DlgMsg(mtError, "Scene sharing violation");
+        ELog.DlgMsg(mtError, "! Scene sharing violation");
         return FALSE;
     }
 }
@@ -1066,8 +1066,7 @@ void CLevelMain::RegisterCommands()
     REGISTER_CMD_C(COMMAND_READONLY_TARGET, LTools, CLevelTool::CommandReadonlyTarget);
     REGISTER_CMD_C(COMMAND_MULTI_RENAME_OBJECTS, LTools, CLevelTool::CommandMultiRenameObjects);
 
-    REGISTER_CMD_CE(
-        COMMAND_SHOW_OBJECTLIST, "Scene\\Show Object List", LTools, CLevelTool::CommandShowObjectList, false);
+    REGISTER_CMD_CE(COMMAND_SHOW_OBJECTLIST, "Scene\\Show Object List", LTools, CLevelTool::CommandShowObjectList, false);
     // common
     REGISTER_CMD_S(COMMAND_LIBRARY_EDITOR, CommandLibraryEditor);
     REGISTER_CMD_S(COMMAND_LANIM_EDITOR, CommandLAnimEditor);

@@ -21,7 +21,7 @@ public:
     }
     IC LPCSTR ClassDesc()
     {
-        return "Sound Source";
+        return "Sound Source"_RU >> u8"Источник звука";
     }
     IC int RenderPriority()
     {

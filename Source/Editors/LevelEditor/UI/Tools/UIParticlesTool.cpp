@@ -28,24 +28,28 @@ UIParticlesTool::~UIParticlesTool()
 void UIParticlesTool::Draw()
 {
     ImGui::SetNextItemOpen(true, ImGuiCond_FirstUseEver);
-    if (ImGui::TreeNode("Commands"))
+    if (ImGui::TreeNode("Commands"_RU >> u8"Управление Партиклов"))
     {
         ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
         {
-            ImGui::Text("Ref's Select:   ");
-            ImGui::SameLine();
-            if (ImGui::Button("+", ImVec2(ImGui::GetFrameHeight(), ImGui::GetFrameHeight())))
+            ImGui::Text("Ref's Select:   "_RU >> u8"Добавить:       ");
+            ImGui::SameLine(0, 20);
+            if (ImGui::Button(" + ", ImVec2(ImGui::GetFrameHeight(), ImGui::GetFrameHeight())))
             {
                 SelByRef(true);
             };
-            ImGui::SameLine();
-            if (ImGui::Button("-", ImVec2(ImGui::GetFrameHeight(), ImGui::GetFrameHeight())))
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SameLine(0, 8);
+            if (ImGui::Button(" - ", ImVec2(ImGui::GetFrameHeight(), ImGui::GetFrameHeight())))
             {
                 SelByRef(false);
             };
-            ImGui::Text("Selected:       ");
-            ImGui::SameLine();
-            if (ImGui::ArrowButton("play", ImGuiDir_Right))
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::Text("Selected:        "_RU >> u8"Действие:       ");
+            ImGui::SameLine(0, 21);
+            if (ImGui::ArrowButton(" play ", ImGuiDir_Right))
             {
                 ObjectIt _F = Scene->FirstObj(OBJCLASS_PS);
                 ObjectIt _E = Scene->LastObj(OBJCLASS_PS);
@@ -55,7 +59,9 @@ void UIParticlesTool::Draw()
                         ((EParticlesObject*)(*_F))->Play();
                 }
             }
-            ImGui::SameLine();
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SameLine(0,8);
             if (ImGui::Button("stop", ImVec2(0, ImGui::GetFrameHeight())))
             {
                 ObjectIt _F = Scene->FirstObj(OBJCLASS_PS);
@@ -66,13 +72,15 @@ void UIParticlesTool::Draw()
                         ((EParticlesObject*)(*_F))->Stop();
                 }
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         }
         ImGui::Separator();
         ImGui::Indent(ImGui::GetTreeNodeToLabelSpacing());
         ImGui::TreePop();
     }
     ImGui::SetNextItemOpen(true, ImGuiCond_FirstUseEver);
-    if (ImGui::TreeNode("Particles"))
+    if (ImGui::TreeNode("Particles"_RU >> u8"Партиклы:"))
     {
         ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
         ImGui::Separator();
@@ -81,6 +89,8 @@ void UIParticlesTool::Draw()
         ImGui::Indent(ImGui::GetTreeNodeToLabelSpacing());
         ImGui::TreePop();
     }
+    if (ImGui::IsItemHovered())
+        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
 }
 
 void UIParticlesTool::SelByRef(bool flag)

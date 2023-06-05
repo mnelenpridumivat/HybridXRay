@@ -13,7 +13,7 @@ void UIObjectList::Draw()
 {
     ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(400, 400));
 
-    if (!ImGui::Begin("Object List", &bOpen))
+    if (!ImGui::Begin("Object List"_RU >> u8"Список Объектов", &bOpen))
     {
         ImGui::PopStyleVar(1);
         ImGui::End();
@@ -33,23 +33,23 @@ void UIObjectList::Draw()
     ImGui::SameLine();
     if (ImGui::BeginChild("Right", ImVec2(130, 0)))
     {
-        if (ImGui::RadioButton("All", m_Mode == M_All))
+        if (ImGui::RadioButton("All"_RU >> u8"ВСЕ", m_Mode == M_All))
         {
             m_Mode = M_All;
             m_Root.ClearSelcted();
         }
-        if (ImGui::RadioButton("Visible Only", m_Mode == M_Visible))
+        if (ImGui::RadioButton("Visible Only"_RU >> u8"Только видимые", m_Mode == M_Visible))
         {
             m_Mode = M_Visible;
             m_Root.ClearSelcted();
         }
-        if (ImGui::RadioButton("Invisible Only", m_Mode == M_Inbvisible))
+        if (ImGui::RadioButton("Invisible Only"_RU >> u8"Только скрытые", m_Mode == M_Inbvisible))
         {
             m_Mode = M_Inbvisible;
             m_Root.ClearSelcted();
         }
         ImGui::Separator();
-        if (ImGui::Button("Show Selected", ImVec2(-1, 0)))
+        if (ImGui::Button("Show Selected"_RU >> u8"Показать выбранное", ImVec2(-1, 0)))
         {
             for (UITreeItem* Item : m_Root.Items)
             {
@@ -61,7 +61,7 @@ void UIObjectList::Draw()
             }
         }
 
-        if (ImGui::Button("Hide Selected", ImVec2(-1, 0)))
+        if (ImGui::Button("Hide Selected"_RU >> u8"Скрыть выбранное", ImVec2(-1, 0)))
         {
             for (UITreeItem* Item : m_Root.Items)
             {
@@ -74,7 +74,7 @@ void UIObjectList::Draw()
         }
 
         ImGui::Separator();
-        if (ImGui::Button("Focus on Selected", ImVec2(-1, 0)))
+        if (ImGui::Button("Focus on Selected"_RU >> u8"Фокус на выбранном", ImVec2(-1, 0)))
         {
             for (UITreeItem* Item : m_Root.Items)
             {
@@ -162,13 +162,18 @@ void UIObjectList::DrawObjects()
     if (LTools->CurrentClassID() != m_cur_cls)
         Refresh();
 
-    static ImGuiTableFlags flags = ImGuiTableFlags_BordersV | ImGuiTableFlags_BordersOuterH |
-        ImGuiTableFlags_Resizable | ImGuiTableFlags_RowBg | ImGuiTableFlags_NoBordersInBody | ImGuiTableFlags_ScrollY;
+    static ImGuiTableFlags flags = 
+        ImGuiTableFlags_BordersV
+        | ImGuiTableFlags_BordersOuterH
+        | ImGuiTableFlags_Resizable
+        | ImGuiTableFlags_RowBg
+        | ImGuiTableFlags_NoBordersInBody
+        | ImGuiTableFlags_ScrollY;
 
     if (ImGui::BeginTable("objects", 1, flags, ImVec2(-130, -ImGui::GetFrameHeight() - 4)))
     {
         ImGui::TableSetupScrollFreeze(1, 1);
-        ImGui::TableSetupColumn("Label", ImGuiTableColumnFlags_WidthStretch);
+        ImGui::TableSetupColumn("Objects"_RU >> u8"Объекты", ImGuiTableColumnFlags_WidthStretch);
         ImGui::TableHeadersRow();
         m_Root.DrawRoot();
         ImGui::EndTable();

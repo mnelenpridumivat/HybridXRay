@@ -50,7 +50,7 @@ public:
     }
     IC LPCSTR ClassDesc()
     {
-        return "Scene Object";
+        return "Scene Object"_RU >> u8"Объект сцены";
     }
     IC int RenderPriority()
     {

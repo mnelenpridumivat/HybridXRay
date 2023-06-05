@@ -58,7 +58,7 @@ public:
     }
     IC LPCSTR ClassDesc()
     {
-        return "Light";
+        return "Light"_RU >> u8"Свет";
     }
     IC int RenderPriority()
     {

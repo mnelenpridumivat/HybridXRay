@@ -18,32 +18,40 @@ UISpawnTool::~UISpawnTool()
 void UISpawnTool::Draw()
 {
     ImGui::SetNextItemOpen(true, ImGuiCond_FirstUseEver);
-    if (ImGui::TreeNode("Reference Select"))
+    if (ImGui::TreeNode("Reference Select"_RU >> u8"Ссылка выбранного"))
     {
         ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
         {
-            ImGui::Text("Select by Current: ");
-            ImGui::SameLine();
-            if (ImGui::Button(" +"))
+            ImGui::Text("Select by Current:"_RU >> u8"Выбрать по текущему:   ");
+            ImGui::SameLine(0, 12);
+            if (ImGui::Button(" + "))
             {
                 SelByRefObject(true);
             }
-            ImGui::SameLine();
-            if (ImGui::Button(" -"))
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SameLine(0, 12);
+            if (ImGui::Button(" - "))
             {
                 SelByRefObject(false);
             }
-            ImGui::Text("Select by Selected:");
-            ImGui::SameLine();
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::Text("Select by Selected:"_RU >> u8"Выбрать по выбранному:");
+            ImGui::SameLine(0, 3);
             if (ImGui::Button("=%"))
             {
                 MultiSelByRefObject(true);
             }
-            ImGui::SameLine();
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SameLine(0, 3);
             if (ImGui::Button("+%"))
             {
                 MultiSelByRefObject(false);
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::SameLine();
             ImGui::SetNextItemWidth(-ImGui::GetTextLineHeight() - 8);
             ImGui::DragFloat("%", &m_selPercent, 1, 0, 100, "%.1f");
@@ -53,19 +61,21 @@ void UISpawnTool::Draw()
         ImGui::TreePop();
     }
     ImGui::SetNextItemOpen(true, ImGuiCond_FirstUseEver);
-    if (ImGui::TreeNode("Commands"))
+    if (ImGui::TreeNode("Commands"_RU >> u8"Управление"))
     {
         ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
         {
             float size = float(ImGui::CalcItemWidth());
             {
-                if (ImGui::Checkbox("Attach Object...", &m_AttachObject))
+                if (ImGui::Checkbox("Attach Object..."_RU >> u8"Присоединить объект...", &m_AttachObject))
                 {
                     if (m_AttachObject)
                         ExecCommand(COMMAND_CHANGE_ACTION, etaAdd);
                 }
-                ImGui::SameLine(0, 10);
-                if (ImGui::Button("Detach Object", ImVec2(-1, 0)))
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                ImGui::SameLine(0, 15);
+                if (ImGui::Button("Detach Object"_RU >> u8"Отсоединить объект", ImVec2(-1, 0)))
                 {
                     ObjectList lst;
                     if (Scene->GetQueryObjects(lst, OBJCLASS_SPAWNPOINT, 1, 1, 0))
@@ -78,6 +88,8 @@ void UISpawnTool::Draw()
                         }
                     }
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             }
         }
         ImGui::Separator();
@@ -85,12 +97,15 @@ void UISpawnTool::Draw()
         ImGui::TreePop();
     }
     ImGui::SetNextItemOpen(true, ImGuiCond_FirstUseEver);
-    if (ImGui::TreeNode("Object List"))
+    if (ImGui::TreeNode("Object List"_RU >> u8"Список Объектов"))
     {
         ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
-        ImGui::Separator();
+        ImGui::BeginChild("Object List"_RU >> u8"Список Объектов:", ImVec2(0, 0), true, ImGuiStyleVar_WindowTitleAlign);
+        ImGui::BeginGroup();
         m_SpawnList->Draw();
+        ImGui::EndGroup();
         ImGui::Separator();
+        ImGui::EndChild();
         ImGui::Indent(ImGui::GetTreeNodeToLabelSpacing());
         ImGui::TreePop();
     }

@@ -203,7 +203,7 @@ public:
     }
     IC LPCSTR ClassDesc()
     {
-        return "AI Map";
+        return "AI Map"_RU >> u8"AI Сетка";
     }
     IC int RenderPriority()
     {

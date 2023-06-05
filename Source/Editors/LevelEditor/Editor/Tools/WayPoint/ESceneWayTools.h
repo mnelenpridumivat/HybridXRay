@@ -21,7 +21,7 @@ public:
     }
     IC LPCSTR ClassDesc()
     {
-        return "Way";
+        return "Way"_RU >> u8"Точки Пути";
     }
     IC int RenderPriority()
     {

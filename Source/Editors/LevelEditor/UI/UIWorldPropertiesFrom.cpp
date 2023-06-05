@@ -8,7 +8,7 @@ void UIWorldPropertiesFrom::Draw()
 {
     if (bOpen)
     {
-        if (ImGui::Begin("World Properties", &bOpen))
+        if (ImGui::Begin("World Properties"_RU >> u8"Мировые свойства", &bOpen))
         {
             LTools->GetWorldProperties()->Draw();
         }

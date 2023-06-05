@@ -38,20 +38,17 @@ void UIDOShuffle::Draw()
             if (m_RealTexture)
                 m_RealTexture->AddRef();
         }
-        ImGui::Image(m_RealTexture ? m_RealTexture : m_TextureNull->surface_get(), ImVec2(128, 128));
+        ImGui::Image(m_RealTexture ? m_RealTexture : m_TextureNull->surface_get(), ImVec2(250, 200));
 
         {
             int selected = m_list_selected;
             ImGui::SetNextItemWidth(-1);
-            if (ImGui::ListBox(
-                    "##list", &selected,
-                    [](void* data, int ind, const char** out) -> bool {
-                        auto item = reinterpret_cast<xr_vector<xr_string>*>(data)->at(ind).c_str();
-                        ;
-                        *out = item;
-                        return true;
-                    },
-                    reinterpret_cast<void*>(&m_list), m_list.size(), 15))
+            if (ImGui::ListBox("##list", &selected, [](void* data, int ind, const char** out) -> bool
+			{
+                auto item = reinterpret_cast<xr_vector<xr_string>*>(data)->at(ind).c_str();
+                *out = item;
+                return true;
+            }, reinterpret_cast<void*>(&m_list), m_list.size(), 15))
             {
                 if (m_list_selected != selected)
                 {
@@ -61,13 +58,15 @@ void UIDOShuffle::Draw()
             }
         }
         {
-            if (ImGui::Button("+", ImVec2(0, ImGui::GetFrameHeight())))
+            if (ImGui::Button(" + ", ImVec2(0, ImGui::GetFrameHeight())))
             {
                 UIChooseForm::SelectItem(smObject, 8);
                 m_ChooseObject = true;
             };
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::SameLine();
-            if (ImGui::Button("-", ImVec2(0, ImGui::GetFrameHeight())))
+            if (ImGui::Button(" - ", ImVec2(0, ImGui::GetFrameHeight())))
             {
                 if (m_list_selected >= 0 && m_list.size() > m_list_selected)
                 {
@@ -81,8 +80,10 @@ void UIDOShuffle::Draw()
                     bModif = true;
                 }
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::SameLine();
-            if (ImGui::Button("X", ImVec2(0, ImGui::GetFrameHeight())))
+            if (ImGui::Button(" X ", ImVec2(0, ImGui::GetFrameHeight())))
             {
                 m_list.clear();
                 DM->InvalidateSlots();
@@ -92,8 +93,10 @@ void UIDOShuffle::Draw()
                 OnItemFocused(nullptr);
                 bModif = true;
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::SameLine();
-            if (ImGui::Button("Load..", ImVec2(0, ImGui::GetFrameHeight())))
+            if (ImGui::Button("Load.."_RU >> u8"Загрузить..", ImVec2(0, ImGui::GetFrameHeight())))
             {
                 xr_string fname;
                 if (EFS.GetOpenName(EDevice->m_hWnd, _detail_objects_, fname))
@@ -106,8 +109,10 @@ void UIDOShuffle::Draw()
                     }
                 }
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::SameLine();
-            if (ImGui::Button("Save..", ImVec2(-1, ImGui::GetFrameHeight())))
+            if (ImGui::Button("Save.."_RU >> u8"Сохранить..", ImVec2(-1, ImGui::GetFrameHeight())))
             {
                 xr_string fname;
                 if (EFS.GetSaveName(_detail_objects_, fname))
@@ -116,6 +121,8 @@ void UIDOShuffle::Draw()
                     DM->ExportColorIndices(fname.c_str());
                 }
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         }
         {
             ImGui::BeginChild("Props", ImVec2(0, 0), false);
@@ -127,16 +134,20 @@ void UIDOShuffle::Draw()
     ImGui::NextColumn();
     ImGui::BeginChild("Right");
     {
-        if (ImGui::Button("X"))
+        if (ImGui::Button(" X "))
         {
             ClearIndexForms();
         }
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         ImGui::SameLine();
-        if (ImGui::Button("Append Color Index", ImVec2(-1, 0)))
+        if (ImGui::Button("Append Color Index"_RU >> u8"Добавить Маркер", ImVec2(-1, 0)))
         {
             m_color_indices.push_back(xr_new<UIDOOneColor>());
             m_color_indices.back()->DOShuffle = this;
         }
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
 
         ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
         ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
@@ -167,7 +178,7 @@ void UIDOShuffle::Draw()
     ImGui::Columns();
     if (m_ChooseObject)
     {
-        bool                 ok = false;
+        bool ok = false;
         xr_vector<xr_string> list;
         if (UIChooseForm::GetResult(ok, list))
         {
@@ -200,8 +211,8 @@ void UIDOShuffle::Update()
 {
     if (Form && !Form->IsClosed())
     {
-        ImGui::SetNextWindowSize(ImVec2(400, 500), ImGuiCond_::ImGuiCond_FirstUseEver);
-        if (ImGui::BeginPopupModal("Detail Object List", &Form->bOpen, 0, true))
+        ImGui::SetNextWindowSize(ImVec2(650, 700), ImGuiCond_::ImGuiCond_FirstUseEver);
+        if (ImGui::BeginPopupModal("Detail Object List"_RU >> u8"Список растительности", &Form->bOpen, 0, true))
         {
             Form->Draw();
             ImGui::EndPopup();
@@ -283,11 +294,11 @@ void UIDOShuffle::OnItemFocused(const char* name)
     VERIFY(dd);
     PropItemVec items;
 
-    // PHelper().CreateCaption(items, "Ref Name", dd->GetName());
-    PHelper().CreateFloat(items, "Density", &dd->m_fDensityFactor, 0.1f, 1.0f);
-    PHelper().CreateFloat(items, "Min Scale", &dd->m_fMinScale, 0.1f, 100.0f);
-    PHelper().CreateFloat(items, "Max Scale", &dd->m_fMaxScale, 0.1f, 100.f);
-    PHelper().CreateFlag32(items, "No Waving", &dd->m_Flags, DO_NO_WAVING);
+    PHelper().CreateCaption(items, "Ref Name"_RU >> u8"Ref Имя", dd->GetName());
+    PHelper().CreateFloat(items, "Density"_RU >> u8"Плотность", &dd->m_fDensityFactor, 0.1f, 1.0f);
+    PHelper().CreateFloat(items, "Min Scale"_RU >> u8"Мин. размер", &dd->m_fMinScale, 0.1f, 100.0f);
+    PHelper().CreateFloat(items, "Max Scale"_RU >> u8"Макс. размер", &dd->m_fMaxScale, 0.1f, 100.f);
+    PHelper().CreateFlag32(items, "No Waving"_RU >> u8"Без размахивания", &dd->m_Flags, DO_NO_WAVING);
 
     m_Props->AssignItems(items);
 }

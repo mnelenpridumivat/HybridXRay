@@ -107,56 +107,56 @@ bool UIMainForm::Frame()
 
 void UIMainForm::DrawContextMenu()
 {
-    if (ImGui::BeginMenu("Edit"))
+    if (ImGui::BeginMenu("Edit"_RU >> u8"Правка"))
     {
-        if (ImGui::MenuItem("Duplicate"))
+        if (ImGui::MenuItem("Duplicate"_RU >> u8"Дублировать"))
         {
             ExecCommand(COMMAND_DUPLICATE);
         }
         ImGui::Separator();
-        if (ImGui::MenuItem("Copy"))
+        if (ImGui::MenuItem("Copy"_RU >> u8"Копировать"))
         {
             ExecCommand(COMMAND_COPY);
         }
-        if (ImGui::MenuItem("Paste"))
+        if (ImGui::MenuItem("Paste"_RU >> u8"Вставить"))
         {
             ExecCommand(COMMAND_PASTE);
         }
         ImGui::Separator();
-        if (ImGui::MenuItem("Cut"))
+        if (ImGui::MenuItem("Cut"_RU >> u8"Вырезать"))
         {
             ExecCommand(COMMAND_CUT);
         }
         ImGui::Separator();
-        if (ImGui::MenuItem("Delete"))
+        if (ImGui::MenuItem("Delete"_RU >> u8"Удалить"))
         {
             ExecCommand(COMMAND_DELETE_SELECTION);
         }
         ImGui::EndMenu();
     }
-    if (ImGui::BeginMenu("Visiblity"))
+    if (ImGui::BeginMenu("Visiblity"_RU >> u8"Видимость"))
     {
-        if (ImGui::MenuItem("Hide Selected"))
+        if (ImGui::MenuItem("Hide Selected"_RU >> u8"Скрыть выделенное"))
         {
             ExecCommand(COMMAND_HIDE_SEL, FALSE);
         }
-        if (ImGui::MenuItem("Hide Unselected"))
+        if (ImGui::MenuItem("Hide Unselected"_RU >> u8"Скрыть невыделенное"))
         {
             ExecCommand(COMMAND_HIDE_UNSEL);
         }
-        if (ImGui::MenuItem("Hide All"))
+        if (ImGui::MenuItem("Hide All"_RU >> u8"Скрыть ВСЁ"))
         {
             ExecCommand(COMMAND_HIDE_ALL, FALSE);
         }
         ImGui::Separator();
-        if (ImGui::MenuItem("Unhide All"))
+        if (ImGui::MenuItem("Unhide All"_RU >> u8"Показать ВСЁ"))
         {
             ExecCommand(COMMAND_HIDE_ALL, TRUE);
         }
         ImGui::EndMenu();
     }
     ImGui::Separator();
-    if (ImGui::MenuItem("Properties"))
+    if (ImGui::MenuItem("Properties"_RU >> u8"Свойства"))
     {
         ExecCommand(COMMAND_SHOW_PROPERTIES);
     }
@@ -172,31 +172,37 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Size)
             {
                 {
                     bool selected = psDeviceFlags.test(rsDrawSafeRect);
-                    if (ImGui::MenuItem("Draw Safe Rect", "", &selected))
+                    if (ImGui::MenuItem("Draw Safe Rect"_RU >> u8"Сжать вьюпорт", "", &selected))
                     {
                         psDeviceFlags.set(rsDrawSafeRect, selected);
                         UI->RedrawScene();
                     }
+                    if (ImGui::IsItemHovered())
+                        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 }
                 {
                     bool selected = psDeviceFlags.test(rsDrawGrid);
-                    if (ImGui::MenuItem("Draw Grid", "", &selected))
+                    if (ImGui::MenuItem("Draw Grid"_RU >> u8"Показать сетку", "", &selected))
                     {
                         psDeviceFlags.set(rsDrawGrid, selected);
                         UI->RedrawScene();
                     }
+                    if (ImGui::IsItemHovered())
+                        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 }
                 ImGui::Separator();
                 {
                     bool selected = psDeviceFlags.test(rsFog);
-                    if (ImGui::MenuItem("Fog", "", &selected))
+                    if (ImGui::MenuItem("Fog"_RU >> u8"Туман", "", &selected))
                     {
                         psDeviceFlags.set(rsFog, selected);
                         UI->RedrawScene();
                     }
+                    if (ImGui::IsItemHovered())
+                        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 }
                 {
-                    if (ImGui::BeginMenu("Environment"))
+                    if (ImGui::BeginMenu("Environment"_RU >> u8"Погода"))
                     {
                         bool selected = !psDeviceFlags.test(rsEnvironment);
                         if (ImGui::MenuItem("None", "", &selected))
@@ -219,11 +225,13 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Size)
 
                         ImGui::EndMenu();
                     }
+                    if (ImGui::IsItemHovered())
+                        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 }
                 ImGui::Separator();
-                if (ImGui::BeginMenu("Render"))
+                if (ImGui::BeginMenu("Render"_RU >> u8"Экран"))
                 {
-                    if (ImGui::BeginMenu("Quality"))
+                    if (ImGui::BeginMenu("Quality"_RU >> u8"Качество"))
                     {
                         static bool selected[4] = {false, false, true, false};
                         if (ImGui::MenuItem("25%", "", &selected[0]))
@@ -232,98 +240,133 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Size)
                             UI->SetRenderQuality(1 / 4.f);
                             UI->RedrawScene();
                         }
+                        if (ImGui::IsItemHovered())
+                            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                         if (ImGui::MenuItem("50%", "", &selected[1]))
                         {
                             selected[0] = selected[2] = selected[3] = false;
                             UI->SetRenderQuality(1 / 2.f);
                             UI->RedrawScene();
                         }
+                        if (ImGui::IsItemHovered())
+                            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                         if (ImGui::MenuItem("100%", "", &selected[2]))
                         {
                             selected[1] = selected[0] = selected[3] = false;
                             UI->SetRenderQuality(1.f);
                             UI->RedrawScene();
                         }
+                        if (ImGui::IsItemHovered())
+                            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                         if (ImGui::MenuItem("200%", "", &selected[3]))
                         {
                             selected[1] = selected[2] = selected[0] = false;
                             UI->SetRenderQuality(2.f);
                             UI->RedrawScene();
                         }
+                        if (ImGui::IsItemHovered())
+                            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                         ImGui::EndMenu();
                     }
-                    if (ImGui::BeginMenu("Fill Mode"))
+                    if (ImGui::IsItemHovered())
+                        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                    if (ImGui::BeginMenu("Fill Mode"_RU >> u8"Режим отображения"))
                     {
                         bool selected[3] = {
                             EDevice->dwFillMode == D3DFILL_POINT, EDevice->dwFillMode == D3DFILL_WIREFRAME,
                             EDevice->dwFillMode == D3DFILL_SOLID};
-                        if (ImGui::MenuItem("Point", "", &selected[0]))
+                        if (ImGui::MenuItem("Point"_RU >> u8"Точки", "", &selected[0]))
                         {
                             EDevice->dwFillMode = D3DFILL_POINT;
                             UI->RedrawScene();
                         }
-                        if (ImGui::MenuItem("Wireframe", "", &selected[1]))
+                        if (ImGui::IsItemHovered())
+                            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                        if (ImGui::MenuItem("Wireframe"_RU >> u8"Рёбра", "", &selected[1]))
                         {
                             EDevice->dwFillMode = D3DFILL_WIREFRAME;
                             UI->RedrawScene();
                         }
-                        if (ImGui::MenuItem("Solid", "", &selected[2]))
+                        if (ImGui::IsItemHovered())
+                            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                        if (ImGui::MenuItem("Solid"_RU >> u8"Норма", "", &selected[2]))
                         {
                             EDevice->dwFillMode = D3DFILL_SOLID;
                             UI->RedrawScene();
                         }
+                        if (ImGui::IsItemHovered())
+                            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                         ImGui::EndMenu();
                     }
+                    if (ImGui::IsItemHovered())
+                        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                     {
                         bool selected = psDeviceFlags.test(rsEdgedFaces);
-                        if (ImGui::MenuItem("Edged Faces", "", &selected))
+                        if (ImGui::MenuItem("Edged Faces"_RU >> u8"Показать Рёбра", "", &selected))
                         {
                             psDeviceFlags.set(rsEdgedFaces, selected);
                             UI->RedrawScene();
                         }
+                        if (ImGui::IsItemHovered())
+                            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                     }
                     {
                         bool selected = psDeviceFlags.test(rsLighting);
                         ;
-                        if (ImGui::MenuItem("Lighting", "", &selected))
+                        if (ImGui::MenuItem("Lighting"_RU >> u8"Выключить Свет", "", &selected))
                         {
                             psDeviceFlags.set(rsLighting, selected);
                             UI->RedrawScene();
                         }
+                        if (ImGui::IsItemHovered())
+                            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                     }
                     ImGui::EndMenu();
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 ImGui::Separator();
 
                 {
                     bool selected = psDeviceFlags.test(rsMuteSounds);
-                    if (ImGui::MenuItem("Mute Sounds", "", &selected))
+                    if (ImGui::MenuItem("Mute Sounds"_RU >> u8"Отключить звуки", "", &selected))
                     {
                         psDeviceFlags.set(rsMuteSounds, selected);
                     }
+                    if (ImGui::IsItemHovered())
+                        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 }
                 {
                     bool selected = psDeviceFlags.test(rsRenderRealTime);
-                    if (ImGui::MenuItem("Real Time", "", &selected))
+                    if (ImGui::MenuItem("Real Time"_RU >> u8"В реальном времени", "", &selected))
                     {
                         psDeviceFlags.set(rsRenderRealTime, selected);
                     }
+                    if (ImGui::IsItemHovered())
+                        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 }
                 ImGui::Separator();
                 {
                     bool selected = psDeviceFlags.test(rsStatistic);
-                    if (ImGui::MenuItem("Stats", "", &selected))
+                    if (ImGui::MenuItem("Stats"_RU >> u8"Статистика", "", &selected))
                     {
                         psDeviceFlags.set(rsStatistic, selected);
                         UI->RedrawScene();
                     }
+                    if (ImGui::IsItemHovered())
+                        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 }
                 ImGui::EndPopup();
             }
             if (ImGui::ImageButton(m_tMenu->surface_get(), ImVec2(16, ImGui::GetFontSize())))
             {
-                ImGui::OpenPopup("MenuScene");
+                ImGui::OpenPopup("MenuScene"_RU >> u8"MenuScene");
             }
+        }
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SetTooltip("Menu"_RU >> u8"Меню");
         }
         ImGui::EndGroup();
     }
@@ -334,8 +377,7 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Size)
     {
         ETAction Action = LTools->GetAction();
 
-        if (Scene->GetTool(LTools->CurrentClassID()) &&
-            Scene->GetTool(LTools->CurrentClassID())->FindControl(0, etaSelect))
+        if (Scene->GetTool(LTools->CurrentClassID()) && Scene->GetTool(LTools->CurrentClassID())->FindControl(0, etaSelect))
         {
             auto Control     = Scene->GetTool(LTools->CurrentClassID())->FindControl(0, etaSelect);
             bIsSupportMove   = Control->IsSupportMove();
@@ -378,6 +420,11 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Size)
                 ImGui::PopStyleColor();
             }
         }
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SetTooltip("Select"_RU >> u8"Выбрать");
+        }
 
         ImGui::SameLine();
 
@@ -400,6 +447,11 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Size)
                 ImGui::PopStyleColor();
                 ImGui::PopStyleColor();
             }
+        }
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SetTooltip("Add"_RU >> u8"Установить в сцене");
         }
 
         ImGui::SameLine();
@@ -427,6 +479,11 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Size)
             }
             ImGui::EndDisabled();
         }
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SetTooltip("Move"_RU >> u8"Двигать");
+        }
 
         ImGui::SameLine();
         {
@@ -451,6 +508,11 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Size)
             }
             ImGui::EndDisabled();
         }
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SetTooltip("Scale"_RU >> u8"Масштабирование");
+        }
 
         ImGui::SameLine();
         {
@@ -474,8 +536,12 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Size)
                 ImGui::PopStyleColor();
                 ImGui::PopStyleColor();
             }
-
             ImGui::EndDisabled();
+        }
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SetTooltip("Rotate"_RU >> u8"Вращать");
         }
 
         ImGui::EndGroup();
@@ -504,14 +570,22 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Size)
                 ImGui::PopStyleColor();
             }
         }
-
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SetTooltip("Normal Align"_RU >> u8"Привязка к нормалям");
+        }
         ImGui::SameLine();
 
         m_tZoomSel->Load();
-        if (ImGui::ImageButton(
-                m_tZoomSel->surface_get(), ImVec2(16, ImGui::GetFontSize()), ImVec2(0, 0), ImVec2(0.5f, 1.f)))
+        if (ImGui::ImageButton(m_tZoomSel->surface_get(), ImVec2(16, ImGui::GetFontSize()), ImVec2(0, 0), ImVec2(0.5f, 1.f)))
         {
             ExecCommand(COMMAND_ZOOM_EXTENTS, TRUE);
+        }
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SetTooltip("Focus on the selected object"_RU >> u8"Сфокусироваться на выбранном объекте");
         }
         ImGui::EndGroup();
     }
@@ -532,8 +606,12 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Size)
             m_tGrid->Load();
             if (ImGui::ImageButton(m_tGrid->surface_get(), ImVec2(16, ImGui::GetFontSize())))
             {
-                LTools->GetGimzo()->SwitchStep(
-                    Gizmo::EType::Move, !LTools->GetGimzo()->IsStepEnable(Gizmo::EType::Move));
+                LTools->GetGimzo()->SwitchStep(Gizmo::EType::Move, !LTools->GetGimzo()->IsStepEnable(Gizmo::EType::Move));
+            }
+            if (ImGui::IsItemHovered())
+            {
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                ImGui::SetTooltip("Fixed object movement"_RU >> u8"Фиксированное перемещение объекта");
             }
             if (bPushColor)
             {
@@ -584,6 +662,11 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Size)
             }
             ImGui::EndCombo();
         }
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SetTooltip("The choice of a fixed distance of movement of the object"_RU >> u8"Выбор фиксированного растояния перемещения объекта");
+        }
         ImGui::SameLine(0, ImGui::GetFontSize());
 
         {
@@ -597,8 +680,12 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Size)
             m_tScaleGrid->Load();
             if (ImGui::ImageButton(m_tScaleGrid->surface_get(), ImVec2(16, ImGui::GetFontSize())))
             {
-                LTools->GetGimzo()->SwitchStep(
-                    Gizmo::EType::Scale, !LTools->GetGimzo()->IsStepEnable(Gizmo::EType::Scale));
+                LTools->GetGimzo()->SwitchStep(Gizmo::EType::Scale, !LTools->GetGimzo()->IsStepEnable(Gizmo::EType::Scale));
+            }
+            if (ImGui::IsItemHovered())
+            {
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                ImGui::SetTooltip("Fixed Object Scaling"_RU >> u8"Фиксированное масштабирование объкта");
             }
             if (bPushColor)
             {
@@ -650,6 +737,11 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Size)
             }
             ImGui::EndCombo();
         }
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SetTooltip("Setting a Fixed Object Scaling"_RU >> u8"Установка фиксированного масштабирования объкта");
+        }
         ImGui::SameLine(0, ImGui::GetFontSize());
 
         {
@@ -663,8 +755,12 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Size)
             m_tAngle->Load();
             if (ImGui::ImageButton(m_tAngle->surface_get(), ImVec2(16, ImGui::GetFontSize())))
             {
-                LTools->GetGimzo()->SwitchStep(
-                    Gizmo::EType::Rotate, !LTools->GetGimzo()->IsStepEnable(Gizmo::EType::Rotate));
+                LTools->GetGimzo()->SwitchStep(Gizmo::EType::Rotate, !LTools->GetGimzo()->IsStepEnable(Gizmo::EType::Rotate));
+            }
+            if (ImGui::IsItemHovered())
+            {
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                ImGui::SetTooltip("Fixed object rotation angle"_RU >> u8"Фиксированный угол вращения объкта");
             }
             if (bPushColor)
             {
@@ -706,7 +802,16 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Size)
             {
                 LTools->GetGimzo()->SetStep(Gizmo::EType::Rotate, 90.f);
             }
+            if (ImGui::Selectable("180", false))
+            {
+                LTools->GetGimzo()->SetStep(Gizmo::EType::Rotate, 180.f);
+            }
             ImGui::EndCombo();
+        }
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SetTooltip("Set a fixed rotation angle of the object (in degrees)"_RU >> u8"Установка фиксированного угла вращения объкта(в градусах)");
         }
         ImGui::EndGroup();
     }

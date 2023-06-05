@@ -21,7 +21,7 @@ public:
     }
     IC LPCSTR ClassDesc()
     {
-        return "Sound Environment";
+        return "Sound Environment"_RU >> u8"Звуковые зоны";
     }
     IC int RenderPriority()
     {

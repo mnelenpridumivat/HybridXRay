@@ -41,7 +41,7 @@ public:
     }
     IC LPCSTR ClassDesc()
     {
-        return "Spawn";
+        return "Spawn"_RU >> u8"Spawn элементы";
     }
     IC int RenderPriority()
     {

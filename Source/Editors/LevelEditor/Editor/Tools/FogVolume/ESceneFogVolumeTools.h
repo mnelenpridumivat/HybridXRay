@@ -30,7 +30,7 @@ public:
     }
     IC LPCSTR ClassDesc()
     {
-        return "Scene fog volumes";
+        return "Scene fog volumes"_RU >> u8"Объёмный Туман";
     }
     IC int RenderPriority()
     {

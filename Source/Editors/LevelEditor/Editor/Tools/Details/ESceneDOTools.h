@@ -138,7 +138,7 @@ public:
     }
     IC LPCSTR ClassDesc()
     {
-        return "Detail Objects";
+        return "Detail Objects"_RU >> u8"Трава";
     }
     IC int RenderPriority()
     {

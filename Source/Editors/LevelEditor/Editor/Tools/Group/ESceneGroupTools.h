@@ -26,7 +26,7 @@ public:
     }
     IC LPCSTR ClassDesc()
     {
-        return "Group";
+        return "Group"_RU >> u8"Группы";
     }
     IC int RenderPriority()
     {

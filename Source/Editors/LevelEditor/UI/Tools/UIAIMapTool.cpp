@@ -14,19 +14,19 @@ UIAIMapTool::~UIAIMapTool() {}
 void UIAIMapTool::Draw()
 {
     ImGui::SetNextItemOpen(true, ImGuiCond_FirstUseEver);
-    if (ImGui::TreeNode("Commands"))
+    if (ImGui::TreeNode("AI Editor"_RU >> u8"AI Редактор"))
     {
         ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
         {
-            if (ImGui::Button("Generate Full", ImVec2(-1, 0)))
+            if (ImGui::Button("Generate Full"_RU >> u8"Сгенерировать сетку", ImVec2(-1, 0)))
             {
                 tool->GenerateMap(false);
             }
-            if (ImGui::Button("Generate Selected", ImVec2(-1, 0)))
+            if (ImGui::Button("Generate Selected"_RU >> u8"Сгенерировать выделенное", ImVec2(-1, 0)))
             {
                 tool->GenerateMap(true);
             }
-            if (ImGui::Button("Clear AI Map", ImVec2(-1, 0)))
+            if (ImGui::Button("Clear AI Map"_RU >> u8"Очистить AI сетку", ImVec2(-1, 0)))
             {
                 if (ELog.DlgMsg(mtConfirmation, mbYes | mbNo, "Are you sure to clear AI Map?") == mrYes)
                 {
@@ -37,9 +37,9 @@ void UIAIMapTool::Draw()
         }
         ImGui::Separator();
         {
-            if (ImGui::Button("Smooth Selected", ImVec2(-1, 0)))
+            if (ImGui::Button("Smooth Selected"_RU >> u8"Сгладить выделенное", ImVec2(-1, 0)))
                 tool->SmoothNodes();
-            if (ImGui::Button("Reset Selected", ImVec2(-1, 0)))
+            if (ImGui::Button("Reset Selected"_RU >> u8"Сбросить выделенное", ImVec2(-1, 0)))
                 tool->ResetNodes();
         }
         ImGui::Separator();
@@ -47,23 +47,23 @@ void UIAIMapTool::Draw()
         ImGui::TreePop();
     }
     ImGui::SetNextItemOpen(true, ImGuiCond_FirstUseEver);
-    if (ImGui::TreeNode("AI Map Nodes"))
+    if (ImGui::TreeNode("AI Map Nodes"_RU >> u8"Ноды AI Сетки"))
     {
         ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
         {
-            ImGui::Checkbox("Ignore Constraints", &m_IgnoreConstraints);
-            ImGui::Checkbox("Auto Link", &m_AutoLink);
+            ImGui::Checkbox("Ignore Constraints"_RU >> u8"Игнорировать неровности", &m_IgnoreConstraints);
+            ImGui::Checkbox("Auto Link"_RU >> u8"Авто привязка", &m_AutoLink);
         }
         ImGui::Separator();
         ImGui::Indent(ImGui::GetTreeNodeToLabelSpacing());
         ImGui::TreePop();
     }
     ImGui::SetNextItemOpen(true, ImGuiCond_FirstUseEver);
-    if (ImGui::TreeNode("Ignore materials"))
+    if (ImGui::TreeNode("Ignore materials"_RU >> u8"Игнорировать материалы"))
     {
         ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
         {
-            if (ImGui::Button("Add"))
+            if (ImGui::Button("Add"_RU >> u8"Добавить"))
             {
                 UIChooseForm::SelectItem(smGameMaterial, 1, 0, 0, 0, 0, 0, 0);
                 m_ChooseIgnoreMaterials = true;
@@ -89,7 +89,7 @@ void UIAIMapTool::Draw()
         ImGui::TreePop();
     }
     ImGui::SetNextItemOpen(true, ImGuiCond_FirstUseEver);
-    if (ImGui::TreeNode("Link Commands"))
+    if (ImGui::TreeNode("Link Commands:"_RU >> u8"Редактор Связей:"))
     {
         ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
         ImGui::PushItemWidth(-1);
@@ -99,7 +99,7 @@ void UIAIMapTool::Draw()
             float my_tex_h = (float)ImGui::GetIO().Fonts->TexHeight;
 
             {
-                if (ImGui::RadioButton("Add    ", m_Mode == mdAppend))
+                if (ImGui::RadioButton("Add        "_RU >> u8"Добавить ", m_Mode == mdAppend))
                 {
                     m_Mode = mdAppend;
                 }
@@ -115,14 +115,14 @@ void UIAIMapTool::Draw()
                 ImGui::SameLine(0, -1);
                 ImGui::InvisibleButton("none3", ImVec2(ImGui::GetFrameHeight() * 2, ImGui::GetFrameHeight()));
                 ImGui::SameLine(0, -1);
-                if (ImGui::Button("Select 0-Link", ImVec2(-1, 0)))
+                if (ImGui::Button("Select 0-Link"_RU >> u8"Выбрать 0-Связей", ImVec2(-1, 0)))
                 {
                     tool->SelectNodesByLink(0);
                     Scene->UndoSave();
                 }
             }
             {
-                if (ImGui::RadioButton("Delete ", m_Mode == mdRemove))
+                if (ImGui::RadioButton("Delete   "_RU >> u8"Удалить    ", m_Mode == mdRemove))
                 {
                     m_Mode = mdRemove;
                 }
@@ -132,7 +132,7 @@ void UIAIMapTool::Draw()
                     SideClick(0);
                 }
                 ImGui::SameLine(0, -1);
-                if (ImGui::Button("X", ImVec2(ImGui::GetFrameHeight(), ImGui::GetFrameHeight())))
+                if (ImGui::Button(" X ", ImVec2(ImGui::GetFrameHeight(), ImGui::GetFrameHeight())))
                 {
                     SideClick(4);
                 }
@@ -144,14 +144,14 @@ void UIAIMapTool::Draw()
                 ImGui::SameLine(0, -1);
                 ImGui::InvisibleButton("none4", ImVec2(ImGui::GetFrameHeight() * 2, ImGui::GetFrameHeight()));
                 ImGui::SameLine(0, -1);
-                if (ImGui::Button("Select 1-Link", ImVec2(-1, 0)))
+                if (ImGui::Button("Select 1-Link"_RU >> u8"Выбрать 1-Связей", ImVec2(-1, 0)))
                 {
                     tool->SelectNodesByLink(1);
                     Scene->UndoSave();
                 }
             }
             {
-                if (ImGui::RadioButton("Invert ", m_Mode == mdInvert))
+                if (ImGui::RadioButton("Invert    "_RU >> u8"Инверсия ", m_Mode == mdInvert))
                 {
                     m_Mode = mdInvert;
                 }
@@ -167,7 +167,7 @@ void UIAIMapTool::Draw()
                 ImGui::SameLine(0, -1);
                 ImGui::InvisibleButton("none7", ImVec2(ImGui::GetFrameHeight() * 2, ImGui::GetFrameHeight()));
                 ImGui::SameLine(0, -1);
-                if (ImGui::Button("Select 2-Link", ImVec2(-1, 0)))
+                if (ImGui::Button("Select 2-Link"_RU >> u8"Выбрать 2-Связей", ImVec2(-1, 0)))
                 {
                     tool->SelectNodesByLink(2);
                     Scene->UndoSave();
@@ -210,8 +210,8 @@ static const u8 fl[5] = {
     SAINode::flN3,
     SAINode::flN4,
     SAINode::flN1 | SAINode::flN2 | SAINode::flN3 | SAINode::flN4,
-    //    					 	 SAINode::flN1|SAINode::flN2,SAINode::flN2|SAINode::flN3,
-    //    					 	 SAINode::flN3|SAINode::flN4,SAINode::flN4|SAINode::flN1
+    // SAINode::flN1|SAINode::flN2,SAINode::flN2|SAINode::flN3,
+    // SAINode::flN3|SAINode::flN4,SAINode::flN4|SAINode::flN1
 };
 void UIAIMapTool::SideClick(int tag)
 {

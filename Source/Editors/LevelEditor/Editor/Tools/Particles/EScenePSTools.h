@@ -21,7 +21,7 @@ public:
     }
     IC LPCSTR ClassDesc()
     {
-        return "Particle System";
+        return "Particle System"_RU >> u8"Партиклы";
     }
     IC int RenderPriority()
     {
