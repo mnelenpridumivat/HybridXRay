@@ -3,8 +3,12 @@
 #include "stdafx.h"
 #include "resources\splash.h"
 
+ECORE_API extern bool bIsActorEditor;
+
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
 {
+    bIsActorEditor = false; 
+
     if (strstr(GetCommandLine(), "-nosplash") == nullptr)
     {
         constexpr bool topmost = false;

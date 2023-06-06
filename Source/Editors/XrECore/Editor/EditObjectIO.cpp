@@ -16,6 +16,8 @@
 #if 1
 #include "Shader.h"
 
+ECORE_API extern bool bIsActorEditor = true;
+
 bool CEditableObject::Load(const char* fname)
 {
     CExportSkeleton D(this);
@@ -38,10 +40,13 @@ bool CEditableObject::Load(const char* fname)
             m_LoadName      = fname;
             m_ObjectVersion = age;
         }
-        if (m_objectFlags.is(eoDynamic))
-            D.DetectSmoothType();
-        else
-            E.DetectSmoothType(NULL, m_Meshes);
+        if (bIsActorEditor)
+        {
+            if (m_objectFlags.is(eoDynamic))
+                D.DetectSmoothType();
+            else
+                E.DetectSmoothType(NULL, m_Meshes);
+        }
         return bRes;
     }
     return false;
