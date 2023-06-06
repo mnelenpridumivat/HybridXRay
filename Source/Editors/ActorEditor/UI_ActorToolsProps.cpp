@@ -1069,7 +1069,7 @@ void CActorTools::OnChangeFlag(PropValue* sender)
             m_pEditObject->m_objectFlags.set(ProgFlag, FALSE);
     }
     // split normals / CS/CoP Smooth / SoC Smooth
-    const bool changingNormals    = !strcmp(flag->Owner()->Key(), "Object\\Model export\\Smooth Type:\\Use split normals");
+    const bool changingNormals    = !strcmp(flag->Owner()->Key(), "Object\\Model export\\Smooth Type:\\Use split Normals");
     const bool changingCoP        = !strcmp(flag->Owner()->Key(), "Object\\Model export\\Smooth Type:\\Smooth CS/CoP");
     const bool changingSoC        = !strcmp(flag->Owner()->Key(), "Object\\Model export\\Smooth Type:\\Smooth SoC");
     const auto Smooth1Flag        = CEditableObject::eoNormals;
