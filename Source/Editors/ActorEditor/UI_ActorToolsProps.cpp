@@ -400,8 +400,12 @@ void    CActorTools::FillMotionProperties(PropItemVec& items, LPCSTR pref, ListI
     {
         B = PHelper().CreateButton(items, PrepareKey(pref, "Global\\Edit"), "Append,Delete,Save", ButtonValue::flFirstOnly);
         B->OnBtnClickEvent.bind   (this, &CActorTools::OnMotionEditClick);
-        PHelper().CreateBOOL(items, PrepareKey(pref, "Global\\MotionExport\\Force 16bit Motion"), &g_force16BitTransformQuant);
-        PHelper().CreateBOOL(items, PrepareKey(pref, "Global\\MotionExport\\No Compress Motion"), &g_forceFloatTransformQuant);
+        PHelper().CreateBOOL(items, PrepareKey(pref, "Global\\MotionExport\\Force 16bit Motion"), &g_force16BitTransformQuant)->Owner()->hint_text =
+            "Export animations 16 bit - CoP Format, good quality.\n If nothing is selected, animations will be exported\n 8 bit - SoC Format, poor quality."_RU >
+            u8"Экспорт анимаций 16 bit - CoP Формат, хорошее качество.\n Если ничего не выбрано - анимации будут экспортированы\n 8 bit - SoC Формат, плохое качество.";
+        PHelper().CreateBOOL(items, PrepareKey(pref, "Global\\MotionExport\\No Compress Motion"), &g_forceFloatTransformQuant)->Owner()->hint_text =
+            "No compress - New uncompressed format, better quality.\n To support such animations, engine edits are required.\n If nothing is selected, animations will be exported\n 8 bit - SoC Format, poor quality."_RU >
+            u8"No compress - Новый формат без сжатия, лучшее качество.\n Для поддержки таких анимаций - требуются движковые правки.\n Если ничего не выбрано - анимации будут экспортированы\n 8 bit - SoC Формат, плохое качество.";
     }
     if (SM)
     {
@@ -977,19 +981,33 @@ void CActorTools::FillObjectProperties(PropItemVec& items, LPCSTR pref, ListItem
 
     if (m_pEditObjectType & CEditableObject::eoDynamic)
     {
-        auto FlagOpt1 = PHelper().CreateFlag32(items, "Object\\Model export\\Optimize:\\Make progressive", &m_pEditObject->m_objectFlags, CEditableObject::eoProgressive  );
+        auto FlagOpt1 = PHelper().CreateFlag32(items, "Object\\Model export\\Optimize:\\Make progressive", &m_pEditObject->m_objectFlags, CEditableObject::eoProgressive);
         FlagOpt1->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
+        FlagOpt1->Owner()->hint_text =
+            "Make progressive meshes:\n creates progressive meshes when exporting OGF.\n Is are dynamic optimize of the model (lod's),\n is used to optimize world objects."_RU >
+            u8"Make progressive meshes:\n создает прогрессивные меши при экспорте OGF.\n Это динамическая детализация модели (lod'ы),\n используется для оптимизации мировых объектов.";
+
         auto FlagOpt2 = PHelper().CreateFlag32(items, "Object\\Model export\\Optimize:\\Make stripify", &m_pEditObject->m_objectFlags, CEditableObject::eoStripify);
         FlagOpt2->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
+        FlagOpt2->Owner()->hint_text =
+            "Make stripify meshes:\n optimization of vertex's and face's of meshes, which spoiled the mesh of polygons,\n used to be by default in the SDK and was used to optimize meshes\n for old DirectX and video cards. Can be enabled to optimize world models."_RU >
+            u8"Make stripify meshes:\n оптимизация vertex'ов и face'ов у мешей, которая портила сетку полигонов,\n раньше стояла по дефолту в SDK и использовалась для оптимизации мешей\n под старый DirectX и видеокарты. Можно включать для оптимизации мировых моделей.";
 
-        PHelper().CreateFlag32(items, "Object\\Model export\\Optimize:\\Optimize surfaces", &m_pEditObject->m_objectFlags, CEditableObject::eoOptimizeSurf);
+        PHelper().CreateFlag32(items, "Object\\Model export\\Optimize:\\Optimize surfaces", &m_pEditObject->m_objectFlags, CEditableObject::eoOptimizeSurf)->Owner()->hint_text =
+            "Optimize surfaces:\n combines meshes with the same textures and shaders into one."_RU >
+            u8"Optimize surfaces:\n объединяет меши с одинаковыми текстурами и шейдерами в один.";
 
         auto FlagHQ1 = PHelper().CreateFlag32(items, "Object\\Model export\\Optimize:\\HQ Geometry", &m_pEditObject->m_objectFlags, CEditableObject::eoHQExport);
         FlagHQ1->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
         auto FlagHQ2 = PHelper().CreateFlag32(items, "Object\\Model export\\Optimize:\\HQ Geometry Plus", &m_pEditObject->m_objectFlags,  CEditableObject::eoHQExportPlus);
         FlagHQ2->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
+        FlagHQ2->Owner()->hint_text =
+            "HQ Geometry+:\n the compiler will not remove similar vertex's and faces'y,\n support for a denser mesh of polygons."_RU >
+            u8"HQ Geometry+:\n компилятор не будет удалять похожие vertex'ы и face'ы,\n поддержка более плотной сетки полигонов.";
 
-        PHelper().CreateFlag32(items, "Object\\Model export\\SoC bone export", &m_pEditObject->m_objectFlags, CEditableObject::eoSoCInfluence);
+        PHelper().CreateFlag32(items, "Object\\Model export\\SoC bone export", &m_pEditObject->m_objectFlags, CEditableObject::eoSoCInfluence)->Owner()->hint_text =
+            "SoC bone export:\n when exporting a dynamic OGF, a polygon will be affected by a maximum of 2 bones.\n If disabled, CoP influence of 4 bones will be enabled (not supported in SoC)"_RU >
+            u8"Экспорт костей SoC:\n при экспорте динамического OGF, на полигон будут влиять максимум 2 кости.\n При отключении будет включено CoP влияние в 4 кости(не поддерживается в SoC).";
     }
     else if (m_pEditObjectType & CEditableObject::eoMultipleUsage)
     {
@@ -998,10 +1016,19 @@ void CActorTools::FillObjectProperties(PropItemVec& items, LPCSTR pref, ListItem
 
     auto FlagSM1 = PHelper().CreateFlag32(items, "Object\\Model export\\Smooth Type:\\Use split Normals", &m_pEditObject->m_objectFlags, CEditableObject::eoNormals);
     FlagSM1->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
+    FlagSM1->Owner()->hint_text =
+        "Anti-aliasing type when exporting a model - Normals:\n uses original Split normals, if the model has them.\n Default - when importing a model into the editor\n the anti-aliasing type is determined automatically\n and the necessary anti-aliasing flag is already set."_RU >
+        u8"Тип сглаживания при экспорте модели - Normals:\n использует оригинальные Split нормали, если таковые имеются у модели.\n По умолчанию - при импорте модели в редактор\n тип сглаживания определяется автоматически\n и уже установлен необходимый флаг сглаживания.";
     auto FlagSM2 = PHelper().CreateFlag32(items, "Object\\Model export\\Smooth Type:\\Smooth CS/CoP", &m_pEditObject->m_objectFlags, CEditableObject::eoCoPSmooth);
     FlagSM2->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
+    FlagSM2->Owner()->hint_text =
+        "Anti-aliasing type when exporting a model - CoP: type #2.\n Default - when importing a model into the editor\n the anti-aliasing type is determined automatically\n and the necessary anti-aliasing flag is already set."_RU >
+        u8"Тип сглаживания при экспорте модели - CoP: тип #2.\n По умолчанию - при импорте модели в редактор\n тип сглаживания определяется автоматически\n и уже установлен необходимый флаг сглаживания.";
     auto FlagSM3 = PHelper().CreateFlag32(items, "Object\\Model export\\Smooth Type:\\Smooth SoC", &m_pEditObject->m_objectFlags, CEditableObject::eoSoCSmooth);
     FlagSM3->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
+    FlagSM3->Owner()->hint_text =
+        "Anti-aliasing type when exporting a model - SoC: type #1.\n Default - when importing a model into the editor\n the anti-aliasing type is determined automatically\n and the necessary anti-aliasing flag is already set."_RU >
+        u8"Тип сглаживания при экспорте модели - SoC: тип #1.\n По умолчанию - при импорте модели в редактор\n тип сглаживания определяется автоматически\n и уже установлен необходимый флаг сглаживания.";
 
     V = PHelper().CreateVector(items, "Object\\Transform\\Position", &m_pEditObject->a_vPosition, -10000, 10000, 0.01, 2);
     V->OnChangeEvent.bind(this, &CActorTools::OnChangeTransform);
