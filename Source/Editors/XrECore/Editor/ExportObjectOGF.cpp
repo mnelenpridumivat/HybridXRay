@@ -1052,9 +1052,9 @@ bool CEditableObject::PrepareRigidOGF(IWriter& F, bool gen_tb, CEditableMesh* me
     if (m_objectFlags.test(eoHQExportPlus))
         g_EpsSkelPositionDelta = EPS_S;
 
+    bool res = E.Export(F, gen_tb, mesh);
     g_EpsSkelPositionDelta = prev;
 
-    bool res = E.Export(F, gen_tb, mesh);
     return res;
 }
 
