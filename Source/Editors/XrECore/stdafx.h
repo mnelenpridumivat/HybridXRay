@@ -8,6 +8,7 @@
 #include "..\..\XrRender\Private\xrD3dDefs.h"
 #include "../XrCore/Utils.hpp"
 
+#define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 // #include <dsound.h>
 
@@ -26,7 +27,6 @@
 #define O_SEQUENTIAL 0
 #endif
 
-#define DIRECTINPUT_VERSION 0x0800
 
 #define R_R1 1
 #define R_R2 2
