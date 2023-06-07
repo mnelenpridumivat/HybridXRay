@@ -141,7 +141,7 @@ void UIObjectListItem::ClearSelcted(UIObjectListItem* Without)
     }
 }
 
-UITreeItem* UIObjectListItem::CreateItem(shared_str Name)
+UITreeItem* UIObjectListItem::CreateItem(shared_str Name, SLocalizedString _HintText)
 {
     return xr_new<UIObjectListItem>(Name);
 }

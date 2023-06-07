@@ -12,5 +12,5 @@ public:
     void           ClearSelcted(UIObjectListItem* Without = nullptr);
 
 protected:
-    virtual UITreeItem* CreateItem(shared_str Name);
+    UITreeItem* CreateItem(shared_str Name, SLocalizedString _HintText) override;
 };
