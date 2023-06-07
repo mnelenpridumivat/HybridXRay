@@ -296,7 +296,7 @@ bool UIChooseFormItem::CheckFilter()
     return false;
 }
 
-UITreeItem* UIChooseFormItem::CreateItem(shared_str Name)
+UITreeItem* UIChooseFormItem::CreateItem(shared_str Name, SLocalizedString _HintText)
 {
     auto Item  = xr_new<UIChooseFormItem>(Name);
     Item->Form = Form;

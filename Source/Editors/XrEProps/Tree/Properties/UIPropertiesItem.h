@@ -12,7 +12,7 @@ public:
     void              DrawProp();
 
 protected:
-    virtual UITreeItem* CreateItem(shared_str _Name, SLocalizedString _HintText);
+    UITreeItem* CreateItem(shared_str _Name, SLocalizedString _HintText) override;
 
 private:
     void RemoveMixed();

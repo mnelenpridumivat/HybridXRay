@@ -27,6 +27,6 @@ public:
 
 protected:
     bool                CheckFilter();
-    virtual UITreeItem* CreateItem(shared_str Name);
+    UITreeItem*         CreateItem(shared_str Name, SLocalizedString _HintText) override;
     bool                m_bIsMixed;
 };
