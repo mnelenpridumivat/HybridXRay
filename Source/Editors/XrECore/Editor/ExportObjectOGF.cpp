@@ -399,7 +399,7 @@ bool CExportObjectOGF::PrepareMESH(CEditableMesh* MESH)
         const 	bool b2sided	= !!surf->m_Flags.is(CSurface::sf2Sided);
 
         if (0==split->m_CurrentPart) 
-            split->AppendPart((elapsed_faces>0xffff) ? 0xffff : elapsed_faces, (elapsed_faces>0xffff) ? 0xffff : elapsed_faces);
+            split->AppendPart((elapsed_faces>40000) ? 40000 : elapsed_faces, (elapsed_faces> 40000) ? 40000 : elapsed_faces);
             
         do{
             for (IntIt f_it=face_lst.begin(); f_it!=face_lst.end(); ++f_it)
@@ -444,7 +444,7 @@ bool CExportObjectOGF::PrepareMESH(CEditableMesh* MESH)
                     if (bNewPart && (elapsed_faces > 0))
                     {
                         bNewPart = false;
-                        split->AppendPart((elapsed_faces > 0xffff) ? 0xffff : elapsed_faces, (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces);
+                        split->AppendPart((elapsed_faces > 40000) ? 40000 : elapsed_faces, (elapsed_faces > 40000) ? 40000 : elapsed_faces);
                         split->m_CurrentPart->add_face(v[0], v[1], v[2], m_Source->m_objectFlags.is(CEditableObject::eoHQExportPlus));
                     }
 
@@ -459,7 +459,7 @@ bool CExportObjectOGF::PrepareMESH(CEditableMesh* MESH)
                     if (bNewPart && (elapsed_faces > 0))
                     {
                         bNewPart = false;
-                        split->AppendPart((elapsed_faces > 0xffff) ? 0xffff : elapsed_faces, (elapsed_faces > 0xffff) ? 0xffff : elapsed_faces);
+                        split->AppendPart((elapsed_faces > 40000) ? 40000 : elapsed_faces, (elapsed_faces > 40000) ? 40000 : elapsed_faces);
                         split->m_CurrentPart->add_face(v[2], v[1], v[0], m_Source->m_objectFlags.is(CEditableObject::eoHQExportPlus));
                     }
                 }
@@ -681,14 +681,6 @@ bool CExportObjectOGF::Prepare(bool gen_tb, bool more_funcs, CEditableMesh* mesh
         }
     }
 
-    u32 counter = 0;
-    size_t verts = 0, faces = 0;
-    for (u32 it = 0; it < m_Splits.size(); it++)
-    {
-        m_Splits[it]->SplitStats(counter, verts, faces, false);
-    }
-    WriteLog("..Total [Faces: %d, Verts: %d]", faces, verts);
-
     // calculate TB
     if (gen_tb)
 	{
@@ -727,6 +719,24 @@ bool CExportObjectOGF::Prepare(bool gen_tb, bool more_funcs, CEditableMesh* mesh
                 m_Splits[it]->CalculateTB();
         }
     }
+
+    u32 counter = 0;
+    size_t verts = 0, faces = 0;
+    for (u32 it = 0; it < m_Splits.size(); it++)
+    {
+        size_t vert = 0, face = 0;
+        m_Splits[it]->SplitStats(counter, vert, face, false);
+
+        if (vert > 0xffff || face > 0xffff)
+        {
+            Msg("!..Invalid split found. Write for developer about this bug. [Faces: %d, Verts: %d]", face, vert);
+            WriteLog("!..Invalid split found. Write for developer about this bug. [Faces: %d, Verts: %d]", face, vert);
+        }
+
+        verts += vert;
+        faces += face;
+    }
+    WriteLog("..Total [Faces: %d, Verts: %d]", faces, verts);
 
     if (m_Source->m_objectFlags.is(CEditableObject::eoStripify))
     {

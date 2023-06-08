@@ -582,11 +582,36 @@ namespace Object_tool
 					LogTextBox.AppendText(outLine.Data + "\n");
 					LogTextBox.SelectionStart = LogTextBox.Text.Length;
 					LogTextBox.ScrollToCaret();
-				});
+					ShowErrors(LogTextBox);
+                });
 			}
 		}
 
-		private void objectInfoToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ShowErrors(RichTextBox richTextBox)
+        {
+            Color highlightColor = Color.Red;
+            string[] lines = richTextBox.Lines;
+
+            richTextBox.SelectionStart = 0;
+            richTextBox.SelectionLength = richTextBox.TextLength;
+            richTextBox.SelectionColor = richTextBox.ForeColor;
+
+            foreach (string line in lines)
+            {
+                if (line.StartsWith("!"))
+                {
+                    int startIndex = richTextBox.Text.IndexOf(line);
+                    richTextBox.SelectionStart = startIndex;
+                    richTextBox.SelectionLength = line.Length;
+                    richTextBox.SelectionColor = highlightColor;
+                }
+            }
+
+            richTextBox.SelectionStart = 0;
+            richTextBox.SelectionLength = 0;
+        }
+
+        private void objectInfoToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			long vertex_count = 0;
 			int surface_count = m_Object.surfaces.Count;

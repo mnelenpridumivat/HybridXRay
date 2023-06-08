@@ -681,7 +681,7 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
         MESH->GenerateFNormals							();
         MESH->GenerateSVertices							(influence);
 
-        u16 surf_counter;
+        u16 surf_counter = 0;
         for (SurfFacesPairIt sp_it = MESH->m_SurfFaces.begin(); sp_it != MESH->m_SurfFaces.end(); sp_it++)
         {
             if (m_Source->m_objectFlags.is(CEditableObject::eoOptimizeSurf))
@@ -882,20 +882,6 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
                 }
             }
         }
-
-        size_t verts = 0, faces = 0;
-        for (int k=0; k<(int)m_Splits.size(); k++)
-        {
-            SSplit& split	= m_Splits[k];
-            std::sort		(split.m_UsedBones.begin(),split.m_UsedBones.end());
-            U16It ne		= std::unique(split.m_UsedBones.begin(),split.m_UsedBones.end());
-            split.m_UsedBones.erase	(ne,split.m_UsedBones.end());
-            Msg("..Split %d: [Bones: %d, Links: %d, Faces: %d, Verts: %d, BrPart: %d, Shader/Texture: '%s'/'%s']",k,split.m_UsedBones.size(),split.m_SkeletonLinkType,split.getTS(),split.getVS(),split.m_PartID,*m_Splits[k].m_Shader,*m_Splits[k].m_Texture);
-            WriteLog("..Split %d: [Links: %d, Faces: %d, Verts: %d, Texture: '%s']",k,split.m_SkeletonLinkType,split.getTS(),split.getVS(),*m_Splits[k].m_Texture);
-            verts += split.getVS();
-            faces += split.getTS();
-        }
-        WriteLog("..Total [Faces: %d, Verts: %d]", faces, verts);
     }
 
     // calculate TB
@@ -933,6 +919,29 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
     {
         for (u32 it = 0; it < m_Splits.size(); it++)
             m_Splits[it].CalculateTB();
+    }
+
+    if (bRes)
+    {
+        size_t verts = 0, faces = 0;
+        for (int k = 0; k < (int)m_Splits.size(); k++)
+        {
+            SSplit& split = m_Splits[k];
+            std::sort(split.m_UsedBones.begin(), split.m_UsedBones.end());
+            U16It ne = std::unique(split.m_UsedBones.begin(), split.m_UsedBones.end());
+            split.m_UsedBones.erase(ne, split.m_UsedBones.end());
+            Msg("..Split %d: [Bones: %d, Links: %d, Faces: %d, Verts: %d, BrPart: %d, Shader/Texture: '%s'/'%s']", k, split.m_UsedBones.size(), split.m_SkeletonLinkType, split.getTS(), split.getVS(), split.m_PartID, *m_Splits[k].m_Shader, *m_Splits[k].m_Texture);
+            WriteLog("..Split %d: [Links: %d, Faces: %d, Verts: %d, Texture: '%s']", k, split.m_SkeletonLinkType, split.getTS(), split.getVS(), *m_Splits[k].m_Texture);
+            verts += split.getVS();
+            faces += split.getTS();
+
+            if (split.getVS() > 0xffff || split.getTS() > 0xffff)
+            {
+                Msg("!..Invalid split found. Write for developer about this bug. [Faces: %d, Verts: %d]", split.getTS(), split.getVS());
+                WriteLog("!..Invalid split found. Write for developer about this bug. [Faces: %d, Verts: %d]", split.getTS(), split.getVS());
+            }
+        }
+        WriteLog("..Total [Faces: %d, Verts: %d]", faces, verts);
     }
 
     // compute bounding
