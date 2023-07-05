@@ -103,31 +103,34 @@ void FillGroupItems(ChooseItemVec& items, void* param)
 }
 void ESceneGroupTool::OnDrawUI()
 {
-    if ((*m_ChooseIt)->Selected())
+    for (ObjectIt it = m_Objects.begin(); it != m_Objects.end(); ++it)
     {
-        if (UIChooseForm::IsActive())
+        if ((*it) && (*m_ChooseIt)->Selected())
         {
-            bool      ok;
-            xr_string name;
-            if (UIChooseForm::GetResult(ok, name))
+            if (UIChooseForm::IsActive())
             {
-                m_ChooseCnt++;
-                if (ok)
+                bool      ok;
+                xr_string name;
+                if (UIChooseForm::GetResult(ok, name))
                 {
-                    ((CGroupObject*)(*m_ChooseIt))->UpdatePivot(name.c_str(), false);
+                    m_ChooseCnt++;
+                    if (ok)
+                    {
+                        ((CGroupObject*)(*m_ChooseIt))->UpdatePivot(name.c_str(), false);
+                    }
+                    m_ChooseIt++;
                 }
-                m_ChooseIt++;
+                UIChooseForm::Update();
             }
-            UIChooseForm::Update();
+            else
+            {
+                UIChooseForm::SelectItem(smCustom, 1, "", FillGroupItems, *m_ChooseIt);
+            }
         }
         else
         {
-            UIChooseForm::SelectItem(smCustom, 1, "", FillGroupItems, *m_ChooseIt);
+            m_ChooseIt++;
         }
-    }
-    else
-    {
-        m_ChooseIt++;
     }
     if (m_ChooseIt == m_Objects.end())
     {
