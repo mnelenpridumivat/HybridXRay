@@ -13,7 +13,7 @@ CCustomPreferences::CCustomPreferences()
     bOpen = false;
     // view
     view_np  = 0.1f;
-    view_fp  = 1500.f;
+    view_fp  = 1000.f;
     view_fov = deg2rad(60.f);
     // fog
     fog_color   = 0x00555555;

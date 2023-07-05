@@ -32,7 +32,7 @@ ENGINE_API BOOL g_bRendering;
 //---------------------------------------------------------------------------
 CEditorRenderDevice::CEditorRenderDevice()
 {
-    RadiusRender = 400;
+    RadiusRender = 500;
     psDeviceFlags.assign(rsStatistic | rsFilterLinear | rsFog | rsDrawGrid);
     // dynamic buffer size
     rsDVB_Size = 2048;
