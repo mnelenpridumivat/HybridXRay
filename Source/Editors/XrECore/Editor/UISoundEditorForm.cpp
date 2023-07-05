@@ -34,17 +34,21 @@ void UISoundEditorForm::Draw()
     ImGui::BeginChild("Left", ImVec2(200, 400), true);
     m_ItemList->Draw();
     ImGui::EndChild();
+    if (ImGui::IsItemHovered())
+        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
     ImGui::SameLine();
     ImGui::BeginChild("Right", ImVec2(300, 400));
     m_ItemProps->Draw();
     ImGui::EndChild();
     ImGui::Separator();
-    if (ImGui::Button("Close"))
+    if (ImGui::Button("Close"_RU >> u8"Закрыть"))
     {
         bOpen = false;
         ImGui::CloseCurrentPopup();
         HideLib();
     }
+    if (ImGui::IsItemHovered())
+        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
     ImGui::SameLine();
     if (ImGui::Button("Ok"))
     {
@@ -52,6 +56,8 @@ void UISoundEditorForm::Draw()
         UpdateLib();
         HideLib();
     }
+    if (ImGui::IsItemHovered())
+        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
 }
 
 void UISoundEditorForm::Update()
@@ -60,8 +66,7 @@ void UISoundEditorForm::Update()
     {
         if (!Form->IsClosed())
         {
-            if (ImGui::BeginPopupModal(
-                    "SoundEditor", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoResize, true))
+            if (ImGui::BeginPopupModal("SoundEditor", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoResize, true))
             {
                 Form->Draw();
                 ImGui::EndPopup();
@@ -93,7 +98,7 @@ void UISoundEditorForm::RegisterModifiedTHM()
     {
         for (THMIt t_it = m_THM_Current.begin(); t_it != m_THM_Current.end(); t_it++)
         {
-            //.            (*t_it)->Save	(0,0);
+            //  (*t_it)->Save(0,0);
             AppendModif((*t_it)->SrcName());
         }
     }
@@ -110,7 +115,7 @@ void UISoundEditorForm::UpdateLib()
     {
         AStringVec modif;
         SndLib->SynchronizeSounds(true, true, true, &modif_map, 0);
-        //		SndLib->ChangeFileAgeTo		(&modif_map,time(NULL));
+        // SndLib->ChangeFileAgeTo(&modif_map,time(NULL));
         SndLib->RefreshSounds(false);
         modif_map.clear();
     }
@@ -136,9 +141,10 @@ void UISoundEditorForm::OnControlClick(ButtonValue* V, bool& bModif, bool& bSafe
         case 1:
             m_Snd.stop();
             break;
-        case 2: {
+        case 2:
+        {
             bAutoPlay            = !bAutoPlay;
-            V->value[V->btn_num] = shared_str().printf("Auto (%s)", bAutoPlay ? "on" : "off");
+            V->value[V->btn_num] = shared_str().printf("Auto (%s)", bAutoPlay ? "on"_RU >> u8"Вкл" : "off"_RU >> u8"Выкл");
         }
         break;
     }
@@ -149,9 +155,10 @@ void UISoundEditorForm::OnControl2Click(ButtonValue* V, bool& bModif, bool& bSaf
 {
     switch (V->btn_num)
     {
-        case 0: {
+        case 0:
+        {
             bAutoPlay            = !bAutoPlay;
-            V->value[V->btn_num] = bAutoPlay ? "on" : "off";
+            V->value[V->btn_num] = bAutoPlay ? "on"_RU >> u8"Вкл" : "off"_RU >> u8"Выкл";
         }
         break;
     }
@@ -252,23 +259,23 @@ void UISoundEditorForm::OnItemsFocused(ListItem* item)
         B = PHelper().CreateButton(props, "Auto Att", "By Min,By Max", ButtonValue::flFirstOnly);
         B->OnBtnClickEvent.bind(this, &UISoundEditorForm::OnAttClick);
 
-        PHelper().CreateCaption(props, "File Length", shared_str().printf("%.2f Kb", float(size) / 1024.f));
-        PHelper().CreateCaption(props, "Total Time", shared_str().printf("%.2f sec", float(time) / 1000.f));
+        PHelper().CreateCaption(props, "File Length"_RU >> u8"Длина файла", shared_str().printf("%.2f Kb", float(size) / 1024.f));
+        PHelper().CreateCaption(props, "Total Time"_RU >> u8"Общее время", shared_str().printf("%.2f sec", float(time) / 1000.f));
         if (!m_Flags.is(flReadOnly))
         {
-            B = PHelper().CreateButton(props, "Control", "Play,Stop", ButtonValue::flFirstOnly);
+            B = PHelper().CreateButton(props, "Control"_RU >> u8"Управление", "Play,Stop"_RU >> u8"Играть,Стоп", ButtonValue::flFirstOnly);
             B->OnBtnClickEvent.bind(this, &UISoundEditorForm::OnControlClick);
         }
     }
     if (!m_Flags.is(flReadOnly))
     {
-        B = PHelper().CreateButton(props, "Auto Play", bAutoPlay ? "on" : "off", ButtonValue::flFirstOnly);
+        B = PHelper().CreateButton(props, "Auto Play"_RU >> u8"Автовоспроизведение", bAutoPlay ? "on"_RU >> u8"Вкл" : "off"_RU >> u8"Выкл", ButtonValue::flFirstOnly);
         B->OnBtnClickEvent.bind(this, &UISoundEditorForm::OnControl2Click);
     }
 
     if (!m_Flags.is(flReadOnly) && m_THM_Current.size())
     {
-        B = PHelper().CreateButton(props, "MANAGE", "SyncCurrent", ButtonValue::flFirstOnly);
+        B = PHelper().CreateButton(props, "MANAGE", "SyncCurrent"_RU >> u8"Синхронизировать", ButtonValue::flFirstOnly);
         B->OnBtnClickEvent.bind(this, &UISoundEditorForm::OnSyncCurrentClick);
     }
 

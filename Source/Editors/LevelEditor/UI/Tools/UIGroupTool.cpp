@@ -9,9 +9,12 @@ UIGroupTool::UIGroupTool()
 UIGroupTool::~UIGroupTool() {}
 void UIGroupTool::Draw()
 {
+    // ------------------------------------------------------------------------------------------------------ //
     ImGui::Separator();
     {
         ImGui::BulletText("Commands"_RU >> u8"Правка", ImGuiDir_Left);
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         if (ImGui::BeginPopupContextItem("Commands", 1))
         {
             if (ImGui::MenuItem("Group"_RU >> u8"Группировать"))
@@ -42,15 +45,17 @@ void UIGroupTool::Draw()
                 ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::EndPopup();
         }
-        if (ImGui::IsItemHovered())
-            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         ImGui::OpenPopupOnItemClick("Commands", 0);
     }
     ImGui::Separator();
-    ImGui::SetNextItemOpen(true, ImGuiCond_FirstUseEver);
-    if (ImGui::TreeNode("Current Object"_RU >> u8"Текущий объект"))
+    // ------------------------------------------------------------------------------------------------------ //
+    if (ImGui::CollapsingHeader(("  Current Object"_RU >> u8"  Библиотека"), ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_FramePadding | ImGuiTableFlags_NoBordersInBody))
     {
-        ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+        ImGui::SameLine(0, 10);
+        ImGui::BulletTextColored(ImVec4(0.75, 1.5, 0, 0.85), "");
+        ImGui::BeginGroup();
         {
             ImGui::SetNextItemWidth(-1);
             float size = float(ImGui::CalcItemWidth());
@@ -60,6 +65,8 @@ void UIGroupTool::Draw()
                     UIChooseForm::SelectItem(smGroup, 1, m_Current.c_str());
                     m_ChooseGroup = true;
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 ImGui::SameLine(0, 2);
                 if (ImGui::Button("Reload Refs"_RU >> u8"Обновить", ImVec2(size / 2, 0)))
                 {
@@ -67,17 +74,22 @@ void UIGroupTool::Draw()
                     // bForceInitListBox = TRUE;
                     Tools->UpdateProperties(TRUE);
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             }
-            ImGui::Text("Current:%s"_RU >> u8"Текущий:%s", m_Current.c_str() ? m_Current.c_str() : "");
+            ImGui::Text("Current:  %s"_RU >> u8"Текущий:  %s", m_Current.c_str() ? m_Current.c_str() : "");
         }
         ImGui::Separator();
-        ImGui::Indent(ImGui::GetTreeNodeToLabelSpacing());
-        ImGui::TreePop();
+        ImGui::EndGroup();
     }
-    ImGui::SetNextItemOpen(true, ImGuiCond_FirstUseEver);
-    if (ImGui::TreeNode("Reference Select"_RU >> u8"Редактор выделенного"))
+    // ------------------------------------------------------------------------------------------------------ //
+    if (ImGui::CollapsingHeader(("  Reference Select"_RU >> u8"  Редактор выделенного"), ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_FramePadding | ImGuiTableFlags_NoBordersInBody))
     {
-        ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+        ImGui::SameLine(0, 10);
+        ImGui::BulletTextColored(ImVec4(0.75, 1.5, 0, 0.85), "");
+        ImGui::BeginGroup();
         {
             ImGui::Text("Select by Current: "_RU >> u8"Выбрать по текущему:      ");
             ImGui::SameLine(0, 10);
@@ -85,34 +97,47 @@ void UIGroupTool::Draw()
             {
                 SelByRefObject(true);
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::SameLine(0, 8);
             if (ImGui::Button(" - "))
             {
                 SelByRefObject(false);
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::Text("Select by Selected:"_RU >> u8"Выбрать по выбранному: ");
             ImGui::SameLine();
             if (ImGui::Button("=%"))
             {
                 MultiSelByRefObject(true);
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::SameLine();
             if (ImGui::Button("+%"))
             {
                 MultiSelByRefObject(false);
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::SameLine();
             ImGui::SetNextItemWidth(-ImGui::GetTextLineHeight() - 8);
             ImGui::DragFloat("%", &m_selPercent, 1, 0, 100, "%.1f");
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         }
         ImGui::Separator();
-        ImGui::Indent(ImGui::GetTreeNodeToLabelSpacing());
-        ImGui::TreePop();
+        ImGui::EndGroup();
     }
-    ImGui::SetNextItemOpen(true, ImGuiCond_FirstUseEver);
-    if (ImGui::TreeNode("Pivot Alignment"_RU >> u8"Выравнивание по оси"))
+    // ------------------------------------------------------------------------------------------------------ //
+    if (ImGui::CollapsingHeader(("  Pivot Alignment"_RU >> u8"  Выравнивание по оси"), ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_FramePadding | ImGuiTableFlags_NoBordersInBody))
     {
-        ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+        ImGui::SameLine(0, 10);
+        ImGui::BulletTextColored(ImVec4(0.75, 1.5, 0, 0.85), "");
+        ImGui::BeginGroup();
         {
             if (ImGui::Button("Center To Group"_RU >> u8"Центрировать по группе", ImVec2(-1, 0)))
             {
@@ -124,9 +149,10 @@ void UIGroupTool::Draw()
             }
         }
         ImGui::Separator();
-        ImGui::Indent(ImGui::GetTreeNodeToLabelSpacing());
-        ImGui::TreePop();
+        ImGui::EndGroup();
     }
+    if (ImGui::IsItemHovered())
+        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
 }
 
 void UIGroupTool::OnDrawUI()

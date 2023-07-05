@@ -38,16 +38,22 @@ void UIObjectList::Draw()
             m_Mode = M_All;
             m_Root.ClearSelcted();
         }
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         if (ImGui::RadioButton("Visible Only"_RU >> u8"Только видимые", m_Mode == M_Visible))
         {
             m_Mode = M_Visible;
             m_Root.ClearSelcted();
         }
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         if (ImGui::RadioButton("Invisible Only"_RU >> u8"Только скрытые", m_Mode == M_Inbvisible))
         {
             m_Mode = M_Inbvisible;
             m_Root.ClearSelcted();
         }
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         ImGui::Separator();
         if (ImGui::Button("Show Selected"_RU >> u8"Показать выбранное", ImVec2(-1, 0)))
         {
@@ -60,6 +66,8 @@ void UIObjectList::Draw()
                 }
             }
         }
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
 
         if (ImGui::Button("Hide Selected"_RU >> u8"Скрыть выбранное", ImVec2(-1, 0)))
         {
@@ -72,6 +80,8 @@ void UIObjectList::Draw()
                 }
             }
         }
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
 
         ImGui::Separator();
         if (ImGui::Button("Focus on Selected"_RU >> u8"Фокус на выбранном", ImVec2(-1, 0)))
@@ -89,6 +99,8 @@ void UIObjectList::Draw()
                 }
             }
         }
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
     }
     ImGui::EndChild();
 

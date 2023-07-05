@@ -107,59 +107,90 @@ bool UIMainForm::Frame()
 
 void UIMainForm::DrawContextMenu()
 {
+    // ------------------------------------------------------------------------------------------------------ //
     if (ImGui::BeginMenu("Edit"_RU >> u8"Правка"))
     {
         if (ImGui::MenuItem("Duplicate"_RU >> u8"Дублировать"))
         {
             ExecCommand(COMMAND_DUPLICATE);
         }
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         ImGui::Separator();
         if (ImGui::MenuItem("Copy"_RU >> u8"Копировать"))
         {
             ExecCommand(COMMAND_COPY);
         }
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         if (ImGui::MenuItem("Paste"_RU >> u8"Вставить"))
         {
             ExecCommand(COMMAND_PASTE);
         }
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         ImGui::Separator();
         if (ImGui::MenuItem("Cut"_RU >> u8"Вырезать"))
         {
             ExecCommand(COMMAND_CUT);
         }
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         ImGui::Separator();
         if (ImGui::MenuItem("Delete"_RU >> u8"Удалить"))
         {
             ExecCommand(COMMAND_DELETE_SELECTION);
         }
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         ImGui::EndMenu();
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
     }
+    if (ImGui::IsItemHovered())
+        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+    // ------------------------------------------------------------------------------------------------------ //
     if (ImGui::BeginMenu("Visiblity"_RU >> u8"Видимость"))
     {
         if (ImGui::MenuItem("Hide Selected"_RU >> u8"Скрыть выделенное"))
         {
             ExecCommand(COMMAND_HIDE_SEL, FALSE);
         }
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         if (ImGui::MenuItem("Hide Unselected"_RU >> u8"Скрыть невыделенное"))
         {
             ExecCommand(COMMAND_HIDE_UNSEL);
         }
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         if (ImGui::MenuItem("Hide All"_RU >> u8"Скрыть ВСЁ"))
         {
             ExecCommand(COMMAND_HIDE_ALL, FALSE);
         }
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         ImGui::Separator();
         if (ImGui::MenuItem("Unhide All"_RU >> u8"Показать ВСЁ"))
         {
             ExecCommand(COMMAND_HIDE_ALL, TRUE);
         }
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         ImGui::EndMenu();
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
     }
+    if (ImGui::IsItemHovered())
+        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
     ImGui::Separator();
+    // ------------------------------------------------------------------------------------------------------ //
     if (ImGui::MenuItem("Properties"_RU >> u8"Свойства"))
     {
         ExecCommand(COMMAND_SHOW_PROPERTIES);
     }
+    if (ImGui::IsItemHovered())
+        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
 }
 
 void UIMainForm::DrawRenderToolBar(ImVec2 Size)
@@ -210,19 +241,21 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Size)
                             psDeviceFlags.set(rsEnvironment, false);
                             UI->RedrawScene();
                         }
+                        if (ImGui::IsItemHovered())
+                            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                         ImGui::Separator();
                         for (auto& i : g_pGamePersistent->Environment().WeatherCycles)
                         {
-                            selected = psDeviceFlags.test(rsEnvironment) &&
-                                i.first == g_pGamePersistent->Environment().CurrentCycleName;
+                            selected = psDeviceFlags.test(rsEnvironment) && i.first == g_pGamePersistent->Environment().CurrentCycleName;
                             if (ImGui::MenuItem(i.first.c_str(), "", &selected))
                             {
                                 psDeviceFlags.set(rsEnvironment, true);
                                 g_pGamePersistent->Environment().SetWeather(i.first.c_str(), true);
                                 UI->RedrawScene();
                             }
+                            if (ImGui::IsItemHovered())
+                                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                         }
-
                         ImGui::EndMenu();
                     }
                     if (ImGui::IsItemHovered())
@@ -272,9 +305,11 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Size)
                         ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                     if (ImGui::BeginMenu("Fill Mode"_RU >> u8"Режим отображения"))
                     {
-                        bool selected[3] = {
+                        bool selected[3] =
+                        {
                             EDevice->dwFillMode == D3DFILL_POINT, EDevice->dwFillMode == D3DFILL_WIREFRAME,
-                            EDevice->dwFillMode == D3DFILL_SOLID};
+                            EDevice->dwFillMode == D3DFILL_SOLID
+                        };
                         if (ImGui::MenuItem("Point"_RU >> u8"Точки", "", &selected[0]))
                         {
                             EDevice->dwFillMode = D3DFILL_POINT;

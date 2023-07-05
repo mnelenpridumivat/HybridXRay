@@ -219,6 +219,8 @@ void UIItemListForm::DrawMenuEdit()
                     }
                 }
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         }
         if (!OnItemCloneEvent.empty() && m_edit_node && m_edit_node->IsObject())
         {
@@ -261,6 +263,8 @@ void UIItemListForm::DrawMenuEdit()
                     }
                 }
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             if (!OnItemCreateEvent.empty() || !OnItemCloneEvent.empty())
             {
                 ImGui::Separator();
@@ -300,6 +304,8 @@ void UIItemListForm::DrawMenuEdit()
                 }
             }
         }
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         if (m_edit_node && m_edit_node != &m_GeneralNode)
         {
             ImGui::Separator();
@@ -323,13 +329,19 @@ void UIItemListForm::DrawMenuEdit()
                         m_edit_node = nullptr;
                     }
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 ImGui::SameLine();
                 if (ImGui::Button("Cancel"_RU >> u8"Отмена"))
                 {
                     ImGui::CloseCurrentPopup();
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 ImGui::EndMenu();
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             if (ImGui::BeginMenu("Move"_RU >> u8"Переместить"))
             {
                 ImGui::InputText("New Path"_RU >> u8"Новый Путь", m_edit_path, sizeof(m_edit_path));
@@ -346,19 +358,27 @@ void UIItemListForm::DrawMenuEdit()
                         m_edit_node = nullptr;
                     }
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 ImGui::SameLine();
                 if (ImGui::Button("Cancel"_RU >> u8"Отмена"))
                 {
                     ImGui::CloseCurrentPopup();
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 ImGui::EndMenu();
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             if (ImGui::MenuItem("Delete"_RU >> u8"Удалить"))
             {
                 Remove(&m_GeneralNode, m_edit_node, true);
                 ImGui::CloseCurrentPopup();
                 m_edit_node = nullptr;
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         }
 
         ImGui::EndPopup();

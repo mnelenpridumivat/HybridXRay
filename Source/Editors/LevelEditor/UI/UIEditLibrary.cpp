@@ -118,18 +118,14 @@ void UIEditLibrary::Close()
 
 void UIEditLibrary::DrawObjects()
 {
-    // if (ImGui::TreeNode("Object List"))
-    //{
-    //	ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
     ImGui::BeginChild("Object List"_RU >> u8"Список Объектов");
     ImGui::Separator();
     // m_ObjectList->m_Flags.set(m_ObjectList->fMultiSelect, true);
     m_ObjectList->Draw();
     ImGui::Separator();
     ImGui::EndChild();
-    //	ImGui::Indent(ImGui::GetTreeNodeToLabelSpacing());
-    //	ImGui::TreePop();
-    //}
+    if (ImGui::IsItemHovered())
+        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
 
     /*for (ListItem *item : m_Items)
     {
@@ -377,9 +373,9 @@ void UIEditLibrary::GenerateLOD(RStringVec& props, bool bHighQuality)
 void UIEditLibrary::MakeLOD(bool bHighQuality)
 {
     // if (ebSave->Enabled)
-    //{
-    //	ELog.DlgMsg(mtError, "& Save library changes before generating LOD.");
-    //	return;
+    // {
+    //     ELog.DlgMsg(mtError, "& Save library changes before generating LOD.");
+    //         return;
     // }
 
     int res = ELog.DlgMsg(mtConfirmation, TMsgDlgButtons() | mbYes | mbNo | mbCancel, "Do you want to select multiple objects?");
@@ -445,17 +441,17 @@ void UIEditLibrary::OnPropertiesClick()
 
 void UIEditLibrary::DrawRightBar()
 {
-    if (ImGui::BeginChild("Right", ImVec2(256, 0)))
+    if (ImGui::BeginChild("Right", ImVec2(0, 0)))
     {
         if (m_NullTexture || m_RealTexture)
         {
             if (m_RealTexture)
-                ImGui::Image(m_RealTexture, ImVec2(256, 256));
+                ImGui::Image(m_RealTexture, ImVec2(200, 200));
             else
-                ImGui::Image(m_NullTexture, ImVec2(256, 256));
+                ImGui::Image(m_NullTexture, ImVec2(200, 200));
         }
         else
-            ImGui::InvisibleButton("Image", ImVec2(256, 256));
+            ImGui::InvisibleButton("Image", ImVec2(200, 200));
 
         m_Props->Draw();
 
@@ -467,6 +463,8 @@ void UIEditLibrary::DrawRightBar()
 
         if (ImGui::Button("Properties"_RU >> u8"Свойства", ImVec2(-1, 0)))
             OnPropertiesClick();
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
 
         // if (disabled)
         {
@@ -486,13 +484,18 @@ void UIEditLibrary::DrawRightBar()
 
             if (ImGui::Button("Make Thumbnail"_RU >> u8"Создать иконку", ImVec2(-1, 0)))
                 OnMakeThmClick();
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
 
             if (ImGui::Button("Make LOD (High Quality)"_RU >> u8"Создать LOD(Высокое качество)", ImVec2(-1, 0)))
                 MakeLOD(true);
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
 
-            if (ImGui::Button("Make LOD (Low Quality)", ImVec2(-1, 0)))
             if (ImGui::Button("Make LOD (Low Quality)"_RU >> u8"Создать LOD(Среднее качество)", ImVec2(-1, 0)))
                 MakeLOD(false);
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
 
             if (!enableMakeThumbnailAndLod)
             {
@@ -503,6 +506,8 @@ void UIEditLibrary::DrawRightBar()
 
         if (ImGui::Checkbox("Preview"_RU >> u8"Предпросмотр", &m_Preview))
             OnPreviewClick();
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
 
         // if (disabled)
         {
@@ -513,23 +518,35 @@ void UIEditLibrary::DrawRightBar()
         if (ImGui::Button("Rename Object"_RU >> u8"Переименовать объект", ImVec2(-1, 0)))
         {
         }
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         if (ImGui::Button("Remove Object"_RU >> u8"Удалить объект", ImVec2(-1, 0)))
         {
         }
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
 
         if (ImGui::Button("Import Object"_RU >> u8"Импортировать объект", ImVec2(-1, 0)))
         {
         }
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         if (ImGui::Button("Export LWO"_RU >> u8"Экспорт LWO", ImVec2(-1, 0)))
         {
         }
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         if (ImGui::Button("Export OBJ"_RU >> u8"Экспорт OBJ", ImVec2(-1, 0)))
         {
         }
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
 
         if (ImGui::Button("Save"_RU >> u8"Сохранить", ImVec2(-1, 0)))
         {
         }
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
 
         // if (disabled)
         {
@@ -539,6 +556,8 @@ void UIEditLibrary::DrawRightBar()
 
         if (ImGui::Button("Close"_RU >> u8"Закрыть", ImVec2(-1, 0)))
             Close();
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         ImGui::EndChild();
     }
 
@@ -593,7 +612,7 @@ void UIEditLibrary::RefreshSelected()
     UI->RedrawScene();
 }
 
-////---------------------------------------------------------------------------
+/// ---------------------------------------------------------------------------
 bool UIEditLibrary::SelectionToReference(ListItemsVec* props)
 {
     RStringVec   sel_strings;
@@ -726,11 +745,11 @@ void UIEditLibrary::Draw()
     {
         ImGui::BeginGroup();
 
-        if (ImGui::BeginChild("Left", ImVec2(-256, -ImGui::GetFrameHeight() - 4), true))
+        if (ImGui::BeginChild("Left", ImVec2(-200, -ImGui::GetFrameHeight() - 4), true))
             DrawObjects();
 
         ImGui::EndChild();
-        ImGui::SetNextItemWidth(-256);
+        ImGui::SetNextItemWidth(-200);
         ImGui::Text(" Items count: %u"_RU >> u8" Количество объектов: %u", m_ObjectList->m_Items.size());
         // ImGui::InputText("##value", m_Filter, sizeof(m_Filter));
         ImGui::EndGroup();

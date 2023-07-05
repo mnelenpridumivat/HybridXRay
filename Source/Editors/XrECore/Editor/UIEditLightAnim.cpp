@@ -61,32 +61,40 @@ UIEditLightAnim::~UIEditLightAnim()
 
 void UIEditLightAnim::Draw()
 {
-    if (ImGui::BeginChild("Left", ImVec2(230, 0)))
+    if (ImGui::BeginChild("Left", ImVec2(255, 0)))
     {
-        if (ImGui::Button("Save", ImVec2(0, ImGui::GetFrameHeight())))
+        if (ImGui::Button("Save"_RU >> u8"Сохранить", ImVec2(0, ImGui::GetFrameHeight())))
         {
             m_Modife = false;
             LALib.Save();
         }
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         ImGui::SameLine();
-        if (ImGui::Button("Reload", ImVec2(0, ImGui::GetFrameHeight())))
+        if (ImGui::Button("Reload"_RU >> u8"Обновить", ImVec2(0, ImGui::GetFrameHeight())))
         {
             m_Modife = false;
             LALib.Reload();
             OnItemFocused(nullptr);
             InitializeItems();
         }
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         ImGui::SameLine();
         ImGui::Checkbox("Render Alpha", &m_RenderAlpha);
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         if (ImGui::BeginChild("Left", ImVec2(0, 0), true))
         {
             m_Items->Draw();
         }
         ImGui::EndChild();
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
     }
     ImGui::EndChild();
     ImGui::SameLine();
-    if (ImGui::BeginChild("Midle", ImVec2(-230, 0)))
+    if (ImGui::BeginChild("Midle", ImVec2(-255, 0)))
     {
         {
             ImGui::SetNextItemWidth(-1);
@@ -117,9 +125,7 @@ void UIEditLightAnim::Draw()
                         if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
                         {
                             if (float(ImGui::GetIO().MousePos.x - canvas_pos.x) >= 1)
-                                m_PointerValue = iFloor(
-                                    float(m_CurrentItem->iFrameCount) *
-                                    float(ImGui::GetIO().MousePos.x - canvas_pos.x) / float(m_PointerWeight - 2));
+                                m_PointerValue = iFloor(float(m_CurrentItem->iFrameCount) * float(ImGui::GetIO().MousePos.x - canvas_pos.x) / float(m_PointerWeight - 2));
                             UpdateProperties();
                         }
                     }
@@ -132,7 +138,7 @@ void UIEditLightAnim::Draw()
     }
     ImGui::EndChild();
     ImGui::SameLine();
-    if (ImGui::BeginChild("Right", ImVec2(230, 0)))
+    if (ImGui::BeginChild("Right", ImVec2(255, 0)))
     {
         ImGui::BeginGroup();
         ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
@@ -142,6 +148,8 @@ void UIEditLightAnim::Draw()
             {
                 m_PointerValue = 0;
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::SameLine();
             ImGui::SetNextItemWidth(-ImGui::GetFrameHeight() * 3);
             if (ImGui::InputInt("##value", &m_PointerValue, 1, 2))
@@ -163,6 +171,8 @@ void UIEditLightAnim::Draw()
             {
                 m_PointerValue = m_CurrentItem->iFrameCount - 1;
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         }
         {
             float button_w = ImGui::GetWindowWidth() - (12 * ImGui::GetFrameHeight() + 6 * 2);
@@ -189,21 +199,29 @@ void UIEditLightAnim::Draw()
                     }
                 }
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::SameLine();
             if (ImGui::Button("|<<", ImVec2(ImGui::GetFrameHeight() * 3, ImGui::GetFrameHeight())) && m_CurrentItem)
             {
                 m_PointerValue = m_CurrentItem->FirstKeyFrame();
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::SameLine();
             if (ImGui::Button("<", ImVec2(ImGui::GetFrameHeight() * 1, ImGui::GetFrameHeight())) && m_CurrentItem)
             {
                 m_PointerValue = m_CurrentItem->PrevKeyFrame(m_PointerValue);
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::SameLine();
             if (ImGui::Button("+", ImVec2(button_w, ImGui::GetFrameHeight())) && m_CurrentItem)
             {
                 OnCreateKeyClick();
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::SameLine();
             if (ImGui::Button("-", ImVec2(button_w, ImGui::GetFrameHeight())) && m_CurrentItem)
             {
@@ -215,16 +233,22 @@ void UIEditLightAnim::Draw()
                 UpdateProperties();
                 OnModified();
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::SameLine();
             if (ImGui::Button(">", ImVec2(ImGui::GetFrameHeight() * 1, ImGui::GetFrameHeight())) && m_CurrentItem)
             {
                 m_PointerValue = m_CurrentItem->NextKeyFrame(m_PointerValue);
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::SameLine();
             if (ImGui::Button(">>|", ImVec2(ImGui::GetFrameHeight() * 3, ImGui::GetFrameHeight())) && m_CurrentItem)
             {
                 m_PointerValue = m_CurrentItem->LastKeyFrame();
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::SameLine();
             if (ImGui::Button("->", ImVec2(ImGui::GetFrameHeight() * 2, ImGui::GetFrameHeight())) && m_CurrentItem)
             {
@@ -246,6 +270,8 @@ void UIEditLightAnim::Draw()
                     }
                 }
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         }
         ImGui::PopStyleVar(2);
         ImGui::EndGroup();
@@ -295,10 +321,10 @@ void UIEditLightAnim::UpdateProperties()
     PropItemVec items;
     if (m_CurrentItem)
     {
-        // PHelper().CreateName(items, "Name", &m_CurrentItem->cName, m_CurrentOwner);
+        PHelper().CreateCaption(items, "Name"_RU >> u8"Имя", m_CurrentItem->cName);
         PHelper().CreateFloat(items, "FPS", &m_CurrentItem->fFPS, 0.1f, 1000, 1.f, 1);
         S32Value* V;
-        V = PHelper().CreateS32(items, "Frame Count", &m_CurrentItem->iFrameCount, 1, 100000, 1);
+        V = PHelper().CreateS32(items, "Frame Count"_RU >> u8"Количество кадров", &m_CurrentItem->iFrameCount, 1, 100000, 1);
         V->OnAfterEditEvent.bind(this, &UIEditLightAnim::OnFrameCountAfterEdit);
 
         u32 frame = m_PointerValue;
@@ -402,7 +428,6 @@ void UIEditLightAnim::OnCloneItem(LPCSTR parent_path, LPCSTR new_full_name)
 void UIEditLightAnim::OnCreateItem(LPCSTR path)
 {
     LALib.AppendItem(path, 0);
-    ;
     InitializeItems();
     m_Items->SelectItem(path);
     OnModified();
@@ -437,9 +462,7 @@ void UIEditLightAnim::RenderPointer()
             m_PointerTexture->Release();
             xr_delete(m_PointerRawImage);
         }
-        R_CHK(HW.pDevice->CreateTexture(
-            m_PointerWeight, POINTER_HEIGHT, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &m_PointerTexture,
-            0));
+        R_CHK(HW.pDevice->CreateTexture(m_PointerWeight, POINTER_HEIGHT, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &m_PointerTexture, 0));
         m_PointerRawImage = xr_alloc<u32>(POINTER_HEIGHT * m_PointerWeight);
     }
     for (int x = 0; x < m_PointerWeight; x++)

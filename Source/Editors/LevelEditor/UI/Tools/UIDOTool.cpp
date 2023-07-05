@@ -8,10 +8,14 @@ UIDOTool::~UIDOTool() {}
 
 void UIDOTool::Draw()
 {
-    ImGui::SetNextItemOpen(true, ImGuiCond_FirstUseEver);
-    if (ImGui::TreeNode("Commands"_RU >> u8"Редактор Растительности"))
+    // ------------------------------------------------------------------------------------------------------ //
+    if (ImGui::CollapsingHeader(("  Commands"_RU >> u8"  Редактор Растительности"), ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_FramePadding | ImGuiTableFlags_NoBordersInBody))
     {
-        ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+        ImGui::SameLine(0, 10);
+        ImGui::BulletTextColored(ImVec4(0.75, 1.5, 0, 0.85), "");
+        ImGui::BeginGroup();
         {
             if (ImGui::Button("First Initialize"_RU >> u8"Первая сборка", ImVec2(-1, 0)))
             {
@@ -42,6 +46,7 @@ void UIDOTool::Draw()
             if (ImGui::IsItemHovered())
                 ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::Separator();
+            ImGui::Separator();
             if (ImGui::Button("Update Renderer"_RU >> u8"Обновить", ImVec2(-1, 0)))
             {
                 DM->InvalidateCache();
@@ -49,6 +54,7 @@ void UIDOTool::Draw()
             }
             if (ImGui::IsItemHovered())
                 ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::Separator();
             ImGui::Separator();
             if (ImGui::Button("Clear Slots"_RU >> u8"Очистить таблицу", ImVec2(-1, 0)))
             {
@@ -72,6 +78,7 @@ void UIDOTool::Draw()
             if (ImGui::IsItemHovered())
                 ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::Separator();
+            ImGui::Separator();
             if (ImGui::Button("Object List"_RU >> u8"Открыть таблицу", ImVec2(-1, 0)))
             {
                 m_DOShuffle = true;
@@ -80,12 +87,8 @@ void UIDOTool::Draw()
             if (ImGui::IsItemHovered())
                 ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         }
-
-        ImGui::Indent(ImGui::GetTreeNodeToLabelSpacing());
-        ImGui::TreePop();
+        ImGui::EndGroup();
     }
-    if (ImGui::IsItemHovered())
-        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
 }
 
 void UIDOTool::OnDrawUI()

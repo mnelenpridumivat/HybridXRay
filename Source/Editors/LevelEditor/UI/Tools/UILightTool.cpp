@@ -6,36 +6,30 @@ UILightTool::~UILightTool() {}
 
 void UILightTool::Draw()
 {
-    ImGui::SetNextItemOpen(true, ImGuiCond_FirstUseEver);
-    if (ImGui::TreeNode("Affect in D3D"_RU >> u8"Влияние D3D"))
+    // ------------------------------------------------------------------------------------------------------ //
+    if (ImGui::CollapsingHeader(("  Affect in D3D"_RU >> u8"  Влияние D3D"), ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_FramePadding | ImGuiTableFlags_NoBordersInBody))
     {
-        ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+        ImGui::SameLine(0, 10);
+        ImGui::BulletTextColored(ImVec4(0.75, 1.5, 0, 0.85), "");
+        ImGui::BeginGroup();
         ImGui::PushItemWidth(-1);
         float size = float(ImGui::CalcItemWidth());
         {
             if (ImGui::Button("Enable Sel"_RU >> u8"Включить", ImVec2(size / 2, 0)))
                 UseInD3D(false, true);
-            if (ImGui::IsItemHovered())
-                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::SameLine(0, 2);
             if (ImGui::Button("Enable All"_RU >> u8"Включить всё", ImVec2(size / 2, 0)))
                 UseInD3D(true, true);
-            if (ImGui::IsItemHovered())
-                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
 
             if (ImGui::Button("Disable Sel"_RU >> u8"Отключить", ImVec2(size / 2, 0)))
                 UseInD3D(false, false);
-            if (ImGui::IsItemHovered())
-                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::SameLine(0, 2);
             if (ImGui::Button("Disable All"_RU >> u8"Отключить все", ImVec2(size / 2, 0)))
                 UseInD3D(true, false);
-            if (ImGui::IsItemHovered())
-                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         }
-
-        ImGui::Indent(ImGui::GetTreeNodeToLabelSpacing());
-        ImGui::TreePop();
+        ImGui::EndGroup();
     }
     if (ImGui::IsItemHovered())
         ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);

@@ -27,10 +27,14 @@ UIParticlesTool::~UIParticlesTool()
 
 void UIParticlesTool::Draw()
 {
-    ImGui::SetNextItemOpen(true, ImGuiCond_FirstUseEver);
-    if (ImGui::TreeNode("Commands"_RU >> u8"Управление Партиклов"))
+    // ------------------------------------------------------------------------------------------------------ //
+    if (ImGui::CollapsingHeader(("  Commands"_RU >> u8"  Управление Партиклов"), ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_FramePadding | ImGuiTableFlags_NoBordersInBody))
     {
-        ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+        ImGui::SameLine(0, 10);
+        ImGui::BulletTextColored(ImVec4(0.75, 1.5, 0, 0.85), "");
+        ImGui::BeginGroup();
         {
             ImGui::Text("Ref's Select:   "_RU >> u8"Добавить:       ");
             ImGui::SameLine(0, 20);
@@ -76,18 +80,28 @@ void UIParticlesTool::Draw()
                 ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         }
         ImGui::Separator();
-        ImGui::Indent(ImGui::GetTreeNodeToLabelSpacing());
-        ImGui::TreePop();
+        ImGui::EndGroup();
     }
-    ImGui::SetNextItemOpen(true, ImGuiCond_FirstUseEver);
-    if (ImGui::TreeNode("Particles"_RU >> u8"Партиклы:"))
+    // ------------------------------------------------------------------------------------------------------ //
+    ImGui::Separator();
+    ImGui::Text("Library:"_RU >> u8"Библиотека:", ImVec2(0.5f, 0.5f));
+    ImGui::Separator();
+    // ------------------------------------------------------------------------------------------------------ //
+    if (ImGui::CollapsingHeader(("  Particles"_RU >> u8"  Партиклы"), ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_FramePadding | ImGuiTableFlags_NoBordersInBody))
     {
-        ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
-        ImGui::Separator();
-        m_ParticlesList->Draw();
-        ImGui::Separator();
-        ImGui::Indent(ImGui::GetTreeNodeToLabelSpacing());
-        ImGui::TreePop();
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+        ImGui::SameLine(0, 10);
+        ImGui::BulletTextColored(ImVec4(0.75, 1.5, 0, 0.85), "");
+        ImGui::BeginGroup();
+        {
+            ImGui::Separator();
+            m_ParticlesList->Draw();
+            ImGui::Separator();
+        }
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+        ImGui::EndGroup();
     }
     if (ImGui::IsItemHovered())
         ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);

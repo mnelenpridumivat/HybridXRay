@@ -48,47 +48,63 @@ void UIImageEditorForm::Draw()
                 ImGui::SetColumnOffset(1, min_width);
 
             ImGui::BeginGroup();
-            ImGui::BeginChild(
-                "Left", ImVec2(0, -ImGui::GetFrameHeight() - (bImportMode ? 4 : 24)), true,
-                ImGuiWindowFlags_HorizontalScrollbar);
+            ImGui::BeginChild("Left", ImVec2(0, -ImGui::GetFrameHeight() - (bImportMode ? 4 : 24)), true, ImGuiWindowFlags_HorizontalScrollbar);
             {
                 m_ItemList->Draw();
             }
             ImGui::EndChild();
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             if (!bImportMode)
             {
                 if (ImGui::Checkbox("Image", &m_bFilterImage))
                     FilterUpdate();
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 ImGui::SameLine();
                 if (ImGui::Checkbox("Cube", &m_bFilterCube))
                     FilterUpdate();
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 ImGui::SameLine();
                 if (ImGui::Checkbox("Bump", &m_bFilterBump))
                     FilterUpdate();
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 ImGui::SameLine();
                 if (ImGui::Checkbox("Normal", &m_bFilterNormal))
                     FilterUpdate();
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 ImGui::SameLine();
                 if (ImGui::Checkbox("Terrain", &m_bFilterTerrain))
                     FilterUpdate();
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             }
-            if (ImGui::Button("Close"))
+            if (ImGui::Button("Close"_RU >> u8"Закрыть"))
             {
                 HideLib();
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::SameLine();
             if (ImGui::Button("Ok"))
             {
                 UpdateLib();
                 HideLib();
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             if (!bImportMode)
             {
                 ImGui::SameLine();
-                if (ImGui::Button("Remove Texture"))
+                if (ImGui::Button("Remove Texture"_RU >> u8"Удалить текстуру"))
                 {
                     m_ItemList->RemoveSelectItem();
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             }
             ImGui::EndGroup();
         }
@@ -101,7 +117,7 @@ void UIImageEditorForm::Draw()
                     u32 mem   = 0;
                     m_Texture = RImplementation.texture_load("ed\\ed_nodata", mem);
                 }
-                ImGui::Image(m_Texture, ImVec2(256, 256));
+                ImGui::Image(m_Texture, ImVec2(350, 350));
                 m_ItemProps->Draw();
             }
             ImGui::EndChild();
@@ -115,9 +131,8 @@ void UIImageEditorForm::Update()
     {
         if (!Form->IsClosed())
         {
-            ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(600, 400));
-            if (ImGui::BeginPopupModal(
-                    "ImageEditor", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar, true))
+            ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(640, 480));
+            if (ImGui::BeginPopupModal("ImageEditor", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar, true))
             {
                 Form->Draw();
                 ImGui::PopStyleVar(1);

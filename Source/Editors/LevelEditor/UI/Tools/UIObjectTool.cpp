@@ -44,17 +44,22 @@ void UIObjectTool::Draw()
     m_RemoveTexture   = nullptr;
     static bool bbool = false;
     float       a     = 1;
-    ImGui::SetNextItemOpen(true, ImGuiCond_FirstUseEver);
-    if (ImGui::TreeNode("Commands"_RU >> u8"Управление"))
+    // ------------------------------------------------------------------------------------------------------ //
+    if (ImGui::CollapsingHeader(("  Commands"_RU >> u8"  Управление"), ImGuiTreeNodeFlags_FramePadding | ImGuiTableFlags_NoBordersInBody))
     {
-        ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+        ImGui::SameLine(0, 10);
+        ImGui::BulletTextColored(ImVec4(0.75, 1.5, 0, 0.85), "");
+        ImGui::BeginGroup();
+
+        if (ImGui::Button("Multiple Append"_RU >> u8"Множественная вставка объектов", ImVec2(-1, 0)))
         {
-            if (ImGui::Button("Multiple Append"_RU >> u8"Множественная вставка объектов", ImVec2(-1, 0)))
-            {
-                UIChooseForm::SelectItem(smObject, 512, 0);
-                m_MultiAppend = true;
-            }
+            UIChooseForm::SelectItem(smObject, 512, 0);
+            m_MultiAppend = true;
         }
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         ImGui::Separator();
         {
             float size = float(ImGui::CalcItemWidth());
@@ -63,22 +68,29 @@ void UIObjectTool::Draw()
                 {
                     ParentTools->ActivateAppendRandom(m_RandomAppend);
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 ImGui::SameLine(0, 10);
                 if (ImGui::Button("Random Props..."_RU >> u8"В разброс...", ImVec2(-1, 0)))
                 {
                     m_PropRandom = true;
                     ParentTools->FillAppendRandomPropertiesBegin();
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             }
         }
         ImGui::Separator();
-        ImGui::Indent(ImGui::GetTreeNodeToLabelSpacing());
-        ImGui::TreePop();
+        ImGui::EndGroup();
     }
-    ImGui::SetNextItemOpen(true, ImGuiCond_FirstUseEver);
-    if (ImGui::TreeNode("Reference Select"_RU >> u8"Ссылка выбранного"))
+    // ------------------------------------------------------------------------------------------------------ //
+    if (ImGui::CollapsingHeader(("  Reference Select"_RU >> u8"  Ссылка выбранного"), ImGuiTreeNodeFlags_FramePadding | ImGuiTableFlags_NoBordersInBody))
     {
-        ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+        ImGui::SameLine(0, 10);
+        ImGui::BulletTextColored(ImVec4(0.75, 1.5, 0, 0.85), "");
+        ImGui::BeginGroup();
         {
             ImGui::Text("Select by Current:"_RU >> u8"Выбрать по текущему:   ");
             ImGui::SameLine(0, 12);
@@ -113,22 +125,28 @@ void UIObjectTool::Draw()
             ImGui::SameLine();
             ImGui::SetNextItemWidth(-ImGui::GetTextLineHeight() - 8);
             ImGui::DragFloat("%", &m_selPercent, 1, 0, 100, "%.1f");
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         }
         ImGui::Separator();
-        ImGui::Indent(ImGui::GetTreeNodeToLabelSpacing());
-        ImGui::TreePop();
+        ImGui::EndGroup();
     }
-	
-    ImGui::SetNextItemOpen(true, ImGuiCond_FirstUseEver);
-    if (ImGui::TreeNode("Surface"_RU >> u8"Поверхность"))
+    // ------------------------------------------------------------------------------------------------------ //
+    if (ImGui::CollapsingHeader(("  Surface"_RU >> u8"  Поверхность"), ImGuiTreeNodeFlags_FramePadding | ImGuiTableFlags_NoBordersInBody))
     {
-        ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+        ImGui::SameLine(0, 10);
+        ImGui::BulletTextColored(ImVec4(0.75, 1.5, 0, 0.85), "");
+        ImGui::BeginGroup();
         {
             if (ImGui::Button("Clear Surface in select"_RU >> u8"Очистить выбранную поверхность", ImVec2(-1, 0)))
             {
                 Scene->UndoSave();
                 ClearSurface(true);
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             if (ImGui::Button("Clear Surface in level"_RU >> u8"Очистить поверхности на уровне", ImVec2(-1, 0)))
             {
                 if (ELog.DlgMsg(mtConfirmation, mbYes | mbNo, "Are you sure to reset surface in level?") == mrYes)
@@ -137,60 +155,77 @@ void UIObjectTool::Draw()
                     ClearSurface(false);
                 }
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         }
         ImGui::Separator();
-        ImGui::Indent(ImGui::GetTreeNodeToLabelSpacing());
-        ImGui::TreePop();
+        ImGui::EndGroup();
     }
-	
-    ImGui::SetNextItemOpen(true, ImGuiCond_FirstUseEver);
-    if (ImGui::TreeNode("Current Object"_RU >> u8"Библиотека Объектов"))
+    if (ImGui::IsItemHovered())
+        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+    // ------------------------------------------------------------------------------------------------------ //
+    if (ImGui::CollapsingHeader(("  Current Object"_RU >> u8"  Библиотека Объектов"), ImGuiTreeNodeFlags_FramePadding | ImGuiTableFlags_NoBordersInBody))
     {
-        ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+        ImGui::SameLine(0, 10);
+        ImGui::BulletTextColored(ImVec4(0.75, 1.5, 0, 0.85), "");
+        ImGui::BeginGroup();
         {
             if (ImGui::Button("Select ..."_RU >> u8"Выбрать ...", ImVec2(-1, 0)))
             {
                 UIChooseForm::SelectItem(smObject, 1, m_Current, 0, 0, 0, 0, 0);
                 m_Selection = true;
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             if (ImGui::Button("Refresh List"_RU >> u8"Обновить Список", ImVec2(-1, 0)))
             {
                 RefreshList();
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         }
         ImGui::Separator();
-        ImGui::Indent(ImGui::GetTreeNodeToLabelSpacing());
-        ImGui::TreePop();
+        ImGui::EndGroup();
     }
-    ImGui::SetNextItemOpen(true, ImGuiCond_FirstUseEver);
-    if (ImGui::TreeNode("Preview"_RU >> u8"Предпросмотр"))
+    if (ImGui::IsItemHovered())
+        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+    // ------------------------------------------------------------------------------------------------------ //
+    if (ImGui::CollapsingHeader(("  Preview"_RU >> u8"  Предпросмотр"), ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_FramePadding | ImGuiTableFlags_NoBordersInBody))
     {
-        ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+        ImGui::SameLine(0, 10);
+        ImGui::BulletTextColored(ImVec4(0.75, 1.5, 0, 0.85), "");
+        ImGui::BeginGroup();
         ImGui::Image(m_RealTexture ? m_RealTexture : (m_TextureNull->surface_get()), ImVec2(160, 160));
         ImGui::SameLine();
         ImGui::BeginChild("Props", ImVec2(0, 128));
         m_Props->Draw();
         ImGui::EndChild();
         ImGui::Separator();
-        ImGui::Indent(ImGui::GetTreeNodeToLabelSpacing());
-        ImGui::TreePop();
+        ImGui::EndGroup();
     }
+    // ------------------------------------------------------------------------------------------------------ //
     if (!RefreshInProgress)
     {
         ImGui::Separator();
-        ImGui::SetNextItemOpen(true, ImGuiCond_FirstUseEver);
-        if (ImGui::TreeNode("Object List"_RU >> u8"Список Объектов:"))
+        if (ImGui::CollapsingHeader(("  Object List"_RU >> u8"  Список Объектов"), ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_FramePadding | ImGuiTableFlags_NoBordersInBody))
         {
-            ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
-            ImGui::BeginChild("Object List"_RU >> u8"Список Объектов:", ImVec2(0, 0), true, ImGuiStyleVar_WindowTitleAlign);
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SameLine(0, 10);
+            ImGui::BulletTextColored(ImVec4(0.75, 1.5, 0, 0.85), "");
+            ImGui::BeginChild("Object List"_RU >> u8"Список Объектов", ImVec2(0, 0), true, ImGuiStyleVar_WindowTitleAlign);
             ImGui::BeginGroup();
             m_ObjectList->Draw();
-            ImGui::EndGroup();
             ImGui::Separator();
+            ImGui::EndGroup();
             ImGui::EndChild();
-            ImGui::Indent(ImGui::GetTreeNodeToLabelSpacing());
-            ImGui::TreePop();
         }
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
     }
     else
         ImGui::Text("Loading...");

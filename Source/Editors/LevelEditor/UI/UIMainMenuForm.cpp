@@ -13,27 +13,39 @@ void UIMainMenuForm::Draw()
             {
                 ExecCommand(COMMAND_CLEAR);
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             if (ImGui::MenuItem("Open..."_RU >> u8"Открыть...", ""))
             {
                 ExecCommand(COMMAND_LOAD);
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             if (ImGui::MenuItem("Save"_RU >> u8"Сохранить", ""))
             {
                 ExecCommand(COMMAND_SAVE, xr_string(LTools->m_LastFileName.c_str()));
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             if (ImGui::MenuItem("Save As ..."_RU >> u8"Сохранить как ...", ""))
             {
                 ExecCommand(COMMAND_SAVE, 0, 1);
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::Separator();
             if (ImGui::MenuItem("Open Selection..."_RU >> u8"Открыть Выделенное...", ""))
             {
                 ExecCommand(COMMAND_LOAD_SELECTION);
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             if (ImGui::MenuItem("Save Selection As..."_RU >> u8"Сохранить Выделенное как...", ""))
             {
                 ExecCommand(COMMAND_SAVE_SELECTION);
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::Separator();
             if (ImGui::BeginMenu("Open Recent"_RU >> u8"Открыть последние", ""))
             {
@@ -43,16 +55,24 @@ void UIMainMenuForm::Draw()
                     {
                         ExecCommand(COMMAND_LOAD, str);
                     }
+                    if (ImGui::IsItemHovered())
+                        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 }
                 ImGui::EndMenu();
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::Separator();
             if (ImGui::MenuItem("Quit"_RU >> u8"Выход", ""))
             {
                 ExecCommand(COMMAND_QUIT);
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::EndMenu();
         }
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         ImGui::Separator();
 
         if (ImGui::BeginMenu("Scene"_RU >> u8"Сцена"))
@@ -61,6 +81,8 @@ void UIMainMenuForm::Draw()
             {
                 ExecCommand(COMMAND_VALIDATE_SCENE);
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::Separator();
             if (ImGui::MenuItem("Summary Info"_RU >> u8"Сумарная информация", ""))
             {
@@ -68,26 +90,38 @@ void UIMainMenuForm::Draw()
                 ExecCommand(COMMAND_COLLECT_SCENE_SUMMARY);
                 ExecCommand(COMMAND_SHOW_SCENE_SUMMARY);
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             if (ImGui::MenuItem("Highlight Texture..."_RU >> u8"Текстуры высокой чёткости...", ""))
             {
                 ExecCommand(COMMAND_SCENE_HIGHLIGHT_TEXTURE);
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::Separator();
             if (ImGui::MenuItem("Clear Debug Draw"_RU >> u8"Очистить отладочные метки", ""))
             {
                 ExecCommand(COMMAND_CLEAR_DEBUG_DRAW);
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::Separator();
             if (ImGui::MenuItem("Export entire Scene as Obj"_RU >> u8"Экспорт сцены в Obj", ""))
             {
                 Scene->ExportObj(false);
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             if (ImGui::MenuItem("Export selection as Obj"_RU >> u8"Экспорт выделенного в Obj", ""))
             {
                 Scene->ExportObj(true);
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::EndMenu();
         }
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         ImGui::Separator();
         if (ImGui::BeginMenu("Compile"_RU >> u8"Сборка Локации"))
         {
@@ -97,29 +131,43 @@ void UIMainMenuForm::Draw()
                 {
                     ExecCommand(COMMAND_BUILD);
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 ImGui::Separator();
                 if (ImGui::MenuItem("Make Game"_RU >> u8"Дополнить Game", ""))
                 {
                     ExecCommand(COMMAND_MAKE_GAME);
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 if (ImGui::MenuItem("Make Details"_RU >> u8"Дополнить Траву", ""))
                 {
                     ExecCommand(COMMAND_MAKE_DETAILS);
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 if (ImGui::MenuItem("Make Hom"_RU >> u8"Дополнить HOM", ""))
                 {
                     ExecCommand(COMMAND_MAKE_HOM);
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 if (ImGui::MenuItem("Make SOM"_RU >> u8"Дополнить SOM", ""))
                 {
                     ExecCommand(COMMAND_MAKE_SOM);
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 if (ImGui::MenuItem("Make AI-Map"_RU >> u8"Дополнить AI-Сетку", ""))
                 {
                     ExecCommand(COMMAND_MAKE_AIMAP);
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 ImGui::EndMenu();
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             bool bDisable = false;
             if (LTools->IsCompilerRunning() || LTools->IsGameRunning())
             {
@@ -132,41 +180,61 @@ void UIMainMenuForm::Draw()
                 {
                     LTools->RunXrLC();
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 if (ImGui::MenuItem("Detail Object Light"_RU >> u8"Освещение детальных объектов", ""))
                 {
                     LTools->RunXrDO();
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 if (ImGui::BeginMenu("AIMap"_RU >> u8"AI-Сетка"))
                 {
                     if (ImGui::MenuItem("High"_RU >> u8"High", ""))
                     {
                         LTools->RunXrAI_AIMap(false);
                     }
+                    if (ImGui::IsItemHovered())
+                        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                     if (ImGui::MenuItem("Low"_RU >> u8"Low", ""))
                     {
                         LTools->RunXrAI_AIMap(false);
                     }
+                    if (ImGui::IsItemHovered())
+                        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                     if (ImGui::MenuItem("Verify"_RU >> u8"Verify", ""))
                     {
                         LTools->RunXrAI_Verify();
                     }
+                    if (ImGui::IsItemHovered())
+                        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                     ImGui::EndMenu();
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 if (ImGui::BeginMenu("Spawn"_RU >> u8"Спавн"))
                 {
                     if (ImGui::MenuItem("Only current level"_RU >> u8"Только текущий уровень", ""))
                     {
                         LTools->RunXrAI_Spawn(true);
                     }
+                    if (ImGui::IsItemHovered())
+                        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                     if (ImGui::MenuItem("All levels"_RU >> u8"Все уровни", ""))
                     {
                         LTools->RunXrAI_Spawn(false);
                     }
+                    if (ImGui::IsItemHovered())
+                        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                     ImGui::EndMenu();
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
 
                 ImGui::EndMenu();
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             if (bDisable)
             {
                 ImGui::EndDisabled();
@@ -176,20 +244,30 @@ void UIMainMenuForm::Draw()
             {
                 ExecCommand(COMMAND_IMPORT_COMPILER_ERROR);
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             if (ImGui::MenuItem("Import xrAI Error List"_RU >> u8"Импорт списка ошибок xrAI", ""))
             {
                 ExecCommand(COMMAND_IMPORT_AICOMPILER_ERROR);
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             if (ImGui::MenuItem("Export Error List"_RU >> u8"Экспорт списка ошибок", ""))
             {
                 ExecCommand(COMMAND_EXPORT_COMPILER_ERROR);
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             if (ImGui::MenuItem("Clear Error List"_RU >> u8"Очистить список ошибок", ""))
             {
                 ExecCommand(COMMAND_CLEAR_DEBUG_DRAW);
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::EndMenu();
         }
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         ImGui::Separator();
         if (ImGui::BeginMenu("Editors"_RU >> u8"Эдиторы"))
         {
@@ -199,33 +277,47 @@ void UIMainMenuForm::Draw()
                 {
                     ExecCommand(COMMAND_RELOAD_OBJECTS);
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 ImGui::Separator();
                 if (ImGui::MenuItem("Library editor"_RU >> u8"Редактор Объектов"))
                 {
                     ExecCommand(COMMAND_LIBRARY_EDITOR);
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 ImGui::EndMenu();
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             if (ImGui::BeginMenu("Images"_RU >> u8"Текстуры"))
             {
                 if (ImGui::MenuItem("Image Editor"_RU >> u8"Редактор Текстур", ""))
                 {
                     ExecCommand(COMMAND_IMAGE_EDITOR);
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 ImGui::Separator();
                 if (ImGui::MenuItem("Reload Textures"_RU >> u8"Обновить Текстуры в сцене", ""))
                 {
                     ExecCommand(COMMAND_RELOAD_TEXTURES);
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 ImGui::Separator();
                 if (ImGui::MenuItem("Synchronize Textures"_RU >> u8"Синхронизировать Текстуры", ""))
                 {
                     ExecCommand(COMMAND_REFRESH_TEXTURES);
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 if (ImGui::MenuItem("Check New Textures"_RU >> u8"Поиск новой Текстуры", ""))
                 {
                     ExecCommand(COMMAND_CHECK_TEXTURES);
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 ImGui::Separator();
                 if (ImGui::MenuItem("Sync THM"_RU >> u8"Синхронизировать THM", ""))
                 {
@@ -242,40 +334,60 @@ void UIMainMenuForm::Draw()
                         xr_delete(TH);
                     }
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 ImGui::EndMenu();
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             if (ImGui::BeginMenu("Sounds"_RU >> u8"Звуки"))
             {
                 if (ImGui::MenuItem("Sound Editor"_RU >> u8"Редактор Звука", ""))
                 {
                     ExecCommand(COMMAND_SOUND_EDITOR);
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 ImGui::Separator();
                 if (ImGui::MenuItem("Synchronize Sounds"_RU >> u8"Синхронизировать Звуки", ""))
                 {
                     ExecCommand(COMMAND_SYNC_SOUNDS);
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 ImGui::Separator();
                 if (ImGui::MenuItem("Refresh Environment Library"_RU >> u8"Обновить библиотеку параметров", ""))
                 {
                     ExecCommand(COMMAND_REFRESH_SOUND_ENVS);
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 if (ImGui::MenuItem("Refresh Environment Geometry"_RU >> u8"Обновить параметры геометрии", ""))
                 {
                     ExecCommand(COMMAND_REFRESH_SOUND_ENV_GEOMETRY);
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 ImGui::EndMenu();
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             if (ImGui::MenuItem("Light Anim Editor"_RU >> u8"Редактор цветоанимаций(anm)", ""))
             {
                 ExecCommand(COMMAND_LIGHTANIM_EDITOR);
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             if (ImGui::MenuItem("Minimap Editor"_RU >> u8"Редактор миникарты", ""))
             {
                 ExecCommand(COMMAND_MINIMAP_EDITOR);
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::EndMenu();
         }
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         ImGui::Separator();
 
         if (ImGui::BeginMenu("Options"_RU >> u8"Опции"))
@@ -291,26 +403,36 @@ void UIMainMenuForm::Draw()
                         UI->SetRenderQuality(1 / 4.f);
                         UI->RedrawScene();
                     }
+                    if (ImGui::IsItemHovered())
+                        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                     if (ImGui::MenuItem("50%", "", &selected[1]))
                     {
                         selected[0] = selected[2] = selected[3] = false;
                         UI->SetRenderQuality(1 / 2.f);
                         UI->RedrawScene();
                     }
+                    if (ImGui::IsItemHovered())
+                        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                     if (ImGui::MenuItem("100%", "", &selected[2]))
                     {
                         selected[1] = selected[0] = selected[3] = false;
                         UI->SetRenderQuality(1.f);
                         UI->RedrawScene();
                     }
+                    if (ImGui::IsItemHovered())
+                        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                     if (ImGui::MenuItem("200%", "", &selected[3]))
                     {
                         selected[1] = selected[2] = selected[0] = false;
                         UI->SetRenderQuality(2.f);
                         UI->RedrawScene();
                     }
+                    if (ImGui::IsItemHovered())
+                        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                     ImGui::EndMenu();
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 if (ImGui::BeginMenu("Fill Mode"_RU >> u8"Режим отображения"))
                 {
                     bool selected[3] = {
@@ -321,18 +443,26 @@ void UIMainMenuForm::Draw()
                         EDevice->dwFillMode = D3DFILL_POINT;
                         UI->RedrawScene();
                     }
+                    if (ImGui::IsItemHovered())
+                        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                     if (ImGui::MenuItem("Wireframe"_RU >> u8"Рёбра", "", &selected[1]))
                     {
                         EDevice->dwFillMode = D3DFILL_WIREFRAME;
                         UI->RedrawScene();
                     }
+                    if (ImGui::IsItemHovered())
+                        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                     if (ImGui::MenuItem("Solid"_RU >> u8"Норма", "", &selected[2]))
                     {
                         EDevice->dwFillMode = D3DFILL_SOLID;
                         UI->RedrawScene();
                     }
+                    if (ImGui::IsItemHovered())
+                        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                     ImGui::EndMenu();
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 if (ImGui::BeginMenu("Shader Mode"_RU >> u8"Режим Теней"))
                 {
                     bool selected[2] = {
@@ -342,13 +472,19 @@ void UIMainMenuForm::Draw()
                         EDevice->dwShadeMode = D3DSHADE_FLAT;
                         UI->RedrawScene();
                     }
+                    if (ImGui::IsItemHovered())
+                        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                     if (ImGui::MenuItem("Gouraud"_RU >> u8"Объёмные", "", &selected[1]))
                     {
                         EDevice->dwShadeMode = D3DSHADE_GOURAUD;
                         UI->RedrawScene();
                     }
+                    if (ImGui::IsItemHovered())
+                        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                     ImGui::EndMenu();
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 {
                     bool selected = psDeviceFlags.test(rsEdgedFaces);
                     if (ImGui::MenuItem("Edged Faces"_RU >> u8"Показать рёбра", "", &selected))
@@ -356,6 +492,8 @@ void UIMainMenuForm::Draw()
                         psDeviceFlags.set(rsEdgedFaces, selected);
                         UI->RedrawScene();
                     }
+                    if (ImGui::IsItemHovered())
+                        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 }
                 ImGui::Separator();
                 {
@@ -365,6 +503,8 @@ void UIMainMenuForm::Draw()
                         HW.Caps.bForceGPU_SW = !selected;
                         UI->Resize();
                     }
+                    if (ImGui::IsItemHovered())
+                        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 }
                 ImGui::Separator();
                 {
@@ -374,6 +514,8 @@ void UIMainMenuForm::Draw()
                         psDeviceFlags.set(rsFilterLinear, selected);
                         UI->RedrawScene();
                     }
+                    if (ImGui::IsItemHovered())
+                        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 }
                 {
                     bool selected = psDeviceFlags.test(rsRenderTextures);
@@ -382,9 +524,13 @@ void UIMainMenuForm::Draw()
                         psDeviceFlags.set(rsRenderTextures, selected);
                         UI->RedrawScene();
                     }
+                    if (ImGui::IsItemHovered())
+                        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 }
                 ImGui::EndMenu();
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::Separator();
             {
                 bool selected = psDeviceFlags.test(rsDrawSafeRect);
@@ -393,6 +539,8 @@ void UIMainMenuForm::Draw()
                     psDeviceFlags.set(rsDrawSafeRect, selected);
                     UI->RedrawScene();
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             }
             {
                 bool selected = psDeviceFlags.test(rsDrawGrid);
@@ -401,6 +549,8 @@ void UIMainMenuForm::Draw()
                     psDeviceFlags.set(rsDrawGrid, selected);
                     UI->RedrawScene();
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             }
             ImGui::Separator();
             {
@@ -410,6 +560,8 @@ void UIMainMenuForm::Draw()
                     psDeviceFlags.set(rsFog, selected);
                     UI->RedrawScene();
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             }
             {
                 if (ImGui::BeginMenu("Environment"_RU >> u8"Погода"))
@@ -420,21 +572,25 @@ void UIMainMenuForm::Draw()
                         psDeviceFlags.set(rsEnvironment, false);
                         UI->RedrawScene();
                     }
+                    if (ImGui::IsItemHovered())
+                        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                     ImGui::Separator();
                     for (auto& i : g_pGamePersistent->Environment().WeatherCycles)
                     {
-                        selected = psDeviceFlags.test(rsEnvironment) &&
-                            i.first == g_pGamePersistent->Environment().CurrentCycleName;
+                        selected = psDeviceFlags.test(rsEnvironment) && i.first == g_pGamePersistent->Environment().CurrentCycleName;
                         if (ImGui::MenuItem(i.first.c_str(), "", &selected))
                         {
                             psDeviceFlags.set(rsEnvironment, true);
                             g_pGamePersistent->Environment().SetWeather(i.first.c_str(), true);
                             UI->RedrawScene();
                         }
+                        if (ImGui::IsItemHovered())
+                            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                     }
-
                     ImGui::EndMenu();
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             }
             ImGui::Separator();
             {
@@ -445,6 +601,8 @@ void UIMainMenuForm::Draw()
                     psDeviceFlags.set(rsLighting, selected);
                     UI->RedrawScene();
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             }
             {
                 bool selected = psDeviceFlags.test(rsMuteSounds);
@@ -452,6 +610,8 @@ void UIMainMenuForm::Draw()
                 {
                     psDeviceFlags.set(rsMuteSounds, selected);
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             }
             {
                 bool selected = psDeviceFlags.test(rsRenderRealTime);
@@ -459,6 +619,8 @@ void UIMainMenuForm::Draw()
                 {
                     psDeviceFlags.set(rsRenderRealTime, selected);
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             }
             ImGui::Separator();
             {
@@ -468,14 +630,20 @@ void UIMainMenuForm::Draw()
                     psDeviceFlags.set(rsStatistic, selected);
                     UI->RedrawScene();
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             }
             ImGui::Separator();
             if (ImGui::MenuItem("Preferences"_RU >> u8"Настройки", ""))
             {
                 ExecCommand(COMMAND_EDITOR_PREF);
             }
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::EndMenu();
         }
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         ImGui::Separator();
         if (ImGui::BeginMenu("Windows"_RU >> u8"Окна"))
         {
@@ -488,6 +656,8 @@ void UIMainMenuForm::Draw()
                     else
                         UIObjectList::Close();
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             }
             {
                 bool selected = !MainForm->GetPropertiesFrom()->IsClosed();
@@ -498,6 +668,8 @@ void UIMainMenuForm::Draw()
                     else
                         MainForm->GetPropertiesFrom()->Close();
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             }
             {
                 bool selected = !MainForm->GetWorldPropertiesFrom()->IsClosed();
@@ -508,6 +680,8 @@ void UIMainMenuForm::Draw()
                     else
                         MainForm->GetWorldPropertiesFrom()->Close();
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             }
             {
                 bool selected = AllowLogCommands();
@@ -516,6 +690,8 @@ void UIMainMenuForm::Draw()
                 {
                     ExecCommand(COMMAND_LOG_COMMANDS);
                 }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             }
             {
                 if (ImGui::MenuItem("Demo ImGui Helper"_RU >> u8"Демонстрационный помощник ImGui", "", bDemoImGui))

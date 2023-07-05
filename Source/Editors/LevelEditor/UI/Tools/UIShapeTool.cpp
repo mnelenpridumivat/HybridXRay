@@ -10,10 +10,14 @@ UIShapeTool::~UIShapeTool() {}
 
 void UIShapeTool::Draw()
 {
-    ImGui::SetNextItemOpen(true, ImGuiCond_FirstUseEver);
-    if (ImGui::TreeNode("Select a view"_RU >> u8"Выбрать вид"))
+    // ------------------------------------------------------------------------------------------------------ //
+    if (ImGui::CollapsingHeader(("  Select a view"_RU >> u8"  Выбрать вид"), ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_FramePadding | ImGuiTableFlags_NoBordersInBody))
     {
-        ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+        ImGui::SameLine(0, 10);
+        ImGui::BulletTextColored(ImVec4(0.75, 1.5, 0, 0.85), "");
+        ImGui::BeginGroup();
         {
             if (ImGui::RadioButton("Sphere"_RU >> u8"Сфера", m_SphereMode))
             {
@@ -26,13 +30,18 @@ void UIShapeTool::Draw()
             }
         }
         ImGui::Separator();
-        ImGui::Indent(ImGui::GetTreeNodeToLabelSpacing());
-        ImGui::TreePop();
+        ImGui::EndGroup();
     }
-    ImGui::SetNextItemOpen(true, ImGuiCond_FirstUseEver);
-    if (ImGui::TreeNode("Edit"_RU >> u8"Редактор"))
+    if (ImGui::IsItemHovered()) 
+        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand); 
+    // ------------------------------------------------------------------------------------------------------ //
+    if (ImGui::CollapsingHeader(("  Edit"_RU >> u8"  Редактор"), ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_FramePadding | ImGuiTableFlags_NoBordersInBody))
     {
-        ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+        ImGui::SameLine(0, 10);
+        ImGui::BulletTextColored(ImVec4(0.75, 1.5, 0, 0.85), "");
+        ImGui::BeginGroup();
         {
             if (ImGui::Checkbox("Attach Shape..."_RU >> u8"Присоединить Шейп...", &m_AttachShape))
             {
@@ -52,13 +61,18 @@ void UIShapeTool::Draw()
             }
         }
         ImGui::Separator();
-        ImGui::Indent(ImGui::GetTreeNodeToLabelSpacing());
-        ImGui::TreePop();
+        ImGui::EndGroup();
     }
-    ImGui::SetNextItemOpen(true, ImGuiCond_FirstUseEver);
-    if (ImGui::TreeNode("Level Bound"_RU >> u8"Ограничение уровня"))
+    if (ImGui::IsItemHovered())
+        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+    // ------------------------------------------------------------------------------------------------------ //
+    if (ImGui::CollapsingHeader(("  Level Bound"_RU >> u8"  Ограничение уровня"), ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_FramePadding | ImGuiTableFlags_NoBordersInBody))
     {
-        ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+        ImGui::SameLine(0, 10);
+        ImGui::BulletTextColored(ImVec4(0.75, 1.5, 0, 0.85), "");
+        ImGui::BeginGroup();
         {
             if (ImGui::Checkbox("Edit Level Bound"_RU >> u8"Редактировать границу уровня", &EditLevelBound))
             {
@@ -66,13 +80,17 @@ void UIShapeTool::Draw()
                     Tool->OnEditLevelBounds(false);
             }
             if (EditLevelBound)
+            {
                 if (ImGui::Button("Recalc"_RU >> u8"Пересчитать", ImVec2(-1, 0)))
                 {
                     Tool->OnEditLevelBounds(true);
                 }
+            }
         }
         ImGui::Separator();
-        ImGui::Indent(ImGui::GetTreeNodeToLabelSpacing());
-        ImGui::TreePop();
+        ImGui::EndGroup();
     }
+    if (ImGui::IsItemHovered())
+        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+    // ------------------------------------------------------------------------------------------------------ //
 }

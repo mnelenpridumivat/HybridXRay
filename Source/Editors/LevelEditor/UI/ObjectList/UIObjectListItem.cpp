@@ -128,6 +128,8 @@ void UIObjectListItem::DrawRoot()
     for (UITreeItem* Item : Items)
     {
         ((UIObjectListItem*)Item)->Draw();
+        if (ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
     }
 }
 

@@ -179,6 +179,8 @@ void UIPropertiesItem::DrawItem()
             break;
     }
     ImGui::EndGroup();
+    if (ImGui::IsItemHovered())
+        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
 }
 
 UITreeItem* UIPropertiesItem::CreateItem(shared_str _Name, SLocalizedString _HintText)

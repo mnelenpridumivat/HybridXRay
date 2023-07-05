@@ -31,8 +31,10 @@ void UIMinimapEditorForm::Draw()
 
     ImGui::Image(m_Texture, ImVec2(750, 750));
 
-    if (ImGui::Button("Load"))
+    if (ImGui::Button("Load"_RU >> u8"Загрузить"))
         LoadClick();
+    if (ImGui::IsItemHovered())
+        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
 }
 
 void UIMinimapEditorForm::Update()
@@ -41,8 +43,7 @@ void UIMinimapEditorForm::Update()
     {
         if (!Form->IsClosed())
         {
-            if (ImGui::BeginPopupModal(
-                    "MinimapEditor", &Form->bOpen, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoResize, true))
+            if (ImGui::BeginPopupModal("MinimapEditor"_RU >> u8"Редактор МиниКарты", &Form->bOpen, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoResize, true))
             {
                 Form->Draw();
                 ImGui::EndPopup();
