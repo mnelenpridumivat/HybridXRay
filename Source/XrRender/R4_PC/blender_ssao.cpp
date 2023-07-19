@@ -15,7 +15,7 @@ void CBlender_SSAO_noMSAA::Compile(CBlender_Compile& C)
 
     switch (C.iElement)
     {
-        case 0:   // calculate SSAO
+        case 0:                                          // calculate SSAO
             C.r_Pass("combine_1", "ssao_calc_nomsaa", FALSE, FALSE, FALSE);
             C.r_Stencil(TRUE, D3DCMP_LESSEQUAL, 0xFF);   // stencil should be >= 1
             C.r_StencilRef(0x01);
@@ -68,7 +68,7 @@ void CBlender_SSAO_MSAA::Compile(CBlender_Compile& C)
 
     switch (C.iElement)
     {
-        case 0:   // combine
+        case 0:                                      // combine
             C.r_Pass("combine_1", "ssao_calc_msaa", FALSE, FALSE, FALSE);
             C.r_Stencil(TRUE, D3DCMP_EQUAL, 0x81);   // stencil should be >= 1
             C.r_StencilRef(0x81);

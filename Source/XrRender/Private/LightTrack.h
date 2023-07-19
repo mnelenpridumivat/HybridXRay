@@ -38,16 +38,15 @@ public:
         float  energy;
         Fcolor color;
     };
-
 public:
     // general
-    u32 MODE;
-    u32 dwFrame;
-    u32 dwFrameSmooth;
+    u32                MODE;
+    u32                dwFrame;
+    u32                dwFrameSmooth;
 
     //
-    xr_vector<Item>  track;    // everything what touches
-    xr_vector<Light> lights;   //
+    xr_vector<Item>    track;    // everything what touches
+    xr_vector<Light>   lights;   //
 
     bool               result[lt_hemisamples];
     collide::ray_cache cache[lt_hemisamples];
@@ -56,20 +55,18 @@ public:
     u32                result_iterator;
     u32                result_frame;
     s32                result_sun;
-
 public:
     u32 shadow_gen_frame;
     u32 shadow_recv_frame;
     int shadow_recv_slot;
-
 private:
-    float hemi_cube[NUM_FACES];
-    float hemi_cube_smooth[NUM_FACES];
+    float   hemi_cube[NUM_FACES];
+    float   hemi_cube_smooth[NUM_FACES];
 
-    float hemi_value;
-    float hemi_smooth;
-    float sun_value;
-    float sun_smooth;
+    float   hemi_value;
+    float   hemi_smooth;
+    float   sun_value;
+    float   sun_smooth;
 
     Fvector approximate;
 
@@ -98,9 +95,9 @@ public:
         return hemi_cube_smooth;
     }
 
-    void add(light* L);
-    void update(IRenderable* O);
-    void update_smooth(IRenderable* O = 0);
+    void      add(light* L);
+    void      update(IRenderable* O);
+    void      update_smooth(IRenderable* O = 0);
 
     ICF float get_hemi()
     {
@@ -130,7 +127,6 @@ public:
 
     CROS_impl();
     virtual ~CROS_impl(){};
-
 private:
     // static inline CubeFaces get_cube_face(Fvector3& dir);
 
@@ -138,13 +134,13 @@ private:
     static inline void accum_hemi(float* hemi_cube, Fvector3& dir, float scale);
 
     // Calculates sun part of ambient occlusion
-    void calc_sun_value(Fvector& position, CObject* _object);
+    void               calc_sun_value(Fvector& position, CObject* _object);
 
     // Calculates sky part of ambient occlusion
-    void calc_sky_hemi_value(Fvector& position, CObject* _object);
+    void               calc_sky_hemi_value(Fvector& position, CObject* _object);
 
     // prepares static or hemisphere lights for ambient occlusion calculations
-    void prepare_lights(Fvector& position, IRenderable* O);
+    void               prepare_lights(Fvector& position, IRenderable* O);
 
 #if RENDER != R_R1
     //	Updates only if makes a desizion that update is necessary

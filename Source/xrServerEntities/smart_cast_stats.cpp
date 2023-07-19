@@ -15,7 +15,6 @@ class CSmartCastStats
 {
 private:
     static CSmartCastStats* m_instance;
-
 private:
     struct CStats
     {
@@ -23,7 +22,8 @@ private:
         LPCSTR m_to;
         u32    m_count;
 
-        IC CStats(LPCSTR from, LPCSTR to, u32 count): m_from(from), m_to(to), m_count(count) {}
+        IC     CStats(LPCSTR from, LPCSTR to, u32 count):
+            m_from(from), m_to(to), m_count(count) {}
 
         IC bool operator<(const CStats& stats) const
         {
@@ -38,25 +38,21 @@ private:
             return (_1.m_count < _2.m_count);
         }
     };
-
 private:
     typedef xr_set<CStats> STATS;
-
 private:
     STATS             m_stats;
     xr_vector<CStats> m_temp;
-
 public:
     IC static CSmartCastStats* instance();
     IC static void             _release();
-
 public:
     IC void add(LPCSTR from, LPCSTR to);
     IC void clear();
     IC void show();
 };
 
-CSmartCastStats* CSmartCastStats::m_instance = 0;
+CSmartCastStats*    CSmartCastStats::m_instance = 0;
 
 IC CSmartCastStats* CSmartCastStats::instance()
 {
@@ -76,7 +72,7 @@ IC CSmartCastStats& stats()
 }
 
 #ifdef SMART_CAST_STATS_ALL
-CSmartCastStats* g_smart_cast_opt = 0;
+CSmartCastStats*    g_smart_cast_opt = 0;
 
 IC CSmartCastStats& stats_all()
 {
@@ -112,10 +108,10 @@ IC void CSmartCastStats::show()
     m_temp.clear();
     m_temp.insert(m_temp.begin(), m_stats.begin(), m_stats.end());
     std::sort(m_temp.begin(), m_temp.end(), CStatsPredicate());
-    u32 total = 0;
+    u32                               total = 0;
 
-    xr_vector<CStats>::const_iterator I = m_temp.begin();
-    xr_vector<CStats>::const_iterator E = m_temp.end();
+    xr_vector<CStats>::const_iterator I     = m_temp.begin();
+    xr_vector<CStats>::const_iterator E     = m_temp.end();
     for (; I != E; ++I)
         total += (*I).m_count;
 

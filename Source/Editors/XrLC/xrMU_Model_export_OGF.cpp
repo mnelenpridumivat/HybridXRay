@@ -92,7 +92,7 @@ void export_ogf(xrMU_Reference& mu_reference)
             OGF_LOD::_face& F = pNode->lod_faces[lf];
             for (int lv = 0; lv < 4; lv++)
             {
-                Fvector ptPos = F.v[lv].v;
+                Fvector      ptPos = F.v[lv].v;
 
                 base_color_c _C;
                 float        _N = 0;

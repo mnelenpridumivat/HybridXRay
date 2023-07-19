@@ -410,7 +410,7 @@ void CLevelSpawnConstructor::correct_level_changers()
 
         u32 dwBest = cross_table().vertex((*I)->m_tNodeID).game_vertex_id();
         VERIFY(game_graph().vertex(dwBest)->level_id() == m_level.id());
-        (*I)->m_tGraphID = (GameGraph::_GRAPH_ID)dwBest;
+        (*I)->m_tGraphID  = (GameGraph::_GRAPH_ID)dwBest;
 
         (*I)->m_fDistance = cross_table().vertex((*I)->m_tNodeID).distance();
     }
@@ -422,7 +422,7 @@ struct remove_too_far_predicate
     const CLevelGraph* m_graph;
     Fvector            m_position;
 
-    IC remove_too_far_predicate(const CLevelGraph* graph, const Fvector& position, float radius)
+    IC                 remove_too_far_predicate(const CLevelGraph* graph, const Fvector& position, float radius)
     {
         VERIFY(graph);
         m_graph      = graph;
@@ -441,11 +441,9 @@ class remove_invalid_zones_predicate
 {
 public:
     typedef CLevelSpawnConstructor::SPAWN_STORAGE SPAWN_STORAGE;
-
 private:
     const SPAWN_STORAGE*          m_zones;
     const CLevelSpawnConstructor* m_level_spawn_constructor;
-
 public:
     IC remove_invalid_zones_predicate(const CLevelSpawnConstructor* level_spawn_constructor, const SPAWN_STORAGE* zones)
     {

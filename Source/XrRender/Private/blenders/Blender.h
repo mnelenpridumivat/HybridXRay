@@ -34,27 +34,24 @@ public:
 class ECORE_API IBlender: public CPropertyBase
 {
     friend class CBlender_Compile;
-
 protected:
     CBlender_DESC description;
     xrP_Integer   oPriority;
     xrP_BOOL      oStrictSorting;
     string64      oT_Name;
     string64      oT_xform;
-
 protected:
     u32 BC(BOOL v)
     {
         return v ? 0xff : 0;
     }
     BOOL c_XForm();
-
 public:
     static IBlender* Create(CLASS_ID cls);
     static void      Destroy(IBlender*& B);
     static void      CreatePalette(xr_vector<IBlender*>& palette);
 
-    CBlender_DESC& getDescription()
+    CBlender_DESC&   getDescription()
     {
         return description;
     }
@@ -64,7 +61,7 @@ public:
     }
     virtual LPCSTR getComment() = 0;
 
-    virtual BOOL canBeDetailed()
+    virtual BOOL   canBeDetailed()
     {
         return FALSE;
     }

@@ -56,9 +56,12 @@ union var
     }
 
     var() {}
-    var(float _f): f(_f) {}
-    var(int _i): i(_i) {}
-    var(bool _b): b(_b) {}
+    var(float _f):
+        f(_f) {}
+    var(int _i):
+        i(_i) {}
+    var(bool _b):
+        b(_b) {}
 };
 
 /*
@@ -89,11 +92,11 @@ void xrMU_Model::calc_lighting(
     u32                                    I;
 
     // trans-epsilons
-    const float eps  = EPS_L;
-    const float eps2 = 2.f * eps;
+    const float                            eps  = EPS_L;
+    const float                            eps2 = 2.f * eps;
 
     // calc pure rotation matrix
-    Fmatrix Rxform, tmp, R;
+    Fmatrix                                Rxform, tmp, R;
     R.set(xform);
     R.translate_over(0, 0, 0);
     tmp.transpose(R);
@@ -113,11 +116,11 @@ void xrMU_Model::calc_lighting(
     // Perform lighting
     for (I = 0; I < m_vertices.size(); I++)
     {
-        _vertex* V = m_vertices[I];
+        _vertex* V       = m_vertices[I];
 
         // Get ambient factor
-        float v_amb   = 0.f;
-        float v_trans = 0.f;
+        float    v_amb   = 0.f;
+        float    v_trans = 0.f;
         for (u32 f = 0; f < V->m_adjacents.size(); f++)
         {
             _face* F = V->m_adjacents[f];
@@ -126,7 +129,7 @@ void xrMU_Model::calc_lighting(
         }
         v_amb /= float(V->m_adjacents.size());
         v_trans /= float(V->m_adjacents.size());
-        float v_inv = 1.f - v_amb;
+        float        v_inv = 1.f - v_amb;
 
         base_color_c vC;
         Fvector      vP, vN;
@@ -218,7 +221,7 @@ void xrMU_Model::calc_lighting(
             VL[v]->C._get(vC);
 
             // trans-level
-            float level = vC._tmp_;
+            float        level = vC._tmp_;
 
             //
             base_color_c R;

@@ -110,7 +110,7 @@ void setup_location_types(GameGraph::TERRAIN_VECTOR& m_vertex_types, CInifile co
 // возможное отклонение от значения репутации
 // заданого в профиле и для конкретного персонажа
 #define REPUTATION_DELTA 10
-#define RANK_DELTA 10
+#define RANK_DELTA       10
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -126,7 +126,7 @@ CSE_ALifeTraderAbstract::CSE_ALifeTraderAbstract(LPCSTR caSection)
     m_dwMoney = 0;
     if (pSettings->line_exist(caSection, "money"))
         m_dwMoney = pSettings->r_u32(caSection, "money");
-    m_fMaxItemMass = pSettings->r_float(caSection, "max_item_mass");
+    m_fMaxItemMass      = pSettings->r_float(caSection, "max_item_mass");
 
     m_sCharacterProfile = READ_IF_EXISTS(pSettings, r_string, caSection, "character_profile", "default");
     m_SpecificCharacter = NULL;
@@ -432,16 +432,16 @@ void CSE_ALifeTraderAbstract::set_specific_character(shared_str new_spec_char)
 
     m_character_name = *(CStringTable().translate(selected_char.Name()));
 
-    LPCSTR gen_name = "GENERATE_NAME_";
+    LPCSTR gen_name  = "GENERATE_NAME_";
     if (strstr(m_character_name.c_str(), gen_name))
     {
         // select name and lastname
-        xr_string subset = m_character_name.c_str() + xr_strlen(gen_name);
+        xr_string   subset = m_character_name.c_str() + xr_strlen(gen_name);
 
         string_path t1;
         strconcat(sizeof(t1), t1, "stalker_names_", subset.c_str());
-        u32 name_cnt      = pSettings->r_u32(t1, "name_cnt");
-        u32 last_name_cnt = pSettings->r_u32(t1, "last_name_cnt");
+        u32       name_cnt      = pSettings->r_u32(t1, "name_cnt");
+        u32       last_name_cnt = pSettings->r_u32(t1, "last_name_cnt");
 
         string512 S;
         xr_string n = "name_";
@@ -634,7 +634,8 @@ void CSE_ALifeTrader::FillProps(LPCSTR _pref, PropItemVec& items)
 ////////////////////////////////////////////////////////////////////////////
 // CSE_ALifeCustomZone
 ////////////////////////////////////////////////////////////////////////////
-CSE_ALifeCustomZone::CSE_ALifeCustomZone(LPCSTR caSection): CSE_ALifeSpaceRestrictor(caSection)
+CSE_ALifeCustomZone::CSE_ALifeCustomZone(LPCSTR caSection):
+    CSE_ALifeSpaceRestrictor(caSection)
 {
     m_owner_id = u32(-1);
     //	m_maxPower					= pSettings->r_float(caSection,"min_start_power");
@@ -717,7 +718,8 @@ void CSE_ALifeCustomZone::FillProps(LPCSTR pref, PropItemVec& items)
 ////////////////////////////////////////////////////////////////////////////
 // CSE_ALifeAnomalousZone
 ////////////////////////////////////////////////////////////////////////////
-CSE_ALifeAnomalousZone::CSE_ALifeAnomalousZone(LPCSTR caSection): CSE_ALifeCustomZone(caSection)
+CSE_ALifeAnomalousZone::CSE_ALifeAnomalousZone(LPCSTR caSection):
+    CSE_ALifeCustomZone(caSection)
 {
     m_offline_interactive_radius = 30.f;
     m_artefact_spawn_count       = 32;
@@ -841,7 +843,8 @@ void CSE_ALifeAnomalousZone::FillProps(LPCSTR pref, PropItemVec& items)
 //////////////////////////////////////////////////////////////////////////
 // SE_ALifeTorridZone
 //////////////////////////////////////////////////////////////////////////
-CSE_ALifeTorridZone::CSE_ALifeTorridZone(LPCSTR caSection): CSE_ALifeCustomZone(caSection), CSE_Motion() {}
+CSE_ALifeTorridZone::CSE_ALifeTorridZone(LPCSTR caSection):
+    CSE_ALifeCustomZone(caSection), CSE_Motion() {}
 
 CSE_ALifeTorridZone::~CSE_ALifeTorridZone() {}
 
@@ -884,7 +887,8 @@ void CSE_ALifeTorridZone::FillProps(LPCSTR pref, PropItemVec& values)
 //////////////////////////////////////////////////////////////////////////
 // CSE_ALifeZoneVisual
 //////////////////////////////////////////////////////////////////////////
-CSE_ALifeZoneVisual::CSE_ALifeZoneVisual(LPCSTR caSection): CSE_ALifeAnomalousZone(caSection), CSE_Visual(caSection)
+CSE_ALifeZoneVisual::CSE_ALifeZoneVisual(LPCSTR caSection):
+    CSE_ALifeAnomalousZone(caSection), CSE_Visual(caSection)
 {
     if (pSettings->line_exist(caSection, "visual"))
         set_visual(pSettings->r_string(caSection, "visual"));
@@ -940,7 +944,8 @@ void CSE_ALifeZoneVisual::FillProps(LPCSTR pref, PropItemVec& values)
 ////////////////////////////////////////////////////////////////////////////
 // CSE_ALifeCreatureAbstract
 ////////////////////////////////////////////////////////////////////////////
-CSE_ALifeCreatureAbstract::CSE_ALifeCreatureAbstract(LPCSTR caSection): CSE_ALifeDynamicObjectVisual(caSection)
+CSE_ALifeCreatureAbstract::CSE_ALifeCreatureAbstract(LPCSTR caSection):
+    CSE_ALifeDynamicObjectVisual(caSection)
 {
     s_team = s_squad = s_group = 0;
     o_model                    = 0.f;
@@ -1134,7 +1139,7 @@ IC void CSE_ALifeCreatureAbstract::set_killer_id(ALife::_OBJECT_ID const killer_
 CSE_ALifeMonsterAbstract::CSE_ALifeMonsterAbstract(LPCSTR caSection):
     CSE_ALifeCreatureAbstract(caSection), CSE_ALifeSchedulable(caSection)
 {
-    m_group_id = 0xffff;
+    m_group_id           = 0xffff;
 
     m_tNextGraphID       = m_tGraphID;
     m_tPrevGraphID       = m_tGraphID;
@@ -1163,9 +1168,9 @@ CSE_ALifeMonsterAbstract::CSE_ALifeMonsterAbstract(LPCSTR caSection):
         string64 S;
         m_fpImmunityFactors.resize(ALife::eHitTypeMax);
         svector<float, ALife::eHitTypeMax>::iterator B = m_fpImmunityFactors.begin(), I = B;
-        svector<float, ALife::eHitTypeMax>::iterator E = m_fpImmunityFactors.end();
+        svector<float, ALife::eHitTypeMax>::iterator E           = m_fpImmunityFactors.end();
 
-        LPCSTR imm_section = caSection;
+        LPCSTR                                       imm_section = caSection;
         if (pSettings->line_exist(caSection, "immunities_sect"))
             imm_section = pSettings->r_string(caSection, "immunities_sect");
         for (; I != E; ++I)
@@ -1181,15 +1186,15 @@ CSE_ALifeMonsterAbstract::CSE_ALifeMonsterAbstract(LPCSTR caSection):
     else
         m_fRetreatThreshold = 0.2f;
 
-    m_fEyeRange = pSettings->r_float(caSection, "eye_range");
+    m_fEyeRange        = pSettings->r_float(caSection, "eye_range");
 
-    m_tpBestDetector = this;
+    m_tpBestDetector   = this;
 
     m_brain            = 0;
     m_smart_terrain_id = 0xffff;
     m_task_reached     = false;
 
-    m_rank = (pSettings->line_exist(caSection, "rank")) ? pSettings->r_s32(caSection, "rank") : 0;
+    m_rank             = (pSettings->line_exist(caSection, "rank")) ? pSettings->r_s32(caSection, "rank") : 0;
 
 #ifdef XRGAME_EXPORTS
     m_stay_after_death_time_interval =
@@ -1362,7 +1367,7 @@ CSE_ALifeCreatureActor::CSE_ALifeCreatureActor(LPCSTR caSection):
         set_visual(pSettings->r_string(caSection, "visual"));
     m_u16NumItems = 0;
     //	fArmor						= 0.f;
-    fRadiation = 0.f;
+    fRadiation    = 0.f;
     accel.set(0.f, 0.f, 0.f);
     velocity.set(0.f, 0.f, 0.f);
     m_holderID = u16(-1);
@@ -1547,7 +1552,8 @@ void CSE_ALifeCreatureActor::spawn_supplies()
 ////////////////////////////////////////////////////////////////////////////
 // CSE_ALifeCreatureCrow
 ////////////////////////////////////////////////////////////////////////////
-CSE_ALifeCreatureCrow::CSE_ALifeCreatureCrow(LPCSTR caSection): CSE_ALifeCreatureAbstract(caSection)
+CSE_ALifeCreatureCrow::CSE_ALifeCreatureCrow(LPCSTR caSection):
+    CSE_ALifeCreatureAbstract(caSection)
 {
     if (pSettings->section_exist(caSection) && pSettings->line_exist(caSection, "visual"))
         set_visual(pSettings->r_string(caSection, "visual"));
@@ -1597,7 +1603,8 @@ bool CSE_ALifeCreatureCrow::used_ai_locations() const
 ////////////////////////////////////////////////////////////////////////////
 // CSE_ALifeCreaturePhantom
 ////////////////////////////////////////////////////////////////////////////
-CSE_ALifeCreaturePhantom::CSE_ALifeCreaturePhantom(LPCSTR caSection): CSE_ALifeCreatureAbstract(caSection)
+CSE_ALifeCreaturePhantom::CSE_ALifeCreaturePhantom(LPCSTR caSection):
+    CSE_ALifeCreatureAbstract(caSection)
 {
     if (pSettings->section_exist(caSection) && pSettings->line_exist(caSection, "visual"))
         set_visual(pSettings->r_string(caSection, "visual"));
@@ -1651,11 +1658,11 @@ CSE_ALifeMonsterRat::CSE_ALifeMonsterRat(LPCSTR caSection):
     fEyeFov   = 120;
     fEyeRange = 10;
     set_health(5);   // fHealth						= 5;
-    fMinSpeed         = .5;
-    fMaxSpeed         = 1.5;
-    fAttackSpeed      = 4.0;
-    fMaxPursuitRadius = 100;
-    fMaxHomeRadius    = 10;
+    fMinSpeed                    = .5;
+    fMaxSpeed                    = 1.5;
+    fAttackSpeed                 = 4.0;
+    fMaxPursuitRadius            = 100;
+    fMaxHomeRadius               = 10;
     // morale
     fMoraleSuccessAttackQuant    = 20;
     fMoraleDeathQuant            = -10;
@@ -1666,11 +1673,11 @@ CSE_ALifeMonsterRat::CSE_ALifeMonsterRat(LPCSTR caSection):
     fMoraleMaxValue              = 100;
     fMoraleNormalValue           = 66;
     // attack
-    fHitPower                 = 10.0;
-    u16HitInterval            = 1500;
-    fAttackDistance           = 0.7f;
-    fAttackAngle              = 45;
-    fAttackSuccessProbability = 0.5f;
+    fHitPower                    = 10.0;
+    u16HitInterval               = 1500;
+    fAttackDistance              = 0.7f;
+    fAttackAngle                 = 45;
+    fAttackSuccessProbability    = 0.5f;
 }
 
 CSE_ALifeMonsterRat::~CSE_ALifeMonsterRat() {}
@@ -1809,7 +1816,8 @@ bool CSE_ALifeMonsterRat::bfUseful()
 ////////////////////////////////////////////////////////////////////////////
 // CSE_ALifeMonsterZombie
 ////////////////////////////////////////////////////////////////////////////
-CSE_ALifeMonsterZombie::CSE_ALifeMonsterZombie(LPCSTR caSection): CSE_ALifeMonsterAbstract(caSection)
+CSE_ALifeMonsterZombie::CSE_ALifeMonsterZombie(LPCSTR caSection):
+    CSE_ALifeMonsterAbstract(caSection)
 {
     if (pSettings->section_exist(caSection) && pSettings->line_exist(caSection, "visual"))
         set_visual(pSettings->r_string(caSection, "visual"));
@@ -1823,10 +1831,10 @@ CSE_ALifeMonsterZombie::CSE_ALifeMonsterZombie(LPCSTR caSection): CSE_ALifeMonst
     fMaxPursuitRadius = 100;
     fMaxHomeRadius    = 30;
     // attack
-    fHitPower       = 20.0;
-    u16HitInterval  = 1000;
-    fAttackDistance = 1.0f;
-    fAttackAngle    = 15;
+    fHitPower         = 20.0;
+    u16HitInterval    = 1000;
+    fAttackDistance   = 1.0f;
+    fAttackAngle      = 15;
 }
 
 CSE_ALifeMonsterZombie::~CSE_ALifeMonsterZombie() {}
@@ -1962,7 +1970,8 @@ void CSE_ALifeMonsterBase::FillProps(LPCSTR pref, PropItemVec& values)
 //////////////////////////////////////////////////////////////////////////
 // CSE_ALifePsyDogPhantom
 //////////////////////////////////////////////////////////////////////////
-CSE_ALifePsyDogPhantom::CSE_ALifePsyDogPhantom(LPCSTR caSection): CSE_ALifeMonsterBase(caSection) {}
+CSE_ALifePsyDogPhantom::CSE_ALifePsyDogPhantom(LPCSTR caSection):
+    CSE_ALifeMonsterBase(caSection) {}
 
 CSE_ALifePsyDogPhantom::~CSE_ALifePsyDogPhantom() {}
 

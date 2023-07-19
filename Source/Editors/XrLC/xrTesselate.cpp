@@ -94,11 +94,11 @@ void CBuild::Tesselate()
         {
             // Tesselate face
             Tcount++;
-            Vertex* V1 = tessEdge(F, 0, 1);
-            Vertex* V2 = tessEdge(F, 1, 2);
-            Vertex* V3 = tessEdge(F, 2, 0);
+            Vertex* V1     = tessEdge(F, 0, 1);
+            Vertex* V2     = tessEdge(F, 1, 2);
+            Vertex* V3     = tessEdge(F, 2, 0);
 
-            Face* F0       = FacePool.create();
+            Face*   F0     = FacePool.create();
             F0->dwRMode    = F->dwRMode;
             F0->dwMaterial = F->dwMaterial;
 
@@ -122,7 +122,7 @@ void CBuild::Tesselate()
             xr_vector<_TCF>::iterator it = F->tc.begin();
             for (; it != F->tc.end(); it++)
             {
-                Fvector2 p1, p2, p3;   // for V1,V2,V3
+                Fvector2 p1, p2, p3;                 // for V1,V2,V3
 
                 p1.averageA(it->uv[0], it->uv[1]);   // edge 0-1
                 p2.averageA(it->uv[1], it->uv[2]);   // edge 1-2

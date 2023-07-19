@@ -112,7 +112,8 @@ void PS::CPGDef::OnEffectEditClick(ButtonValue* B, bool& bDataModified, bool& bS
             PTools->PlayCurrent(B->tag);
             bDataModified = false;
             break;
-        case 1: {
+        case 1:
+        {
             CPGDef::SEffect* eff = *(m_Effects.begin() + B->tag);
             VERIFY(eff);
             PTools->SelectEffect(*eff->m_EffectName);

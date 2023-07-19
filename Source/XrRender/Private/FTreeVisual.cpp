@@ -101,7 +101,7 @@ struct FTreeVisual_setup
 
     void calculate()
     {
-        dwFrame = Device->dwFrame;
+        dwFrame      = Device->dwFrame;
 
         // Calc wind-vector3, scale
         float tm_rot = PI_MUL_2 * Device->fTimeGlobal / ps_r__Tree_w_rot;

@@ -36,7 +36,8 @@ struct SScriptThread
     bool       active;
     char       name[255];
     char       process[255];
-    SScriptThread(): /**pScript(0),/**/ lua(0), scriptID(-1), active(false)
+    SScriptThread():
+        /**pScript(0),/**/ lua(0), scriptID(-1), active(false)
     {
         name[0]    = 0;
         process[0] = 0;
@@ -61,7 +62,7 @@ struct SScriptThread
 };
 
 #define DEBUGGER_MAIL_SLOT "\\\\.\\mailslot\\script_debugger_mailslot"
-#define IDE_MAIL_SLOT "\\\\.\\mailslot\\script_ide_mailslot"
+#define IDE_MAIL_SLOT      "\\\\.\\mailslot\\script_ide_mailslot"
 
 enum dbg_messages
 {

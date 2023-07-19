@@ -32,14 +32,12 @@ class CLevelGraph
 {
 private:
     friend class CRenumbererConverter;
-
 public:
     typedef LevelGraph::CPosition CPosition;
     typedef LevelGraph::CHeader   CHeader;
     typedef LevelGraph::CVertex   CVertex;
     typedef LevelGraph::SSegment  SSegment;
     typedef LevelGraph::SContour  SContour;
-
 private:
     enum ELineIntersections
     {
@@ -48,27 +46,23 @@ private:
         eLineIntersectionIntersect = u32(1),
         eLineIntersectionEqual     = u32(2)
     };
-
 private:
-    IReader*             m_reader;   // level graph virtual storage
-    CHeader*             m_header;   // level graph header
-    CVertex*             m_nodes;    // nodes array
+    IReader*             m_reader;     // level graph virtual storage
+    CHeader*             m_header;     // level graph header
+    CVertex*             m_nodes;      // nodes array
     xr_vector<bool>      m_access_mask;
     GameGraph::_LEVEL_ID m_level_id;   // unique level identifier
     u32                  m_row_length;
     u32                  m_column_length;
     u32                  m_max_x;
     u32                  m_max_z;
-
 protected:
     u32 vertex(const Fvector& position) const;
-
 public:
     typedef u32            const_iterator;
     typedef u32            const_spawn_iterator;
     typedef u32            const_death_iterator;
     typedef const CVertex* const_vertex_iterator;
-
 private:
     struct vertex
     {
@@ -82,7 +76,6 @@ private:
             return (vertex.position().xz() < value);
         }
     };
-
 public:
 #ifndef AI_COMPILER
     CLevelGraph();
@@ -93,43 +86,43 @@ public:
     IC const_vertex_iterator begin() const;
     IC const_vertex_iterator end() const;
 
-    IC void set_mask(const xr_vector<u32>& mask);
-    IC void set_mask_no_check(const xr_vector<u32>& mask);
+    IC void                  set_mask(const xr_vector<u32>& mask);
+    IC void                  set_mask_no_check(const xr_vector<u32>& mask);
 
-    IC void set_mask(u32 vertex_id);
-    IC void set_mask_no_check(u32 vertex_id);
+    IC void                  set_mask(u32 vertex_id);
+    IC void                  set_mask_no_check(u32 vertex_id);
 
-    IC void clear_mask(const xr_vector<u32>& mask);
-    IC void clear_mask_no_check(const xr_vector<u32>& mask);
+    IC void                  clear_mask(const xr_vector<u32>& mask);
+    IC void                  clear_mask_no_check(const xr_vector<u32>& mask);
 
-    IC void clear_mask(u32 vertex_id);
-    IC void clear_mask_no_check(u32 vertex_id);
+    IC void                  clear_mask(u32 vertex_id);
+    IC void                  clear_mask_no_check(u32 vertex_id);
 
-    IC bool           is_accessible(const u32 vertex_id) const;
-    IC void           level_id(const GameGraph::_LEVEL_ID& level_id);
-    IC u32            max_x() const;
-    IC u32            max_z() const;
-    IC void           begin(const CVertex& vertex, const_iterator& begin, const_iterator& end) const;
-    IC void           begin(const CVertex* vertex, const_iterator& begin, const_iterator& end) const;
-    IC void           begin(u32 vertex_id, const_iterator& begin, const_iterator& end) const;
-    IC u32            value(const CVertex& vertex, const_iterator& i) const;
-    IC u32            value(const CVertex* vertex, const_iterator& i) const;
-    IC u32            value(const u32 vertex_id, const_iterator& i) const;
-    IC const CHeader& header() const;
-    ICF bool          valid_vertex_id(u32 vertex_id) const;
+    IC bool                  is_accessible(const u32 vertex_id) const;
+    IC void                  level_id(const GameGraph::_LEVEL_ID& level_id);
+    IC u32                   max_x() const;
+    IC u32                   max_z() const;
+    IC void                  begin(const CVertex& vertex, const_iterator& begin, const_iterator& end) const;
+    IC void                  begin(const CVertex* vertex, const_iterator& begin, const_iterator& end) const;
+    IC void                  begin(u32 vertex_id, const_iterator& begin, const_iterator& end) const;
+    IC u32                   value(const CVertex& vertex, const_iterator& i) const;
+    IC u32                   value(const CVertex* vertex, const_iterator& i) const;
+    IC u32                   value(const u32 vertex_id, const_iterator& i) const;
+    IC const CHeader&        header() const;
+    ICF bool                 valid_vertex_id(u32 vertex_id) const;
     IC const GameGraph::_LEVEL_ID& level_id() const;
     IC void                        unpack_xz(const CLevelGraph::CPosition& vertex_position, u32& x, u32& z) const;
     IC void                        unpack_xz(const CLevelGraph::CPosition& vertex_position, int& x, int& z) const;
     IC void                        unpack_xz(const CLevelGraph::CPosition& vertex_position, float& x, float& z) const;
-    template <typename T> IC void  unpack_xz(const CLevelGraph::CVertex& vertex, T& x, T& z) const;
-    template <typename T> IC void  unpack_xz(const CLevelGraph::CVertex* vertex, T& x, T& z) const;
+    template<typename T> IC void   unpack_xz(const CLevelGraph::CVertex& vertex, T& x, T& z) const;
+    template<typename T> IC void   unpack_xz(const CLevelGraph::CVertex* vertex, T& x, T& z) const;
     ICF CVertex*                   vertex(u32 vertex_id) const;
     ICF u32                        vertex(const CVertex* vertex_p) const;
     ICF u32                        vertex(const CVertex& vertex_r) const;
     IC const Fvector               vertex_position(const CLevelGraph::CPosition& source_position) const;
-    IC const Fvector& vertex_position(Fvector& dest_position, const CLevelGraph::CPosition& source_position) const;
-    IC const          CLevelGraph::CPosition&
-                      vertex_position(CLevelGraph::CPosition& dest_position, const Fvector& source_position) const;
+    IC const Fvector&              vertex_position(Fvector& dest_position, const CLevelGraph::CPosition& source_position) const;
+    IC const                       CLevelGraph::CPosition&
+                                   vertex_position(CLevelGraph::CPosition& dest_position, const Fvector& source_position) const;
     IC const CLevelGraph::CPosition vertex_position(const Fvector& position) const;
     IC const Fvector                vertex_position(u32 vertex_id) const;
     IC const Fvector                vertex_position(const CVertex& vertex) const;
@@ -147,24 +140,24 @@ public:
     IC bool                         inside(const u32 vertex_id, const CLevelGraph::CPosition& vertex_position) const;
     IC bool                         inside(const u32 vertex_id, const Fvector& position) const;
     IC bool                         inside(const u32 vertex_id, const Fvector2& position) const;
-    IC bool  inside(const CVertex& vertex, const CLevelGraph::CPosition& vertex_position, const float epsilon) const;
-    IC bool  inside(const CVertex& vertex, const Fvector& vertex_position, const float epsilon) const;
-    IC bool  inside(const CVertex* vertex, const CLevelGraph::CPosition& vertex_position, const float epsilon) const;
-    IC bool  inside(const CVertex* vertex, const Fvector& vertex_position, const float epsilon) const;
-    IC bool  inside(const u32 vertex_id, const CLevelGraph::CPosition& vertex_position, const float epsilon) const;
-    IC bool  inside(const u32 vertex_id, const Fvector& position, const float epsilon) const;
-    IC void  project_point(const Fplane& plane, Fvector& point) const;
-    IC u32   row_length() const;
-    float    distance(const Fvector& position, const CVertex* vertex) const;
-    float    distance(const Fvector& position, const u32 vertex_id) const;
-    float    distance(const u32 vertex_id, const Fvector& position) const;
-    IC float distance(const Fvector& position, const Fvector& point0, const Fvector& point1) const;
-    IC float distance(u32 vertex_id0, u32 vertex_id1) const;
-    IC float distance(const CVertex* tpNode0, u32 vertex_id1) const;
-    IC float distance(u32 vertex_id0, const CVertex* vertex) const;
-    IC float distance(const CVertex* node0, const CVertex* node1) const;
-    IC float distance(const u32 vertex_id, const CPosition& position) const;
-    IC float distance(const CPosition& position, const u32 vertex_id) const;
+    IC bool                         inside(const CVertex& vertex, const CLevelGraph::CPosition& vertex_position, const float epsilon) const;
+    IC bool                         inside(const CVertex& vertex, const Fvector& vertex_position, const float epsilon) const;
+    IC bool                         inside(const CVertex* vertex, const CLevelGraph::CPosition& vertex_position, const float epsilon) const;
+    IC bool                         inside(const CVertex* vertex, const Fvector& vertex_position, const float epsilon) const;
+    IC bool                         inside(const u32 vertex_id, const CLevelGraph::CPosition& vertex_position, const float epsilon) const;
+    IC bool                         inside(const u32 vertex_id, const Fvector& position, const float epsilon) const;
+    IC void                         project_point(const Fplane& plane, Fvector& point) const;
+    IC u32                          row_length() const;
+    float                           distance(const Fvector& position, const CVertex* vertex) const;
+    float                           distance(const Fvector& position, const u32 vertex_id) const;
+    float                           distance(const u32 vertex_id, const Fvector& position) const;
+    IC float                        distance(const Fvector& position, const Fvector& point0, const Fvector& point1) const;
+    IC float                        distance(u32 vertex_id0, u32 vertex_id1) const;
+    IC float                        distance(const CVertex* tpNode0, u32 vertex_id1) const;
+    IC float                        distance(u32 vertex_id0, const CVertex* vertex) const;
+    IC float                        distance(const CVertex* node0, const CVertex* node1) const;
+    IC float                        distance(const u32 vertex_id, const CPosition& position) const;
+    IC float                        distance(const CPosition& position, const u32 vertex_id) const;
     IC ELineIntersections
         intersect(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, float* x, float* y)
             const;
@@ -204,7 +197,7 @@ public:
     IC float high_cover_in_direction(float angle, u32 vertex_id) const;
     IC float low_cover_in_direction(float angle, u32 vertex_id) const;
 
-    template <class _predicate>
+    template<class _predicate>
     IC float     vertex_cover_angle(u32 vertex_id, float inc_angle, _predicate compare_predicate) const;
     IC void      set_invalid_vertex(u32& vertex_id, CVertex** vertex = NULL) const;
     IC const u32 vertex_id(const CLevelGraph::CVertex* vertex) const;
@@ -269,7 +262,7 @@ public:
         xr_vector<u32>&     tpaOutputNodes,
         bool                bAddFirstPoint,
         bool                bClearPath = true) const;
-    template <bool bAssignY, typename T> IC bool create_straight_path(
+    template<bool bAssignY, typename T> IC bool create_straight_path(
         u32             start_vertex_id,
         const Fvector2& start_point,
         const Fvector2& finish_point,
@@ -277,8 +270,8 @@ public:
         const T&        example,
         bool            bAddFirstPoint,
         bool            bClearPath = true) const;
-    template <typename T> IC void assign_y_values(xr_vector<T>& path);
-    template <typename P>
+    template<typename T> IC void assign_y_values(xr_vector<T>& path);
+    template<typename P>
     IC void iterate_vertices(const Fvector& min_position, const Fvector& max_position, const P& predicate) const;
     IC bool check_vertex_in_direction(u32 start_vertex_id, const Fvector2& start_position, u32 finish_vertex_id) const;
     IC u32  check_position_in_direction(
@@ -300,16 +293,13 @@ public:
 #ifndef AI_COMPILER
 private:
     ref_shader sh_debug;
-
 private:
     int     m_current_level_id;
     bool    m_current_actual;
     Fvector m_current_center;
     Fvector m_current_radius;
-
 public:
     void setup_current_level(const int& level_id);
-
 private:
     Fvector convert_position(const Fvector& position);
     void    draw_edge(const int& vertex_id0, const int& vertex_id1);
@@ -317,7 +307,6 @@ private:
     void    draw_stalkers(const int& vertex_id);
     void    draw_objects(const int& vertex_id);
     void    update_current_info();
-
 private:
     void draw_nodes();
     void draw_restrictions();
@@ -325,7 +314,6 @@ private:
     void draw_game_graph();
     void draw_objects();
     void draw_debug_node();
-
 public:
     void render();
 #endif

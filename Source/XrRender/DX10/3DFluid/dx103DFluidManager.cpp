@@ -71,23 +71,30 @@ LPCSTR dx103DFluidManager::m_pShaderTextureNames[NUM_RENDER_TARGETS] = {
 dx103DFluidManager::dx103DFluidManager():
     m_bInited(false),
     //	m_nIterations(10), m_bUseBFECC(true),
-    m_nIterations(6), m_bUseBFECC(true),
+    m_nIterations(6),
+    m_bUseBFECC(true),
     //	m_nIterations(6), m_bUseBFECC(false),
-    m_fSaturation(0.78f), m_bAddDensity(true), m_fImpulseSize(0.15f), m_fConfinementScale(0.0f), m_fDecay(1.0f),
-    m_pGrid(0), m_pRenderer(0), m_pObstaclesHandler(0)
+    m_fSaturation(0.78f),
+    m_bAddDensity(true),
+    m_fImpulseSize(0.15f),
+    m_fConfinementScale(0.0f),
+    m_fDecay(1.0f),
+    m_pGrid(0),
+    m_pRenderer(0),
+    m_pObstaclesHandler(0)
 {
     ZeroMemory(pRenderTargetViews, sizeof(pRenderTargetViews));
 
     // RenderTargetFormats [RENDER_TARGET_VELOCITY0]	= DXGI_FORMAT_R16G16B16A16_FLOAT;
-    RenderTargetFormats[RENDER_TARGET_VELOCITY1] = DXGI_FORMAT_R16G16B16A16_FLOAT;
+    RenderTargetFormats[RENDER_TARGET_VELOCITY1]    = DXGI_FORMAT_R16G16B16A16_FLOAT;
     // RenderTargetFormats [RENDER_TARGET_PRESSURE]	= DXGI_FORMAT_R16_FLOAT;
     RenderTargetFormats[RENDER_TARGET_COLOR]        = DXGI_FORMAT_R16_FLOAT;
     RenderTargetFormats[RENDER_TARGET_OBSTACLES]    = DXGI_FORMAT_R8_UNORM;
     RenderTargetFormats[RENDER_TARGET_OBSTVELOCITY] = DXGI_FORMAT_R16G16B16A16_FLOAT;
     // RENDER_TARGET_TEMPSCALAR: for AdvectBFECC and for Jacobi (for pressure projection)
-    RenderTargetFormats[RENDER_TARGET_TEMPSCALAR] = DXGI_FORMAT_R16_FLOAT;
+    RenderTargetFormats[RENDER_TARGET_TEMPSCALAR]   = DXGI_FORMAT_R16_FLOAT;
     // RENDER_TARGET_TEMPVECTOR: for Advect2, Divergence, and Vorticity
-    RenderTargetFormats[RENDER_TARGET_TEMPVECTOR] = DXGI_FORMAT_R16G16B16A16_FLOAT;
+    RenderTargetFormats[RENDER_TARGET_TEMPVECTOR]   = DXGI_FORMAT_R16G16B16A16_FLOAT;
 }
 
 dx103DFluidManager::~dx103DFluidManager()
@@ -149,9 +156,9 @@ void dx103DFluidManager::Initialize(int width, int height, int depth)
 
     m_pObstaclesHandler = xr_new<dx103DFluidObstacles>(m_iTextureWidth, m_iTextureHeight, m_iTextureDepth, m_pGrid);
 
-    m_pEmittersHandler = xr_new<dx103DFluidEmitters>(m_iTextureWidth, m_iTextureHeight, m_iTextureDepth, m_pGrid);
+    m_pEmittersHandler  = xr_new<dx103DFluidEmitters>(m_iTextureWidth, m_iTextureHeight, m_iTextureDepth, m_pGrid);
 
-    m_bInited = true;
+    m_bInited           = true;
 
     //	Create and grid and renderer here
     // grid = new Grid( m_pD3DDevice );
@@ -353,7 +360,7 @@ void dx103DFluidManager::Update(dx103DFluidData& FluidData, float timestep)
     //	Restore render state
     CRenderTarget* pTarget = RImplementation.Target;
     if (!RImplementation.o.dx10_msaa)
-        pTarget->u_setrt(pTarget->rt_Generic_0, 0, 0, HW.pBaseZB);   // LDR RT
+        pTarget->u_setrt(pTarget->rt_Generic_0, 0, 0, HW.pBaseZB);                      // LDR RT
     else
         pTarget->u_setrt(pTarget->rt_Generic_0_r, 0, 0, pTarget->rt_MSAADepth->pZRT);   // LDR RT
 
@@ -732,7 +739,7 @@ void dx103DFluidManager::RenderFluid(dx103DFluidData& FluidData)
     //	Restore render state
     CRenderTarget* pTarget = RImplementation.Target;
     if (!RImplementation.o.dx10_msaa)
-        pTarget->u_setrt(pTarget->rt_Generic_0, 0, 0, HW.pBaseZB);   // LDR RT
+        pTarget->u_setrt(pTarget->rt_Generic_0, 0, 0, HW.pBaseZB);                      // LDR RT
     else
         pTarget->u_setrt(pTarget->rt_Generic_0_r, 0, 0, pTarget->rt_MSAADepth->pZRT);   // LDR RT
 

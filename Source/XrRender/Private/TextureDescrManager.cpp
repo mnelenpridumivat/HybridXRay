@@ -10,7 +10,8 @@ class cl_dt_scaler: public R_constant_setup
 public:
     float scale;
 
-    cl_dt_scaler(float s): scale(s){};
+    cl_dt_scaler(float s):
+        scale(s){};
     virtual void setup(R_constant* C)
     {
         RCache.set_c(C, scale, scale, scale, 1 / r__dtex_range);
@@ -22,7 +23,7 @@ void fix_texture_thm_name(LPSTR fn)
     LPSTR _ext = strext(fn);
     if (_ext &&
         (0 == stricmp(_ext, ".tga") || 0 == stricmp(_ext, ".thm") || 0 == stricmp(_ext, ".dds") ||
-         0 == stricmp(_ext, ".bmp") || 0 == stricmp(_ext, ".ogm")))
+            0 == stricmp(_ext, ".bmp") || 0 == stricmp(_ext, ".ogm")))
         *_ext = 0;
 }
 

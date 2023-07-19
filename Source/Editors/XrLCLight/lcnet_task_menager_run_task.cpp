@@ -10,7 +10,7 @@ namespace lc_net
         if (!initialize_session(sessionId))
             return false;
 
-        u8 pool_id(u8(-1));
+        u8             pool_id(u8(-1));
 
         net_execution* e = receive_task(pool_id, agent, sessionId, inStream);
         ///////////////////////////////////////////////////////

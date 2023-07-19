@@ -37,7 +37,7 @@ typedef struct tagSConnectionVertex
     u32                  dwLevelID;
 } SConnectionVertex;
 
-extern HWND logWindow;
+extern HWND         logWindow;
 
 CGameGraph::CHeader tGraphHeader;
 
@@ -116,7 +116,7 @@ public:
         xr_strcpy(caFileName, raw_cross_table_file_name);
         CGameLevelCrossTable* l_tpCrossTable = xr_new<CGameLevelCrossTable>(caFileName);
 
-        CLevelGraph* l_tpAI_Map = xr_new<CLevelGraph>(S);
+        CLevelGraph*          l_tpAI_Map     = xr_new<CLevelGraph>(S);
 
         VERIFY2(
             l_tpCrossTable->header().level_guid() == l_tpAI_Map->header().guid(),
@@ -136,8 +136,8 @@ public:
         {
             for (GameGraph::_GRAPH_ID i = 0, n = m_tpGraph->header().vertex_count(); i < n; ++i)
                 if ((!l_tpAI_Map->valid_vertex_id(m_tpGraph->vertex(i)->level_vertex_id()) ||
-                     (l_tpCrossTable->vertex(m_tpGraph->vertex(i)->level_vertex_id()).game_vertex_id() != i) ||
-                     !l_tpAI_Map->inside(m_tpGraph->vertex(i)->level_vertex_id(), m_tpGraph->vertex(i)->level_point())))
+                        (l_tpCrossTable->vertex(m_tpGraph->vertex(i)->level_vertex_id()).game_vertex_id() != i) ||
+                        !l_tpAI_Map->inside(m_tpGraph->vertex(i)->level_vertex_id(), m_tpGraph->vertex(i)->level_point())))
                 {
                     Msg("! Graph doesn't correspond to the cross table");
                     R_ASSERT2(false, "Graph doesn't correspond to the cross table");
@@ -253,13 +253,13 @@ public:
                     {
                         SConnectionVertex T;
                         LPSTR             S;
-                        S               = xr_strdup(tpGraphPoint->name_replace());
-                        T.caConnectName = xr_strdup(*tpGraphPoint->m_caConnectionPointName);
-                        T.dwLevelID     = dwfGetIDByLevelName(Ini, *tpGraphPoint->m_caConnectionLevelName);
+                        S                             = xr_strdup(tpGraphPoint->name_replace());
+                        T.caConnectName               = xr_strdup(*tpGraphPoint->m_caConnectionPointName);
+                        T.dwLevelID                   = dwfGetIDByLevelName(Ini, *tpGraphPoint->m_caConnectionLevelName);
                         //						T.tGraphID						= (GameGraph::_GRAPH_ID)i;
                         //						T.tOldGraphID					= tGraphID;
-                        T.tOldGraphID = (GameGraph::_GRAPH_ID)i;
-                        T.tGraphID    = tGraphID;
+                        T.tOldGraphID                 = (GameGraph::_GRAPH_ID)i;
+                        T.tGraphID                    = tGraphID;
 
                         bool                       ok = true;
                         VERTEX_MAP::const_iterator II = m_tVertexMap.begin();
@@ -418,7 +418,7 @@ public:
         LEVEL_POINT_STORAGE::iterator E = m_tpLevelPoints.end();
         xr_vector<u32>::iterator      i = l_dwaNodes.begin();
 
-        dwDeathPointCount = m;
+        dwDeathPointCount               = m;
 
         for (; I != E; I++, i++)
         {
@@ -548,7 +548,7 @@ void read_levels(CInifile* Ini, xr_set<CLevelInfo>& levels, bool rebuild_graph, 
 
 extern void xrBuildGraph(LPCSTR name);
 
-LPCSTR generate_temp_file_name(LPCSTR header0, LPCSTR header1, string_path& buffer)
+LPCSTR      generate_temp_file_name(LPCSTR header0, LPCSTR header1, string_path& buffer)
 {
     string_path path;
     FS.update_path(path, "$app_data_root$", "temp");

@@ -36,7 +36,7 @@ const float W_DIST_FADE_SQR = W_DIST_FADE * W_DIST_FADE;
 const float I_DIST_FADE_SQR = 1.f / W_DIST_FADE_SQR;
 const int   MAX_TRIS        = 1024;
 
-IC bool operator==(const CWallmarksEngine::wm_slot* slot, const ref_shader& shader)
+IC bool     operator==(const CWallmarksEngine::wm_slot* slot, const ref_shader& shader)
 {
     return slot->shader == shader;
 }
@@ -133,7 +133,7 @@ void CWallmarksEngine::RecurseTri(u32 t, Fmatrix& mView, CWallmarksEngine::stati
     CDB::TRI* T = sml_collector.getT() + t;
     if (T->dummy)
         return;
-    T->dummy = 0xffffffff;
+    T->dummy        = 0xffffffff;
 
     // Some vars
     u32*     v_ids  = T->verts;
@@ -416,7 +416,7 @@ void CWallmarksEngine::Render()
     Device->Statistic->RenderDUMP_WMD_Count = 0;
     Device->Statistic->RenderDUMP_WMT_Count = 0;
 
-    float ssaCLIP = r_ssaDISCARD / 4;
+    float ssaCLIP                           = r_ssaDISCARD / 4;
 
     lock.Enter();   // Physics may add wallmarks in parallel with rendering
 

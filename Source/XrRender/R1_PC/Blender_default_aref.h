@@ -11,7 +11,6 @@ class CBlender_default_aref: public IBlender
 public:
     xrP_Integer oAREF;
     xrP_BOOL    oBlend;
-
 public:
     virtual LPCSTR getComment()
     {

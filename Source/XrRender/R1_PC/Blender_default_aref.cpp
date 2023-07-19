@@ -78,7 +78,8 @@ void CBlender_default_aref::Compile(CBlender_Compile& C)
             Debug.fatal(DEBUG_INFO, "Not enought textures for shader, base tex: %s", *C.L_textures[0]);
         switch (C.iElement)
         {
-            case SE_R1_NORMAL_HQ: {
+            case SE_R1_NORMAL_HQ:
+            {
                 LPCSTR sname = "lmap";
                 if (C.bDetail_Diffuse)
                     sname = "lmap_dt";
@@ -95,7 +96,8 @@ void CBlender_default_aref::Compile(CBlender_Compile& C)
                 C.r_End();
             }
             break;
-            case SE_R1_NORMAL_LQ: {
+            case SE_R1_NORMAL_LQ:
+            {
                 LPCSTR sname = "lmap";
                 if (oBlend.value)
                     C.r_Pass(

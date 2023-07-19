@@ -44,8 +44,8 @@ public:
     virtual void Compile(CBlender_Compile& C);
     virtual void SetDefine(LPCSTR Name, LPCSTR Definition);
 
-    LPCSTR Name;
-    LPCSTR Definition;
+    LPCSTR       Name;
+    LPCSTR       Definition;
 };
 
 #endif   //	dx10RainBlender_included

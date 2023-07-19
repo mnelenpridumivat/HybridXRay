@@ -8,7 +8,6 @@ public:
     R_constant* c_pos_faces;
     R_constant* c_neg_faces;
     R_constant* c_material;
-
 public:
     R_hemi();
     void unmap();

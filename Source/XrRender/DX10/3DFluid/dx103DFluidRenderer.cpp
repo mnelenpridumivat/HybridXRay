@@ -62,7 +62,7 @@ void dx103DFluidRenderer::Initialize(int gridWidth, int gridHeight, int gridDept
     m_vGridDim[1] = float(gridHeight);
     m_vGridDim[2] = float(gridDepth);
 
-    m_fMaxDim = _max(_max(m_vGridDim[0], m_vGridDim[1]), m_vGridDim[2]);
+    m_fMaxDim     = _max(_max(m_vGridDim[0], m_vGridDim[1]), m_vGridDim[2]);
 
     // Initialize the grid offset matrix
     {
@@ -95,8 +95,8 @@ void dx103DFluidRenderer::Destroy()
         return;
 
     // createJitterTexture();
-    m_JitterTexture = 0;
-    m_HHGGTexture   = 0;
+    m_JitterTexture  = 0;
+    m_HHGGTexture    = 0;
 
     // createScreenQuad();
     m_GeomQuadVertex = 0;
@@ -141,8 +141,14 @@ void dx103DFluidRenderer::DestroyShaders()
 void dx103DFluidRenderer::CreateGridBox()
 {
     VsInput vertices[] = {
-        {D3DXVECTOR3(0, 0, 0)}, {D3DXVECTOR3(0, 0, 1)}, {D3DXVECTOR3(0, 1, 0)}, {D3DXVECTOR3(0, 1, 1)},
-        {D3DXVECTOR3(1, 0, 0)}, {D3DXVECTOR3(1, 0, 1)}, {D3DXVECTOR3(1, 1, 0)}, {D3DXVECTOR3(1, 1, 1)},
+        {D3DXVECTOR3(0, 0, 0)},
+        {D3DXVECTOR3(0, 0, 1)},
+        {D3DXVECTOR3(0, 1, 0)},
+        {D3DXVECTOR3(0, 1, 1)},
+        {D3DXVECTOR3(1, 0, 0)},
+        {D3DXVECTOR3(1, 0, 1)},
+        {D3DXVECTOR3(1, 1, 0)},
+        {D3DXVECTOR3(1, 1, 1)},
     };
     m_iGridBoxVertNum = sizeof(vertices) / sizeof(vertices[0]);
 
@@ -247,10 +253,10 @@ void dx103DFluidRenderer::CreateJitterTexture()
     }
 
     D3D_TEXTURE2D_DESC desc;
-    desc.Width     = 256;
-    desc.Height    = 256;
-    desc.MipLevels = 1;
-    desc.ArraySize = 1;
+    desc.Width              = 256;
+    desc.Height             = 256;
+    desc.MipLevels          = 1;
+    desc.ArraySize          = 1;
     // desc.Format = DXGI_FORMAT_R8_TYPELESS;
     desc.Format             = DXGI_FORMAT_R8_UNORM;
     desc.SampleDesc.Count   = 1;
@@ -268,8 +274,8 @@ void dx103DFluidRenderer::CreateJitterTexture()
     desc.MiscFlags      = 0;
 
     D3D_SUBRESOURCE_DATA dataDesc;
-    dataDesc.pSysMem     = data;
-    dataDesc.SysMemPitch = 256;
+    dataDesc.pSysMem            = data;
+    dataDesc.SysMemPitch        = 256;
 
     ID3DTexture2D* NoiseTexture = NULL;
     // ID3DxxShaderResourceView* JitterTextureSRV = NULL;
@@ -346,8 +352,8 @@ void dx103DFluidRenderer::CreateHHGGTexture()
     //	static const int iNumSamples = 256;
     static const int iNumSamples = 16;
     //	static const int iNumSamples = 1;
-    float       data[4 * iNumSamples];
-    D3DXFLOAT16 converted[4 * iNumSamples];
+    float            data[4 * iNumSamples];
+    D3DXFLOAT16      converted[4 * iNumSamples];
 
     //	Fvector4 mmin;
     //	Fvector4 mmax;
@@ -380,7 +386,7 @@ void dx103DFluidRenderer::CreateHHGGTexture()
     desc.MipLevels = 1;
     desc.ArraySize = 1;
     // desc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-    desc.Format = DXGI_FORMAT_R16G16B16A16_FLOAT;
+    desc.Format    = DXGI_FORMAT_R16G16B16A16_FLOAT;
     // desc.Usage = D3D_USAGE_IMMUTABLE;
 #ifdef USE_DX11
     desc.Usage     = D3D11_USAGE_DEFAULT;
@@ -395,8 +401,8 @@ void dx103DFluidRenderer::CreateHHGGTexture()
     D3D_SUBRESOURCE_DATA dataDesc;
     // dataDesc.pSysMem = data;
     // dataDesc.SysMemPitch = sizeof(data);
-    dataDesc.pSysMem     = converted;
-    dataDesc.SysMemPitch = sizeof(converted);
+    dataDesc.pSysMem           = converted;
+    dataDesc.SysMemPitch       = sizeof(converted);
 
     ID3DTexture1D* HHGGTexture = NULL;
 
@@ -415,8 +421,8 @@ void dx103DFluidRenderer::SetScreenSize(int width, int height)
 
 void dx103DFluidRenderer::CalculateRenderTextureSize(int screenWidth, int screenHeight)
 {
-    int maxProjectedSide = int(3.0 * _sqrt(3.0) * m_fMaxDim);
-    int maxScreenDim     = _max(screenWidth, screenHeight);
+    int   maxProjectedSide  = int(3.0 * _sqrt(3.0) * m_fMaxDim);
+    int   maxScreenDim      = _max(screenWidth, screenHeight);
 
     float screenAspectRatio = ((float)screenWidth) / screenHeight;
 
@@ -529,7 +535,7 @@ void dx103DFluidRenderer::Draw(const dx103DFluidData& FluidData)
     const dx103DFluidData::Settings& VolumeSettings = FluidData.GetSettings();
     const bool                       bRenderFire    = (VolumeSettings.m_SimulationType == dx103DFluidData::ST_FIRE);
 
-    FogLighting LightData;
+    FogLighting                      LightData;
 
     CalculateLighting(FluidData, LightData);
 
@@ -558,8 +564,8 @@ void dx103DFluidRenderer::Draw(const dx103DFluidData& FluidData)
     gridWorld = *(D3DXMATRIX*)&transform;
     D3DXMATRIX View;
     // D3DXMatrixTranspose(&View, (D3DXMATRIX*)&RCache.xforms.m_v);
-    View                 = *(D3DXMATRIX*)&RCache.xforms.m_v;
-    D3DXMATRIX WorldView = gridWorld * View;
+    View                   = *(D3DXMATRIX*)&RCache.xforms.m_v;
+    D3DXMATRIX  WorldView  = gridWorld * View;
 
     //	Modified later
     // Fmatrix	WorldView = RCache.xforms.m_wv;
@@ -694,7 +700,7 @@ void dx103DFluidRenderer::Draw(const dx103DFluidData& FluidData)
     // m_pD3DDevice->OMSetRenderTargets( 1, &pRTV , pDSV );
     //	Restore render state
     if (!RImplementation.o.dx10_msaa)
-        pTarget->u_setrt(pTarget->rt_Generic_0, 0, 0, HW.pBaseZB);   // LDR RT
+        pTarget->u_setrt(pTarget->rt_Generic_0, 0, 0, HW.pBaseZB);                      // LDR RT
     else
         pTarget->u_setrt(pTarget->rt_Generic_0_r, 0, 0, pTarget->rt_MSAADepth->pZRT);   // LDR RT
 
@@ -837,7 +843,7 @@ void dx103DFluidRenderer::CalculateLighting(const dx103DFluidData& FluidData, Fo
 
     const dx103DFluidData::Settings& VolumeSettings = FluidData.GetSettings();
 
-    Fvector4 hemi_color = g_pGamePersistent->Environment().CurrentEnv->hemi_color;
+    Fvector4                         hemi_color     = g_pGamePersistent->Environment().CurrentEnv->hemi_color;
     // hemi_color.mul(0.2f);
     hemi_color.mul(VolumeSettings.m_fHemi);
     LightData.m_vLightIntencity.set(hemi_color.x, hemi_color.y, hemi_color.z);
@@ -845,7 +851,7 @@ void dx103DFluidRenderer::CalculateLighting(const dx103DFluidData& FluidData, Fo
 
     const Fmatrix& Transform = FluidData.GetTransform();
 
-    Fbox box;
+    Fbox           box;
     box.min = Fvector3().set(-0.5f, -0.5f, -0.5f);
     box.max = Fvector3().set(0.5f, 0.5f, 0.5f);
     box.xform(Transform);
@@ -867,7 +873,7 @@ void dx103DFluidRenderer::CalculateLighting(const dx103DFluidData& FluidData, Fo
         ISpatial* spatial = m_lstRenderables[i];
 
         // Light
-        light* pLight = (light*)spatial->dcast_Light();
+        light*    pLight  = (light*)spatial->dcast_Light();
         VERIFY(pLight);
 
         if (pLight->flags.bStatic)

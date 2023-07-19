@@ -29,7 +29,8 @@ void CSE_Shape::cform_read(NET_Packet& tNetPacket)
         tNetPacket.r_u8(S.type);
         switch (S.type)
         {
-            case 0: {
+            case 0:
+            {
                 if (tNetPacket.inistream)
                 {
                     tNetPacket.r_vec3(S.data.sphere.P);
@@ -57,7 +58,8 @@ void CSE_Shape::cform_write(NET_Packet& tNetPacket)
         tNetPacket.w_u8(S.type);
         switch (S.type)
         {
-            case 0: {
+            case 0:
+            {
                 if (tNetPacket.inistream)
                 {
                     tNetPacket.w_vec3(S.data.sphere.P);

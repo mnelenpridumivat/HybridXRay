@@ -11,7 +11,6 @@
 class ENGINE_API xrXRC
 {
     CDB::COLLIDER CL;
-
 public:
     IC CDB::COLLIDER* collider()
     {

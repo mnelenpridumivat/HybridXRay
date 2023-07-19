@@ -199,7 +199,7 @@ void CBlender_Compile::PassEnd()
 #ifdef REDITOR
     proto.M = DEV->_CreateMatrixList(passMatrices);
 #endif
-    proto.C = DEV->_CreateConstantList(passConstants);
+    proto.C         = DEV->_CreateConstantList(passConstants);
 
     ref_pass _pass_ = DEV->_CreatePass(proto);
     SH->passes.push_back(_pass_);

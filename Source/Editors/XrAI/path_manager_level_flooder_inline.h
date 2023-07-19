@@ -9,7 +9,7 @@
 #pragma once
 
 #define TEMPLATE_SPECIALIZATION \
-    template <typename _DataStorage, typename _dist_type, typename _index_type, typename _iteration_type>
+    template<typename _DataStorage, typename _dist_type, typename _index_type, typename _iteration_type>
 
 #define CLevelFlooderPathManager                                                                                \
     CPathManager<                                                                                               \
@@ -81,7 +81,7 @@ IC bool CLevelFlooderPathManager::is_limit_reached(const _iteration_type iterati
 }
 
 TEMPLATE_SPECIALIZATION
-template <typename T> IC void CLevelFlooderPathManager::create_path(T& vertex) {}
+template<typename T> IC void CLevelFlooderPathManager::create_path(T& vertex) {}
 
 #undef TEMPLATE_SPECIALIZATION
 #undef CLevelFlooderPathManager

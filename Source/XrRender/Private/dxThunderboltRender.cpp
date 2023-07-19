@@ -32,9 +32,9 @@ void dxThunderboltRender::Render(CEffect_Thunderbolt& owner)
     dv       = (owner.lightning_phase > 0.5f) ? Random.randI(2) * 0.5f : dv;
 
     RCache.set_CullMode(CULL_NONE);
-    u32 v_offset, i_offset;
+    u32                                v_offset, i_offset;
 
-    dxThunderboltDescRender* pThRen = (dxThunderboltDescRender*)&*owner.current->m_pRender;
+    dxThunderboltDescRender*           pThRen      = (dxThunderboltDescRender*)&*owner.current->m_pRender;
 
     u32                                vCount_Lock = pThRen->l_model->number_vertices;
     u32                                iCount_Lock = pThRen->l_model->number_indices;

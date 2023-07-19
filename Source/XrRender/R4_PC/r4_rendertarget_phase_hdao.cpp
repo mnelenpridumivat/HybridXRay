@@ -4,7 +4,7 @@ static unsigned int g_uGroupTexelDimension             = 56;
 static unsigned int g_uGroupTexelOverlap               = 12;
 static unsigned int g_uGroupTexelDimensionAfterOverlap = g_uGroupTexelDimension - 2 * g_uGroupTexelOverlap;
 
-void CRenderTarget::phase_hdao()
+void                CRenderTarget::phase_hdao()
 {
     if (ps_r_ssao > 0)
     {

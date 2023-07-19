@@ -27,18 +27,17 @@ private:
     xrCriticalSection MT;
     volatile u32      MT_frame_rendered;
 
-    void Render_DB(CFrustum& base);
-
+    void              Render_DB(CFrustum& base);
 public:
-    void Load();
-    void Unload();
-    void Render(CFrustum& base);
-    void Render_ZB();
+    void     Load();
+    void     Unload();
+    void     Render(CFrustum& base);
+    void     Render_ZB();
     //	void					Debug		();
 
-    void occlude(Fbox2& space) {}
-    void Disable();
-    void Enable();
+    void     occlude(Fbox2& space) {}
+    void     Disable();
+    void     Enable();
 
     void     MT_RENDER();
     ICF void MT_SYNC()

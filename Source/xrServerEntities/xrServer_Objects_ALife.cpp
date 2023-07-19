@@ -30,7 +30,7 @@ LPCSTR GAME_CONFIG = "game.ltx";
 #include "ai_space.h"
 #include "script_engine.h"
 #pragma warning(push)
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include <luabind/luabind.hpp>
 #include <shlwapi.h>
 #pragma warning(pop)
@@ -79,7 +79,7 @@ struct logical_string_predicate
 
         return (StrCmpLogicalW(buffer0, buffer1) < 0);
     }
-};   // struct logical_string_predicate
+};       // struct logical_string_predicate
 
 #endif   // XRSEFACTORY_EXPORTS
 
@@ -335,7 +335,11 @@ void CSE_ALifeGraphPoint::on_render(
     static const u32 IL[16] = {0, 1, 0, 2, 0, 3, 0, 4, 1, 3, 3, 2, 2, 4, 4, 1};
     static const u32 IT[12] = {1, 3, 0, 3, 2, 0, 2, 4, 0, 4, 1, 0};
     static Fvector   PT[5]  = {
-        {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f, -0.5f}, {0.0f, 0.0f, 0.5f}, {-0.5f, 0.0f, 0.0f}, {0.5f, 0.0f, 0.0f},
+        {0.0f, 1.0f, 0.0f},
+        {0.0f, 0.0f, -0.5f},
+        {0.0f, 0.0f, 0.5f},
+        {-0.5f, 0.0f, 0.0f},
+        {0.5f, 0.0f, 0.0f},
     };
 
     Fcolor   C;
@@ -1682,7 +1686,7 @@ bool CSE_ALifeSchedulable::need_update(CSE_ALifeDynamicObject* object)
     return (
         !object ||
         (object->m_bDirectControl && /**object->interactive() && /**/ object->used_ai_locations() &&
-         !object->m_bOnline));
+            !object->m_bOnline));
 }
 
 CSE_Abstract* CSE_ALifeSchedulable::init()

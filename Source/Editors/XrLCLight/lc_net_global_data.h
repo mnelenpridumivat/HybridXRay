@@ -6,14 +6,13 @@
 namespace lc_net
 {
 
-    template <> class net_global_data_impl<gl_cl_data>
+    template<> class net_global_data_impl<gl_cl_data>
     {
     public:
         void init()
         {
             data_init();
         }
-
     protected:
         void   create_data_file(LPCSTR path);
         bool   create_data(LPCSTR path);
@@ -26,7 +25,7 @@ namespace lc_net
         virtual void data_cleanup() = 0 {};
     };
 
-    template <> struct global_add_global<gl_cl_data, gl_base_cl_data>
+    template<> struct global_add_global<gl_cl_data, gl_base_cl_data>
     {
     };
 

@@ -5,7 +5,7 @@
 #include "platform.h"
 #include "audio.h"
 
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 
 namespace ETOOLS
 {
@@ -56,8 +56,8 @@ namespace ETOOLS
         FILE *         in, *out = NULL;
         //		int foundformat = 0;
         //		int closeout	= 0, closein = 0;
-        input_format* format;
-        int           res = 1;
+        input_format*  format;
+        int            res       = 1;
 
         /* Set various encoding defaults */
         enc_opts.serialno        = 0;
@@ -67,7 +67,7 @@ namespace ETOOLS
         enc_opts.error           = encode_error;
         enc_opts.comments        = &vc;
 
-        in = fopen(in_fn, "rb");
+        in                       = fopen(in_fn, "rb");
 
         if (in == NULL)
             return 0;

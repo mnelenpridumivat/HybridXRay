@@ -4,7 +4,7 @@ struct b_BuildTexture: public b_texture
 {
     STextureParams THM;
 
-    u32& Texel(u32 x, u32 y)
+    u32&           Texel(u32 x, u32 y)
     {
         u32* raw_data = static_cast<u32*>(*pSurface);
         return raw_data[y * dwWidth + x];

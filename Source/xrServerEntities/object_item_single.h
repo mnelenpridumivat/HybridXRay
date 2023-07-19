@@ -14,12 +14,11 @@
 #include "object_factory_space.h"
 #include "object_item_abstract.h"
 
-template <typename _unknown_type, bool _client_type> class CObjectItemSingle: public CObjectItemAbstract
+template<typename _unknown_type, bool _client_type> class CObjectItemSingle: public CObjectItemAbstract
 {
 protected:
     typedef CObjectItemAbstract inherited;
     typedef _unknown_type       SERVER_TYPE;
-
 public:
     IC CObjectItemSingle(const CLASS_ID& clsid, LPCSTR script_clsid);
 #ifndef NO_XR_GAME
@@ -29,12 +28,11 @@ public:
 };
 
 #ifndef NO_XR_GAME
-template <typename _unknown_type> class CObjectItemSingle<_unknown_type, true>: public CObjectItemAbstract
+template<typename _unknown_type> class CObjectItemSingle<_unknown_type, true>: public CObjectItemAbstract
 {
 protected:
     typedef CObjectItemAbstract inherited;
     typedef _unknown_type       CLIENT_TYPE;
-
 public:
     IC                                        CObjectItemSingle(const CLASS_ID& clsid, LPCSTR script_clsid);
     virtual ObjectFactory::CLIENT_BASE_CLASS* client_object() const;

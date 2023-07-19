@@ -31,28 +31,27 @@ public:
     };
     struct _options
     {
-        u32 vis_intersect : 1;        // config
-        u32 distortion : 1;           // run-time modified
-        u32 color_mapping : 1;        // true if SM 1.4 and higher
-        u32 disasm : 1;               // config
-        u32 forceskinw : 1;           // config
-        u32 no_detail_textures : 1;   // config
+        u32 vis_intersect     :1;   // config
+        u32 distortion        :1;   // run-time modified
+        u32 color_mapping     :1;   // true if SM 1.4 and higher
+        u32 disasm            :1;   // config
+        u32 forceskinw        :1;   // config
+        u32 no_detail_textures:1;   // config
     } o;
     struct _stats
     {
         u32 o_queries, o_culled;
     } stats;
-
 public:
     // Sector detection and visibility
-    CSector*                   pLastSector;
-    Fvector                    vLastCameraPos;
-    u32                        uLastLTRACK;
-    xr_vector<IRender_Portal*> Portals;
-    xr_vector<IRender_Sector*> Sectors;
-    xrXRC                      Sectors_xrc;
-    CDB::MODEL*                rmPortals;
-    CHOM                       HOM;
+    CSector*                                                 pLastSector;
+    Fvector                                                  vLastCameraPos;
+    u32                                                      uLastLTRACK;
+    xr_vector<IRender_Portal*>                               Portals;
+    xr_vector<IRender_Sector*>                               Sectors;
+    xrXRC                                                    Sectors_xrc;
+    CDB::MODEL*                                              rmPortals;
+    CHOM                                                     HOM;
     //.	R_occlusion													HWOCC;
 
     // Global containers
@@ -65,28 +64,27 @@ public:
     xr_vector<dxRender_Visual*>                              Visuals;
     CPSLibrary                                               PSLibrary;
 
-    CLight_DB*        L_DB;
-    CLightR_Manager*  L_Dynamic;
-    CLightShadows*    L_Shadows;
-    CLightProjector*  L_Projector;
-    CGlowManager*     L_Glows;
-    CWallmarksEngine* Wallmarks;
-    CDetailManager*   Details;
-    CModelPool*       Models;
+    CLight_DB*                                               L_DB;
+    CLightR_Manager*                                         L_Dynamic;
+    CLightShadows*                                           L_Shadows;
+    CLightProjector*                                         L_Projector;
+    CGlowManager*                                            L_Glows;
+    CWallmarksEngine*                                        Wallmarks;
+    CDetailManager*                                          Details;
+    CModelPool*                                              Models;
 
-    CRenderTarget* Target;   // Render-target
+    CRenderTarget*                                           Target;   // Render-target
 
     // R1-specific global constants
-    Fmatrix        r1_dlight_tcgen;
-    light*         r1_dlight_light;
-    float          r1_dlight_scale;
-    cl_light_PR    r1_dlight_binder_PR;
-    cl_light_C     r1_dlight_binder_color;
-    cl_light_XFORM r1_dlight_binder_xform;
-    shared_str     c_ldynamic_props;
-    bool           m_bMakeAsyncSS;
-    bool           m_bFirstFrameAfterReset;   // Determines weather the frame is the first after resetting Device->
-
+    Fmatrix                                                  r1_dlight_tcgen;
+    light*                                                   r1_dlight_light;
+    float                                                    r1_dlight_scale;
+    cl_light_PR                                              r1_dlight_binder_PR;
+    cl_light_C                                               r1_dlight_binder_color;
+    cl_light_XFORM                                           r1_dlight_binder_xform;
+    shared_str                                               c_ldynamic_props;
+    bool                                                     m_bMakeAsyncSS;
+    bool                                                     m_bFirstFrameAfterReset;   // Determines weather the frame is the first after resetting Device->
 private:
     // Loading / Unloading
     void LoadBuffers(CStreamReader* fs);
@@ -97,9 +95,8 @@ private:
 
     BOOL add_Dynamic(dxRender_Visual* pVisual, u32 planes);   // normal processing
     void add_Static(dxRender_Visual* pVisual, u32 planes);
-    void add_leafs_Dynamic(dxRender_Visual* pVisual);   // if detected node's full visibility
-    void add_leafs_Static(dxRender_Visual* pVisual);    // if detected node's full visibility
-
+    void add_leafs_Dynamic(dxRender_Visual* pVisual);         // if detected node's full visibility
+    void add_leafs_Static(dxRender_Visual* pVisual);          // if detected node's full visibility
 public:
     ShaderElement*          rimp_select_sh_static(dxRender_Visual* pVisual, float cdist_sq);
     ShaderElement*          rimp_select_sh_dynamic(dxRender_Visual* pVisual, float cdist_sq);
@@ -113,7 +110,6 @@ public:
     void                    ApplyBlur4(FVF::TL4uv* dest, u32 w, u32 h, float k);
     void                    apply_object(IRenderable* O);
     IC void                 apply_lmaterial(){};
-
 public:
     // feature level
     virtual GenerationLevel get_generation()
@@ -131,13 +127,13 @@ public:
     }
 
     // Loading / Unloading
-    virtual void create();
-    virtual void destroy();
-    virtual void reset_begin();
-    virtual void reset_end();
+    virtual void                   create();
+    virtual void                   destroy();
+    virtual void                   reset_begin();
+    virtual void                   reset_end();
 
-    virtual void level_Load(IReader*);
-    virtual void level_Unload();
+    virtual void                   level_Load(IReader*);
+    virtual void                   level_Unload();
 
     virtual IDirect3DBaseTexture9* texture_load(LPCSTR fname, u32& msize);
     virtual HRESULT                shader_compile(
@@ -163,25 +159,25 @@ public:
     virtual IRender_Target* getTarget();
 
     // Main
-    virtual void flush();
-    virtual void set_Object(IRenderable* O);
-    virtual void add_Occluder(Fbox2& bb_screenspace);   // mask screen region as oclluded
-    virtual void add_Visual(IRenderVisual* V);          // add visual leaf (no culling performed at all)
-    virtual void add_Geometry(IRenderVisual* V);        // add visual(s)	(all culling performed)
+    virtual void            flush();
+    virtual void            set_Object(IRenderable* O);
+    virtual void            add_Occluder(Fbox2& bb_screenspace);   // mask screen region as oclluded
+    virtual void            add_Visual(IRenderVisual* V);          // add visual leaf (no culling performed at all)
+    virtual void            add_Geometry(IRenderVisual* V);        // add visual(s)	(all culling performed)
 
     // wallmarks
-    virtual void add_StaticWallmark(ref_shader& S, const Fvector& P, float s, CDB::TRI* T, Fvector* V);
-    virtual void add_StaticWallmark(IWallMarkArray* pArray, const Fvector& P, float s, CDB::TRI* T, Fvector* V);
-    virtual void add_StaticWallmark(const wm_shader& S, const Fvector& P, float s, CDB::TRI* T, Fvector* V);
-    virtual void clear_static_wallmarks();
-    virtual void add_SkeletonWallmark(intrusive_ptr<CSkeletonWallmark> wm);
-    virtual void add_SkeletonWallmark(
-        const Fmatrix* xf,
-        CKinematics*   obj,
-        ref_shader&    sh,
-        const Fvector& start,
-        const Fvector& dir,
-        float          size);
+    virtual void            add_StaticWallmark(ref_shader& S, const Fvector& P, float s, CDB::TRI* T, Fvector* V);
+    virtual void            add_StaticWallmark(IWallMarkArray* pArray, const Fvector& P, float s, CDB::TRI* T, Fvector* V);
+    virtual void            add_StaticWallmark(const wm_shader& S, const Fvector& P, float s, CDB::TRI* T, Fvector* V);
+    virtual void            clear_static_wallmarks();
+    virtual void            add_SkeletonWallmark(intrusive_ptr<CSkeletonWallmark> wm);
+    virtual void            add_SkeletonWallmark(
+                   const Fmatrix* xf,
+                   CKinematics*   obj,
+                   ref_shader&    sh,
+                   const Fvector& start,
+                   const Fvector& dir,
+                   float          size);
     virtual void add_SkeletonWallmark(
         const Fmatrix*  xf,
         IKinematics*    obj,
@@ -191,22 +187,22 @@ public:
         float           size);
 
     //
-    virtual IBlender* blender_create(CLASS_ID cls);
-    virtual void      blender_destroy(IBlender*&);
+    virtual IBlender*               blender_create(CLASS_ID cls);
+    virtual void                    blender_destroy(IBlender*&);
 
     //
     virtual IRender_ObjectSpecific* ros_create(IRenderable* parent);
     virtual void                    ros_destroy(IRender_ObjectSpecific*&);
 
     // Particle library
-    virtual CPSLibrary* ps_library()
+    virtual CPSLibrary*             ps_library()
     {
         return &PSLibrary;
     }
 
     // Lighting
-    virtual IRender_Light* light_create();
-    virtual IRender_Glow*  glow_create();
+    virtual IRender_Light*       light_create();
+    virtual IRender_Glow*        glow_create();
 
     // Models
     virtual IRenderVisual*       model_CreateParticles(LPCSTR name);
@@ -222,13 +218,13 @@ public:
     {
         Models->Logging(bEnable);
     }
-    virtual void models_Prefetch();
-    virtual void models_Clear(BOOL b_complete);
+    virtual void      models_Prefetch();
+    virtual void      models_Clear(BOOL b_complete);
 
     // Occlusion culling
-    virtual BOOL occ_visible(vis_data& V);
-    virtual BOOL occ_visible(Fbox& B);
-    virtual BOOL occ_visible(sPoly& P);
+    virtual BOOL      occ_visible(vis_data& V);
+    virtual BOOL      occ_visible(Fbox& B);
+    virtual BOOL      occ_visible(sPoly& P);
 
     // Main
     virtual void      Calculate();
@@ -240,17 +236,15 @@ public:
     virtual void _BCL OnFrame();
 
     // Render mode
-    virtual void rmNear();
-    virtual void rmFar();
-    virtual void rmNormal();
+    virtual void      rmNear();
+    virtual void      rmFar();
+    virtual void      rmNormal();
 
     // Constructor/destructor/loader
     CRender();
     virtual ~CRender();
-
 protected:
     virtual void ScreenshotImpl(ScreenshotMode mode, LPCSTR name, CMemoryWriter* memory_writer);
-
 private:
     FS_FileSet m_file_set;
 };

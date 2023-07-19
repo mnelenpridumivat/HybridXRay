@@ -64,16 +64,16 @@ struct Quad3
         // B = D*N
         // C = D^2
         // The quadric is weighted by the area of the tri.
-        A00 = fArea * vNorm.x * vNorm.x;
-        A01 = fArea * vNorm.x * vNorm.y;
-        A02 = fArea * vNorm.x * vNorm.z;
-        A11 = fArea * vNorm.y * vNorm.y;
-        A12 = fArea * vNorm.y * vNorm.z;
-        A22 = fArea * vNorm.z * vNorm.z;
-        B0  = fArea * vNorm.x * fDist;
-        B1  = fArea * vNorm.y * fDist;
-        B2  = fArea * vNorm.z * fDist;
-        C   = fArea * fDist * fDist;
+        A00         = fArea * vNorm.x * vNorm.x;
+        A01         = fArea * vNorm.x * vNorm.y;
+        A02         = fArea * vNorm.x * vNorm.z;
+        A11         = fArea * vNorm.y * vNorm.y;
+        A12         = fArea * vNorm.y * vNorm.z;
+        A22         = fArea * vNorm.z * vNorm.z;
+        B0          = fArea * vNorm.x * fDist;
+        B1          = fArea * vNorm.y * fDist;
+        B2          = fArea * vNorm.z * fDist;
+        C           = fArea * fDist * fDist;
     }
 
     const float FindError(const Fvector3& vec)

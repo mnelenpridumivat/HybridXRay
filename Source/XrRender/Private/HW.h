@@ -24,13 +24,13 @@ public:
     CHW();
     ~CHW();
 
-    void CreateD3D();
-    void DestroyD3D();
-    void CreateDevice(HWND hw, bool move_window);
+    void      CreateD3D();
+    void      DestroyD3D();
+    void      CreateDevice(HWND hw, bool move_window);
 
-    void DestroyDevice();
+    void      DestroyDevice();
 
-    void Reset(HWND hw);
+    void      Reset(HWND hw);
 
     void      selectResolution(u32& dwWidth, u32& dwHeight, BOOL bWindowed);
     D3DFORMAT selectDepthStencil(D3DFORMAT);
@@ -55,21 +55,21 @@ public:
 #endif
 
 //	Variables section
-#if defined(USE_DX11)   //	USE_DX10
+#if defined(USE_DX11)                     //	USE_DX10
 public:
     IDXGIAdapter*           m_pAdapter;   //	pD3D equivalent
     ID3D11Device*           pDevice;      //	combine with DX9 pDevice via typedef
     ID3D11DeviceContext*    pContext;     //	combine with DX9 pDevice via typedef
     IDXGISwapChain*         m_pSwapChain;
-    ID3D11RenderTargetView* pBaseRT;   //	combine with DX9 pBaseRT via typedef
+    ID3D11RenderTargetView* pBaseRT;      //	combine with DX9 pBaseRT via typedef
     ID3D11DepthStencilView* pBaseZB;
 
-    CHWCaps Caps;
+    CHWCaps                 Caps;
 
-    D3D_DRIVER_TYPE      m_DriverType;   //	DevT equivalent
-    DXGI_SWAP_CHAIN_DESC m_ChainDesc;    //	DevPP equivalent
-    bool                 m_bUsePerfhud;
-    D3D_FEATURE_LEVEL    FeatureLevel;
+    D3D_DRIVER_TYPE         m_DriverType;   //	DevT equivalent
+    DXGI_SWAP_CHAIN_DESC    m_ChainDesc;    //	DevPP equivalent
+    bool                    m_bUsePerfhud;
+    D3D_FEATURE_LEVEL       FeatureLevel;
 #elif defined(USE_DX10)
 public:
     IDXGIAdapter*           m_pAdapter;   //	pD3D equivalent
@@ -78,27 +78,26 @@ public:
     ID3D10Device1*          pContext1;    //	combine with DX9 pDevice via typedef
     ID3D10Device*           pContext;     //	combine with DX9 pDevice via typedef
     IDXGISwapChain*         m_pSwapChain;
-    ID3D10RenderTargetView* pBaseRT;   //	combine with DX9 pBaseRT via typedef
+    ID3D10RenderTargetView* pBaseRT;      //	combine with DX9 pBaseRT via typedef
     ID3D10DepthStencilView* pBaseZB;
 
-    CHWCaps Caps;
+    CHWCaps                 Caps;
 
-    D3D10_DRIVER_TYPE    m_DriverType;   //	DevT equivalent
-    DXGI_SWAP_CHAIN_DESC m_ChainDesc;    //	DevPP equivalent
-    bool                 m_bUsePerfhud;
-    D3D_FEATURE_LEVEL    FeatureLevel;
+    D3D10_DRIVER_TYPE       m_DriverType;   //	DevT equivalent
+    DXGI_SWAP_CHAIN_DESC    m_ChainDesc;    //	DevPP equivalent
+    bool                    m_bUsePerfhud;
+    D3D_FEATURE_LEVEL       FeatureLevel;
 #else
 private:
     HINSTANCE hD3D;
-
 public:
-    IDirect3D9*       pD3D;      // D3D
-    IDirect3DDevice9* pDevice;   // render device
+    IDirect3D9*           pD3D;      // D3D
+    IDirect3DDevice9*     pDevice;   // render device
 
-    IDirect3DSurface9* pBaseRT;
-    IDirect3DSurface9* pBaseZB;
+    IDirect3DSurface9*    pBaseRT;
+    IDirect3DSurface9*    pBaseZB;
 
-    CHWCaps Caps;
+    CHWCaps               Caps;
 
     UINT                  DevAdapter;
     D3DDEVTYPE            DevT;
@@ -112,10 +111,9 @@ public:
     void          UpdateViews();
     DXGI_RATIONAL selectRefresh(u32 dwWidth, u32 dwHeight, DXGI_FORMAT fmt);
 
-    virtual void OnAppActivate();
-    virtual void OnAppDeactivate();
+    virtual void  OnAppActivate();
+    virtual void  OnAppDeactivate();
 #endif   //	USE_DX10
-
 private:
     bool m_move_window;
 };

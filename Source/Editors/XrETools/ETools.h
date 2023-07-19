@@ -17,7 +17,7 @@ extern "C"
         ETOOLS_API bool
             TestRayTriA(const Fvector& C, const Fvector& D, Fvector** p, float& u, float& v, float& range, bool bCull);
         ETOOLS_API bool
-            TestRayTriB(const Fvector& C, const Fvector& D, Fvector* p, float& u, float& v, float& range, bool bCull);
+                        TestRayTriB(const Fvector& C, const Fvector& D, Fvector* p, float& u, float& v, float& range, bool bCull);
         ETOOLS_API bool TestRayTri2(const Fvector& C, const Fvector& D, Fvector* p, float& range);
 
         typedef void    pb_callback(void* user_data, float& val);
@@ -66,18 +66,18 @@ extern "C"
         ETOOLS_API CDB::RESULT* r_end();
         ETOOLS_API int          r_count();
         ETOOLS_API void         ray_options(u32 flags);
-        ETOOLS_API void ray_query(const CDB::MODEL* m_def, const Fvector& r_start, const Fvector& r_dir, float r_range);
-        ETOOLS_API void ray_query_m(
-            const Fmatrix&    inv_parent,
-            const CDB::MODEL* m_def,
-            const Fvector&    r_start,
-            const Fvector&    r_dir,
-            float             r_range);
+        ETOOLS_API void         ray_query(const CDB::MODEL* m_def, const Fvector& r_start, const Fvector& r_dir, float r_range);
+        ETOOLS_API void         ray_query_m(
+                    const Fmatrix&    inv_parent,
+                    const CDB::MODEL* m_def,
+                    const Fvector&    r_start,
+                    const Fvector&    r_dir,
+                    float             r_range);
         ETOOLS_API void box_options(u32 flags);
         ETOOLS_API void box_query(const CDB::MODEL* m_def, const Fvector& b_center, const Fvector& b_dim);
         ETOOLS_API void box_query_m(const Fmatrix& inv_parent, const CDB::MODEL* m_def, const Fbox& src);
 
-        ETOOLS_API int ogg_enc(const char* in_fn, const char* out_fn, float quality, void* comment, int comment_size);
+        ETOOLS_API int  ogg_enc(const char* in_fn, const char* out_fn, float quality, void* comment, int comment_size);
 
         ETOOLS_API bool intersect(
             const Fmatrix&     object_transform,

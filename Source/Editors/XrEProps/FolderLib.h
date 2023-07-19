@@ -1,5 +1,5 @@
 ﻿#pragma once
-template <class C, bool FolderAsItem = false> class FolderHelper
+template<class C, bool FolderAsItem = false> class FolderHelper
 {
 public:
     enum EFolderNodeType
@@ -43,7 +43,7 @@ public:
             N->Selected = true;
             return SelectObject(N, strchr(path, '\\') + 1);
         }
-        for (Node& node : N->Nodes)
+        for (Node& node: N->Nodes)
         {
             if (FolderAsItem)
             {
@@ -81,7 +81,7 @@ public:
             if (N == nullptr)
                 return nullptr;
         }
-        for (Node& node : N->Nodes)
+        for (Node& node: N->Nodes)
         {
             if (node.Name == path && node.IsObject())
                 return &node;
@@ -109,7 +109,7 @@ public:
                 return nullptr;
         }
 
-        for (Node& node : N->Nodes)
+        for (Node& node: N->Nodes)
         {
             if (node.Name == path)
                 return &node;
@@ -133,7 +133,7 @@ public:
             return FindFolder(FindFolder(N, name), strchr(path, '\\') + 1);
         }
 
-        for (Node& node : N->Nodes)
+        for (Node& node: N->Nodes)
         {
             if (node.Name == path && node.IsFolder())
                 return &node;
@@ -152,14 +152,14 @@ public:
             xr_strcpy(name, path);
             strchr(name, '\\')[0] = 0;
 
-            Node* NextNode = FindFolder(N, name);
+            Node* NextNode        = FindFolder(N, name);
             if (NextNode)
                 return AppendFolder(NextNode, strchr(path, '\\') + 1);
 
             return AppendFolder(AppendFolder(N, name), strchr(path, '\\') + 1);
         }
 
-        for (Node& node : N->Nodes)
+        for (Node& node: N->Nodes)
         {
             if (node.Name == path)
             {
@@ -203,8 +203,8 @@ public:
             string_path name;
             xr_strcpy(name, path);
 
-            char* slash = strchr(name, '\\');
-            *slash      = '\0';
+            char* slash    = strchr(name, '\\');
+            *slash         = '\0';
 
             Node* NextNode = FindFolder(N, name);
             if (NextNode)
@@ -213,7 +213,7 @@ public:
             return AppendObject(AppendFolder(N, name), strchr(path, '\\') + 1);
         }
 
-        for (Node& node : N->Nodes)
+        for (Node& node: N->Nodes)
         {
             if (node.Name == path)
             {
@@ -262,8 +262,8 @@ public:
     inline bool Move(Node* N, Node* Object, const char* new_path)
     {
         {
-            Node* ObjectNew = nullptr;
-            bool  IsFolder  = false;
+            Node*       ObjectNew = nullptr;
+            bool        IsFolder  = false;
 
             string_path old_path;
             GetFullPath(Object, old_path);
@@ -313,14 +313,14 @@ public:
     {
         if (N->Type == FNT_Root)
         {
-            for (Node& node : N->Nodes)
+            for (Node& node: N->Nodes)
             {
                 if (node.IsFolder() && IsDrawFolder(&node))
                 {
                     DrawNode(&node);
                 }
             }
-            for (Node& node : N->Nodes)
+            for (Node& node: N->Nodes)
             {
                 if (!node.IsFolder())
                 {
@@ -343,14 +343,14 @@ public:
                 DrawAfterFolderNode(true, N);
                 if (ImGui::IsItemClicked() && N->Object)
                     IsItemClicked(N);
-                for (Node& node : N->Nodes)
+                for (Node& node: N->Nodes)
                 {
                     if (node.IsFolder() && IsDrawFolder(&node))
                     {
                         DrawNode(&node);
                     }
                 }
-                for (Node& node : N->Nodes)
+                for (Node& node: N->Nodes)
                 {
                     if (!node.IsFolder())
                     {
@@ -400,7 +400,6 @@ public:
     virtual void IsItemClicked(Node* Node) {}
     virtual bool IsDrawFolder(Node* Node) = 0;
     virtual void DrawItem(Node* Node)     = 0;
-
 private:
     inline void SwapData(Node* Dst, Node* Src)
     {
@@ -410,7 +409,7 @@ private:
     }
     inline void RebuildPath(Node* N)
     {
-        for (Node& n : N->Nodes)
+        for (Node& n: N->Nodes)
         {
             string_path old_path, new_path;
             GetFullPath(&n, old_path);
@@ -439,7 +438,7 @@ private:
 
     inline void RemoveNode(Node* Object)
     {
-        for (Node& n : Object->Nodes)
+        for (Node& n: Object->Nodes)
         {
             string_path path;
             RemoveNode(&n);

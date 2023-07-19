@@ -6,7 +6,7 @@
 
 extern void Detach(vecFace* S);
 
-void setup_bbs(Fbox& b1, Fbox& b2, Fbox& bb, int edge)
+void        setup_bbs(Fbox& b1, Fbox& b2, Fbox& bb, int edge)
 {
     Fvector size;
     b1.set(bb);
@@ -110,7 +110,7 @@ void CBuild::xrPhase_Subdivide()
         // Process all faces and rearrange them
         u32 iteration_on_edge  = 0;   // up to 3
         u32 iteration_per_edge = 0;   // up to 10
-    resplit:
+resplit:
         s2.clear();
         s1.clear();
         iteration_per_edge++;

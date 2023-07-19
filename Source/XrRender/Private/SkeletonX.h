@@ -40,8 +40,8 @@ protected:
     ref_smem<vertBoned4W> Vertices4W;   // shared
     ref_smem<u16>         BonesUsed;    // actual bones which have influence on vertices
 
-    u16 RenderMode;
-    u16 ChildIDX;
+    u16                   RenderMode;
+    u16                   ChildIDX;
 
     // render-mode specifics
     union
@@ -56,21 +56,21 @@ protected:
         u32 RMS_bonecount;   // skinning, maximal bone ID
     };
 
-    void _Copy(CSkeletonX* V);
-    void _Render_soft(ref_geom& hGeom, u32 vCount, u32 iOffset, u32 pCount);
-    void _Render(ref_geom& hGeom, u32 vCount, u32 iOffset, u32 pCount);
-    void _Load(const char* N, IReader* data, u32& dwVertCount);
+    void         _Copy(CSkeletonX* V);
+    void         _Render_soft(ref_geom& hGeom, u32 vCount, u32 iOffset, u32 pCount);
+    void         _Render(ref_geom& hGeom, u32 vCount, u32 iOffset, u32 pCount);
+    void         _Load(const char* N, IReader* data, u32& dwVertCount);
 
     virtual void _Load_hw(Fvisual& V, void* data)                     = 0;
     virtual void _CollectBoneFaces(Fvisual* V, u32 iBase, u32 iCount) = 0;
 
-    void _FillVerticesSoft1W(
-        const Fmatrix&       view,
-        CSkeletonWallmark&   wm,
-        const Fvector&       normal,
-        float                size,
-        u16*                 indices,
-        CBoneData::FacesVec& faces);
+    void         _FillVerticesSoft1W(
+                const Fmatrix&       view,
+                CSkeletonWallmark&   wm,
+                const Fvector&       normal,
+                float                size,
+                u16*                 indices,
+                CBoneData::FacesVec& faces);
     void _FillVerticesSoft2W(
         const Fmatrix&       view,
         CSkeletonWallmark&   wm,
@@ -191,7 +191,6 @@ protected:
         u16                       bone_id,
         u32                       iBase,
         u32                       iCount) = 0;
-
 public:
     BOOL has_visible_bones();
     CSkeletonX()
@@ -213,14 +212,14 @@ public:
 
 #if defined(USE_DX10) || defined(USE_DX11)
 protected:
-    void _DuplicateIndices(const char* N, IReader* data);
+    void          _DuplicateIndices(const char* N, IReader* data);
 
     //	Index buffer replica since we can't read from index buffer in DX10
     ref_smem<u16> m_Indices;
 #endif   //	USE_DX10
 };
 
-template <typename T_vertex, typename T_buffer> BOOL pick_bone(
+template<typename T_vertex, typename T_buffer> BOOL pick_bone(
     T_buffer                  vertices,
     CKinematics*              Parent,
     IKinematics::pick_result& r,
@@ -250,7 +249,7 @@ template <typename T_vertex, typename T_buffer> BOOL pick_bone(
 }
 
 #if defined(USE_DX10) || defined(USE_DX11)
-template <typename T> BOOL pick_bone(
+template<typename T> BOOL pick_bone(
     CKinematics*              Parent,
     IKinematics::pick_result& r,
     float                     dist,
@@ -264,7 +263,7 @@ template <typename T> BOOL pick_bone(
     return FALSE;
 }
 #else USE_DX10
-template <typename T> BOOL pick_bone(
+template<typename T> BOOL pick_bone(
     CKinematics*              Parent,
     IKinematics::pick_result& r,
     float                     dist,

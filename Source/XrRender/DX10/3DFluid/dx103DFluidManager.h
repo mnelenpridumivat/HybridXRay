@@ -26,7 +26,6 @@ public:
         RENDER_TARGET_COLOR_IN,
         NUM_RENDER_TARGETS
     };
-
 public:
     dx103DFluidManager();
     ~dx103DFluidManager();
@@ -45,7 +44,7 @@ public:
     void RenderFluid(dx103DFluidData& FluidData);
 
     //		Interface for blenders
-    int GetTextureWidth() const
+    int  GetTextureWidth() const
     {
         return m_iTextureWidth;
     }
@@ -79,7 +78,6 @@ public:
     void DeregisterFluidData(dx103DFluidData* pData);
     void UpdateProfiles();
 #endif   //	DEBUG
-
 private:
     enum SimulationShader
     {
@@ -99,7 +97,6 @@ private:
 
         SS_NumShaders
     };
-
 private:
     //		Initialization
     void InitShaders();
@@ -125,9 +122,8 @@ private:
     void ComputePressure(float timestep);
     void ProjectVelocity(float timestep);
     void UpdateObstacles(const dx103DFluidData& FluidData, float timestep);
-
 private:
-    bool m_bInited;
+    bool                  m_bInited;
 
     DXGI_FORMAT           RenderTargetFormats[NUM_RENDER_TARGETS];
     ID3DRenderTargetView* pRenderTargetViews[NUM_RENDER_TARGETS];
@@ -135,7 +131,7 @@ private:
     static LPCSTR         m_pEngineTextureNames[NUM_RENDER_TARGETS];
     static LPCSTR         m_pShaderTextureNames[NUM_RENDER_TARGETS];
 
-    ref_selement m_SimulationTechnique[SS_NumShaders];
+    ref_selement          m_SimulationTechnique[SS_NumShaders];
 
     //
     dx103DFluidGrid*      m_pGrid;
@@ -144,18 +140,18 @@ private:
     dx103DFluidEmitters*  m_pEmittersHandler;
 
     //	Simulation options
-    int   m_nIterations;
-    bool  m_bUseBFECC;
-    float m_fSaturation;
-    bool  m_bAddDensity;
-    float m_fImpulseSize;
-    float m_fConfinementScale;
-    float m_fDecay;
+    int                   m_nIterations;
+    bool                  m_bUseBFECC;
+    float                 m_fSaturation;
+    bool                  m_bAddDensity;
+    float                 m_fImpulseSize;
+    float                 m_fConfinementScale;
+    float                 m_fDecay;
 
     //	Volume textures dimensions
-    int m_iTextureWidth;
-    int m_iTextureHeight;
-    int m_iTextureDepth;
+    int                   m_iTextureWidth;
+    int                   m_iTextureHeight;
+    int                   m_iTextureDepth;
 
 //	Allow real-time config reload
 #ifdef DEBUG

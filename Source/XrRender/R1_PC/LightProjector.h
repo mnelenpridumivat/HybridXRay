@@ -11,10 +11,10 @@
 class CLightProjector: public pureAppActivate
 {
 private:
-    static const int P_rt_size = 512;
-    static const int P_o_size  = 51;
-    static const int P_o_line  = P_rt_size / P_o_size;
-    static const int P_o_count = P_o_line * P_o_line;
+    static const int               P_rt_size = 512;
+    static const int               P_o_size  = 51;
+    static const int               P_o_line  = P_rt_size / P_o_size;
+    static const int               P_o_count = P_o_line * P_o_line;
 
     //
     typedef R_dsgraph::_MatrixItem NODE;
@@ -29,18 +29,16 @@ private:
         DWORD        dwFrame;
         DWORD        dwTimeValid;
     };
-
 private:
     IRenderable*            current;
     xr_vector<recv>         cache;   // same as number of slots
     xr_vector<IRenderable*> receivers;
     xr_vector<int>          taskid;
 
-    ref_rt     RT;
-    shared_str c_xform;
-    shared_str c_clamp;
-    shared_str c_factor;
-
+    ref_rt                  RT;
+    shared_str              c_xform;
+    shared_str              c_clamp;
+    shared_str              c_factor;
 public:
     void set_object(IRenderable* O);
     BOOL shadowing()
@@ -54,7 +52,7 @@ public:
         receivers.clear();
         taskid.clear();
     }
-    void invalidate();
+    void         invalidate();
 
     virtual void OnAppActivate();
 #ifdef DEBUG

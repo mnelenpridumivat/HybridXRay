@@ -5,9 +5,9 @@ static occTri* currentTri = 0;
 static u32     dwPixels   = 0;
 static float   currentA[3], currentB[3], currentC[3];
 
-const int BOTTOM = 0, TOP = 1;
+const int      BOTTOM = 0, TOP = 1;
 
-void i_order(float* A, float* B, float* C)
+void           i_order(float* A, float* B, float* C)
 {
     float *min, *max, *mid;
     if (A[1] <= B[1])
@@ -96,14 +96,14 @@ IC BOOL lesser(float& a, float& b)
 const float one_div_3 = 1.f / 3.f;
 
 // Rasterize a scan line between given X point values, corresponding Z values and current color
-void i_scan(int curY, float leftX, float lhx, float rightX, float rhx, float startZ, float endZ)
+void        i_scan(int curY, float leftX, float lhx, float rightX, float rhx, float startZ, float endZ)
 {
     // calculate span(s)
     float start_c = leftX + lhx;
     float end_c   = rightX + rhx;
 
-    float startR = leftX - lhx;
-    float endR   = rightX - rhx;
+    float startR  = leftX - lhx;
+    float endR    = rightX - rhx;
 
     float startT = startR, endT = end_c;
     float startX = start_c, endX = endR;
@@ -156,9 +156,9 @@ void i_scan(int curY, float leftX, float lhx, float rightX, float rhx, float sta
     float*   pDepth = Raster.get_depth();
 
     // left connector
-    int i_base = curY * occ_dim;
-    int i      = i_base + minT;
-    int limit  = i_base + limLeft;
+    int      i_base = curY * occ_dim;
+    int      i      = i_base + minT;
+    int      limit  = i_base + limLeft;
     for (; i < limit; i++, Z += dZ)
     {
         if (shared(currentTri, pFrame[i - 1]))
@@ -214,13 +214,13 @@ IC void i_test_micro(int x, int y)
         return;
     else if (y >= occ_dim - 1)
         return;
-    int pos      = y * occ_dim + x;
-    int pos_up   = pos - occ_dim;
-    int pos_down = pos + occ_dim;
+    int      pos      = y * occ_dim + x;
+    int      pos_up   = pos - occ_dim;
+    int      pos_down = pos + occ_dim;
 
-    occTri** pFrame = Raster.get_frame();
-    occTri*  T1     = pFrame[pos_up];
-    occTri*  T2     = pFrame[pos_down];
+    occTri** pFrame   = Raster.get_frame();
+    occTri*  T1       = pFrame[pos_up];
+    occTri*  T2       = pFrame[pos_down];
     if (T1 && shared(T1, T2))
     {
         float* pDepth = Raster.get_depth();
@@ -350,8 +350,8 @@ IC void i_section(int Sect, BOOL bMiddle)
         return;
 
     // Compute the inverse slopes of the lines, ie rate of change of X by Y
-    float mE1 = E1[0] / E1[1];
-    float mE2 = E2[0] / E2[1];
+    float mE1        = E1[0] / E1[1];
+    float mE2        = E2[0] / E2[1];
 
     // Initial Y offset for left and right (due to pixel rounding)
     float e1_init_dY = float(startY) - startp1[1], e2_init_dY = float(startY) - startp2[1];
@@ -362,11 +362,11 @@ IC void i_section(int Sect, BOOL bMiddle)
     {
         // E1 is on the Left
         // Initial Starting values for left (from E1)
-        t       = e1_init_dY / E1[1];   // Initial fraction of offset
-        leftX   = startp1[0] + E1[0] * t;
-        left_dX = mE1;
-        leftZ   = startp1[2] + E1[2] * t;
-        left_dZ = E1[2] / E1[1];
+        t        = e1_init_dY / E1[1];   // Initial fraction of offset
+        leftX    = startp1[0] + E1[0] * t;
+        left_dX  = mE1;
+        leftZ    = startp1[2] + E1[2] * t;
+        left_dZ  = E1[2] / E1[1];
 
         // Initial Ending values for right	(from E2)
         t        = e2_init_dY / E2[1];   // Initial fraction of offset
@@ -379,11 +379,11 @@ IC void i_section(int Sect, BOOL bMiddle)
     {
         // E2 is on left
         // Initial Starting values for left (from E2)
-        t       = e2_init_dY / E2[1];   // Initial fraction of offset
-        leftX   = startp2[0] + E2[0] * t;
-        left_dX = mE2;
-        leftZ   = startp2[2] + E2[2] * t;
-        left_dZ = E2[2] / E2[1];
+        t        = e2_init_dY / E2[1];   // Initial fraction of offset
+        leftX    = startp2[0] + E2[0] * t;
+        left_dX  = mE2;
+        leftZ    = startp2[2] + E2[2] * t;
+        left_dZ  = E2[2] / E2[1];
 
         // Initial Ending values for right	(from E1)
         t        = e1_init_dY / E1[1];   // Initial fraction of offset
@@ -395,7 +395,7 @@ IC void i_section(int Sect, BOOL bMiddle)
 
     // Now scan all lines in this section
     float lhx = left_dX / 2;
-    leftX += lhx;   // half pixel
+    leftX += lhx;    // half pixel
     float rhx = right_dX / 2;
     rightX += rhx;   // half pixel
     for (; startY <= endY; startY++)

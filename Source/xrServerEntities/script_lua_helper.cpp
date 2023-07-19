@@ -5,7 +5,8 @@
 CDbgLuaHelper* CDbgLuaHelper::m_pThis = NULL;
 lua_State*     CDbgLuaHelper::L       = NULL;
 
-CDbgLuaHelper::CDbgLuaHelper(CScriptDebugger* d): m_debugger(d)
+CDbgLuaHelper::CDbgLuaHelper(CScriptDebugger* d):
+    m_debugger(d)
 {
     m_pThis = this;
 }
@@ -72,8 +73,8 @@ int CDbgLuaHelper::errormessageLua(lua_State* l)
 {
     if (!m_pThis)
         return 0;
-    L         = l;
-    int level = 1; /* skip level 0 (it's this function) */
+    L                   = l;
+    int       level     = 1; /* skip level 0 (it's this function) */
 
     int       firstpart = 1; /* still before eventual `...' */
     lua_Debug ar;
@@ -114,8 +115,9 @@ int CDbgLuaHelper::errormessageLua(lua_State* l)
             case 'm': /* method */
                 lua_pushfstring(L, " in function `%s'", ar.name);
                 break;
-            default: {
-                if (*ar.what == 'm') /* main? */
+            default:
+            {
+                if (*ar.what == 'm')      /* main? */
                     lua_pushfstring(L, " in main chunk");
                 else if (*ar.what == 'C') /* C function? */
                     lua_pushfstring(L, "%s", ar.short_src);
@@ -165,7 +167,7 @@ void CDbgLuaHelper::func_hook(lua_State* l, lua_Debug* ar)
     if (!m_pThis)
         return;
     lua_getinfo(L, "lnuS", ar);
-    m_pThis->m_pAr = ar;
+    m_pThis->m_pAr       = ar;
 
     const char* szSource = NULL;
     if (ar->source[0] == '@')
@@ -325,7 +327,7 @@ void CDbgLuaHelper::DrawGlobalVariables()
         //		CScriptDebugger::GetDebugger()->AddLocalVariable(var, "global", "_g_");
         lua_pop(L, 1);   // pop value, keep key for next iteration;
     }
-    lua_pop(L, 1);   // pop table of globals;
+    lua_pop(L, 1);       // pop table of globals;
 };
 
 bool CDbgLuaHelper::GetCalltip(const char* szWord, char* szCalltip, int sz_calltip)
@@ -370,7 +372,7 @@ bool CDbgLuaHelper::GetCalltip(const char* szWord, char* szCalltip, int sz_callt
 
         lua_pop(L, 1);   // pop value, keep key for next iteration;
     }
-    lua_pop(L, 1);   // pop table of globals;
+    lua_pop(L, 1);       // pop table of globals;
 
     return false;
 }
@@ -445,7 +447,7 @@ void CDbgLuaHelper::CoverGlobals()
             lua_insert(L, -4);               /* SAVE name lvalue name name */
             lua_rawget(L, LUA_GLOBALSINDEX); /* SAVE name lvalue name gvalue */
 
-            lua_rawset(L, -5);   // save global value in local table
+            lua_rawset(L, -5);               // save global value in local table
             /* SAVE name lvalue */
 
             lua_rawset(L, LUA_GLOBALSINDEX); /* SAVE */
@@ -459,10 +461,10 @@ void CDbgLuaHelper::RestoreGlobals()
 
     lua_pushnil(L); /* first key */
     /* SAVE nil */
-    while (lua_next(L, -2)) /* SAVE key value */
+    while (lua_next(L, -2))                /* SAVE key value */
     {
-        lua_pushvalue(L, -2); /* SAVE key value key */
-        lua_insert(L, -2);    /* SAVE key key value */
+        lua_pushvalue(L, -2);              /* SAVE key value key */
+        lua_insert(L, -2);                 /* SAVE key key value */
 
         lua_rawset(L, LUA_GLOBALSINDEX);   // restore global
                                            /* SAVE key */

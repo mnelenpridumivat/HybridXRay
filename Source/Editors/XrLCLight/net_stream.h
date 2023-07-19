@@ -28,7 +28,6 @@ class CReadMemoryBlock
     mutable u8* _buffer;
     const u32   buf_size;
     mutable u32 position;
-
 public:
     CReadMemoryBlock(const u32 buf_size_, u8* buffer);
     ~CReadMemoryBlock();
@@ -128,7 +127,6 @@ public:
         return buffer_size - tell();
     }
     void w(const void* ptr, u32 count);
-
 public:
     void clear()
     {
@@ -138,7 +136,6 @@ public:
     {
         return 0 == position;
     }
-
 private:
     u32 tell()
     {
@@ -153,12 +150,11 @@ private:
 class CFileWriteBlock: public IWriteBlock
 {
     //	IWriter								*file;
-    FILE* file;
-    FILE* file_map;
+    FILE*  file;
+    FILE*  file_map;
     //	CVirtualFileRW						*file_map					;
     LPCSTR file_name;
     bool   reopen;
-
 public:
     CFileWriteBlock(LPCSTR fn, u32 _size, bool _reopen);
     ~CFileWriteBlock();
@@ -212,11 +208,10 @@ public:
 
     virtual void r(void* p, int cnt) = 0;
 
-    void r_string(char* dest, u32 tgt_sz);
-    void r_stringZ(char* dest);
-    void r_stringZ(shared_str& dest);
-    u32  find_chunk(u32 ID, BOOL* bCompressed = 0);
-
+    void         r_string(char* dest, u32 tgt_sz);
+    void         r_stringZ(char* dest);
+    void         r_stringZ(shared_str& dest);
+    u32          find_chunk(u32 ID, BOOL* bCompressed = 0);
 private:
     typedef IReaderBase<INetReader> inherited;
 };
@@ -224,12 +219,10 @@ private:
 class XRLC_LIGHT_API INetReaderFile: public INetReader
 {
     FILE* file;
-
 public:
     INetReaderFile(LPCSTR file);
 
     virtual ~INetReaderFile();
-
 private:
     virtual void r(void* p, int cnt);
 };
@@ -271,7 +264,6 @@ class XRLC_LIGHT_API INetMemoryBuffWriter: public IWriter, public byte_count
     IGenericStream*   stream;
     u32               net_block_write_data_size;
     CMemoryWriteBlock mem_writter;
-
 public:
     INetMemoryBuffWriter(IGenericStream* _stream, u32 _block_size, u8* buffer):
         mem_writter(buffer, _block_size), stream(_stream), net_block_write_data_size(_block_size)
@@ -279,12 +271,10 @@ public:
         // VERIFY(stream);
     }
     ~INetMemoryBuffWriter();
-
 private:
     //	void					create_block			();
     void w(const void* ptr, u32 count);
     void send_and_clear();
-
 private:
     virtual void seek(u32 pos)
     {
@@ -316,11 +306,9 @@ class XRLC_LIGHT_API INetIWriterGenStream: public IWriter
 {
     IGenericStream* stream;
     u32             block_size;
-
 public:
     INetIWriterGenStream(IGenericStream* _stream, u32 inital_size);
     virtual ~INetIWriterGenStream();
-
 private:
     virtual void w(const void* ptr, u32 count);
     virtual void seek(u32 pos)
@@ -341,7 +329,6 @@ private:
 class XRLC_LIGHT_API INetBlockReader: public INetReaderGenStream
 {
     CReadMemoryBlock mem_reader;
-
 public:
     INetBlockReader(IGenericStream* _stream, u8* buffer, u32 _size_buffer):
         INetReaderGenStream(_stream), mem_reader(_size_buffer, buffer)
@@ -351,7 +338,6 @@ public:
     void         load_buffer(LPCSTR fn);
     virtual void r(void* p, int cnt);
     virtual ~INetBlockReader();
-
 private:
     //	u32				_block_size;
     //	u8				*&_buffer;
@@ -365,11 +351,9 @@ class CGenStreamOnFile: public IGenericStream
 {
     // FILE					*file;
     CVirtualFileRW* file;
-
 public:
     CGenStreamOnFile(CVirtualFileRW* _file);
     ~CGenStreamOnFile();
-
 private:
     //======== BEGIN COM INTERFACE =======
     IUNKNOWN_METHODS_IMPLEMENTATION_INSTANCE()

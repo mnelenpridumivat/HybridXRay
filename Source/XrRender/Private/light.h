@@ -14,43 +14,43 @@ class light: public IRender_Light, public ISpatial
 public:
     struct
     {
-        u32 type : 4;
-        u32 bStatic : 1;
-        u32 bActive : 1;
-        u32 bShadow : 1;
-        u32 bVolumetric : 1;
-        u32 bHudMode : 1;
+        u32 type       :4;
+        u32 bStatic    :1;
+        u32 bActive    :1;
+        u32 bShadow    :1;
+        u32 bVolumetric:1;
+        u32 bHudMode   :1;
 
     } flags;
-    Fvector position;
-    Fvector direction;
-    Fvector right;
-    float   range;
-    float   cone;
-    Fcolor  color;
+    Fvector  position;
+    Fvector  direction;
+    Fvector  right;
+    float    range;
+    float    cone;
+    Fcolor   color;
 
     vis_data hom;
     u32      frame_render;
 
-    float m_volumetric_quality;
-    float m_volumetric_intensity;
-    float m_volumetric_distance;
+    float    m_volumetric_quality;
+    float    m_volumetric_intensity;
+    float    m_volumetric_distance;
 
 #if (RENDER == R_R2) || (RENDER == R_R3) || (RENDER == R_R4)
-    float falloff;        // precalc to make light equal to zero at light range
-    float attenuation0;   // Constant attenuation
-    float attenuation1;   // Linear attenuation
-    float attenuation2;   // Quadratic attenuation
+    float                     falloff;        // precalc to make light equal to zero at light range
+    float                     attenuation0;   // Constant attenuation
+    float                     attenuation1;   // Linear attenuation
+    float                     attenuation2;   // Quadratic attenuation
 
     light*                    omnipart[6];
     xr_vector<light_indirect> indirect;
     u32                       indirect_photons;
 
-    smapvis svis;   // used for 6-cubemap faces
+    smapvis                   svis;   // used for 6-cubemap faces
 
-    ref_shader s_spot;
-    ref_shader s_point;
-    ref_shader s_volumetric;
+    ref_shader                s_spot;
+    ref_shader                s_point;
+    ref_shader                s_volumetric;
 
 #if (RENDER == R_R3) || (RENDER == R_R4)
     ref_shader s_spot_msaa[8];
@@ -99,7 +99,6 @@ public:
         } S;
     } X;
 #endif   //	(RENDER==R_R2) || (RENDER==R_R3) || (RENDER==R_R4)
-
 public:
     virtual void set_type(LT type)
     {
@@ -155,8 +154,8 @@ public:
         return flags.bHudMode;
     };
 
-    virtual void    spatial_move();
-    virtual Fvector spatial_sector_point();
+    virtual void           spatial_move();
+    virtual Fvector        spatial_sector_point();
 
     virtual IRender_Light* dcast_Light()
     {

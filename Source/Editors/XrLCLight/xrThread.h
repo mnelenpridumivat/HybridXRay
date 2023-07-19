@@ -3,7 +3,6 @@
 class XRLC_LIGHT_API CThread
 {
     static void startup(void* P);
-
 public:
     volatile u32   thID;
     volatile float thProgress;
@@ -33,7 +32,6 @@ public:
 class XRLC_LIGHT_API CThreadManager
 {
     xr_vector<CThread*> threads;
-
 public:
     void start(CThread* T);
     void wait(u32 sleep_time = 1000);

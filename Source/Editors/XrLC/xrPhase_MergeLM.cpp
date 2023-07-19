@@ -10,7 +10,7 @@
 extern void _InitSurface();
 extern BOOL _rect_place(L_rect& r, lm_layer* D);
 
-IC int compare_defl(CDeflector* D1, CDeflector* D2)
+IC int      compare_defl(CDeflector* D1, CDeflector* D2)
 {
     // First  - by material
     u16 M1 = D1->GetBaseMaterial();
@@ -71,7 +71,7 @@ IC bool sort_defl_complex(CDeflector* D1, CDeflector* D2)
     switch (sort_defl_analyze(D1, D2))
     {
         case 1:
-            return true;   // 1st is better
+            return true;    // 1st is better
         case 2:
             return false;   // 2nd is better
         case 0:

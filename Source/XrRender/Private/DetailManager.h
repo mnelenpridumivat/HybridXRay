@@ -14,7 +14,7 @@
 //.	#include	"ESceneClassList.h"
 const int dm_max_decompress = 14;
 class CCustomObject;
-typedef u32 ObjClassID;
+typedef u32                            ObjClassID;
 
 typedef xr_list<CCustomObject*>        ObjectList;
 typedef ObjectList::iterator           ObjectIt;
@@ -67,9 +67,9 @@ public:
     {   // ������������ ���� �������� DETAIL_SLOT_SIZE
         struct
         {
-            u32 empty : 1;
-            u32 type : 1;
-            u32 frame : 30;
+            u32 empty:1;
+            u32 type :1;
+            u32 frame:30;
         };
         int      sx, sz;              // ���������� ����� X x Y
         vis_data vis;                 //
@@ -100,10 +100,8 @@ public:
     typedef svector<CDetail*, dm_max_objects>  DetailVec;
     typedef DetailVec::iterator                DetailIt;
     typedef poolSS<SlotItem, 4096>             PSS;
-
 public:
     int dither[16][16];
-
 public:
     // swing values
     struct SSwingValue
@@ -121,13 +119,11 @@ public:
     float       m_time_rot_2;
     float       m_time_pos;
     float       m_global_time_old;
-
 public:
     IReader*     dtFS;
     DetailHeader dtH;
     DetailSlot*  dtSlots;   // note: pointer into VFS
     DetailSlot   DS_empty;
-
 public:
     DetailVec objects;
     vis_list  m_visibles[3];   // 0=still, 1=Wave1, 2=Wave2
@@ -142,11 +138,10 @@ public:
     int                           cache_cx;
     int                           cache_cz;
 
-    PSS poolSI;   // pool �� �������� ���������� SlotItem
+    PSS                           poolSI;   // pool �� �������� ���������� SlotItem
 
-    void UpdateVisibleM();
-    void UpdateVisibleS();
-
+    void                          UpdateVisibleM();
+    void                          UpdateVisibleS();
 public:
 #ifdef REDITOR
     virtual ObjectList* GetSnapList() = 0;
@@ -158,10 +153,10 @@ public:
     }
 
     // Software processor
-    ref_geom soft_Geom;
-    void     soft_Load();
-    void     soft_Unload();
-    void     soft_Render();
+    ref_geom          soft_Geom;
+    void              soft_Load();
+    void              soft_Unload();
+    void              soft_Render();
 
     // Hardware processor
     ref_geom          hw_Geom;
@@ -185,19 +180,18 @@ public:
 #else    //	USE_DX10
     void hw_Render_dump(ref_constant array, u32 var_id, u32 lod_id, u32 c_base);
 #endif   //	USE_DX10
-
 public:
     // get unpacked slot
     DetailSlot& QueryDB(int sx, int sz);
 
-    void  cache_Initialize();
-    void  cache_Update(int sx, int sz, Fvector& view, int limit);
-    void  cache_Task(int gx, int gz, Slot* D);
-    Slot* cache_Query(int sx, int sz);
-    void  cache_Decompress(Slot* D);
-    BOOL  cache_Validate();
+    void        cache_Initialize();
+    void        cache_Update(int sx, int sz, Fvector& view, int limit);
+    void        cache_Task(int gx, int gz, Slot* D);
+    Slot*       cache_Query(int sx, int sz);
+    void        cache_Decompress(Slot* D);
+    BOOL        cache_Validate();
     // cache grid to world
-    int cg2w_X(int x)
+    int         cg2w_X(int x)
     {
         return cache_cx - dm_size + x;
     }
@@ -215,17 +209,17 @@ public:
         return cache_cz - dm_size + (dm_cache_line - 1 - z);
     }
 
-    void Load();
-    void Unload();
-    void Render();
+    void              Load();
+    void              Unload();
+    void              Render();
 
     /// MT stuff
     xrCriticalSection MT;
     volatile u32      m_frame_calc;
     volatile u32      m_frame_rendered;
 
-    void     MT_CALC();
-    ICF void MT_SYNC()
+    void              MT_CALC();
+    ICF void          MT_SYNC()
     {
         if (m_frame_calc == Device->dwFrame)
             return;

@@ -18,7 +18,7 @@
 #endif   // #ifdef XRGAME_EXPORTS
 
 #pragma warning(push)
-#pragma warning(disable : 4005)
+#pragma warning(disable:4005)
 
 #ifdef XRGAME_EXPORTS
 class CALifeSimulator;
@@ -93,9 +93,9 @@ virtual void vfUpdateWeaponAmmo(){};
 virtual void vfProcessItems(){};
 virtual void vfAttachItems(ALife::ETakeType tTakeType = ALife::eTakeTypeAll){};
 virtual ALife::EMeetActionType
-             tfGetActionType(CSE_ALifeSchedulable* tpALifeSchedulable, int iGroupIndex, bool bMutualDetection) = 0;
-virtual bool bfActive()                                                                                        = 0;
-virtual CSE_ALifeDynamicObject* tpfGetBestDetector()                                                           = 0;
+                                tfGetActionType(CSE_ALifeSchedulable* tpALifeSchedulable, int iGroupIndex, bool bMutualDetection) = 0;
+virtual bool                    bfActive()                                                                                        = 0;
+virtual CSE_ALifeDynamicObject* tpfGetBestDetector()                                                                              = 0;
 #endif
 }
 ;
@@ -211,16 +211,14 @@ SERVER_ENTITY_DECLARE_END
 add_to_type_list(CSE_ALifeGroupAbstract)
 #define script_type_list save_type_list(CSE_ALifeGroupAbstract)
 
-    template <class __A>
+    template<class __A>
     class CSE_ALifeGroupTemplate: public __A, public CSE_ALifeGroupAbstract
 {
     typedef __A                    inherited1;
     typedef CSE_ALifeGroupAbstract inherited2;
-
 public:
     CSE_ALifeGroupTemplate(LPCSTR caSection):
-        __A(pSettings->line_exist(caSection, "monster_section") ? pSettings->r_string(caSection, "monster_section") :
-                                                                  caSection),
+        __A(pSettings->line_exist(caSection, "monster_section") ? pSettings->r_string(caSection, "monster_section") : caSection),
         CSE_ALifeGroupAbstract(caSection){};
 
     virtual ~CSE_ALifeGroupTemplate(){};
@@ -383,7 +381,6 @@ virtual CSE_Abstract* cast_abstract()
 {
     return this;
 }
-
 public:
 SERVER_ENTITY_DECLARE_END
 add_to_type_list(CSE_ALifePHSkeletonObject)
@@ -462,7 +459,7 @@ virtual bool                    bfActive();
 virtual CSE_ALifeItemWeapon*    tpfGetBestWeapon(ALife::EHitType& tHitType, float& fHitPower);
 virtual CSE_ALifeDynamicObject* tpfGetBestDetector();
 virtual ALife::EMeetActionType
-    tfGetActionType(CSE_ALifeSchedulable* tpALifeSchedulable, int iGroupIndex, bool bMutualDetection);
+             tfGetActionType(CSE_ALifeSchedulable* tpALifeSchedulable, int iGroupIndex, bool bMutualDetection);
 // additional functionality
 virtual bool enabled(CSE_ALifeMonsterAbstract* object) const
 {
@@ -506,7 +503,6 @@ static const u32 m_update_delta_time;
 #endif
 static const u32 random_limit;
 CRandom          m_relevent_random;
-
 public:
 enum
 {
@@ -519,16 +515,16 @@ union mask_num_items
 {
     struct
     {
-        u8 num_items : 5;
-        u8 mask : 3;
+        u8 num_items:5;
+        u8 mask     :3;
     };
     u8 common;
 };
 /////////// network ///////////////
-u8          m_u8NumItems;
-bool        prev_freezed;
-bool        freezed;
-SPHNetState State;
+u8           m_u8NumItems;
+bool         prev_freezed;
+bool         freezed;
+SPHNetState  State;
 
 virtual BOOL Net_Relevant();
 
@@ -550,7 +546,7 @@ enum
     flVolumetric   = (1 << 6),
 };
 
-Flags16 flags;
+Flags16    flags;
 // light color
 u32        color;
 float      brightness;
@@ -558,27 +554,27 @@ shared_str color_animator;
 // light texture
 shared_str light_texture;
 // range
-float range;
-float m_virtual_size;
+float      range;
+float      m_virtual_size;
 // bones&motions
 shared_str light_ambient_bone;
 shared_str light_main_bone;
 shared_str fixed_bones;
 // spot
-float spot_cone_angle;
+float      spot_cone_angle;
 // ambient
 float      m_ambient_radius;
 float      m_ambient_power;
 shared_str m_ambient_texture;
 //	volumetric
-float m_volumetric_quality;
-float m_volumetric_intensity;
-float m_volumetric_distance;
+float      m_volumetric_quality;
+float      m_volumetric_intensity;
+float      m_volumetric_distance;
 // glow
 shared_str glow_texture;
 float      glow_radius;
 // game
-float m_health;
+float      m_health;
 
 CSE_ALifeObjectHangingLamp(LPCSTR caSection);
 virtual ~CSE_ALifeObjectHangingLamp();
@@ -653,7 +649,6 @@ virtual CSE_Abstract* cast_abstract()
 {
     return this;
 }
-
 protected:
 virtual void data_load(NET_Packet& tNetPacket);
 virtual void data_save(NET_Packet& tNetPacket);

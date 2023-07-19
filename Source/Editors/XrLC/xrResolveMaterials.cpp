@@ -78,12 +78,12 @@ void CBuild::ResolveMaterials()
     Status("Partial adjacement reduction...");
     Fbox bb;
     bb.invalidate();
-    Fvector size;
+    Fvector         size;
 
     xr_vector<Fbox> bbox;
     xr_vector<int>  id;
 
-    float merge_lim = c_SS_maxsize * g_params.m_SS_merge_coeff;
+    float           merge_lim = c_SS_maxsize * g_params.m_SS_merge_coeff;
     for (int X = 0; X < int(g_XSplit.size()); X++)
     {
         // calc bounding box

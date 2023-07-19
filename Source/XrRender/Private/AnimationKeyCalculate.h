@@ -14,7 +14,7 @@ struct ConsistantKey
     const CKey* K;
     float       w;
 
-    IC void set(const CKey* _K, float _w)
+    IC void     set(const CKey* _K, float _w)
     {
         K = _K;
         w = _w;
@@ -201,7 +201,8 @@ IC void MixInterlerp(CKey& Result, const CKey* R, const CBlend* const BA[MAX_BLE
             }
             */
             break;
-        case 2: {
+        case 2:
+        {
             float w0 = BA[0]->blendAmount;
             float w1 = BA[1]->blendAmount;
             float ws = w0 + w1;
@@ -229,7 +230,8 @@ IC void MixInterlerp(CKey& Result, const CKey* R, const CBlend* const BA[MAX_BLE
             */
         }
         break;
-        default: {
+        default:
+        {
             // int 	count 	= Blend.size();
             float         total = 0;
             ConsistantKey S[MAX_BLENDED];
@@ -354,7 +356,7 @@ IC float DET(const Fmatrix& a)
 {
     return (
         (a._11 * (a._22 * a._33 - a._23 * a._32) - a._12 * (a._21 * a._33 - a._23 * a._31) +
-         a._13 * (a._21 * a._32 - a._22 * a._31)));
+            a._13 * (a._21 * a._32 - a._22 * a._31)));
 }
 
 IC bool check_scale(const Fmatrix& m)
@@ -402,7 +404,7 @@ IC void process_single_channel(
 IC void MixChannels(CKey& Result, const CKey* R, const animation::channel_def* BA, int b_count)
 {
     VERIFY(b_count > 0);
-    Result = R[0];
+    Result                = R[0];
 
     // MixinAdd(Result,R,BA,b_count);
     float lerp_factor_sum = 0.f;

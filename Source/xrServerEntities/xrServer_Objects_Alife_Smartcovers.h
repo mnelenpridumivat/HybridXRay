@@ -12,7 +12,7 @@
 #include "xrServer_Objects_ALife.h"
 
 #pragma warning(push)
-#pragma warning(disable : 4005)
+#pragma warning(disable:4005)
 
 class CSE_ALifeDynamicObject;
 
@@ -45,14 +45,12 @@ luabind::object m_available_loopholes;
 private:
 typedef xr_vector<visual_data> visuals_collection;
 
-void OnChangeDescription(PropValue* sender);
-void OnChangeLoopholes(PropValue* sender);
-void set_loopholes_table_checker(BOOLValue* value);
-
+void                           OnChangeDescription(PropValue* sender);
+void                           OnChangeLoopholes(PropValue* sender);
+void                           set_loopholes_table_checker(BOOLValue* value);
 private:
 mutable visuals_collection m_visuals;
 #endif   // #ifdef XRSEFACTORY_EXPORTS
-
 public:
 CSE_SmartCover(LPCSTR caSection);
 virtual ~CSE_SmartCover();
@@ -83,7 +81,6 @@ virtual u32 visual_collection_size() const
     return m_visuals.size();
 }
 #endif   // #ifdef XRSEFACTORY_EXPORTS
-
 private:
 void check_enterable_loopholes(shared_str const& description);
 void set_enterable(shared_str const& id);

@@ -1,10 +1,10 @@
 ﻿#include "stdafx.h"
 #include "resource.h"
 
-static HWND hw;
-extern HWND logWindow;
+static HWND      hw;
+extern HWND      logWindow;
 
-void InternalRender() {}
+void             InternalRender() {}
 
 LRESULT CALLBACK disp_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -44,7 +44,7 @@ void disp_point(int x, int y)
 {
     HDC hdc;
 
-    hdc = GetDC(hw);
+    hdc    = GetDC(hw);
 
     u32 C  = RGB(0, 0, 0);
     int _x = x * 2, _y = y * 2;

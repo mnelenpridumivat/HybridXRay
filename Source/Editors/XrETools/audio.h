@@ -54,18 +54,18 @@ typedef struct
 
 typedef wavfile aifffile; /* They're the same */
 
-input_format* open_audio_file(FILE* in, oe_enc_opt* opt);
+input_format*   open_audio_file(FILE* in, oe_enc_opt* opt);
 
-int  raw_open(FILE* in, oe_enc_opt* opt);
-int  wav_open(FILE* in, oe_enc_opt* opt, unsigned char* buf, int buflen);
-int  aiff_open(FILE* in, oe_enc_opt* opt, unsigned char* buf, int buflen);
-int  wav_id(unsigned char* buf, int len);
-int  aiff_id(unsigned char* buf, int len);
-void wav_close(void*);
-void raw_close(void*);
+int             raw_open(FILE* in, oe_enc_opt* opt);
+int             wav_open(FILE* in, oe_enc_opt* opt, unsigned char* buf, int buflen);
+int             aiff_open(FILE* in, oe_enc_opt* opt, unsigned char* buf, int buflen);
+int             wav_id(unsigned char* buf, int len);
+int             aiff_id(unsigned char* buf, int len);
+void            wav_close(void*);
+void            raw_close(void*);
 
-long wav_read(void*, float** buffer, int samples);
-long wav_ieee_read(void*, float** buffer, int samples);
-long raw_read_stereo(void*, float** buffer, int samples);
+long            wav_read(void*, float** buffer, int samples);
+long            wav_ieee_read(void*, float** buffer, int samples);
+long            raw_read_stereo(void*, float** buffer, int samples);
 
 #endif /* __AUDIO_H */

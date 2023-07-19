@@ -10,7 +10,7 @@
 extern void          logThread(void* dummy);
 extern volatile BOOL bClose;
 
-static const char* h_str =
+static const char*   h_str =
     "The following keys are supported / required:\n"
     "-? or -h	== this help\n"
     "-f<NAME>	== compile level in gamedata\\levels\\<NAME>\\\n"

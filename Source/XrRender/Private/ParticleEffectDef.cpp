@@ -20,9 +20,9 @@ using namespace PS;
 CPEDef::CPEDef()
 {
     m_Frame.InitDefault();
-    m_MaxParticles = 0;
-    m_CachedShader = 0;
-    m_fTimeLimit   = 0.f;
+    m_MaxParticles             = 0;
+    m_CachedShader             = 0;
+    m_fTimeLimit               = 0.f;
     // collision
     m_fCollideOneMinusFriction = 1.f;
     m_fCollideResilience       = 0.f;
@@ -132,8 +132,8 @@ void CPEDef::ExecuteCollision(
     {
         Particle& m = particles[i];
 
-        bool pick_needed;
-        int  pick_cnt = 0;
+        bool      pick_needed;
+        int       pick_cnt = 0;
         do
         {
             pick_needed = false;
@@ -197,7 +197,8 @@ void CPEDef::ExecuteCollision(
             {
                 m.pos = m.posB;
             }
-        } while (pick_needed && (pick_cnt < 2));
+        }
+        while (pick_needed && (pick_cnt < 2));
     }
 }
 

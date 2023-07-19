@@ -1,9 +1,9 @@
 ﻿#include "stdafx.h"
 #pragma hdrstop
 
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include "directx\d3dx9.h"
-#pragma warning(default : 4995)
+#pragma warning(default:4995)
 
 #include "../Private/ResourceManager.h"
 
@@ -51,7 +51,7 @@ BOOL R_constant_table::parseConstants(ID3DShaderReflectionConstantBuffer* pTable
 
         // Type
         // u16		type		=	RC_float;
-        u16 type = u16(-1);
+        u16    type = u16(-1);
         switch (TypeDesc.Type)
         {
             case D3D10_SVT_FLOAT:
@@ -71,19 +71,20 @@ BOOL R_constant_table::parseConstants(ID3DShaderReflectionConstantBuffer* pTable
         // u16		r_index		=	it->RegisterIndex;
         //	Used as byte offset in constant buffer
         VERIFY(VarDesc.StartOffset < 0x10000);
-        u16 r_index = u16(VarDesc.StartOffset);
-        u16 r_type  = u16(-1);
+        u16  r_index = u16(VarDesc.StartOffset);
+        u16  r_type  = u16(-1);
 
         // TypeInfo + class
         // D3DXSHADER_TYPEINFO*	T	= (D3DXSHADER_TYPEINFO*)(ptr+it->TypeInfo);
-        BOOL bSkip = FALSE;
+        BOOL bSkip   = FALSE;
         // switch (T->Class)
         switch (TypeDesc.Class)
         {
             case D3D10_SVC_SCALAR:
                 r_type = RC_1x1;
                 break;
-            case D3D10_SVC_VECTOR: {
+            case D3D10_SVC_VECTOR:
+            {
                 switch (TypeDesc.Columns)
                 {
                     case 4:
@@ -101,7 +102,8 @@ BOOL R_constant_table::parseConstants(ID3DShaderReflectionConstantBuffer* pTable
                 }
             }
             break;
-            case D3D10_SVC_MATRIX_ROWS: {
+            case D3D10_SVC_MATRIX_ROWS:
+            {
                 switch (TypeDesc.Columns)
                 {
                     case 4:
@@ -145,7 +147,8 @@ BOOL R_constant_table::parseConstants(ID3DShaderReflectionConstantBuffer* pTable
             case D3D10_SVC_STRUCT:
                 fatal("Pclass D3DXPC_STRUCT unsupported");
                 break;
-            case D3D10_SVC_OBJECT: {
+            case D3D10_SVC_OBJECT:
+            {
                 //	TODO: DX10:
                 VERIFY(!"Implement shader object parsing.");
                 /*
@@ -197,16 +200,16 @@ BOOL R_constant_table::parseConstants(ID3DShaderReflectionConstantBuffer* pTable
         ref_constant C = get(name);
         if (!C)
         {
-            C              = xr_new<R_constant>();   //.g_constant_allocator.create();
-            C->name        = name;
-            C->destination = destination;
-            C->type        = type;
+            C                  = xr_new<R_constant>();   //.g_constant_allocator.create();
+            C->name            = name;
+            C->destination     = destination;
+            C->type            = type;
             // R_constant_load& L	=	(destination&1)?C->ps:C->vs;
             R_constant_load& L = C->get_load(destination); /*((destination&RC_dest_pixel)
                                   ? C->ps : (destination&RC_dest_vertex)
                                   ? C->vs : C->gs);*/
-            L.index = r_index;
-            L.cls   = r_type;
+            L.index            = r_index;
+            L.cls              = r_type;
             table.push_back(C);
         }
         else
@@ -217,8 +220,8 @@ BOOL R_constant_table::parseConstants(ID3DShaderReflectionConstantBuffer* pTable
             R_constant_load& L = C->get_load(destination); /*((destination&RC_dest_pixel)
                                   ? C->ps : (destination&RC_dest_vertex)
                                   ? C->vs : C->gs);*/
-            L.index = r_index;
-            L.cls   = r_type;
+            L.index            = r_index;
+            L.cls              = r_type;
         }
     }
     return TRUE;
@@ -363,7 +366,7 @@ BOOL R_constant_table::parse(void* _desc, u32 destination)
 {
     ID3DShaderReflection* pReflection = (ID3DShaderReflection*)_desc;
 
-    D3D_SHADER_DESC ShaderDesc;
+    D3D_SHADER_DESC       ShaderDesc;
     pReflection->GetDesc(&ShaderDesc);
 
     if (ShaderDesc.ConstantBuffers)

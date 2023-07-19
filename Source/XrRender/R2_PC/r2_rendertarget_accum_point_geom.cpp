@@ -302,9 +302,9 @@ void CRenderTarget::accum_point_geom_create()
 
     // Indices
     {
-        u32 iCount = DU_SPHERE_NUMFACES * 3;
+        u32   iCount = DU_SPHERE_NUMFACES * 3;
 
-        BYTE* pData = 0;
+        BYTE* pData  = 0;
         R_CHK(
             HW.pDevice->CreateIndexBuffer(iCount * 2, dwUsage, D3DFMT_INDEX16, D3DPOOL_MANAGED, &g_accum_point_ib, 0));
         HW.stats_manager.increment_stats_ib(g_accum_point_ib);

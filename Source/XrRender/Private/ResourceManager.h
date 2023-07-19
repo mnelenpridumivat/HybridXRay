@@ -30,7 +30,6 @@ private:
         const char*       T;
         R_constant_setup* cs;
     };
-
 public:
     DEFINE_MAP_PRED(const char*, IBlender*, map_Blender, map_BlenderIt, str_pred);
     DEFINE_MAP_PRED(const char*, CTexture*, map_Texture, map_TextureIt, str_pred);
@@ -50,7 +49,6 @@ public:
 
     DEFINE_MAP_PRED(const char*, SPS*, map_PS, map_PSIt, str_pred);
     DEFINE_MAP_PRED(const char*, texture_detail, map_TD, map_TDIt, str_pred);
-
 private:
     // data
     map_Blender  m_blenders;
@@ -59,12 +57,12 @@ private:
     map_Constant m_constants;
     map_RT       m_rtargets;
     //	DX10 cut map_RTC												m_rtargets_c;
-    map_VS m_vs;
-    map_PS m_ps;
+    map_VS       m_vs;
+    map_PS       m_ps;
 #if defined(USE_DX10) || defined(USE_DX11)
     map_GS m_gs;
 #endif   //	USE_DX10
-    map_TD m_td;
+    map_TD                       m_td;
 
     xr_vector<SState*>           v_states;
     xr_vector<SDeclaration*>     v_declarations;
@@ -86,26 +84,24 @@ private:
     xr_vector<ShaderElement*> v_elements;
     xr_vector<Shader*>        v_shaders;
 
-    xr_vector<ref_texture> m_necessary;
+    xr_vector<ref_texture>    m_necessary;
     // misc
 public:
-    CTextureDescrMngr m_textures_description;
+    CTextureDescrMngr                                   m_textures_description;
     //.	CInifile*											m_textures_description;
     xr_vector<std::pair<shared_str, R_constant_setup*>> v_constant_setup;
     lua_State*                                          LSVM;
     BOOL                                                bDeferredLoad;
-
 private:
     void LS_Load();
     void LS_Unload();
-
 public:
     // Miscelaneous
-    void      _ParseList(sh_list& dest, LPCSTR names);
-    IBlender* _GetBlender(LPCSTR Name);
-    IBlender* _FindBlender(LPCSTR Name);
-    void      _GetMemoryUsage(u32& m_base, u32& c_base, u32& m_lmaps, u32& c_lmaps);
-    void      _DumpMemoryUsage();
+    void         _ParseList(sh_list& dest, LPCSTR names);
+    IBlender*    _GetBlender(LPCSTR Name);
+    IBlender*    _FindBlender(LPCSTR Name);
+    void         _GetMemoryUsage(u32& m_base, u32& c_base, u32& m_lmaps, u32& c_lmaps);
+    void         _DumpMemoryUsage();
     //.	BOOL							_GetDetailTexture	(LPCSTR Name, LPCSTR& T, R_constant_setup* &M);
 
     map_Blender& _GetBlenders()
@@ -126,14 +122,14 @@ public:
 #endif
 
     // Low level resource creation
-    CTexture* _CreateTexture(LPCSTR Name);
-    void      _DeleteTexture(const CTexture* T);
+    CTexture*         _CreateTexture(LPCSTR Name);
+    void              _DeleteTexture(const CTexture* T);
 
-    CMatrix* _CreateMatrix(LPCSTR Name);
-    void     _DeleteMatrix(const CMatrix* M);
+    CMatrix*          _CreateMatrix(LPCSTR Name);
+    void              _DeleteMatrix(const CMatrix* M);
 
-    CConstant* _CreateConstant(LPCSTR Name);
-    void       _DeleteConstant(const CConstant* C);
+    CConstant*        _CreateConstant(LPCSTR Name);
+    void              _DeleteConstant(const CConstant* C);
 
     R_constant_table* _CreateConstantTable(R_constant_table& C);
     void              _DeleteConstantTable(const R_constant_table* C);
@@ -142,8 +138,8 @@ public:
     dx10ConstantBuffer* _CreateConstantBuffer(ID3DShaderReflectionConstantBuffer* pTable);
     void                _DeleteConstantBuffer(const dx10ConstantBuffer* pBuffer);
 
-    SInputSignature* _CreateInputSignature(ID3DBlob* pBlob);
-    void             _DeleteInputSignature(const SInputSignature* pSignature);
+    SInputSignature*    _CreateInputSignature(ID3DBlob* pBlob);
+    void                _DeleteInputSignature(const SInputSignature* pSignature);
 #endif   //	USE_DX10
 
 #ifdef USE_DX11
@@ -171,27 +167,27 @@ public:
     void _DeleteCS(const SCS* CS);
 #endif   //	USE_DX10
 
-    SPS* _CreatePS(LPCSTR Name);
-    void _DeletePS(const SPS* PS);
+    SPS*           _CreatePS(LPCSTR Name);
+    void           _DeletePS(const SPS* PS);
 
-    SVS* _CreateVS(LPCSTR Name);
-    void _DeleteVS(const SVS* VS);
+    SVS*           _CreateVS(LPCSTR Name);
+    void           _DeleteVS(const SVS* VS);
 
-    SPass* _CreatePass(const SPass& proto);
-    void   _DeletePass(const SPass* P);
+    SPass*         _CreatePass(const SPass& proto);
+    void           _DeletePass(const SPass* P);
 
     // Shader compiling / optimizing
-    SState* _CreateState(SimulatorStates& Code);
-    void    _DeleteState(const SState* SB);
+    SState*        _CreateState(SimulatorStates& Code);
+    void           _DeleteState(const SState* SB);
 
-    SDeclaration* _CreateDecl(D3DVERTEXELEMENT9* dcl);
-    void          _DeleteDecl(const SDeclaration* dcl);
+    SDeclaration*  _CreateDecl(D3DVERTEXELEMENT9* dcl);
+    void           _DeleteDecl(const SDeclaration* dcl);
 
-    STextureList* _CreateTextureList(STextureList& L);
-    void          _DeleteTextureList(const STextureList* L);
+    STextureList*  _CreateTextureList(STextureList& L);
+    void           _DeleteTextureList(const STextureList* L);
 
-    SMatrixList* _CreateMatrixList(SMatrixList& L);
-    void         _DeleteMatrixList(const SMatrixList* L);
+    SMatrixList*   _CreateMatrixList(SMatrixList& L);
+    void           _DeleteMatrixList(const SMatrixList* L);
 
     SConstantList* _CreateConstantList(SConstantList& L);
     void           _DeleteConstantList(const SConstantList* L);
@@ -199,25 +195,26 @@ public:
     ShaderElement* _CreateElement(ShaderElement& L);
     void           _DeleteElement(const ShaderElement* L);
 
-    Shader* _cpp_Create(LPCSTR s_shader, LPCSTR s_textures = 0, LPCSTR s_constants = 0, LPCSTR s_matrices = 0);
-    Shader* _cpp_Create(
-        IBlender* B,
-        LPCSTR    s_shader    = 0,
-        LPCSTR    s_textures  = 0,
-        LPCSTR    s_constants = 0,
-        LPCSTR    s_matrices  = 0);
+    Shader*        _cpp_Create(LPCSTR s_shader, LPCSTR s_textures = 0, LPCSTR s_constants = 0, LPCSTR s_matrices = 0);
+    Shader*        _cpp_Create(
+               IBlender* B,
+               LPCSTR    s_shader    = 0,
+               LPCSTR    s_textures  = 0,
+               LPCSTR    s_constants = 0,
+               LPCSTR    s_matrices  = 0);
     Shader* _lua_Create(LPCSTR s_shader, LPCSTR s_textures);
     BOOL    _lua_HasShader(LPCSTR s_shader);
 
-    CResourceManager(): bDeferredLoad(TRUE) {}
+    CResourceManager():
+        bDeferredLoad(TRUE) {}
     ~CResourceManager();
 
-    void OnDeviceCreate(IReader* F);
-    void OnDeviceCreate(LPCSTR name);
-    void OnDeviceDestroy(BOOL bKeepTextures);
+    void    OnDeviceCreate(IReader* F);
+    void    OnDeviceCreate(LPCSTR name);
+    void    OnDeviceDestroy(BOOL bKeepTextures);
 
-    void reset_begin();
-    void reset_end();
+    void    reset_begin();
+    void    reset_end();
 
     // Creation/Destroying
     Shader* Create(LPCSTR s_shader = 0, LPCSTR s_textures = 0, LPCSTR s_constants = 0, LPCSTR s_matrices = 0);
@@ -242,18 +239,17 @@ public:
     void StoreNecessaryTextures();
     void DestroyNecessaryTextures();
     void Dump(bool bBrief);
-
 private:
 #ifdef USE_DX11
-    map_DS m_ds;
-    map_HS m_hs;
-    map_CS m_cs;
+    map_DS                    m_ds;
+    map_HS                    m_hs;
+    map_CS                    m_cs;
 
-    template <typename T> T& GetShaderMap();
+    template<typename T> T&   GetShaderMap();
 
-    template <typename T> T* CreateShader(const char* name);
+    template<typename T> T*   CreateShader(const char* name);
 
-    template <typename T> void DestroyShader(const T* sh);
+    template<typename T> void DestroyShader(const T* sh);
 
 #endif   //	USE_DX10
 };

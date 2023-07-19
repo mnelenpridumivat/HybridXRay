@@ -859,7 +859,7 @@ namespace CDB
     //----------------------------------------------------------------------------
     IC bool TestRayOBB(const Fvector3& origin, const Fvector3& direction, const Fobb& rkBox)
     {
-        float fWdU[3], fAWdU[3], fDdU[3], fADdU[3], fAWxDdU[3], fRhs;
+        float    fWdU[3], fAWdU[3], fDdU[3], fADdU[3], fAWxDdU[3], fRhs;
 
         Fvector3 kDiff;
         kDiff.sub(origin, rkBox.m_translate);

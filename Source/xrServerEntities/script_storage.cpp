@@ -83,7 +83,7 @@ static void* lua_alloc(void* ud, void* ptr, size_t osize, size_t nsize)
         return Memory.mem_realloc(ptr, nsize);
 #endif   // DEBUG_MEMORY_MANAGER
 }
-#else   // USE_DL_ALLOCATOR
+#else    // USE_DL_ALLOCATOR
 
 #include "../xrCore/memory_allocator_options.h"
 
@@ -95,7 +95,7 @@ static doug_lea_allocator s_allocator(s_fake_array, s_arena_size, "lua");
 static doug_lea_allocator s_allocator(0, 0, "lua");
 #endif   // #ifdef USE_ARENA_ALLOCATOR
 
-static void* lua_alloc(void* ud, void* ptr, size_t osize, size_t nsize)
+static void*              lua_alloc(void* ud, void* ptr, size_t osize, size_t nsize)
 {
 #ifndef USE_MEMORY_MONITOR
     (void)ud;
@@ -221,7 +221,7 @@ static int dojitcmd(lua_State* L, const char* cmd)
     lua_pushlstring(L, cmd, val ? val - cmd : xr_strlen(cmd));
     lua_getglobal(L, "jit"); /* get jit.* table */
     lua_pushvalue(L, -2);
-    lua_gettable(L, -2); /* lookup library function */
+    lua_gettable(L, -2);     /* lookup library function */
     if (!lua_isfunction(L, -1))
     {
         lua_pop(L, 2); /* drop non-function and jit.* table, keep module name */
@@ -232,7 +232,7 @@ static int dojitcmd(lua_State* L, const char* cmd)
     {
         lua_remove(L, -2); /* drop jit.* table */
     }
-    lua_remove(L, -2); /* drop module name */
+    lua_remove(L, -2);     /* drop module name */
     if (val)
         lua_pushstring(L, val + 1);
     return report(L, lua_pcall(L, val ? 1 : 0, 0, 0));
@@ -360,7 +360,7 @@ int CScriptStorage::vscript_log(ScriptStorage::ELuaMessageType tLuaMessageType, 
 
 #ifndef PRINT_CALL_STACK
     return (0);
-#else   // #ifdef PRINT_CALL_STACK
+#else    // #ifdef PRINT_CALL_STACK
 #ifndef NO_XRGAME_SCRIPT_ENGINE
     if (!psAI_Flags.test(aiLua) && (tLuaMessageType != ScriptStorage::eLuaMessageTypeError))
         return (0);
@@ -371,42 +371,50 @@ int CScriptStorage::vscript_log(ScriptStorage::ELuaMessageType tLuaMessageType, 
     string4096 S2;
     switch (tLuaMessageType)
     {
-        case ScriptStorage::eLuaMessageTypeInfo: {
+        case ScriptStorage::eLuaMessageTypeInfo:
+        {
             S  = "* [LUA] ";
             SS = "[INFO]        ";
             break;
         }
-        case ScriptStorage::eLuaMessageTypeError: {
+        case ScriptStorage::eLuaMessageTypeError:
+        {
             S  = "! [LUA] ";
             SS = "[ERROR]       ";
             break;
         }
-        case ScriptStorage::eLuaMessageTypeMessage: {
+        case ScriptStorage::eLuaMessageTypeMessage:
+        {
             S  = "[LUA] ";
             SS = "[MESSAGE]     ";
             break;
         }
-        case ScriptStorage::eLuaMessageTypeHookCall: {
+        case ScriptStorage::eLuaMessageTypeHookCall:
+        {
             S  = "[LUA][HOOK_CALL] ";
             SS = "[CALL]        ";
             break;
         }
-        case ScriptStorage::eLuaMessageTypeHookReturn: {
+        case ScriptStorage::eLuaMessageTypeHookReturn:
+        {
             S  = "[LUA][HOOK_RETURN] ";
             SS = "[RETURN]      ";
             break;
         }
-        case ScriptStorage::eLuaMessageTypeHookLine: {
+        case ScriptStorage::eLuaMessageTypeHookLine:
+        {
             S  = "[LUA][HOOK_LINE] ";
             SS = "[LINE]        ";
             break;
         }
-        case ScriptStorage::eLuaMessageTypeHookCount: {
+        case ScriptStorage::eLuaMessageTypeHookCount:
+        {
             S  = "[LUA][HOOK_COUNT] ";
             SS = "[COUNT]       ";
             break;
         }
-        case ScriptStorage::eLuaMessageTypeHookTailReturn: {
+        case ScriptStorage::eLuaMessageTypeHookTailReturn:
+        {
             S  = "[LUA][HOOK_TAIL_RETURN] ";
             SS = "[TAIL_RETURN] ";
             break;
@@ -532,7 +540,7 @@ bool CScriptStorage::load_buffer(
     {
         string512 insert, a, b;
 
-        LPCSTR header = file_header;
+        LPCSTR    header = file_header;
 
         if (!parse_namespace(caNameSpaceName, a, sizeof(a), b, sizeof(b)))
             return (false);
@@ -822,7 +830,7 @@ bool CScriptStorage::print_output(lua_State* L, LPCSTR caScriptFileName, int iEr
     if (iErorCode)
         print_error(L, iErorCode);
 
-    LPCSTR S = "see call_stack for details!";
+    LPCSTR     S = "see call_stack for details!";
 
     raii_guard guard(iErorCode, S);
 
@@ -865,27 +873,33 @@ void CScriptStorage::print_error(lua_State* L, int iErrorCode)
 {
     switch (iErrorCode)
     {
-        case LUA_ERRRUN: {
+        case LUA_ERRRUN:
+        {
             script_log(ScriptStorage::eLuaMessageTypeError, "SCRIPT RUNTIME ERROR");
             break;
         }
-        case LUA_ERRMEM: {
+        case LUA_ERRMEM:
+        {
             script_log(ScriptStorage::eLuaMessageTypeError, "SCRIPT ERROR (memory allocation)");
             break;
         }
-        case LUA_ERRERR: {
+        case LUA_ERRERR:
+        {
             script_log(ScriptStorage::eLuaMessageTypeError, "SCRIPT ERROR (while running the error handler function)");
             break;
         }
-        case LUA_ERRFILE: {
+        case LUA_ERRFILE:
+        {
             script_log(ScriptStorage::eLuaMessageTypeError, "SCRIPT ERROR (while running file)");
             break;
         }
-        case LUA_ERRSYNTAX: {
+        case LUA_ERRSYNTAX:
+        {
             script_log(ScriptStorage::eLuaMessageTypeError, "SCRIPT SYNTAX ERROR");
             break;
         }
-        case LUA_YIELD: {
+        case LUA_YIELD:
+        {
             script_log(ScriptStorage::eLuaMessageTypeInfo, "Thread is yielded");
             break;
         }
@@ -913,7 +927,7 @@ int CScriptStorage::error_log(LPCSTR format, ...)
     LPSTR      S1;
     string4096 S2;
     xr_strcpy(S2, S);
-    S1 = S2 + xr_strlen(S);
+    S1         = S2 + xr_strlen(S);
 
     int result = vsprintf(S1, format, marker);
     va_end(marker);

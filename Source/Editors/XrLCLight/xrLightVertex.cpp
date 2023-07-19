@@ -33,9 +33,9 @@ void g_trans_register_internal(Vertex* V)
     const float eps2 = 2.f * eps;
 
     // Search
-    const float key = V->P.x;
-    mapVertIt   it  = g_trans->lower_bound(key);
-    mapVertIt   it2 = it;
+    const float key  = V->P.x;
+    mapVertIt   it   = g_trans->lower_bound(key);
+    mapVertIt   it2  = it;
 
     // Decrement to the start and inc to end
     while (it != g_trans->begin() && ((it->first + eps2) > key))
@@ -76,7 +76,6 @@ class CVertexLightTasker
 {
     xrCriticalSection cs;
     volatile u32      index;
-
 public:
     CVertexLightTasker():
         index(0)
@@ -105,7 +104,7 @@ public:
 };
 CVertexLightTasker VLT;
 
-bool GetTranslucency(const Vertex* V, float& v_trans)
+bool               GetTranslucency(const Vertex* V, float& v_trans)
 {
     // Get transluency factor
 
@@ -217,7 +216,7 @@ void LightVertex(bool net)
             VL[v]->C._get(vC);
 
             // trans-level
-            float level = vC._tmp_;
+            float        level = vC._tmp_;
 
             //
             base_color_c R;

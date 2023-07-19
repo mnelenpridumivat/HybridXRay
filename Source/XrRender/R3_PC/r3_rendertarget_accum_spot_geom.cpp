@@ -150,10 +150,10 @@ void CRenderTarget::accum_volumetric_geom_create()
         //	t += dt;
         // }
 
-        Slice pSlice[VOLUMETRIC_SLICES];
+        Slice            pSlice[VOLUMETRIC_SLICES];
 
-        float t  = 0;
-        float dt = 1.0f / (VOLUMETRIC_SLICES - 1);
+        float            t  = 0;
+        float            dt = 1.0f / (VOLUMETRIC_SLICES - 1);
         for (int i = 0; i < VOLUMETRIC_SLICES; ++i)
         {
             pSlice[i].m_Vert[0] = Fvector().set(0, 0, t);
@@ -188,9 +188,9 @@ void CRenderTarget::accum_volumetric_geom_create()
         // }
         // g_accum_volumetric_ib->Unlock	();
 
-        BYTE Datap[iCount * 2];
+        BYTE      Datap[iCount * 2];
 
-        u16* pInd = (u16*)Datap;
+        u16*      pInd = (u16*)Datap;
         for (u16 i = 0; i < VOLUMETRIC_SLICES; ++i, pInd += 6)
         {
             u16 basevert = i * 4;

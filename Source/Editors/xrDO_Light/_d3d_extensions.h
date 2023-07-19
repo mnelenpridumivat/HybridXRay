@@ -50,11 +50,11 @@ public:
 struct Fmaterial
 {
 public:
-    Fcolor diffuse;  /* Diffuse color RGBA */
-    Fcolor ambient;  /* Ambient color RGB */
-    Fcolor specular; /* Specular 'shininess' */
-    Fcolor emissive; /* Emissive color RGB */
-    float  power;    /* Sharpness if specular highlight */
+    Fcolor  diffuse;  /* Diffuse color RGBA */
+    Fcolor  ambient;  /* Ambient color RGB */
+    Fcolor  specular; /* Specular 'shininess' */
+    Fcolor  emissive; /* Emissive color RGB */
+    float   power;    /* Sharpness if specular highlight */
 
     IC void set(float r, float g, float b)
     {

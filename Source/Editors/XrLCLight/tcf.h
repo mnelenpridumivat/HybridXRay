@@ -4,8 +4,8 @@ struct XRLC_LIGHT_API _TCF
 {
     Fvector2 uv[3];
 
-    void    barycentric(Fvector2& P, float& u, float& v, float& w);
-    IC void barycentric(Fvector2& P, Fvector& B)
+    void     barycentric(Fvector2& P, float& u, float& v, float& w);
+    IC void  barycentric(Fvector2& P, Fvector& B)
     {
         barycentric(P, B.x, B.y, B.z);
     }

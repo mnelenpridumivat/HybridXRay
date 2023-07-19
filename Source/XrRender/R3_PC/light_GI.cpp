@@ -44,7 +44,7 @@ void light::gi_generate()
         Fvector      Tv[3] = {verts[T.verts[0]], verts[T.verts[1]], verts[T.verts[2]]};
         Fvector      TN;
         TN.mknormal(Tv[0], Tv[1], Tv[2]);
-        float dot = TN.dotproduct(idir.invert(dir));
+        float          dot = TN.dotproduct(idir.invert(dir));
 
         light_indirect LI;
         LI.P.mad(position, dir, R->range);

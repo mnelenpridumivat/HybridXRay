@@ -8,17 +8,17 @@
 
 #pragma once
 
-template <typename _path_id_type, typename _index_type, u8 mask> struct CVertexManagerFixed
+template<typename _path_id_type, typename _index_type, u8 mask> struct CVertexManagerFixed
 {
-    template <template <typename _T> class T1> struct VertexManager
+    template<template<typename _T> class T1> struct VertexManager
     {
-        template <typename T2> struct _vertex: public T1<T2>
+        template<typename T2> struct _vertex: public T1<T2>
         {
             typedef _index_type _index_type;
-            _index_type         _index : 8 * sizeof(_index_type) - mask;
+            _index_type         _index:8 * sizeof(_index_type) - mask;
             _index_type         _opened: mask;
 
-            IC _index_type index() const
+            IC _index_type      index() const
             {
                 return (_index);
             }
@@ -30,10 +30,10 @@ template <typename _path_id_type, typename _index_type, u8 mask> struct CVertexM
         };
     };
 
-    template <
-        template <typename _T> class _vertex                      = CEmptyClassTemplate,
-        template <typename _T1, typename _T2> class _index_vertex = CEmptyClassTemplate2,
-        typename _data_storage                                    = CBuilderAllocatorConstructor>
+    template<
+        template<typename _T> class _vertex                      = CEmptyClassTemplate,
+        template<typename _T1, typename _T2> class _index_vertex = CEmptyClassTemplate2,
+        typename _data_storage                                   = CBuilderAllocatorConstructor>
     class CDataStorage: public _data_storage::template CDataStorage<VertexManager<_vertex>::_vertex>
     {
     public:
@@ -42,7 +42,7 @@ template <typename _path_id_type, typename _index_type, u8 mask> struct CVertexM
         typedef typename CGraphVertex::_index_type                                             _index_type;
 
 #pragma pack(push, 1)
-        template <typename _path_id_type> struct SGraphIndexVertex:
+        template<typename _path_id_type> struct SGraphIndexVertex:
             public _index_vertex<CGraphVertex, SGraphIndexVertex<_path_id_type>>
         {
             _path_id_type m_path_id;
@@ -52,12 +52,10 @@ template <typename _path_id_type, typename _index_type, u8 mask> struct CVertexM
 
         typedef _path_id_type                    _path_id_type;
         typedef SGraphIndexVertex<_path_id_type> CGraphIndexVertex;
-
     protected:
         _path_id_type      m_current_path_id;
         u32                m_max_node_count;
         CGraphIndexVertex* m_indexes;
-
     public:
         IC CDataStorage(const u32 vertex_count);
         virtual ~CDataStorage();

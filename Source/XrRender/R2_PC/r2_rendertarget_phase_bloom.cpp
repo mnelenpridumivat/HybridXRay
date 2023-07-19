@@ -44,7 +44,7 @@ void CalcGauss_k7(
     for (int i = -7; i <= 0; i++)
         W[-i] = expf(-float(i * i) / (2 * r * r));   // weight
     for (int i = 0; i < 8; i++)
-        mag += i ? 2 * W[i] : W[i];   // symmetrical weight
+        mag += i ? 2 * W[i] : W[i];                  // symmetrical weight
     for (int i = 0; i < 8; i++)
         W[i] = s_out * W[i] / mag;
 
@@ -103,7 +103,7 @@ void CRenderTarget::phase_bloom()
         Fvector2 b_3  = {1 + a_3.x, 1 + a_3.y};
 
         // Fill vertex buffer
-        v_build* pv = (v_build*)RCache.Vertex.Lock(4, g_bloom_build->vb_stride, Offset);
+        v_build* pv   = (v_build*)RCache.Vertex.Lock(4, g_bloom_build->vb_stride, Offset);
         pv->p.set(EPS, float(th + EPS), EPS, 1.f);
         pv->uv0.set(a_0.x, b_0.y);
         pv->uv1.set(a_1.x, b_1.y);
@@ -197,22 +197,22 @@ void CRenderTarget::phase_bloom()
         // SLOW FILTER
         // Transfer into Bloom2, horizontal filter
         {
-            float    _w   = BLOOM_size_X;
-            float    _h   = BLOOM_size_Y;
-            Fvector2 two  = {2.f / _w, 2.f / _h};
-            Fvector2 one  = {1.f / _w, 1.f / _h};
-            Fvector2 half = {.5f / _w, .5f / _h};
-            Fvector4 a_0  = {half.x, half.y, half.y, half.x};                                   // center
-            Fvector4 a_1  = {a_0.x - one.x - half.x, half.y, half.y, a_0.w + one.x + half.x};   // -1,+1i
-            Fvector4 a_2  = {a_1.x - two.x, half.y, half.y, a_1.w + two.x};                     // -2,+2i
-            Fvector4 a_3  = {a_2.x - two.x, half.y, half.y, a_2.w + two.x};                     // -3,+3i
-            Fvector4 a_4  = {a_3.x - two.x, half.y, half.y, a_3.w + two.x};                     // -4,+4i
-            Fvector4 a_5  = {a_4.x - two.x, half.y, half.y, a_4.w + two.x};                     // -5,+5i
-            Fvector4 a_6  = {a_5.x - two.x, half.y, half.y, a_5.w + two.x};                     // -6,+6i
-            Fvector4 a_7  = {a_6.x - two.x, half.y, half.y, a_6.w + two.x};                     // -7,+7i
+            float     _w   = BLOOM_size_X;
+            float     _h   = BLOOM_size_Y;
+            Fvector2  two  = {2.f / _w, 2.f / _h};
+            Fvector2  one  = {1.f / _w, 1.f / _h};
+            Fvector2  half = {.5f / _w, .5f / _h};
+            Fvector4  a_0  = {half.x, half.y, half.y, half.x};                                   // center
+            Fvector4  a_1  = {a_0.x - one.x - half.x, half.y, half.y, a_0.w + one.x + half.x};   // -1,+1i
+            Fvector4  a_2  = {a_1.x - two.x, half.y, half.y, a_1.w + two.x};                     // -2,+2i
+            Fvector4  a_3  = {a_2.x - two.x, half.y, half.y, a_2.w + two.x};                     // -3,+3i
+            Fvector4  a_4  = {a_3.x - two.x, half.y, half.y, a_3.w + two.x};                     // -4,+4i
+            Fvector4  a_5  = {a_4.x - two.x, half.y, half.y, a_4.w + two.x};                     // -5,+5i
+            Fvector4  a_6  = {a_5.x - two.x, half.y, half.y, a_5.w + two.x};                     // -6,+6i
+            Fvector4  a_7  = {a_6.x - two.x, half.y, half.y, a_6.w + two.x};                     // -7,+7i
 
             // Fill vertex buffer
-            v_filter* pv = (v_filter*)RCache.Vertex.Lock(4, g_bloom_filter->vb_stride, Offset);
+            v_filter* pv   = (v_filter*)RCache.Vertex.Lock(4, g_bloom_filter->vb_stride, Offset);
 
             // 0 - LB
             pv->p.set(EPS, float(_h + EPS), EPS, 1.f);
@@ -277,22 +277,22 @@ void CRenderTarget::phase_bloom()
 
         // Transfer into Bloom1, vertical filter
         {
-            float    _w   = BLOOM_size_X;
-            float    _h   = BLOOM_size_Y;
-            Fvector2 two  = {2.f / _w, 2.f / _h};
-            Fvector2 one  = {1.f / _w, 1.f / _h};
-            Fvector2 half = {.5f / _w, .5f / _h};
-            Fvector4 a_0  = {half.x, half.y, half.y, half.x};                                   // center
-            Fvector4 a_1  = {half.x, a_0.y - one.y - half.y, half.y + one.y + a_0.z, half.x};   // -1,+1i
-            Fvector4 a_2  = {half.x, a_1.y - two.y, two.y + a_1.z, half.x};                     // -2,+2i
-            Fvector4 a_3  = {half.x, a_2.y - two.y, two.y + a_2.z, half.x};                     // -3,+3i
-            Fvector4 a_4  = {half.x, a_3.y - two.y, two.y + a_3.z, half.x};                     // -4,+4i
-            Fvector4 a_5  = {half.x, a_4.y - two.y, two.y + a_4.z, half.x};                     // -5,+5i
-            Fvector4 a_6  = {half.x, a_5.y - two.y, two.y + a_5.z, half.x};                     // -6,+6i
-            Fvector4 a_7  = {half.x, a_6.y - two.y, two.y + a_6.z, half.x};                     // -7,+7i
+            float     _w   = BLOOM_size_X;
+            float     _h   = BLOOM_size_Y;
+            Fvector2  two  = {2.f / _w, 2.f / _h};
+            Fvector2  one  = {1.f / _w, 1.f / _h};
+            Fvector2  half = {.5f / _w, .5f / _h};
+            Fvector4  a_0  = {half.x, half.y, half.y, half.x};                                   // center
+            Fvector4  a_1  = {half.x, a_0.y - one.y - half.y, half.y + one.y + a_0.z, half.x};   // -1,+1i
+            Fvector4  a_2  = {half.x, a_1.y - two.y, two.y + a_1.z, half.x};                     // -2,+2i
+            Fvector4  a_3  = {half.x, a_2.y - two.y, two.y + a_2.z, half.x};                     // -3,+3i
+            Fvector4  a_4  = {half.x, a_3.y - two.y, two.y + a_3.z, half.x};                     // -4,+4i
+            Fvector4  a_5  = {half.x, a_4.y - two.y, two.y + a_4.z, half.x};                     // -5,+5i
+            Fvector4  a_6  = {half.x, a_5.y - two.y, two.y + a_5.z, half.x};                     // -6,+6i
+            Fvector4  a_7  = {half.x, a_6.y - two.y, two.y + a_6.z, half.x};                     // -7,+7i
 
             // Fill vertex buffer
-            v_filter* pv = (v_filter*)RCache.Vertex.Lock(4, g_bloom_filter->vb_stride, Offset);
+            v_filter* pv   = (v_filter*)RCache.Vertex.Lock(4, g_bloom_filter->vb_stride, Offset);
 
             // 0 - LB
             pv->p.set(EPS, float(_h + EPS), EPS, 1.f);

@@ -16,7 +16,6 @@ public:
     virtual void GuardVerts(CGameFont& F);
     virtual void GuardDrawCalls(CGameFont& F);
     virtual void SetDrawParams(IRenderDeviceRender* pRender);
-
 private:
 };
 

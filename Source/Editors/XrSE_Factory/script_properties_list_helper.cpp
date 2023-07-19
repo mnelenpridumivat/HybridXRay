@@ -21,33 +21,33 @@ CSE_Abstract* owner(luabind::object object)
     return (result);
 }
 
-template <typename T> struct CWrapHelper
+template<typename T> struct CWrapHelper
 {
-    typedef T                   result_type;
-    template <bool a> static T* wrap_value(luabind::object object, LPCSTR name)
+    typedef T                  result_type;
+    template<bool a> static T* wrap_value(luabind::object object, LPCSTR name)
     {
         CScriptValueWrapper<T>* value = xr_new<CScriptValueWrapper<T>>(object, name);
         owner(object)->add(value);
         return (value->value());
     }
 
-    template <> static T* wrap_value<true>(luabind::object object, LPCSTR name)
+    template<> static T* wrap_value<true>(luabind::object object, LPCSTR name)
     {
         return (luabind::object_cast<T*>(object[name]));
     }
 };
 
-template <> struct CWrapHelper<bool>
+template<> struct CWrapHelper<bool>
 {
-    typedef BOOL                   result_type;
-    template <bool a> static BOOL* wrap_value(luabind::object object, LPCSTR name)
+    typedef BOOL                  result_type;
+    template<bool a> static BOOL* wrap_value(luabind::object object, LPCSTR name)
     {
         CScriptValueWrapper<bool>* value = xr_new<CScriptValueWrapper<bool>>(object, name);
         owner(object)->add(value);
         return (value->value());
     }
 
-    template <bool a> static BOOL* wrap_value(luabind::object object, luabind::object table, LPCSTR name)
+    template<bool a> static BOOL* wrap_value(luabind::object object, luabind::object table, LPCSTR name)
     {
         CScriptValueWrapper<bool>* value = xr_new<CScriptValueWrapper<bool>>(table, name);
         owner(object)->add(value);
@@ -55,14 +55,14 @@ template <> struct CWrapHelper<bool>
     }
 };
 
-template <typename T> typename CWrapHelper<T>::result_type* wrap_value(luabind::object object, LPCSTR name)
+template<typename T> typename CWrapHelper<T>::result_type* wrap_value(luabind::object object, LPCSTR name)
 {
     return (
         CWrapHelper<T>::wrap_value < is_class<T>::result &&
         !object_type_traits::is_same<shared_str, T>::value > (object, name));
 }
 
-template <typename T>
+template<typename T>
 typename CWrapHelper<T>::result_type* wrap_value(luabind::object object, luabind::object table, LPCSTR name)
 {
     return (

@@ -2,31 +2,31 @@
 
 #include "net_stream.h"
 
-template <typename T> void r_pod_vector(INetReader& r, xr_vector<T>& v)
+template<typename T> void r_pod_vector(INetReader& r, xr_vector<T>& v)
 {
     u32 cnt = r.r_u32();
     v.resize(cnt);
     r.r(&*v.begin(), cnt * sizeof(T));
 }
 
-template <typename T> void w_pod_vector(IWriter& w, const xr_vector<T>& v)
+template<typename T> void w_pod_vector(IWriter& w, const xr_vector<T>& v)
 {
     u32 cnt = v.size();
     w.w_u32(cnt);
     w.w(&*v.begin(), cnt * sizeof(T));
 }
 
-template <typename T> void r_pod(INetReader& r, T& v)
+template<typename T> void r_pod(INetReader& r, T& v)
 {
     r.r(&v, sizeof(T));
 }
 
-template <typename T> void w_pod(IWriter& w, const T& v)
+template<typename T> void w_pod(IWriter& w, const T& v)
 {
     w.w(&v, sizeof(T));
 }
 
-template <typename T> void r_vector(INetReader& r, xr_vector<T>& v)
+template<typename T> void r_vector(INetReader& r, xr_vector<T>& v)
 {
     u32 cnt = r.r_u32();
     v.resize(cnt);
@@ -35,7 +35,7 @@ template <typename T> void r_vector(INetReader& r, xr_vector<T>& v)
         i->read(r);
 }
 
-template <typename T> void w_vector(IWriter& w, const xr_vector<T>& v)
+template<typename T> void w_vector(IWriter& w, const xr_vector<T>& v)
 {
     u32 cnt = v.size();
     w.w_u32(cnt);
@@ -43,14 +43,14 @@ template <typename T> void w_vector(IWriter& w, const xr_vector<T>& v)
     for (; i != e; ++i)
         i->write(w);
 }
-template <typename T> void r_pointer(INetReader& r, T*& p, xr_vector<T>& storage)
+template<typename T> void r_pointer(INetReader& r, T*& p, xr_vector<T>& storage)
 {
     u32 id = r.r_u32();
     R_ASSERT(id < storage.size());
     p = &storage[id];
 }
 
-template <typename T> void w_pointer(IWriter& w, const T* p, const xr_vector<T>& storage)
+template<typename T> void w_pointer(IWriter& w, const T* p, const xr_vector<T>& storage)
 {
     u32 size = storage.size();
     for (u32 i = 0; i < size; ++i)
@@ -62,7 +62,7 @@ template <typename T> void w_pointer(IWriter& w, const T* p, const xr_vector<T>&
     R_ASSERT2(false, "is not point on the storage");
 }
 
-template <typename T, const int dim> void r_vector(INetReader& r, svector<T, dim>& v)
+template<typename T, const int dim> void r_vector(INetReader& r, svector<T, dim>& v)
 {
     u32 cnt = r.r_u32();
     v.resize(cnt);
@@ -71,7 +71,7 @@ template <typename T, const int dim> void r_vector(INetReader& r, svector<T, dim
         i->read(r);
 }
 
-template <typename T, const int dim> void w_vector(IWriter& w, const svector<T, dim>& v)
+template<typename T, const int dim> void w_vector(IWriter& w, const svector<T, dim>& v)
 {
     u32 cnt = v.size();
     w.w_u32(cnt);
@@ -89,10 +89,9 @@ static void r_sphere(INetReader& r, Fsphere& v)
     r.r(&v, sizeof(Fsphere));
 }
 
-template <typename type> class get_id_standart
+template<typename type> class get_id_standart
 {
     static const u32 id_none = u32(-1);
-
 public:
     static void preset(const xr_vector<type*>& vec) {}
     static u32  get_id(const type* f, const xr_vector<type*>& vec)
@@ -105,10 +104,9 @@ public:
     }
 };
 
-template <typename type> class get_id_self_index
+template<typename type> class get_id_self_index
 {
     static const u32 id_none = u32(-1);
-
 public:
     static void preset(const xr_vector<type*>& vec)
     {
@@ -126,20 +124,19 @@ public:
     }
 };
 
-template <class action> class vector_serialize;
+template<class action> class vector_serialize;
 
-template <typename T, typename get_id_type> class t_write
+template<typename T, typename get_id_type> class t_write
 {
 public:
     typedef T type;
-
 private:
     typedef get_id_type                               id_type;
     typedef vector_serialize<t_write<T, get_id_type>> t_serialize;
     friend class t_serialize;
     const xr_vector<T*>& vec;
 
-    void write(IWriter& w) const
+    void                 write(IWriter& w) const
     {
         xr_vector<T*>::const_iterator i = vec.begin(), e = vec.end();
         w.w_u32(vec.size());
@@ -169,18 +166,17 @@ private:
     }
 };
 
-template <typename T, typename get_id_type> class t_read
+template<typename T, typename get_id_type> class t_read
 {
 public:
     typedef T type;
-
 private:
     typedef vector_serialize<t_read<T, get_id_type>> t_serialize;
     typedef get_id_type                              id_type;
     friend class t_serialize;
     xr_vector<T*>& vec;
 
-    void read(INetReader& r)
+    void           read(INetReader& r)
     {
         vec.resize(r.r_u32(), 0);
         // xr_vector<T*>::iterator i = vec.begin(), e =  vec.end();
@@ -213,15 +209,13 @@ private:
     }
 };
 
-template <typename action> class vector_serialize
+template<typename action> class vector_serialize
 {
     typedef typename action::type    type;
     typedef typename action::id_type id_type;
     action                           serialize;
-
 public:
     static const u32 id_none = u32(-1);
-
 public:
     vector_serialize(xr_vector<type*>* _vec): serialize(*_vec) {}
     vector_serialize(const xr_vector<type*>* _vec): serialize(*_vec) {}
@@ -265,8 +259,8 @@ public:
     }
 };
 
-void write(IWriter& w, const b_texture& b);
-void read(INetReader& r, b_texture& b);
+void    write(IWriter& w, const b_texture& b);
+void    read(INetReader& r, b_texture& b);
 
 IC void write_task_id(IGenericStream* stream, u32 id)
 {

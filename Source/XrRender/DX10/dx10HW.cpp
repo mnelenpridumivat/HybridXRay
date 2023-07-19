@@ -4,9 +4,9 @@
 #include "stdafx.h"
 #pragma hdrstop
 
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include "directx\d3dx9.h"
-#pragma warning(default : 4995)
+#pragma warning(default:4995)
 #include "../Private/HW.h"
 #include "../../xrEngine/XR_IOConsole.h"
 #include "../../xrAPI/xrAPI.h"
@@ -158,7 +158,7 @@ void CHW::CreateDevice(HWND m_hWnd, bool move_window)
     // General - select adapter and device
     BOOL bWindowed = !psDeviceFlags.is(rsFullscreen);
 
-    m_DriverType = Caps.bForceGPU_REF ? D3D_DRIVER_TYPE_REFERENCE : D3D_DRIVER_TYPE_HARDWARE;
+    m_DriverType   = Caps.bForceGPU_REF ? D3D_DRIVER_TYPE_REFERENCE : D3D_DRIVER_TYPE_HARDWARE;
 
     if (m_bUsePerfhud)
         m_DriverType = D3D_DRIVER_TYPE_REFERENCE;
@@ -204,8 +204,8 @@ void CHW::CreateDevice(HWND m_hWnd, bool move_window)
     Caps.id_device	= adapterID.DeviceId;
     */
 
-    Caps.id_vendor = Desc.VendorId;
-    Caps.id_device = Desc.DeviceId;
+    Caps.id_vendor           = Desc.VendorId;
+    Caps.id_device           = Desc.DeviceId;
 
     /*
     // Retreive windowed mode
@@ -214,12 +214,12 @@ void CHW::CreateDevice(HWND m_hWnd, bool move_window)
 
     */
     // Select back-buffer & depth-stencil format
-    D3DFORMAT& fTarget = Caps.fTarget;
-    D3DFORMAT& fDepth  = Caps.fDepth;
+    D3DFORMAT& fTarget       = Caps.fTarget;
+    D3DFORMAT& fDepth        = Caps.fDepth;
 
     //	HACK: DX10: Embed hard target format.
-    fTarget = D3DFMT_X8R8G8B8;   //	No match in DX10. D3DFMT_A8B8G8R8->DXGI_FORMAT_R8G8B8A8_UNORM
-    fDepth  = selectDepthStencil(fTarget);
+    fTarget                  = D3DFMT_X8R8G8B8;   //	No match in DX10. D3DFMT_A8B8G8R8->DXGI_FORMAT_R8G8B8A8_UNORM
+    fDepth                   = selectDepthStencil(fTarget);
     /*
     if (bWindowed)
     {
@@ -278,8 +278,8 @@ void CHW::CreateDevice(HWND m_hWnd, bool move_window)
     //. P.BackBufferHeight		= dwHeight;
     //	TODO: DX10: implement dynamic format selection
     // sd.BufferDesc.Format		= fTarget;
-    sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-    sd.BufferCount       = 1;
+    sd.BufferDesc.Format  = DXGI_FORMAT_R8G8B8A8_UNORM;
+    sd.BufferCount        = 1;
 
     // Multisample
     sd.SampleDesc.Count   = 1;
@@ -289,9 +289,9 @@ void CHW::CreateDevice(HWND m_hWnd, bool move_window)
     // P.SwapEffect			= bWindowed?D3DSWAPEFFECT_COPY:D3DSWAPEFFECT_DISCARD;
     // P.hDeviceWindow			= m_hWnd;
     // P.Windowed				= bWindowed;
-    sd.SwapEffect   = DXGI_SWAP_EFFECT_DISCARD;
-    sd.OutputWindow = m_hWnd;
-    sd.Windowed     = bWindowed;
+    sd.SwapEffect         = DXGI_SWAP_EFFECT_DISCARD;
+    sd.OutputWindow       = m_hWnd;
+    sd.Windowed           = bWindowed;
 
     // Depth/stencil
     // DX10 don't need this?
@@ -314,9 +314,9 @@ void CHW::CreateDevice(HWND m_hWnd, bool move_window)
     }
 
     //	Additional set up
-    sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+    sd.BufferUsage            = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 
-    UINT createDeviceFlags = 0;
+    UINT    createDeviceFlags = 0;
 
     HRESULT R;
     // Create the device
@@ -362,7 +362,7 @@ void CHW::CreateDevice(HWND m_hWnd, bool move_window)
     {
         createDeviceFlags |= D3D10_CREATE_DEVICE_DEBUG;
     }
-    R = D3DX10CreateDeviceAndSwapChain(m_pAdapter, m_DriverType, NULL, createDeviceFlags, &sd, &m_pSwapChain, &pDevice);
+    R        = D3DX10CreateDeviceAndSwapChain(m_pAdapter, m_DriverType, NULL, createDeviceFlags, &sd, &m_pSwapChain, &pDevice);
 
     pContext = pDevice;
     if (GDebugRender)
@@ -496,11 +496,11 @@ void CHW::DestroyDevice()
 //////////////////////////////////////////////////////////////////////
 void CHW::Reset(HWND hwnd)
 {
-    DXGI_SWAP_CHAIN_DESC& cd = m_ChainDesc;
+    DXGI_SWAP_CHAIN_DESC& cd        = m_ChainDesc;
 
-    BOOL bWindowed = !psDeviceFlags.is(rsFullscreen);
+    BOOL                  bWindowed = !psDeviceFlags.is(rsFullscreen);
 
-    cd.Windowed = bWindowed;
+    cd.Windowed                     = bWindowed;
 
     m_pSwapChain->SetFullscreenState(!bWindowed, NULL);
 
@@ -668,8 +668,8 @@ DXGI_RATIONAL CHW::selectRefresh(u32 dwWidth, u32 dwHeight, DXGI_FORMAT fmt)
 {
     DXGI_RATIONAL res;
 
-    res.Numerator   = 60;
-    res.Denominator = 1;
+    res.Numerator     = 60;
+    res.Denominator   = 1;
 
     float CurrentFreq = 60.0f;
 
@@ -681,7 +681,7 @@ DXGI_RATIONAL CHW::selectRefresh(u32 dwWidth, u32 dwHeight, DXGI_FORMAT fmt)
     {
         xr_vector<DXGI_MODE_DESC> modes;
 
-        IDXGIOutput* pOutput;
+        IDXGIOutput*              pOutput;
         m_pAdapter->EnumOutputs(0, &pOutput);
         VERIFY(pOutput);
 
@@ -751,9 +751,9 @@ BOOL CHW::support(D3DFORMAT fmt, DWORD type, DWORD usage)
 void CHW::updateWindowProps(HWND m_hWnd)
 {
     //	BOOL	bWindowed				= strstr(Core.Params,"-dedicated") ? TRUE : !psDeviceFlags.is	(rsFullscreen);
-    BOOL bWindowed = !psDeviceFlags.is(rsFullscreen);
+    BOOL bWindowed     = !psDeviceFlags.is(rsFullscreen);
 
-    u32 dwWindowStyle = 0;
+    u32  dwWindowStyle = 0;
     // Set window properties depending on what mode were in.
     if (bWindowed)
     {
@@ -815,7 +815,8 @@ void CHW::updateWindowProps(HWND m_hWnd)
 
 struct _uniq_mode
 {
-    _uniq_mode(LPCSTR v): _val(v) {}
+    _uniq_mode(LPCSTR v):
+        _val(v) {}
     LPCSTR _val;
     bool   operator()(LPCSTR _other)
     {
@@ -915,7 +916,7 @@ void fill_vid_mode_list(CHW* _hw)
     xr_vector<LPCSTR>         _tmp;
     xr_vector<DXGI_MODE_DESC> modes;
 
-    IDXGIOutput* pOutput;
+    IDXGIOutput*              pOutput;
     //_hw->m_pSwapChain->GetContainingOutput(&pOutput);
     _hw->m_pAdapter->EnumOutputs(0, &pOutput);
     VERIFY(pOutput);
@@ -953,9 +954,9 @@ void fill_vid_mode_list(CHW* _hw)
     //	_tmp.push_back				(NULL);
     //	_tmp.back()					= xr_strdup("1024x768");
 
-    u32 _cnt = _tmp.size() + 1;
+    u32 _cnt                      = _tmp.size() + 1;
 
-    vid_mode_token = xr_alloc<xr_token>(_cnt);
+    vid_mode_token                = xr_alloc<xr_token>(_cnt);
 
     vid_mode_token[_cnt - 1].id   = -1;
     vid_mode_token[_cnt - 1].name = NULL;
@@ -1023,7 +1024,7 @@ void CHW::UpdateViews()
 
     // Create a render target view
     // R_CHK	(pDevice->GetRenderTarget			(0,&pBaseRT));
-    ID3DTexture2D* pBuffer;
+    ID3DTexture2D*        pBuffer;
     R = m_pSwapChain->GetBuffer(0, __uuidof(ID3DTexture2D), (LPVOID*)&pBuffer);
     R_CHK(R);
 

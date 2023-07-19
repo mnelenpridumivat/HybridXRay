@@ -79,9 +79,9 @@ void CRenderTarget::accum_spot_geom_create()
 
     // Indices
     {
-        u32 iCount = DU_CONE_NUMFACES * 3;
+        u32   iCount = DU_CONE_NUMFACES * 3;
 
-        BYTE* pData = 0;
+        BYTE* pData  = 0;
         R_CHK(HW.pDevice->CreateIndexBuffer(iCount * 2, dwUsage, D3DFMT_INDEX16, D3DPOOL_MANAGED, &g_accum_spot_ib, 0));
         HW.stats_manager.increment_stats_ib(g_accum_spot_ib);
         R_CHK(g_accum_spot_ib->Lock(0, 0, (void**)&pData, 0));
@@ -142,7 +142,7 @@ void CRenderTarget::accum_volumetric_geom_create()
     {
         const u32 iCount = VOLUMETRIC_SLICES * 6;
 
-        BYTE* pData = 0;
+        BYTE*     pData  = 0;
         R_CHK(HW.pDevice->CreateIndexBuffer(
             iCount * 2, dwUsage, D3DFMT_INDEX16, D3DPOOL_MANAGED, &g_accum_volumetric_ib, 0));
         HW.stats_manager.increment_stats_ib(g_accum_volumetric_ib);

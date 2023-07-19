@@ -17,7 +17,6 @@ public:
     Fvector2 tc[3];
     Fvector  N;
     u32      sm_group;
-
 public:
     virtual Fvector2* getTC0()
     {
@@ -53,7 +52,6 @@ struct XRLC_LIGHT_API data_vertex: public base_Vertex
 {
     // v_faces		adjacent;
     typedef data_face DataFaceType;
-
 public:
     //		void		prep_add			(_face* F);
     //		void		prep_remove			(_face* F);

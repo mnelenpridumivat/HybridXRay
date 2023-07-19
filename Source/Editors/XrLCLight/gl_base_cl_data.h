@@ -12,14 +12,13 @@
 namespace lc_net
 {
 
-    template <> class net_global_data_impl<gl_base_cl_data>
+    template<> class net_global_data_impl<gl_base_cl_data>
     {
     public:
         void init()
         {
             data_init();
         }
-
     protected:
         void   create_data_file(LPCSTR path);
         bool   create_data(LPCSTR path);

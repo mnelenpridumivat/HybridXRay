@@ -92,7 +92,6 @@ public:
     CSimulatorTSS   TSS;
     CSimulatorRS    RS;
     SimulatorStates container;
-
 public:
     CSimulator()
     {

@@ -11,23 +11,23 @@ static xrCriticalSection csLog
 #endif   // PROFILE_CRITICAL_SECTIONS
         ;
 
-volatile BOOL bClose = FALSE;
+volatile BOOL           bClose           = FALSE;
 
-static char  status[1024]     = "";
-static char  phase[1024]      = "";
-static float progress         = 0.0f;
-static u32   phase_start_time = 0;
-static BOOL  bStatusChange    = FALSE;
-static BOOL  bPhaseChange     = FALSE;
-static u32   phase_total_time = 0;
+static char             status[1024]     = "";
+static char             phase[1024]      = "";
+static float            progress         = 0.0f;
+static u32              phase_start_time = 0;
+static BOOL             bStatusChange    = FALSE;
+static BOOL             bPhaseChange     = FALSE;
+static u32              phase_total_time = 0;
 
-static HWND hwLog       = 0;
-static HWND hwProgress  = 0;
-static HWND hwInfo      = 0;
-static HWND hwStage     = 0;
-static HWND hwTime      = 0;
-static HWND hwPText     = 0;
-static HWND hwPhaseTime = 0;
+static HWND             hwLog            = 0;
+static HWND             hwProgress       = 0;
+static HWND             hwInfo           = 0;
+static HWND             hwStage          = 0;
+static HWND             hwTime           = 0;
+static HWND             hwPText          = 0;
+static HWND             hwPhaseTime      = 0;
 
 //************************* Log-thread data
 static INT_PTR CALLBACK logDlgProc(HWND hw, UINT msg, WPARAM wp, LPARAM lp)
@@ -281,7 +281,6 @@ class client_log_impl: public i_lc_log
     {
         ::Phase(phase_name);
     }
-
 public:
     client_log_impl()
     {

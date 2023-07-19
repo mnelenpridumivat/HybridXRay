@@ -25,8 +25,8 @@ void CBackend::CreateQuadIB()
     // if (HW.Caps.geometry.bSoftware)	dwUsage|=D3DUSAGE_SOFTWAREPROCESSING;
     // R_CHK(HW.pDevice->CreateIndexBuffer(dwIdxCount*2,dwUsage,D3DFMT_INDEX16,D3DPOOL_MANAGED,&QuadIB,NULL));
 
-    D3D_BUFFER_DESC desc;
-    desc.ByteWidth = dwIdxCount * 2;
+    D3D_BUFFER_DESC  desc;
+    desc.ByteWidth      = dwIdxCount * 2;
     // desc.Usage = D3D_USAGE_IMMUTABLE;
     desc.Usage          = D3D_USAGE_DEFAULT;
     desc.BindFlags      = D3D_BIND_INDEX_BUFFER;
@@ -60,7 +60,7 @@ void CBackend::CreateQuadIB()
     HW.stats_manager.increment_stats_ib(QuadIB);
 }
 
-#else   //	USE_DX10
+#else    //	USE_DX10
 
 // Igor: is used to test bug with rain, particles corruption
 void CBackend::RestoreQuadIBData()

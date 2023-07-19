@@ -17,9 +17,9 @@ void _TCF::barycentric(Fvector2& P, float& u, float& v, float& w)
     float fR1  = kV12.dot(kPV2);
     float fDet = fM00 * fM11 - fM01 * fM01;
 
-    u = (fM11 * fR0 - fM01 * fR1) / fDet;
-    v = (fM00 * fR1 - fM01 * fR0) / fDet;
-    w = 1.0f - u - v;
+    u          = (fM11 * fR0 - fM01 * fR1) / fDet;
+    v          = (fM00 * fR1 - fM01 * fR0) / fDet;
+    w          = 1.0f - u - v;
 }
 //	Fvector2			uv	[3];
 void _TCF::read(INetReader& r)

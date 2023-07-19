@@ -38,7 +38,6 @@ private:
         Fvector v[3];
         Fvector N;
     };
-
 public:
     struct cache_item
     {
@@ -57,7 +56,6 @@ public:
             tris = 0;
         }
     };
-
 private:
     IRenderable*          current;
     xr_vector<caster*>    casters_pool;
@@ -67,16 +65,15 @@ private:
     xr_vector<cache_item> cache;
     xrXRC                 xrc;
 
-    ref_rt     RT;
-    ref_rt     RT_temp;
-    ref_shader sh_BlurTR;
-    ref_shader sh_BlurRT;
-    ref_geom   geom_Blur;
-    ref_shader sh_World;
-    ref_geom   geom_World;
-    ref_shader sh_Screen;
-    ref_geom   geom_Screen;
-
+    ref_rt                RT;
+    ref_rt                RT_temp;
+    ref_shader            sh_BlurTR;
+    ref_shader            sh_BlurRT;
+    ref_geom              geom_Blur;
+    ref_shader            sh_World;
+    ref_geom              geom_World;
+    ref_shader            sh_Screen;
+    ref_geom              geom_Screen;
 private:
 public:
     void set_object(IRenderable* O);

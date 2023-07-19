@@ -185,22 +185,16 @@ void CLightR_Manager::render_point(u32 _priority)
         float   fTexelOffs    = (.5f / SSM_tex_size);
         float   fRange        = 1.f / L->range;
         float   fBias         = 0.f;
-        Fmatrix m_TexelAdjust = {0.5f,
-                                 0.0f,
-                                 0.0f,
-                                 0.0f,
-                                 0.0f,
-                                 -0.5f,
-                                 0.0f,
-                                 0.0f,
-                                 0.0f,
-                                 0.0f,
-                                 fRange,
-                                 0.0f,
-                                 0.5f + fTexelOffs,
-                                 0.5f + fTexelOffs,
-                                 fBias,
-                                 1.0f};
+        Fmatrix m_TexelAdjust =
+        {
+            0.5f, 0.0f, 0.0f,
+            0.0f, 0.0f, -0.5f,
+            0.0f, 0.0f, 0.0f,
+            0.0f, fRange, 0.0f,
+            0.5f + fTexelOffs,
+            0.5f + fTexelOffs,
+            fBias, 1.0f
+        };
         Fmatrix L_texgen;
         L_texgen.mul(m_TexelAdjust, L_combine);
 
@@ -245,11 +239,11 @@ void CLightR_Manager::render_spot(u32 _priority)
 
     for (xr_vector<light*>::iterator it = selected_spot.begin(); it != selected_spot.end(); it++)
     {
-        light* L = *it;
+        light* L        = *it;
 
         //		0. Dimm & Clip
-        float lc_dist  = lc_COP.distance_to(L->spatial.sphere.P) - L->spatial.sphere.R;
-        float lc_scale = 1 - lc_dist / lc_limit;
+        float  lc_dist  = lc_COP.distance_to(L->spatial.sphere.P) - L->spatial.sphere.R;
+        float  lc_scale = 1 - lc_dist / lc_limit;
         if (lc_scale < EPS)
             continue;
 
@@ -274,22 +268,16 @@ void CLightR_Manager::render_spot(u32 _priority)
         float   fTexelOffs    = (.5f / SSM_tex_size);
         float   fRange        = 1.f / L->range;
         float   fBias         = 0.f;
-        Fmatrix m_TexelAdjust = {0.5f,
-                                 0.0f,
-                                 0.0f,
-                                 0.0f,
-                                 0.0f,
-                                 -0.5f,
-                                 0.0f,
-                                 0.0f,
-                                 0.0f,
-                                 0.0f,
-                                 fRange,
-                                 0.0f,
-                                 0.5f + fTexelOffs,
-                                 0.5f + fTexelOffs,
-                                 fBias,
-                                 1.0f};
+        Fmatrix m_TexelAdjust =
+        {
+            0.5f, 0.0f, 0.0f,
+            0.0f, 0.0f, -0.5f,
+            0.0f, 0.0f, 0.0f,
+            0.0f, fRange, 0.0f,
+            0.5f + fTexelOffs,
+            0.5f + fTexelOffs,
+            fBias, 1.0f
+        };
         Fmatrix L_texgen;
         L_texgen.mul(m_TexelAdjust, L_combine);
 

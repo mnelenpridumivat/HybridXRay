@@ -89,7 +89,7 @@ Tvertex<DataVertex>::Tvertex()
     m_adjacents.reserve(4);
 }
 
-template <> Tvertex<DataVertex>::~Tvertex()
+template<> Tvertex<DataVertex>::~Tvertex()
 {
     if (g_bUnregister)
     {
@@ -126,7 +126,7 @@ Vertex* Vertex::read_create()
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-template <> Tface<DataVertex>::Tface()
+template<> Tface<DataVertex>::Tface()
 {
     pDeflector      = 0;
     flags.bSplitted = false;
@@ -140,7 +140,7 @@ template <> Tface<DataVertex>::Tface()
     lmap_layer = NULL;
 }
 
-template <> Tface<DataVertex>::~Tface()
+template<> Tface<DataVertex>::~Tface()
 {
     if (g_bUnregister)
     {
@@ -164,7 +164,7 @@ template <> Tface<DataVertex>::~Tface()
 
 // #define VPUSH(a) ((a).x), ((a).y), ((a).z)
 
-template <> void Face::Failure()
+template<> void Face::Failure()
 {
     dwInvalidFaces++;
 

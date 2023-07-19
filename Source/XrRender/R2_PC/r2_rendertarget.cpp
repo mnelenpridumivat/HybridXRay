@@ -88,8 +88,8 @@ void CRenderTarget::u_compute_texgen_screen(Fmatrix& m_Texgen)
     float   _h            = float(Device->dwHeight);
     float   o_w           = (.5f / _w);
     float   o_h           = (.5f / _h);
-    Fmatrix m_TexelAdjust = {0.5f, 0.0f, 0.0f, 0.0f, 0.0f,       -0.5f,      0.0f, 0.0f,
-                             0.0f, 0.0f, 1.0f, 0.0f, 0.5f + o_w, 0.5f + o_h, 0.0f, 1.0f};
+    Fmatrix m_TexelAdjust = {0.5f, 0.0f, 0.0f, 0.0f, 0.0f, -0.5f, 0.0f, 0.0f,
+        0.0f, 0.0f, 1.0f, 0.0f, 0.5f + o_w, 0.5f + o_h, 0.0f, 1.0f};
     m_Texgen.mul(m_TexelAdjust, RCache.xforms.m_wvp);
 }
 
@@ -98,7 +98,7 @@ void CRenderTarget::u_compute_texgen_jitter(Fmatrix& m_Texgen_J)
 {
     // place into	0..1 space
     Fmatrix m_TexelAdjust = {0.5f, 0.0f, 0.0f, 0.0f, 0.0f, -0.5f, 0.0f, 0.0f,
-                             0.0f, 0.0f, 1.0f, 0.0f, 0.5f, 0.5f,  0.0f, 1.0f};
+        0.0f, 0.0f, 1.0f, 0.0f, 0.5f, 0.5f, 0.0f, 1.0f};
     m_Texgen_J.mul(m_TexelAdjust, RCache.xforms.m_wvp);
 
     // rescale - tile it
@@ -137,12 +137,12 @@ Fvector vunpack(Ivector src)
 Ivector vpack(Fvector src)
 {
     Fvector _v;
-    int     bx = fpack(src.x);
-    int     by = fpack(src.y);
-    int     bz = fpackZ(src.z);
+    int     bx     = fpack(src.x);
+    int     by     = fpack(src.y);
+    int     bz     = fpackZ(src.z);
     // dumb test
-    float e_best = flt_max;
-    int   r = bx, g = by, b = bz;
+    float   e_best = flt_max;
+    int     r = bx, g = by, b = bz;
 #ifdef DEBUG
     int d = 0;
 #else
@@ -205,12 +205,12 @@ CRenderTarget::CRenderTarget()
     param_noise_fps   = 25.f;
     param_noise_scale = 1.f;
 
-    im_noise_time    = 1 / 100;
-    im_noise_shift_w = 0;
-    im_noise_shift_h = 0;
+    im_noise_time     = 1 / 100;
+    im_noise_shift_w  = 0;
+    im_noise_shift_h  = 0;
 
-    param_color_base = color_rgba(127, 127, 127, 0);
-    param_color_gray = color_rgba(85, 85, 85, 0);
+    param_color_base  = color_rgba(127, 127, 127, 0);
+    param_color_gray  = color_rgba(85, 85, 85, 0);
     param_color_add.set(0.0f, 0.0f, 0.0f);
 
     dwAccumulatorClearMark = 0;
@@ -485,22 +485,26 @@ CRenderTarget::CRenderTarget()
 
                         switch (slice)
                         {
-                            case 0: {                   // looks like OrenNayar
+                            case 0:
+                            {                           // looks like OrenNayar
                                 fd = powf(ld, 0.75f);   // 0.75
                                 fs = powf(ls, 16.f) * .5f;
                             }
                             break;
-                            case 1: {                   // looks like Blinn
+                            case 1:
+                            {                           // looks like Blinn
                                 fd = powf(ld, 0.90f);   // 0.90
                                 fs = powf(ls, 24.f);
                             }
                             break;
-                            case 2: {      // looks like Phong
+                            case 2:
+                            {              // looks like Phong
                                 fd = ld;   // 1.0
                                 fs = powf(ls * 1.01f, 128.f);
                             }
                             break;
-                            case 3: {   // looks like Metal
+                            case 3:
+                            {   // looks like Metal
                                 float s0 = _abs(1 - _abs(0.05f * _sin(33.f * ld) + ld - ls));
                                 float s1 = _abs(1 - _abs(0.05f * _cos(33.f * ld * ls) + ld - ls));
                                 float s2 = _abs(1 - _abs(ld - ls));
@@ -593,15 +597,15 @@ CRenderTarget::CRenderTarget()
                             numDir = 8.0f;
                             break;
                     }
-                    float angle = 2 * PI * ::Random.randF(0.0f, 1.0f) / numDir;
-                    float dist  = ::Random.randF(0.0f, 1.0f);
+                    float  angle = 2 * PI * ::Random.randF(0.0f, 1.0f) / numDir;
+                    float  dist  = ::Random.randF(0.0f, 1.0f);
                     // float dest[4];
 
-                    float* p = (float*)(LPBYTE(R[it].pBits) + y * R[it].Pitch + x * 4 * sizeof(float));
-                    *p       = (float)(_cos(angle));
-                    *(p + 1) = (float)(_sin(angle));
-                    *(p + 2) = (float)(dist);
-                    *(p + 3) = 0;
+                    float* p     = (float*)(LPBYTE(R[it].pBits) + y * R[it].Pitch + x * 4 * sizeof(float));
+                    *p           = (float)(_cos(angle));
+                    *(p + 1)     = (float)(_sin(angle));
+                    *(p + 2)     = (float)(dist);
+                    *(p + 3)     = 0;
 
                     // generate_hbao_jitter	(data,TEX_jitter*TEX_jitter);
                 }
@@ -652,7 +656,7 @@ CRenderTarget::~CRenderTarget()
 #ifdef DEBUG
     ID3DBaseTexture* pSurf = 0;
 
-    pSurf = t_envmap_0->surface_get();
+    pSurf                  = t_envmap_0->surface_get();
     if (pSurf)
         pSurf->Release();
     _SHOW_REF("t_envmap_0 - #small", pSurf);

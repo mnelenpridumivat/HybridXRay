@@ -10,7 +10,6 @@ class dxUIShader: public IUIShader
     friend class dxDebugRender;
     friend class dxWallMarkArray;
     friend class CRender;
-
 public:
     virtual ~dxUIShader()
     {
@@ -23,7 +22,6 @@ public:
         return hShader;
     }
     virtual void destroy();
-
 private:
     ref_shader hShader;
 };

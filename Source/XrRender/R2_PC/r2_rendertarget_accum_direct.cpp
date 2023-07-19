@@ -5,10 +5,17 @@
 //////////////////////////////////////////////////////////////////////////
 // tables to calculate view-frustum bounds in world space
 // note: D3D uses [0..1] range for Z
-static Fvector3 corners[8]       = {{-1, -1, 0.7}, {-1, -1, +1},  {-1, +1, +1}, {-1, +1, 0.7},
-                                    {+1, +1, +1},  {+1, +1, 0.7}, {+1, -1, +1}, {+1, -1, 0.7}};
-static u16      facetable[16][3] = {
-    {3, 2, 1}, {3, 1, 0}, {7, 6, 5}, {5, 6, 4}, {3, 5, 2}, {4, 2, 5}, {1, 6, 7}, {7, 0, 1},
+static Fvector3 corners[8] =
+{
+    {-1, -1, 0.7}, {-1, -1, +1},  {-1, +1, +1}, {-1, +1, 0.7},
+    {+1, +1, +1},  {+1, +1, 0.7}, {+1, -1, +1}, {+1, -1, 0.7}
+};
+static u16 facetable[16][3] =
+{
+    {3, 2, 1}, {3, 1, 0},
+    {7, 6, 5}, {5, 6, 4},
+    {3, 5, 2}, {4, 2, 5},
+    {1, 6, 7}, {7, 0, 1},
 
     {5, 3, 0}, {7, 5, 0},
 
@@ -26,7 +33,7 @@ void CRenderTarget::accum_direct(u32 sub_phase)
     }
 
     // *** assume accumulator setted up ***
-    light* fuckingsun = (light*)RImplementation.Lights.sun_adapted._get();
+    light*   fuckingsun = (light*)RImplementation.Lights.sun_adapted._get();
 
     // Common calc for quad-rendering
     u32      Offset;
@@ -36,7 +43,7 @@ void CRenderTarget::accum_direct(u32 sub_phase)
     Fvector2 p0, p1;
     p0.set(.5f / _w, .5f / _h);
     p1.set((_w + .5f) / _w, (_h + .5f) / _h);
-    float d_Z = EPS_S, d_W = 1.f;
+    float   d_Z = EPS_S, d_W = 1.f;
 
     // Common constants (light-related)
     Fvector L_dir, L_clr;
@@ -95,28 +102,22 @@ void CRenderTarget::accum_direct(u32 sub_phase)
         RCache.set_ColorWriteEnable();
 
         // texture adjustment matrix
-        float fTexelOffs = (.5f / float(RImplementation.o.smapsize));
-        float fRange     = (SE_SUN_NEAR == sub_phase) ? ps_r2_sun_depth_near_scale : ps_r2_sun_depth_far_scale;
+        float   fTexelOffs    = (.5f / float(RImplementation.o.smapsize));
+        float   fRange        = (SE_SUN_NEAR == sub_phase) ? ps_r2_sun_depth_near_scale : ps_r2_sun_depth_far_scale;
         // float			fBias				=
         // (SE_SUN_NEAR==sub_phase)?ps_r2_sun_depth_near_bias:ps_r2_sun_depth_far_bias; 	Use this when triangle culling
         //is not inverted.
         float   fBias         = (SE_SUN_NEAR == sub_phase) ? (-ps_r2_sun_depth_near_bias) : ps_r2_sun_depth_far_bias;
-        Fmatrix m_TexelAdjust = {0.5f,
-                                 0.0f,
-                                 0.0f,
-                                 0.0f,
-                                 0.0f,
-                                 -0.5f,
-                                 0.0f,
-                                 0.0f,
-                                 0.0f,
-                                 0.0f,
-                                 fRange,
-                                 0.0f,
-                                 0.5f + fTexelOffs,
-                                 0.5f + fTexelOffs,
-                                 fBias,
-                                 1.0f};
+        Fmatrix m_TexelAdjust =
+        {
+            0.5f, 0.0f, 0.0f,
+            0.0f, 0.0f, -0.5f,
+            0.0f, 0.0f, 0.0f,
+            0.0f, fRange, 0.0f,
+            0.5f + fTexelOffs,
+            0.5f + fTexelOffs,
+            fBias, 1.0f
+        };
 
         // compute xforms
         FPU::m64r();
@@ -150,7 +151,7 @@ void CRenderTarget::accum_direct(u32 sub_phase)
             Fvector      direction = fuckingsun->direction;
             float        w_dir     = g_pGamePersistent->Environment().CurrentEnv->wind_direction;
             // float	w_speed				= g_pGamePersistent->Environment().CurrentEnv->wind_velocity	;
-            Fvector normal;
+            Fvector      normal;
             normal.setHP(w_dir, 0);
             w_shift += 0.003f * Device->fTimeDelta;
             Fvector position;
@@ -170,7 +171,7 @@ void CRenderTarget::accum_direct(u32 sub_phase)
         Fvector2 j0, j1;
         float    scale_X = float(Device->dwWidth) / float(TEX_jitter);
         // float	scale_Y				= float(Device->dwHeight)/ float(TEX_jitter);
-        float offset = (.5f / float(TEX_jitter));
+        float    offset  = (.5f / float(TEX_jitter));
         j0.set(offset, offset);
         j1.set(scale_X, scale_X).add(offset);
 
@@ -263,7 +264,7 @@ void CRenderTarget::accum_direct_cascade(u32 sub_phase, Fmatrix& xform, Fmatrix&
     }
 
     // *** assume accumulator setted up ***
-    light* fuckingsun = (light*)RImplementation.Lights.sun_adapted._get();
+    light*   fuckingsun = (light*)RImplementation.Lights.sun_adapted._get();
 
     // Common calc for quad-rendering
     u32      Offset;
@@ -273,7 +274,7 @@ void CRenderTarget::accum_direct_cascade(u32 sub_phase, Fmatrix& xform, Fmatrix&
     Fvector2 p0, p1;
     p0.set(.5f / _w, .5f / _h);
     p1.set((_w + .5f) / _w, (_h + .5f) / _h);
-    float d_Z = EPS_S, d_W = 1.f;
+    float   d_Z = EPS_S, d_W = 1.f;
 
     // Common constants (light-related)
     Fvector L_dir, L_clr;
@@ -333,29 +334,23 @@ void CRenderTarget::accum_direct_cascade(u32 sub_phase, Fmatrix& xform, Fmatrix&
         RCache.set_ColorWriteEnable();
 
         // texture adjustment matrix
-        float fTexelOffs = (0.5f / float(RImplementation.o.smapsize));
-        float fRange     = (SE_SUN_NEAR == sub_phase) ? ps_r2_sun_depth_near_scale : ps_r2_sun_depth_far_scale;
+        float   fTexelOffs    = (0.5f / float(RImplementation.o.smapsize));
+        float   fRange        = (SE_SUN_NEAR == sub_phase) ? ps_r2_sun_depth_near_scale : ps_r2_sun_depth_far_scale;
         // float			fBias				=
         // (SE_SUN_NEAR==sub_phase)?ps_r2_sun_depth_near_bias:ps_r2_sun_depth_far_bias; 	Use this when triangle culling
         //is not inverted.
         //		float			fBias				=
         //(SE_SUN_NEAR==sub_phase)?(-ps_r2_sun_depth_near_bias):ps_r2_sun_depth_far_bias;
-        Fmatrix m_TexelAdjust = {0.5f,
-                                 0.0f,
-                                 0.0f,
-                                 0.0f,
-                                 0.0f,
-                                 -0.5f,
-                                 0.0f,
-                                 0.0f,
-                                 0.0f,
-                                 0.0f,
-                                 fRange,
-                                 0.0f,
-                                 0.5f + fTexelOffs,
-                                 0.5f + fTexelOffs,
-                                 fBias,
-                                 1.0f};
+        Fmatrix m_TexelAdjust =
+        {
+            0.5f, 0.0f, 0.0f,
+            0.0f, 0.0f, -0.5f,
+            0.0f, 0.0f, 0.0f,
+            0.0f, fRange, 0.0f,
+            0.5f + fTexelOffs,
+            0.5f + fTexelOffs,
+            fBias, 1.0f
+        };
 
         // compute xforms
         FPU::m64r();
@@ -389,7 +384,7 @@ void CRenderTarget::accum_direct_cascade(u32 sub_phase, Fmatrix& xform, Fmatrix&
             Fvector      direction = fuckingsun->direction;
             float        w_dir     = g_pGamePersistent->Environment().CurrentEnv->wind_direction;
             // float	w_speed				= g_pGamePersistent->Environment().CurrentEnv->wind_velocity	;
-            Fvector normal;
+            Fvector      normal;
             normal.setHP(w_dir, 0);
             w_shift += 0.003f * Device->fTimeDelta;
             Fvector position;
@@ -416,7 +411,7 @@ void CRenderTarget::accum_direct_cascade(u32 sub_phase, Fmatrix& xform, Fmatrix&
         Fvector2 j0, j1;
         float    scale_X = float(Device->dwWidth) / float(TEX_jitter);
         // float	scale_Y				= float(Device->dwHeight)/ float(TEX_jitter);
-        float offset = (.5f / float(TEX_jitter));
+        float    offset  = (.5f / float(TEX_jitter));
         j0.set(offset, offset);
         j1.set(scale_X, scale_X).add(offset);
 
@@ -561,7 +556,7 @@ void CRenderTarget::accum_direct_blend()
         Fvector2 p0, p1;
         p0.set(.5f / _w, .5f / _h);
         p1.set((_w + .5f) / _w, (_h + .5f) / _h);
-        float d_Z = EPS_S, d_W = 1.f;
+        float       d_Z = EPS_S, d_W = 1.f;
 
         // Fill vertex buffer
         FVF::TL2uv* pv = (FVF::TL2uv*)RCache.Vertex.Lock(4, g_combine_2UV->vb_stride, Offset);
@@ -595,7 +590,7 @@ void CRenderTarget::accum_direct_f(u32 sub_phase)
     u_setrt(rt_Generic_0, NULL, NULL, HW.pBaseZB);
 
     // *** assume accumulator setted up ***
-    light* fuckingsun = (light*)RImplementation.Lights.sun_adapted._get();
+    light*   fuckingsun = (light*)RImplementation.Lights.sun_adapted._get();
 
     // Common calc for quad-rendering
     u32      Offset;
@@ -605,7 +600,7 @@ void CRenderTarget::accum_direct_f(u32 sub_phase)
     Fvector2 p0, p1;
     p0.set(.5f / _w, .5f / _h);
     p1.set((_w + .5f) / _w, (_h + .5f) / _h);
-    float d_Z = EPS_S, d_W = 1.f;
+    float   d_Z = EPS_S, d_W = 1.f;
 
     // Common constants (light-related)
     Fvector L_dir, L_clr;
@@ -670,22 +665,16 @@ void CRenderTarget::accum_direct_f(u32 sub_phase)
         float   fTexelOffs    = (.5f / float(RImplementation.o.smapsize));
         float   fRange        = (SE_SUN_NEAR == sub_phase) ? ps_r2_sun_depth_near_scale : ps_r2_sun_depth_far_scale;
         float   fBias         = (SE_SUN_NEAR == sub_phase) ? ps_r2_sun_depth_near_bias : ps_r2_sun_depth_far_bias;
-        Fmatrix m_TexelAdjust = {0.5f,
-                                 0.0f,
-                                 0.0f,
-                                 0.0f,
-                                 0.0f,
-                                 -0.5f,
-                                 0.0f,
-                                 0.0f,
-                                 0.0f,
-                                 0.0f,
-                                 fRange,
-                                 0.0f,
-                                 0.5f + fTexelOffs,
-                                 0.5f + fTexelOffs,
-                                 fBias,
-                                 1.0f};
+        Fmatrix m_TexelAdjust =
+        {
+            0.5f, 0.0f, 0.0f,
+            0.0f, 0.0f, -0.5f,
+            0.0f, 0.0f, 0.0f,
+            0.0f, fRange, 0.0f,
+            0.5f + fTexelOffs,
+            0.5f + fTexelOffs,
+            fBias, 1.0f
+        };
 
         // compute xforms
         Fmatrix m_shadow;
@@ -713,7 +702,7 @@ void CRenderTarget::accum_direct_f(u32 sub_phase)
         Fvector2 j0, j1;
         float    scale_X = float(Device->dwWidth) / float(TEX_jitter);
         // float	scale_Y				= float(Device->dwHeight)/ float(TEX_jitter);
-        float offset = (.5f / float(TEX_jitter));
+        float    offset  = (.5f / float(TEX_jitter));
         j0.set(offset, offset);
         j1.set(scale_X, scale_X).add(offset);
 
@@ -751,17 +740,17 @@ void CRenderTarget::accum_direct_lum()
     phase_accumulator();
 
     // *** assume accumulator setted up ***
-    light* fuckingsun = (light*)RImplementation.Lights.sun_adapted._get();
+    light*   fuckingsun = (light*)RImplementation.Lights.sun_adapted._get();
 
     // Common calc for quad-rendering
-    u32 Offset;
+    u32      Offset;
     // u32		C					= color_rgba	(255,255,255,255);
     float    _w = float(Device->dwWidth);
     float    _h = float(Device->dwHeight);
     Fvector2 p0, p1;
     p0.set(.5f / _w, .5f / _h);
     p1.set((_w + .5f) / _w, (_h + .5f) / _h);
-    float d_Z = EPS_S;   //, d_W = 1.f;
+    float   d_Z = EPS_S;   //, d_W = 1.f;
 
     // Common constants (light-related)
     Fvector L_dir, L_clr;
@@ -790,7 +779,7 @@ void CRenderTarget::accum_direct_lum()
     Fvector2 j0, j1;
     float    scale_X = float(Device->dwWidth) / float(TEX_jitter);
     //		float	scale_Y				= float(Device->dwHeight)/ float(TEX_jitter);
-    float offset = (.5f / float(TEX_jitter));
+    float    offset  = (.5f / float(TEX_jitter));
     j0.set(offset, offset);
     j1.set(scale_X, scale_X).add(offset);
 
@@ -929,7 +918,7 @@ void CRenderTarget::accum_direct_volumetric(u32 sub_phase, const u32 Offset, con
     // Perform lighting
     {
         // *** assume accumulator setted up ***
-        light* fuckingsun = (light*)RImplementation.Lights.sun_adapted._get();
+        light*  fuckingsun = (light*)RImplementation.Lights.sun_adapted._get();
 
         // Common constants (light-related)
         Fvector L_clr;

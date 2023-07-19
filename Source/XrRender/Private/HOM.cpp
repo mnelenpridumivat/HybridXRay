@@ -11,7 +11,7 @@
 
 float psOSSR = .001f;
 
-void CHOM::MT_RENDER()
+void  CHOM::MT_RENDER()
 {
     MT.Enter();
     bool b_main_menu_is_active = (g_pGamePersistent->m_pMainMenu && g_pGamePersistent->m_pMainMenu->IsActive());
@@ -60,7 +60,7 @@ IC float Area(Fvector& v0, Fvector& v1, Fvector& v2)
     float e2 = v0.distance_to(v2);
     float e3 = v1.distance_to(v2);
 
-    float p = (e1 + e2 + e3) / 2.f;
+    float p  = (e1 + e2 + e3) / 2.f;
     return _sqrt(p * (p - e1) * (p - e2) * (p - e3));
 }
 
@@ -76,8 +76,8 @@ void CHOM::Load()
     }
     Msg("* Loading HOM: %s", fName);
 
-    IReader* fs = FS.r_open(fName);
-    IReader* S  = fs->open_chunk(1);
+    IReader*       fs = FS.r_open(fName);
+    IReader*       S  = fs->open_chunk(1);
 
     // Load tris and merge them
     CDB::Collector CL;
@@ -135,10 +135,11 @@ class pred_fb
 public:
     occTri* m_pTris;
     Fvector camera;
-
 public:
-    pred_fb(occTri* _t): m_pTris(_t) {}
-    pred_fb(occTri* _t, Fvector& _c): m_pTris(_t), camera(_c) {}
+    pred_fb(occTri* _t):
+        m_pTris(_t) {}
+    pred_fb(occTri* _t, Fvector& _c):
+        m_pTris(_t), camera(_c) {}
     ICF bool operator()(const CDB::RESULT& _1, const CDB::RESULT& _2) const
     {
         occTri& t0 = m_pTris[_1.id];
@@ -156,12 +157,12 @@ void CHOM::Render_DB(CFrustum& base)
 {
     // Update projection matrices on every frame to ensure valid HOM culling
     float   view_dim      = occ_dim_0;
-    Fmatrix m_viewport    = {view_dim / 2.f, 0.0f, 0.0f, 0.0f, 0.0f, -view_dim / 2.f,        0.0f,
-                             0.0f,           0.0f, 0.0f, 1.0f, 0.0f, view_dim / 2.f + 0 + 0, view_dim / 2.f + 0 + 0,
-                             0.0f,           1.0f};
-    Fmatrix m_viewport_01 = {1.f / 2.f, 0.0f, 0.0f, 0.0f, 0.0f, -1.f / 2.f,        0.0f,
-                             0.0f,      0.0f, 0.0f, 1.0f, 0.0f, 1.f / 2.f + 0 + 0, 1.f / 2.f + 0 + 0,
-                             0.0f,      1.0f};
+    Fmatrix m_viewport    = {view_dim / 2.f, 0.0f, 0.0f, 0.0f, 0.0f, -view_dim / 2.f, 0.0f,
+           0.0f, 0.0f, 0.0f, 1.0f, 0.0f, view_dim / 2.f + 0 + 0, view_dim / 2.f + 0 + 0,
+           0.0f, 1.0f};
+    Fmatrix m_viewport_01 = {1.f / 2.f, 0.0f, 0.0f, 0.0f, 0.0f, -1.f / 2.f, 0.0f,
+        0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.f / 2.f + 0 + 0, 1.f / 2.f + 0 + 0,
+        0.0f, 1.0f};
     m_xform.mul(m_viewport, Device->mFullTransform);
     m_xform_01.mul(m_viewport_01, Device->mFullTransform);
 
@@ -175,8 +176,8 @@ void CHOM::Render_DB(CFrustum& base)
     CDB::RESULT* it  = xrc.r_begin();
     CDB::RESULT* end = xrc.r_end();
 
-    Fvector COP = Device->vCameraPosition;
-    end         = std::remove_if(it, end, pred_fb(m_pTris));
+    Fvector      COP = Device->vCameraPosition;
+    end              = std::remove_if(it, end, pred_fb(m_pTris));
     std::sort(it, end, pred_fb(m_pTris, COP));
 
     // Build frustum with near plane only

@@ -248,13 +248,13 @@ namespace ETOOLS
         const Fmatrix&   bone_transform        = K.LL_GetTransform(bone);
         const Fmatrix    bone_invert_transform = Fmatrix().invert(bone_transform);
 
-        Fvector l_origin;
+        Fvector          l_origin;
         bone_invert_transform.transform_tiny(l_origin, origin);
         Fvector l_direction;
         bone_invert_transform.transform_dir(l_direction, direction);
         const SBoneShape& bone_shape = d.get_shape();
 
-        bool result = false;
+        bool              result     = false;
         switch (bone_shape.type)
         {
             case SBoneShape::stNone:
@@ -319,7 +319,7 @@ namespace ETOOLS
     {
         const Fmatrix inverce_object_transform = Fmatrix().invert(object_transform);
 
-        Fvector l_origin;
+        Fvector       l_origin;
         inverce_object_transform.transform_tiny(l_origin, origin);
         Fvector l_direction;
         inverce_object_transform.transform_dir(l_direction, direction);

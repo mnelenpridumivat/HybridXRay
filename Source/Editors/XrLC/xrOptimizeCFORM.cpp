@@ -160,7 +160,7 @@ void CBuild::BuildCForm()
     IWriter*  MFS = FS.w_open(strconcat(fn, pBuild->path, "level.cform"));
 
     // Header
-    hdrCFORM hdr;
+    hdrCFORM  hdr;
     hdr.version   = CFORM_CURRENT_VERSION;
     hdr.vertcount = (u32)CL.getVS();
     hdr.facecount = (u32)CL.getTS();

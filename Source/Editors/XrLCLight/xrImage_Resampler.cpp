@@ -175,8 +175,8 @@ float Lanczos3_filter(float t)
 
 //
 #define Mitchell_support (2.0)
-#define B (1.0f / 3.0f)
-#define C (1.0f / 3.0f)
+#define B                (1.0f / 3.0f)
+#define C                (1.0f / 3.0f)
 
 float Mitchell_filter(float t)
 {
@@ -194,7 +194,7 @@ float Mitchell_filter(float t)
     {
         t =
             (((-1.0f * B - 6.0f * C) * (t * tt)) + ((6.0f * B + 30.0f * C) * tt) + ((-12.0f * B - 48.0f * C) * t) +
-             (8.0f * B + 24.f * C));
+                (8.0f * B + 24.f * C));
         return (t / 6.0f);
     }
     return (0.0);

@@ -23,16 +23,16 @@ public:
         xr_free(pData);
     }
 
-    void Create(u32 w, u32 h);
-    void Create(u32 w, u32 h, u32* data);
-    void Load(LPCSTR name);
-    bool LoadTGA(LPCSTR name);
-    void SaveTGA(LPCSTR name, BOOL b24 = FALSE);
+    void              Create(u32 w, u32 h);
+    void              Create(u32 w, u32 h, u32* data);
+    void              Load(LPCSTR name);
+    bool              LoadTGA(LPCSTR name);
+    void              SaveTGA(LPCSTR name, BOOL b24 = FALSE);
 
-    void Vflip(void);
-    void Hflip(void);
-    void Contrast(float Q);
-    void Grayscale();
+    void              Vflip(void);
+    void              Hflip(void);
+    void              Contrast(float Q);
+    void              Grayscale();
 
     __forceinline u32 GetPixel(int x, int y)
     {

@@ -9,7 +9,7 @@
 #pragma once
 
 #define TEMPLATE_SPECIALIZATION                                                                                  \
-    template <                                                                                                   \
+    template<                                                                                                    \
         typename _Graph, typename _DataStorage, typename _Parameters, typename _dist_type, typename _index_type, \
         typename _iteration_type>
 
@@ -74,7 +74,7 @@ IC void CGenericPathManager::init_path()
 }
 
 TEMPLATE_SPECIALIZATION
-template <typename T> IC void CGenericPathManager::create_path(T& vertex)
+template<typename T> IC void CGenericPathManager::create_path(T& vertex)
 {
     VERIFY(data_storage);
     //		Msg						("Path

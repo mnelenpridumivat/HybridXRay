@@ -20,7 +20,7 @@ struct intrusive_base
 
     IC intrusive_base(): m_ref_count(0) {}
 
-    template <typename T> IC void _release(T* object)
+    template<typename T> IC void _release(T* object)
     {
         try
         {
@@ -32,14 +32,13 @@ struct intrusive_base
     }
 };
 
-template <typename object_type, typename base_type = intrusive_base> class intrusive_ptr
+template<typename object_type, typename base_type = intrusive_base> class intrusive_ptr
 {
 private:
     typedef base_type                             base_type;
     typedef object_type                           object_type;
     typedef intrusive_ptr<object_type, base_type> self_type;
     typedef const object_type* (intrusive_ptr::*unspecified_bool_type)() const;
-
 private:
 #ifdef XRGAME_EXPORTS
     enum
@@ -56,10 +55,8 @@ private:
 #endif
 private:
     object_type* m_object;
-
 protected:
     IC void dec();
-
 public:
     IC intrusive_ptr();
     IC intrusive_ptr(object_type* rhs);
@@ -70,7 +67,7 @@ public:
     IC object_type& operator*() const;
     IC object_type* operator->() const;
     IC bool         operator!() const;
-    IC              operator unspecified_bool_type() const
+    IC operator unspecified_bool_type() const
     {
         return (!m_object ? 0 : &intrusive_ptr::get);
     }
@@ -82,19 +79,19 @@ public:
     IC const object_type* get() const;
 };
 
-template <typename object_type, typename base_type>
+template<typename object_type, typename base_type>
 IC bool operator==(intrusive_ptr<object_type, base_type> const& a, intrusive_ptr<object_type, base_type> const& b);
 
-template <typename object_type, typename base_type>
+template<typename object_type, typename base_type>
 IC bool operator!=(intrusive_ptr<object_type, base_type> const& a, intrusive_ptr<object_type, base_type> const& b);
 
-template <typename object_type, typename base_type>
+template<typename object_type, typename base_type>
 IC bool operator<(intrusive_ptr<object_type, base_type> const& a, intrusive_ptr<object_type, base_type> const& b);
 
-template <typename object_type, typename base_type>
+template<typename object_type, typename base_type>
 IC bool operator>(intrusive_ptr<object_type, base_type> const& a, intrusive_ptr<object_type, base_type> const& b);
 
-template <typename object_type, typename base_type>
+template<typename object_type, typename base_type>
 IC void swap(intrusive_ptr<object_type, base_type>& lhs, intrusive_ptr<object_type, base_type>& rhs);
 
 #include "intrusive_ptr_inline.h"

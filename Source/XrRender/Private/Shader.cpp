@@ -82,7 +82,7 @@ BOOL SPass::equal(const SPass& other)
     if (cs != other.cs)
         return FALSE;
 #endif
-#endif   //	USE_DX10
+#endif                  //	USE_DX10
     if (constants != other.constants)
         return FALSE;   // is this nessesary??? (ps+vs already combines)
 
@@ -169,10 +169,10 @@ void STextureList::clear_not_free()
 
 u32 STextureList::find_texture_stage(const shared_str& TexName) const
 {
-    u32 dwTextureStage = 0;
+    u32                          dwTextureStage = 0;
 
-    STextureList::const_iterator _it  = this->begin();
-    STextureList::const_iterator _end = this->end();
+    STextureList::const_iterator _it            = this->begin();
+    STextureList::const_iterator _end           = this->end();
     for (; _it != _end; _it++)
     {
         const std::pair<u32, ref_texture>& loader = *_it;

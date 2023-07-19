@@ -291,9 +291,9 @@ float CKinematicsAnimated::get_animation_length(MotionID motion_ID)
 
     VERIFY(motion_ID.idx < bone_motions->size());
 
-    CMotionDef* const m_def = slot.motions.motion_def(motion_ID.idx);
+    CMotionDef* const m_def      = slot.motions.motion_def(motion_ID.idx);
 
-    float const anim_speed = m_def ? m_def->Speed() : 1.f;
+    float const       anim_speed = m_def ? m_def->Speed() : 1.f;
 
     return bone_motions->at(motion_ID.idx).GetLength() / anim_speed;
 }
@@ -340,8 +340,8 @@ void CKinematicsAnimated::IBlendSetup(
     B.Callback             = Callback;
     B.CallbackParam        = CallbackParam;
 
-    B.channel     = channel;
-    B.fall_at_end = B.stop_at_end && (channel > 1);
+    B.channel              = channel;
+    B.fall_at_end          = B.stop_at_end && (channel > 1);
 }
 void CKinematicsAnimated::IFXBlendSetup(
     CBlend&  B,
@@ -354,25 +354,25 @@ void CKinematicsAnimated::IFXBlendSetup(
 {
     // B.blend			= CBlend::eAccrue;
     B.set_accrue_state();
-    B.blendAmount  = EPS_S;
-    B.blendAccrue  = blendAccrue;
-    B.blendFalloff = blendFalloff;
-    B.blendPower   = Power;
-    B.speed        = Speed;
-    B.motionID     = motion_ID;
-    B.timeCurrent  = 0;
-    B.timeTotal    = m_Motions[B.motionID.slot].bone_motions[bone]->at(motion_ID.idx).GetLength();
-    B.bone_or_part = bone;
+    B.blendAmount          = EPS_S;
+    B.blendAccrue          = blendAccrue;
+    B.blendFalloff         = blendFalloff;
+    B.blendPower           = Power;
+    B.speed                = Speed;
+    B.motionID             = motion_ID;
+    B.timeCurrent          = 0;
+    B.timeTotal            = m_Motions[B.motionID.slot].bone_motions[bone]->at(motion_ID.idx).GetLength();
+    B.bone_or_part         = bone;
 
     B.playing              = TRUE;
     B.stop_at_end_callback = TRUE;
     B.stop_at_end          = FALSE;
     //
-    B.Callback      = 0;
-    B.CallbackParam = 0;
+    B.Callback             = 0;
+    B.CallbackParam        = 0;
 
-    B.channel     = 0;
-    B.fall_at_end = FALSE;
+    B.channel              = 0;
+    B.fall_at_end          = FALSE;
 }
 CBlend* CKinematicsAnimated::LL_PlayCycle(
     u16          part,
@@ -692,8 +692,7 @@ CKinematicsAnimated::~CKinematicsAnimated()
     IBoneInstances_Destroy();
 }
 CKinematicsAnimated::CKinematicsAnimated():
-    CKinematics(), IKinematicsAnimated(), blend_instances(NULL), m_Partition(NULL), m_blend_destroy_callback(0),
-    m_update_tracks_callback(0), Update_LastTime(0)
+    CKinematics(), IKinematicsAnimated(), blend_instances(NULL), m_Partition(NULL), m_blend_destroy_callback(0), m_update_tracks_callback(0), Update_LastTime(0)
 {}
 
 void CKinematicsAnimated::IBoneInstances_Create()
@@ -924,7 +923,7 @@ void CKinematicsAnimated::LL_BuldBoneMatrixDequatize(const CBoneData* bd, u8 cha
         CKey*   D       = &keys.keys[B->channel][b_count];
         if (!(channel_mask & (1 << B->channel)))
             continue;
-        u8 channel = B->channel;
+        u8 channel                    = B->channel;
         // keys.blend_factors[channel][b_count]	=  B->blendAmount;
         keys.blends[channel][b_count] = B;
         CMotion& M                    = *LL_GetMotion(B->motionID, SelfID);
@@ -985,7 +984,7 @@ void CKinematicsAnimated::LL_BoneMatrixBuild(CBoneInstance& bi, const Fmatrix* p
     VERIFY2(
         dbg_box.contains(bi.mTransform.c),
         (make_string("model: %s has strange bone position, matrix : ", getDebugName().c_str()) +
-         get_string(bi.mTransform))
+            get_string(bi.mTransform))
             .c_str());
 
     // if(!is_similar(PrevTransform,RES,0.3f))
@@ -1094,9 +1093,9 @@ MotionID CKinematicsAnimated::ID_Motion(LPCSTR N, u16 slot)
     MotionID motion_ID;
     if (slot < MAX_ANIM_SLOT)
     {
-        shared_motions* s_mots = &m_Motions[slot].motions;
+        shared_motions*     s_mots = &m_Motions[slot].motions;
         // find in cycles
-        accel_map::iterator I = s_mots->cycle()->find(LPSTR(N));
+        accel_map::iterator I      = s_mots->cycle()->find(LPSTR(N));
         if (I != s_mots->cycle()->end())
             motion_ID.set(slot, I->second);
         if (!motion_ID.valid())

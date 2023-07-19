@@ -23,10 +23,10 @@ struct ITEM_DATA
 };
 typedef xr_vector<ITEM_DATA> T_VECTOR;
 
-void _destroy_item_data_vector_cont(T_VECTOR* vec);
+void                         _destroy_item_data_vector_cont(T_VECTOR* vec);
 
-#define TEMPLATE_SPECIALIZATION template <typename T_INIT>
-#define CSXML_IdToIndex CXML_IdToIndex<T_INIT>
+#define TEMPLATE_SPECIALIZATION template<typename T_INIT>
+#define CSXML_IdToIndex         CXML_IdToIndex<T_INIT>
 
 TEMPLATE_SPECIALIZATION
 class CXML_IdToIndex
@@ -34,24 +34,22 @@ class CXML_IdToIndex
 public:
 private:
     static T_VECTOR* m_pItemDataVector;
-
 protected:
     // имена xml файлов (разделенных запятой) из которых
     // производить загрузку элементов
     static LPCSTR file_str;
     // имена тегов
     static LPCSTR tag_name;
-
 public:
     CXML_IdToIndex();
     virtual ~CXML_IdToIndex();
 
-    static void InitInternal();
+    static void             InitInternal();
 
     static const ITEM_DATA* GetById(const shared_str& str_id, bool no_assert = false);
     static const ITEM_DATA* GetByIndex(int index, bool no_assert = false);
 
-    static const int IdToIndex(const shared_str& str_id, int default_index = T_INDEX(-1), bool no_assert = false)
+    static const int        IdToIndex(const shared_str& str_id, int default_index = T_INDEX(-1), bool no_assert = false)
     {
         const ITEM_DATA* item = GetById(str_id, no_assert);
         return item ? item->index : default_index;
@@ -158,7 +156,7 @@ typename void CSXML_IdToIndex::InitInternal()
 
         for (int i = 0; i < items_num; ++i)
         {
-            LPCSTR item_name = uiXml->ReadAttrib(uiXml->GetRoot(), tag_name, i, "id", NULL);
+            LPCSTR    item_name = uiXml->ReadAttrib(uiXml->GetRoot(), tag_name, i, "id", NULL);
 
             string256 buf;
             xr_sprintf(buf, "id for item don't set, number %d in %s", i, xml_file);
@@ -179,7 +177,7 @@ typename void CSXML_IdToIndex::InitInternal()
             data.index       = index;
             data.pos_in_file = i;
             //.				data.file_name		= xml_file;
-            data._xml = uiXml;
+            data._xml        = uiXml;
             m_pItemDataVector->push_back(data);
 
             index++;

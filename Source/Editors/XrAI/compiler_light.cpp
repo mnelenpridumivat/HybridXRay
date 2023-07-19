@@ -4,12 +4,12 @@
 #include "xrThread.h"
 #include <mmsystem.h>
 
-const int LIGHT_Count = 2;
-const int LIGHT_Total = (2 * LIGHT_Count + 1) * (2 * LIGHT_Count + 1);
+const int                       LIGHT_Count = 2;
+const int                       LIGHT_Total = (2 * LIGHT_Count + 1) * (2 * LIGHT_Count + 1);
 
 typedef svector<R_Light*, 1024> LSelection;
 
-IC bool RayPick(CDB::COLLIDER& DB, Fvector& P, Fvector& D, float r, R_Light& L)
+IC bool                         RayPick(CDB::COLLIDER& DB, Fvector& P, Fvector& D, float r, R_Light& L)
 {
     // 1. Check cached polygon
     float _u, _v, range;
@@ -53,7 +53,7 @@ float LightPoint(CDB::COLLIDER& DB, Fvector& P, Fvector& N, LSelection& SEL)
 
     R_Light **IT = SEL.begin(), **E = SEL.end();
 
-    float amount = 0;
+    float     amount = 0;
     for (; IT != E; IT++)
     {
         R_Light* L = *IT;
@@ -95,9 +95,9 @@ float LightPoint(CDB::COLLIDER& DB, Fvector& P, Fvector& N, LSelection& SEL)
 class LightThread: public CThread
 {
     u32 Nstart, Nend;
-
 public:
-    LightThread(u32 ID, u32 _start, u32 _end): CThread(ID)
+    LightThread(u32 ID, u32 _start, u32 _end):
+        CThread(ID)
     {
         Nstart = _start;
         Nend   = _end;
@@ -109,9 +109,9 @@ public:
 
         xr_vector<R_Light> Lights = g_lights;
 
-        Fvector P, D, PLP;
+        Fvector            P, D, PLP;
         D.set(0, 1, 0);
-        float coeff = 0.5f * g_params.fPatchSize / float(LIGHT_Count);
+        float      coeff = 0.5f * g_params.fPatchSize / float(LIGHT_Count);
 
         LSelection Selected;
         float      LperN = float(g_lights.size());
@@ -133,7 +133,7 @@ public:
                         Selected.push_back(&R);
                 }
             }
-            LperN = 0.9f * LperN + 0.1f * float(Selected.size());
+            LperN        = 0.9f * LperN + 0.1f * float(Selected.size());
 
             // lighting itself
             float amount = 0;
@@ -156,7 +156,7 @@ public:
             // calculation of luminocity
             N.LightLevel = amount / float(LIGHT_Total);
 
-            thProgress = float(i - Nstart) / float(Nend - Nstart);
+            thProgress   = float(i - Nstart) / float(Nend - Nstart);
         }
     }
 };

@@ -76,7 +76,6 @@ namespace PS
         const CPGDef* m_Def;
         float         m_CurrentTime;
         Fvector       m_InitialPosition;
-
     public:
         DEFINE_VECTOR(dxRender_Visual*, VisualVec, VisualVecIt);
         struct SItem
@@ -84,10 +83,9 @@ namespace PS
             dxRender_Visual* _effect;
             VisualVec        _children_related;
             VisualVec        _children_free;
-
         public:
-            void Set(dxRender_Visual* e);
-            void Clear();
+            void   Set(dxRender_Visual* e);
+            void   Clear();
 
             IC u32 GetVisuals(xr_vector<dxRender_Visual*>& visuals)
             {
@@ -116,7 +114,6 @@ namespace PS
         };
         DEFINE_VECTOR(SItem, SItemVec, SItemVecIt)
         SItemVec items;
-
     public:
         enum
         {
@@ -124,7 +121,6 @@ namespace PS
             flRT_DefferedStop = (1 << 1),
         };
         Flags8 m_RT_Flags;
-
     public:
         CParticleGroup();
         virtual ~CParticleGroup();
@@ -135,12 +131,12 @@ namespace PS
             FATAL("Can't duplicate particle system - NOT IMPLEMENTED");
         }
 
-        virtual void OnDeviceCreate();
-        virtual void OnDeviceDestroy();
+        virtual void  OnDeviceCreate();
+        virtual void  OnDeviceDestroy();
 
-        virtual void UpdateParent(const Fmatrix& m, const Fvector& velocity, BOOL bXFORM);
+        virtual void  UpdateParent(const Fmatrix& m, const Fvector& velocity, BOOL bXFORM);
 
-        BOOL Compile(CPGDef* def);
+        BOOL          Compile(CPGDef* def);
 
         const CPGDef* GetDefinition()
         {
@@ -154,8 +150,8 @@ namespace PS
             return m_RT_Flags.is(flRT_Playing);
         }
 
-        virtual void SetHudMode(BOOL b);
-        virtual BOOL GetHudMode();
+        virtual void  SetHudMode(BOOL b);
+        virtual BOOL  GetHudMode();
 
         virtual float GetTimeLimit()
         {
@@ -174,13 +170,13 @@ namespace PS
 
 }   // namespace PS
 //----------------------------------------------------
-#define PGD_VERSION 0x0003
-#define PGD_CHUNK_VERSION 0x0001
-#define PGD_CHUNK_NAME 0x0002
-#define PGD_CHUNK_FLAGS 0x0003
-#define PGD_CHUNK_EFFECTS 0x0004   // obsolete
+#define PGD_VERSION          0x0003
+#define PGD_CHUNK_VERSION    0x0001
+#define PGD_CHUNK_NAME       0x0002
+#define PGD_CHUNK_FLAGS      0x0003
+#define PGD_CHUNK_EFFECTS    0x0004   // obsolete
 #define PGD_CHUNK_TIME_LIMIT 0x0005
-#define PGD_CHUNK_EFFECTS2 0x0007
+#define PGD_CHUNK_EFFECTS2   0x0007
 
 //---------------------------------------------------------------------------
 #endif

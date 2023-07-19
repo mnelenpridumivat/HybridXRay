@@ -1,7 +1,7 @@
 ﻿#include "stdafx.h"
 #include "build.h"
 #include "ogf_face.h"
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include "../freemagic/MgcCont3DMinSphere.h"
 
 BOOL f_valid(float f)
@@ -38,7 +38,7 @@ void OGF_Base::CalcBounds()
     // 1: calc first variation
     Fsphere S1;
     Fsphere_compute(S1, &*V.begin(), (u32)V.size());
-    BOOL B1 = SphereValid(V, S1);
+    BOOL    B1 = SphereValid(V, S1);
 
     // 2: calc ordinary algorithm (2nd)
     Fsphere S2;
@@ -54,8 +54,8 @@ void OGF_Base::CalcBounds()
         if (d > S2.R)
             S2.R = d;
     }
-    S2.R    = _sqrt(_abs(S2.R));
-    BOOL B2 = SphereValid(V, S2);
+    S2.R            = _sqrt(_abs(S2.R));
+    BOOL        B2  = SphereValid(V, S2);
 
     // 3: calc magic-fm
     Mgc::Sphere _S3 = Mgc::MinSphere((u32)V.size(), (const Mgc::Vector3*)&*V.begin());

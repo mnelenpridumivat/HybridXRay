@@ -43,7 +43,7 @@ struct NET_Compressor_FREQ
         for (I = 256; I; I--)
             table[I - 1] = table[I] - table[I - 1];
     }
-    void Normalize();
+    void    Normalize();
 
     IC u32& operator[](int id)
     {
@@ -57,17 +57,16 @@ class NET_Compressor
 public:
     typedef u32 code_value; /* Type of an rangecode value			*/
     typedef u32 freq;
-
 private:
     xrCriticalSection CS;
 
     // main structure
     struct rangecoder
     {
-        u32   low, range, help;
-        BYTE  buffer;
-        u32   bytecount;
-        BYTE* ptr;
+        u32     low, range, help;
+        BYTE    buffer;
+        u32     bytecount;
+        BYTE*   ptr;
 
         IC void byte_out(BYTE B)
         {
@@ -108,11 +107,11 @@ private:
 
     /* Finish encoding                                           */
     /* returns number of bytes written                           */
-    u32 done_encoding();
+    u32  done_encoding();
 
     /* Start the decoder                                         */
     /* returns the char from start_encoding or EOF               */
-    int start_decoding(BYTE* src, u32 header_size);
+    int  start_decoding(BYTE* src, u32 header_size);
 
     /* Calculate culmulative frequency for next symbol. Does NO update!*/
     /* tot_f is the total frequency                              */
@@ -138,7 +137,6 @@ private:
 
     /* Finish decoding                                           */
     void done_decoding();
-
 public:
     NET_Compressor();
     ~NET_Compressor();

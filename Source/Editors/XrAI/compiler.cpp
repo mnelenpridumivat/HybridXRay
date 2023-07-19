@@ -3,18 +3,18 @@
 
 #include "cl_intersect.h"
 
-CDB::MODEL    Level;
-CDB::COLLIDER XRC;
+CDB::MODEL        Level;
+CDB::COLLIDER     XRC;
 
 Nodes             g_nodes;
 xr_vector<SCover> g_covers_palette;
 
-Lights    g_lights;
-SAIParams g_params;
-Fbox      LevelBB;
+Lights            g_lights;
+SAIParams         g_params;
+Fbox              LevelBB;
 // Vectors				Emitters;
 
-void vertex::PointLF(Fvector& D)
+void              vertex::PointLF(Fvector& D)
 {
     Fvector d;
     d.set(0, -1, 0);

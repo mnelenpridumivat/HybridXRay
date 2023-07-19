@@ -26,8 +26,8 @@ public:
         lmap.destroy();
     }
 
-    u32 Width();
-    u32 Height();
+    u32         Width();
+    u32         Height();
 
     u32&        Texel(u32 x, u32 y);
     base_color& Lumel(u32 x, u32 y)

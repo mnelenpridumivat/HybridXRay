@@ -69,8 +69,8 @@ namespace Feel
 {
     class ENGINE_API Sound;
 }
-typedef Feel::Sound             Feel__Sound;
-template <> extern Feel::Sound* SmartDynamicCast::smart_cast<Feel::Sound, ISpatial>(ISpatial* p);
+typedef Feel::Sound            Feel__Sound;
+template<> extern Feel::Sound* SmartDynamicCast::smart_cast<Feel::Sound, ISpatial>(ISpatial* p);
 add_to_cast_list(Feel__Sound, ISpatial);
 #undef cast_type_list
 #define cast_type_list save_cast_list(Feel__Sound, ISpatial)

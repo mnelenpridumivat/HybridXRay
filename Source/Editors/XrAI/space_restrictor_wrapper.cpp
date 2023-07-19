@@ -46,7 +46,8 @@ bool CSpaceRestrictorWrapper::inside(const Fvector& position, float radius) cons
     {
         switch ((*I).type)
         {
-            case 0: {
+            case 0:
+            {
                 Fsphere temp;
                 m_xform.transform_tiny(temp.P, (*I).data.sphere.P);
                 temp.R = (*I).data.sphere.R;
@@ -55,7 +56,8 @@ bool CSpaceRestrictorWrapper::inside(const Fvector& position, float radius) cons
 
                 continue;
             }
-            case 1: {
+            case 1:
+            {
                 Fmatrix temp;
                 temp.mul_43(m_xform, (*I).data.box);
 
@@ -114,7 +116,7 @@ struct border_merge_predicate
     CSpaceRestrictorWrapper* m_restriction;
     CLevelGraph*             m_level_graph;
 
-    IC border_merge_predicate(CSpaceRestrictorWrapper* restriction, CLevelGraph* level_graph)
+    IC                       border_merge_predicate(CSpaceRestrictorWrapper* restriction, CLevelGraph* level_graph)
     {
         m_restriction = restriction;
         m_level_graph = level_graph;
@@ -141,18 +143,20 @@ void CSpaceRestrictorWrapper::fill_shape(const CShapeData::shape_def& shape)
     Fvector start, dest;
     switch (shape.type)
     {
-        case 0: {
+        case 0:
+        {
             start.sub(Fvector().set(shape.data.sphere.P), Fvector().set(shape.data.sphere.R, 0.f, shape.data.sphere.R));
             dest.add(Fvector().set(shape.data.sphere.P), Fvector().set(shape.data.sphere.R, 0.f, shape.data.sphere.R));
             start.add(object().o_Position);
             dest.add(object().o_Position);
             break;
         }
-        case 1: {
+        case 1:
+        {
             Fvector points[8] = {Fvector().set(-.5f, -.5f, -.5f), Fvector().set(-.5f, -.5f, +.5f),
-                                 Fvector().set(-.5f, +.5f, -.5f), Fvector().set(-.5f, +.5f, +.5f),
-                                 Fvector().set(+.5f, -.5f, -.5f), Fvector().set(+.5f, -.5f, +.5f),
-                                 Fvector().set(+.5f, +.5f, -.5f), Fvector().set(+.5f, +.5f, +.5f)};
+                Fvector().set(-.5f, +.5f, -.5f), Fvector().set(-.5f, +.5f, +.5f),
+                Fvector().set(+.5f, -.5f, -.5f), Fvector().set(+.5f, -.5f, +.5f),
+                Fvector().set(+.5f, +.5f, -.5f), Fvector().set(+.5f, +.5f, +.5f)};
             start             = Fvector().set(flt_max, flt_max, flt_max);
             dest              = Fvector().set(flt_min, flt_min, flt_min);
             Fmatrix Q;
@@ -209,7 +213,7 @@ struct sort_by_xz_predicate
 {
     CLevelGraph* m_level_graph;
 
-    IC sort_by_xz_predicate(CLevelGraph* level_graph)
+    IC           sort_by_xz_predicate(CLevelGraph* level_graph)
     {
         VERIFY(level_graph);
         m_level_graph = level_graph;

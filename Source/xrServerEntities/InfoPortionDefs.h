@@ -14,7 +14,6 @@ public:
     {
         return data == element;
     }
-
 private:
     shared_str element;
 };

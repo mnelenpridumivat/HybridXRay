@@ -11,13 +11,13 @@ CLight_DB::~CLight_DB() {}
 
 void CLight_DB::Load(IReader* fs)
 {
-    IReader* F = 0;
+    IReader* F   = 0;
 
     // Lights itself
     sun_original = NULL;
     sun_adapted  = NULL;
     {
-        F = fs->open_chunk(fsL_LIGHT_DYNAMIC);
+        F           = fs->open_chunk(fsL_LIGHT_DYNAMIC);
 
         u32 size    = F->length();
         u32 element = sizeof(Flight) + 4;

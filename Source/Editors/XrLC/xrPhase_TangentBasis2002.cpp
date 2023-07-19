@@ -62,12 +62,12 @@ void fill_mender_input(
         Face* F = g_faces[f];
         for (u32 v = 0; v < 3; v++)
         {
-            Vertex*         V   = F->v[v];
-            u32             ID  = u32(std::lower_bound(g_vertices.begin(), g_vertices.end(), V) - g_vertices.begin());
-            xr_vector<u32>& m   = remap[ID];
-            Fvector2        Ftc = F->tc.front().uv[v];
+            Vertex*         V            = F->v[v];
+            u32             ID           = u32(std::lower_bound(g_vertices.begin(), g_vertices.end(), V) - g_vertices.begin());
+            xr_vector<u32>& m            = remap[ID];
+            Fvector2        Ftc          = F->tc.front().uv[v];
 
-            int vertex_index = find_same_vertex(m, Ftc, v_tc);
+            int             vertex_index = find_same_vertex(m, Ftc, v_tc);
 
             // Register new if not found
             if (vertex_index == (-1))
@@ -141,8 +141,8 @@ void CBuild::xrPhase_TangentBasis()
 
     // ************************************* Declare inputs
     Status("Declarator...");
-    u32 v_count_reserve = iFloor(float(g_vertices.size()) * 1.33f);
-    u32 i_count_reserve = 3 * g_faces.size();
+    u32                                      v_count_reserve = iFloor(float(g_vertices.size()) * 1.33f);
+    u32                                      i_count_reserve = 3 * g_faces.size();
 
     xr_vector<NVMeshMender::VertexAttribute> input, output;
     input.push_back(NVMeshMender::VertexAttribute());   // pos

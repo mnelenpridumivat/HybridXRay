@@ -21,7 +21,7 @@
 // #include "i18n.h"
 
 #define READSIZE 1024
-#define _(a) a
+#define _(a)     a
 
 int oe_write_page(ogg_page* page, FILE* fp);
 
@@ -32,7 +32,8 @@ int oe_write_page(ogg_page* page, FILE* fp);
             fprintf(stderr, "For option %s, couldn't read value %s as double\n", opts[i].arg, opts[i].val); \
         else                                                                                                \
             toset = dval;                                                                                   \
-    } while (0)
+    }                                                                                                       \
+    while (0)
 
 #define SETL(toset)                                                                                          \
     do                                                                                                       \
@@ -41,7 +42,8 @@ int oe_write_page(ogg_page* page, FILE* fp);
             fprintf(stderr, "For option %s, couldn't read value %s as integer\n", opts[i].arg, opts[i].val); \
         else                                                                                                 \
             toset = lval;                                                                                    \
-    } while (0)
+    }                                                                                                        \
+    while (0)
 
 static void set_advanced_encoder_options(adv_opt* opts, int count, vorbis_info* vi)
 {
@@ -127,12 +129,12 @@ int oe_encode(oe_enc_opt* opt)
     vorbis_info      vi;
     long             bitrate;
 
-    long   samplesdone = 0;
-    int    eos;
-    long   bytes_written = 0, packetsdone = 0;
-    double time_elapsed;
-    int    ret = 0;
-    TIMER* timer;
+    long             samplesdone = 0;
+    int              eos;
+    long             bytes_written = 0, packetsdone = 0;
+    double           time_elapsed;
+    int              ret = 0;
+    TIMER*           timer;
 
     if (opt->channels > 255)
     {
@@ -205,9 +207,9 @@ int oe_encode(oe_enc_opt* opt)
             ai.bitrate_limit_reservoir_bias = .1;
 
             /* And now the ones we actually wanted to set */
-            ai.bitrate_limit_min_kbps = opt->min_bitrate;
-            ai.bitrate_limit_max_kbps = opt->max_bitrate;
-            ai.management_active      = 1;
+            ai.bitrate_limit_min_kbps       = opt->min_bitrate;
+            ai.bitrate_limit_max_kbps       = opt->max_bitrate;
+            ai.management_active            = 1;
 
             if (vorbis_encode_ctl(&vi, OV_ECTL_RATEMANAGE2_SET, &ai) == 0)
                 fprintf(stderr, _("Set optional hard quality restrictions\n"));

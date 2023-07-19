@@ -13,15 +13,15 @@
 
 namespace SmartDynamicCast
 {
-    template <typename T1, typename T2> IC T1* smart_cast(T2* p);
+    template<typename T1, typename T2> IC T1* smart_cast(T2* p);
 
-    template <typename List, typename T, typename P> struct CTypeHelper
+    template<typename List, typename T, typename P> struct CTypeHelper
     {
-        template <typename T1> struct add
+        template<typename T1> struct add
         {
             typedef typename T1::Head Head;
 
-            template <bool a> struct selector
+            template<bool a> struct selector
             {
                 typedef Loki::Typelist<
                     Loki::Typelist<typename Head::Head, Loki::Typelist<P, typename Head::Tail>>,
@@ -29,7 +29,7 @@ namespace SmartDynamicCast
                     result;
             };
 
-            template <> struct selector<false>
+            template<> struct selector<false>
             {
                 typedef typename add<typename T1::Tail>::result result;
             };
@@ -37,7 +37,7 @@ namespace SmartDynamicCast
             typedef typename selector<is_type<T, typename Head::Head>::value>::result result;
         };
 
-        template <> struct add<Loki::NullType>
+        template<> struct add<Loki::NullType>
         {
             typedef Loki::Typelist<Loki::Typelist<T, Loki::Typelist<P, Loki::NullType>>, List> result;
         };
@@ -46,12 +46,12 @@ namespace SmartDynamicCast
     };
 };   // namespace SmartDynamicCast
 
-#define cast_type_list Loki::NullType
+#define cast_type_list         Loki::NullType
 #define add_to_cast_list(B, A) typedef SmartDynamicCast::CTypeHelper<cast_type_list, A, B>::result TypeList_##A##B
-#define save_cast_list(B, A) TypeList_##A##B
+#define save_cast_list(B, A)   TypeList_##A##B
 
-#define DECLARE_SPECIALIZATION(B, A, C)                              \
-    class A;                                                         \
-    class B;                                                         \
-    template <> extern B* SmartDynamicCast::smart_cast<B, A>(A * p); \
+#define DECLARE_SPECIALIZATION(B, A, C)                             \
+    class A;                                                        \
+    class B;                                                        \
+    template<> extern B* SmartDynamicCast::smart_cast<B, A>(A * p); \
     add_to_cast_list(B, A);

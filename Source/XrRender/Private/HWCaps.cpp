@@ -125,13 +125,13 @@ void CHWCaps::Update()
     geometry.dwRegisters    = cnt;
     geometry.dwInstructions = 256;
     geometry.dwClipPlanes   = _min(caps.MaxUserClipPlanes, 15);
-    geometry.bVTF = (geometry_major >= 3) && HW.support(D3DFMT_R32F, D3DRTYPE_TEXTURE, D3DUSAGE_QUERY_VERTEXTEXTURE);
+    geometry.bVTF           = (geometry_major >= 3) && HW.support(D3DFMT_R32F, D3DRTYPE_TEXTURE, D3DUSAGE_QUERY_VERTEXTEXTURE);
 
     // ***************** PIXEL processing
-    raster_major    = u16(u32(u32(caps.PixelShaderVersion) & u32(0xf << 8ul)) >> 8);
-    raster_minor    = u16(u32(u32(caps.PixelShaderVersion) & u32(0xf)));
-    raster.dwStages = caps.MaxSimultaneousTextures;
-    raster.bNonPow2 = ((caps.TextureCaps & D3DPTEXTURECAPS_NONPOW2CONDITIONAL) != 0) ||
+    raster_major            = u16(u32(u32(caps.PixelShaderVersion) & u32(0xf << 8ul)) >> 8);
+    raster_minor            = u16(u32(u32(caps.PixelShaderVersion) & u32(0xf)));
+    raster.dwStages         = caps.MaxSimultaneousTextures;
+    raster.bNonPow2         = ((caps.TextureCaps & D3DPTEXTURECAPS_NONPOW2CONDITIONAL) != 0) ||
         ((caps.TextureCaps & D3DPTEXTURECAPS_POW2) == 0);
     raster.bCubemap       = (caps.TextureCaps & D3DPTEXTURECAPS_CUBEMAP) != 0;
     raster.dwMRT_count    = (caps.NumSimultaneousRTs);
@@ -173,7 +173,7 @@ void CHWCaps::Update()
 #endif
 
     //
-    bTableFog = FALSE;   // BOOL	(caps.RasterCaps&D3DPRASTERCAPS_FOGTABLE);
+    bTableFog                 = FALSE;   // BOOL	(caps.RasterCaps&D3DPRASTERCAPS_FOGTABLE);
 
     // Detect if stencil available
     bStencil                  = FALSE;
@@ -227,28 +227,28 @@ void CHWCaps::Update()
 void CHWCaps::Update()
 {
     // ***************** GEOMETRY
-    geometry_major = 4;
-    geometry_minor = 0;
-    geometry.bSoftware = FALSE;
+    geometry_major         = 4;
+    geometry_minor         = 0;
+    geometry.bSoftware     = FALSE;
     geometry.bPointSprites = FALSE;
-    geometry.bNPatches = FALSE;
-    DWORD cnt = 256;
+    geometry.bNPatches     = FALSE;
+    DWORD cnt              = 256;
     clamp<DWORD>(cnt, 0, 256);
-    geometry.dwRegisters = cnt;
+    geometry.dwRegisters    = cnt;
     geometry.dwInstructions = 256;
-    geometry.dwClipPlanes = _min(6, 15);
-    geometry.bVTF = TRUE;
+    geometry.dwClipPlanes   = _min(6, 15);
+    geometry.bVTF           = TRUE;
 
     // ***************** PIXEL processing
-    raster_major = 4;
-    raster_minor = 0;
-    raster.dwStages = 16;
-    raster.bNonPow2 = TRUE;
-    raster.bCubemap = TRUE;
-    raster.dwMRT_count = 4;
+    raster_major            = 4;
+    raster_minor            = 0;
+    raster.dwStages         = 16;
+    raster.bNonPow2         = TRUE;
+    raster.bCubemap         = TRUE;
+    raster.dwMRT_count      = 4;
     // raster.b_MRT_mixdepth		= FALSE;
-    raster.b_MRT_mixdepth = TRUE;
-    raster.dwInstructions = 256;
+    raster.b_MRT_mixdepth   = TRUE;
+    raster.dwInstructions   = 256;
 
     // ***************** Info
     Msg("* GPU shading: vs(%x/%d.%d/%d), ps(%x/%d.%d/%d)", 0, geometry_major, geometry_minor,
@@ -265,21 +265,21 @@ void CHWCaps::Update()
         geometry_major = 0;   // Disable VS if no PS
 
     //
-    bTableFog = FALSE;   // BOOL	(caps.RasterCaps&D3DPRASTERCAPS_FOGTABLE);
+    bTableFog         = FALSE;   // BOOL	(caps.RasterCaps&D3DPRASTERCAPS_FOGTABLE);
 
     // Detect if stencil available
-    bStencil = TRUE;
+    bStencil          = TRUE;
 
     // Scissoring
-    bScissor = TRUE;
+    bScissor          = TRUE;
 
     // Stencil relative caps
-    soInc = D3DSTENCILOP_INCRSAT;
-    soDec = D3DSTENCILOP_DECRSAT;
+    soInc             = D3DSTENCILOP_INCRSAT;
+    soDec             = D3DSTENCILOP_DECRSAT;
     dwMaxStencilValue = (1 << 8) - 1;
 
     // DEV INFO
 
-    iGPUNum = GetGpuNum();
+    iGPUNum           = GetGpuNum();
 }
 #endif   //	USE_DX10

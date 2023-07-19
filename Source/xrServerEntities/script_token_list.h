@@ -16,13 +16,12 @@ protected:
     typedef xr_vector<xr_token>        TOKEN_LIST;
     typedef TOKEN_LIST::iterator       iterator;
     typedef TOKEN_LIST::const_iterator const_iterator;
-
 protected:
     struct CTokenPredicateName
     {
         LPCSTR m_name;
 
-        IC CTokenPredicateName(LPCSTR name)
+        IC     CTokenPredicateName(LPCSTR name)
         {
             m_name = name;
         }
@@ -37,7 +36,7 @@ protected:
     {
         int m_id;
 
-        IC CTokenPredicateID(int id)
+        IC  CTokenPredicateID(int id)
         {
             m_id = id;
         }
@@ -47,14 +46,11 @@ protected:
             return (token.name && (token.id == m_id));
         }
     };
-
 protected:
     TOKEN_LIST m_token_list;
-
 protected:
     IC iterator token(LPCSTR name);
     IC iterator token(int id);
-
 public:
     IC CScriptTokenList();
     ~CScriptTokenList();

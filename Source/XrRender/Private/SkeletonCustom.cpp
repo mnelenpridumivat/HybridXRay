@@ -80,7 +80,7 @@ void CKinematics::DebugRender(Fmatrix& XFORM)
         Fmatrix& M1 = bone_instances[dbgLines[i]].mTransform;
         Fmatrix& M2 = bone_instances[dbgLines[i + 1]].mTransform;
 
-        Fvector P1, P2;
+        Fvector  P1, P2;
         M1.transform_tiny(P1, Z);
         M2.transform_tiny(P2, Z);
         RCache.dbg_DrawLINE(XFORM, P1, P2, D3DCOLOR_XRGB(0, 255, 0));
@@ -174,8 +174,8 @@ void CKinematics::Load(const char* N, IReader* data, u32 dwFlags)
     // Msg				("skeleton: %s",N);
     inherited::Load(N, data, dwFlags);
 
-    pUserData = NULL;
-    m_lod     = NULL;
+    pUserData   = NULL;
+    m_lod       = NULL;
     // loading lods
 
     IReader* LD = data->open_chunk(OGF_S_LODS);
@@ -239,7 +239,7 @@ void CKinematics::Load(const char* N, IReader* data, u32 dwFlags)
         string256 buf;
 
         // Bone
-        u16 ID = u16(bones->size());
+        u16       ID = u16(bones->size());
         data->r_stringZ(buf, sizeof(buf));
         strlwr(buf);
         CBoneData* pBone = CreateBoneData(ID);
@@ -337,7 +337,7 @@ void CKinematics::Load(const char* N, IReader* data, u32 dwFlags)
     // reset update_callback
     Update_Callback = NULL;
     // reset update frame
-    wm_frame = u32(-1);
+    wm_frame        = u32(-1);
 
     LL_Validate();
 }

@@ -31,10 +31,9 @@ struct SPHNetState
     void        net_Save(NET_Packet& P, const Fvector& min, const Fvector& max);
     void        net_Load(NET_Packet& P, const Fvector& min, const Fvector& max);
     void        net_Load(IReader& P, const Fvector& min, const Fvector& max);
-
 private:
-    template <typename src> void read(src& P);
-    template <typename src> void read(src& P, const Fvector& min, const Fvector& max);
+    template<typename src> void read(src& P);
+    template<typename src> void read(src& P, const Fvector& min, const Fvector& max);
 };
 
 DEFINE_VECTOR(SPHNetState, PHNETSTATE_VECTOR, PHNETSTATE_I);
@@ -46,7 +45,6 @@ struct SPHBonesData
     PHNETSTATE_VECTOR bones;
     Fvector           m_min;
     Fvector           m_max;
-
 public:
     SPHBonesData();
     void           net_Save(NET_Packet& P);

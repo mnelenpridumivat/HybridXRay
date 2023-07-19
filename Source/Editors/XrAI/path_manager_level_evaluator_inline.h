@@ -9,7 +9,7 @@
 #pragma once
 
 #define TEMPLATE_SPECIALIZATION \
-    template <typename _DataStorage, typename _dist_type, typename _index_type, typename _iteration_type>
+    template<typename _DataStorage, typename _dist_type, typename _index_type, typename _iteration_type>
 
 #define CLevelEvaluatorPathManager \
     CPathManager<CLevelGraph, _DataStorage, CAbstractVertexEvaluator, _dist_type, _index_type, _iteration_type>

@@ -16,7 +16,7 @@ namespace RestrictionSpace
 
         IC CTimeIntrusiveBase(): m_last_time_dec(0) {}
 
-        template <typename T> IC void _release(T* object)
+        template<typename T> IC void _release(T* object)
         {
             m_last_time_dec = Device->dwTimeGlobal;
         }

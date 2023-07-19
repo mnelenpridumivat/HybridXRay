@@ -35,7 +35,7 @@ struct compilers_global_data
 
 class XRLC_LIGHT_API xrLC_GlobalData
 {
-    compilers_global_data _cl_globs;
+    compilers_global_data      _cl_globs;
 
     CMemoryWriter              _err_invalid;
     CMemoryWriter              _err_multiedge;
@@ -47,12 +47,10 @@ class XRLC_LIGHT_API xrLC_GlobalData
     vecFace                    _g_faces;
     vecDefl                    _g_deflectors;
 
-    bool _b_nosun;
-    bool _gl_linear;
-
+    bool                       _b_nosun;
+    bool                       _gl_linear;
 private:
     bool b_vert_not_register;
-
 public:
 public:
     xrLC_GlobalData();   //:_RCAST_Model (0), _b_nosun(false),_gl_linear(false){}
@@ -90,13 +88,13 @@ public:
         return _cl_globs._g_params;
     }
 
-    Face* create_face();
-    void  destroy_face(Face*& f);
+    Face*      create_face();
+    void       destroy_face(Face*& f);
 
-    Vertex* create_vertex();
-    void    destroy_vertex(Vertex*& f);
+    Vertex*    create_vertex();
+    void       destroy_vertex(Vertex*& f);
 
-    void vertices_isolate_and_pool_reload();
+    void       vertices_isolate_and_pool_reload();
 
     vecVertex& g_vertices()
     {
@@ -173,7 +171,6 @@ public:
     //		twrite_faces				*get_write_faces	()	;
 
     void gl_mesh_clear();
-
 private:
     // std::pair<u32,u32>					get_id				( const _face * v ) const;
     // std::pair<u32,u32>					get_id				( const _vertex * v ) const;
@@ -206,8 +203,8 @@ extern "C" XRLC_LIGHT_API void             destroy_global_data();
 extern "C" XRLC_LIGHT_API u32              InvalideFaces();
 XRLC_LIGHT_API void                        ImplicitLighting(BOOL net);
 
-extern xrLC_GlobalData* data;
-IC xrLC_GlobalData*     inlc_global_data()
+extern xrLC_GlobalData*                    data;
+IC xrLC_GlobalData*                        inlc_global_data()
 {
     return data;
 }

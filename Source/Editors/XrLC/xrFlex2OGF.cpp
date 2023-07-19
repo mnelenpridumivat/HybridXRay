@@ -84,11 +84,11 @@ void CBuild::Flex2OGF()
     {
         R_ASSERT(!(*it)->empty());
 
-        u32 MODEL_ID = u32(it - g_XSplit.begin());
+        u32         MODEL_ID = u32(it - g_XSplit.begin());
 
-        OGF*        pOGF = xr_new<OGF>();
-        Face*       F    = *((*it)->begin());               // first face
-        b_material* M    = &(materials()[F->dwMaterial]);   // and it's material
+        OGF*        pOGF     = xr_new<OGF>();
+        Face*       F        = *((*it)->begin());               // first face
+        b_material* M        = &(materials()[F->dwMaterial]);   // and it's material
         R_ASSERT(F && M);
 
         try

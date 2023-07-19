@@ -19,7 +19,6 @@ private:
     static bool process_spawns(IReader& reader, IWriter& writer);
     static bool process_level(IReader& reader, IWriter& writer);
     static bool process_patrol(IReader& reader, IWriter& writer);
-
 public:
     spawn_patcher(LPCSTR new_spawn_id, LPCSTR previous_spawn_id);
 };

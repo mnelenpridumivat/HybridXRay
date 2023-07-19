@@ -16,10 +16,8 @@ public:
         CUBE_SIDE_COUNT = 6,
         CUBE_forced_u32 = u32(-1)
     };
-
 protected:
     Fplane planes[CUBE_SIDE_COUNT];
-
 public:
     CCubeMapHelper()
     {

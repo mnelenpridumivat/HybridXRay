@@ -23,26 +23,21 @@ class XREPROPS_API UIChooseForm: public XrUI
     u32                     m_ChooseID;
     void                    FillItems(u32 choose_id);
     void                    CheckFavorite();
-
 protected:
     DEFINE_MAP(u32, SChooseEvents, EventsMap, EventsMapIt);
     static EventsMap m_Events;
-
 private:
     SChooseEvents        E;
     static UIChooseForm* Form;
     static ImTextureID   NullTexture;
-
 public:
     enum Result
     {
         R_Ok,
         R_Cancel
     };
-
 private:
     Result m_Result;
-
 public:
     UIChooseForm();
     virtual ~UIChooseForm();

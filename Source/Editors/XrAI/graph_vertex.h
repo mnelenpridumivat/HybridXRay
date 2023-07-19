@@ -10,7 +10,7 @@
 
 #include "../../xrEngine/object_broker.h"
 
-template <typename _data_type, typename _vertex_id_type, typename _graph_type> class CVertex
+template<typename _data_type, typename _vertex_id_type, typename _graph_type> class CVertex
 {
 public:
     typedef _vertex_id_type                        _vertex_id_type;
@@ -18,17 +18,15 @@ public:
     typedef typename _edge_type::_edge_weight_type _edge_weight_type;
     typedef xr_vector<_edge_type>                  EDGES;
     typedef xr_vector<CVertex*>                    VERTICES;
-
 private:
     _vertex_id_type m_vertex_id;
     EDGES           m_edges;
     _data_type      m_data;
     // this container holds vertices, which has edges to us
     // this is needed for the fast vertex removal
-    VERTICES m_vertices;
+    VERTICES        m_vertices;
     // this counter is use for fast edge count computation in graph
-    u32* m_edge_count;
-
+    u32*            m_edge_count;
 public:
     IC CVertex(const _data_type& data, const _vertex_id_type& vertex_id, u32* edge_count);
     IC ~CVertex();

@@ -5,9 +5,9 @@
 
 #include "motion_simulator.h"
 
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include "../freemagic/MgcAppr3DPlaneFit.h"
-#pragma warning(default : 4995)
+#pragma warning(default:4995)
 
 IC void SnapXZ(Fvector& V)
 {
@@ -88,7 +88,7 @@ BOOL        CreateNode(Fvector& vAt, vertex& N)
     }
 
     // *** Perform ray-casts and calculate sector
-    WORD Sector = 0xfffe;   // mark as first time
+    WORD                                 Sector = 0xfffe;   // mark as first time
 
     static svector<Fvector, RCAST_Total> points;
     points.clear();
@@ -104,8 +104,8 @@ BOOL        CreateNode(Fvector& vAt, vertex& N)
         P.x = vAt.x + coeff * float(x);
         for (int z = -RCAST_Count; z <= RCAST_Count; z++)
         {
-            P.z = vAt.z + coeff * float(z);
-            P.y = vAt.y + 10.f;
+            P.z                 = vAt.z + coeff * float(z);
+            P.y                 = vAt.y + 10.f;
 
             float tri_min_range = flt_max;
             int   tri_selected  = -1;
@@ -186,8 +186,8 @@ BOOL        CreateNode(Fvector& vAt, vertex& N)
     }
 
     // *** Create node and register it
-    N.Sector = Sector;             // sector
-    N.Plane.build(vOffs, vNorm);   // build plane
+    N.Sector = Sector;                                // sector
+    N.Plane.build(vOffs, vNorm);                      // build plane
     D.set(0, 1, 0);
     N.Plane.intersectRayPoint(PointDown, D, N.Pos);   // "project" position
 
@@ -224,7 +224,7 @@ BOOL        CreateNode(Fvector& vAt, vertex& N)
                 P.z = N.Pos.z + coeff * float(z);
                 P.y = N.Pos.y;
                 N.Plane.intersectRayPoint(P, D, PLP);   // "project" position
-                P.y = PLP.y + RCAST_VALID * 0.01f;
+                P.y                 = PLP.y + RCAST_VALID * 0.01f;
 
                 float tri_min_range = flt_max;
                 int   tri_selected  = -1;
@@ -268,7 +268,7 @@ DEF_VECTOR(vecDW, u32);
 
 static vecDW* HASH[HDIM_X + 1][HDIM_Z + 1];
 
-void hash_Initialize()
+void          hash_Initialize()
 {
     for (int i = 0; i <= HDIM_X; i++)
     {
@@ -295,7 +295,7 @@ vecDW& HashMap(Fvector& V)
     // Calculate offset,scale,epsilon
     Fvector VMmin, VMscale, VMeps, scale;
 
-    Fbox bb = LevelBB;
+    Fbox    bb = LevelBB;
     VMscale.set(bb.max.x - bb.min.x, bb.max.y - bb.min.y, bb.max.z - bb.min.z);
     VMmin.set(bb.min);
     VMeps.set(float(VMscale.x / HDIM_X / 2.f), float(0), float(VMscale.z / HDIM_Z / 2.f));

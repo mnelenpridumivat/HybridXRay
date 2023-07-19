@@ -26,12 +26,12 @@ struct vertex   // definition of "patch" or "node"
     Fvector Pos;      // position of patch center
     WORD    Sector;   //
 
-    u32 Group;
+    u32     Group;
 
-    float LightLevel;
+    float   LightLevel;
 
-    float high_cover[4];   // cover in four directions
-    float low_cover[4];    // cover in four directions
+    float   high_cover[4];   // cover in four directions
+    float   low_cover[4];    // cover in four directions
 
     vertex()
     {
@@ -78,8 +78,8 @@ DEF_VECTOR(DWORDs, u32);
 
 void Compress(CLevelGraph::CVertex& Dest, vertex& Src);
 
-#define LT_DIRECT 0
-#define LT_POINT 1
+#define LT_DIRECT    0
+#define LT_POINT     1
 #define LT_SECONDARY 2
 
 struct R_Light
@@ -94,7 +94,7 @@ struct R_Light
     float   attenuation1;   // Linear attenuation
     float   attenuation2;   // Quadratic attenuation
 
-    Fvector tri[3];   // Cached triangle for ray-testing
+    Fvector tri[3];         // Cached triangle for ray-testing
 };
 
 struct SCover
@@ -122,7 +122,7 @@ struct b_BuildTexture: public b_texture
 {
     STextureParams THM;
 
-    u32& Texel(u32 x, u32 y)
+    u32&           Texel(u32 x, u32 y)
     {
         return ((u32*)*pSurface)[y * dwWidth + x];
     }
@@ -150,32 +150,32 @@ extern xr_vector<b_BuildTexture>* g_textures;
 extern xr_vector<b_rc_face>       g_rc_faces;
 
 // phases
-void xrLoad(LPCSTR name, bool draft_mode);
+void                              xrLoad(LPCSTR name, bool draft_mode);
 // void	xrBuildNodes	();
-void xrSmoothNodes();
-void xrLight();
-void xrCover(bool pure_covers);
-void xrMerge();
-void xrConvertAndLink();
-void xrDisplay();
+void                              xrSmoothNodes();
+void                              xrLight();
+void                              xrCover(bool pure_covers);
+void                              xrMerge();
+void                              xrConvertAndLink();
+void                              xrDisplay();
 // void	xrPalettizeCovers();
-void xrSaveNodes(LPCSTR name, LPCSTR out_name);
+void                              xrSaveNodes(LPCSTR name, LPCSTR out_name);
 
 // constants
-const int   RCAST_MaxTris = (2 * 1024);
-const int   RCAST_Count   = 6;
-const int   RCAST_Total   = (2 * RCAST_Count + 1) * (2 * RCAST_Count + 1);
-const float RCAST_Depth   = 1.f;
+const int                         RCAST_MaxTris     = (2 * 1024);
+const int                         RCAST_Count       = 6;
+const int                         RCAST_Total       = (2 * RCAST_Count + 1) * (2 * RCAST_Count + 1);
+const float                       RCAST_Depth       = 1.f;
 
-const float cover_distance    = 30.f;
-const float high_cover_height = 1.5f;
-const float low_cover_height  = 0.6f;
-const float cover_sqr_dist    = cover_distance * cover_distance;
+const float                       cover_distance    = 30.f;
+const float                       high_cover_height = 1.5f;
+const float                       low_cover_height  = 0.6f;
+const float                       cover_sqr_dist    = cover_distance * cover_distance;
 
-const float sim_angle = 20.f;
-const float sim_dist  = 0.15f;
-const int   sim_light = 32;
-const float sim_cover = 48;
+const float                       sim_angle         = 20.f;
+const float                       sim_dist          = 0.15f;
+const int                         sim_light         = 32;
+const float                       sim_cover         = 48;
 
 struct CNodePositionCompressor
 {

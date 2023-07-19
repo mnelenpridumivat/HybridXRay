@@ -11,7 +11,7 @@
 #include "../Private/dxRenderDeviceRender.h"
 
 #pragma warning(push)
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include <malloc.h>
 #pragma warning(pop)
 
@@ -209,11 +209,11 @@ void CRender::LoadBuffers(CStreamReader* base_fs, BOOL _alternative)
 {
     R_ASSERT2(base_fs, "Could not load geometry. File not found.");
     dxRenderDeviceRender::Instance().Resources->Evict();
-    u32 dwUsage = D3DUSAGE_WRITEONLY;
+    u32                                 dwUsage = D3DUSAGE_WRITEONLY;
 
-    xr_vector<VertexDeclarator>&        _DC = _alternative ? xDC : nDC;
-    xr_vector<IDirect3DVertexBuffer9*>& _VB = _alternative ? xVB : nVB;
-    xr_vector<IDirect3DIndexBuffer9*>&  _IB = _alternative ? xIB : nIB;
+    xr_vector<VertexDeclarator>&        _DC     = _alternative ? xDC : nDC;
+    xr_vector<IDirect3DVertexBuffer9*>& _VB     = _alternative ? xVB : nVB;
+    xr_vector<IDirect3DIndexBuffer9*>&  _IB     = _alternative ? xIB : nIB;
 
     // Vertex buffers
     {
@@ -385,11 +385,11 @@ void CRender::LoadSWIs(CStreamReader* base_fs)
     // allocate memory for portals
     if (base_fs->find_chunk(fsL_SWIS))
     {
-        CStreamReader* fs         = base_fs->open_chunk(fsL_SWIS);
-        u32            item_count = fs->r_u32();
+        CStreamReader*                        fs         = base_fs->open_chunk(fsL_SWIS);
+        u32                                   item_count = fs->r_u32();
 
-        xr_vector<FSlideWindowItem>::iterator it   = SWIs.begin();
-        xr_vector<FSlideWindowItem>::iterator it_e = SWIs.end();
+        xr_vector<FSlideWindowItem>::iterator it         = SWIs.begin();
+        xr_vector<FSlideWindowItem>::iterator it_e       = SWIs.end();
 
         for (; it != it_e; ++it)
             xr_free((*it).sw);

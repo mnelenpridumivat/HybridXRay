@@ -17,9 +17,9 @@ static const float drop_max_wind_vel = 20.0f;
 static const float drop_speed_min    = 40.f;
 static const float drop_speed_max    = 80.f;
 
-const int   max_particles   = 1000;
-const int   particles_cache = 400;
-const float particles_time  = .3f;
+const int          max_particles     = 1000;
+const int          particles_cache   = 400;
+const float        particles_time    = .3f;
 
 dxRainRender::dxRainRender()
 {
@@ -54,14 +54,14 @@ void dxRainRender::Render(CEffect_Rain& owner)
     if (factor < EPS_L)
         return;
 
-    u32 desired_items = iFloor(0.5f * (1.f + factor) * float(max_desired_items));
+    u32      desired_items     = iFloor(0.5f * (1.f + factor) * float(max_desired_items));
     // visual
-    float    factor_visual = factor / 2.f + .5f;
-    Fvector3 f_rain_color  = g_pGamePersistent->Environment().CurrentEnv->rain_color;
-    u32      u_rain_color  = color_rgba_f(f_rain_color.x, f_rain_color.y, f_rain_color.z, factor_visual);
+    float    factor_visual     = factor / 2.f + .5f;
+    Fvector3 f_rain_color      = g_pGamePersistent->Environment().CurrentEnv->rain_color;
+    u32      u_rain_color      = color_rgba_f(f_rain_color.x, f_rain_color.y, f_rain_color.z, factor_visual);
 
     // born _new_ if needed
-    float b_radius_wrap_sqr = _sqr((source_radius + .5f));
+    float    b_radius_wrap_sqr = _sqr((source_radius + .5f));
     if (owner.items.size() < desired_items)
     {
         // owner.items.reserve		(desired_items);
@@ -175,7 +175,7 @@ void dxRainRender::Render(CEffect_Rain& owner)
         static Fvector2 UV[2][4] = {{{0, 1}, {0, 0}, {1, 1}, {1, 0}}, {{1, 0}, {1, 1}, {0, 0}, {0, 1}}};
 
         // Everything OK - build vertices
-        Fvector P, lineTop, camDir;
+        Fvector         P, lineTop, camDir;
         camDir.sub(sC, vEye);
         camDir.normalize();
         lineTop.crossproduct(camDir, lineD);
@@ -267,7 +267,7 @@ void dxRainRender::Render(CEffect_Rain& owner)
 
                     v_ptr = (IRender_DetailModel::fvfVertexOut*)RCache.Vertex.Lock(
                         vCount_Lock, hGeom_Drops->vb_stride, v_offset);
-                    i_ptr = _IS.Lock(iCount_Lock, i_offset);
+                    i_ptr  = _IS.Lock(iCount_Lock, i_offset);
 
                     pcount = 0;
                 }

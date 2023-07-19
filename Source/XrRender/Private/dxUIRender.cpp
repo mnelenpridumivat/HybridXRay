@@ -5,7 +5,7 @@
 
 dxUIRender UIRenderImpl;
 
-void dxUIRender::CreateUIGeom()
+void       dxUIRender::CreateUIGeom()
 {
     hGeom_TL.create(FVF::F_TL, RCache.Vertex.Buffer(), 0);
     hGeom_LIT.create(FVF::F_LIT, RCache.Vertex.Buffer(), 0);

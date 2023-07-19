@@ -104,7 +104,7 @@ R_occlusion::occq_result R_occlusion::occq_get(u32& ID)
     HRESULT     hr;
     // CHK_DX		(used[ID].Q->GetData(&fragments,sizeof(fragments),D3DGETDATA_FLUSH));
     // Msg			("get  : [%2d] - %d => %d", used[ID].order, ID, fragments);
-    CTimer T;
+    CTimer      T;
     T.Start();
     Device->Statistic->RenderDUMP_Wait.Begin();
     // while	((hr=used[ID].Q->GetData(&fragments,sizeof(fragments),D3DGETDATA_FLUSH))==S_FALSE) {

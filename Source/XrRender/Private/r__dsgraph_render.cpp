@@ -15,7 +15,7 @@ extern float r_ssaDONTSORT;
 extern float r_ssaHZBvsTEX;
 extern float r_ssaGLOD_start, r_ssaGLOD_end;
 
-ICF float calcLOD(float ssa /*fDistSq*/, float R)
+ICF float    calcLOD(float ssa /*fDistSq*/, float R)
 {
     return _sqrt(clampr((ssa - r_ssaGLOD_end) / (r_ssaGLOD_start - r_ssaGLOD_end), 0.f, 1.f));
 }
@@ -559,8 +559,8 @@ void R_dsgraph_structure::r_dsgraph_render_hud()
     // PIX_EVENT(r_dsgraph_render_hud);
 
     // Change projection
-    Fmatrix Pold  = Device->mProject;
-    Fmatrix FTold = Device->mFullTransform;
+    Fmatrix                 Pold  = Device->mProject;
+    Fmatrix                 FTold = Device->mFullTransform;
     Device->mProject.build_projection(
         deg2rad(psHUD_FOV * Device->fFOV /* *Device->fASPECT*/), Device->fASPECT, VIEWPORT_NEAR,
         g_pGamePersistent->Environment().CurrentEnv->far_plane);
@@ -622,8 +622,8 @@ void R_dsgraph_structure::r_dsgraph_render_hud_ui()
     extern ENGINE_API float psHUD_FOV;
 
     // Change projection
-    Fmatrix Pold  = Device->mProject;
-    Fmatrix FTold = Device->mFullTransform;
+    Fmatrix                 Pold  = Device->mProject;
+    Fmatrix                 FTold = Device->mFullTransform;
     Device->mProject.build_projection(
         deg2rad(psHUD_FOV * Device->fFOV /* *Device->fASPECT*/), Device->fASPECT, VIEWPORT_NEAR,
         g_pGamePersistent->Environment().CurrentEnv->far_plane);
@@ -694,8 +694,8 @@ void R_dsgraph_structure::r_dsgraph_render_emissive()
     extern ENGINE_API float psHUD_FOV;
 
     // Change projection
-    Fmatrix Pold  = Device->mProject;
-    Fmatrix FTold = Device->mFullTransform;
+    Fmatrix                 Pold  = Device->mProject;
+    Fmatrix                 FTold = Device->mFullTransform;
     Device->mProject.build_projection(
         deg2rad(psHUD_FOV * Device->fFOV /* *Device->fASPECT*/), Device->fASPECT, VIEWPORT_NEAR,
         g_pGamePersistent->Environment().CurrentEnv->far_plane);
@@ -850,14 +850,15 @@ void R_dsgraph_structure::r_dsgraph_render_R1_box(IRender_Sector* _S, Fbox& BB, 
 
     for (u32 test = 0; test < lstVisuals.size(); test++)
     {
-        dxRender_Visual* V = lstVisuals[test];
+        dxRender_Visual*                      V = lstVisuals[test];
 
         // Visual is 100% visible - simply add it
         xr_vector<dxRender_Visual*>::iterator I, E;   // it may be usefull for 'hierrarhy' visuals
 
         switch (V->Type)
         {
-            case MT_HIERRARHY: {
+            case MT_HIERRARHY:
+            {
                 // Add all children
                 FHierrarhyVisual* pV = (FHierrarhyVisual*)V;
                 I                    = pV->children.begin();
@@ -871,7 +872,8 @@ void R_dsgraph_structure::r_dsgraph_render_R1_box(IRender_Sector* _S, Fbox& BB, 
             }
             break;
             case MT_SKELETON_ANIM:
-            case MT_SKELETON_RIGID: {
+            case MT_SKELETON_RIGID:
+            {
                 // Add all children	(s)
                 CKinematics* pV = (CKinematics*)V;
                 pV->CalculateBones(TRUE);
@@ -885,7 +887,8 @@ void R_dsgraph_structure::r_dsgraph_render_R1_box(IRender_Sector* _S, Fbox& BB, 
                 }
             }
             break;
-            case MT_LOD: {
+            case MT_LOD:
+            {
                 FLOD* pV = (FLOD*)V;
                 I        = pV->children.begin();
                 E        = pV->children.end();
@@ -897,7 +900,8 @@ void R_dsgraph_structure::r_dsgraph_render_R1_box(IRender_Sector* _S, Fbox& BB, 
                 }
             }
             break;
-            default: {
+            default:
+            {
                 // Renderable visual
                 ShaderElement* E = V->shader->E[sh]._get();
                 if (E && !(E->flags.bDistort))

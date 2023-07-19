@@ -59,22 +59,26 @@ void CLevelGraph::choose_point(
     {
         switch (i)
         {
-            case 0: {
+            case 0:
+            {
                 tCheckPoint1 = tNextContour.v1;
                 tCheckPoint2 = tNextContour.v2;
                 break;
             }
-            case 1: {
+            case 1:
+            {
                 tCheckPoint1 = tNextContour.v2;
                 tCheckPoint2 = tNextContour.v3;
                 break;
             }
-            case 2: {
+            case 2:
+            {
                 tCheckPoint1 = tNextContour.v3;
                 tCheckPoint2 = tNextContour.v4;
                 break;
             }
-            case 3: {
+            case 3:
+            {
                 tCheckPoint1 = tNextContour.v4;
                 tCheckPoint2 = tNextContour.v1;
                 break;
@@ -492,22 +496,26 @@ bool CLevelGraph::create_straight_path(
 
                 switch (I)
                 {
-                    case 0: {
+                    case 0:
+                    {
                         next1 = box.max;
                         next2.set(box.max.x, box.min.y);
                         break;
                     }
-                    case 1: {
+                    case 1:
+                    {
                         next1 = box.min;
                         next2.set(box.max.x, box.min.y);
                         break;
                     }
-                    case 2: {
+                    case 2:
+                    {
                         next1 = box.min;
                         next2.set(box.min.x, box.max.y);
                         break;
                     }
-                    case 3: {
+                    case 3:
+                    {
                         next1 = box.max;
                         next2.set(box.min.x, box.max.y);
                         break;

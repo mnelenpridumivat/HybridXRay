@@ -56,9 +56,9 @@ enum
     RC_dest_geometry_cb_index_shift = 8,
 };
 
-enum   //	Constant buffer index masks
+enum                                 //	Constant buffer index masks
 {
-    CB_BufferIndexMask = 0xF,   //	Buffer index == 0..14
+    CB_BufferIndexMask      = 0xF,   //	Buffer index == 0..14
 
     CB_BufferTypeMask       = 0x70,
     CB_BufferPixelShader    = 0x10,
@@ -74,7 +74,8 @@ struct ECORE_API R_constant_load
     u16 index;   // linear index (pixel)
     u16 cls;     // element class
 
-    R_constant_load(): index(u16(-1)), cls(u16(-1)){};
+    R_constant_load():
+        index(u16(-1)), cls(u16(-1)){};
 
     IC BOOL equal(R_constant_load& C)
     {
@@ -84,9 +85,9 @@ struct ECORE_API R_constant_load
 
 struct ECORE_API R_constant: public xr_resource
 {
-    shared_str name;          // HLSL-name
-    u16        type;          // float=0/integer=1/boolean=2
-    u32        destination;   // pixel/vertex/(or both)/sampler
+    shared_str      name;          // HLSL-name
+    u16             type;          // float=0/integer=1/boolean=2
+    u32             destination;   // pixel/vertex/(or both)/sampler
 
     R_constant_load ps;
     R_constant_load vs;
@@ -101,7 +102,8 @@ struct ECORE_API R_constant: public xr_resource
     R_constant_load   samp;
     R_constant_setup* handler;
 
-    R_constant(): type(u16(-1)), destination(0), handler(NULL){};
+    R_constant():
+        type(u16(-1)), destination(0), handler(NULL){};
 
     IC R_constant_load& get_load(u32 destination)
     {
@@ -143,7 +145,7 @@ struct ECORE_API R_constant: public xr_resource
 typedef resptr_core<R_constant, resptr_base<R_constant>> ref_constant;
 
 // Automatic constant setup
-class ECORE_API R_constant_setup
+class ECORE_API                                          R_constant_setup
 {
 public:
     virtual void setup(R_constant* C) = 0;
@@ -168,7 +170,6 @@ private:
     BOOL parseConstants(ID3DShaderReflectionConstantBuffer* pTable, u32 destination);
     BOOL parseResources(ID3DShaderReflection* pReflection, int ResNum, u32 destination);
 #endif   //	USE_DX10
-
 public:
     ~R_constant_table();
 
@@ -178,8 +179,8 @@ public:
     ref_constant get(LPCSTR name);        // slow search
     ref_constant get(shared_str& name);   // fast search
 
-    BOOL equal(R_constant_table& C);
-    BOOL equal(R_constant_table* C)
+    BOOL         equal(R_constant_table& C);
+    BOOL         equal(R_constant_table* C)
     {
         return equal(*C);
     }
@@ -187,7 +188,6 @@ public:
     {
         return 0 == table.size();
     }
-
 private:
 };
 typedef resptr_core<R_constant_table, resptr_base<R_constant_table>> ref_ctable;

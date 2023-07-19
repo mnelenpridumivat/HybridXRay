@@ -23,8 +23,8 @@ IC float Interpolate(float* base, u32 x, u32 y, u32 size)
     float c02 = base[0] * ify + base[2] * fy;
     float c13 = base[1] * ify + base[3] * fy;
 
-    float cx = ify * c01 + fy * c23;
-    float cy = ifx * c02 + fx * c13;
+    float cx  = ify * c01 + fy * c23;
+    float cy  = ifx * c02 + fx * c13;
     return (cx + cy) / 2;
 }
 
@@ -80,7 +80,7 @@ void CDetailManager::cache_Decompress(Slot* S)
     DetailSlot& DS = QueryDB(D.sx, D.sz);
 
     // Select polygons
-    Fvector bC, bD;
+    Fvector     bC, bD;
     D.vis.box.get_CD(bC, bD);
 
 #ifdef REDITOR
@@ -116,14 +116,14 @@ void CDetailManager::cache_Decompress(Slot* S)
     u32                          d_size  = iCeil(dm_slot_size / density);
     svector<int, dm_obj_in_slot> selected;
 
-    u32     p_rnd = D.sx * D.sz;   // нужно для того чтобы убрать полосы(ряды)
-    CRandom r_selection(0x12071980 ^ p_rnd);
-    CRandom r_jitter(0x12071980 ^ p_rnd);
-    CRandom r_yaw(0x12071980 ^ p_rnd);
-    CRandom r_scale(0x12071980 ^ p_rnd);
+    u32                          p_rnd = D.sx * D.sz;   // нужно для того чтобы убрать полосы(ряды)
+    CRandom                      r_selection(0x12071980 ^ p_rnd);
+    CRandom                      r_jitter(0x12071980 ^ p_rnd);
+    CRandom                      r_yaw(0x12071980 ^ p_rnd);
+    CRandom                      r_scale(0x12071980 ^ p_rnd);
 
     // Prepare to actual-bounds-calculations
-    Fbox Bounds;
+    Fbox                         Bounds;
     Bounds.invalidate();
 
     // Decompressing itself
@@ -184,9 +184,9 @@ void CDetailManager::cache_Decompress(Slot* S)
             SlotItem& Item  = *ItemP;
 
             // Position (XZ)
-            float   rx = (float(x) / float(d_size)) * dm_slot_size + D.vis.box.min.x;
-            float   rz = (float(z) / float(d_size)) * dm_slot_size + D.vis.box.min.z;
-            Fvector Item_P;
+            float     rx    = (float(x) / float(d_size)) * dm_slot_size + D.vis.box.min.x;
+            float     rz    = (float(z) / float(d_size)) * dm_slot_size + D.vis.box.min.z;
+            Fvector   Item_P;
 
 #ifndef DBG_SWITCHOFF_RANDOMIZE
             Item_P.set(rx + r_jitter.randFs(jitter), D.vis.box.max.y, rz + r_jitter.randFs(jitter));

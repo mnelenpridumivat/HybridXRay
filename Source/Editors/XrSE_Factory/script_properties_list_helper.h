@@ -37,9 +37,9 @@ public:
     CanvasValue*  CreateCanvas(PropItemVec* items, LPCSTR key, LPCSTR val, int height);
     ButtonValue*  CreateButton(PropItemVec* items, LPCSTR key, LPCSTR val, u32 flags);
 
-    ChooseValue* CreateChoose(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, u32 mode);
+    ChooseValue*  CreateChoose(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, u32 mode);
     ChooseValue*
-        CreateChoose(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, u32 mode, LPCSTR path);
+                 CreateChoose(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, u32 mode, LPCSTR path);
     ChooseValue* CreateChoose(
         PropItemVec*    items,
         LPCSTR          key,
@@ -67,36 +67,36 @@ public:
     //			S8Value* 			CreateS8		    (PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, s8 mn,
     //s8 mx, s8 inc);
 
-    S16Value* CreateS16(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name);
-    S16Value* CreateS16(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, s16 mn);
-    S16Value* CreateS16(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, s16 mn, s16 mx);
-    S16Value* CreateS16(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, s16 mn, s16 mx, s16 inc);
+    S16Value*   CreateS16(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name);
+    S16Value*   CreateS16(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, s16 mn);
+    S16Value*   CreateS16(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, s16 mn, s16 mx);
+    S16Value*   CreateS16(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, s16 mn, s16 mx, s16 inc);
 
-    S32Value* CreateS32(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name);
-    S32Value* CreateS32(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, s32 mn);
-    S32Value* CreateS32(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, s32 mn, s32 mx);
-    S32Value* CreateS32(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, s32 mn, s32 mx, s32 inc);
+    S32Value*   CreateS32(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name);
+    S32Value*   CreateS32(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, s32 mn);
+    S32Value*   CreateS32(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, s32 mn, s32 mx);
+    S32Value*   CreateS32(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, s32 mn, s32 mx, s32 inc);
 
-    U8Value* CreateU8(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name);
-    U8Value* CreateU8(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, u8 mn);
-    U8Value* CreateU8(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, u8 mn, u8 mx);
-    U8Value* CreateU8(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, u8 mn, u8 mx, u8 inc);
+    U8Value*    CreateU8(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name);
+    U8Value*    CreateU8(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, u8 mn);
+    U8Value*    CreateU8(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, u8 mn, u8 mx);
+    U8Value*    CreateU8(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, u8 mn, u8 mx, u8 inc);
 
-    U16Value* CreateU16(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name);
-    U16Value* CreateU16(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, u16 mn);
-    U16Value* CreateU16(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, u16 mn, u16 mx);
-    U16Value* CreateU16(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, u16 mn, u16 mx, u16 inc);
+    U16Value*   CreateU16(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name);
+    U16Value*   CreateU16(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, u16 mn);
+    U16Value*   CreateU16(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, u16 mn, u16 mx);
+    U16Value*   CreateU16(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, u16 mn, u16 mx, u16 inc);
 
-    U32Value* CreateU32(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name);
-    U32Value* CreateU32(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, u32 mn);
-    U32Value* CreateU32(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, u32 mn, u32 mx);
-    U32Value* CreateU32(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, u32 mn, u32 mx, u32 inc);
+    U32Value*   CreateU32(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name);
+    U32Value*   CreateU32(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, u32 mn);
+    U32Value*   CreateU32(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, u32 mn, u32 mx);
+    U32Value*   CreateU32(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, u32 mn, u32 mx, u32 inc);
 
     FloatValue* CreateFloat(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name);
     FloatValue* CreateFloat(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, float mn);
     FloatValue* CreateFloat(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, float mn, float mx);
     FloatValue*
-        CreateFloat(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, float mn, float mx, float inc);
+                CreateFloat(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, float mn, float mx, float inc);
     FloatValue* CreateFloat(
         PropItemVec*    items,
         LPCSTR          key,
@@ -107,7 +107,7 @@ public:
         float           inc,
         int             decim);
 
-    BOOLValue* CreateBOOL(PropItemVec* items, LPCSTR key, luabind::object object, luabind::object table, LPCSTR name);
+    BOOLValue*   CreateBOOL(PropItemVec* items, LPCSTR key, luabind::object object, luabind::object table, LPCSTR name);
 
     VectorValue* CreateVector(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name);
     VectorValue* CreateVector(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, float mn);
@@ -133,7 +133,7 @@ public:
     Flag8Value* CreateFlag8(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, u8 mask);
     Flag8Value* CreateFlag8(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, u8 mask, LPCSTR c0);
     Flag8Value*
-        CreateFlag8(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, u8 mask, LPCSTR c0, LPCSTR c1);
+                CreateFlag8(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, u8 mask, LPCSTR c0, LPCSTR c1);
     Flag8Value* CreateFlag8(
         PropItemVec*    items,
         LPCSTR          key,
@@ -196,21 +196,21 @@ public:
     //luabind::object object, LPCSTR name, RTokenVec* token); 			TokenValueSH*   	CreateTokenSH	    (PropItemVec* items,
     //LPCSTR key, luabind::object object, LPCSTR name, u32 cnt, const TokenValueSH::Item* lst);
     RListValue*
-        CreateRList(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, CScriptRTokenList* tokens);
+                 CreateRList(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, CScriptRTokenList* tokens);
     U32Value*    CreateColor(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name);
     ColorValue*  CreateFColor(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name);
     VectorValue* CreateVColor(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name);
     RTextValue*  CreateRText(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name);
     //			WaveValue* 			CreateWave		    (PropItemVec* items, LPCSTR key, WaveForm* val);
-    FloatValue* CreateTime(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name);
-    FloatValue* CreateTime(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, float mn);
-    FloatValue* CreateTime(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, float mn, float mx);
+    FloatValue*  CreateTime(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name);
+    FloatValue*  CreateTime(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, float mn);
+    FloatValue*  CreateTime(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, float mn, float mx);
 
-    FloatValue* CreateAngle(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name);
-    FloatValue* CreateAngle(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, float mn);
-    FloatValue* CreateAngle(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, float mn, float mx);
+    FloatValue*  CreateAngle(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name);
+    FloatValue*  CreateAngle(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, float mn);
+    FloatValue*  CreateAngle(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, float mn, float mx);
     FloatValue*
-        CreateAngle(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, float mn, float mx, float inc);
+                CreateAngle(PropItemVec* items, LPCSTR key, luabind::object object, LPCSTR name, float mn, float mx, float inc);
     FloatValue* CreateAngle(
         PropItemVec*    items,
         LPCSTR          key,

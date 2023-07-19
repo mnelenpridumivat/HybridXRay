@@ -1,11 +1,10 @@
 ﻿#pragma once
 #include "serialize.h"
-template <class T, u32 s_X, u32 s_Y> class hash2D
+template<class T, u32 s_X, u32 s_Y> class hash2D
 {
     xr_vector<T> table[s_Y][s_X];
     Fbox2        bounds;
     Fvector2     size;
-
 public:
     hash2D()
     {
@@ -64,19 +63,19 @@ public:
 
     // vector_serialize< t_read<Face> >
     // vector_serialize< t_write<Face> >
-    template <typename TP> struct get_type
+    template<typename TP> struct get_type
     {
         typedef TP type;
     };
 
-    template <typename TP> struct get_type<TP*>
+    template<typename TP> struct get_type<TP*>
     {
         typedef TP type;
     };
 
     typedef typename get_type<T>::type type;
 
-    void read(INetReader& r, vector_serialize<t_read<type, get_id_self_index<type>>>& rd)
+    void                               read(INetReader& r, vector_serialize<t_read<type, get_id_self_index<type>>>& rd)
     {
         r_pod(r, bounds);
 

@@ -41,37 +41,37 @@ const u32 prime[dimension + 1] = {499, 491, 487, 503, 509};
 #define minpicturebytes (dimension * prime[dimension])   // minimum size for input image
 // Network Definitions
 // -------------------
-#define netsize 256   // number of colours used
-#define maxnetpos (netsize - 1)
-#define netbiasshift 4   // bias for colour values
-#define ncycles 100      // no. of learning cycles
+#define netsize         256   // number of colours used
+#define maxnetpos       (netsize - 1)
+#define netbiasshift    4     // bias for colour values
+#define ncycles         100   // no. of learning cycles
 
 // defs for freq and bias
-#define intbiasshift 16   // bias for fractions
-#define intbias (((int)1) << intbiasshift)
-#define gammashift 10   // gamma = 1024
-#define gamma (((int)1) << gammashift)
-#define betashift 10
-#define beta (intbias >> betashift)   // beta = 1/1024
-#define betagamma (intbias << (gammashift - betashift))
+#define intbiasshift    16   // bias for fractions
+#define intbias         (((int)1) << intbiasshift)
+#define gammashift      10   // gamma = 1024
+#define gamma           (((int)1) << gammashift)
+#define betashift       10
+#define beta            (intbias >> betashift)   // beta = 1/1024
+#define betagamma       (intbias << (gammashift - betashift))
 
 // defs for decreasing radius factor
-#define initrad (netsize >> dimension)   // for netsize cols, radius starts
-#define radiusbiasshift 6                // at 32.0 biased by 6 bits
-#define radiusbias (((int)1) << radiusbiasshift)
-#define initradius (initrad * radiusbias)   // and decreases by a
-#define radiusdec 30                        // factor of 1/30 each cycle
+#define initrad         (netsize >> dimension)   // for netsize cols, radius starts
+#define radiusbiasshift 6                        // at 32.0 biased by 6 bits
+#define radiusbias      (((int)1) << radiusbiasshift)
+#define initradius      (initrad * radiusbias)   // and decreases by a
+#define radiusdec       30                       // factor of 1/30 each cycle
 
 // defs for decreasing alpha factor
-#define alphabiasshift 10   // alpha starts at 1.0
-#define initalpha (((int)1) << alphabiasshift)
-int alphadec;   // biased by 10 bits
+#define alphabiasshift  10   // alpha starts at 1.0
+#define initalpha       (((int)1) << alphabiasshift)
+int alphadec;                // biased by 10 bits
 
 // radbias and alpharadbias used for radpower calculation
-#define radbiasshift 8
-#define radbias (((int)1) << radbiasshift)
+#define radbiasshift   8
+#define radbias        (((int)1) << radbiasshift)
 #define alpharadbshift (alphabiasshift + radbiasshift)
-#define alpharadbias (((int)1) << alpharadbshift)
+#define alpharadbias   (((int)1) << alpharadbshift)
 
 // Types and Global Variables
 // --------------------------
@@ -84,12 +84,12 @@ static pixel   network[netsize];       // the network itself
 int            netindex[netsize];      // for network lookup - really netsize
 int            bias[netsize];          // bias and freq arrays for learning
 int            freq[netsize];
-int            radpower[initrad];   // radpower for precomputation
+int            radpower[initrad];      // radpower for precomputation
 
 // Initialise network in range (0,0,0) to (255,255,255) and set parameters
 // -----------------------------------------------------------------------
 
-void initnet(u8* thepic, int len, int sample)
+void           initnet(u8* thepic, int len, int sample)
 {
     int  i;
     int* p;
@@ -146,7 +146,7 @@ void inxbuild()
         {
             q = network[j];
             if (q[0] < smallval)
-            {   // index on g
+            {                      // index on g
                 smallpos = j;
                 smallval = q[0];   // index on g
             }
@@ -189,8 +189,8 @@ u8 inxsearch(u8* s)
 
     bestd = netsize * dimension + 1;   // biggest possible dist is netsize*3
     best  = -1;
-    i     = netindex[s[0]];   // index on g
-    j     = i - 1;            // start at netindex[g] and work outwards
+    i     = netindex[s[0]];            // index on g
+    j     = i - 1;                     // start at netindex[g] and work outwards
 
     while ((i < netsize) || (j >= 0))
     {
@@ -349,7 +349,7 @@ void learn()
     alpha        = initalpha;
     radius       = initradius;
 
-    rad = radius >> radiusbiasshift;
+    rad          = radius >> radiusbiasshift;
     if (rad <= 1)
         rad = 0;
     for (i = 0; i < rad; i++)
@@ -404,10 +404,10 @@ void learn()
 
 extern BYTE compress(float c, int max_value);
 
-void xrPalettizeCovers()
+void        xrPalettizeCovers()
 {
-    u32 N    = g_nodes.size();
-    u8* data = (u8*)xr_malloc(N * dimension);
+    u32                   N    = g_nodes.size();
+    u8*                   data = (u8*)xr_malloc(N * dimension);
 
     // convert cover values and init clusters
     Nodes::const_iterator I = g_nodes.begin(), B = I;

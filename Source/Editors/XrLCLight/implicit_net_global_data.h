@@ -5,7 +5,7 @@ class ImplicitCalcGlobs;
 namespace lc_net
 {
 
-    template <> class net_global_data_impl<gl_implicit_cl_data>
+    template<> class net_global_data_impl<gl_implicit_cl_data>
     {
         // ImplicitCalcGlobs *data;
     public:
@@ -16,7 +16,6 @@ namespace lc_net
         {
             data_cleanup();
         }
-
     protected:
         void   create_data_file(LPCSTR path);
         bool   create_data(LPCSTR path);
@@ -29,7 +28,7 @@ namespace lc_net
         virtual void data_cleanup() = 0 {};
     };
 
-    template <> struct global_add_global<gl_implicit_cl_data, gl_lm_data>
+    template<> struct global_add_global<gl_implicit_cl_data, gl_lm_data>
     {
     };
     // due to vertices gl_cl_data -> gl_lm_data - todo separate vertex data!

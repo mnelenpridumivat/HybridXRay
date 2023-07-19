@@ -8,8 +8,8 @@ class SimulatorStates
 private:
     struct State
     {
-        u32 type;   // 0=RS, 1=TSS
-        u32 v1, v2, v3;
+        u32     type;   // 0=RS, 1=TSS
+        u32     v1, v2, v3;
 
         IC void set_RS(u32 a, u32 b)
         {
@@ -33,10 +33,8 @@ private:
             v3   = c;
         }
     };
-
 private:
     xr_vector<State> States;
-
 public:
     void                  set_RS(u32 a, u32 b);
     void                  set_TSS(u32 a, u32 b, u32 c);

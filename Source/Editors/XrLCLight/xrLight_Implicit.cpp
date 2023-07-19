@@ -35,7 +35,7 @@ void ImplicitExecute::write(IWriter& w) const
 
 ImplicitCalcGlobs cl_globs;
 
-void ImplicitExecute::receive_result(INetReader& r)
+void              ImplicitExecute::receive_result(INetReader& r)
 {
     R_ASSERT(y_start != (u32(-1)));
     R_ASSERT(y_end != (u32(-1)));
@@ -69,7 +69,7 @@ void ImplicitExecute::Execute(net_task_callback* net_callback)
     CDB::COLLIDER      DB;
 
     // Setup variables
-    Fvector2 dim, half;
+    Fvector2           dim, half;
     dim.set(float(defl.Width()), float(defl.Height()));
     half.set(.5f / dim.x, .5f / dim.y);
 
@@ -102,7 +102,7 @@ void ImplicitExecute::Execute(net_task_callback* net_callback)
                     xr_vector<Face*>& space = cl_globs.Hash().query(P.x, P.y);
 
                     // World space
-                    Fvector wP, wN, B;
+                    Fvector           wP, wN, B;
                     for (vecFaceIt it = space.begin(); it != space.end(); it++)
                     {
                         Face* F  = *it;
@@ -195,7 +195,7 @@ void                  ImplicitLightingExec(BOOL b_net)
         u32             Tid = M.surfidx;
         b_BuildTexture* T   = &(inlc_global_data()->textures()[Tid]);
 
-        Implicit_it it = calculator.find(Tid);
+        Implicit_it     it  = calculator.find(Tid);
         if (it == calculator.end())
         {
             ImplicitDeflector ImpD;

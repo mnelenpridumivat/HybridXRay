@@ -24,8 +24,8 @@ _vertex* _vertex::CreateCopy_NOADJ(v_vertices& vertises_storage) const
     return V;
 }
 
-template <> Tface<data_vertex>::~Tface() {}
-template <> Tvertex<data_vertex>::~Tvertex() {}
+template<> Tface<data_vertex>::~Tface() {}
+template<> Tvertex<data_vertex>::~Tvertex() {}
 
 void _face::Failure() {}
 
@@ -75,8 +75,8 @@ void _vertex::isolate_pool_clear_write(IWriter& w) const
     R_ASSERT(false);
 }
 ///////////////////////////////////////////////////////////////
-void _vertex::read_adjacents(INetReader& r) {}
-void _vertex::write_adjacents(IWriter& w) const {}
+void     _vertex::read_adjacents(INetReader& r) {}
+void     _vertex::write_adjacents(IWriter& w) const {}
 
 _vertex* _vertex::read_create()
 {
@@ -88,8 +88,8 @@ _face* _face::read_create()
     return mu_faces_pool().create();
 }
 
-poolSS<_vertex, 8 * 1024> mu_vertices;
-poolSS<_face, 8 * 1024>   mu_faces;
+poolSS<_vertex, 8 * 1024>  mu_vertices;
+poolSS<_face, 8 * 1024>    mu_faces;
 
 poolSS<_vertex, 8 * 1024>& mu_vertices_pool()
 {

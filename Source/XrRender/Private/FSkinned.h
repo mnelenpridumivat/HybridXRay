@@ -104,7 +104,6 @@ protected:
         u16                       bone_id,
         u32                       iBase,
         u32                       iCount);
-
 public:
 };
 
@@ -113,7 +112,6 @@ class CSkeletonX_ST: public Fvisual, public CSkeletonX_ext
 private:
     typedef Fvisual        inherited1;
     typedef CSkeletonX_ext inherited2;
-
 public:
     CSkeletonX_ST() {}
     virtual ~CSkeletonX_ST() {}
@@ -127,7 +125,6 @@ public:
         PickBone(IKinematics::pick_result& r, float dist, const Fvector& start, const Fvector& dir, u16 bone_id);
     virtual void
         FillVertices(const Fmatrix& view, CSkeletonWallmark& wm, const Fvector& normal, float size, u16 bone_id);
-
 private:
     CSkeletonX_ST(const CSkeletonX_ST& other);
     void operator=(const CSkeletonX_ST& other);
@@ -138,7 +135,6 @@ class CSkeletonX_PM: public FProgressive, public CSkeletonX_ext
 private:
     typedef FProgressive   inherited1;
     typedef CSkeletonX_ext inherited2;
-
 public:
     CSkeletonX_PM() {}
     virtual ~CSkeletonX_PM() {}
@@ -152,7 +148,6 @@ public:
         PickBone(IKinematics::pick_result& r, float dist, const Fvector& start, const Fvector& dir, u16 bone_id);
     virtual void
         FillVertices(const Fmatrix& view, CSkeletonWallmark& wm, const Fvector& normal, float size, u16 bone_id);
-
 private:
     CSkeletonX_PM(const CSkeletonX_PM& other);
     void operator=(const CSkeletonX_PM& other);

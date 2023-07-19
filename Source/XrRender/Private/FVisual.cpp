@@ -5,9 +5,9 @@
 #include "stdafx.h"
 #pragma hdrstop
 
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include "directx\d3dx9.h"
-#pragma warning(default : 4995)
+#pragma warning(default:4995)
 
 #include "../../xrEngine/fmesh.h"
 #include "fvisual.h"
@@ -57,8 +57,8 @@ void Fvisual::Load(const char* N, IReader* data, u32 dwFlags)
 
         p_rm_Vertices = RImplementation.getVB(ID);
         p_rm_Vertices->AddRef();
-        vFormat  = RImplementation.getVB_Format(ID);
-        loaded_v = true;
+        vFormat      = RImplementation.getVB_Format(ID);
+        loaded_v     = true;
 
         // indices
         ID           = data->r_u32();
@@ -78,7 +78,7 @@ void Fvisual::Load(const char* N, IReader* data, u32 dwFlags)
             destructor<IReader> def(geomdef().open_chunk(OGF_GCONTAINER));
 
             // we have fast-mesh
-            m_fast = xr_new<IRender_Mesh>();
+            m_fast                 = xr_new<IRender_Mesh>();
 
             // verts
             D3DVERTEXELEMENT9* fmt = 0;
@@ -89,7 +89,7 @@ void Fvisual::Load(const char* N, IReader* data, u32 dwFlags)
             VERIFY(NULL == m_fast->p_rm_Vertices);
             m_fast->p_rm_Vertices = RImplementation.getVB(ID, true);
             m_fast->p_rm_Vertices->AddRef();
-            fmt = RImplementation.getVB_Format(ID, true);
+            fmt                  = RImplementation.getVB_Format(ID, true);
 
             // indices
             ID                   = def().r_u32();

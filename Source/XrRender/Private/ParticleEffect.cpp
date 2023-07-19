@@ -269,8 +269,8 @@ IC void FillSprite_fpu(
     u32             clr,
     float           angle)
 {
-    float sa = _sin(angle);
-    float ca = _cos(angle);
+    float   sa = _sin(angle);
+    float   ca = _cos(angle);
 
     Fvector Vr, Vt;
 
@@ -325,32 +325,32 @@ IC void FillSprite(
 {
     __m128 Vr, Vt, _T, _R, _pos, _zz, _sa, _ca, a, b, c, d;
 
-    _sa = _mm_set1_ps(sina);
-    _ca = _mm_set1_ps(cosa);
+    _sa  = _mm_set1_ps(sina);
+    _ca  = _mm_set1_ps(cosa);
 
-    _T = _mm_load_ss((float*)&T.x);
-    _T = _mm_loadh_pi(_T, (__m64*)&T.y);
+    _T   = _mm_load_ss((float*)&T.x);
+    _T   = _mm_loadh_pi(_T, (__m64*)&T.y);
 
-    _R = _mm_load_ss((float*)&R.x);
-    _R = _mm_loadh_pi(_R, (__m64*)&R.y);
+    _R   = _mm_load_ss((float*)&R.x);
+    _R   = _mm_loadh_pi(_R, (__m64*)&R.y);
 
     _pos = _mm_load_ss((float*)&pos.x);
     _pos = _mm_loadh_pi(_pos, (__m64*)&pos.y);
 
-    _zz = _mm_setzero_ps();
+    _zz  = _mm_setzero_ps();
 
-    Vr = _mm_mul_ps(_mm_set1_ps(r1), _mm_add_ps(_mm_mul_ps(_T, _sa), _mm_mul_ps(_R, _ca)));
-    Vt = _mm_mul_ps(_mm_set1_ps(r2), _mm_sub_ps(_mm_mul_ps(_T, _ca), _mm_mul_ps(_R, _sa)));
+    Vr   = _mm_mul_ps(_mm_set1_ps(r1), _mm_add_ps(_mm_mul_ps(_T, _sa), _mm_mul_ps(_R, _ca)));
+    Vt   = _mm_mul_ps(_mm_set1_ps(r2), _mm_sub_ps(_mm_mul_ps(_T, _ca), _mm_mul_ps(_R, _sa)));
 
-    a = _mm_sub_ps(Vt, Vr);
-    b = _mm_add_ps(Vt, Vr);
-    c = _mm_sub_ps(_zz, a);
-    d = _mm_sub_ps(_zz, b);
+    a    = _mm_sub_ps(Vt, Vr);
+    b    = _mm_add_ps(Vt, Vr);
+    c    = _mm_sub_ps(_zz, a);
+    d    = _mm_sub_ps(_zz, b);
 
-    a = _mm_add_ps(a, _pos);
-    d = _mm_add_ps(d, _pos);
-    b = _mm_add_ps(b, _pos);
-    c = _mm_add_ps(c, _pos);
+    a    = _mm_add_ps(a, _pos);
+    d    = _mm_add_ps(d, _pos);
+    b    = _mm_add_ps(b, _pos);
+    c    = _mm_add_ps(c, _pos);
 
     _mm_store_ss((float*)&pv->p.x, d);
     _mm_storeh_pi((__m64*)&pv->p.y, d);
@@ -394,15 +394,15 @@ IC void FillSprite(
 
     // R.crossproduct(T,Device->vCameraDirection).normalize_safe();
 
-    __m128 _t, _t1, _t2, _r, _r1, _r2;
+    __m128         _t, _t1, _t2, _r, _r1, _r2;
 
     // crossproduct
 
-    _t = _mm_load_ss((float*)&T.x);
-    _t = _mm_loadh_pi(_t, (__m64*)&T.y);
+    _t  = _mm_load_ss((float*)&T.x);
+    _t  = _mm_loadh_pi(_t, (__m64*)&T.y);
 
-    _r = _mm_load_ss((float*)&Device->vCameraDirection.x);
-    _r = _mm_loadh_pi(_r, (__m64*)&Device->vCameraDirection.y);
+    _r  = _mm_load_ss((float*)&Device->vCameraDirection.x);
+    _r  = _mm_loadh_pi(_r, (__m64*)&Device->vCameraDirection.y);
 
     _t1 = _mm_shuffle_ps(_t, _t, _MM_SHUFFLE(0, 3, 1, 2));
     _t2 = _mm_shuffle_ps(_t, _t, _MM_SHUFFLE(2, 0, 1, 3));
@@ -466,10 +466,10 @@ __forceinline void magnitude_sse(Fvector& vec, float& res)
 
 void ParticleRenderStream(LPVOID lpvParams)
 {
-    float sina = 0.0f, cosa = 1.0f;
-    float angle = 0.0f;
+    float            sina = 0.0f, cosa = 1.0f;
+    float            angle     = 0.0f;
 
-    PRS_PARAMS* pParams = (PRS_PARAMS*)lpvParams;
+    PRS_PARAMS*      pParams   = (PRS_PARAMS*)lpvParams;
 
     FVF::LIT*        pv        = pParams->pv;
     u32              p_from    = pParams->p_from;
@@ -593,7 +593,7 @@ void ParticleRenderStream(LPVOID lpvParams)
 
 void CParticleEffect::Render(float)
 {
-    u32 dwOffset, dwCount;
+    u32             dwOffset, dwCount;
     // Get a pointer to the particles in gp memory
     PAPI::Particle* particles;
     u32             p_cnt;
@@ -606,7 +606,7 @@ void CParticleEffect::Render(float)
             FVF::LIT* pv_start = (FVF::LIT*)RCache.Vertex.Lock(p_cnt * 4 * 4, geom->vb_stride, dwOffset);
             FVF::LIT* pv       = pv_start;
 
-            u32 nWorkers = ttapi_GetWorkersCount();
+            u32       nWorkers = ttapi_GetWorkersCount();
 
             if (p_cnt < (nWorkers * 64))
                 nWorkers = 1;
@@ -615,9 +615,9 @@ void CParticleEffect::Render(float)
 
             // Give ~1% more for the last worker
             // to minimize wait in final spin
-            u32 nSlice = p_cnt / 128;
+            u32         nSlice    = p_cnt / 128;
 
-            u32 nStep = ((p_cnt - nSlice) / nWorkers);
+            u32         nStep     = ((p_cnt - nSlice) / nWorkers);
 
             for (u32 i = 0; i < nWorkers; ++i)
             {
@@ -656,8 +656,7 @@ void CParticleEffect::Render(float)
                 RCache.set_Geometry(geom);
 
                 RCache.set_CullMode(
-                    m_Def->m_Flags.is(CPEDef::dfCulling) ? (m_Def->m_Flags.is(CPEDef::dfCullCCW) ? CULL_CCW : CULL_CW) :
-                                                           CULL_NONE);
+                    m_Def->m_Flags.is(CPEDef::dfCulling) ? (m_Def->m_Flags.is(CPEDef::dfCullCCW) ? CULL_CCW : CULL_CW) : CULL_NONE);
                 RCache.Render(D3DPT_TRIANGLELIST, dwOffset, 0, dwCount, 0, dwCount / 2);
                 RCache.set_CullMode(CULL_CCW);
 #ifndef REDITOR
@@ -679,19 +678,19 @@ void CParticleEffect::Render(float)
 
 //----------------------------------------------------
 IC void FillSprite(
-    FVF::LIT*& pv,
-    const Fvector& T,
-    const Fvector& R,
-    const Fvector& pos,
+    FVF::LIT*&      pv,
+    const Fvector&  T,
+    const Fvector&  R,
+    const Fvector&  pos,
     const Fvector2& lt,
     const Fvector2& rb,
-    float r1,
-    float r2,
-    u32 clr,
-    float angle)
+    float           r1,
+    float           r2,
+    u32             clr,
+    float           angle)
 {
-    float sa = _sin(angle);
-    float ca = _cos(angle);
+    float   sa = _sin(angle);
+    float   ca = _cos(angle);
     Fvector Vr, Vt;
     Vr.x = T.x * r1 * sa + R.x * r1 * ca;
     Vr.y = T.y * r1 * sa + R.y * r1 * ca;
@@ -716,20 +715,20 @@ IC void FillSprite(
 }
 
 IC void FillSprite(
-    FVF::LIT*& pv,
-    const Fvector& pos,
-    const Fvector& dir,
+    FVF::LIT*&      pv,
+    const Fvector&  pos,
+    const Fvector&  dir,
     const Fvector2& lt,
     const Fvector2& rb,
-    float r1,
-    float r2,
-    u32 clr,
-    float angle)
+    float           r1,
+    float           r2,
+    u32             clr,
+    float           angle)
 {
-    float sa = _sin(angle);
-    float ca = _cos(angle);
-    const Fvector& T = dir;
-    Fvector R;
+    float          sa = _sin(angle);
+    float          ca = _cos(angle);
+    const Fvector& T  = dir;
+    Fvector        R;
     R.crossproduct(T, Device->vCameraDirection).normalize_safe();
     Fvector Vr, Vt;
     Vr.x = T.x * r1 * sa + R.x * r1 * ca;
@@ -755,12 +754,12 @@ IC void FillSprite(
 }
 
 extern ENGINE_API float psHUD_FOV;
-void CParticleEffect::Render(float)
+void                    CParticleEffect::Render(float)
 {
-    u32 dwOffset, dwCount;
+    u32             dwOffset, dwCount;
     // Get a pointer to the particles in gp memory
     PAPI::Particle* particles;
-    u32 p_cnt;
+    u32             p_cnt;
     ParticleManager()->GetParticles(m_HandleEffect, particles, p_cnt);
 
     if (p_cnt > 0)
@@ -768,13 +767,13 @@ void CParticleEffect::Render(float)
         if (m_Def && m_Def->m_Flags.is(CPEDef::dfSprite))
         {
             FVF::LIT* pv_start = (FVF::LIT*)RCache.Vertex.Lock(p_cnt * 4 * 4, geom->vb_stride, dwOffset);
-            FVF::LIT* pv = pv_start;
+            FVF::LIT* pv       = pv_start;
 
             for (u32 i = 0; i < p_cnt; i++)
             {
                 PAPI::Particle& m = particles[i];
 
-                Fvector2 lt, rb;
+                Fvector2        lt, rb;
                 lt.set(0.f, 0.f);
                 rb.set(1.f, 1.f);
                 if (m_Def->m_Flags.is(CPEDef::dfFramed))
@@ -870,7 +869,7 @@ void CParticleEffect::Render(float)
             if (dwCount)
             {
 #ifndef REDITOR
-                Fmatrix Pold = Device->mProject;
+                Fmatrix Pold  = Device->mProject;
                 Fmatrix FTold = Device->mFullTransform;
                 if (GetHudMode())
                 {
@@ -889,15 +888,14 @@ void CParticleEffect::Render(float)
                 RCache.set_Geometry(geom);
 
                 RCache.set_CullMode(
-                    m_Def->m_Flags.is(CPEDef::dfCulling) ? (m_Def->m_Flags.is(CPEDef::dfCullCCW) ? CULL_CCW : CULL_CW) :
-                                                           CULL_NONE);
+                    m_Def->m_Flags.is(CPEDef::dfCulling) ? (m_Def->m_Flags.is(CPEDef::dfCullCCW) ? CULL_CCW : CULL_CW) : CULL_NONE);
                 RCache.Render(D3DPT_TRIANGLELIST, dwOffset, 0, dwCount, 0, dwCount / 2);
                 RCache.set_CullMode(CULL_CCW);
 #ifndef REDITOR
                 if (GetHudMode())
                 {
                     RImplementation.rmNormal();
-                    Device->mProject = Pold;
+                    Device->mProject       = Pold;
                     Device->mFullTransform = FTold;
                     RCache.set_xform_project(Device->mProject);
                     ApplyTexgen(Device->mFullTransform);

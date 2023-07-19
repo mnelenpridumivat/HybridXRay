@@ -20,16 +20,16 @@
 #include <xmmintrin.h>
 #endif
 
-const float dbgOffset = 0.f;
-const int   dbgItems  = 128;
+const float dbgOffset      = 0.f;
+const int   dbgItems       = 128;
 
 //--------------------------------------------------- Decompression
-static int magic4x4[4][4] = {{0, 14, 3, 13}, {11, 5, 8, 6}, {12, 2, 15, 1}, {7, 9, 4, 10}};
+static int  magic4x4[4][4] = {{0, 14, 3, 13}, {11, 5, 8, 6}, {12, 2, 15, 1}, {7, 9, 4, 10}};
 
-void bwdithermap(int levels, int magic[16][16])
+void        bwdithermap(int levels, int magic[16][16])
 {
     /* Get size of each step */
-    float N = 255.0f / (levels - 1);
+    float N         = 255.0f / (levels - 1);
 
     /*
      * Expand 4x4 dither pattern to 16x16.  4x4 leaves obvious patterning,
@@ -111,10 +111,10 @@ void CDetailManager::Load()
     // Header
     dtFS->r_chunk_safe(0, &dtH, sizeof(dtH));
     R_ASSERT(dtH.version == DETAIL_VERSION);
-    u32 m_count = dtH.object_count;
+    u32      m_count = dtH.object_count;
 
     // Models
-    IReader* m_fs = dtFS->open_chunk(1);
+    IReader* m_fs    = dtFS->open_chunk(1);
     for (u32 m_id = 0; m_id < m_count; m_id++)
     {
         CDetail* dt = xr_new<CDetail>();
@@ -261,7 +261,7 @@ void CDetailManager::UpdateVisibleM()
                     float alpha_i     = 1.f - alpha;
                     float dist_sq_rcp = 1.f / dist_sq;
 
-                    S.frame = Device->dwFrame + Random.randI(15, 30);
+                    S.frame           = Device->dwFrame + Random.randI(15, 30);
                     for (int sp_id = 0; sp_id < dm_obj_in_slot; sp_id++)
                     {
                         SlotPart& sp = S.G[sp_id];
@@ -272,8 +272,8 @@ void CDetailManager::UpdateVisibleM()
                         sp.r_items[1].clear_not_free();
                         sp.r_items[2].clear_not_free();
 
-                        float R       = objects[sp.id]->bv_sphere.R;
-                        float Rq_drcp = R * R * dist_sq_rcp;   // reordered expression for 'ssa' calc
+                        float      R       = objects[sp.id]->bv_sphere.R;
+                        float      Rq_drcp = R * R * dist_sq_rcp;   // reordered expression for 'ssa' calc
 
                         SlotItem **siIT = &(*sp.items.begin()), **siEND = &(*sp.items.end());
                         for (; siIT != siEND; siIT++)
@@ -368,8 +368,8 @@ void CDetailManager::MT_CALC()
         {
             Fvector EYE = Device->vCameraPosition_saved;
 
-            int s_x = iFloor(EYE.x / dm_slot_size + .5f);
-            int s_z = iFloor(EYE.z / dm_slot_size + .5f);
+            int     s_x = iFloor(EYE.x / dm_slot_size + .5f);
+            int     s_z = iFloor(EYE.z / dm_slot_size + .5f);
 
             Device->Statistic->RenderDUMP_DT_Cache.Begin();
             cache_Update(s_x, s_z, EYE, dm_max_decompress);

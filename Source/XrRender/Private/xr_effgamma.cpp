@@ -29,17 +29,17 @@ void CGammaControl::GenLUT(const DXGI_GAMMA_CONTROL_CAPABILITIES& GC, DXGI_GAMMA
     G.Offset        = Offset;
     G.Scale         = Scale;
 
-    float DeltaCV = (GC.MaxConvertedValue - GC.MinConvertedValue);
+    float DeltaCV   = (GC.MaxConvertedValue - GC.MinConvertedValue);
 
-    float og = 1.f / (fGamma + EPS);
-    float B  = fBrightness / 2.f;
-    float C  = fContrast / 2.f;
+    float og        = 1.f / (fGamma + EPS);
+    float B         = fBrightness / 2.f;
+    float C         = fContrast / 2.f;
 
     for (u32 i = 0; i < GC.NumGammaControlPoints; i++)
     {
-        float c = (C + .5f) * powf(GC.ControlPointPositions[i], og) + (B - 0.5f) * 0.5f - C * 0.5f + 0.25f;
+        float c               = (C + .5f) * powf(GC.ControlPointPositions[i], og) + (B - 0.5f) * 0.5f - C * 0.5f + 0.25f;
 
-        c = GC.MinConvertedValue + c * DeltaCV;
+        c                     = GC.MinConvertedValue + c * DeltaCV;
 
         G.GammaCurve[i].Red   = c * cBalance.r;
         G.GammaCurve[i].Green = c * cBalance.g;
@@ -51,7 +51,7 @@ void CGammaControl::GenLUT(const DXGI_GAMMA_CONTROL_CAPABILITIES& GC, DXGI_GAMMA
     }
 }
 
-#else   //	USE_DX10
+#else    //	USE_DX10
 
 IC u16 clr2gamma(float c)
 {

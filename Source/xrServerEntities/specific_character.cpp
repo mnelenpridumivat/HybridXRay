@@ -16,8 +16,8 @@ SSpecificCharacterData::SSpecificCharacterData()
     m_StartDialog = NULL;
     m_ActorDialogs.clear();
 
-    m_Rank       = NO_RANK;
-    m_Reputation = NO_REPUTATION;
+    m_Rank                  = NO_RANK;
+    m_Reputation            = NO_REPUTATION;
 
     m_bNoRandom             = false;
     m_bDefaultForCommunity  = false;
@@ -61,7 +61,7 @@ void CSpecificCharacter::load_shared(LPCSTR)
 #endif
     const ITEM_DATA& item_data = *id_to_index::GetById(m_OwnId);
 
-    CUIXml* pXML = item_data._xml;
+    CUIXml*          pXML      = item_data._xml;
 
     pXML->SetLocalRoot(pXML->GetRoot());
 
@@ -104,16 +104,16 @@ void CSpecificCharacter::load_shared(LPCSTR)
         data()->m_ActorDialogs.push_back(dialog_name);
     }
 
-    data()->m_icon_name = pXML->Read("icon", 0, "ui_npc_u_barman");
+    data()->m_icon_name              = pXML->Read("icon", 0, "ui_npc_u_barman");
 
     // игровое имя персонажа
-    data()->m_sGameName = pXML->Read("name", 0, "");
-    data()->m_sBioText  = CStringTable().translate(pXML->Read("bio", 0, ""));
+    data()->m_sGameName              = pXML->Read("name", 0, "");
+    data()->m_sBioText               = CStringTable().translate(pXML->Read("bio", 0, ""));
 
-    data()->m_fPanic_threshold      = pXML->ReadFlt("panic_threshold", 0, 0.f);
-    data()->m_fHitProbabilityFactor = pXML->ReadFlt("hit_probability_factor", 0, 1.f);
-    data()->m_crouch_type           = pXML->ReadInt("crouch_type", 0, 0);
-    data()->m_upgrade_mechanic      = (pXML->ReadInt("mechanic_mode", 0, 0) == 1);
+    data()->m_fPanic_threshold       = pXML->ReadFlt("panic_threshold", 0, 0.f);
+    data()->m_fHitProbabilityFactor  = pXML->ReadFlt("hit_probability_factor", 0, 1.f);
+    data()->m_crouch_type            = pXML->ReadInt("crouch_type", 0, 0);
+    data()->m_upgrade_mechanic       = (pXML->ReadInt("mechanic_mode", 0, 0) == 1);
 
     data()->m_critical_wound_weights = pXML->Read("critical_wound_weights", 0, "1");
 
@@ -139,7 +139,7 @@ void CSpecificCharacter::load_shared(LPCSTR)
     data()->m_sNpcConfigSect     = pXML->Read("npc_config", 0, "");
     data()->m_sound_voice_prefix = pXML->Read("snd_config", 0, "");
 
-    data()->m_terrain_sect = pXML->Read("terrain_sect", 0, "");
+    data()->m_terrain_sect       = pXML->Read("terrain_sect", 0, "");
 
 #endif
 

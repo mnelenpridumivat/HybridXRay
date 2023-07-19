@@ -24,13 +24,11 @@ protected:
     u32                  m_flags;
     u32                  m_level_vertex_id;
     GameGraph::_GRAPH_ID m_game_vertex_id;
-
 protected:
 #ifdef DEBUG
     bool               m_initialized;
     const CPatrolPath* m_path;
 #endif
-
 private:
     IC void correct_position(
         const CLevelGraph*          level_graph,
@@ -42,7 +40,6 @@ private:
         const CGameLevelCrossTable* cross,
         const CGameGraph*           game_graph) const;
 #endif
-
 public:
     CPatrolPoint(
         const CLevelGraph*          level_graph,
@@ -72,7 +69,6 @@ public:
         const CGameGraph*           game_graph) const;
     IC const u32&        flags() const;
     IC const shared_str& name() const;
-
 public:
 #ifdef XRGAME_EXPORTS
     const u32&                  level_vertex_id() const;

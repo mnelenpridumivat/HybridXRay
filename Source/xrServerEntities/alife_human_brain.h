@@ -17,11 +17,9 @@ class CALifeHumanBrain: public CALifeMonsterBrain
 {
 private:
     typedef CALifeMonsterBrain inherited;
-
 public:
     typedef CSE_ALifeHumanAbstract   object_type;
     typedef CALifeHumanObjectHandler object_handler_type;
-
 private:
     object_type*         m_object;
     object_handler_type* m_object_handler;
@@ -34,15 +32,12 @@ public:
     // old, to be obsolete
 public:
     u32 m_dwTotalMoney;
-
 public:
     CALifeHumanBrain(object_type* object);
     virtual ~CALifeHumanBrain();
-
 public:
     void on_state_write(NET_Packet& packet);
     void on_state_read(NET_Packet& packet);
-
 public:
     IC object_type&         object() const;
     IC object_handler_type& objects() const;

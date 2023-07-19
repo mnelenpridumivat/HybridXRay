@@ -28,7 +28,7 @@ class CDUInterface;
 #include "DrawUtils.h"
 #endif
 #pragma warning(push)
-#pragma warning(disable : 4005)
+#pragma warning(disable:4005)
 
 #include "xrServer_Objects_Abstract_Base.h"
 #pragma warning(pop)

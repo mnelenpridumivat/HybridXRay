@@ -8,9 +8,9 @@
 
 #pragma once
 
-#define TEMPLATE_SPECIALIZATION                                                                          \
-    template <typename _path_id_type, typename _index_type, u8 mask> template <                          \
-        template <typename _T> class _vertex, template <typename _T1, typename _T2> class _index_vertex, \
+#define TEMPLATE_SPECIALIZATION                                                                        \
+    template<typename _path_id_type, typename _index_type, u8 mask> template<                          \
+        template<typename _T> class _vertex, template<typename _T1, typename _T2> class _index_vertex, \
         typename _data_storage>
 
 #define CFixedVertexManager \
@@ -22,7 +22,7 @@ IC CFixedVertexManager::CDataStorage(const u32 vertex_count): inherited(vertex_c
     m_current_path_id = _path_id_type(0);
     m_max_node_count  = vertex_count;
 
-    u32 memory_usage = 0;
+    u32 memory_usage  = 0;
     u32 byte_count;
 
     byte_count = (vertex_count) * sizeof(CGraphIndexVertex);

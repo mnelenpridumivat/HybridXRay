@@ -8,14 +8,12 @@ public:
     dxHashHelper();
     IC void AddData(const void* P, u32 len);
     u32     GetHash() const;
-
 private:
     // Reflects CRC bits in the lookup table
     static inline u32 Reflect(u32 ref, char ch);
     static void       Crc32Init();
-
 private:
-    u32 m_uiCrcValue;
+    u32         m_uiCrcValue;
 
     static bool m_bTableReady;
     static u32  m_CrcTable[256];

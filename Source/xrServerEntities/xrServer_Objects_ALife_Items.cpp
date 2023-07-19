@@ -31,8 +31,8 @@ CSE_ALifeInventoryItem::CSE_ALifeInventoryItem(LPCSTR caSection)
     // текущее состояние вещи
     m_fCondition = 1.0f;
 
-    m_fMass  = pSettings->r_float(caSection, "inv_weight");
-    m_dwCost = pSettings->r_u32(caSection, "cost");
+    m_fMass      = pSettings->r_float(caSection, "inv_weight");
+    m_dwCost     = pSettings->r_u32(caSection, "cost");
 
     if (pSettings->line_exist(caSection, "condition"))
         m_fCondition = pSettings->r_float(caSection, "condition");
@@ -49,12 +49,12 @@ CSE_ALifeInventoryItem::CSE_ALifeInventoryItem(LPCSTR caSection)
 
     m_fDeteriorationValue = 0;
 
-    m_last_update_time = 0;
+    m_last_update_time    = 0;
 
-    State.quaternion.x = 0.f;
-    State.quaternion.y = 0.f;
-    State.quaternion.z = 1.f;
-    State.quaternion.w = 0.f;
+    State.quaternion.x    = 0.f;
+    State.quaternion.y    = 0.f;
+    State.quaternion.z    = 1.f;
+    State.quaternion.w    = 0.f;
 
     State.angular_vel.set(0.f, 0.f, 0.f);
     State.linear_vel.set(0.f, 0.f, 0.f);
@@ -109,7 +109,7 @@ const u32 CSE_ALifeInventoryItem::m_freeze_delta_time = 1000;
 const u32 CSE_ALifeInventoryItem::random_limit        = 120;
 
 // if TRUE, then object sends update packet
-BOOL CSE_ALifeInventoryItem::Net_Relevant()
+BOOL      CSE_ALifeInventoryItem::Net_Relevant()
 {
     if (base()->ID_Parent != u16(-1))
         return FALSE;
@@ -488,13 +488,13 @@ CSE_ALifeItemWeapon::CSE_ALifeItemWeapon(LPCSTR caSection): CSE_ALifeItem(caSect
     a_elapsed_grenades.grenades_count = 0;
     a_elapsed_grenades.grenades_type  = 0;
 
-    wpn_flags = 0;
-    wpn_state = 0;
-    ammo_type = 0;
+    wpn_flags                         = 0;
+    wpn_state                         = 0;
+    ammo_type                         = 0;
 
-    m_fHitPower      = pSettings->r_float(caSection, "hit_power");
-    m_tHitType       = ALife::g_tfString2HitType(pSettings->r_string(caSection, "hit_type"));
-    m_caAmmoSections = pSettings->r_string(caSection, "ammo_class");
+    m_fHitPower                       = pSettings->r_float(caSection, "hit_power");
+    m_tHitType                        = ALife::g_tfString2HitType(pSettings->r_string(caSection, "hit_type"));
+    m_caAmmoSections                  = pSettings->r_string(caSection, "ammo_class");
     if (pSettings->section_exist(caSection) && pSettings->line_exist(caSection, "visual"))
         set_visual(pSettings->r_string(caSection, "visual"));
 
@@ -585,7 +585,8 @@ void CSE_ALifeItemWeapon::OnEvent(NET_Packet& tNetPacket, u16 type, u32 time, Cl
     inherited::OnEvent(tNetPacket, type, time, sender);
     switch (type)
     {
-        case GE_WPN_STATE_CHANGE: {
+        case GE_WPN_STATE_CHANGE:
+        {
             tNetPacket.r_u8(wpn_state);
             //				u8 sub_state =
             tNetPacket.r_u8();

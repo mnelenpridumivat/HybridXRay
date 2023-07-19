@@ -5,7 +5,7 @@
 const u32 LIGHT_CUBOIDSIDEPOLYS_COUNT = 4;
 const u32 LIGHT_CUBOIDVERTICES_COUNT  = 2 * LIGHT_CUBOIDSIDEPOLYS_COUNT;
 
-template <bool _debug> class FixedConvexVolume
+template<bool _debug> class FixedConvexVolume
 {
 public:
     struct _poly
@@ -19,7 +19,6 @@ public:
     sun::ray            light_ray;
     Fvector3            light_cuboid_points[LIGHT_CUBOIDVERTICES_COUNT];
     _poly               light_cuboid_polys[LIGHT_CUBOIDSIDEPOLYS_COUNT];
-
 public:
     void compute_planes()
     {
@@ -97,8 +96,8 @@ public:
                 float   tmp_dist  = 0;
                 Fvector tmp_point = view_frustum_rays[i].P;
 
-                tmp_dist = light_cuboid_polys[align_planes[p]].plane.classify(tmp_point);
-                min_dist = _min(tmp_dist, min_dist);
+                tmp_dist          = light_cuboid_polys[align_planes[p]].plane.classify(tmp_point);
+                min_dist          = _min(tmp_dist, min_dist);
             }
 
             Fvector shift = light_cuboid_polys[align_planes[p]].plane.n;
@@ -134,7 +133,7 @@ public:
 
                     float tmp_mag = -plane_dot_ray / view_frustum_rays[i].D.dotproduct(per_view_to_plane);
 
-                    max_mag = (max_mag < tmp_mag) ? tmp_mag : max_mag;
+                    max_mag       = (max_mag < tmp_mag) ? tmp_mag : max_mag;
                 }
             }
 
@@ -281,7 +280,7 @@ public:
 //		 light source. really slow, but it works for our simple usage :)
 // note: normals points to 'outside'
 //////////////////////////////////////////////////////////////////////////
-template <bool _debug> class DumbConvexVolume
+template<bool _debug> class DumbConvexVolume
 {
 public:
     struct _poly
@@ -402,10 +401,10 @@ public:
     }
     void compute_caster_model(xr_vector<Fplane>& dest, Fvector3 direction)
     {
-        CRenderTarget& T = *RImplementation.Target;
+        CRenderTarget& T   = *RImplementation.Target;
 
         // COG
-        Fvector3 cog = {0, 0, 0};
+        Fvector3       cog = {0, 0, 0};
         for (int it = 0; it < int(points.size()); it++)
             cog.add(points[it]);
         cog.div(float(points.size()));
@@ -426,10 +425,10 @@ public:
             _poly& base = polys[it];
             VERIFY(base.classify(cog) < 0);   // debug
 
-            int marker = (base.planeN.dotproduct(direction) <= 0) ? -1 : 1;
+            int             marker = (base.planeN.dotproduct(direction) <= 0) ? -1 : 1;
 
             // register edges
-            xr_vector<int>& plist = polys[it].points;
+            xr_vector<int>& plist  = polys[it].points;
             for (int p = 0; p < int(plist.size()); p++)
             {
                 _edge E(plist[p], plist[(p + 1) % plist.size()], marker);

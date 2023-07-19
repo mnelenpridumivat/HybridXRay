@@ -9,7 +9,7 @@ public:
     {
         ;
     }
-    virtual void Copy(IFlareRender& _in) = 0;
+    virtual void Copy(IFlareRender& _in)                       = 0;
 
     virtual void CreateShader(LPCSTR sh_name, LPCSTR tex_name) = 0;
     virtual void DestroyShader()                               = 0;
@@ -24,7 +24,7 @@ public:
     {
         ;
     }
-    virtual void Copy(ILensFlareRender& _in) = 0;
+    virtual void Copy(ILensFlareRender& _in)                                        = 0;
 
     virtual void Render(CLensFlare& owner, BOOL bSun, BOOL bFlares, BOOL bGradient) = 0;
     virtual void OnDeviceCreate()                                                   = 0;

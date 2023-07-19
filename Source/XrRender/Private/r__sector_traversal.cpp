@@ -108,7 +108,7 @@ void         CPortalTraverser::fade_render()
         float                       ssaScale = ssaDiff / ssaRange;
         int                         iA       = iFloor((1 - ssaScale) * 255.5f);
         clamp(iA, 0, 255);
-        u32 _clr = subst_alpha(_ambient, u32(iA));
+        u32 _clr   = subst_alpha(_ambient, u32(iA));
 
         // fill polys
         u32 _polys = _P->getPoly().size() - 2;

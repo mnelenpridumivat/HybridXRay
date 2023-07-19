@@ -4,14 +4,14 @@
 
 #include "ResourceManager.h"
 
-template <typename T> struct ShaderTypeTraits;
+template<typename T> struct ShaderTypeTraits;
 
-template <> struct ShaderTypeTraits<SHS>
+template<> struct ShaderTypeTraits<SHS>
 {
     typedef CResourceManager::map_HS MapType;
     typedef ID3D11HullShader         DXIface;
 
-    static inline const char* GetShaderExt()
+    static inline const char*        GetShaderExt()
     {
         return ".hs";
     }
@@ -32,12 +32,12 @@ template <> struct ShaderTypeTraits<SHS>
     }
 };
 
-template <> struct ShaderTypeTraits<SDS>
+template<> struct ShaderTypeTraits<SDS>
 {
     typedef CResourceManager::map_DS MapType;
     typedef ID3D11DomainShader       DXIface;
 
-    static inline const char* GetShaderExt()
+    static inline const char*        GetShaderExt()
     {
         return ".ds";
     }
@@ -58,12 +58,12 @@ template <> struct ShaderTypeTraits<SDS>
     }
 };
 
-template <> struct ShaderTypeTraits<SCS>
+template<> struct ShaderTypeTraits<SCS>
 {
     typedef CResourceManager::map_CS MapType;
     typedef ID3D11ComputeShader      DXIface;
 
-    static inline const char* GetShaderExt()
+    static inline const char*        GetShaderExt()
     {
         return ".cs";
     }
@@ -84,22 +84,22 @@ template <> struct ShaderTypeTraits<SCS>
     }
 };
 
-template <> inline CResourceManager::map_DS& CResourceManager::GetShaderMap()
+template<> inline CResourceManager::map_DS& CResourceManager::GetShaderMap()
 {
     return m_ds;
 }
 
-template <> inline CResourceManager::map_HS& CResourceManager::GetShaderMap()
+template<> inline CResourceManager::map_HS& CResourceManager::GetShaderMap()
 {
     return m_hs;
 }
 
-template <> inline CResourceManager::map_CS& CResourceManager::GetShaderMap()
+template<> inline CResourceManager::map_CS& CResourceManager::GetShaderMap()
 {
     return m_cs;
 }
 
-template <typename T> inline T* CResourceManager::CreateShader(const char* name)
+template<typename T> inline T* CResourceManager::CreateShader(const char* name)
 {
     ShaderTypeTraits<T>::MapType&          sh_map = GetShaderMap<ShaderTypeTraits<T>::MapType>();
     LPSTR                                  N      = LPSTR(name);
@@ -136,11 +136,11 @@ template <typename T> inline T* CResourceManager::CreateShader(const char* name)
         R_ASSERT2(file, cname);
 
         // Select target
-        LPCSTR c_target = ShaderTypeTraits<T>::GetCompilationTarget();
-        LPCSTR c_entry  = "main";
+        LPCSTR        c_target = ShaderTypeTraits<T>::GetCompilationTarget();
+        LPCSTR        c_entry  = "main";
 
         // Compile
-        HRESULT const _hr = ::Render->shader_compile(
+        HRESULT const _hr      = ::Render->shader_compile(
             name, (DWORD const*)file->pointer(), file->length(), c_entry, c_target, D3D10_SHADER_PACK_MATRIX_ROW_MAJOR,
             (void*&)sh);
 
@@ -156,7 +156,7 @@ template <typename T> inline T* CResourceManager::CreateShader(const char* name)
     }
 }
 
-template <typename T> inline void CResourceManager::DestroyShader(const T* sh)
+template<typename T> inline void CResourceManager::DestroyShader(const T* sh)
 {
     ShaderTypeTraits<T>::MapType& sh_map = GetShaderMap<ShaderTypeTraits<T>::MapType>();
 

@@ -2,7 +2,7 @@
 #pragma hdrstop
 
 #pragma warning(push)
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include "directx\d3dx9.h"
 #pragma warning(pop)
 
@@ -62,31 +62,31 @@ void CBackend::OnFrameBegin()
 
 void CBackend::Invalidate()
 {
-    pRT[0] = NULL;
-    pRT[1] = NULL;
-    pRT[2] = NULL;
-    pRT[3] = NULL;
-    pZB    = NULL;
+    pRT[0]    = NULL;
+    pRT[1]    = NULL;
+    pRT[2]    = NULL;
+    pRT[3]    = NULL;
+    pZB       = NULL;
 
     decl      = NULL;
     vb        = NULL;
     ib        = NULL;
     vb_stride = 0;
 
-    state = NULL;
-    ps    = NULL;
-    vs    = NULL;
+    state     = NULL;
+    ps        = NULL;
+    vs        = NULL;
     DX10_ONLY(gs = NULL);
 #ifdef USE_DX11
     hs = 0;
     ds = 0;
     cs = 0;
 #endif
-    ctable = NULL;
+    ctable            = NULL;
 
-    T = NULL;
-    M = NULL;
-    C = NULL;
+    T                 = NULL;
+    M                 = NULL;
+    C                 = NULL;
 
     stencil_enable    = u32(-1);
     stencil_func      = u32(-1);
@@ -177,7 +177,7 @@ void CBackend::set_ClipPlanes(u32 _enable, Fplane* _planes /*=NULL */, u32 count
     D3DXMatrixTranspose(&worldToClipMatrixIT, &worldToClipMatrixIT);
     for (u32 it = 0; it < count; it++)
     {
-        Fplane& P = _planes[it];
+        Fplane&   P = _planes[it];
         D3DXPLANE planeWorld(-P.n.x, -P.n.y, -P.n.z, -P.d), planeClip;
         D3DXPlaneNormalize(&planeWorld, &planeWorld);
         D3DXPlaneTransform(&planeClip, &planeWorld, &worldToClipMatrixIT);
@@ -216,7 +216,7 @@ void CBackend::set_Textures(STextureList* _T)
 {
     if (T == _T)
         return;
-    T = _T;
+    T            = _T;
     //	If resources weren't set at all we should clear from resource #0.
     int _last_ps = -1;
     int _last_vs = -1;
@@ -424,7 +424,7 @@ void CBackend::set_Textures(STextureList* _T)
         if (!textures_gs[_last_gs])
             continue;
 
-        textures_gs[_last_gs] = 0;
+        textures_gs[_last_gs]        = 0;
 
         //	TODO: DX10: Optimise: set all resources at once
         ID3DShaderResourceView* pRes = 0;
@@ -437,7 +437,7 @@ void CBackend::set_Textures(STextureList* _T)
         if (!textures_hs[_last_hs])
             continue;
 
-        textures_hs[_last_hs] = 0;
+        textures_hs[_last_hs]        = 0;
 
         //	TODO: DX10: Optimise: set all resources at once
         ID3DShaderResourceView* pRes = 0;
@@ -448,7 +448,7 @@ void CBackend::set_Textures(STextureList* _T)
         if (!textures_ds[_last_ds])
             continue;
 
-        textures_ds[_last_ds] = 0;
+        textures_ds[_last_ds]        = 0;
 
         //	TODO: DX10: Optimise: set all resources at once
         ID3DShaderResourceView* pRes = 0;
@@ -459,7 +459,7 @@ void CBackend::set_Textures(STextureList* _T)
         if (!textures_cs[_last_cs])
             continue;
 
-        textures_cs[_last_cs] = 0;
+        textures_cs[_last_cs]        = 0;
 
         //	TODO: DX10: Optimise: set all resources at once
         ID3DShaderResourceView* pRes = 0;
@@ -470,7 +470,8 @@ void CBackend::set_Textures(STextureList* _T)
 }
 #else
 
-void CBackend::set_ClipPlanes(u32 _enable, Fmatrix* _xform /*=NULL */, u32 fmask /* =0xff */) {}
+void CBackend::set_ClipPlanes(u32 _enable, Fmatrix* _xform /*=NULL */, u32 fmask /* =0xff */)
+{}
 void CBackend::set_Textures(STextureList* _T) {}
 
 #endif

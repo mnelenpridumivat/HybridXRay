@@ -114,7 +114,7 @@ void CalculateRelSet(Fvector& pos, vecW& rel_set)
             {
                 u32 cell = z * g_pvs_X * g_pvs_Y + x * g_pvs_Y + y;
                 //				clMsg("* Sample #%d",cell);
-                int ptr = g_pvs_map_vm[cell];
+                int ptr  = g_pvs_map_vm[cell];
                 if (ptr >= 0)
                 {
                     rel_set.insert(rel_set.end(), g_pvs[ptr].begin(), g_pvs[ptr].end());
@@ -165,7 +165,7 @@ void CBuild::BuildRelevance(IWriter& fs)
     static vecW            rel_set;
     static vecW            unroll;
 
-    CVirtualFileStream* pvs_map_stream = 0;
+    CVirtualFileStream*    pvs_map_stream = 0;
     if (g_params.m_bTestOcclusion)
     {
         pvs_map_stream = xr_new<CVirtualFileStream>("pvs.temp");

@@ -15,7 +15,7 @@
         x->AddRef();                    \
         DWORDToFile(msg, x->Release()); \
     }
-#define THROW throw 123456789
+#define THROW              throw 123456789
 
 // game path definition
 #define _game_data_        "$game_data$"

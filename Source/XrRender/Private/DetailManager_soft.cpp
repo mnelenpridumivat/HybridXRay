@@ -5,7 +5,7 @@
 
 const u32 vs_size = 3000;
 
-void CDetailManager::soft_Load()
+void      CDetailManager::soft_Load()
 {
     R_ASSERT(RCache.Vertex.Buffer());
     R_ASSERT(RCache.Index.Buffer());
@@ -30,19 +30,19 @@ void CDetailManager::soft_Render()
     _VertexStream& _VS = RCache.Vertex;
     for (u32 O = 0; O < objects.size(); O++)
     {
-        CDetail& Object        = *objects[O];
-        u32      vCount_Object = Object.number_vertices;
-        u32      iCount_Object = Object.number_indices;
+        CDetail&                          Object        = *objects[O];
+        u32                               vCount_Object = Object.number_vertices;
+        u32                               iCount_Object = Object.number_indices;
 
-        xr_vector<SlotItemVec*>&          _vis = m_visibles[0][O];
-        xr_vector<SlotItemVec*>::iterator _vI  = _vis.begin();
-        xr_vector<SlotItemVec*>::iterator _vE  = _vis.end();
+        xr_vector<SlotItemVec*>&          _vis          = m_visibles[0][O];
+        xr_vector<SlotItemVec*>::iterator _vI           = _vis.begin();
+        xr_vector<SlotItemVec*>::iterator _vE           = _vis.end();
         for (; _vI != _vE; _vI++)
         {
             SlotItemVec* items        = *_vI;
             u32          vCount_Total = items->size() * vCount_Object;
             // calculate lock count needed
-            u32 lock_count = vCount_Total / vs_size;
+            u32          lock_count   = vCount_Total / vs_size;
             if (vCount_Total > (lock_count * vs_size))
                 lock_count++;
 
@@ -65,11 +65,11 @@ void CDetailManager::soft_Render()
                     item_end = o_total;
                 if (item_end <= item_start)
                     break;
-                u32 item_range = item_end - item_start;
+                u32                    item_range  = item_end - item_start;
 
                 // Calc Lock params
-                u32 vCount_Lock = item_range * vCount_Object;
-                u32 iCount_Lock = item_range * iCount_Object;
+                u32                    vCount_Lock = item_range * vCount_Object;
+                u32                    iCount_Lock = item_range * iCount_Object;
 
                 // Lock buffers
                 u32                    vBase, iBase, iOffset = 0;
@@ -84,23 +84,23 @@ void CDetailManager::soft_Render()
                     float     scale    = Instance.scale_calculated;
 
                     // Build matrix
-                    Fmatrix& M = Instance.mRotY;
-                    mXform._11 = M._11 * scale;
-                    mXform._12 = M._12 * scale;
-                    mXform._13 = M._13 * scale;
-                    mXform._14 = M._14;
-                    mXform._21 = M._21 * scale;
-                    mXform._22 = M._22 * scale;
-                    mXform._23 = M._23 * scale;
-                    mXform._24 = M._24;
-                    mXform._31 = M._31 * scale;
-                    mXform._32 = M._32 * scale;
-                    mXform._33 = M._33 * scale;
-                    mXform._34 = M._34;
-                    mXform._41 = M._41;
-                    mXform._42 = M._42;
-                    mXform._43 = M._43;
-                    mXform._44 = 1;
+                    Fmatrix&  M        = Instance.mRotY;
+                    mXform._11         = M._11 * scale;
+                    mXform._12         = M._12 * scale;
+                    mXform._13         = M._13 * scale;
+                    mXform._14         = M._14;
+                    mXform._21         = M._21 * scale;
+                    mXform._22         = M._22 * scale;
+                    mXform._23         = M._23 * scale;
+                    mXform._24         = M._24;
+                    mXform._31         = M._31 * scale;
+                    mXform._32         = M._32 * scale;
+                    mXform._33         = M._33 * scale;
+                    mXform._34         = M._34;
+                    mXform._41         = M._41;
+                    mXform._42         = M._42;
+                    mXform._43         = M._43;
+                    mXform._44         = 1;
 
                     // Transfer vertices
                     {

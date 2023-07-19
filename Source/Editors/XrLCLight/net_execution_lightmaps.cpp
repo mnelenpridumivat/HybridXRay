@@ -30,7 +30,7 @@ namespace lc_net
 
     bool execution_lightmaps::receive_task(IAgent* agent, DWORD sessionId, IGenericStream* inStream)
     {
-        u8 buff[send_receive_task_buff_size];
+        u8              buff[send_receive_task_buff_size];
 
         INetBlockReader r(inStream, buff, send_receive_task_buff_size);
         // INetReaderGenStream r( inStream );
@@ -75,8 +75,8 @@ namespace lc_net
         // u32 id = r.r_u32();
         // VERIFY(id==deflector_id);
 
-        u32 _from = r.r_u32();
-        u32 _to   = r.r_u32();
+        u32             _from = r.r_u32();
+        u32             _to   = r.r_u32();
 
         R_ASSERT(_from != u32(-1));
         R_ASSERT(_to != u32(-1));

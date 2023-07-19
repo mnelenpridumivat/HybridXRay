@@ -1,7 +1,7 @@
 ﻿#ifndef BinaryHeapH
 #define BinaryHeapH
 // A binary heap. Actually stores pointers to type THING, not the THINGs themselves.
-template <class THING, class SORT> class BinaryHeap
+template<class THING, class SORT> class BinaryHeap
 {
 private:
     struct Blob
@@ -14,13 +14,12 @@ private:
     int   iCurrentSize;
     int   iAllocatedSize;
 
-    int iCurrentPos;
+    int   iCurrentPos;
 
 #ifdef DEBUG
     // A flag that says using FindNext, RemoveNext and RemoveCurrent are OK to call.
     bool bFindNextValid;
 #endif
-
 public:
     BinaryHeap(void)
     {
@@ -79,7 +78,7 @@ public:
             // And then a bit more.
             iAllocatedSize += 32;
             // And round up to 1k array size.
-            iAllocatedSize = (iAllocatedSize + 1023) & ~1023;
+            iAllocatedSize      = (iAllocatedSize + 1023) & ~1023;
 
             Blob* pOldBlobArray = pBlobArray;
             pBlobArray          = new Blob[iAllocatedSize];
@@ -169,9 +168,9 @@ public:
         if (iCurrentPos < (iCurrentSize - 1))
         {
             VERIFY(pBlobArray != NULL);
-            THING* pThing = pBlobArray[iCurrentPos].pThing;
+            THING* pThing    = pBlobArray[iCurrentPos].pThing;
 
-            SORT MovedSort = pBlobArray[iCurrentSize - 1].Sort;
+            SORT   MovedSort = pBlobArray[iCurrentSize - 1].Sort;
 
             // First bubble this item up the list until
             // the parent is greater or equal to the last item in the heap.
@@ -190,7 +189,7 @@ public:
             {
                 if ((MovedSort >= pBlobArray[(iCurrentPos << 1) + 0].Sort) &&
                     ((((iCurrentPos << 1) + 1) >= iCurrentSize) ||
-                     (MovedSort >= pBlobArray[(iCurrentPos << 1) + 1].Sort)))
+                        (MovedSort >= pBlobArray[(iCurrentPos << 1) + 1].Sort)))
                 {
                     // Yep - fits here.
                     break;

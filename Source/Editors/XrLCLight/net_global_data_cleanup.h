@@ -11,11 +11,10 @@ namespace lc_net
         xr_vector<u32>    vec_cleanup;
         xrCriticalSection lock;
         friend void       data_cleanup_callback(const char* dataDesc, IGenericStream** stream);
-
     public:
         global_data_cleanup();
 
-        template <e_net_globals data> void set_cleanup(u32 id)
+        template<e_net_globals data> void set_cleanup(u32 id)
         {
             lock.Enter();
             if (vec_cleanup[data] == id)
@@ -27,7 +26,7 @@ namespace lc_net
             vec_cleanup[data] = id;
             lock.Leave();
         };
-        template <e_net_globals data> u32 get_cleanup() const
+        template<e_net_globals data> u32 get_cleanup() const
         {
             return vec_cleanup[data];
         };

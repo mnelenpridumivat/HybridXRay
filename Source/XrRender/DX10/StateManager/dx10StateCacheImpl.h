@@ -6,7 +6,7 @@
 
 using dx10StateUtils::operator==;
 
-template <class IDeviceState, class StateDecs>
+template<class IDeviceState, class StateDecs>
 IDeviceState* dx10StateCache<IDeviceState, StateDecs>::GetState(SimulatorStates& state_code)
 {
     StateDecs desc;
@@ -33,7 +33,7 @@ IDeviceState* dx10StateCache<IDeviceState, StateDecs>::GetState(SimulatorStates&
     */
 }
 
-template <class IDeviceState, class StateDecs>
+template<class IDeviceState, class StateDecs>
 IDeviceState* dx10StateCache<IDeviceState, StateDecs>::GetState(StateDecs& desc)
 {
     IDeviceState* pResult;
@@ -56,7 +56,7 @@ IDeviceState* dx10StateCache<IDeviceState, StateDecs>::GetState(StateDecs& desc)
     return pResult;
 }
 
-template <class IDeviceState, class StateDecs>
+template<class IDeviceState, class StateDecs>
 IDeviceState* dx10StateCache<IDeviceState, StateDecs>::FindState(const StateDecs& desc, u32 StateCRC)
 {
     u32 res = 0xffffffff;

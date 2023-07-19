@@ -4,8 +4,8 @@
 #define du_coneH
 //---------------------------------------------------------------------------
 #define DU_CONE_NUMVERTEX 18
-#define DU_CONE_NUMFACES 32
-#define DU_CONE_NUMLINES 24
+#define DU_CONE_NUMFACES  32
+#define DU_CONE_NUMLINES  24
 
 extern ECORE_API Fvector du_cone_vertices[];
 extern ECORE_API WORD    du_cone_faces[];

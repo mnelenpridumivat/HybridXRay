@@ -10,7 +10,7 @@ void CRenderTarget::accum_reflected(light* L)
     ref_shader  shader      = s_accum_reflected;
     ref_shader* shader_msaa = s_accum_reflected_msaa;
 
-    BOOL bIntersect = FALSE;   // enable_scissor(L);
+    BOOL        bIntersect  = FALSE;   // enable_scissor(L);
     L->xform_calc();
     RCache.set_xform_world(L->m_xform);
     RCache.set_xform_view(Device->mView);
@@ -22,7 +22,7 @@ void CRenderTarget::accum_reflected(light* L)
     // Select shader (front or back-faces), *** back, if intersect near plane
     RCache.set_ColorWriteEnable();
     if (bIntersect)
-        RCache.set_CullMode(CULL_CW);   // back
+        RCache.set_CullMode(CULL_CW);    // back
     else
         RCache.set_CullMode(CULL_CCW);   // front
 
@@ -74,7 +74,7 @@ void CRenderTarget::accum_reflected(light* L)
                 RCache.set_Shader(shader_msaa[0]);
                 RCache.set_Stencil(TRUE, D3DCMP_EQUAL, 0x81, 0x81, 0x00);
                 if (bIntersect)
-                    RCache.set_CullMode(CULL_CW);   // back
+                    RCache.set_CullMode(CULL_CW);    // back
                 else
                     RCache.set_CullMode(CULL_CCW);   // front
                 draw_volume(L);
@@ -86,7 +86,7 @@ void CRenderTarget::accum_reflected(light* L)
                     RCache.set_Shader(shader_msaa[i]);
                     RCache.set_Stencil(TRUE, D3DCMP_EQUAL, 0x81, 0x81, 0x00);
                     if (bIntersect)
-                        RCache.set_CullMode(CULL_CW);   // back
+                        RCache.set_CullMode(CULL_CW);    // back
                     else
                         RCache.set_CullMode(CULL_CCW);   // front
                     StateManager.SetSampleMask(u32(1) << i);

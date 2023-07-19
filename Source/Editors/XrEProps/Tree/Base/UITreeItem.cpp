@@ -8,7 +8,7 @@ UITreeItem::UITreeItem(shared_str _Name, SLocalizedString _HintText):
 
 UITreeItem::~UITreeItem()
 {
-    for (UITreeItem* Item : Items)
+    for (UITreeItem* Item: Items)
     {
         xr_delete(Item);
     }
@@ -22,7 +22,7 @@ UITreeItem* UITreeItem::AppendItem(const char* _Path, SLocalizedString _HintText
         string_path Name;
         xr_strcpy(Name, _Path);
         strchr(Name, _PathChar)[0] = 0;
-        UITreeItem* Item          = FindItem(Name);
+        UITreeItem* Item           = FindItem(Name);
         if (!Item)
         {
             Items.push_back(CreateItem(Name, _HintText));
@@ -51,7 +51,7 @@ UITreeItem* UITreeItem::FindItem(const char* _Path, char _PathChar)
         string_path Name;
         xr_strcpy(Name, _Path);
         strchr(Name, _PathChar)[0] = 0;
-        UITreeItem* Item          = FindItem(Name);
+        UITreeItem* Item           = FindItem(Name);
         if (Item)
         {
             return Item->FindItem(strchr(_Path, _PathChar) + 1);
@@ -60,7 +60,7 @@ UITreeItem* UITreeItem::FindItem(const char* _Path, char _PathChar)
     else
     {
         shared_str FName = _Path;
-        for (UITreeItem* Item : Items)
+        for (UITreeItem* Item: Items)
         {
             if (Item->Name == FName)
             {
@@ -76,13 +76,13 @@ UITreeItem* UITreeItem::CreateItem(shared_str _Name, SLocalizedString _HintText)
     return xr_new<UITreeItem>(_Name, _HintText);
 }
 
-void UITreeItem::ShowHintIfHovered() 
+void UITreeItem::ShowHintIfHovered()
 {
-  if (HintText.StringEN && HintText.StringRU && ImGui::IsItemHovered())
-  {
-      if (EditorLocalization == ELocalization::EN)
-          ImGui::SetTooltip(HintText.StringEN);
-      else
-          ImGui::SetTooltip(HintText.StringRU);
-  }
+    if (HintText.StringEN && HintText.StringRU && ImGui::IsItemHovered())
+    {
+        if (EditorLocalization == ELocalization::EN)
+            ImGui::SetTooltip(HintText.StringEN);
+        else
+            ImGui::SetTooltip(HintText.StringRU);
+    }
 }

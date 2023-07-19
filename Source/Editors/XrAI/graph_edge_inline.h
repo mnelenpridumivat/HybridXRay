@@ -8,9 +8,9 @@
 
 #pragma once
 
-#define TEMPLATE_SPECIALIZATION template <typename _edge_weight_type, typename _vertex_type>
+#define TEMPLATE_SPECIALIZATION template<typename _edge_weight_type, typename _vertex_type>
 
-#define CSGraphEdge CEdge<_edge_weight_type, _vertex_type>
+#define CSGraphEdge             CEdge<_edge_weight_type, _vertex_type>
 
 TEMPLATE_SPECIALIZATION
 IC CSGraphEdge::CEdge(const _edge_weight_type& weight, _vertex_type* vertex)

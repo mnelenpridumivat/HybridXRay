@@ -11,7 +11,6 @@ public:
     UITreeItem*            Owner;
     shared_str             Name;
     SLocalizedString       HintText;
-
 protected:
     virtual UITreeItem* CreateItem(shared_str _Name, SLocalizedString _HintText);
     void                ShowHintIfHovered();

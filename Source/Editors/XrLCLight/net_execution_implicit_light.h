@@ -7,10 +7,9 @@ namespace lc_net
 {
 
     typedef class tnet_execution_base<et_implicit_light>::net_execution_impl execution_implicit_light;
-    template <> class tnet_execution_base<et_implicit_light>::net_execution_impl
+    template<> class tnet_execution_base<et_implicit_light>::net_execution_impl
     {
         ImplicitExecute exec;
-
     public:
         void construct(const ImplicitExecute& _e)
         {
@@ -23,7 +22,7 @@ namespace lc_net
         bool execute(net_task_callback& net_callback);
     };
     // template<> struct add_global<et_implicit_light, gl_cl_data>{};
-    template <> struct add_global<et_implicit_light, gl_implicit_cl_data>
+    template<> struct add_global<et_implicit_light, gl_implicit_cl_data>
     {
     };
     // execution_lightmaps

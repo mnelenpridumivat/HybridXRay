@@ -7,7 +7,7 @@
 #include "fitter.h"
 #include "xrface.h"
 #include "xrLC_GlobalData.h"
-template <typename T, typename T2> T simple_optimize(xr_vector<T>& A, xr_vector<T>& B, T2& _scale, T2& _bias)
+template<typename T, typename T2> T simple_optimize(xr_vector<T>& A, xr_vector<T>& B, T2& _scale, T2& _bias)
 {
     T   accum;
     u32 it;
@@ -27,11 +27,11 @@ template <typename T, typename T2> T simple_optimize(xr_vector<T>& A, xr_vector<
             return error;
         }
 
-        T old_scale = scale;
-        T old_bias  = bias;
+        T   old_scale = scale;
+        T   old_bias  = bias;
 
         // 1. scale
-        u32 _ok = 0;
+        u32 _ok       = 0;
         for (accum = 0, it = 0; it < A.size(); it++)
             if (_abs(A[it]) > EPS_L)
             {

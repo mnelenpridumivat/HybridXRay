@@ -15,7 +15,7 @@ void CRenderTarget::phase_scene_prepare()
 
     if (RImplementation.o.advancedpp &&
         (ps_r2_ls_flags.test(R2FLAG_SOFT_PARTICLES | R2FLAG_DOF) || ((ps_r_sun_shafts > 0) && (fValue >= 0.0001)) ||
-         (ps_r_ssao > 0)))
+            (ps_r_ssao > 0)))
     {
         u_setrt(Device->dwWidth, Device->dwHeight, rt_Position->pRT, NULL, NULL, HW.pBaseZB);
         CHK_DX(HW.pDevice->Clear(0L, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, 0x0, 1.0f, 0L));
@@ -86,7 +86,7 @@ void CRenderTarget::phase_scene_end()
     Fvector2 p0, p1;
     p0.set(.5f / _w, .5f / _h);
     p1.set((_w + .5f) / _w, (_h + .5f) / _h);
-    float d_Z = EPS_S, d_W = 1.f;
+    float    d_Z = EPS_S, d_W = 1.f;
 
     // Fill vertex buffer
     FVF::TL* pv = (FVF::TL*)RCache.Vertex.Lock(4, g_combine->vb_stride, Offset);

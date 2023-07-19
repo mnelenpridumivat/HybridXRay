@@ -36,7 +36,7 @@ struct ECORE_API SVS: public xr_resource_named
 typedef resptr_core<SVS, resptr_base<SVS>> ref_vs;
 
 //////////////////////////////////////////////////////////////////////////
-struct ECORE_API SPS: public xr_resource_named
+struct ECORE_API                           SPS: public xr_resource_named
 {
     ID3DPixelShader* ps;
     R_constant_table constants;
@@ -65,7 +65,7 @@ struct ECORE_API SHS: public xr_resource_named
 };
 typedef resptr_core<SHS, resptr_base<SHS>> ref_hs;
 
-struct ECORE_API SDS: public xr_resource_named
+struct ECORE_API                           SDS: public xr_resource_named
 {
     ID3D11DomainShader* sh;
     R_constant_table    constants;
@@ -73,7 +73,7 @@ struct ECORE_API SDS: public xr_resource_named
 };
 typedef resptr_core<SDS, resptr_base<SDS>> ref_ds;
 
-struct ECORE_API SCS: public xr_resource_named
+struct ECORE_API                           SCS: public xr_resource_named
 {
     ID3D11ComputeShader* sh;
     R_constant_table     constants;
@@ -93,13 +93,13 @@ struct ECORE_API SState: public xr_resource_flagged
 typedef resptr_core<SState, resptr_base<SState>> ref_state;
 
 //////////////////////////////////////////////////////////////////////////
-struct ECORE_API SDeclaration: public xr_resource_flagged
+struct ECORE_API                                 SDeclaration: public xr_resource_flagged
 {
 #if defined(USE_DX10) || defined(USE_DX11)
     //	Maps input signature to input layout
     xr_map<ID3DBlob*, ID3DInputLayout*> vs_to_layout;
     xr_vector<D3D_INPUT_ELEMENT_DESC>   dx10_dcl_code;
-#else    //	USE_DX10	//	Don't need it: use ID3DInputLayout instead
+#else    //	USE_DX10	//	Don't need it: use ID3DInputLayout instead \
          //	which is per ( declaration, VS input layout) pair
     IDirect3DVertexDeclaration9* dcl;
 #endif   //	USE_DX10

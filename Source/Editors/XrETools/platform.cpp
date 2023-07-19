@@ -23,7 +23,7 @@
 #include <time.h>
 #endif
 
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 
 #define _(a) a
 
@@ -111,7 +111,7 @@ void timer_clear(void* timer)
 
 #include <direct.h>
 
-#define PATH_SEPS "/\\"
+#define PATH_SEPS   "/\\"
 #define mkdir(x, y) _mkdir((x))
 
 /* MSVC does this, borland doesn't? */
@@ -131,7 +131,7 @@ int create_directories(char* fn)
     struct stat statbuf;
     char*       segment = (char*)malloc(strlen(fn) + 1);
 
-    start = fn;
+    start               = fn;
 #ifdef _WIN32
     if (strlen(fn) >= 3 && isalpha(fn[0]) && fn[1] == ':')
         start = start + 2;

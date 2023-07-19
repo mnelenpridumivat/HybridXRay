@@ -28,7 +28,8 @@ typedef IDirect3DStateBlock9    ID3DState;
 #define DX10_ONLY(expr) \
     do                  \
     {                   \
-    } while (0)
+    }                   \
+    while (0)
 
 #endif   //	USE_DX10
 

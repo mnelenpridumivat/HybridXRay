@@ -174,7 +174,7 @@ void CRender::render_menu()
         FLOAT ColorRGBA[4] = {127.0f / 255.0f, 127.0f / 255.0f, 0.0f, 127.0f / 255.0f};
         Target->u_setrt(Target->rt_Generic_1, 0, 0, HW.pBaseZB);   // Now RT is a distortion mask
         HW.pDevice->ClearRenderTargetView(Target->rt_Generic_1->pRT, ColorRGBA);
-        g_pGamePersistent->OnRenderPPUI_PP();   // PP-UI
+        g_pGamePersistent->OnRenderPPUI_PP();                      // PP-UI
     }
 
     // Actual Display
@@ -242,7 +242,7 @@ void       CRender::Render()
     // Configure
     RImplementation.o.distortion = FALSE;   // disable distorion
     Fcolor sun_color             = ((light*)Lights.sun_adapted._get())->color;
-    BOOL   bSUN = ps_r2_ls_flags.test(R2FLAG_SUN) && (u_diffuse2s(sun_color.r, sun_color.g, sun_color.b) > EPS);
+    BOOL   bSUN                  = ps_r2_ls_flags.test(R2FLAG_SUN) && (u_diffuse2s(sun_color.r, sun_color.g, sun_color.b) > EPS);
     if (o.sunstatic)
         bSUN = FALSE;
     // Msg						("sstatic: %s, sun: %s",o.sunstatic?;"true":"false", bSUN?"true":"false");
@@ -364,14 +364,14 @@ void       CRender::Render()
         light_Package& LP    = Lights.package;
 
         // stats
-        stats.l_shadowed   = LP.v_shadowed.size();
-        stats.l_unshadowed = LP.v_point.size() + LP.v_spot.size();
-        stats.l_total      = stats.l_shadowed + stats.l_unshadowed;
+        stats.l_shadowed     = LP.v_shadowed.size();
+        stats.l_unshadowed   = LP.v_point.size() + LP.v_spot.size();
+        stats.l_total        = stats.l_shadowed + stats.l_unshadowed;
 
         // perform tests
-        count = _max(count, LP.v_point.size());
-        count = _max(count, LP.v_spot.size());
-        count = _max(count, LP.v_shadowed.size());
+        count                = _max(count, LP.v_point.size());
+        count                = _max(count, LP.v_spot.size());
+        count                = _max(count, LP.v_shadowed.size());
         for (u32 it = 0; it < count; it++)
         {
             if (it < LP.v_point.size())
@@ -556,7 +556,7 @@ void CRender::render_forward()
     //.todo: should be done inside "combine" with estimation of of luminance, tone-mapping, etc.
     {
         // level
-        r_pmask(false, true);   // enable priority "1"
+        r_pmask(false, true);                         // enable priority "1"
         phase = PHASE_NORMAL;
         render_main(Device->mFullTransform, false);   //
         //	Igor: we don't want to render old lods on next frame.

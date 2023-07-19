@@ -10,7 +10,7 @@
 
 #include "level_graph.h"
 
-template <typename _DataStorage, typename _dist_type, typename _index_type, typename _iteration_type>
+template<typename _DataStorage, typename _dist_type, typename _index_type, typename _iteration_type>
 class CPathManager<
     CLevelGraph,
     _DataStorage,
@@ -31,23 +31,21 @@ protected:
     typedef SBaseParameters<_dist_type, _index_type, _iteration_type> _Parameters;
     typedef typename CPathManagerGeneric<_Graph, _DataStorage, _Parameters, _dist_type, _index_type, _iteration_type>
         inherited;
-
 protected:
-    int x1;
+    int              x1;
     //	float				y1;
-    int z1;
-    int x2;
+    int              z1;
+    int              x2;
     //	float				y2;
-    int z2;
-    int x3;
+    int              z2;
+    int              x3;
     //	float				y3;
-    int z3;
+    int              z3;
     //	float				square_size_y;
     //	float				size_y;
     float            m_sqr_distance_xz;
     float            m_distance_xz;
     _Graph::CVertex* best_node;
-
 public:
     virtual ~CPathManager();
     IC void setup(
@@ -59,7 +57,7 @@ public:
         const _Parameters&      params);
     IC void init();
     IC _dist_type
-        evaluate(const _index_type& node_index1, const _index_type& node_index2, const _Graph::const_iterator& i);
+                         evaluate(const _index_type& node_index1, const _index_type& node_index2, const _Graph::const_iterator& i);
     IC _dist_type        estimate(const _index_type& node_index) const;
     IC bool              is_goal_reached(const _index_type& node_index);
     IC bool              is_limit_reached(const _iteration_type iteration_count) const;

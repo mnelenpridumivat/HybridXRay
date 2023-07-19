@@ -2,12 +2,12 @@
 #define dx9r_constants_cacheH
 #pragma once
 
-template <class T, u32 limit> class R_constant_cache
+template<class T, u32 limit> class R_constant_cache
 {
 private:
-    ALIGN(16) svector<T, limit> array;
-    u32 lo, hi;
-
+    ALIGN(16)
+    svector<T, limit> array;
+    u32               lo, hi;
 public:
     R_constant_cache()
     {
@@ -45,13 +45,12 @@ public:
     typedef R_constant_cache<Fvector4, 256> t_f;
     typedef R_constant_cache<Ivector4, 16>  t_i;
     typedef R_constant_cache<BOOL, 16>      t_b;
-
 public:
-    ALIGN(16) t_f c_f;
+    ALIGN(16)
+    t_f  c_f;
     //	ALIGN(16)	t_i					c_i;
     //	ALIGN(16)	t_b					c_b;
     BOOL b_dirty;
-
 public:
     t_f& get_array_f()
     {
@@ -154,11 +153,12 @@ public:
 class ECORE_API R_constants
 {
 public:
-    ALIGN(16) R_constant_array a_pixel;
-    ALIGN(16) R_constant_array a_vertex;
+    ALIGN(16)
+    R_constant_array a_pixel;
+    ALIGN(16)
+    R_constant_array a_vertex;
 
-    void flush_cache();
-
+    void             flush_cache();
 public:
     // fp, non-array versions
     ICF void set(R_constant* C, const Fmatrix& A)

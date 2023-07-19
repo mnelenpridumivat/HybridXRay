@@ -9,7 +9,7 @@ int xrSimulate(xr_vector<u16>& indices, int iCacheSize)
 {
     VertexCache C(iCacheSize);
 
-    int count = 0;
+    int         count = 0;
     for (u32 i = 0; i < indices.size(); i++)
     {
         int id = indices[i];
@@ -124,7 +124,7 @@ try {
         xr_vector<u16> indices, permute;
 
         // Stripify
-        u16* F = (u16*)&*data.faces.begin();
+        u16*           F = (u16*)&*data.faces.begin();
         indices.assign(F, F + (data.faces.size() * 3));
         permute.resize(data.vertices.size());
         xrStripify(indices, permute, c_vCacheSize, 0);

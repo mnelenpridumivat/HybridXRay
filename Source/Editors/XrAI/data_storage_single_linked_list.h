@@ -8,13 +8,13 @@
 
 #pragma once
 
-template <bool sorted = false> struct CDataStorageSingleLinkedList
+template<bool sorted = false> struct CDataStorageSingleLinkedList
 {
-    template <template <typename _T> class T1> struct SingleLinkedList
+    template<template<typename _T> class T1> struct SingleLinkedList
     {
-        template <typename T2> struct _vertex: public T1<T2>
+        template<typename T2> struct _vertex: public T1<T2>
         {
-            T2* _next;
+            T2*     _next;
 
             IC T2*& next()
             {
@@ -23,7 +23,7 @@ template <bool sorted = false> struct CDataStorageSingleLinkedList
         };
     };
 
-    template <typename _data_storage, template <typename _T> class _vertex = CEmptyClassTemplate> class CDataStorage:
+    template<typename _data_storage, template<typename _T> class _vertex = CEmptyClassTemplate> class CDataStorage:
         public _data_storage::template CDataStorage<SingleLinkedList<_vertex>::_vertex>
     {
     public:
@@ -31,13 +31,11 @@ template <bool sorted = false> struct CDataStorageSingleLinkedList
         typedef typename inherited::CGraphVertex                                                  CGraphVertex;
         typedef typename CGraphVertex::_dist_type                                                 _dist_type;
         typedef typename CGraphVertex::_index_type                                                _index_type;
-
     protected:
         _dist_type    m_max_distance;
         CGraphVertex  m_list_data[2];
         CGraphVertex* m_list_head;
         CGraphVertex* m_list_tail;
-
     public:
         IC CDataStorage(const u32 vertex_count, const _dist_type _max_distance = _dist_type(u32(-1)));
         virtual ~CDataStorage();

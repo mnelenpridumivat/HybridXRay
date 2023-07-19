@@ -8,13 +8,13 @@ float imk_blur_gauss[7][7] = {{0, 0, 0, 5, 0, 0, 0},         {0, 5, 18, 32, 18, 
 /* Un-optimized code to perform general image filtering
 outputs to dst using a filter kernel in ker which must be a 2D float
 array of size [2*k+1][2*k+1] */
-void imf_BuildKernel(float* dest, float* src, int DIM, float norm)
+void  imf_BuildKernel(float* dest, float* src, int DIM, float norm)
 {
     float *I, *E;
 
-    float sum  = 0;
-    int   size = 2 * DIM + 1;
-    E          = src + (size * size);
+    float  sum  = 0;
+    int    size = 2 * DIM + 1;
+    E           = src + (size * size);
     for (I = src; I != E; I++)
         sum += *I;
     float scale = norm / sum;

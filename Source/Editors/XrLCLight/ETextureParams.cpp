@@ -38,7 +38,7 @@ void STextureParams::read(INetReader& r)
     mip_filter = r.r_u32();
     width      = r.r_s32();
     ;
-    height = r.r_s32();
+    height       = r.r_s32();
     // r.r_stringZ( detail_name );
     detail_scale = r.r_float();
     r_pod(r, type);

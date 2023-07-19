@@ -1,12 +1,12 @@
 ﻿#include "stdafx.h"
 #pragma hdrstop
 
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include "directx\d3dx9.h"
 #ifndef REDITOR
 #include "../../xrEngine/render.h"
 #endif
-#pragma warning(default : 4995)
+#pragma warning(default:4995)
 
 #include "ResourceManager.h"
 #include "tss.h"
@@ -37,7 +37,7 @@ void simplify_texture(string_path& fn)
     }
 }
 
-template <class T> BOOL reclaim(xr_vector<T*>& vec, const T* ptr)
+template<class T> BOOL reclaim(xr_vector<T*>& vec, const T* ptr)
 {
     xr_vector<T*>::iterator it  = vec.begin();
     xr_vector<T*>::iterator end = vec.end();

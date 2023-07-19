@@ -1,7 +1,7 @@
 ﻿#include "stdafx.h"
 #include "../../xrEngine/customhud.h"
 
-float g_fSCREEN;
+float        g_fSCREEN;
 
 extern float r_dtex_range;
 extern float r_ssaDISCARD;
@@ -11,7 +11,7 @@ extern float r_ssaLOD_B;
 extern float r_ssaHZBvsTEX;
 extern float r_ssaGLOD_start, r_ssaGLOD_end;
 
-void CRender::Calculate()
+void         CRender::Calculate()
 {
     // Transfer to global space to avoid deep pointer access
     IRender_Target* T          = getTarget();

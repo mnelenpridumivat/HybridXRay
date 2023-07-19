@@ -10,7 +10,7 @@ const int HDIM_Z = 56;
 
 // extern volatile u32	dwInvalidFaces;
 
-IC bool FaceEqual(Face& F1, Face& F2)
+IC bool   FaceEqual(Face& F1, Face& F2)
 {
     // Test for 6 variations
     if ((F1.v[0] == F2.v[0]) && (F1.v[1] == F2.v[1]) && (F1.v[2] == F2.v[2]))
@@ -35,7 +35,7 @@ void CBuild::PreOptimize()
     Fvector    VMmin, VMscale, VMeps, scale;
 
     // Calculate offset,scale,epsilon
-    Fbox bb = scene_bb;
+    Fbox       bb = scene_bb;
     VMscale.set(bb.max.x - bb.min.x, bb.max.y - bb.min.y, bb.max.z - bb.min.z);
     VMmin.set(bb.min);
     VMeps.set(VMscale.x / HDIM_X / 2, VMscale.y / HDIM_Y / 2, VMscale.z / HDIM_Z / 2);
@@ -81,7 +81,7 @@ void CBuild::PreOptimize()
         Fvector& V     = pTest->P;
 
         // Hash
-        u32 ix, iy, iz;
+        u32      ix, iy, iz;
         ix = iFloor((V.x - VMmin.x) * scale.x);
         iy = iFloor((V.y - VMmin.y) * scale.y);
         iz = iFloor((V.z - VMmin.z) * scale.z);

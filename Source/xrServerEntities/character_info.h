@@ -33,7 +33,7 @@ struct SCharacterProfile: CSharedResource
 
     // если задано, то выбирается именно такой профиль,
     // иначе ищется случайно,удовлетворяющее шаблону
-    shared_str m_CharacterId;
+    shared_str                 m_CharacterId;
 
     // требуемые параметры персонажа
     CHARACTER_CLASS            m_Class;
@@ -53,7 +53,6 @@ private:
     friend id_to_index;
     friend CInventoryOwner;
     friend CSE_ALifeTraderAbstract;
-
 public:
     CCharacterInfo();
     ~CCharacterInfo();
@@ -70,7 +69,6 @@ public:
     void Init(CSE_ALifeTraderAbstract* trader);
     void InitSpecificCharacter(shared_str new_id);
 #endif
-
 protected:
     const SCharacterProfile* data() const
     {
@@ -83,30 +81,29 @@ protected:
         return inherited_shared::get_sd();
     }
 
-    static void InitXmlIdToIndex();
+    static void  InitXmlIdToIndex();
 
     // загрузка из XML файла
     virtual void load_shared(LPCSTR);
 
     // индекс загруженного профиля
-    shared_str m_ProfileId;
+    shared_str   m_ProfileId;
 
     // индекс данных о конкретном персонаже, который
     // используется в данном экземпляре класса
-    shared_str m_SpecificCharacterId;
+    shared_str   m_SpecificCharacterId;
 
 #ifdef XRGAME_EXPORTS
-    shared_str m_StartDialog;
+    shared_str         m_StartDialog;
 
     // загруженная информация о конкретном персонаже
     CSpecificCharacter m_SpecificCharacter;
 #endif
-
 public:
 #ifdef XRGAME_EXPORTS
-    shared_str Profile() const;
-    LPCSTR     Name() const;
-    shared_str Bio() const;
+    shared_str                 Profile() const;
+    LPCSTR                     Name() const;
+    shared_str                 Bio() const;
 
     const CHARACTER_COMMUNITY& Community() const
     {
@@ -134,14 +131,12 @@ protected:
     void SetRank(CHARACTER_RANK_VALUE rank);
     void SetReputation(CHARACTER_REPUTATION_VALUE reputation);
     void SetCommunity(CHARACTER_COMMUNITY_INDEX community);
-
 public:
-    const shared_str& IconName() const;
+    const shared_str&       IconName() const;
 
     shared_str              StartDialog() const;
     const DIALOG_ID_VECTOR& ActorDialogs() const;
 #endif
-
 protected:
 #ifdef XRGAME_EXPORTS
     CHARACTER_RANK       m_CurrentRank;

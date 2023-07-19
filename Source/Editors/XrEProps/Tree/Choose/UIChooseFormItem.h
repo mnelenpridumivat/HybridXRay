@@ -5,7 +5,7 @@ public:
     UIChooseFormItem(shared_str Name);
     virtual ~UIChooseFormItem();
 
-    bool bIsFavorite;
+    bool                bIsFavorite;
 
     class UIChooseForm* Form;
     int                 Index;
@@ -24,9 +24,8 @@ public:
     void                Selected(int Start, int End);
     void                SelectedToFavorite(bool Favorite);
     void                OpenParentItems(const char* path, char delimiter = '\\');
-
 protected:
-    bool                CheckFilter();
-    UITreeItem*         CreateItem(shared_str Name, SLocalizedString _HintText) override;
-    bool                m_bIsMixed;
+    bool        CheckFilter();
+    UITreeItem* CreateItem(shared_str Name, SLocalizedString _HintText) override;
+    bool        m_bIsMixed;
 };

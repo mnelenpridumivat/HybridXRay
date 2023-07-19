@@ -29,7 +29,6 @@ public:
 
     CBlender_Vertex();
     virtual ~CBlender_Vertex();
-
 private:
     xrP_TOKEN oTessellation;
 };

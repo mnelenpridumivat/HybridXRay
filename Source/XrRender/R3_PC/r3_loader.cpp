@@ -16,7 +16,7 @@
 #include "../Private/FHierrarhyVisual.h"
 
 #pragma warning(push)
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include <malloc.h>
 #pragma warning(pop)
 
@@ -405,11 +405,11 @@ void CRender::LoadSWIs(CStreamReader* base_fs)
     // allocate memory for portals
     if (base_fs->find_chunk(fsL_SWIS))
     {
-        CStreamReader* fs         = base_fs->open_chunk(fsL_SWIS);
-        u32            item_count = fs->r_u32();
+        CStreamReader*                        fs         = base_fs->open_chunk(fsL_SWIS);
+        u32                                   item_count = fs->r_u32();
 
-        xr_vector<FSlideWindowItem>::iterator it   = SWIs.begin();
-        xr_vector<FSlideWindowItem>::iterator it_e = SWIs.end();
+        xr_vector<FSlideWindowItem>::iterator it         = SWIs.begin();
+        xr_vector<FSlideWindowItem>::iterator it_e       = SWIs.end();
 
         for (; it != it_e; ++it)
             xr_free((*it).sw);

@@ -18,7 +18,6 @@ class CObjectItemAbstract
 protected:
     CLASS_ID   m_clsid;
     shared_str m_script_clsid;
-
 public:
     IC                 CObjectItemAbstract(const CLASS_ID& clsid, LPCSTR script_clsid);
     IC const CLASS_ID& clsid() const;

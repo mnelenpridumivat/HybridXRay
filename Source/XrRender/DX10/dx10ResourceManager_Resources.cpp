@@ -1,12 +1,12 @@
 ﻿#include "stdafx.h"
 #pragma hdrstop
 #pragma optimize("s", off)
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include "directx\d3dx9.h"
 #ifndef _EDITOR
 #include "../../xrEngine/render.h"
 #endif
-#pragma warning(default : 4995)
+#pragma warning(default:4995)
 
 #include "directx\D3DX10Core.h"
 
@@ -52,9 +52,9 @@ void CResourceManager::_DeleteCS(const SCS* CS)
 }
 #endif   //	USE_DX10
 
-void fix_texture_name(LPSTR fn);
+void                   fix_texture_name(LPSTR fn);
 
-template <class T> BOOL reclaim(xr_vector<T*>& vec, const T* ptr)
+template<class T> BOOL reclaim(xr_vector<T*>& vec, const T* ptr)
 {
     xr_vector<T*>::iterator it  = vec.begin();
     xr_vector<T*>::iterator end = vec.end();
@@ -425,10 +425,10 @@ SGS* CResourceManager::_CreateGS(LPCSTR name)
         R_ASSERT2(file, cname);
 
         // Select target
-        LPCSTR c_target = "gs_4_0";
-        LPCSTR c_entry  = "main";
+        LPCSTR        c_target = "gs_4_0";
+        LPCSTR        c_entry  = "main";
 
-        HRESULT const _hr = ::Render->shader_compile(
+        HRESULT const _hr      = ::Render->shader_compile(
             name, (DWORD const*)file->pointer(), file->length(), c_entry, c_target, D3D10_SHADER_PACK_MATRIX_ROW_MAJOR,
             (void*&)_gs);
 

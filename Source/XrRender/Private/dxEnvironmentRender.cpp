@@ -32,7 +32,7 @@ struct v_skybox
     u32      color;
     Fvector3 uv[2];
 
-    void set(Fvector3& _p, u32 _c, Fvector3& _tc)
+    void     set(Fvector3& _p, u32 _c, Fvector3& _tc)
     {
         p     = _p;
         color = _c;
@@ -228,7 +228,7 @@ void dxEnvironmentRender::RenderSky(IEnvironment& env)
     dxEnvDescriptorMixerRender& mixRen = *(dxEnvDescriptorMixerRender*)&*env.CurrentEnv->m_pDescriptorMixer;
 
     // draw sky box
-    Fmatrix mSky;
+    Fmatrix                     mSky;
     mSky.rotateY(env.CurrentEnv->sky_rotation);
     mSky.translate_over(Device->vCameraPosition);
 

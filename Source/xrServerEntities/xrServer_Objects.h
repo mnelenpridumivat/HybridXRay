@@ -13,7 +13,7 @@
 #include "phnetstate.h"
 
 #pragma warning(push)
-#pragma warning(disable : 4005)
+#pragma warning(disable:4005)
 
 //------------------------------------------------------------------------------
 // Version history
@@ -218,11 +218,9 @@ virtual CSE_Abstract* cast_abstract()
 {
     return 0;
 }
-
 protected:
 virtual void data_load(NET_Packet& tNetPacket);
 virtual void data_save(NET_Packet& tNetPacket);
-
 public:
 SERVER_ENTITY_DECLARE_END
 add_to_type_list(CSE_PHSkeleton)

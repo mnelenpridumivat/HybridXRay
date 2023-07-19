@@ -4,9 +4,9 @@
 #include "stdafx.h"
 #pragma hdrstop
 
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include "directx\d3dx9.h"
-#pragma warning(default : 4995)
+#pragma warning(default:4995)
 #include "HW.h"
 
 #ifndef REDITOR
@@ -30,7 +30,8 @@ CHW HW;
 IDirect3DStateBlock9* dwDebugSB = 0;
 #endif
 
-CHW::CHW(): hD3D(NULL), pD3D(NULL), pDevice(NULL), pBaseRT(NULL), pBaseZB(NULL), m_move_window(true)
+CHW::CHW():
+    hD3D(NULL), pD3D(NULL), pDevice(NULL), pBaseRT(NULL), pBaseZB(NULL), m_move_window(true)
 {
     ;
 }
@@ -134,8 +135,8 @@ D3DFORMAT CHW::selectDepthStencil(D3DFORMAT fTarget)
     // R1 usual
     static D3DFORMAT fDS_Try1[6] = {D3DFMT_D24S8, D3DFMT_D24X4S4, D3DFMT_D32, D3DFMT_D24X8, D3DFMT_D16, D3DFMT_D15S1};
 
-    D3DFORMAT* fDS_Try = fDS_Try1;
-    int        fDS_Cnt = 6;
+    D3DFORMAT*       fDS_Try     = fDS_Try1;
+    int              fDS_Cnt     = 6;
 
     for (int it = 0; it < fDS_Cnt; it++)
     {
@@ -333,17 +334,17 @@ void CHW::CreateDevice(HWND m_hWnd, bool move_window)
     // Back buffer
     //.	P.BackBufferWidth		= dwWidth;
     //. P.BackBufferHeight		= dwHeight;
-    P.BackBufferFormat = fTarget;
-    P.BackBufferCount  = 1;
+    P.BackBufferFormat       = fTarget;
+    P.BackBufferCount        = 1;
 
     // Multisample
-    P.MultiSampleType    = D3DMULTISAMPLE_NONE;
-    P.MultiSampleQuality = 0;
+    P.MultiSampleType        = D3DMULTISAMPLE_NONE;
+    P.MultiSampleQuality     = 0;
 
     // Windoze
-    P.SwapEffect    = bWindowed ? D3DSWAPEFFECT_COPY : D3DSWAPEFFECT_DISCARD;
-    P.hDeviceWindow = m_hWnd;
-    P.Windowed      = bWindowed;
+    P.SwapEffect             = bWindowed ? D3DSWAPEFFECT_COPY : D3DSWAPEFFECT_DISCARD;
+    P.hDeviceWindow          = m_hWnd;
+    P.Windowed               = bWindowed;
 
     // Depth/stencil
     P.EnableAutoDepthStencil = TRUE;
@@ -351,7 +352,7 @@ void CHW::CreateDevice(HWND m_hWnd, bool move_window)
     P.Flags                  = 0;   //. D3DPRESENTFLAG_DISCARD_DEPTHSTENCIL;
 
     // Refresh rate
-    P.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
+    P.PresentationInterval   = D3DPRESENT_INTERVAL_IMMEDIATE;
     if (!bWindowed)
         P.FullScreen_RefreshRateInHz = selectRefresh(P.BackBufferWidth, P.BackBufferHeight, fTarget);
     else
@@ -444,11 +445,11 @@ u32 CHW::selectGPU()
 #define GMA_SL_SIZE 43
 
         DWORD IntelGMA_SoftList[GMA_SL_SIZE] = {0x2782, 0x2582, 0x2792, 0x2592, 0x2772, 0x2776, 0x27A2, 0x27A6, 0x27AE,
-                                                0x2982, 0x2983, 0x2992, 0x2993, 0x29A2, 0x29A3, 0x2972, 0x2973, 0x2A02,
-                                                0x2A03, 0x2A12, 0x2A13, 0x29C2, 0x29C3, 0x29B2, 0x29B3, 0x29D2, 0x29D3,
+            0x2982, 0x2983, 0x2992, 0x2993, 0x29A2, 0x29A3, 0x2972, 0x2973, 0x2A02,
+            0x2A03, 0x2A12, 0x2A13, 0x29C2, 0x29C3, 0x29B2, 0x29B3, 0x29D2, 0x29D3,
 
-                                                0x2A42, 0x2A43, 0x2E02, 0x2E03, 0x2E12, 0x2E13, 0x2E22, 0x2E23, 0x2E32,
-                                                0x2E33, 0x2E42, 0x2E43, 0x2E92, 0x2E93, 0x0042, 0x0046};
+            0x2A42, 0x2A43, 0x2E02, 0x2E03, 0x2E12, 0x2E13, 0x2E22, 0x2E23, 0x2E32,
+            0x2E33, 0x2E42, 0x2E43, 0x2E92, 0x2E93, 0x0042, 0x0046};
 
         for (int idx = 0; idx < GMA_SL_SIZE; ++idx)
             if (IntelGMA_SoftList[idx] == Caps.id_device)
@@ -620,7 +621,8 @@ void CHW::updateWindowProps(HWND m_hWnd)
 
 struct _uniq_mode
 {
-    _uniq_mode(LPCSTR v): _val(v) {}
+    _uniq_mode(LPCSTR v):
+        _val(v) {}
     LPCSTR _val;
     bool   operator()(LPCSTR _other)
     {
@@ -720,7 +722,7 @@ void fill_vid_mode_list(CHW* _hw)
     xr_vector<LPCSTR> _tmp;
     u32               cnt = _hw->pD3D->GetAdapterModeCount(_hw->DevAdapter, _hw->Caps.fTarget);
 
-    u32 i;
+    u32               i;
     for (i = 0; i < cnt; ++i)
     {
         D3DDISPLAYMODE Mode;
@@ -739,9 +741,9 @@ void fill_vid_mode_list(CHW* _hw)
         _tmp.back() = xr_strdup(str);
     }
 
-    u32 _cnt = _tmp.size() + 1;
+    u32 _cnt                      = _tmp.size() + 1;
 
-    vid_mode_token = xr_alloc<xr_token>(_cnt);
+    vid_mode_token                = xr_alloc<xr_token>(_cnt);
 
     vid_mode_token[_cnt - 1].id   = -1;
     vid_mode_token[_cnt - 1].name = NULL;

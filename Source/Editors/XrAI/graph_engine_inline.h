@@ -34,7 +34,7 @@ IC const CGraphEngine::CSolverAlgorithm& CGraphEngine::solver_algorithm() const
 }
 #endif   // AI_COMPILER
 
-template <typename _Graph, typename _Parameters> IC bool CGraphEngine::search(
+template<typename _Graph, typename _Parameters> IC bool CGraphEngine::search(
     const _Graph&           graph,
     const _index_type&      start_node,
     const _index_type&      dest_node,
@@ -47,7 +47,7 @@ template <typename _Graph, typename _Parameters> IC bool CGraphEngine::search(
     START_PROFILE("graph_engine/search")
 #endif
     typedef CPathManager<_Graph, CAlgorithm::CDataStorage, _Parameters, _dist_type, _index_type, _iteration_type>
-        CPathManagerGeneric;
+                        CPathManagerGeneric;
 
     CPathManagerGeneric path_manager;
 
@@ -65,7 +65,7 @@ template <typename _Graph, typename _Parameters> IC bool CGraphEngine::search(
 #endif
 }
 
-template <typename _Graph, typename _Parameters> IC bool CGraphEngine::search(
+template<typename _Graph, typename _Parameters> IC bool CGraphEngine::search(
     const _Graph&           graph,
     const _index_type&      start_node,
     const _index_type&      dest_node,
@@ -78,7 +78,7 @@ template <typename _Graph, typename _Parameters> IC bool CGraphEngine::search(
     START_PROFILE("graph_engine/search")
 #endif
     typedef CPathManager<_Graph, CAlgorithm::CDataStorage, _Parameters, _dist_type, _index_type, _iteration_type>
-        CPathManagerGeneric;
+                        CPathManagerGeneric;
 
     CPathManagerGeneric path_manager;
 
@@ -96,7 +96,7 @@ template <typename _Graph, typename _Parameters> IC bool CGraphEngine::search(
 #endif
 }
 
-template <typename _Graph, typename _Parameters, typename _PathManager> IC bool CGraphEngine::search(
+template<typename _Graph, typename _Parameters, typename _PathManager> IC bool CGraphEngine::search(
     const _Graph&           graph,
     const _index_type&      start_node,
     const _index_type&      dest_node,
@@ -124,7 +124,7 @@ template <typename _Graph, typename _Parameters, typename _PathManager> IC bool 
 }
 
 #ifndef AI_COMPILER
-template <
+template<
     typename T1,
     typename T2,
     typename T3,
@@ -150,7 +150,7 @@ IC bool CGraphEngine::search(
     typedef CPathManager<
         CSProblemSolver, CSolverAlgorithm::CDataStorage, _Parameters, _solver_dist_type, _solver_index_type,
         GraphEngineSpace::_iteration_type>
-        CSolverPathManager;
+                       CSolverPathManager;
 
     CSolverPathManager path_manager;
 

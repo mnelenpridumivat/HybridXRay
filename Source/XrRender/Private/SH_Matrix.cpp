@@ -13,7 +13,8 @@ void CMatrix::Calculate()
         case modeProgrammable:
         case modeDetail:
             return;
-        case modeTCM: {
+        case modeTCM:
+        {
             Fmatrix T;
             float   sU = 1, sV = 1, t = Device->fTimeGlobal;
             tc_trans(xform, .5f, .5f);
@@ -42,7 +43,8 @@ void CMatrix::Calculate()
             xform.mulB_43(T);
         }
             return;
-        case modeS_refl: {
+        case modeS_refl:
+        {
             float Ux = .5f * Device->mView._11, Uy = .5f * Device->mView._21, Uz = .5f * Device->mView._31, Uw = .5f;
             float Vx = -.5f * Device->mView._12, Vy = -.5f * Device->mView._22, Vz = -.5f * Device->mView._32, Vw = .5f;
 
@@ -64,7 +66,8 @@ void CMatrix::Calculate()
             xform._44 = 0;
         }
             return;
-        case modeC_refl: {
+        case modeC_refl:
+        {
             Fmatrix M = Device->mView;
             M._41     = 0.f;
             M._42     = 0.f;

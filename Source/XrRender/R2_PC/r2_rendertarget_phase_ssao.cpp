@@ -14,7 +14,7 @@ struct v_ssao
 
 float hclip(float v, float dim);
 
-void CRenderTarget::phase_ssao()
+void  CRenderTarget::phase_ssao()
 {
     Fvector2 p0, p1;
     u32      Offset = 0;
@@ -52,10 +52,10 @@ void CRenderTarget::phase_ssao()
         fSSAOKernelSize *= tan(deg2rad(67.5f));
         fSSAOKernelSize /= tan(deg2rad(Device->fFOV));
 
-        float scale_X = _w / float(TEX_jitter);
-        float scale_Y = _h / float(TEX_jitter);
+        float    scale_X = _w / float(TEX_jitter);
+        float    scale_Y = _h / float(TEX_jitter);
 
-        FVF::TL* pv = (FVF::TL*)RCache.Vertex.Lock(4, g_combine_VP->vb_stride, Offset);
+        FVF::TL* pv      = (FVF::TL*)RCache.Vertex.Lock(4, g_combine_VP->vb_stride, Offset);
         pv->set(hclip(EPS, _w), hclip(_h + EPS, _h), p0.x, p1.y, 0, 0, scale_Y);
         pv++;
         pv->set(hclip(EPS, _w), hclip(EPS, _h), p0.x, p0.y, 0, 0, 0);
@@ -113,10 +113,10 @@ void CRenderTarget::phase_downsamp()
         p0.set(.5f / _w, .5f / _h);
         p1.set((_w + .5f) / _w, (_h + .5f) / _h);
 
-        float scale_X = _w / float(TEX_jitter);
-        float scale_Y = _h / float(TEX_jitter);
+        float    scale_X = _w / float(TEX_jitter);
+        float    scale_Y = _h / float(TEX_jitter);
 
-        FVF::TL* pv = (FVF::TL*)RCache.Vertex.Lock(4, g_combine_VP->vb_stride, Offset);
+        FVF::TL* pv      = (FVF::TL*)RCache.Vertex.Lock(4, g_combine_VP->vb_stride, Offset);
         pv->set(hclip(EPS, _w), hclip(_h + EPS, _h), p0.x, p1.y, 0, 0, scale_Y);
         pv++;
         pv->set(hclip(EPS, _w), hclip(EPS, _h), p0.x, p0.y, 0, 0, 0);

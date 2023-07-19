@@ -7,16 +7,16 @@
 // The table of what score increase you get for reducing a valence to a certain amount.
 // Any valence over the max value gets the max value boost.
 // Bear in mind that three of these get added each tri.
-const int c_iMaxValenceBoost                = 5;
-float     fValenceBoost[c_iMaxValenceBoost] = {0.0f, 0.68f, 1.0f, 1.1f, 1.15f};
+const int   c_iMaxValenceBoost                = 5;
+float       fValenceBoost[c_iMaxValenceBoost] = {0.0f, 0.68f, 1.0f, 1.1f, 1.15f};
 
-int LOOKAHEAD = 5;
+int         LOOKAHEAD                         = 5;
 // Limit the number of tris to lookahead with.
-int iLookaheadCutoff = 16;
+int         iLookaheadCutoff                  = 16;
 // Limits how bad tris can be when adding to the heap.
-const float fCutoffFactor = 2.0f;
+const float fCutoffFactor                     = 2.0f;
 // Another slightly different limit.
-const float fExpensiveFactor = 1.5f;
+const float fExpensiveFactor                  = 1.5f;
 
 // This stuff simulates a FIFO cache. There are lots of types, but (a) this is the
 // easiest to model and (b) it's actually used in lots of real hardware (mainly
@@ -44,7 +44,7 @@ ArbitraryList<ScoreTri*>   pstTri;
 struct CacheTypeInfo
 {
     // How long the FIFO is.
-    int iLength;
+    int   iLength;
     // The score for a vertex miss.
     // If they all sum to 1.0f, you get a weighted average
     // of the number of vertices loaded coming out the end.
@@ -165,9 +165,9 @@ void CacheBin(void)
 float CacheAddTri(WORD wIndex1, WORD wIndex2, WORD wIndex3, BOOL bDontActuallyAdd = FALSE)
 {
     WORD wIndex[3];
-    wIndex[0] = wIndex1;
-    wIndex[1] = wIndex2;
-    wIndex[2] = wIndex3;
+    wIndex[0]     = wIndex1;
+    wIndex[1]     = wIndex2;
+    wIndex[2]     = wIndex3;
 
     CacheTri* pct = NULL;
     if (!bDontActuallyAdd)
@@ -181,9 +181,9 @@ float CacheAddTri(WORD wIndex1, WORD wIndex2, WORD wIndex3, BOOL bDontActuallyAd
     float fTotalScore = 0.0f;
     for (int iType = 0; iType < c_iCacheNumTypes; iType++)
     {
-        CurrentCacheState& ccs = ccsState[iType];
+        CurrentCacheState& ccs           = ccsState[iType];
 
-        int iCurNumMisses = ccs.iCacheCurrentMisses;
+        int                iCurNumMisses = ccs.iCacheCurrentMisses;
 
         // We must scan all three indices before adding any, otherwise you get nasty cases like:
         // 0,1,2 followed by 3,0,1. If you add as you go along, the 3 kicks out the 0,
@@ -191,8 +191,8 @@ float CacheAddTri(WORD wIndex1, WORD wIndex2, WORD wIndex3, BOOL bDontActuallyAd
         // 0 cache hits, rather than 2.
         // Most hardware does all three checks before adding as well.
         // NOTE! If your target hardware doesn't, shorten the FIFO a bit to get roughly the same behaviour.
-        BOOL bFound[3];
-        int  iVert;
+        BOOL               bFound[3];
+        int                iVert;
         for (iVert = 0; iVert < 3; iVert++)
         {
             bFound[iVert] = ((cvCacheStatus.item(wIndex[iVert]))->bRefcount[iType] > 0);
@@ -407,10 +407,10 @@ float FindBestScoreLookahead(int iCountdown, float fCurrentScore, float fInputBe
         iLookahead = LOOKAHEAD;
     }
 
-    float fBestSoFar = fInputBestSoFar;
+    float fBestSoFar       = fInputBestSoFar;
 
     // Given the BestSoFar score, what is the average cost of each lookahead tri?
-    float fAverageCost = (fBestSoFar - fCurrentScore) / (int)iLookahead;
+    float fAverageCost     = (fBestSoFar - fCurrentScore) / (int)iLookahead;
     // And now allow tris that are a bit worse.
     float fExpensiveCutoff = fAverageCost * fExpensiveFactor;
 
@@ -477,8 +477,8 @@ float FindBestScoreLookahead(int iCountdown, float fCurrentScore, float fInputBe
 #endif
 
     // Should we limit ourselves to tris that share at least one vert with the previous one?
-    bool bNoMadJumps = FALSE;
-    WORD wPrevIndices[3];
+    bool                     bNoMadJumps = FALSE;
+    WORD                     wPrevIndices[3];
     // if ( ( fBestSoFar - fCurrentScore ) < (float)iCountdown )
     //  The lookahead score is lower than the countdown, so doing mad jumps
     //  is not going to do sensible things.
@@ -545,7 +545,7 @@ float FindBestScoreLookahead(int iCountdown, float fCurrentScore, float fInputBe
     // BinaryHeap<WORD, float> NewHeap;
     BinaryHeap<ScoreTri, float> NewHeap;
 
-    int i;
+    int                         i;
     // WORD *pwCurIndex = pwIndices;
     for (i = pstTriLocal.size() - 1; i >= 0; i--)
     {
@@ -746,14 +746,14 @@ float FindBestScoreLookahead(int iCountdown, float fCurrentScore, float fInputBe
             // pwResult + 3 );
             float fNewScore = FindBestScoreLookahead(iLookahead - 1, fScore, fBestSoFar, iNumTris - 1, pwResult + 3);
             // VERIFY ( fNewScore < 1e9 );
-            fScore = fNewScore;
+            fScore          = fNewScore;
         }
         // VERIFY ( fScore < 1e9 );
         if (fScore < fBestSoFar)
         {
             fBestSoFar = fScore;
             // pwBest = pwCur;
-            pstBest = pstCur;
+            pstBest    = pstCur;
         }
 
         CacheRemoveTri();
@@ -795,15 +795,15 @@ float FindBestScoreLookahead(int iCountdown, float fCurrentScore, float fInputBe
         // pwResult[0] = pwBest[0];
         // pwResult[1] = pwBest[1];
         // pwResult[2] = pwBest[2];
-        pwResult[0] = pstBest->wIndex[0];
-        pwResult[1] = pstBest->wIndex[1];
-        pwResult[2] = pstBest->wIndex[2];
+        pwResult[0]         = pstBest->wIndex[0];
+        pwResult[1]         = pstBest->wIndex[1];
+        pwResult[2]         = pstBest->wIndex[2];
         if (iCountdown > 1)
         {
             // float fScore = CacheAddTri ( wTemp[0], wTemp[1], wTemp[2] );
             float fScore = CacheAddTri(pstBest->wIndex[0], pstBest->wIndex[1], pstBest->wIndex[2]);
             VERIFY(!pstBest->bUsed);
-            pstBest->bUsed = TRUE;
+            pstBest->bUsed      = TRUE;
 
             // And the valence.
             float fValenceScore = 0.0f;
@@ -868,9 +868,9 @@ float FindBestScoreLookahead(int iCountdown, float fCurrentScore, float fInputBe
 }
 
 float FindBestScore(
-    int   iCountdown,
-    float fCurrentScore,
-    float fInputBestSoFar,
+    int        iCountdown,
+    float      fCurrentScore,
+    float      fInputBestSoFar,
     // WORD *pwIndices,
     ScoreTri** ppstCurTris,   // Pointer to a list of pointers to ScoreTris
     int        iNumTris,
@@ -891,10 +891,10 @@ float FindBestScore(
         iLookahead = 2;
     }
 
-    float fBestSoFar = fInputBestSoFar;
+    float fBestSoFar       = fInputBestSoFar;
 
     // Given the BestSoFar score, what is the average cost of each lookahead tri?
-    float fAverageCost = (fBestSoFar - fCurrentScore) / (int)iLookahead;
+    float fAverageCost     = (fBestSoFar - fCurrentScore) / (int)iLookahead;
     // And now allow tris that are a bit worse.
     float fExpensiveCutoff = fAverageCost * fExpensiveFactor;
 
@@ -1009,7 +1009,7 @@ float FindBestScore(
     // BinaryHeap<WORD, float> NewHeap;
     BinaryHeap<ScoreTri*, float> NewHeap;
 
-    int i;
+    int                          i;
     // WORD *pwCurIndex = pwIndices;
     for (i = 0; i < iNumTris; i++)
     {
@@ -1133,9 +1133,9 @@ float FindBestScore(
     // while ( pwCur != NULL )
     while (ppstCur != NULL)
     {
-        ScoreTri* pstCur = *ppstCur;
+        ScoreTri* pstCur           = *ppstCur;
 
-        float fThisTriNegScore = NewHeap.GetCurrentSort();
+        float     fThisTriNegScore = NewHeap.GetCurrentSort();
         NewHeap.RemoveFirst();
 
 #ifdef _DEBUG
@@ -1238,7 +1238,7 @@ float FindBestScore(
             // pwResult + 3 );
             float fNewScore = FindBestScoreLookahead(iLookahead - 1, fScore, fBestSoFar, iNumTris - 1, pwResult + 3);
             // VERIFY ( fNewScore < 1e9 );
-            fScore = fNewScore;
+            fScore          = fNewScore;
 
 #if 0
 			// And swap it back.
@@ -1262,7 +1262,7 @@ float FindBestScore(
         {
             fBestSoFar = fScore;
             // pwBest = pwCur;
-            ppstBest = ppstCur;
+            ppstBest   = ppstCur;
         }
 
         CacheRemoveTri();
@@ -1290,16 +1290,16 @@ float FindBestScore(
         // Found a better solution.
 
         // Swap the best tri to the start of the list.
-        float fNewBestScore = fBestSoFar;
+        float     fNewBestScore = fBestSoFar;
 
         // Dump the tri to the result buffer.
-        ScoreTri* pstBest = *ppstBest;
+        ScoreTri* pstBest       = *ppstBest;
         // pwResult[0] = pwBest[0];
         // pwResult[1] = pwBest[1];
         // pwResult[2] = pwBest[2];
-        pwResult[0] = pstBest->wIndex[0];
-        pwResult[1] = pstBest->wIndex[1];
-        pwResult[2] = pstBest->wIndex[2];
+        pwResult[0]             = pstBest->wIndex[0];
+        pwResult[1]             = pstBest->wIndex[1];
+        pwResult[2]             = pstBest->wIndex[2];
         if (iCountdown > 1)
         {
 #if 0
@@ -1319,7 +1319,7 @@ float FindBestScore(
             // float fScore = CacheAddTri ( wTemp[0], wTemp[1], wTemp[2] );
             float fScore = CacheAddTri(pstBest->wIndex[0], pstBest->wIndex[1], pstBest->wIndex[2]);
             VERIFY(!pstBest->bUsed);
-            pstBest->bUsed = TRUE;
+            pstBest->bUsed      = TRUE;
 
             // And the valence.
             float fValenceScore = 0.0f;

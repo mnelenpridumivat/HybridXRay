@@ -180,8 +180,8 @@ ICF void CBackend::set_Vertices(ID3DVertexBuffer* _vb, u32 _vb_stride)
 #ifdef DEBUG
         stat.vb++;
 #endif
-        vb        = _vb;
-        vb_stride = _vb_stride;
+        vb          = _vb;
+        vb_stride   = _vb_stride;
         // CHK_DX			(HW.pDevice->SetStreamSource(0,vb,0,vb_stride));
         // UINT StreamNumber,
         // IDirect3DVertexBuffer9 * pStreamData,
@@ -614,8 +614,8 @@ IC void CBackend::set_Constants(R_constant_table* C)
 
         ID3DBuffer* tempBuffer[MaxCBuffers];
 
-        u32 uiMin;
-        u32 uiMax;
+        u32         uiMin;
+        u32         uiMax;
 
         if (CBuffersNeedUpdate(m_aPixelConstants, aPixelConstants, uiMin, uiMax))
         {

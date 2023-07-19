@@ -18,13 +18,13 @@
 #undef TRIVIAL_ENCRYPTOR_DECODER
 #endif   // PROTECTED_BUILD
 
-CBuild* pBuild  = NULL;
-u32     version = 0;
+CBuild*              pBuild  = NULL;
+u32                  version = 0;
 
 extern void          logThread(void* dummy);
 extern volatile BOOL bClose;
 
-static const char* h_str =
+static const char*   h_str =
     "The following keys are supported / required:\n"
     "-? or -h	== this help\n"
     "-o			== modify build options\n"

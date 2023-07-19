@@ -30,7 +30,7 @@ void UIPropertiesItem::Draw()
         DrawItem();
         if (open)
         {
-            for (UITreeItem* Item : Items)
+            for (UITreeItem* Item: Items)
             {
                 static_cast<UIPropertiesItem*>(Item)->Draw();
             }
@@ -51,7 +51,7 @@ void UIPropertiesItem::Draw()
 void UIPropertiesItem::DrawRoot()
 {
     VERIFY(PItem == nullptr);
-    for (UITreeItem* Item : Items)
+    for (UITreeItem* Item: Items)
     {
         static_cast<UIPropertiesItem*>(Item)->Draw();
     }
@@ -67,7 +67,8 @@ void UIPropertiesItem::DrawItem()
     ImGui::BeginGroup();
     switch (type)
     {
-        case PROP_CANVAS: {
+        case PROP_CANVAS:
+        {
             if (PItem->m_Flags.test(PropItem::flMixed))
             {
                 ImGui::TextDisabled(PItem->GetDrawText().c_str());
@@ -125,7 +126,8 @@ void UIPropertiesItem::DrawItem()
         case PROP_WAVE:
         case PROP_UNDEF:
             break;
-        case PROP_CAPTION: {
+        case PROP_CAPTION:
+        {
             ImGui::TextDisabled(PItem->GetDrawText().c_str());
         }
         break;

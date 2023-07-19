@@ -14,10 +14,8 @@ class CScriptRTokenList
 {
 public:
     typedef xr_vector<shared_str> RTOKEN_LIST;
-
 protected:
     RTOKEN_LIST m_values;
-
 public:
     IC void         add(LPCSTR value);
     IC void         remove(u32 index);

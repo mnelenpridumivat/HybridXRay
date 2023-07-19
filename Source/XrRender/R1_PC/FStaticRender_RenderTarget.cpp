@@ -8,30 +8,30 @@ static LPCSTR RTname_distort   = "$user$distort";
 
 CRenderTarget::CRenderTarget()
 {
-    bAvailable   = FALSE;
-    RT           = 0;
-    RT_color_map = 0;
-    pTempZB      = 0;
-    ZB           = 0;
-    pFB          = 0;
+    bAvailable                  = FALSE;
+    RT                          = 0;
+    RT_color_map                = 0;
+    pTempZB                     = 0;
+    ZB                          = 0;
+    pFB                         = 0;
 
-    param_blur        = 0.f;
-    param_gray        = 0.f;
-    param_noise       = 0.f;
-    param_duality_h   = 0.f;
-    param_duality_v   = 0.f;
-    param_noise_fps   = 25.f;
-    param_noise_scale = 1.f;
+    param_blur                  = 0.f;
+    param_gray                  = 0.f;
+    param_noise                 = 0.f;
+    param_duality_h             = 0.f;
+    param_duality_v             = 0.f;
+    param_noise_fps             = 25.f;
+    param_noise_scale           = 1.f;
 
     param_color_map_influence   = 0.0f;
     param_color_map_interpolate = 0.0f;
 
-    im_noise_time    = 1 / 100;
-    im_noise_shift_w = 0;
-    im_noise_shift_h = 0;
+    im_noise_time               = 1 / 100;
+    im_noise_shift_w            = 0;
+    im_noise_shift_h            = 0;
 
-    param_color_base = color_rgba(127, 127, 127, 0);
-    param_color_gray = color_rgba(85, 85, 85, 0);
+    param_color_base            = color_rgba(127, 127, 127, 0);
+    param_color_gray            = color_rgba(85, 85, 85, 0);
     param_color_add.set(0.0f, 0.0f, 0.0f);
 
     bAvailable = Create();
@@ -40,8 +40,8 @@ CRenderTarget::CRenderTarget()
 
 BOOL CRenderTarget::Create()
 {
-    curWidth  = Device->dwWidth;
-    curHeight = Device->dwHeight;
+    curWidth     = Device->dwWidth;
+    curHeight    = Device->dwHeight;
 
     // Select mode to operate in
     float amount = ps_r__Supersample ? float(ps_r__Supersample) : 1;
@@ -182,16 +182,16 @@ bool CRenderTarget::NeedColorMapping()
 
 BOOL CRenderTarget::NeedPostProcess()
 {
-    bool _blur  = (param_blur > 0.001f);
-    bool _gray  = (param_gray > 0.001f);
-    bool _noise = (param_noise > 0.001f);
-    bool _dual  = (param_duality_h > 0.001f) || (param_duality_v > 0.001f);
+    bool _blur    = (param_blur > 0.001f);
+    bool _gray    = (param_gray > 0.001f);
+    bool _noise   = (param_noise > 0.001f);
+    bool _dual    = (param_duality_h > 0.001f) || (param_duality_v > 0.001f);
 
     bool _menu_pp = g_pGamePersistent ? g_pGamePersistent->OnRenderPPUI_query() : false;
 
-    bool _cmap = NeedColorMapping();
+    bool _cmap    = NeedColorMapping();
 
-    bool _cbase = false;
+    bool _cbase   = false;
     {
         int _r = color_get_R(param_color_base);
         _r     = _abs(_r - int(0x7f));
@@ -221,11 +221,11 @@ BOOL CRenderTarget::Perform()
 {
     return Available() &&
         (((BOOL)RImplementation.m_bMakeAsyncSS) || NeedPostProcess() || (ps_r__Supersample > 1) ||
-         (frame_distort == (Device->dwFrame - 1)));
+            (frame_distort == (Device->dwFrame - 1)));
 }
 
 #include <dinput.h>
-#define SHOW(a) Log(#a, a);
+#define SHOW(a)  Log(#a, a);
 #define SHOWX(a) Msg("%s %x", #a, a);
 void CRenderTarget::Begin()
 {
@@ -289,16 +289,16 @@ void CRenderTarget::DoAsyncScreenshot()
     //	TODO: fox that later
     if (RImplementation.m_bMakeAsyncSS)
     {
-        HRESULT hr;
+        HRESULT            hr;
 
-        IDirect3DSurface9* pFBSrc = HW.pBaseRT;
+        IDirect3DSurface9* pFBSrc      = HW.pBaseRT;
         //	Don't addref, no need to release.
         // ID3DTexture2D *pTex = RT->pSurface;
 
         // hr = pTex->GetSurfaceLevel(0, &pFBSrc);
 
         //	SHould be async function
-        hr = HW.pDevice->GetRenderTargetData(pFBSrc, pFB);
+        hr                             = HW.pDevice->GetRenderTargetData(pFBSrc, pFB);
 
         // pFBSrc->Release();
 
@@ -330,11 +330,11 @@ void CRenderTarget::End()
     if (!bPerform)
         return;
 
-    int     gblend       = clampr(iFloor((1 - param_gray) * 255.f), 0, 255);
-    int     nblend       = clampr(iFloor((1 - param_noise) * 255.f), 0, 255);
-    u32     p_color      = subst_alpha(param_color_base, nblend);
-    u32     p_gray       = subst_alpha(param_color_gray, gblend);
-    Fvector p_brightness = param_color_add;
+    int      gblend       = clampr(iFloor((1 - param_gray) * 255.f), 0, 255);
+    int      nblend       = clampr(iFloor((1 - param_noise) * 255.f), 0, 255);
+    u32      p_color      = subst_alpha(param_color_base, nblend);
+    u32      p_gray       = subst_alpha(param_color_gray, gblend);
+    Fvector  p_brightness = param_color_add;
     // Msg				("param_gray:%f(%d),param_noise:%f(%d)",param_gray,gblend,param_noise,nblend);
     // Msg				("base: %d,%d,%d",	color_get_R(p_color),		color_get_G(p_color),
     // color_get_B(p_color)); Msg				("gray: %d,%d,%d",	color_get_R(p_gray),		color_get_G(p_gray),
@@ -343,9 +343,9 @@ void CRenderTarget::End()
     // color_get_B(p_brightness));
 
     // Draw full-screen quad textured with our scene image
-    u32   Offset;
-    float _w = float(Device->dwWidth);
-    float _h = float(Device->dwHeight);
+    u32      Offset;
+    float    _w = float(Device->dwWidth);
+    float    _h = float(Device->dwHeight);
 
     Fvector2 n0, n1, r0, r1, l0, l1;
     calc_tc_duality_ss(r0, r1, l0, l1);

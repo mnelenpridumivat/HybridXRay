@@ -7,7 +7,7 @@ namespace dx10BufferUtils
     HRESULT IC CreateBuffer(ID3DBuffer** ppBuffer, const void* pData, UINT DataSize, bool bImmutable, bool bIndexBuffer)
     {
         D3D_BUFFER_DESC desc;
-        desc.ByteWidth = DataSize;
+        desc.ByteWidth      = DataSize;
         // desc.Usage = bImmutable ? D3D_USAGE_IMMUTABLE : D3D_USAGE_DEFAULT;
         desc.Usage          = D3D_USAGE_DEFAULT;
         desc.BindFlags      = bIndexBuffer ? D3D_BIND_INDEX_BUFFER : D3D_BIND_VERTEX_BUFFER;
@@ -17,7 +17,7 @@ namespace dx10BufferUtils
         D3D_SUBRESOURCE_DATA subData;
         subData.pSysMem = pData;
 
-        HRESULT res = HW.pDevice->CreateBuffer(&desc, &subData, ppBuffer);
+        HRESULT res     = HW.pDevice->CreateBuffer(&desc, &subData, ppBuffer);
         // R_CHK(res);
         return res;
     }
@@ -41,7 +41,7 @@ namespace dx10BufferUtils
         desc.CPUAccessFlags = D3D_CPU_ACCESS_WRITE;
         desc.MiscFlags      = 0;
 
-        HRESULT res = HW.pDevice->CreateBuffer(&desc, 0, ppBuffer);
+        HRESULT res         = HW.pDevice->CreateBuffer(&desc, 0, ppBuffer);
         // R_CHK(res);
         return res;
     }
@@ -58,16 +58,16 @@ namespace dx10BufferUtils
         {D3DDECLTYPE_FLOAT3, DXGI_FORMAT_R32G32B32_FLOAT},
         {D3DDECLTYPE_FLOAT4, DXGI_FORMAT_R32G32B32A32_FLOAT},
         {D3DDECLTYPE_D3DCOLOR,
-         DXGI_FORMAT_R8G8B8A8_UNORM},   // Warning. Explicit RGB component swizzling is nesessary	//	Not available
+            DXGI_FORMAT_R8G8B8A8_UNORM},      // Warning. Explicit RGB component swizzling is nesessary	//	Not available
         {D3DDECLTYPE_UBYTE4,
-         DXGI_FORMAT_R8G8B8A8_UINT},   // Note: Shader gets UINT values, but if Direct3D 9 style integral floats are
-                                       // needed (0.0f, 1.0f... 255.f), UINT can just be converted to float32 in shader.
+            DXGI_FORMAT_R8G8B8A8_UINT},       // Note: Shader gets UINT values, but if Direct3D 9 style integral floats are
+                                              // needed (0.0f, 1.0f... 255.f), UINT can just be converted to float32 in shader.
         {D3DDECLTYPE_SHORT2,
-         DXGI_FORMAT_R16G16_SINT},   // Note: Shader gets SINT values, but if Direct3D 9 style integral floats are
-                                     // needed, SINT can just be converted to float32 in shader.
+            DXGI_FORMAT_R16G16_SINT},         // Note: Shader gets SINT values, but if Direct3D 9 style integral floats are
+                                              // needed, SINT can just be converted to float32 in shader.
         {D3DDECLTYPE_SHORT4,
-         DXGI_FORMAT_R16G16B16A16_SINT},   // Note: Shader gets SINT values, but if Direct3D 9 style integral floats are
-                                           // needed, SINT can just be converted to float32 in shader.
+            DXGI_FORMAT_R16G16B16A16_SINT},   // Note: Shader gets SINT values, but if Direct3D 9 style integral floats are
+                                              // needed, SINT can just be converted to float32 in shader.
         {D3DDECLTYPE_UBYTE4N, DXGI_FORMAT_R8G8B8A8_UNORM},
         {D3DDECLTYPE_SHORT2N, DXGI_FORMAT_R16G16_SNORM},
         {D3DDECLTYPE_SHORT4N, DXGI_FORMAT_R16G16B16A16_SNORM},
@@ -138,13 +138,13 @@ namespace dx10BufferUtils
             const D3DVERTEXELEMENT9& descIn  = declIn[i];
             D3D_INPUT_ELEMENT_DESC&  descOut = declOut[i];
 
-            descOut.SemanticName         = ConvertSemantic((D3DDECLUSAGE)descIn.Usage);
-            descOut.SemanticIndex        = descIn.UsageIndex;
-            descOut.Format               = ConvertVertexFormat((D3DDECLTYPE)descIn.Type);
-            descOut.InputSlot            = descIn.Stream;
-            descOut.AlignedByteOffset    = descIn.Offset;
-            descOut.InputSlotClass       = D3D_INPUT_PER_VERTEX_DATA;
-            descOut.InstanceDataStepRate = 0;
+            descOut.SemanticName             = ConvertSemantic((D3DDECLUSAGE)descIn.Usage);
+            descOut.SemanticIndex            = descIn.UsageIndex;
+            descOut.Format                   = ConvertVertexFormat((D3DDECLTYPE)descIn.Type);
+            descOut.InputSlot                = descIn.Stream;
+            descOut.AlignedByteOffset        = descIn.Offset;
+            descOut.InputSlotClass           = D3D_INPUT_PER_VERTEX_DATA;
+            descOut.InstanceDataStepRate     = 0;
         }
 
         ZeroMemory(&declOut[iDeclSize], sizeof(declOut[iDeclSize]));

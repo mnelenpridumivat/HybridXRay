@@ -44,7 +44,7 @@ void dxApplicationRender::KillHW()
     ZeroMemory(&HW, sizeof(CHW));
 }
 
-u32 calc_progress_color(u32, u32, int, int);
+u32  calc_progress_color(u32, u32, int, int);
 
 void dxApplicationRender::load_draw_internal(CApplication& owner)
 {
@@ -75,28 +75,28 @@ void dxApplicationRender::load_draw_internal(CApplication& owner)
 //	HW.pContext->ClearDepthStencilView( RCache.get_ZB(), D3D_CLEAR_DEPTH|D3D_CLEAR_STENCIL, 1.0f, 0);
 #endif   //	USE_DX10
 
-    float _w     = (float)Device->dwWidth;
-    float _h     = (float)Device->dwHeight;
-    bool  b_ws   = (_w / _h) > 1.34f;
-    bool  b_16x9 = b_ws && ((_w / _h) > 1.77f);
-    float ws_k   = (b_16x9) ? 0.75f : 0.8333f;   // 16:9 or 16:10
-    float ws_w   = b_ws ? (b_16x9 ? 171.0f : 102.6f) : 0.0f;
+    float    _w     = (float)Device->dwWidth;
+    float    _h     = (float)Device->dwHeight;
+    bool     b_ws   = (_w / _h) > 1.34f;
+    bool     b_16x9 = b_ws && ((_w / _h) > 1.77f);
+    float    ws_k   = (b_16x9) ? 0.75f : 0.8333f;   // 16:9 or 16:10
+    float    ws_w   = b_ws ? (b_16x9 ? 171.0f : 102.6f) : 0.0f;
 
-    float    bw = 1024.0f;
-    float    bh = 768.0f;
+    float    bw     = 1024.0f;
+    float    bh     = 768.0f;
     Fvector2 k;
     k.set(_w / bw, _h / bh);
 
     Fvector2 tsz;
     tsz.set(1024, 1024);
-    Frect    back_tex_coords;
-    Frect    back_coords;
-    Fvector2 back_size;
-    Fvector2 back_tex_size;
+    Frect        back_tex_coords;
+    Frect        back_coords;
+    Fvector2     back_size;
+    Fvector2     back_tex_size;
 
     static float offs = -0.5f;
 
-    Fvector2 back_offset;
+    Fvector2     back_offset;
     if (b_ws)
         back_offset.set(ws_w * ws_k, 0.0f);   // ws_w == 171
     else
@@ -297,7 +297,7 @@ u32 calc_progress_color(u32 idx, u32 total, int stage, int max_stage)
 
 #define IsSpace(ch)                                                                                              \
     ((ch) == ' ' || (ch) == '\t' || (ch) == '\r' || (ch) == '\n' || (ch) == ',' || (ch) == '.' || (ch) == ':' || \
-     (ch) == '!')
+        (ch) == '!')
 
 void parse_word(LPCSTR str, CGameFont* font, float& length, LPCSTR& next_word)
 {
@@ -316,11 +316,11 @@ void draw_multiline_text(CGameFont* F, float fTargetWidth, LPCSTR pszText)
     if (!pszText || xr_strlen(pszText) == 0)
         return;
 
-    LPCSTR ch            = pszText;
-    float  curr_word_len = 0.0f;
-    LPCSTR next_word     = NULL;
+    LPCSTR    ch            = pszText;
+    float     curr_word_len = 0.0f;
+    LPCSTR    next_word     = NULL;
 
-    float     curr_len = 0.0f;
+    float     curr_len      = 0.0f;
     string512 buff;
     buff[0] = 0;
     while (*ch)

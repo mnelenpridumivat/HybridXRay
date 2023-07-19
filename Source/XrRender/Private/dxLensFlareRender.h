@@ -26,7 +26,6 @@ public:
 
     virtual void OnDeviceCreate();
     virtual void OnDeviceDestroy();
-
 private:
     ref_geom hGeom;
 };

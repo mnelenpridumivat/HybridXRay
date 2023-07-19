@@ -14,7 +14,6 @@ namespace LevelGraph
     {
     private:
         friend class CRenumbererConverter;
-
     public:
         ICF u32           version() const;
         ICF u32           vertex_count() const;
@@ -30,7 +29,6 @@ namespace LevelGraph
     {
     private:
         friend class CRenumbererConverter;
-
     public:
         ICF u32              link(int i) const;
         ICF u16              high_cover(u8 index) const;

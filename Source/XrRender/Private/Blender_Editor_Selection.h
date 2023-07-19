@@ -5,7 +5,6 @@
 class CBlender_Editor_Selection: public IBlender
 {
     string64 oT_Factor;
-
 public:
     virtual LPCSTR getComment()
     {

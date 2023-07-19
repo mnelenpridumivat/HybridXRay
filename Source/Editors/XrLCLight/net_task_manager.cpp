@@ -62,7 +62,7 @@ class INetFileBuffWriter;
 static INetFileBuffWriter* gl_data_write = 0;
 static CVirtualFileRW*     g_net_data    = 0;
 
-void net_task_manager::create_global_data_write(LPCSTR save_path)
+void                       net_task_manager::create_global_data_write(LPCSTR save_path)
 {
     FPU::m64r();
     Memory.mem_compact();

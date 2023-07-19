@@ -34,7 +34,7 @@ namespace PS
         int      m_iFrameCount;
         float    m_fSpeed;
 
-        void InitDefault()
+        void     InitDefault()
         {
             m_fTexSize.set(32.f / 256.f, 64.f / 128.f);
             m_iFrameDimX  = 8;
@@ -55,7 +55,7 @@ namespace PS
     public:
         enum
         {
-            dfSprite = (1 << 0),
+            dfSprite         = (1 << 0),
             //			dfObject		= (1<<1),
 
             dfFramed         = (1 << 10),
@@ -63,37 +63,36 @@ namespace PS
             dfRandomFrame    = (1 << 12),
             dfRandomPlayback = (1 << 13),
 
-            dfTimeLimit = (1 << 14),
+            dfTimeLimit      = (1 << 14),
 
-            dfAlignToPath   = (1 << 15),
-            dfCollision     = (1 << 16),
-            dfCollisionDel  = (1 << 17),
-            dfVelocityScale = (1 << 18),
-            dfCollisionDyn  = (1 << 19),
-            dfWorldAlign    = (1 << 20),
-            dfFaceAlign     = (1 << 21),
-            dfCulling       = (1 << 22),
-            dfCullCCW       = (1 << 23),
+            dfAlignToPath    = (1 << 15),
+            dfCollision      = (1 << 16),
+            dfCollisionDel   = (1 << 17),
+            dfVelocityScale  = (1 << 18),
+            dfCollisionDyn   = (1 << 19),
+            dfWorldAlign     = (1 << 20),
+            dfFaceAlign      = (1 << 21),
+            dfCulling        = (1 << 22),
+            dfCullCCW        = (1 << 23),
         };
-        shared_str m_Name;
-        Flags32    m_Flags;
+        shared_str    m_Name;
+        Flags32       m_Flags;
         // texture
-        shared_str m_ShaderName;
-        shared_str m_TextureName;
-        ref_shader m_CachedShader;
-        SFrame     m_Frame;
+        shared_str    m_ShaderName;
+        shared_str    m_TextureName;
+        ref_shader    m_CachedShader;
+        SFrame        m_Frame;
         // compiled actions
         CMemoryWriter m_Actions;
         // def
-        float   m_fTimeLimit;          // time limit
-        int     m_MaxParticles;        // max particle count
-        Fvector m_VelocityScale;       // velocity scale
-        Fvector m_APDefaultRotation;   // align to path
-                                       // collision
-        float m_fCollideOneMinusFriction;
-        float m_fCollideResilience;
-        float m_fCollideSqrCutoff;
-
+        float         m_fTimeLimit;          // time limit
+        int           m_MaxParticles;        // max particle count
+        Fvector       m_VelocityScale;       // velocity scale
+        Fvector       m_APDefaultRotation;   // align to path
+                                             // collision
+        float         m_fCollideOneMinusFriction;
+        float         m_fCollideResilience;
+        float         m_fCollideSqrCutoff;
     public:
         BOOL SaveActionList(IWriter& F);
         BOOL LoadActionList(IReader& F);
@@ -105,7 +104,6 @@ namespace PS
             float             dt,
             CParticleEffect*  owner,
             CollisionCallback cb);
-
     public:
         CPEDef();
         ~CPEDef();
@@ -130,7 +128,6 @@ namespace PS
         DEFINE_VECTOR(EParticleAction*, EPAVec, EPAVecIt);
         EPAVec m_EActionList;
         bool   m_EditChoose;
-
     public:
         void              FindActionByName(LPCSTR new_name, bool& res);
         bool              NameOnAfterEdit(PropValue* sender, shared_str& edit_val);
@@ -159,20 +156,20 @@ namespace PS
 #endif
     };
 };   // namespace PS
-#define PED_VERSION 0x0001
-#define PED_CHUNK_VERSION 0x0001
-#define PED_CHUNK_NAME 0x0002
-#define PED_CHUNK_EFFECTDATA 0x0003
-#define PED_CHUNK_ACTIONLIST 0x0004
-#define PED_CHUNK_FLAGS 0x0005
-#define PED_CHUNK_FRAME 0x0006
-#define PED_CHUNK_SPRITE 0x0007
-#define PED_CHUNK_TIMELIMIT 0x0008
-#define PED_CHUNK_TIMELIMIT2 0x0009
-#define PED_CHUNK_SOURCETEXT_ 0x0020   // obsolete
-#define PED_CHUNK_COLLISION 0x0021
-#define PED_CHUNK_VEL_SCALE 0x0022
-#define PED_CHUNK_EDATA 0x0024
+#define PED_VERSION             0x0001
+#define PED_CHUNK_VERSION       0x0001
+#define PED_CHUNK_NAME          0x0002
+#define PED_CHUNK_EFFECTDATA    0x0003
+#define PED_CHUNK_ACTIONLIST    0x0004
+#define PED_CHUNK_FLAGS         0x0005
+#define PED_CHUNK_FRAME         0x0006
+#define PED_CHUNK_SPRITE        0x0007
+#define PED_CHUNK_TIMELIMIT     0x0008
+#define PED_CHUNK_TIMELIMIT2    0x0009
+#define PED_CHUNK_SOURCETEXT_   0x0020   // obsolete
+#define PED_CHUNK_COLLISION     0x0021
+#define PED_CHUNK_VEL_SCALE     0x0022
+#define PED_CHUNK_EDATA         0x0024
 #define PED_CHUNK_ALIGN_TO_PATH 0x0025
 //---------------------------------------------------------------------------
 #endif

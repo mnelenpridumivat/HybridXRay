@@ -12,7 +12,7 @@
 CLevelGraph::CVertex** stack_storage;
 
 #define PUSH(a) *stack_iterator++ = (a)
-#define POP() vertex = *--stack_iterator
+#define POP()   vertex = *--stack_iterator
 
 void floodfill(const CLevelGraph& level_graph, xr_vector<bool>& marks, u32 start_vertex_id)
 {
@@ -97,7 +97,7 @@ void verify_level_graph(LPCSTR name, bool verbose)
 
     xr_vector<bool> marks;
 
-    xr_vector<u32> single_links;
+    xr_vector<u32>  single_links;
     single_links.reserve(level_graph->header().vertex_count());
     Progress(0.05f);
 

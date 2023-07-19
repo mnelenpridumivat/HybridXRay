@@ -16,11 +16,11 @@ public:
     static dx10State* Create(SimulatorStates& state_code);
 
     //	DX9 unified interface
-    HRESULT Apply();
-    void    Release();
+    HRESULT           Apply();
+    void              Release();
 
     //	DX10 specific
-    void UpdateStencilRef(UINT Ref)
+    void              UpdateStencilRef(UINT Ref)
     {
         m_uiStencilRef = Ref;
     }
@@ -32,19 +32,17 @@ public:
     //	User restricted interface
 private:
     typedef dx10SamplerStateCache::HArray tSamplerHArray;
-
 private:
     static void InitSamplers(tSamplerHArray& SamplerArray, SimulatorStates& state_code, int iBaseSamplerIndex);
-
 private:
     //	All states are supposed to live along all application lifetime
     ID3DRasterizerState*   m_pRasterizerState;     //	Weak link
     ID3DDepthStencilState* m_pDepthStencilState;   //	Weak link
     ID3DBlendState*        m_pBlendState;          //	Weak link
 
-    tSamplerHArray m_VSSamplers;
-    tSamplerHArray m_PSSamplers;
-    tSamplerHArray m_GSSamplers;
+    tSamplerHArray         m_VSSamplers;
+    tSamplerHArray         m_PSSamplers;
+    tSamplerHArray         m_GSSamplers;
 #ifdef USE_DX11
     tSamplerHArray m_CSSamplers;
     tSamplerHArray m_HSSamplers;

@@ -20,7 +20,7 @@ class CALifeHumanBrain;
 class CALifeOnlineOfflineGroupBrain;
 
 #pragma warning(push)
-#pragma warning(disable : 4005)
+#pragma warning(disable:4005)
 
 SERVER_ENTITY_DECLARE_BEGIN0(CSE_ALifeTraderAbstract)
 enum eTraderFlags
@@ -48,8 +48,8 @@ CHARACTER_REPUTATION_VALUE m_reputation;
 CHARACTER_RANK_VALUE       m_rank;
 xr_string                  m_character_name;
 
-bool m_deadbody_can_take;
-bool m_deadbody_closed;
+bool                       m_deadbody_can_take;
+bool                       m_deadbody_closed;
 
 #ifdef XRGAME_EXPORTS
 //��� ������ � relation system
@@ -62,13 +62,12 @@ void                       SetRank(CHARACTER_RANK_VALUE val);
 
 #endif
 
-shared_str m_sCharacterProfile;
-shared_str m_SpecificCharacter;
+shared_str            m_sCharacterProfile;
+shared_str            m_SpecificCharacter;
 
 //�������� ������ ����������� ����������
 xr_vector<shared_str> m_CheckedCharacters;
 xr_vector<shared_str> m_DefaultCharacters;
-
 public:
 CSE_ALifeTraderAbstract(LPCSTR caSection);
 virtual ~CSE_ALifeTraderAbstract();
@@ -191,8 +190,8 @@ virtual u32 ef_creature_type() const;
 virtual void                 on_spawn();
 virtual CSE_ALifeItemWeapon* tpfGetBestWeapon(ALife::EHitType& tHitType, float& fHitPower);
 virtual ALife::EMeetActionType
-             tfGetActionType(CSE_ALifeSchedulable* tpALifeSchedulable, int iGroupIndex, bool bMutualDetection);
-virtual bool bfActive();
+                                tfGetActionType(CSE_ALifeSchedulable* tpALifeSchedulable, int iGroupIndex, bool bMutualDetection);
+virtual bool                    bfActive();
 virtual CSE_ALifeDynamicObject* tpfGetBestDetector();
 virtual bool                    keep_saved_data_anyway() const;
 #endif
@@ -222,30 +221,29 @@ add_to_type_list(CSE_ALifeZoneVisual)
 
     SERVER_ENTITY_DECLARE_BEGIN(CSE_ALifeCreatureAbstract, CSE_ALifeDynamicObjectVisual) private: float fHealth;
 ALife::_OBJECT_ID m_killer_id;
-
 public:
-u8 s_team;
-u8 s_squad;
-u8 s_group;
+u8                           s_team;
+u8                           s_squad;
+u8                           s_group;
 
-float m_fMorale;
-float m_fAccuracy;
-float m_fIntelligence;
+float                        m_fMorale;
+float                        m_fAccuracy;
+float                        m_fIntelligence;
 
-u32       timestamp;   // server(game) timestamp
-u8        flags;
-float     o_model;   // model yaw
-SRotation o_torso;   // torso in world coords
-bool      m_bDeathIsProcessed;
+u32                          timestamp;   // server(game) timestamp
+u8                           flags;
+float                        o_model;     // model yaw
+SRotation                    o_torso;     // torso in world coords
+bool                         m_bDeathIsProcessed;
 
 xr_vector<ALife::_OBJECT_ID> m_dynamic_out_restrictions;
 xr_vector<ALife::_OBJECT_ID> m_dynamic_in_restrictions;
 
-u32 m_ef_creature_type;
-u32 m_ef_weapon_type;
-u32 m_ef_detector_type;
+u32                          m_ef_creature_type;
+u32                          m_ef_weapon_type;
+u32                          m_ef_detector_type;
 
-ALife::_TIME_ID m_game_death_time;
+ALife::_TIME_ID              m_game_death_time;
 
 CSE_ALifeCreatureAbstract(LPCSTR caSection);
 virtual ~CSE_ALifeCreatureAbstract();
@@ -253,7 +251,7 @@ virtual u8 g_team();
 virtual u8 g_squad();
 virtual u8 g_group();
 
-IC float get_health() const
+IC float   get_health() const
 {
     return fHealth;
 }
@@ -305,21 +303,19 @@ shared_str                         m_out_space_restrictors;
 shared_str                         m_in_space_restrictors;
 svector<float, ALife::eHitTypeMax> m_fpImmunityFactors;
 
-ALife::_OBJECT_ID m_smart_terrain_id;
+ALife::_OBJECT_ID                  m_smart_terrain_id;
 
 //---------------------------------------------------------
 // bool if monster under smart terrain and currently executes task
 // if monster on the way then (m_smart_terrain_id != 0xffff) && (!m_task_reached)
-bool m_task_reached;
+bool                               m_task_reached;
 //---------------------------------------------------------
 
-int m_rank;
+int                                m_rank;
 
-ALife::_TIME_ID m_stay_after_death_time_interval;
-
+ALife::_TIME_ID                    m_stay_after_death_time_interval;
 public:
 ALife::_OBJECT_ID m_group_id;
-
 public:
 CSE_ALifeMonsterAbstract(LPCSTR caSection);
 virtual ~CSE_ALifeMonsterAbstract();
@@ -353,7 +349,7 @@ virtual u32                 ef_creature_type() const;
 virtual u32                 ef_weapon_type() const;
 virtual u32                 ef_detector_type() const;
 
-IC int Rank()
+IC int                      Rank()
 {
     return m_rank;
 }
@@ -369,18 +365,18 @@ virtual void update(){};
 virtual void                 update();
 virtual CSE_ALifeItemWeapon* tpfGetBestWeapon(ALife::EHitType& tHitType, float& fHitPower);
 virtual ALife::EMeetActionType
-             tfGetActionType(CSE_ALifeSchedulable* tpALifeSchedulable, int iGroupIndex, bool bMutualDetection);
-virtual bool bfActive();
-virtual CSE_ALifeDynamicObject* tpfGetBestDetector();
-virtual void                    vfDetachAll(bool bFictitious = false){};
-void                            vfCheckForPopulationChanges();
-virtual void                    add_online(const bool& update_registries);
-virtual void    add_offline(const xr_vector<ALife::_OBJECT_ID>& saved_children, const bool& update_registries);
-virtual void    on_register();
-virtual void    on_unregister();
-virtual Fvector draw_level_position() const;
-virtual bool    redundant() const;
-virtual void    on_location_change() const;
+                                      tfGetActionType(CSE_ALifeSchedulable* tpALifeSchedulable, int iGroupIndex, bool bMutualDetection);
+virtual bool                          bfActive();
+virtual CSE_ALifeDynamicObject*       tpfGetBestDetector();
+virtual void                          vfDetachAll(bool bFictitious = false){};
+void                                  vfCheckForPopulationChanges();
+virtual void                          add_online(const bool& update_registries);
+virtual void                          add_offline(const xr_vector<ALife::_OBJECT_ID>& saved_children, const bool& update_registries);
+virtual void                          on_register();
+virtual void                          on_unregister();
+virtual Fvector                       draw_level_position() const;
+virtual bool                          redundant() const;
+virtual void                          on_location_change() const;
 virtual CSE_ALifeDynamicObject const& get_object() const
 {
     return *this;
@@ -392,10 +388,8 @@ virtual CSE_ALifeDynamicObject& get_object()
 
 #endif
 virtual bool need_update(CSE_ALifeDynamicObject* object);
-
 private:
 CALifeMonsterBrain* m_brain;
-
 public:
 SERVER_ENTITY_DECLARE_END
 add_to_type_list(CSE_ALifeMonsterAbstract)
@@ -409,21 +403,21 @@ add_to_type_list(CSE_ALifeMonsterAbstract)
         ISE_ALifeCreatureActor)
 
         u16 mstate;
-Fvector accel;
-Fvector velocity;
+Fvector     accel;
+Fvector     velocity;
 //	float							fArmor;
-float fRadiation;
-u8    weapon;
+float       fRadiation;
+u8          weapon;
 ///////////////////////////////////////////
-u16 m_u16NumItems;
-u16 m_holderID;
+u16         m_u16NumItems;
+u16         m_holderID;
 //	DEF_DEQUE		(PH_STATES, SPHNetState);
 SPHNetState m_AliveState;
 //	PH_STATES						m_DeadStates;
 
 // ����������� ������ - 6 float(������� �������� �����������) + m_u16NumItems*(7 u8) (������� � ������� �����)
-u8   m_BoneDataSize;
-char m_DeadBodyData[1024];
+u8          m_BoneDataSize;
+char        m_DeadBodyData[1024];
 ///////////////////////////////////////////
 CSE_ALifeCreatureActor(LPCSTR caSection);
 virtual ~CSE_ALifeCreatureActor();
@@ -471,7 +465,6 @@ virtual ISE_ALifeCreatureActor* CastALifeCreatureActor()
 {
     return this;
 };
-
 public:
 virtual BOOL Net_Relevant();
 SERVER_ENTITY_DECLARE_END
@@ -636,16 +629,15 @@ virtual void                 vfUpdateWeaponAmmo();
 virtual void                 vfProcessItems();
 virtual void                 vfAttachItems(ALife::ETakeType tTakeType = ALife::eTakeTypeAll);
 virtual ALife::EMeetActionType
-    tfGetActionType(CSE_ALifeSchedulable* tpALifeSchedulable, int iGroupIndex, bool bMutualDetection);
+                                tfGetActionType(CSE_ALifeSchedulable* tpALifeSchedulable, int iGroupIndex, bool bMutualDetection);
 virtual CSE_ALifeDynamicObject* tpfGetBestDetector();
 virtual void                    vfDetachAll(bool bFictitious = false);
 virtual void                    spawn_supplies();
 virtual void                    on_register();
 virtual void                    on_unregister();
 virtual void                    add_online(const bool& update_registries);
-virtual void add_offline(const xr_vector<ALife::_OBJECT_ID>& saved_children, const bool& update_registries);
+virtual void                    add_offline(const xr_vector<ALife::_OBJECT_ID>& saved_children, const bool& update_registries);
 #endif
-
 private:
 CALifeHumanBrain* m_brain;
 
@@ -691,31 +683,26 @@ virtual CSE_ALifeOnlineOfflineGroup* cast_online_offline_group()
 #ifdef XRGAME_EXPORTS
 virtual CALifeSmartTerrainTask* get_current_task();
 #endif   // #ifdef XRGAME_EXPORTS
-
 public:
 typedef CSE_ALifeMonsterAbstract                       MEMBER;
 typedef associative_vector<ALife::_OBJECT_ID, MEMBER*> MEMBERS;
-
 private:
 MEMBERS m_members;
 
 #ifdef XRGAME_EXPORTS
-
 private:
 CALifeOnlineOfflineGroupBrain* m_brain;
-
 public:
 IC CALifeOnlineOfflineGroupBrain& brain() const
 {
     VERIFY(m_brain);
     return (*m_brain);
 }
-
 public:
 virtual CSE_ALifeItemWeapon* tpfGetBestWeapon(ALife::EHitType& tHitType, float& fHitPower);
 virtual ALife::EMeetActionType
-             tfGetActionType(CSE_ALifeSchedulable* tpALifeSchedulable, int iGroupIndex, bool bMutualDetection);
-virtual bool bfActive();
+                                      tfGetActionType(CSE_ALifeSchedulable* tpALifeSchedulable, int iGroupIndex, bool bMutualDetection);
+virtual bool                          bfActive();
 virtual CSE_ALifeDynamicObject*       tpfGetBestDetector();
 virtual void                          update();
 virtual bool                          need_update(CSE_ALifeDynamicObject* object);

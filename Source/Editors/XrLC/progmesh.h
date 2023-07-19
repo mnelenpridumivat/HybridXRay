@@ -23,7 +23,7 @@
 class PM_API P_UV
 {
 public:
-    float u, v;
+    float    u, v;
 
     IC float dist(P_UV& p)
     {
@@ -47,12 +47,12 @@ struct PM_API PM_Result
 {
     WORD*   permutePTR;   // You need to permute vertices according to this
     u32     permuteSIZE;
-    Vsplit* splitPTR;   // Ready to use Vsplit records
+    Vsplit* splitPTR;     // Ready to use Vsplit records
     u32     splitSIZE;
     WORD*   facefixPTR;   // Ready to use FaceFix records
     u32     facefixSIZE;
 
-    u32 minVertices;
+    u32     minVertices;
 };
 #pragma pack(pop)
 

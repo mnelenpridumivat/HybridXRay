@@ -14,7 +14,7 @@
 #include "dxRenderDeviceRender.h"
 
 #pragma warning(push)
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include "directx\d3dx9.h"
 #pragma warning(pop)
 
@@ -22,9 +22,9 @@ CDrawUtilities DUImpl;
 
 #define LINE_DIVISION 32   // не меньше 6!!!!!
 // for drawing sphere
-static Fvector circledef1[LINE_DIVISION];
-static Fvector circledef2[LINE_DIVISION];
-static Fvector circledef3[LINE_DIVISION];
+static Fvector   circledef1[LINE_DIVISION];
+static Fvector   circledef2[LINE_DIVISION];
+static Fvector   circledef3[LINE_DIVISION];
 
 const u32        boxcolor     = D3DCOLOR_RGBA(255, 255, 255, 0);
 static const int boxvertcount = 48;
@@ -59,12 +59,12 @@ static Fvector   boxvert[boxvertcount];
 #endif
 
 #ifdef REDITOR
-#define FILL_MODE dxRenderDeviceRender::Instance().dwFillMode
-#define SHADE_MODE dxRenderDeviceRender::Instance().dwShadeMode
+#define FILL_MODE      dxRenderDeviceRender::Instance().dwFillMode
+#define SHADE_MODE     dxRenderDeviceRender::Instance().dwShadeMode
 #define SCREEN_QUALITY dxRenderDeviceRender::Instance().m_ScreenQuality
 #else
-#define FILL_MODE D3DFILL_SOLID
-#define SHADE_MODE D3DSHADE_GOURAUD
+#define FILL_MODE      D3DFILL_SOLID
+#define SHADE_MODE     D3DSHADE_GOURAUD
 #define SCREEN_QUALITY 1.f
 #endif
 
@@ -103,14 +103,14 @@ DEFINE_VECTOR(FVF::L, FLvertexVec, FLvertexIt)
 
 static FLvertexVec m_GridPoints;
 
-u32 m_ColorAxis     = 0xff000000;
-u32 m_ColorGrid     = 0xff909090;
-u32 m_ColorGridTh   = 0xffb4b4b4;
-u32 m_SelectionRect = D3DCOLOR_RGBA(127, 255, 127, 64);
+u32                m_ColorAxis     = 0xff000000;
+u32                m_ColorGrid     = 0xff909090;
+u32                m_ColorGridTh   = 0xffb4b4b4;
+u32                m_SelectionRect = D3DCOLOR_RGBA(127, 255, 127, 64);
 
-u32 m_ColorSafeRect = 0xffB040B0;
+u32                m_ColorSafeRect = 0xffB040B0;
 
-void SPrimitiveBuffer::CreateFromData(
+void               SPrimitiveBuffer::CreateFromData(
     D3DPRIMITIVETYPE _pt,
     u32              _p_cnt,
     u32              FVF,
@@ -365,7 +365,7 @@ void CDrawUtilities::DrawDirectionalLight(const Fvector& p, const Fvector& d, fl
     N.crossproduct(D, R);
     N.normalize();
     rot.set(R, N, D, p);
-    float sz = radius + range;
+    float          sz     = radius + range;
 
     // fill VB
     _VertexStream* Stream = &RCache.Vertex;
@@ -526,10 +526,10 @@ void CDrawUtilities::DrawRomboid(const Fvector& p, float r, u32 c)
     static const WORD IT[24] = {2, 4, 0, 4, 3, 0, 3, 5, 0, 5, 2, 0, 4, 2, 1, 2, 5, 1, 5, 3, 1, 3, 4, 1};
     u32               vBase, iBase;
 
-    Fcolor C;
+    Fcolor            C;
     C.set(c);
     C.mul_rgb(0.75);
-    u32 c1 = C.get();
+    u32            c1 = C.get();
 
     int            k;
     FVF::L*        pv;
@@ -538,7 +538,7 @@ void CDrawUtilities::DrawRomboid(const Fvector& p, float r, u32 c)
     _IndexStream*  StreamI = &RCache.Index;
 
     // fill VB
-    pv = (FVF::L*)Stream->Lock(6, vs_L->vb_stride, vBase);
+    pv                     = (FVF::L*)Stream->Lock(6, vs_L->vb_stride, vBase);
     pv->set(p.x, p.y + r, p.z, c1);
     pv++;
     pv->set(p.x, p.y - r, p.z, c1);
@@ -601,8 +601,7 @@ void CDrawUtilities::DrawIdentCone(BOOL bSolid, BOOL bWire, u32 clr_s, u32 clr_w
     if (bSolid)
     {
         DU_DRAW_SH_C(
-            color_get_A(clr_s) >= 254 ? dxRenderDeviceRender::Instance().m_WireShader :
-                                        dxRenderDeviceRender::Instance().m_SelectionShader,
+            color_get_A(clr_s) >= 254 ? dxRenderDeviceRender::Instance().m_WireShader : dxRenderDeviceRender::Instance().m_SelectionShader,
             clr_s);
         m_SolidCone.Render();
     }
@@ -619,8 +618,7 @@ void CDrawUtilities::DrawIdentSphere(BOOL bSolid, BOOL bWire, u32 clr_s, u32 clr
     if (bSolid)
     {
         DU_DRAW_SH_C(
-            color_get_A(clr_s) >= 254 ? dxRenderDeviceRender::Instance().m_WireShader :
-                                        dxRenderDeviceRender::Instance().m_SelectionShader,
+            color_get_A(clr_s) >= 254 ? dxRenderDeviceRender::Instance().m_WireShader : dxRenderDeviceRender::Instance().m_SelectionShader,
             clr_s);
         m_SolidSphere.Render();
     }
@@ -637,8 +635,7 @@ void CDrawUtilities::DrawIdentSpherePart(BOOL bSolid, BOOL bWire, u32 clr_s, u32
     if (bSolid)
     {
         DU_DRAW_SH_C(
-            color_get_A(clr_s) >= 254 ? dxRenderDeviceRender::Instance().m_WireShader :
-                                        dxRenderDeviceRender::Instance().m_SelectionShader,
+            color_get_A(clr_s) >= 254 ? dxRenderDeviceRender::Instance().m_WireShader : dxRenderDeviceRender::Instance().m_SelectionShader,
             clr_s);
         m_SolidSpherePart.Render();
     }
@@ -655,8 +652,7 @@ void CDrawUtilities::DrawIdentCylinder(BOOL bSolid, BOOL bWire, u32 clr_s, u32 c
     if (bSolid)
     {
         DU_DRAW_SH_C(
-            color_get_A(clr_s) >= 254 ? dxRenderDeviceRender::Instance().m_WireShader :
-                                        dxRenderDeviceRender::Instance().m_SelectionShader,
+            color_get_A(clr_s) >= 254 ? dxRenderDeviceRender::Instance().m_WireShader : dxRenderDeviceRender::Instance().m_SelectionShader,
             clr_s);
         m_SolidCylinder.Render();
     }
@@ -673,8 +669,7 @@ void CDrawUtilities::DrawIdentBox(BOOL bSolid, BOOL bWire, u32 clr_s, u32 clr_w)
     if (bSolid)
     {
         DU_DRAW_SH_C(
-            color_get_A(clr_s) >= 254 ? dxRenderDeviceRender::Instance().m_WireShader :
-                                        dxRenderDeviceRender::Instance().m_SelectionShader,
+            color_get_A(clr_s) >= 254 ? dxRenderDeviceRender::Instance().m_WireShader : dxRenderDeviceRender::Instance().m_SelectionShader,
             clr_s);
         m_SolidBox.Render();
     }
@@ -759,8 +754,8 @@ void CDrawUtilities::dbgDrawPlacement(const Fvector& p, int sz, u32 clr, LPCSTR 
 
     float s = (float)sz;
     Device->mFullTransform.transform(c, p);
-    c.x = (float)iFloor(_x2real(c.x));
-    c.y = (float)iFloor(_y2real(-c.y));
+    c.x                   = (float)iFloor(_x2real(c.x));
+    c.y                   = (float)iFloor(_y2real(-c.y));
 
     _VertexStream* Stream = &RCache.Vertex;
     u32            vBase;
@@ -835,7 +830,7 @@ void CDrawUtilities::DrawLine(const Fvector& p0, const Fvector& p1, u32 c)
 //----------------------------------------------------
 void CDrawUtilities::DrawSelectionBox(const Fvector& C, const Fvector& S, u32* c)
 {
-    u32 cc = (c) ? *c : boxcolor;
+    u32            cc     = (c) ? *c : boxcolor;
 
     // fill VB
     _VertexStream* Stream = &RCache.Vertex;
@@ -960,7 +955,7 @@ void CDrawUtilities::DrawFace(
 {
     _VertexStream* Stream = &RCache.Vertex;
 
-    u32 vBase;
+    u32            vBase;
     if (bSolid)
     {
         FVF::L* pv = (FVF::L*)Stream->Lock(3, vs_L->vb_stride, vBase);
@@ -1143,14 +1138,14 @@ void CDrawUtilities::DrawPlane(
     L_dir.normalize();
 
     Fmatrix mR;
-    mR.i   = L_right;
-    mR._14 = 0;
-    mR.j   = L_up;
-    mR._24 = 0;
-    mR.k   = L_dir;
-    mR._34 = 0;
-    mR.c   = p;
-    mR._44 = 1;
+    mR.i                  = L_right;
+    mR._14                = 0;
+    mR.j                  = L_up;
+    mR._24                = 0;
+    mR.k                  = L_dir;
+    mR._34                = 0;
+    mR.c                  = p;
+    mR._44                = 1;
 
     // fill VB
     _VertexStream* Stream = &RCache.Vertex;
@@ -1280,7 +1275,7 @@ void CDrawUtilities::DrawRectangle(
 {
     _VertexStream* Stream = &RCache.Vertex;
 
-    u32 vBase;
+    u32            vBase;
     if (bSolid)
     {
         DU_DRAW_SH(dxRenderDeviceRender::Instance().m_SelectionShader);
@@ -1333,8 +1328,8 @@ void CDrawUtilities::DrawCross(
 {
     _VertexStream* Stream = &RCache.Vertex;
     // actual rendering
-    u32     vBase;
-    FVF::L* pv = (FVF::L*)Stream->Lock(bRot45 ? 12 : 6, vs_L->vb_stride, vBase);
+    u32            vBase;
+    FVF::L*        pv = (FVF::L*)Stream->Lock(bRot45 ? 12 : 6, vs_L->vb_stride, vBase);
     pv->set(p.x + szx2, p.y, p.z, clr);
     pv++;
     pv->set(p.x - szx1, p.y, p.z, clr);
@@ -1396,8 +1391,8 @@ void CDrawUtilities::DrawAxis(const Fmatrix& T)
     u32      vBase;
     FVF::TL* pv = (FVF::TL*)Stream->Lock(6, vs_TL->vb_stride, vBase);
     // transform to screen
-    float dx = -float(Device->dwWidth) / 2.2f;
-    float dy = float(Device->dwHeight) / 2.25f;
+    float    dx = -float(Device->dwWidth) / 2.2f;
+    float    dy = float(Device->dwHeight) / 2.25f;
 
     for (int i = 0; i < 6; i++, pv++)
     {
@@ -1491,7 +1486,7 @@ void CDrawUtilities::DrawGrid()
     _VertexStream* Stream = &RCache.Vertex;
     u32            vBase;
     // fill VB
-    FVF::L* pv = (FVF::L*)Stream->Lock(m_GridPoints.size(), vs_L->vb_stride, vBase);
+    FVF::L*        pv = (FVF::L*)Stream->Lock(m_GridPoints.size(), vs_L->vb_stride, vBase);
     for (FLvertexIt v_it = m_GridPoints.begin(); v_it != m_GridPoints.end(); v_it++, pv++)
         pv->set(*v_it);
     Stream->Unlock(m_GridPoints.size(), vs_L->vb_stride);

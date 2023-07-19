@@ -11,7 +11,7 @@
 #include "../../xrCore/xrCore.h"
 
 #define STRINGIZE(a) #a
-#define UP(a) STRINGIZE(../../##a)
+#define UP(a)        STRINGIZE(../../##a)
 // #undef	STRINGIZE
 
 #define WIN32_LEAN_AND_MEAN
@@ -51,7 +51,8 @@ IC xr_string string2xr_string(LPCSTR s)
             ::Debug.gather_info(_TRE(#expr), 0, 0, 0, DEBUG_INFO, assertion_info); \
             throw assertion_info;                                                  \
         }                                                                          \
-    } while (0)
+    }                                                                              \
+    while (0)
 #define THROW2(expr, msg0)                                                            \
     do                                                                                \
     {                                                                                 \
@@ -61,7 +62,8 @@ IC xr_string string2xr_string(LPCSTR s)
             ::Debug.gather_info(_TRE(#expr), msg0, 0, 0, DEBUG_INFO, assertion_info); \
             throw assertion_info;                                                     \
         }                                                                             \
-    } while (0)
+    }                                                                                 \
+    while (0)
 #define THROW3(expr, msg0, msg1)                                                         \
     do                                                                                   \
     {                                                                                    \
@@ -71,9 +73,10 @@ IC xr_string string2xr_string(LPCSTR s)
             ::Debug.gather_info(_TRE(#expr), msg0, msg1, 0, DEBUG_INFO, assertion_info); \
             throw assertion_info;                                                        \
         }                                                                                \
-    } while (0)
+    }                                                                                    \
+    while (0)
 #else
-#define THROW VERIFY
+#define THROW  VERIFY
 #define THROW2 VERIFY2
 #define THROW3 VERIFY3
 #endif

@@ -34,7 +34,7 @@ IC CNodePositionConverter::CNodePositionConverter(const SNodePositionOld& Psrc, 
 }
 
 //-----------------------------------------------------------------
-template <class T> void transfer(const char* name, xr_vector<T>& dest, IReader& F, u32 chunk)
+template<class T> void transfer(const char* name, xr_vector<T>& dest, IReader& F, u32 chunk)
 {
     IReader* O     = F.open_chunk(chunk);
     u32      count = O ? (O->length() / sizeof(T)) : 0;
@@ -114,7 +114,7 @@ void xrLoad(LPCSTR name, bool draft_mode)
             IReader* F;
 
             // Version
-            u32 version;
+            u32      version;
             fs->r_chunk(EB_Version, &version);
             R_ASSERT(XRCL_CURRENT_VERSION >= 17);
             R_ASSERT(XRCL_CURRENT_VERSION <= 18);
@@ -248,7 +248,7 @@ void xrLoad(LPCSTR name, bool draft_mode)
         IReader& fs = *F;
 
         // Version
-        u32 version;
+        u32      version;
         fs.r_chunk(EB_Version, &version);
         R_ASSERT(XRCL_CURRENT_VERSION >= 17);
         R_ASSERT(XRCL_CURRENT_VERSION <= 18);
@@ -288,7 +288,7 @@ void xrLoad(LPCSTR name, bool draft_mode)
                 RL.attenuation1 = L.attenuation1;
                 RL.attenuation2 = L.attenuation2;
 
-                RL.amount = L.diffuse.magnitude_rgb();
+                RL.amount       = L.diffuse.magnitude_rgb();
                 RL.tri[0].set(0, 0, 0);
                 RL.tri[1].set(0, 0, 0);
                 RL.tri[2].set(0, 0, 0);

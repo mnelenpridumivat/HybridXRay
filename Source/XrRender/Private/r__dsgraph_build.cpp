@@ -14,11 +14,11 @@ using namespace R_dsgraph;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Scene graph actual insertion and sorting ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-float r_ssaDISCARD;
-float r_ssaDONTSORT;
-float r_ssaLOD_A, r_ssaLOD_B;
-float r_ssaGLOD_start, r_ssaGLOD_end;
-float r_ssaHZBvsTEX;
+float     r_ssaDISCARD;
+float     r_ssaDONTSORT;
+float     r_ssaLOD_A, r_ssaLOD_B;
+float     r_ssaGLOD_start, r_ssaGLOD_end;
+float     r_ssaHZBvsTEX;
 
 ICF float CalcSSA(float& distSQ, Fvector& C, dxRender_Visual* V)
 {
@@ -108,7 +108,7 @@ void R_dsgraph_structure::r_dsgraph_insert_dynamic(dxRender_Visual* pVisual, Fve
                 N->val.Matrix     = *RI.val_pTransform;
                 N->val.se         = &*pVisual->shader->E[4];   // 4=L_special
             }
-#endif   //	RENDER!=R_R1
+#endif                                                         //	RENDER!=R_R1
             return;
         }
     }
@@ -467,7 +467,8 @@ void CRender::add_leafs_Dynamic(dxRender_Visual* pVisual)
 
     switch (pVisual->Type)
     {
-        case MT_PARTICLE_GROUP: {
+        case MT_PARTICLE_GROUP:
+        {
             // Add all children, doesn't perform any tests
             PS::CParticleGroup* pG = (PS::CParticleGroup*)pVisual;
             for (PS::CParticleGroup::SItemVecIt i_it = pG->items.begin(); i_it != pG->items.end(); i_it++)
@@ -484,7 +485,8 @@ void CRender::add_leafs_Dynamic(dxRender_Visual* pVisual)
             }
         }
             return;
-        case MT_HIERRARHY: {
+        case MT_HIERRARHY:
+        {
             // Add all children, doesn't perform any tests
             FHierrarhyVisual* pV = (FHierrarhyVisual*)pVisual;
             I                    = pV->children.begin();
@@ -494,7 +496,8 @@ void CRender::add_leafs_Dynamic(dxRender_Visual* pVisual)
         }
             return;
         case MT_SKELETON_ANIM:
-        case MT_SKELETON_RIGID: {
+        case MT_SKELETON_RIGID:
+        {
             // Add all children, doesn't perform any tests
             CKinematics* pV       = (CKinematics*)pVisual;
             BOOL         _use_lod = FALSE;
@@ -522,7 +525,8 @@ void CRender::add_leafs_Dynamic(dxRender_Visual* pVisual)
             }
         }
             return;
-        default: {
+        default:
+        {
             // General type of visual
             // Calculate distance to it's center
             Fvector Tpos;
@@ -543,7 +547,8 @@ void CRender::add_leafs_Static(dxRender_Visual* pVisual)
 
     switch (pVisual->Type)
     {
-        case MT_PARTICLE_GROUP: {
+        case MT_PARTICLE_GROUP:
+        {
             // Add all children, doesn't perform any tests
             PS::CParticleGroup* pG = (PS::CParticleGroup*)pVisual;
             for (PS::CParticleGroup::SItemVecIt i_it = pG->items.begin(); i_it != pG->items.end(); i_it++)
@@ -560,7 +565,8 @@ void CRender::add_leafs_Static(dxRender_Visual* pVisual)
             }
         }
             return;
-        case MT_HIERRARHY: {
+        case MT_HIERRARHY:
+        {
             // Add all children, doesn't perform any tests
             FHierrarhyVisual* pV = (FHierrarhyVisual*)pVisual;
             I                    = pV->children.begin();
@@ -570,7 +576,8 @@ void CRender::add_leafs_Static(dxRender_Visual* pVisual)
         }
             return;
         case MT_SKELETON_ANIM:
-        case MT_SKELETON_RIGID: {
+        case MT_SKELETON_RIGID:
+        {
             // Add all children, doesn't perform any tests
             CKinematics* pV = (CKinematics*)pVisual;
             pV->CalculateBones(TRUE);
@@ -580,7 +587,8 @@ void CRender::add_leafs_Static(dxRender_Visual* pVisual)
                 add_leafs_Static(*I);
         }
             return;
-        case MT_LOD: {
+        case MT_LOD:
+        {
             FLOD* pV = (FLOD*)pVisual;
             float D;
             float ssa = CalcSSA(D, pV->vis.sphere.P, pV);
@@ -608,12 +616,14 @@ void CRender::add_leafs_Static(dxRender_Visual* pVisual)
         }
             return;
         case MT_TREE_PM:
-        case MT_TREE_ST: {
+        case MT_TREE_ST:
+        {
             // General type of visual
             r_dsgraph_insert_static(pVisual);
         }
             return;
-        default: {
+        default:
+        {
             // General type of visual
             r_dsgraph_insert_static(pVisual);
         }
@@ -640,7 +650,8 @@ BOOL CRender::add_Dynamic(dxRender_Visual* pVisual, u32 planes)
 
     switch (pVisual->Type)
     {
-        case MT_PARTICLE_GROUP: {
+        case MT_PARTICLE_GROUP:
+        {
             // Add all children, doesn't perform any tests
             PS::CParticleGroup* pG = (PS::CParticleGroup*)pVisual;
             for (PS::CParticleGroup::SItemVecIt i_it = pG->items.begin(); i_it != pG->items.end(); i_it++)
@@ -671,7 +682,8 @@ BOOL CRender::add_Dynamic(dxRender_Visual* pVisual, u32 planes)
             }
         }
         break;
-        case MT_HIERRARHY: {
+        case MT_HIERRARHY:
+        {
             // Add all children
             FHierrarhyVisual* pV = (FHierrarhyVisual*)pVisual;
             I                    = pV->children.begin();
@@ -689,7 +701,8 @@ BOOL CRender::add_Dynamic(dxRender_Visual* pVisual, u32 planes)
         }
         break;
         case MT_SKELETON_ANIM:
-        case MT_SKELETON_RIGID: {
+        case MT_SKELETON_RIGID:
+        {
             // Add all children, doesn't perform any tests
             CKinematics* pV       = (CKinematics*)pVisual;
             BOOL         _use_lod = FALSE;
@@ -726,7 +739,8 @@ BOOL CRender::add_Dynamic(dxRender_Visual* pVisual, u32 planes)
             */
         }
         break;
-        default: {
+        default:
+        {
             // General type of visual
             r_dsgraph_insert_dynamic(pVisual, Tpos);
         }
@@ -752,7 +766,8 @@ void CRender::add_Static(dxRender_Visual* pVisual, u32 planes)
 
     switch (pVisual->Type)
     {
-        case MT_PARTICLE_GROUP: {
+        case MT_PARTICLE_GROUP:
+        {
             // Add all children, doesn't perform any tests
             PS::CParticleGroup* pG = (PS::CParticleGroup*)pVisual;
             for (PS::CParticleGroup::SItemVecIt i_it = pG->items.begin(); i_it != pG->items.end(); i_it++)
@@ -783,7 +798,8 @@ void CRender::add_Static(dxRender_Visual* pVisual, u32 planes)
             }
         }
         break;
-        case MT_HIERRARHY: {
+        case MT_HIERRARHY:
+        {
             // Add all children
             FHierrarhyVisual* pV = (FHierrarhyVisual*)pVisual;
             I                    = pV->children.begin();
@@ -801,7 +817,8 @@ void CRender::add_Static(dxRender_Visual* pVisual, u32 planes)
         }
         break;
         case MT_SKELETON_ANIM:
-        case MT_SKELETON_RIGID: {
+        case MT_SKELETON_RIGID:
+        {
             // Add all children, doesn't perform any tests
             CKinematics* pV = (CKinematics*)pVisual;
             pV->CalculateBones(TRUE);
@@ -819,7 +836,8 @@ void CRender::add_Static(dxRender_Visual* pVisual, u32 planes)
             }
         }
         break;
-        case MT_LOD: {
+        case MT_LOD:
+        {
             FLOD* pV = (FLOD*)pVisual;
             float D;
             float ssa = CalcSSA(D, pV->vis.sphere.P, pV);
@@ -847,12 +865,14 @@ void CRender::add_Static(dxRender_Visual* pVisual, u32 planes)
         }
         break;
         case MT_TREE_ST:
-        case MT_TREE_PM: {
+        case MT_TREE_PM:
+        {
             // General type of visual
             r_dsgraph_insert_static(pVisual);
         }
             return;
-        default: {
+        default:
+        {
             // General type of visual
             r_dsgraph_insert_static(pVisual);
         }

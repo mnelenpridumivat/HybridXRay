@@ -5,7 +5,7 @@
 
 extern void Detach(vecFace* S);
 
-IC BOOL FaceEqual(Face* F1, Face* F2)
+IC BOOL     FaceEqual(Face* F1, Face* F2)
 {
     if (F1->dwMaterial != F2->dwMaterial)
         return FALSE;
@@ -116,7 +116,7 @@ IC BOOL ValidateMerge(u32 f1, const Fbox& bb_base, const Fbox& bb_base_orig, u32
     float v2 = bb1.getvolume();
     volume   = merge.getvolume();   // / Cuboid(merge);
     if (volume > 2 * 2 * 2 * (v1 + v2))
-        return FALSE;   // Don't merge too distant groups (8 vol)
+        return FALSE;               // Don't merge too distant groups (8 vol)
 
     // OK
     return TRUE;
@@ -141,7 +141,7 @@ typedef struct MERGEGM_PARAMS
     Fbox*    bb_base_orig;
     Fbox*    bb_base;
     HANDLE   hEvents[3];   // 0=start,1=terminate,2=ready
-}* LP_MERGEGM_PARAMS;
+}*                       LP_MERGEGM_PARAMS;
 
 static CRITICAL_SECTION  mergegm_cs;
 static BOOL              mergegm_threads_initialized = FALSE;
@@ -150,7 +150,7 @@ static LPHANDLE          mergegm_threads_handles     = NULL;
 static LPHANDLE          mergegm_ready_events        = NULL;
 static LP_MERGEGM_PARAMS mergegm_params              = NULL;
 
-DWORD WINAPI MergeGmThreadProc(LPVOID lpParameter)
+DWORD WINAPI             MergeGmThreadProc(LPVOID lpParameter)
 {
     LP_MERGEGM_PARAMS pParams = (LP_MERGEGM_PARAMS)lpParameter;
 
@@ -186,7 +186,7 @@ void InitMergeGmThreads()
 
     SYSTEM_INFO SystemInfo;
     GetSystemInfo(&SystemInfo);
-    mergegm_threads_count = SystemInfo.dwNumberOfProcessors;
+    mergegm_threads_count   = SystemInfo.dwNumberOfProcessors;
 
     mergegm_threads_handles = (LPHANDLE)xr_malloc(mergegm_threads_count * sizeof(HANDLE));
     mergegm_ready_events    = (LPHANDLE)xr_malloc(mergegm_threads_count * sizeof(HANDLE));
@@ -203,7 +203,7 @@ void InitMergeGmThreads()
             mergegm_params[i].hEvents[x] = CreateEvent(NULL, FALSE, FALSE, NULL);
 
         // Duplicate ready event into array
-        mergegm_ready_events[i] = mergegm_params[i].hEvents[2];
+        mergegm_ready_events[i]    = mergegm_params[i].hEvents[2];
 
         mergegm_threads_handles[i] = CreateThread(NULL, 0, &MergeGmThreadProc, &mergegm_params[i], 0, NULL);
     }
@@ -236,9 +236,9 @@ void DoneMergeGmThreads()
     xr_free(mergegm_ready_events);
     mergegm_ready_events = NULL;
     xr_free(mergegm_params);
-    mergegm_params = NULL;
+    mergegm_params              = NULL;
 
-    mergegm_threads_count = 0;
+    mergegm_threads_count       = 0;
 
     mergegm_threads_initialized = FALSE;
 }
@@ -260,7 +260,7 @@ void FindBestMergeCandidate_threads(
         mergegm_params[i].selected        = *selected;
         mergegm_params[i].selected_volume = *selected_volume;
 
-        mergegm_params[i].split = split + (i * m_range);
+        mergegm_params[i].split           = split + (i * m_range);
         mergegm_params[i].split_size =
             (i == (mergegm_threads_count - 1)) ? split_size : mergegm_params[i].split + m_range;
 

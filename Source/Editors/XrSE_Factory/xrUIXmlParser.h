@@ -5,7 +5,6 @@
 class CUIXml: public CXml
 {
     int m_dbg_id;
-
 public:
     CUIXml();
     virtual ~CUIXml();

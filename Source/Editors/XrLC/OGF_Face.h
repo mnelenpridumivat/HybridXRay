@@ -30,8 +30,8 @@ struct OGF_Vertex
     base_color           Color;
     svector<Fvector2, 2> UV;
 
-    BOOL similar(OGF* p, OGF_Vertex& other);
-    void dump(u32 id);
+    BOOL                 similar(OGF* p, OGF_Vertex& other);
+    void                 dump(u32 id);
 };
 typedef xr_vector<OGF_Vertex>    vecOGF_V;
 typedef vecOGF_V::iterator       itOGF_V;
@@ -51,7 +51,7 @@ typedef vec_XV::iterator    itXV;
 #pragma pack(push, 1)
 struct OGF_Face
 {
-    u16 v[3];
+    u16     v[3];
 
     IC void safe_replace(int what, int to)
     {
@@ -100,9 +100,9 @@ struct OGF;
 
 struct OGF_Base
 {
-    int  iLevel;
-    u16  Sector;
-    BOOL bConnected;
+    int     iLevel;
+    u16     Sector;
+    BOOL    bConnected;
 
     Fbox    bbox;
     Fvector C;
@@ -145,8 +145,8 @@ struct OGF: public OGF_Base
         FSlideWindowItem	x_SWI		;		// The records of the collapses / fast-path
     */
     // for build only
-    u32 dwRelevantUV;
-    u32 dwRelevantUVMASK;
+    u32      dwRelevantUV;
+    u32      dwRelevantUVMASK;
     /*
         u32					vb_id	,	xvb_id;
         u32					vb_start,	xvb_start;
@@ -155,7 +155,7 @@ struct OGF: public OGF_Base
         u32					sw_id	,	xsw_id;
     */
 
-    template <typename t_vertices> struct ogf_container
+    template<typename t_vertices> struct ogf_container
     {
         t_vertices       vertices;
         vecOGF_F         faces;
@@ -165,13 +165,15 @@ struct OGF: public OGF_Base
         u32              ib_id;
         u32              ib_start;
         u32              sw_id;
-        ogf_container(): vb_id(-1), vb_start(-1), ib_id(-1), ib_start(-1), sw_id(-1) {}
+        ogf_container():
+            vb_id(-1), vb_start(-1), ib_id(-1), ib_start(-1), sw_id(-1) {}
     };
 
     ogf_container<vecOGF_V> data;
     ogf_container<vec_XV>   fast_path_data;
 
-    OGF(): OGF_Base(0)
+    OGF():
+        OGF_Base(0)
     {
         data.m_SWI.count       = 0;
         data.m_SWI.sw          = 0;
@@ -219,8 +221,8 @@ struct OGF: public OGF_Base
 
     //	void				Save_Cached		(IWriter &fs, ogf_header& H, BOOL bColors);
 
-    void Save_Normal_PM(IWriter& fs, ogf_header& H, BOOL bColors);
-    void Load_Normal_PM(IReader& fs, ogf_header& H, BOOL bColors);
+    void         Save_Normal_PM(IWriter& fs, ogf_header& H, BOOL bColors);
+    void         Load_Normal_PM(IReader& fs, ogf_header& H, BOOL bColors);
 
     //	void				Save_Progressive(IWriter &fs, ogf_header& H, BOOL bColors);
 
@@ -233,22 +235,23 @@ struct OGF: public OGF_Base
 
 struct OGF_Reference: public OGF_Base
 {
-    OGF* model;
+    OGF*         model;
 
-    u32      material;
-    vecOGF_T textures;
+    u32          material;
+    vecOGF_T     textures;
 
-    u32 vb_id;
-    u32 vb_start;
-    u32 ib_id;
-    u32 ib_start;
-    u32 sw_id;
+    u32          vb_id;
+    u32          vb_start;
+    u32          ib_id;
+    u32          ib_start;
+    u32          sw_id;
 
     Fmatrix      xform;
     base_color_c c_scale;
     base_color_c c_bias;
 
-    OGF_Reference(): OGF_Base(0)
+    OGF_Reference():
+        OGF_Base(0)
     {
         model = 0;
     }
@@ -269,7 +272,8 @@ struct OGF_Node: public OGF_Base
 {
     xr_vector<u32> chields;
 
-    OGF_Node(int _L, u16 _Sector): OGF_Base(_L)
+    OGF_Node(int _L, u16 _Sector):
+        OGF_Base(_L)
     {
         Sector = _Sector;
     }
@@ -292,7 +296,8 @@ struct OGF_Node: public OGF_Base
 
 struct OGF_LOD: public OGF_Node
 {
-    OGF_LOD(int _L, u16 _Sector): OGF_Node(_L, _Sector){};
+    OGF_LOD(int _L, u16 _Sector):
+        OGF_Node(_L, _Sector){};
 
     struct _vertex
     {
@@ -306,12 +311,12 @@ struct OGF_LOD: public OGF_Node
         _vertex v[4];
     };
 
-    _face lod_faces[8];
-    u32   lod_Material;
+    _face        lod_faces[8];
+    u32          lod_Material;
 
     virtual void Save(IWriter& fs);
 };
 
-void set_status(char* N, int id, int f, int v);
+void             set_status(char* N, int id, int f, int v);
 
 extern OGF_Base* g_TREE_ROOT;

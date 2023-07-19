@@ -13,7 +13,7 @@ extern "C"
         ::RenderFactory = &RenderFactoryImpl;
         ::DU            = &DUImpl;
         //::vid_mode_token			= inited by HW;
-        UIRender = &UIRenderImpl;
+        UIRender        = &UIRenderImpl;
 #ifdef DEBUG
         DRender = &DebugRenderImpl;
 #endif   //	DEBUG

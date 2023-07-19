@@ -10,27 +10,27 @@
 #include "xrmu_model_reference.h"
 #include "../../xrcdb/xrcdb.h"
 
-bool g_using_smooth_groups    = true;
-bool g_smooth_groups_by_faces = false;
+bool               g_using_smooth_groups    = true;
+bool               g_smooth_groups_by_faces = false;
 
-xrLC_GlobalData* data = 0;
+xrLC_GlobalData*   data                     = 0;
 
-tread_lightmaps*  read_lightmaps  = 0;
-twrite_lightmaps* write_lightmaps = 0;
+tread_lightmaps*   read_lightmaps           = 0;
+twrite_lightmaps*  write_lightmaps          = 0;
 
-twrite_faces*      write_faces      = 0;
-tread_faces*       read_faces       = 0;
-tread_vertices*    read_vertices    = 0;
-twrite_vertices*   write_vertices   = 0;
-tread_deflectors*  read_deflectors  = 0;
-twrite_deflectors* write_deflectors = 0;
+twrite_faces*      write_faces              = 0;
+tread_faces*       read_faces               = 0;
+tread_vertices*    read_vertices            = 0;
+twrite_vertices*   write_vertices           = 0;
+tread_deflectors*  read_deflectors          = 0;
+twrite_deflectors* write_deflectors         = 0;
 
-tread_models*   read_models   = 0;
-twrite_models*  write_models  = 0;
-tread_mu_refs*  read_mu_refs  = 0;
-twrite_mu_refs* write_mu_refs = 0;
+tread_models*      read_models              = 0;
+twrite_models*     write_models             = 0;
+tread_mu_refs*     read_mu_refs             = 0;
+twrite_mu_refs*    write_mu_refs            = 0;
 
-xrLC_GlobalData* lc_global_data()
+xrLC_GlobalData*   lc_global_data()
 {
     return data;
 }
@@ -449,14 +449,15 @@ void xrLC_GlobalData ::close_models_write() const
         (*i)->writting_close();
 }
 
-template <typename T> std::pair<u32, u32> get_id(const xr_vector<xrMU_Model*>& mu_models, const T* v)
+template<typename T> std::pair<u32, u32> get_id(const xr_vector<xrMU_Model*>& mu_models, const T* v)
 {
     u32 face_id = u32(-1);
     struct find
     {
         const T* _v;
         u32&     _id;
-        find(const T* v, u32& id): _v(v), _id(id) {}
+        find(const T* v, u32& id):
+            _v(v), _id(id) {}
         bool operator()(const xrMU_Model* m)
         {
             VERIFY(m);
@@ -497,14 +498,16 @@ void xrLC_GlobalData ::read(INetReader& r, base_Face*& f)
 
     switch (type)
     {
-        case smit_plain: {
+        case smit_plain:
+        {
             VERIFY(read_faces);
             Face* face = 0;
             read_faces->read(r, face);
             f = face;
             return;
         }
-        case smit_model: {
+        case smit_model:
+        {
             u32    model_id   = r.r_u32();
             _face* model_face = 0;
             _mu_models[model_id]->read(r, model_face);
@@ -553,7 +556,7 @@ xrLC_GlobalData::~xrLC_GlobalData()
     // i++;
 }
 
-template <typename T> void vec_clear(xr_vector<T*>& v)
+template<typename T> void vec_clear(xr_vector<T*>& v)
 {
     typename xr_vector<T*>::iterator i = v.begin(), e = v.end();
     for (; i != e; ++i)
@@ -561,7 +564,7 @@ template <typename T> void vec_clear(xr_vector<T*>& v)
     v.clear();
 }
 
-template <typename T> void vec_spetial_clear(xr_vector<T>& v)
+template<typename T> void vec_spetial_clear(xr_vector<T>& v)
 {
     typename xr_vector<T>::iterator i = v.begin(), e = v.end();
     for (; i != e; ++i)

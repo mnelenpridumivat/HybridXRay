@@ -22,15 +22,15 @@ public:
     virtual ~CDbgLuaHelper();
 
     // debugger functions
-    int  PrepareLua(lua_State*);
-    void UnPrepareLua(lua_State*, int);
-    void PrepareLuaBind();
+    int              PrepareLua(lua_State*);
+    void             UnPrepareLua(lua_State*, int);
+    void             PrepareLuaBind();
 
-    void       DrawStackTrace();
-    static int OutputTop(lua_State*);
+    void             DrawStackTrace();
+    static int       OutputTop(lua_State*);
 
-    static void hookLua(lua_State*, lua_Debug*);
-    static int  hookLuaBind(lua_State*);
+    static void      hookLua(lua_State*, lua_Debug*);
+    static int       hookLuaBind(lua_State*);
 
     static int       errormessageLua(lua_State*);
     static void      errormessageLuaBind(lua_State*);
@@ -44,11 +44,10 @@ public:
     {
         return m_debugger;
     }
-
 protected:
     CScriptDebugger*      m_debugger;
     static CDbgLuaHelper* m_pThis;
 
-    static lua_State* L;
-    lua_Debug*        m_pAr;
+    static lua_State*     L;
+    lua_Debug*            m_pAr;
 };

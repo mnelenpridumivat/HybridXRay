@@ -18,11 +18,9 @@ class CSpaceRestrictorWrapper
 {
 private:
     friend struct border_merge_predicate;
-
 public:
     typedef CSE_ALifeSpaceRestrictor object_type;
     typedef xr_vector<u32>           BORDER;
-
 private:
     object_type*  m_object;
     CLevelGraph*  m_level_graph;
@@ -30,7 +28,6 @@ private:
     BORDER        m_border;
     BORDER        m_internal;
     Fmatrix       m_xform;
-
 private:
     void             clear();
     void             fill_shape(const CShapeData::shape_def& data);
@@ -40,7 +37,6 @@ private:
     bool             inside(u32 level_vertex_id, bool partially_inside, float radius = EPS_L) const;
     IC CLevelGraph&  level_graph() const;
     IC CGraphEngine& graph_engine() const;
-
 public:
     CSpaceRestrictorWrapper(CSE_ALifeSpaceRestrictor* object);
     IC object_type& object() const;

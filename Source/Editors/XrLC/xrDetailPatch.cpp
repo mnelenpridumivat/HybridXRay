@@ -53,10 +53,10 @@ void LightPatch(Fcolor& C, Fvector& P, float scale)
 
 extern xr_vector<DetailPatch> g_pathes;
 
-float g_merge_limit = 6.f;
+float                         g_merge_limit = 6.f;
 
-Fvector sort_key;
-IC bool sort_pred(const DetailPatch& P1, const DetailPatch& P2)
+Fvector                       sort_key;
+IC bool                       sort_pred(const DetailPatch& P1, const DetailPatch& P2)
 {
     float d1 = sort_key.distance_to_sqr(P1.P);
     float d2 = sort_key.distance_to_sqr(P2.P);

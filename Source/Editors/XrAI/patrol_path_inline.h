@@ -18,7 +18,7 @@ IC const CPatrolPath::CVertex* CPatrolPath::point(shared_str name) const
     return (0);
 }
 
-template <typename T>
+template<typename T>
 IC const CPatrolPath::CVertex* CPatrolPath::point(const Fvector& position, const T& evaluator) const
 {
     const CPatrolPath::CVertex* nearest       = 0;

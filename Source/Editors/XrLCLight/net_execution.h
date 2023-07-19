@@ -11,13 +11,12 @@ namespace lc_net
     class net_execution
     {
         u32 _id;
-
     public:
         u32 id() const
         {
             return _id;
         }
-        virtual u32 type() = 0;
+        virtual u32    type()                                                                 = 0;
 
         virtual void   send_task(IGridUser& user, IGenericStream* outStream, u32 id)          = 0;
         virtual void   receive_result(IGenericStream* outStream)                              = 0;
@@ -28,7 +27,6 @@ namespace lc_net
 
         net_execution(u32 id): _id(id) {}
         virtual ~net_execution(){};
-
     private:
     };
 
@@ -43,17 +41,15 @@ namespace lc_net
         et_last
     };
 
-    template <execution_types etype> class tnet_execution_base: public net_execution
+    template<execution_types etype> class tnet_execution_base: public net_execution
     {
     public:
         static const execution_types class_type = etype;
         class net_execution_impl;
-
     public:
         tnet_execution_base(u32 id): net_execution(id) {}
 
         virtual net_execution_impl& implementation() = 0;
-
     private:
         virtual u32 type()
         {
@@ -61,6 +57,6 @@ namespace lc_net
         }
     };
 
-    template <execution_types ie, e_net_globals ig> struct add_global;
+    template<execution_types ie, e_net_globals ig> struct add_global;
 };   // namespace lc_net
 #endif

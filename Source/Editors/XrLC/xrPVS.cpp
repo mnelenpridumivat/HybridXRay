@@ -2,27 +2,27 @@
 #include "build.h"
 #include "xrOcclusion.h"
 
-typedef xr_vector<u16> vecW;
-typedef vecW::iterator vecW_IT;
+typedef xr_vector<u16>                            vecW;
+typedef vecW::iterator                            vecW_IT;
 
-typedef xr_vector<BOOL> vecB;
-typedef vecB::iterator  vecB_IT;
+typedef xr_vector<BOOL>                           vecB;
+typedef vecB::iterator                            vecB_IT;
 
 typedef xr_multimap<u32, u32>                     treeCompress;
 typedef treeCompress::iterator                    treeCompressIt;
 typedef treeCompress::value_type                  treeCompressType;
 typedef std::pair<treeCompressIt, treeCompressIt> treeCompressPair;
 
-xr_vector<vecW> g_pvs;
+xr_vector<vecW>                                   g_pvs;
 
-treeCompress g_compress_tree;
+treeCompress                                      g_compress_tree;
 
-vecW g_selected;
-vecB g_result;
+vecW                                              g_selected;
+vecB                                              g_result;
 
-u32 g_pvs_X, g_pvs_Y, g_pvs_Z;
+u32                                               g_pvs_X, g_pvs_Y, g_pvs_Z;
 
-int CompressSelected()
+int                                               CompressSelected()
 {
     if (g_selected.size() > 1)
     {

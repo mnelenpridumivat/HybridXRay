@@ -14,7 +14,7 @@
 #include <mmsystem.h>
 #include "spawn_patcher.h"
 
-extern LPCSTR LEVEL_GRAPH_NAME;
+extern LPCSTR        LEVEL_GRAPH_NAME;
 
 extern void          xrCompiler(LPCSTR name, bool draft_mode, bool pure_covers, LPCSTR out_name);
 extern void          logThread(void* dummy);
@@ -26,10 +26,10 @@ extern void          test_goap();
 extern void          smart_cover(LPCSTR name);
 extern void          verify_level_graph(LPCSTR name, bool verbose);
 // extern void connectivity_test	(LPCSTR);
-extern void compare_graphs(LPCSTR level_name);
-extern void test_levels();
+extern void          compare_graphs(LPCSTR level_name);
+extern void          test_levels();
 
-static const char* h_str =
+static const char*   h_str =
     "The following keys are supported / required:\n"
     "-? or -h   == this help\n"
     "-f<NAME>   == compile level in gamedata/levels/<NAME>/\n"
@@ -43,15 +43,15 @@ void Help()
     MessageBox(0, h_str, "Command line options", MB_OK | MB_ICONINFORMATION);
 }
 
-string_path INI_FILE;
+string_path   INI_FILE;
 
-extern HWND logWindow;
+extern HWND   logWindow;
 
 extern LPCSTR GAME_CONFIG;
 
-extern void clear_temp_folder();
+extern void   clear_temp_folder();
 
-void execute(LPSTR cmd)
+void          execute(LPSTR cmd)
 {
     // Load project
     string4096 name;
@@ -181,7 +181,7 @@ void Startup(LPSTR lpCmdLine)
 #include "quadtree.h"
 #include "XrSEFactoryManager.h"
 
-void buffer_vector_test();
+void         buffer_vector_test();
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {

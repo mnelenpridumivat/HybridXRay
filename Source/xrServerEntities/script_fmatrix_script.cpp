@@ -37,7 +37,7 @@ void CScriptFmatrix::script_register(lua_State* L)
                .def(
                    "set",
                    (Fmatrix &
-                    (Fmatrix::*)(const Fvector&, const Fvector&, const Fvector&, const Fvector&))(&Fmatrix::set),
+                       (Fmatrix::*)(const Fvector&, const Fvector&, const Fvector&, const Fvector&))(&Fmatrix::set),
                    return_reference_to(_1))
                .def("identity", &Fmatrix::identity, return_reference_to(_1))
                .def("mk_xform", &Fmatrix::mk_xform, return_reference_to(_1))
@@ -117,11 +117,11 @@ void CScriptFmatrix::script_register(lua_State* L)
                //			.def("getHPB",						(void	   (Fmatrix::*)(Fvector &)
                //const)(&Fmatrix::getHPB), out_value(_2))
                .def("getHPB", &get_matrix_hpb)
-           //			.def("getXYZ",						(void	   (Fmatrix::*)(Fvector &) const)(&Fmatrix::getXYZ),
-           // out_value(_2)) 			.def("getXYZ",						(void	   (Fmatrix::*)(float &, float &, float
-           // &) const)(&Fmatrix::getXYZ)) 			.def("getXYZi",						(void	   (Fmatrix::*)(Fvector
-           // &) const)(&Fmatrix::getXYZi), out_value(_2))
-           //			.def("getXYZi",						(void	   (Fmatrix::*)(float &, float &, float &)
-           // const)(&Fmatrix::getXYZi))
+        //			.def("getXYZ",						(void	   (Fmatrix::*)(Fvector &) const)(&Fmatrix::getXYZ),
+        // out_value(_2)) 			.def("getXYZ",						(void	   (Fmatrix::*)(float &, float &, float
+        // &) const)(&Fmatrix::getXYZ)) 			.def("getXYZi",						(void	   (Fmatrix::*)(Fvector
+        // &) const)(&Fmatrix::getXYZi), out_value(_2))
+        //			.def("getXYZi",						(void	   (Fmatrix::*)(float &, float &, float &)
+        // const)(&Fmatrix::getXYZi))
     ];
 }

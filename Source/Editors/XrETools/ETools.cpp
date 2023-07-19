@@ -2,7 +2,7 @@
 #include "ETools.h"
 #include "xrXRC.h"
 auto __vsnprintf = _vsnprintf;
-#pragma warning(disable : 4267)
+#pragma warning(disable:4267)
 
 namespace ETOOLS
 {

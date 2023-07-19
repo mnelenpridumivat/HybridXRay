@@ -15,7 +15,6 @@ class CScriptIniFile: public CInifile
 {
 protected:
     typedef CInifile inherited;
-
 public:
     CScriptIniFile(IReader* F, LPCSTR path = 0);
     CScriptIniFile(LPCSTR szFileName, BOOL ReadOnly = TRUE, BOOL bLoadAtStart = TRUE, BOOL SaveAtEnd = TRUE);

@@ -9,7 +9,7 @@
 #include "net_task.h"
 extern void Jitter_Select(Fvector2*& Jitter, u32& Jcount);
 
-void CDeflector::L_Direct_Edge(
+void        CDeflector::L_Direct_Edge(
     CDB::COLLIDER* DB,
     base_lighting* LightsSelected,
     Fvector2&      p1,
@@ -25,7 +25,7 @@ void CDeflector::L_Direct_Edge(
 
     lm_layer& lm = layer;
 
-    Fvector2 size;
+    Fvector2  size;
     size.x    = p2.x - p1.x;
     size.y    = p2.y - p1.y;
     int du    = iCeil(_abs(size.x) / texel_size);
@@ -76,7 +76,7 @@ void CDeflector::L_Direct(CDB::COLLIDER* DB, base_lighting* LightsSelected, HASH
     lm_layer& lm = layer;
 
     // Setup variables
-    Fvector2 dim, half;
+    Fvector2  dim, half;
     dim.set(float(lm.width), float(lm.height));
     half.set(.5f / dim.x, .5f / dim.y);
 
@@ -109,13 +109,13 @@ void CDeflector::L_Direct(CDB::COLLIDER* DB, base_lighting* LightsSelected, HASH
                 {
                     // LUMEL space
                     Fvector2 P;
-                    P.x = float(U) / dim.x + half.x + Jitter[J].x * JS.x;
-                    P.y = float(V) / dim.y + half.y + Jitter[J].y * JS.y;
+                    P.x                      = float(U) / dim.x + half.x + Jitter[J].x * JS.x;
+                    P.y                      = float(V) / dim.y + half.y + Jitter[J].y * JS.y;
 
                     xr_vector<UVtri*>& space = H.query(P.x, P.y);
 
                     // World space
-                    Fvector wP, wN, B;
+                    Fvector            wP, wN, B;
                     for (UVtri** it = &*space.begin(); it != &*space.end(); it++)
                     {
                         if ((*it)->isInside(P, B))

@@ -7,7 +7,7 @@ static xr_vector<unsigned int>       mender_in_out_indices;
 static xr_vector<unsigned int>       mender_mapping_out_to_in_vert;
 void                                 remove_isolated_verts(vecOGF_V& vertices, vecOGF_F& faces);
 // Calculate T&B
-void OGF::CalculateTB()
+void                                 OGF::CalculateTB()
 {
     remove_isolated_verts(data.vertices, data.faces);
     // ************************************* Declare inputs

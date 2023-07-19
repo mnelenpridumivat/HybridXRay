@@ -12,7 +12,7 @@
 
 CDB::MODEL* RCAST_Model = 0;
 
-IC bool FaceEqual(Face& F1, Face& F2)
+IC bool     FaceEqual(Face& F1, Face& F2)
 {
     // Test for 6 variations
     if ((F1.v[0] == F2.v[0]) && (F1.v[1] == F2.v[1]) && (F1.v[2] == F2.v[2]))
@@ -128,7 +128,7 @@ void CBuild::BuildRapid(BOOL bSaveForOtherCompilers)
     // save source SMF
     string_path fn;
 
-    bool keep_temp_files = !!strstr(Core.Params, "-keep_temp_files");
+    bool        keep_temp_files = !!strstr(Core.Params, "-keep_temp_files");
     if (g_params().m_quality != ebqDraft)
     {
         if (keep_temp_files)
@@ -139,7 +139,7 @@ void CBuild::BuildRapid(BOOL bSaveForOtherCompilers)
     if (bSaveForOtherCompilers)
     {
         Status("Saving...");
-        string_path fn;
+        string_path          fn;
 
         IWriter*             MFS = FS.w_open(strconcat(sizeof(fn), fn, pBuild->path, "build.cform"));
         xr_vector<b_rc_face> rc_faces;

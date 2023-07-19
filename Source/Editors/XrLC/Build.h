@@ -30,9 +30,9 @@ extern "C" XRLC_LIGHT_API xrLC_GlobalData* lc_global_data();
 //////////////////////////////////////////////////////////////////////////
 // tesselator callbacks
 
-typedef int  tesscb_estimator(const Face* F);   // -1 = none, 0,1,2 = edge-number
-typedef void tesscb_face(Face* F);              // new face
-typedef void tesscb_vertex(Vertex* V);          // new vertex
+typedef int                                tesscb_estimator(const Face* F);   // -1 = none, 0,1,2 = edge-number
+typedef void                               tesscb_face(Face* F);              // new face
+typedef void                               tesscb_vertex(Vertex* V);          // new vertex
 
 class base_lighting;
 class INetReader;
@@ -40,20 +40,20 @@ class INetReader;
 class CBuild
 {
 public:
-    CMemoryWriter& err_invalid();
-    CMemoryWriter& err_tjunction();
-    CMemoryWriter& err_multiedge();
-    void           err_save();
+    CMemoryWriter&              err_invalid();
+    CMemoryWriter&              err_tjunction();
+    CMemoryWriter&              err_multiedge();
+    void                        err_save();
 
-    Fbox                       scene_bb;
-    xr_vector<b_shader>        shader_render;
-    xr_vector<b_shader>        shader_compile;
-    xr_vector<b_light_dynamic> L_dynamic;
-    xr_vector<b_glow>          glows;
-    xr_vector<b_portal>        portals;
-    xr_vector<b_lod>           lods;
-    string_path                path;
-    xr_vector<LPCSTR>          g_Shaders;
+    Fbox                        scene_bb;
+    xr_vector<b_shader>         shader_render;
+    xr_vector<b_shader>         shader_compile;
+    xr_vector<b_light_dynamic>  L_dynamic;
+    xr_vector<b_glow>           glows;
+    xr_vector<b_portal>         portals;
+    xr_vector<b_lod>            lods;
+    string_path                 path;
+    xr_vector<LPCSTR>           g_Shaders;
 
     xr_vector<b_material>&      materials();
     xr_vector<b_BuildTexture>&  textures();
@@ -61,11 +61,10 @@ public:
     xr_vector<xrMU_Model*>&     mu_models();
     xr_vector<xrMU_Reference*>& mu_refs();
 
-    Shader_xrLC_LIB& shaders();
+    Shader_xrLC_LIB&            shaders();
 
-    void mem_Compact();
-    void mem_CompactSubdivs();
-
+    void                        mem_Compact();
+    void                        mem_CompactSubdivs();
 public:
     void Load(const b_params& P, const IReader& fs);
     void Run(LPCSTR path);

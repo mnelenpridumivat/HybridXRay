@@ -3,13 +3,13 @@
 #include "cl_intersect.h"
 
 // MagicFM
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include "../FreeMagic/MgcAppr3DPlaneFit.h"
-#pragma warning(default : 4995)
+#pragma warning(default:4995)
 
 const float RCAST_DepthValid = 0.2f;
 
-IC void BoxQuery(Fbox& BB, bool exact)
+IC void     BoxQuery(Fbox& BB, bool exact)
 {
     if (exact)
         XRC.box_options(CDB::OPT_FULL_TEST);
@@ -81,9 +81,9 @@ BOOL ValidNode(vertex& N)
     Fvector P, D, PLP;
     D.set(0, -1, 0);
 
-    float coeff = 0.5f * g_params.fPatchSize / float(RCAST_Count);
+    float coeff              = 0.5f * g_params.fPatchSize / float(RCAST_Count);
 
-    int num_successed_rays = 0;
+    int   num_successed_rays = 0;
     for (int x = -RCAST_Count; x <= RCAST_Count; x++)
     {
         P.x = N.Pos.x + coeff * float(x);
@@ -92,7 +92,7 @@ BOOL ValidNode(vertex& N)
             P.z = N.Pos.z + coeff * float(z);
             P.y = N.Pos.y;
             N.Plane.intersectRayPoint(P, D, PLP);   // "project" position
-            P.y = PLP.y + RCAST_DepthValid / 2;
+            P.y                 = PLP.y + RCAST_DepthValid / 2;
 
             float tri_min_range = flt_max;
             int   tri_selected  = -1;
@@ -149,7 +149,7 @@ void xrSmoothNodes()
         {
             bool bCorner = false;
 
-            c = 1;
+            c            = 1;
             N.PointLF(REF);
             P1.set(REF);
             if (N.nLeft() != InvalidNode)
@@ -175,7 +175,7 @@ void xrSmoothNodes()
                 merge(P1);
                 if ((!bCorner) && (F.nLeft() != InvalidNode))
                 {
-                    bCorner = true;
+                    bCorner   = true;
 
                     vertex& C = g_nodes[F.nLeft()];
                     C.PointRB(P);
@@ -190,7 +190,7 @@ void xrSmoothNodes()
         {
             bool bCorner = false;
 
-            c = 1;
+            c            = 1;
             N.PointFR(REF);
             P2.set(REF);
             if (N.nForward() != InvalidNode)
@@ -216,7 +216,7 @@ void xrSmoothNodes()
                 merge(P2);
                 if ((!bCorner) && (R.nForward() != InvalidNode))
                 {
-                    bCorner = true;
+                    bCorner   = true;
 
                     vertex& C = g_nodes[R.nForward()];
                     C.PointBL(P);
@@ -231,7 +231,7 @@ void xrSmoothNodes()
         {
             bool bCorner = false;
 
-            c = 1;
+            c            = 1;
             N.PointRB(REF);
             P3.set(REF);
             if (N.nRight() != InvalidNode)
@@ -257,7 +257,7 @@ void xrSmoothNodes()
                 merge(P3);
                 if ((!bCorner) && (B.nRight() != InvalidNode))
                 {
-                    bCorner = true;
+                    bCorner   = true;
 
                     vertex& C = g_nodes[B.nRight()];
                     C.PointLF(P);
@@ -272,7 +272,7 @@ void xrSmoothNodes()
         {
             bool bCorner = false;
 
-            c = 1;
+            c            = 1;
             N.PointBL(REF);
             P4.set(REF);
             if (N.nBack() != InvalidNode)
@@ -298,7 +298,7 @@ void xrSmoothNodes()
                 merge(P4);
                 if ((!bCorner) && (L.nBack() != InvalidNode))
                 {
-                    bCorner = true;
+                    bCorner   = true;
 
                     vertex& C = g_nodes[L.nBack()];
                     C.PointFR(P);

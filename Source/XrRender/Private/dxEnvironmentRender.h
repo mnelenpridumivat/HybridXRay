@@ -33,11 +33,11 @@ public:
         // C.r_Sampler_rtf		("s_tonemap",	"$user$tonemap"	);	//. hack
         C.r_dx10Texture("s_tonemap", "$user$tonemap");   //. hack
         C.PassSET_ZB(FALSE, FALSE);
-#else    //	USE_DX10
+#else                                                    //	USE_DX10
         C.r_Sampler_clf("s_sky0", "$null");
         C.r_Sampler_clf("s_sky1", "$null");
         C.r_Sampler_rtf("s_tonemap", "$user$tonemap");   //. hack
-#endif   //	USE_DX10
+#endif                                                   //	USE_DX10
         C.r_End();
     }
 };
@@ -45,13 +45,11 @@ public:
 class dxEnvDescriptorRender: public IEnvDescriptorRender
 {
     friend class dxEnvDescriptorMixerRender;
-
 public:
     virtual void OnDeviceCreate(IEnvDescriptor& owner);
     virtual void OnDeviceDestroy();
 
     virtual void Copy(IEnvDescriptorRender& _in);
-
 private:
     ref_texture sky_texture;
     ref_texture sky_texture_env;
@@ -77,7 +75,7 @@ class dxEnvironmentRender: public IEnvironmentRender
 {
 public:
     dxEnvironmentRender();
-    virtual void Copy(IEnvironmentRender& _in);
+    virtual void                                        Copy(IEnvironmentRender& _in);
 
     virtual void                                        OnFrame(IEnvironment& env);
     virtual void                                        OnLoad();
@@ -87,18 +85,17 @@ public:
     virtual void                                        OnDeviceCreate();
     virtual void                                        OnDeviceDestroy();
     virtual particles_systems::library_interface const& particles_systems_library();
-
 private:
     CBlender_skybox m_b_skybox;
 
-    ref_shader sh_2sky;
-    ref_geom   sh_2geom;
+    ref_shader      sh_2sky;
+    ref_geom        sh_2geom;
 
-    ref_shader clouds_sh;
-    ref_geom   clouds_geom;
+    ref_shader      clouds_sh;
+    ref_geom        clouds_geom;
 
-    ref_texture tonemap;
-    ref_texture tsky0, tsky1;
+    ref_texture     tonemap;
+    ref_texture     tsky0, tsky1;
 };
 
 #endif   //	EnvironmentRender_included

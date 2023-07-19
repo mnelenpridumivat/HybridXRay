@@ -107,7 +107,7 @@ void dxRenderDeviceRender::SetupStates()
 #if defined(USE_DX10) || defined(USE_DX11)
     //	TODO: DX10: Implement Resetting of render states into default mode
     // VERIFY(!"dxRenderDeviceRender::SetupStates not implemented.");
-#else   //	USE_DX10
+#else    //	USE_DX10
     for (u32 i = 0; i < HW.Caps.raster.dwStages; i++)
     {
         float fBias = -.5f;
@@ -267,8 +267,8 @@ void dxRenderDeviceRender::overdrawEnd()
     // Render gradients
     for (int I = 0; I < 12; I++)
     {
-        u32 _c = I * 256 / 13;
-        u32 c  = D3DCOLOR_XRGB(_c, _c, _c);
+        u32     _c = I * 256 / 13;
+        u32     c  = D3DCOLOR_XRGB(_c, _c, _c);
 
         FVF::TL pv[4];
         pv[0].set(float(0), float(Device->dwHeight), c, 0, 0);
@@ -419,7 +419,7 @@ void dxRenderDeviceRender::End()
     CHK_DX(HW.pDevice->EndScene());
 
     HW.pDevice->Present(NULL, NULL, NULL, NULL);
-#endif   //	USE_DX10
+#endif   //	USE_DX10 \
          // HRESULT _hr		= HW.pDevice->Present( NULL, NULL, NULL, NULL );
     // if				(D3DERR_DEVICELOST==_hr)	return;			// we will handle this later
 #endif

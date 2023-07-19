@@ -14,9 +14,9 @@
 
 #include "StateManager/dx10ShaderResourceStateCache.h"
 
-#define PRIORITY_HIGH 12
+#define PRIORITY_HIGH   12
 #define PRIORITY_NORMAL 8
-#define PRIORITY_LOW 4
+#define PRIORITY_LOW    4
 
 void resptrcode_texture::create(LPCSTR _name)
 {
@@ -152,14 +152,15 @@ void CTexture::ProcessStaging()
     VERIFY(pSurface);
     VERIFY(flags.bLoadedAsStaging);
 
-    ID3DBaseTexture* pTargetSurface = 0;
+    ID3DBaseTexture*       pTargetSurface = 0;
 
     D3D_RESOURCE_DIMENSION type;
     pSurface->GetType(&type);
 
     switch (type)
     {
-        case D3D_RESOURCE_DIMENSION_TEXTURE2D: {
+        case D3D_RESOURCE_DIMENSION_TEXTURE2D:
+        {
             ID3DTexture2D*     T = (ID3DTexture2D*)pSurface;
             D3D_TEXTURE2D_DESC TexDesc;
             T->GetDesc(&TexDesc);
@@ -167,7 +168,7 @@ void CTexture::ProcessStaging()
             TexDesc.BindFlags      = D3D_BIND_SHADER_RESOURCE;
             TexDesc.CPUAccessFlags = 0;
 
-            T = 0;
+            T                      = 0;
 
             CHK_DX(HW.pDevice->CreateTexture2D(
                 &TexDesc,   // Texture desc
@@ -177,7 +178,8 @@ void CTexture::ProcessStaging()
             pTargetSurface = T;
         }
         break;
-        case D3D_RESOURCE_DIMENSION_TEXTURE3D: {
+        case D3D_RESOURCE_DIMENSION_TEXTURE3D:
+        {
             ID3DTexture3D*     T = (ID3DTexture3D*)pSurface;
             D3D_TEXTURE3D_DESC TexDesc;
             T->GetDesc(&TexDesc);
@@ -185,7 +187,7 @@ void CTexture::ProcessStaging()
             TexDesc.BindFlags      = D3D_BIND_SHADER_RESOURCE;
             TexDesc.CPUAccessFlags = 0;
 
-            T = 0;
+            T                      = 0;
 
             CHK_DX(HW.pDevice->CreateTexture3D(
                 &TexDesc,   // Texture desc
@@ -219,8 +221,8 @@ void CTexture::ProcessStaging()
     flags.bLoadedAsStaging = FALSE;
 
     //	Check if texture was not copied _before_ it was converted.
-    ULONG RefCnt = pSurface->Release();
-    pSurface     = 0;
+    ULONG RefCnt           = pSurface->Release();
+    pSurface               = 0;
 
     VERIFY(!RefCnt);
 
@@ -290,7 +292,7 @@ void CTexture::apply_theora(u32 dwStage)
         rect.right  = pTheora->Width(true);
         rect.bottom = pTheora->Height(true);
 
-        u32 _w = pTheora->Width(false);
+        u32 _w      = pTheora->Width(false);
 
         // R_CHK				(T2D->LockRect(0,&R,&rect,0));
 #ifdef USE_DX11
@@ -397,7 +399,7 @@ void CTexture::Load()
 
     Preload();
 
-    bool bCreateView = true;
+    bool        bCreateView = true;
 
     // Check for OGM
     string_path fn;
@@ -418,9 +420,9 @@ void CTexture::Load()
             pTheora->Play(TRUE, Device->dwTimeContinual);
 
             // Now create texture
-            ID3DTexture2D* pTexture = 0;
-            u32            _w       = pTheora->Width(false);
-            u32            _h       = pTheora->Height(false);
+            ID3DTexture2D*     pTexture = 0;
+            u32                _w       = pTheora->Width(false);
+            u32                _h       = pTheora->Height(false);
 
             //			HRESULT hrr = HW.pDevice->CreateTexture(
             //				_w, _h, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &pTexture, NULL );
@@ -438,7 +440,7 @@ void CTexture::Load()
             desc.MiscFlags          = 0;
             HRESULT hrr             = HW.pDevice->CreateTexture2D(&desc, 0, &pTexture);
 
-            pSurface = pTexture;
+            pSurface                = pTexture;
             if (FAILED(hrr))
             {
                 FATAL("Invalid video stream");
@@ -465,10 +467,10 @@ void CTexture::Load()
         }
         else
         {
-            flags.MemoryUsage = pAVI->m_dwWidth * pAVI->m_dwHeight * 4;
+            flags.MemoryUsage           = pAVI->m_dwWidth * pAVI->m_dwHeight * 4;
 
             // Now create texture
-            ID3DTexture2D* pTexture = 0;
+            ID3DTexture2D*     pTexture = 0;
             // HRESULT hrr = HW.pDevice->CreateTexture(
             // pAVI->m_dwWidth,pAVI->m_dwHeight,1,0,D3DFMT_A8R8G8B8,D3DPOOL_MANAGED,
             //	&pTexture,NULL
@@ -487,7 +489,7 @@ void CTexture::Load()
             desc.MiscFlags          = 0;
             HRESULT hrr             = HW.pDevice->CreateTexture2D(&desc, 0, &pTexture);
 
-            pSurface = pTexture;
+            pSurface                = pTexture;
             if (FAILED(hrr))
             {
                 FATAL("Invalid video stream");
@@ -506,7 +508,7 @@ void CTexture::Load()
     {
         // Sequence
         string256 buffer;
-        IReader*  _fs = FS.r_open(fn);
+        IReader*  _fs   = FS.r_open(fn);
 
         flags.seqCycles = FALSE;
         _fs->r_string(buffer, sizeof(buffer));
@@ -543,7 +545,7 @@ void CTexture::Load()
     else
     {
         // Normal texture
-        u32 mem = 0;
+        u32 mem  = 0;
         // pSurface = ::RImplementation.texture_load	(*cName,mem);
         pSurface = ::RImplementation.texture_load(*cName, mem, true);
 
@@ -627,7 +629,8 @@ D3D_USAGE CTexture::GetUsage()
         pSurface->GetType(&type);
         switch (type)
         {
-            case D3D_RESOURCE_DIMENSION_TEXTURE1D: {
+            case D3D_RESOURCE_DIMENSION_TEXTURE1D:
+            {
                 ID3DTexture1D*     T = (ID3DTexture1D*)pSurface;
                 D3D_TEXTURE1D_DESC descr;
                 T->GetDesc(&descr);
@@ -635,7 +638,8 @@ D3D_USAGE CTexture::GetUsage()
             }
             break;
 
-            case D3D_RESOURCE_DIMENSION_TEXTURE2D: {
+            case D3D_RESOURCE_DIMENSION_TEXTURE2D:
+            {
                 ID3DTexture2D*     T = (ID3DTexture2D*)pSurface;
                 D3D_TEXTURE2D_DESC descr;
                 T->GetDesc(&descr);
@@ -643,7 +647,8 @@ D3D_USAGE CTexture::GetUsage()
             }
             break;
 
-            case D3D_RESOURCE_DIMENSION_TEXTURE3D: {
+            case D3D_RESOURCE_DIMENSION_TEXTURE3D:
+            {
                 ID3DTexture3D*     T = (ID3DTexture3D*)pSurface;
                 D3D_TEXTURE3D_DESC descr;
                 T->GetDesc(&descr);

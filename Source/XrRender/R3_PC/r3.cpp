@@ -22,9 +22,9 @@ class CGlow: public IRender_Glow
 {
 public:
     bool bActive;
-
 public:
-    CGlow(): bActive(false) {}
+    CGlow():
+        bActive(false) {}
     virtual void set_active(bool b)
     {
         bActive = b;
@@ -41,7 +41,7 @@ public:
     virtual void set_color(float r, float g, float b) {}
 };
 
-float r_dtex_range = 50.f;
+float          r_dtex_range = 50.f;
 //////////////////////////////////////////////////////////////////////////
 ShaderElement* CRender::rimp_select_sh_dynamic(dxRender_Visual* pVisual, float cdist_sq)
 {
@@ -125,12 +125,12 @@ extern ENGINE_API BOOL r2_sun_static;
 extern ENGINE_API BOOL r2_advanced_pp;   //	advanced post process and effects
 //////////////////////////////////////////////////////////////////////////
 // Just two static storage
-void CRender::create()
+void                   CRender::create()
 {
     Device->seqFrame.Add(this, REG_PRIORITY_HIGH + 0x12345678);
 
-    m_skinning   = -1;
-    m_MSAASample = -1;
+    m_skinning    = -1;
+    m_MSAASample  = -1;
 
     // hardware
     o.smapsize    = 2048;
@@ -141,7 +141,7 @@ void CRender::create()
     //	DX10 disabled
     // D3DFORMAT	nullrt	= (D3DFORMAT)MAKEFOURCC('N','U','L','L');
     // o.nullrt			= HW.support	(nullrt,			D3DRTYPE_SURFACE, D3DUSAGE_RENDERTARGET);
-    o.nullrt = false;
+    o.nullrt      = false;
     /*
     if (o.nullrt)		{
     Msg				("* NULLRT supported and used");
@@ -167,7 +167,8 @@ void CRender::create()
                 case 0x194:
                 case 0x197:
                 case 0x19D:
-                case 0x19E: {
+                case 0x19E:
+                {
                     disable_nullrt = true;   // G80
                     break;
                 }
@@ -178,7 +179,8 @@ void CRender::create()
                 case 0x404:
                 case 0x405:
                 case 0x40E:
-                case 0x40F: {
+                case 0x40F:
+                {
                     disable_nullrt = true;   // G84
                     break;
                 }
@@ -189,7 +191,8 @@ void CRender::create()
                 case 0x424:
                 case 0x42D:
                 case 0x42E:
-                case 0x42F: {
+                case 0x42F:
+                {
                     disable_nullrt = true;   // G86
                     break;
                 }
@@ -205,8 +208,8 @@ void CRender::create()
     o.HW_smap_FETCH4 = FALSE;
     //	DX10 disabled
     // o.HW_smap			= HW.support	(D3DFMT_D24X8,			D3DRTYPE_TEXTURE,D3DUSAGE_DEPTHSTENCIL);
-    o.HW_smap     = true;
-    o.HW_smap_PCF = o.HW_smap;
+    o.HW_smap        = true;
+    o.HW_smap_PCF    = o.HW_smap;
     if (o.HW_smap)
     {
         //	For ATI it's much faster on DX10 to use D32F format
@@ -289,8 +292,8 @@ void CRender::create()
     }
 
     // options
-    o.bug       = (strstr(Core.Params, "-bug")) ? TRUE : FALSE;
-    o.sunfilter = (strstr(Core.Params, "-sunfilter")) ? TRUE : FALSE;
+    o.bug                = (strstr(Core.Params, "-bug")) ? TRUE : FALSE;
+    o.sunfilter          = (strstr(Core.Params, "-sunfilter")) ? TRUE : FALSE;
     //.	o.sunstatic			= (strstr(Core.Params,"-sunstatic"))?	TRUE	:FALSE	;
     o.sunstatic          = r2_sun_static;
     o.advancedpp         = r2_advanced_pp;
@@ -305,14 +308,14 @@ void CRender::create()
     o.disasm             = (strstr(Core.Params, "-disasm")) ? TRUE : FALSE;
     o.forceskinw         = (strstr(Core.Params, "-skinw")) ? TRUE : FALSE;
 
-    o.ssao_blur_on   = ps_r2_ls_flags_ext.test(R2FLAGEXT_SSAO_BLUR) && (ps_r_ssao != 0);
-    o.ssao_opt_data  = ps_r2_ls_flags_ext.test(R2FLAGEXT_SSAO_OPT_DATA) && (ps_r_ssao != 0);
-    o.ssao_half_data = ps_r2_ls_flags_ext.test(R2FLAGEXT_SSAO_HALF_DATA) && o.ssao_opt_data && (ps_r_ssao != 0);
-    o.ssao_hdao      = ps_r2_ls_flags_ext.test(R2FLAGEXT_SSAO_HDAO) && (ps_r_ssao != 0);
-    o.ssao_hbao      = !o.ssao_hdao && ps_r2_ls_flags_ext.test(R2FLAGEXT_SSAO_HBAO) && (ps_r_ssao != 0);
+    o.ssao_blur_on       = ps_r2_ls_flags_ext.test(R2FLAGEXT_SSAO_BLUR) && (ps_r_ssao != 0);
+    o.ssao_opt_data      = ps_r2_ls_flags_ext.test(R2FLAGEXT_SSAO_OPT_DATA) && (ps_r_ssao != 0);
+    o.ssao_half_data     = ps_r2_ls_flags_ext.test(R2FLAGEXT_SSAO_HALF_DATA) && o.ssao_opt_data && (ps_r_ssao != 0);
+    o.ssao_hdao          = ps_r2_ls_flags_ext.test(R2FLAGEXT_SSAO_HDAO) && (ps_r_ssao != 0);
+    o.ssao_hbao          = !o.ssao_hdao && ps_r2_ls_flags_ext.test(R2FLAGEXT_SSAO_HBAO) && (ps_r_ssao != 0);
 
     //	TODO: fix hbao shader to allow to perform per-subsample effect!
-    o.hbao_vectorized = false;
+    o.hbao_vectorized    = false;
     if (o.ssao_hdao)
         o.ssao_opt_data = false;
     else if (o.ssao_hbao)
@@ -322,19 +325,19 @@ void CRender::create()
         o.ssao_opt_data = true;
     }
 
-    o.dx10_sm4_1 = ps_r2_ls_flags.test((u32)R3FLAG_USE_DX10_1);
-    o.dx10_sm4_1 = o.dx10_sm4_1 && (HW.pDevice1 != 0);
+    o.dx10_sm4_1        = ps_r2_ls_flags.test((u32)R3FLAG_USE_DX10_1);
+    o.dx10_sm4_1        = o.dx10_sm4_1 && (HW.pDevice1 != 0);
 
     //	MSAA option dependencies
 
     o.dx10_msaa         = !!ps_r3_msaa;
     o.dx10_msaa_samples = (1 << ps_r3_msaa);
 
-    o.dx10_msaa_opt = ps_r2_ls_flags.test(R3FLAG_MSAA_OPT);
-    o.dx10_msaa_opt = o.dx10_msaa_opt && o.dx10_msaa && (HW.pDevice1 != 0);
+    o.dx10_msaa_opt     = ps_r2_ls_flags.test(R3FLAG_MSAA_OPT);
+    o.dx10_msaa_opt     = o.dx10_msaa_opt && o.dx10_msaa && (HW.pDevice1 != 0);
 
     // o.dx10_msaa_hybrid	= ps_r2_ls_flags.test(R3FLAG_MSAA_HYBRID);
-    o.dx10_msaa_hybrid = ps_r2_ls_flags.test((u32)R3FLAG_USE_DX10_1);
+    o.dx10_msaa_hybrid  = ps_r2_ls_flags.test((u32)R3FLAG_USE_DX10_1);
     o.dx10_msaa_hybrid &= !o.dx10_msaa_opt && o.dx10_msaa && (HW.pDevice1 != 0);
 
     //	Allow alpha test MSAA for DX10.0
@@ -361,7 +364,7 @@ void CRender::create()
         }
     }
 
-    o.dx10_gbuffer_opt = ps_r2_ls_flags.test(R3FLAG_GBUFFER_OPT);
+    o.dx10_gbuffer_opt                    = ps_r2_ls_flags.test(R3FLAG_GBUFFER_OPT);
 
     o.dx10_minmax_sm                      = ps_r3_minmax_sm;
     o.dx10_minmax_sm_screenarea_threshold = 1600 * 1200;
@@ -377,7 +380,7 @@ void CRender::create()
                 o.dx10_minmax_sm = MMSM_AUTO;
             else if (ps_r_sun_shafts >= 2)
             {
-                o.dx10_minmax_sm = MMSM_AUTODETECT;
+                o.dx10_minmax_sm                      = MMSM_AUTODETECT;
                 //	Check resolution in runtime in use_minmax_sm_this_frame
                 o.dx10_minmax_sm_screenarea_threshold = 1600 * 1200;
             }
@@ -388,7 +391,7 @@ void CRender::create()
         {
             if ((ps_r_sun_shafts >= 2))
             {
-                o.dx10_minmax_sm = MMSM_AUTODETECT;
+                o.dx10_minmax_sm                      = MMSM_AUTODETECT;
                 //	Check resolution in runtime in use_minmax_sm_this_frame
                 o.dx10_minmax_sm_screenarea_threshold = 1280 * 1024;
             }
@@ -406,14 +409,14 @@ void CRender::create()
     dxRenderDeviceRender::Instance().Resources->RegisterConstantSetup(
         "pos_decompression_params2", &binder_pos_decompress_params2);
 
-    c_lmaterial = "L_material";
-    c_sbase     = "s_base";
+    c_lmaterial    = "L_material";
+    c_sbase        = "s_base";
 
     m_bMakeAsyncSS = false;
 
-    Target = xr_new<CRenderTarget>();   // Main target
+    Target         = xr_new<CRenderTarget>();   // Main target
 
-    Models = xr_new<CModelPool>();
+    Models         = xr_new<CModelPool>();
     PSLibrary.OnCreate();
     HWOCC.occq_create(occq_size);
 
@@ -805,7 +808,8 @@ void CRender::rmNormal()
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
-CRender::CRender(): m_bFirstFrameAfterReset(false)
+CRender::CRender():
+    m_bFirstFrameAfterReset(false)
 {
     init_cacades();
 }
@@ -1001,9 +1005,8 @@ static HRESULT create_shader(
         string_path dname;
         strconcat(
             sizeof(dname), dname, "disasm\\", file_name,
-            ('v' == pTarget[0])     ? ".vs" :
-                ('p' == pTarget[0]) ? ".ps" :
-                                      ".gs");
+            ('v' == pTarget[0]) ? ".vs" : ('p' == pTarget[0]) ? ".ps"
+                                                              : ".gs");
         IWriter* W = FS.w_open("$logs$", dname);
         W->w(disasm->GetBufferPointer(), (u32)disasm->GetBufferSize());
         FS.w_close(W);
@@ -1072,8 +1075,8 @@ HRESULT CRender::shader_compile(
     char             c_ssao[32];
     char             c_sun_quality[32];
 
-    char sh_name[MAX_PATH] = "";
-    u32  len               = 0;
+    char             sh_name[MAX_PATH] = "";
+    u32              len               = 0;
     // options
     {
         xr_sprintf(c_smapsize, "%04d", u32(o.smapsize));
@@ -1565,25 +1568,25 @@ HRESULT CRender::shader_compile(
             if (HW.pDevice1 == 0)
                 pTarget = D3D10GetVertexShaderProfile(HW.pDevice);   // vertex	"vs_4_0"; //
             else
-                pTarget = "vs_4_1";   // pixel	"ps_4_0"; //
+                pTarget = "vs_4_1";                                  // pixel	"ps_4_0"; //
         }
         else if ('p' == pTarget[0])
         {
             if (HW.pDevice1 == 0)
                 pTarget = D3D10GetPixelShaderProfile(HW.pDevice);   // pixel	"ps_4_0"; //
             else
-                pTarget = "ps_4_1";   // pixel	"ps_4_0"; //
+                pTarget = "ps_4_1";                                 // pixel	"ps_4_0"; //
         }
         else if ('g' == pTarget[0])
         {
             if (HW.pDevice1 == 0)
                 pTarget = D3D10GetGeometryShaderProfile(HW.pDevice);   // geometry	"gs_4_0"; //
             else
-                pTarget = "gs_4_1";   // pixel	"ps_4_0"; //
+                pTarget = "gs_4_1";                                    // pixel	"ps_4_0"; //
         }
     }
 
-    HRESULT _result = E_FAIL;
+    HRESULT     _result = E_FAIL;
 
     string_path folder_name, folder;
     xr_strcpy(folder, "r3\\objects\\r3\\");
@@ -1650,7 +1653,7 @@ HRESULT CRender::shader_compile(
 
         if (SUCCEEDED(_result))
         {
-            IWriter* file = FS.w_open(file_name);
+            IWriter*           file = FS.w_open(file_name);
 
             boost::crc_32_type processor;
             processor.process_block(
@@ -1714,17 +1717,17 @@ static inline bool match_shader_id(
 	return						false;
 #else   // #if 1
 #ifdef DEBUG
-    LPCSTR temp = "";
-    bool found = false;
-    FS_FileSet::const_iterator i = file_set.begin();
-    FS_FileSet::const_iterator const e = file_set.end();
+    LPCSTR                           temp  = "";
+    bool                             found = false;
+    FS_FileSet::const_iterator       i     = file_set.begin();
+    FS_FileSet::const_iterator const e     = file_set.end();
     for (; i != e; ++i)
     {
         if (match_shader(debug_shader_id, full_shader_id, (*i).name.c_str(), (*i).name.size()))
         {
             VERIFY(!found);
             found = true;
-            temp = (*i).name.c_str();
+            temp  = (*i).name.c_str();
         }
     }
 

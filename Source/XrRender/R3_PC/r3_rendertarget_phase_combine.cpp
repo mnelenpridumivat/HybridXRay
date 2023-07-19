@@ -12,7 +12,7 @@ void CRenderTarget::DoAsyncScreenshot()
     //	TODO: fox that later
     if (RImplementation.m_bMakeAsyncSS)
     {
-        HRESULT hr;
+        HRESULT          hr;
 
         //	HACK: unbind RT. CopyResourcess needs src and targetr to be unbound.
         // u_setrt				( Device->dwWidth,Device->dwHeight,HW.pBaseRT,NULL,NULL,HW.pBaseZB);
@@ -41,13 +41,13 @@ void CRenderTarget::phase_combine()
     PIX_EVENT(phase_combine);
 
     //	TODO: DX10: Remove half poxel offset
-    bool _menu_pp = g_pGamePersistent ? g_pGamePersistent->OnRenderPPUI_query() : false;
+    bool     _menu_pp = g_pGamePersistent ? g_pGamePersistent->OnRenderPPUI_query() : false;
 
-    u32      Offset = 0;
+    u32      Offset   = 0;
     Fvector2 p0, p1;
 
     //*** exposure-pipeline
-    u32 gpu_id = Device->dwFrame % HW.Caps.iGPUNum;
+    u32      gpu_id = Device->dwFrame % HW.Caps.iGPUNum;
     {
         t_LUM_src->surface_set(rt_LUM_pool[gpu_id * 2 + 0]->pSurface);
         t_LUM_dest->surface_set(rt_LUM_pool[gpu_id * 2 + 1]->pSurface);
@@ -120,7 +120,7 @@ void CRenderTarget::phase_combine()
         static Fmatrix m_saved_viewproj;
 
         // (new-camera) -> (world) -> (old_viewproj)
-        Fmatrix m_invview;
+        Fmatrix        m_invview;
         m_invview.invert(Device->mView);
         m_previous.mul(m_saved_viewproj, m_invview);
         m_current.set(Device->mProject);
@@ -156,7 +156,7 @@ void CRenderTarget::phase_combine()
         envclr.z *= 2 * ps_r2_sun_lumscale_hemi;
         Fvector4 sunclr, sundir;
 
-        float fSSAONoise = 2.0f;
+        float    fSSAONoise = 2.0f;
         fSSAONoise *= tan(deg2rad(67.5f / 2.0f));
         fSSAONoise /= tan(deg2rad(Device->fFOV / 2.0f));
 
@@ -201,11 +201,11 @@ void CRenderTarget::phase_combine()
         */
 
         // Fill VB
-        float scale_X = float(Device->dwWidth) / float(TEX_jitter);
-        float scale_Y = float(Device->dwHeight) / float(TEX_jitter);
+        float    scale_X = float(Device->dwWidth) / float(TEX_jitter);
+        float    scale_Y = float(Device->dwHeight) / float(TEX_jitter);
 
         // Fill vertex buffer
-        FVF::TL* pv = (FVF::TL*)RCache.Vertex.Lock(4, g_combine->vb_stride, Offset);
+        FVF::TL* pv      = (FVF::TL*)RCache.Vertex.Lock(4, g_combine->vb_stride, Offset);
         pv->set(-1, 1, 0, 1, 0, 0, scale_Y);
         pv++;
         pv->set(-1, -1, 0, 0, 0, 0, 0);
@@ -219,8 +219,8 @@ void CRenderTarget::phase_combine()
         dxEnvDescriptorMixerRender& envdescren = *(dxEnvDescriptorMixerRender*)(&*envdesc.m_pDescriptorMixer);
 
         // Setup textures
-        ID3DBaseTexture* e0 = _menu_pp ? 0 : envdescren.sky_r_textures_env[0].second->surface_get();
-        ID3DBaseTexture* e1 = _menu_pp ? 0 : envdescren.sky_r_textures_env[1].second->surface_get();
+        ID3DBaseTexture*            e0         = _menu_pp ? 0 : envdescren.sky_r_textures_env[0].second->surface_get();
+        ID3DBaseTexture*            e1         = _menu_pp ? 0 : envdescren.sky_r_textures_env[1].second->surface_get();
         t_envmap_0->surface_set(e0);
         _RELEASE(e0);
         t_envmap_1->surface_set(e1);
@@ -274,7 +274,7 @@ void CRenderTarget::phase_combine()
     {
         PIX_EVENT(Forward_rendering);
         if (!RImplementation.o.dx10_msaa)
-            u_setrt(rt_Generic_0, 0, 0, HW.pBaseZB);   // LDR RT
+            u_setrt(rt_Generic_0, 0, 0, HW.pBaseZB);                                     // LDR RT
         else
             u_setrt(rt_Generic_0_r, 0, 0, RImplementation.Target->rt_MSAADepth->pZRT);   // LDR RT
         RCache.set_CullMode(CULL_CCW);
@@ -647,11 +647,11 @@ void CRenderTarget::phase_combine_volumetric()
     RCache.set_ColorWriteEnable(D3DCOLORWRITEENABLE_RED | D3DCOLORWRITEENABLE_GREEN | D3DCOLORWRITEENABLE_BLUE);
     {
         // Fill VB
-        float scale_X = float(Device->dwWidth) / float(TEX_jitter);
-        float scale_Y = float(Device->dwHeight) / float(TEX_jitter);
+        float    scale_X = float(Device->dwWidth) / float(TEX_jitter);
+        float    scale_Y = float(Device->dwHeight) / float(TEX_jitter);
 
         // Fill vertex buffer
-        FVF::TL* pv = (FVF::TL*)RCache.Vertex.Lock(4, g_combine->vb_stride, Offset);
+        FVF::TL* pv      = (FVF::TL*)RCache.Vertex.Lock(4, g_combine->vb_stride, Offset);
         pv->set(-1, 1, 0, 1, 0, 0, scale_Y);
         pv++;
         pv->set(-1, -1, 0, 0, 0, 0, 0);

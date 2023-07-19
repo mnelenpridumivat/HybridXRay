@@ -1,8 +1,8 @@
 ﻿#pragma once
 
-template <u32 range> struct fixed16
+template<u32 range> struct fixed16
 {
-    s16 _value;
+    s16  _value;
 
     void _w(float a)
     {

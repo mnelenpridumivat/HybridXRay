@@ -9,8 +9,8 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-int rsDVB_Size = 512 + 1024;
-int rsDIB_Size = 512;
+int  rsDVB_Size = 512 + 1024;
+int  rsDIB_Size = 512;
 
 void _VertexStream::Create()
 {
@@ -67,11 +67,11 @@ void* _VertexStream::Lock(u32 vl_Count, u32 Stride, u32& vOffset)
         make_string("bytes_need = %d, mSize = %d, vl_Count = %d", bytes_need, mSize, vl_Count));
 
     // Vertex-local info
-    u32 vl_mSize     = mSize / Stride;
-    u32 vl_mPosition = mPosition / Stride + 1;
+    u32   vl_mSize     = mSize / Stride;
+    u32   vl_mPosition = mPosition / Stride + 1;
 
     // Check if there is need to flush and perform lock
-    BYTE* pData = 0;
+    BYTE* pData        = 0;
     if ((vl_Count + vl_mPosition) >= vl_mSize)
     {
         // FLUSH-LOCK
@@ -86,7 +86,7 @@ void* _VertexStream::Lock(u32 vl_Count, u32 Stride, u32& vOffset)
 #elif defined(USE_DX10)
         pVB->Map(D3D_MAP_WRITE_DISCARD, 0, (void**)&pData);
         pData += vOffset;
-#else   //	USE_DX10
+#else    //	USE_DX10
         HRESULT res = pVB->Lock(mPosition, bytes_need, (void**)&pData, LOCKFLAGS_FLUSH);
 
         if (res != D3D_OK)
@@ -108,7 +108,7 @@ void* _VertexStream::Lock(u32 vl_Count, u32 Stride, u32& vOffset)
 #elif defined(USE_DX10)
         pVB->Map(D3D_MAP_WRITE_NO_OVERWRITE, 0, (void**)&pData);
         pData += vOffset * Stride;
-#else   //	USE_DX10
+#else    //	USE_DX10
         HRESULT res = pVB->Lock(mPosition, bytes_need, (void**)&pData, LOCKFLAGS_APPEND);
 
         if (res != D3D_OK)

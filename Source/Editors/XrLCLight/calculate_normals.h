@@ -4,23 +4,21 @@
 #include "itterate_adjacents_static.h"
 #include "../XrECore/Editor/itterate_adjacents.h"
 
-template <typename typeVertex> class calculate_normals
+template<typename typeVertex> class calculate_normals
 {
     typedef typeVertex                     type_vertex;
     typedef calculate_normals<typeVertex>  type_self;
     typedef typename typeVertex::type_face type_face;
     // these typedefs to hide global typedefs!!!
-    typedef xr_vector<type_vertex*>      vecVertex;
-    typedef typename vecVertex::iterator vecVertexIt;
-    typedef xr_vector<type_face*>        vecFace;
-    typedef typename vecFace::iterator   vecFaceIt;
+    typedef xr_vector<type_vertex*>        vecVertex;
+    typedef typename vecVertex::iterator   vecVertexIt;
+    typedef xr_vector<type_face*>          vecFace;
+    typedef typename vecFace::iterator     vecFaceIt;
 
-    typedef vecFace                   vecAdj;
-    typedef typename vecAdj::iterator vecAdjIt;
-
+    typedef vecFace                        vecAdj;
+    typedef typename vecAdj::iterator      vecAdjIt;
 private:
     typedef itterate_adjacents<itterate_adjacents_params_static<type_vertex>> itterate_adjacents_type;
-
 public:
     static void calc_normals(vecVertex& vertices, vecFace& faces)
     {

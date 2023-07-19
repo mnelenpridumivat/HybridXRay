@@ -4,7 +4,7 @@
 #include "OGF_Face.h"
 xr_vector<CSector*> g_sectors;
 
-void CBuild::BuildSectors()
+void                CBuild::BuildSectors()
 {
     Status("Determining sectors...");
     Progress(0);

@@ -30,11 +30,10 @@ private:
     occTri* bufFrame[occ_dim][occ_dim];
     float   bufDepth[occ_dim][occ_dim];
 
-    occD bufDepth_0[occ_dim_0][occ_dim_0];
-    occD bufDepth_1[occ_dim_1][occ_dim_1];
-    occD bufDepth_2[occ_dim_2][occ_dim_2];
-    occD bufDepth_3[occ_dim_3][occ_dim_3];
-
+    occD    bufDepth_0[occ_dim_0][occ_dim_0];
+    occD    bufDepth_1[occ_dim_1][occ_dim_1];
+    occD    bufDepth_2[occ_dim_2][occ_dim_2];
+    occD    bufDepth_3[occ_dim_3][occ_dim_3];
 public:
     IC int df_2_s32(float d)
     {
@@ -61,10 +60,10 @@ public:
         return float(d) / occQ_s16;
     }
 
-    void clear();
-    void propagade();
-    u32  rasterize(occTri* T);
-    BOOL test(float x0, float y0, float x1, float y1, float z);
+    void     clear();
+    void     propagade();
+    u32      rasterize(occTri* T);
+    BOOL     test(float x0, float y0, float x1, float y1, float z);
 
     occTri** get_frame()
     {

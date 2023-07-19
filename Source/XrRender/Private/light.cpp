@@ -20,12 +20,12 @@ light::light(void): ISpatial(g_SpatialSpace)
     cone  = deg2rad(60.f);
     color.set(1, 1, 1, 1);
 
-    m_volumetric_quality = 1;
+    m_volumetric_quality   = 1;
     // m_volumetric_quality	= 0.5;
     m_volumetric_intensity = 1;
     m_volumetric_distance  = 1;
 
-    frame_render = 0;
+    frame_render           = 0;
 
 #if (RENDER == R_R2) || (RENDER == R_R3) || (RENDER == R_R4)
     ZeroMemory(omnipart, sizeof(omnipart));
@@ -100,7 +100,8 @@ void light::set_texture(LPCSTR name)
 #endif
 
 #if RENDER == R_R1
-void light::set_texture(LPCSTR name) {}
+void light::set_texture(LPCSTR name)
+{}
 #endif
 
 void light::set_active(bool a)
@@ -173,11 +174,13 @@ void light::spatial_move()
     switch (flags.type)
     {
         case IRender_Light::REFLECTED:
-        case IRender_Light::POINT: {
+        case IRender_Light::POINT:
+        {
             spatial.sphere.set(position, range);
         }
         break;
-        case IRender_Light::SPOT: {
+        case IRender_Light::SPOT:
+        {
             // minimal enclosing sphere around cone
             VERIFY2(cone < deg2rad(121.f), "Too large light-cone angle. Maybe you have passed it in 'degrees'?");
             if (cone >= PI_DIV_2)
@@ -194,7 +197,8 @@ void light::spatial_move()
             }
         }
         break;
-        case IRender_Light::OMNIPART: {
+        case IRender_Light::OMNIPART:
+        {
             // is it optimal? seems to be...
             // spatial.sphere.P.mad		(position,direction,range);
             // spatial.sphere.R			= range;
@@ -288,7 +292,8 @@ void light::xform_calc()
     switch (flags.type)
     {
         case IRender_Light::REFLECTED:
-        case IRender_Light::POINT: {
+        case IRender_Light::POINT:
+        {
             // scale of identity sphere
             float   L_R = range;
             Fmatrix mScale;
@@ -296,7 +301,8 @@ void light::xform_calc()
             m_xform.mul_43(mR, mScale);
         }
         break;
-        case IRender_Light::SPOT: {
+        case IRender_Light::SPOT:
+        {
             // scale to account range and angle
             float   s = 2.f * range * tanf(cone / 2.f);
             Fmatrix mScale;
@@ -304,7 +310,8 @@ void light::xform_calc()
             m_xform.mul_43(mR, mScale);
         }
         break;
-        case IRender_Light::OMNIPART: {
+        case IRender_Light::OMNIPART:
+        {
             float   L_R = 2 * range;   // volume is half-radius
             Fmatrix mScale;
             mScale.scale(L_R, L_R, L_R);
@@ -329,7 +336,8 @@ void light::export_(light_Package& package)
     {
         switch (flags.type)
         {
-            case IRender_Light::POINT: {
+            case IRender_Light::POINT:
+            {
                 // tough: create/update 6 shadowed lights
                 if (0 == omnipart[0])
                     for (int f = 0; f < 6; f++)

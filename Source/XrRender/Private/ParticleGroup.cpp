@@ -112,8 +112,8 @@ BOOL CPGDef::Load2(CInifile& ini)
         (*it)->m_OnBirthChildName = ini.r_string(buff, "on_birth_child");
         (*it)->m_OnDeadChildName  = ini.r_string(buff, "on_death_child");
 
-        (*it)->m_Time0 = ini.r_float(buff, "time0");
-        (*it)->m_Time1 = ini.r_float(buff, "time1");
+        (*it)->m_Time0            = ini.r_float(buff, "time0");
+        (*it)->m_Time1            = ini.r_float(buff, "time1");
         (*it)->m_Flags.assign(ini.r_u32(buff, "flags"));
     }
     m_fTimeLimit = ini.r_float("_group", "timelimit");

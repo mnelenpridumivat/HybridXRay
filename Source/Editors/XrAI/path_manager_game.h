@@ -10,7 +10,7 @@
 
 #include "game_graph.h"
 
-template <
+template<
     typename _DataStorage,
     typename _Parameters,
     typename _dist_type,
@@ -23,10 +23,8 @@ protected:
     typedef CGameGraph _Graph;
     typedef typename CPathManagerGeneric<_Graph, _DataStorage, _Parameters, _dist_type, _index_type, _iteration_type>
         inherited;
-
 protected:
     const _Graph::CVertex* goal_vertex;
-
 public:
     virtual ~CPathManager();
     IC void setup(
@@ -37,7 +35,7 @@ public:
         const _index_type&      _goal_node_index,
         const _Parameters&      params);
     IC _dist_type
-        evaluate(const _index_type& node_index1, const _index_type& node_index2, const _Graph::const_iterator& i) const;
+                  evaluate(const _index_type& node_index1, const _index_type& node_index2, const _Graph::const_iterator& i) const;
     IC _dist_type estimate(const _index_type& node_index) const;
     IC bool       is_limit_reached(const _iteration_type iteration_count) const;
     IC bool       is_accessible(const _index_type& vertex_id) const;

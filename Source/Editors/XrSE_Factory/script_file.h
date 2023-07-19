@@ -20,15 +20,15 @@ public:
     CScriptFile();
     ~CScriptFile();
 
-    void AddDebugLine(int nLine);
-    void RemoveAllDebugLines();
-    void AddBreakPoint(int nLine);
-    void RemoveAllBreakPoints();
+    void        AddDebugLine(int nLine);
+    void        RemoveAllDebugLines();
+    void        AddBreakPoint(int nLine);
+    void        RemoveAllBreakPoints();
 
-    BOOL PositionBreakPoints();
-    int  GetNearestDebugLine(int nLine);
-    int  GetPreviousDebugLine(int nLine);
-    int  GetNextDebugLine(int nLine);
+    BOOL        PositionBreakPoints();
+    int         GetNearestDebugLine(int nLine);
+    int         GetPreviousDebugLine(int nLine);
+    int         GetNextDebugLine(int nLine);
 
     const char* GetName();
 
@@ -41,16 +41,16 @@ public:
     */
 protected:
     //	CString m_strPathName, m_strRelPathName;
-    string_path m_strPathName;
-    string_path m_strRelPathName;
+    string_path                         m_strPathName;
+    string_path                         m_strRelPathName;
     //	CMap<int, int, BOOL, BOOL> m_breakPoints;
-    xr_map<int, BOOL> m_breakPoints;
-    int               m_nMinBreakPoint;
-    int               m_nMaxBreakPoint;
+    xr_map<int, BOOL>                   m_breakPoints;
+    int                                 m_nMinBreakPoint;
+    int                                 m_nMaxBreakPoint;
     //	CMap<int, int, BOOL, BOOL> m_debugLines;
-    xr_map<int, BOOL> m_debugLines;
-    int               m_nMinDebugLine;
-    int               m_nMaxDebugLine;
+    xr_map<int, BOOL>                   m_debugLines;
+    int                                 m_nMinDebugLine;
+    int                                 m_nMaxDebugLine;
     //	SYSTEMTIME	m_timeCompiled;
 
     typedef xr_map<int, BOOL>::iterator uniIt;

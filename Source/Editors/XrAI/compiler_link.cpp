@@ -21,7 +21,7 @@ void xrConvertAndLink()
 
     for (u32 it = 0; it < g_merged.size(); it++)
     {
-        NodeMerged& N = g_merged[it];
+        NodeMerged&        N = g_merged[it];
 
         // build node
         xr_vector<Fvector> points;

@@ -120,7 +120,7 @@ CSCompiler& CSCompiler::defSampler(LPCSTR ResourceName, const D3D_SAMPLER_DESC& 
     return *this;
 }
 
-void fix_texture_name(LPSTR);
+void        fix_texture_name(LPSTR);
 
 CSCompiler& CSCompiler::defOutput(LPCSTR ResourceName, ref_rt rt)
 {
@@ -194,10 +194,10 @@ void CSCompiler::compile(const char* name)
     R_ASSERT2(file, cname);
 
     // Select target
-    LPCSTR c_target = "cs_5_0";
-    LPCSTR c_entry  = "main";
+    LPCSTR        c_target = "cs_5_0";
+    LPCSTR        c_entry  = "main";
 
-    HRESULT const _hr = ::Render->shader_compile(
+    HRESULT const _hr      = ::Render->shader_compile(
         name, (DWORD const*)file->pointer(), file->length(), c_entry, c_target, D3D10_SHADER_PACK_MATRIX_ROW_MAJOR,
         (void*&)m_cs);
 

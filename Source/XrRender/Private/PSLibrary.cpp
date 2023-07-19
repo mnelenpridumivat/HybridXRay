@@ -159,7 +159,7 @@ bool CPSLibrary::Load2()
     FS_FileSet::iterator it   = files.begin();
     FS_FileSet::iterator it_e = files.end();
 
-    string_path p_path, p_name, p_ext;
+    string_path          p_path, p_name, p_ext;
     for (; it != it_e; ++it)
     {
         const FS_File& f = (*it);

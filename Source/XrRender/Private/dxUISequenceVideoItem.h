@@ -35,7 +35,6 @@ public:
     {
         m_texture->video_Stop();
     };
-
 private:
     CTexture* m_texture;
 };

@@ -22,11 +22,11 @@ IDirect3DStateBlock9* SimulatorStates::record()
             case 1:
                 CHK_DX(HW.pDevice->SetTextureStageState(S.v1, (D3DTEXTURESTAGESTATETYPE)S.v2, S.v3));
                 break;
-            case 2: {
+            case 2:
+            {
                 CHK_DX(HW.pDevice->SetSamplerState(
                     S.v1, (D3DSAMPLERSTATETYPE)S.v2,
-                    ((D3DSAMPLERSTATETYPE)S.v2 == D3DSAMP_MAGFILTER && S.v3 == D3DTEXF_ANISOTROPIC) ? D3DTEXF_LINEAR :
-                                                                                                      S.v3));
+                    ((D3DSAMPLERSTATETYPE)S.v2 == D3DSAMP_MAGFILTER && S.v3 == D3DTEXF_ANISOTROPIC) ? D3DTEXF_LINEAR : S.v3));
             }
             break;
         }
@@ -540,7 +540,8 @@ void SimulatorStates::UpdateDesc(
                     break;
 
                 //	FLOAT BorderColor[4];
-                case D3DSAMP_BORDERCOLOR: {
+                case D3DSAMP_BORDERCOLOR:
+                {
                     desc.BorderColor[0] = ((S.v3 >> 16) & 0xff) / 255.0f;
                     desc.BorderColor[1] = ((S.v3 >> 8) & 0xff) / 255.0f;
                     desc.BorderColor[2] = ((S.v3) & 0xff) / 255.0f;

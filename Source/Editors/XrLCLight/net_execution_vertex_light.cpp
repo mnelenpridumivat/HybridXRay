@@ -57,8 +57,8 @@ namespace lc_net
         u8              buff[send_receive_result_buffer_size];
         INetBlockReader r(outStream, buff, sizeof(buff));
         // INetReaderGenStream r(outStream);
-        u32 _start = r.r_u32();
-        u32 _end   = r.r_u32();
+        u32             _start = r.r_u32();
+        u32             _end   = r.r_u32();
         VERIFY(_start == start);
         VERIFY(_end == end);
         for (u32 i = start; i < end; ++i)
@@ -91,7 +91,7 @@ namespace lc_net
     {
         for (u32 i = start; i < end; ++i)
         {
-            Vertex* V = lc_global_data()->g_vertices()[i];
+            Vertex*      V = lc_global_data()->g_vertices()[i];
 
             base_color_c vC, old;
             V->C._get(old);

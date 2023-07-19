@@ -8,22 +8,22 @@
 #include "cover_point.h"
 #include "../../xrEngine/object_broker.h"
 
-Shader_xrLC_LIB*           g_shaders_xrlc;
-xr_vector<b_material>      g_materials;
-xr_vector<b_shader>        g_shader_render;
-xr_vector<b_shader>        g_shader_compile;
-xr_vector<b_BuildTexture>* g_textures = nullptr;
-xr_vector<b_rc_face>       g_rc_faces;
+Shader_xrLC_LIB*                g_shaders_xrlc;
+xr_vector<b_material>           g_materials;
+xr_vector<b_shader>             g_shader_render;
+xr_vector<b_shader>             g_shader_compile;
+xr_vector<b_BuildTexture>*      g_textures = nullptr;
+xr_vector<b_rc_face>            g_rc_faces;
 
-typedef xr_vector<bool> COVER_NODES;
-COVER_NODES             g_cover_nodes;
+typedef xr_vector<bool>         COVER_NODES;
+COVER_NODES                     g_cover_nodes;
 
 typedef CQuadTree<CCoverPoint>  CPointQuadTree;
 static CPointQuadTree*          g_covers = 0;
 typedef xr_vector<CCoverPoint*> COVERS;
 
 // -------------------------------- Ray pick
-typedef Fvector RayCache[3];
+typedef Fvector                 RayCache[3];
 
 /*
 IC bool RayPick(CDB::COLLIDER* DB, Fvector& P, Fvector& D, float r, RayCache& C)
@@ -52,7 +52,7 @@ IC bool RayPick(CDB::COLLIDER* DB, Fvector& P, Fvector& D, float r, RayCache& C)
 }
 */
 
-IC float getLastRP_Scale(CDB::COLLIDER* DB, RayCache& C)
+IC float                        getLastRP_Scale(CDB::COLLIDER* DB, RayCache& C)
 {
     u32     tris_count = DB->r_count();
     float   scale      = 1.f;
@@ -97,8 +97,8 @@ IC float getLastRP_Scale(CDB::COLLIDER* DB, RayCache& C)
             // calc UV
             Fvector2* cuv = F.t;
             Fvector2  uv;
-            uv.x = cuv[0].x * B.x + cuv[1].x * B.y + cuv[2].x * B.z;
-            uv.y = cuv[0].y * B.x + cuv[1].y * B.y + cuv[2].y * B.z;
+            uv.x  = cuv[0].x * B.x + cuv[1].x * B.y + cuv[2].x * B.z;
+            uv.y  = cuv[0].y * B.x + cuv[1].y * B.y + cuv[2].y * B.z;
 
             int U = iFloor(uv.x * float(T.dwWidth) + .5f);
             int V = iFloor(uv.y * float(T.dwHeight) + .5f);
@@ -272,9 +272,9 @@ class CoverThread: public CThread
     Query         Q;
 
     typedef float Cover[4];
-
 public:
-    CoverThread(u32 ID, u32 _start, u32 _end): CThread(ID)
+    CoverThread(u32 ID, u32 _start, u32 _end):
+        CThread(ID)
     {
         Nstart = _start;
         Nend   = _end;
@@ -397,7 +397,7 @@ bool critical_point(const vertex& v, u32 index, u32 index0, u32 index1)
     return (
         !valid_vertex_id(v.n[index]) &&
         (!valid_vertex_id(v.n[index0]) || !valid_vertex_id(v.n[index1]) || cover(v, index0, index) ||
-         cover(v, index1, index)));
+            cover(v, index1, index)));
 }
 
 bool is_cover(const vertex& v)
@@ -409,7 +409,7 @@ bool is_cover(const vertex& v)
 
 extern float CalculateHeight(Fbox& BB);
 
-void compute_cover_nodes()
+void         compute_cover_nodes()
 {
     Fbox aabb;
     CalculateHeight(aabb);
@@ -444,7 +444,7 @@ bool vertex_in_direction(const u32& start_vertex_id, const u32& target_vertex_id
     dest.set(finish_position.x, finish_position.z);
     dir.sub(dest, start);
     Fvector2 temp;
-    temp = start;
+    temp          = start;
 
     float cur_sqr = _sqr(temp.x - dest.x) + _sqr(temp.y - dest.y);
     for (;;)
@@ -499,7 +499,7 @@ void compute_non_covers()
         Fbox aabb;
         CalculateHeight(aabb);
         VERIFY(!g_covers);
-        g_covers = xr_new<CPointQuadTree>(aabb, g_params.fPatchSize * .5f, 8 * 65536, 4 * 65536);
+        g_covers                = xr_new<CPointQuadTree>(aabb, g_params.fPatchSize * .5f, 8 * 65536, 4 * 65536);
 
         Nodes::iterator       B = g_nodes.begin(), I = B;
         Nodes::iterator       E = g_nodes.end();
@@ -525,9 +525,9 @@ void compute_non_covers()
     typedef xr_vector<COVER_PAIR>          COVER_PAIRS;
     COVER_PAIRS                            cover_pairs;
 
-    Nodes::iterator       B = g_nodes.begin(), I = B;
-    Nodes::iterator       E = g_nodes.end();
-    COVER_NODES::iterator J = g_cover_nodes.begin();
+    Nodes::iterator                        B = g_nodes.begin(), I = B;
+    Nodes::iterator                        E = g_nodes.end();
+    COVER_NODES::iterator                  J = g_cover_nodes.begin();
     for (; I != E; ++I, ++J)
     {
         if (*J)

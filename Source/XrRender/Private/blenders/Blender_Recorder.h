@@ -13,20 +13,19 @@
 class CBlender_Compile
 {
 public:
-    sh_list L_textures;
-    sh_list L_constants;
-    sh_list L_matrices;
+    sh_list           L_textures;
+    sh_list           L_constants;
+    sh_list           L_matrices;
 
     LPCSTR            detail_texture;
     R_constant_setup* detail_scaler;
 
-    BOOL bEditor;
-    BOOL bDetail;
-    BOOL bDetail_Diffuse;
-    BOOL bDetail_Bump;
-    BOOL bUseSteepParallax;
-    int  iElement;
-
+    BOOL              bEditor;
+    BOOL              bDetail;
+    BOOL              bDetail_Diffuse;
+    BOOL              bDetail_Bump;
+    BOOL              bUseSteepParallax;
+    int               iElement;
 public:
     CSimulator     RS;
     IBlender*      BT;
@@ -41,18 +40,17 @@ public:
     };
     u32 TessMethod;
 #endif
-
 private:
     SPass            dest;
     R_constant_table ctable;
 
-    STextureList  passTextures;
-    SMatrixList   passMatrices;
-    SConstantList passConstants;
-    u32           dwStage;
+    STextureList     passTextures;
+    SMatrixList      passMatrices;
+    SConstantList    passConstants;
+    u32              dwStage;
 
-    string128 pass_vs;
-    string128 pass_ps;
+    string128        pass_vs;
+    string128        pass_ps;
 #if defined(USE_DX10) || defined(USE_DX11)
     string128 pass_gs;
 #ifdef USE_DX11
@@ -66,7 +64,6 @@ private:
     {
         return v ? 0x01 : 0;
     }
-
 public:
     CSimulator& R()
     {

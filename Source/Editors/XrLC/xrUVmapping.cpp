@@ -23,7 +23,7 @@ void Face::OA_Unwarp()
 
 extern void Detach(vecFace* S);
 
-void CBuild::BuildUVmap()
+void        CBuild::BuildUVmap()
 {
     // Take a copy of g_XSplit;
     g_XMerge = g_XSplit;

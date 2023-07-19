@@ -179,10 +179,10 @@ void CLightmap::Save(LPCSTR path)
         string_path FN;
         xr_sprintf(lm_texture.name, "lmap#%d", lmapNameID);
         xr_sprintf(FN, "%s%s_1.dds", path, lm_texture.name);
-        BYTE* raw_data = LPBYTE(&*lm_packed.begin());
-        u32   w        = lm_texture.dwWidth;    // lm.width;
-        u32   h        = lm_texture.dwHeight;   // lm.height;
-        u32   pitch    = w * 4;
+        BYTE*          raw_data = LPBYTE(&*lm_packed.begin());
+        u32            w        = lm_texture.dwWidth;    // lm.width;
+        u32            h        = lm_texture.dwHeight;   // lm.height;
+        u32            pitch    = w * 4;
 
         STextureParams fmt;
         fmt.fmt = STextureParams::tfDXT5;
@@ -192,16 +192,16 @@ void CLightmap::Save(LPCSTR path)
         DXTCompress(FN, raw_data, 0, w, h, pitch, &fmt, 4);
     }
     lm_packed.clear_and_free();
-    Status("Compression hemi...");   //.
+    Status("Compression hemi...");                 //.
     {
-        u32 w     = lm_texture.dwWidth;    // lm.width;
-        u32 h     = lm_texture.dwHeight;   // lm.height;
-        u32 pitch = w * 4;
+        u32         w     = lm_texture.dwWidth;    // lm.width;
+        u32         h     = lm_texture.dwHeight;   // lm.height;
+        u32         pitch = w * 4;
 
         string_path FN;
         xr_sprintf(lm_texture.name, "lmap#%d", lmapNameID);
         xr_sprintf(FN, "%s%s_2.dds", path, lm_texture.name);
-        BYTE* raw_data = LPBYTE(&*hemi_packed.begin());
+        BYTE*          raw_data = LPBYTE(&*hemi_packed.begin());
 
         STextureParams fmt;
         fmt.fmt = STextureParams::tfDXT5;

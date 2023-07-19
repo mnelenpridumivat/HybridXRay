@@ -28,7 +28,7 @@
 
 #pragma comment(lib, "xrCore.lib")
 
-extern CSE_Abstract* F_entity_Create(LPCSTR section);
+extern CSE_Abstract*                F_entity_Create(LPCSTR section);
 
 extern CScriptPropertiesListHelper* g_property_list_helper;
 

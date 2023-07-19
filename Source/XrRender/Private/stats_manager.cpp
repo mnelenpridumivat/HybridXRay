@@ -204,13 +204,15 @@ u32 get_format_pixel_size(D3DFORMAT format)
 {
     switch (format)
     {
-        case D3DFMT_A32B32G32R32F: {
+        case D3DFMT_A32B32G32R32F:
+        {
             return 16;
         }
 
         case D3DFMT_A16B16G16R16:
         case D3DFMT_A16B16G16R16F:
-        case D3DFMT_G32R32F: {
+        case D3DFMT_G32R32F:
+        {
             return 8;
         }
         case D3DFMT_A8R8G8B8:
@@ -225,7 +227,8 @@ u32 get_format_pixel_size(D3DFORMAT format)
         case D3DFMT_D24X8:
         case D3DFMT_D24X4S4:
         case D3DFMT_G16R16F:
-        case D3DFMT_R32F: {
+        case D3DFMT_R32F:
+        {
             return 4;
         }
 
@@ -235,7 +238,8 @@ u32 get_format_pixel_size(D3DFORMAT format)
         case D3DFMT_D16_LOCKABLE:
         case D3DFMT_D15S1:
         case D3DFMT_D16:
-        case D3DFMT_R16F: {
+        case D3DFMT_R16F:
+        {
             return 2;
         }
 

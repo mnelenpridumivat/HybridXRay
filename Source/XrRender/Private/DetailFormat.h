@@ -4,8 +4,8 @@
 #define _DETAIL_FORMAT_H_
 #pragma pack(push, 1)
 
-#define DETAIL_VERSION 3
-#define DETAIL_SLOT_SIZE 2.f
+#define DETAIL_VERSION     3
+#define DETAIL_SLOT_SIZE   2.f
 #define DETAIL_SLOT_SIZE_2 DETAIL_SLOT_SIZE * 0.5f
 
 //	int s_x	= iFloor			(EYE.x/slot_size+.5f)+offs_x;		// [0...size_x)
@@ -56,7 +56,7 @@
     u16*			indices;
 */
 
-#define DO_NO_WAVING 0x0001
+#define DO_NO_WAVING       0x0001
 
 struct DetailHeader
 {
@@ -67,32 +67,30 @@ struct DetailHeader
 };
 struct DetailPalette
 {
-    u16 a0 : 4;
-    u16 a1 : 4;
-    u16 a2 : 4;
-    u16 a3 : 4;
+    u16 a0:4;
+    u16 a1:4;
+    u16 a2:4;
+    u16 a3:4;
 };
-struct DetailSlot   // was(4+4+3*4+2 = 22b), now(8+2*4=16b)
+struct DetailSlot                // was(4+4+3*4+2 = 22b), now(8+2*4=16b)
 {
-    u32           y_base : 12;    // 11	// 1 unit = 20 cm, low = -200m, high = 4096*20cm - 200 = 619.2m
-    u32           y_height : 8;   // 20	// 1 unit = 10 cm, low = 0,     high = 256*10 ~= 25.6m
-    u32           id0 : 6;        // 26	// 0x3F(63) = empty
-    u32           id1 : 6;        // 32	// 0x3F(63) = empty
-    u32           id2 : 6;        // 38	// 0x3F(63) = empty
-    u32           id3 : 6;        // 42	// 0x3F(63) = empty
-    u32           c_dir : 4;      // 48	// 0..1 q
-    u32           c_hemi : 4;     // 52	// 0..1 q
-    u32           c_r : 4;        // 56	// rgb = 4.4.4
-    u32           c_g : 4;        // 60	// rgb = 4.4.4
-    u32           c_b : 4;        // 64	// rgb = 4.4.4
+    u32           y_base  :12;   // 11	// 1 unit = 20 cm, low = -200m, high = 4096*20cm - 200 = 619.2m
+    u32           y_height:8;    // 20	// 1 unit = 10 cm, low = 0,     high = 256*10 ~= 25.6m
+    u32           id0     :6;    // 26	// 0x3F(63) = empty
+    u32           id1     :6;    // 32	// 0x3F(63) = empty
+    u32           id2     :6;    // 38	// 0x3F(63) = empty
+    u32           id3     :6;    // 42	// 0x3F(63) = empty
+    u32           c_dir   :4;    // 48	// 0..1 q
+    u32           c_hemi  :4;    // 52	// 0..1 q
+    u32           c_r     :4;    // 56	// rgb = 4.4.4
+    u32           c_g     :4;    // 60	// rgb = 4.4.4
+    u32           c_b     :4;    // 64	// rgb = 4.4.4
     DetailPalette palette[4];
-
 public:
     enum
     {
         ID_Empty = 0x3f
     };
-
 public:
     void w_y(float base, float height)
     {

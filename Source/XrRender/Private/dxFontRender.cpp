@@ -35,7 +35,7 @@ void                       dxFontRender::OnRender(CGameFont& owner)
     for (u32 i = 0; i < owner.strings.size();)
     {
         // calculate first-fit
-        int count = 1;
+        int count  = 1;
 
         int length = owner.smart_strlen(owner.strings[i].string);
 
@@ -58,13 +58,13 @@ void                       dxFontRender::OnRender(CGameFont& owner)
         FVF::TL* start = v;
 
         // fill vertices
-        u32 last = i + count;
+        u32      last  = i + count;
         for (; i < last; i++)
         {
             CGameFont::String& PS = owner.strings[i];
             wide_char          wsStr[MAX_MB_CHARS];
 
-            int len = owner.IsMultibyte() ? mbhMulti2Wide(wsStr, NULL, MAX_MB_CHARS, PS.string) : xr_strlen(PS.string);
+            int                len = owner.IsMultibyte() ? mbhMulti2Wide(wsStr, NULL, MAX_MB_CHARS, PS.string) : xr_strlen(PS.string);
 
             if (len)
             {
@@ -109,9 +109,9 @@ void                       dxFontRender::OnRender(CGameFont& owner)
                 {
                     Fvector l;
 
-                    l = owner.IsMultibyte() ? owner.GetCharTC(wsStr[1 + j]) : owner.GetCharTC((u16)(u8)PS.string[j]);
+                    l              = owner.IsMultibyte() ? owner.GetCharTC(wsStr[1 + j]) : owner.GetCharTC((u16)(u8)PS.string[j]);
 
-                    float scw = l.z * g_current_font_scale.x;
+                    float scw      = l.z * g_current_font_scale.x;
 
                     float fTCWidth = l.z / owner.vTS.x;
 

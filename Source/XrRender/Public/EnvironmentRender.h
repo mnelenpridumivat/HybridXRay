@@ -17,7 +17,7 @@ public:
     {
         ;
     }
-    virtual void Copy(IEnvDescriptorRender& _in) = 0;
+    virtual void Copy(IEnvDescriptorRender& _in)       = 0;
 
     virtual void OnDeviceCreate(IEnvDescriptor& owner) = 0;
     virtual void OnDeviceDestroy()                     = 0;
@@ -30,7 +30,7 @@ public:
     {
         ;
     }
-    virtual void Copy(IEnvDescriptorMixerRender& _in) = 0;
+    virtual void Copy(IEnvDescriptorMixerRender& _in)                       = 0;
 
     virtual void Destroy()                                                  = 0;
     virtual void Clear()                                                    = 0;

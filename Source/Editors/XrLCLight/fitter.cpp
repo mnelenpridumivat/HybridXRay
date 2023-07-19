@@ -110,7 +110,8 @@ void vfOptimizeParameters(
         std::transform(D.begin(), D.end(), daDelta.begin(), D.begin(), std::plus<REAL>());
         dFunctional = dfComputeEvalResults(daEvalResults, A, B, C, D);
         i++;
-    } while ((((dPreviousFunctional - dFunctional) / dwTestCount) > dEpsilon) && (i <= dwMaxIterationCount));
+    }
+    while ((((dPreviousFunctional - dFunctional) / dwTestCount) > dEpsilon) && (i <= dwMaxIterationCount));
 
     if (dPreviousFunctional < dFunctional)
     {

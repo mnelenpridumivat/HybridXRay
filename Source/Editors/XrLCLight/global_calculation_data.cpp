@@ -9,7 +9,7 @@
 
 global_claculation_data gl_data;
 
-template <class T> void transfer(const char* name, xr_vector<T>& dest, IReader& F, u32 chunk)
+template<class T> void  transfer(const char* name, xr_vector<T>& dest, IReader& F, u32 chunk)
 {
     IReader* O     = F.open_chunk(chunk);
     u32      count = O ? (O->length() / sizeof(T)) : 0;
@@ -54,7 +54,7 @@ void global_claculation_data::xrLoad()
         fs->r(&H, sizeof(hdrCFORM));
         R_ASSERT(CFORM_CURRENT_VERSION == H.version);
 
-        Fvector* verts = (Fvector*)fs->pointer();
+        Fvector*            verts = (Fvector*)fs->pointer();
 
         xr_vector<CDB::TRI> tris(H.facecount);
         {
@@ -115,7 +115,7 @@ void global_claculation_data::xrLoad()
         IReader* F;
 
         // Version
-        u32 version;
+        u32      version;
         fs->r_chunk(EB_Version, &version);
         R_ASSERT(XRCL_CURRENT_VERSION == version);
 

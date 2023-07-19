@@ -12,15 +12,16 @@ struct test_struct
 {
     shared_str a;
 
-    test_struct(): a("unique_string_value") {}
+    test_struct():
+        a("unique_string_value") {}
 };
 
 void buffer_vector_test()
 {
     typedef buffer_vector<test_struct> ContainerType;
     //	typedef buffer_vector<u16>			ContainerType;
-    typedef ContainerType::value_type value_type;
-    ContainerType                     container(_alloca(16 * sizeof(value_type)), 16);
+    typedef ContainerType::value_type  value_type;
+    ContainerType                      container(_alloca(16 * sizeof(value_type)), 16);
     Msg("%s", container.empty() ? "true" : "false");
     Msg("%d", container.size());
 

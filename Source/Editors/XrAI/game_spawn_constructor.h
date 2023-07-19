@@ -25,14 +25,12 @@ class CPatrolPathStorage;
 class CGameSpawnConstructor
 {
     friend class CSpawnMerger;
-
 public:
     typedef SpawnConstructorSpace::LEVEL_POINT_STORAGE                              LEVEL_POINT_STORAGE;
     typedef SpawnConstructorSpace::LEVEL_CHANGER_STORAGE                            LEVEL_CHANGER_STORAGE;
     typedef CGraphAbstractSerialize<CServerEntityWrapper*, float, ALife::_SPAWN_ID> SPAWN_GRAPH;
     typedef xr_vector<CLevelSpawnConstructor*>                                      LEVEL_SPAWN_STORAGE;
     typedef xr_set<CLevelInfo>                                                      LEVEL_INFO_STORAGE;
-
 public:
     struct CSpawnHeader
     {
@@ -42,7 +40,6 @@ public:
         u32    m_spawn_count;
         u32    m_level_count;
     };
-
 private:
     xrCriticalSection     m_critical_section;
     ALife::_SPAWN_ID      m_spawn_id;
@@ -54,22 +51,18 @@ private:
     LEVEL_CHANGER_STORAGE m_level_changers;
     LEVEL_POINT_STORAGE   m_level_points;
     bool                  m_no_separator_check;
-
 private:
     xr_vector<ALife::_SPAWN_ID> m_spawn_roots;
     xr_vector<ALife::_SPAWN_ID> m_temp0;
     xr_vector<ALife::_SPAWN_ID> m_temp1;
-
 private:
     CGameGraph*                m_game_graph;
     SPAWN_GRAPH*               m_spawn_graph;
     CPatrolPathStorage*        m_patrol_path_storage;
     CInifile*                  m_game_info;
     CSE_ALifeCreatureAbstract* m_actor;
-
 private:
     string_path m_game_graph_id;
-
 private:
     IC shared_str   actor_level_name();
     IC shared_str   spawn_name(LPCSTR output);
@@ -83,7 +76,6 @@ private:
     IC ALife::_SPAWN_ID spawn_id();
     IC void             process_spawns(xr_vector<ALife::_SPAWN_ID>& spawns);
     void                process_actor(LPCSTR start_level_name);
-
 public:
     CGameSpawnConstructor(LPCSTR name, LPCSTR output, LPCSTR start, bool no_separator_check);
     virtual ~CGameSpawnConstructor();

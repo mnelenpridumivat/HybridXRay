@@ -29,20 +29,20 @@ void dx10StateManager::Reset()
     m_pDepthStencilState = 0;
     m_pBlendState        = 0;
 
-    m_uiStencilRef = 0;
-    m_uiAlphaRef   = 0;
+    m_uiStencilRef       = 0;
+    m_uiAlphaRef         = 0;
 
-    m_bRSNeedApply  = true;
-    m_bDSSNeedApply = true;
-    m_bBSNeedApply  = true;
+    m_bRSNeedApply       = true;
+    m_bDSSNeedApply      = true;
+    m_bBSNeedApply       = true;
 
-    m_bRSChanged  = false;
-    m_bDSSChanged = false;
-    m_bBSChanged  = false;
+    m_bRSChanged         = false;
+    m_bDSSChanged        = false;
+    m_bBSChanged         = false;
 
-    m_bRDInvalid  = false;
-    m_bDSDInvalid = false;
-    m_bBDInvalid  = false;
+    m_bRDInvalid         = false;
+    m_bDSDInvalid        = false;
+    m_bBDInvalid         = false;
 
     dx10StateUtils::ResetDescription(m_RDesc);
     dx10StateUtils::ResetDescription(m_DSDesc);
@@ -337,9 +337,9 @@ void dx10StateManager::SetColorWriteEnable(u32 WriteMask)
     //	CHK_DX(HW.pDevice->SetRenderState	( D3DRS_COLORWRITEENABLE3,	_mask	));
     // }
 
-    UINT8 WMask = (UINT8)WriteMask;
+    UINT8 WMask       = (UINT8)WriteMask;
 
-    bool bNeedUpdate = false;
+    bool  bNeedUpdate = false;
     for (int i = 0; i < 4; ++i)
     {
 #ifdef USE_DX11

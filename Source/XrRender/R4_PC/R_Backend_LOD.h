@@ -5,7 +5,6 @@ class R_LOD
 {
 public:
     R_constant* c_LOD;
-
 public:
     R_LOD();
 

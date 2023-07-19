@@ -11,9 +11,8 @@ class VBContainer
     xr_vector<xr_vector<BYTE>> vContainers;
 
     // Recording
-    VDeclarator     R_DCL;
-    xr_vector<BYTE> R_DATA;
-
+    VDeclarator                R_DCL;
+    xr_vector<BYTE>            R_DATA;
 public:
     // Constructor & destructor
     VBContainer()
@@ -114,7 +113,6 @@ class IBContainer
     {
         LIMIT = 1024ul * 1024ul
     };
-
 public:
     bool is_empty() const
     {
@@ -157,7 +155,6 @@ public:
 class SWIContainer
 {
     xr_vector<FSlideWindowItem*> data;
-
 public:
     bool is_empty() const
     {
@@ -184,7 +181,7 @@ public:
     }
 };
 
-extern VBContainer g_VB;
+extern VBContainer  g_VB;
 
 extern SWIContainer g_SWI, x_SWI;
 extern VBContainer  g_VB, x_VB;

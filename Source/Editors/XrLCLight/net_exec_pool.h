@@ -19,8 +19,7 @@ namespace lc_net
         CTimer                    start_time;
         task_manager&             _task_manager;
         // IGridUser					*_user;
-        bool _running;
-
+        bool                      _running;
     public:
         ~exec_pool()
         {
@@ -48,15 +47,14 @@ namespace lc_net
         {
             xr_strcpy(_name, name);
         }
-        bool       is_running();
-        exec_pool& run(IGridUser& user, u8 pool_id);
+        bool           is_running();
+        exec_pool&     run(IGridUser& user, u8 pool_id);
 
         void           send_task(IGridUser& user, IGenericStream* outStream, u8 pool_id, u32 id);
         void           receive_result(IGenericStream* inStream);
         void           remove_task(net_execution* e);
         void           send_result(IGenericStream* outStream, net_execution& e);
         net_execution* receive_task(IAgent* agent, DWORD sessionId, IGenericStream* inStream);
-
     private:
     };
 }   // namespace lc_net

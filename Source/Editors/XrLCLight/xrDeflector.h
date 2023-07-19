@@ -22,8 +22,7 @@ public:
     lm_layer           layer;
     Fsphere            Sphere;
 
-    BOOL bMerged;
-
+    BOOL               bMerged;
 public:
     CDeflector();
     // public:
@@ -31,7 +30,7 @@ public:
     ~CDeflector();
     static CDeflector* read_create();
 
-    void OA_SetNormal(Fvector& _N)
+    void               OA_SetNormal(Fvector& _N)
     {
         normal.set(_N);
         normal.normalize();
@@ -64,7 +63,7 @@ public:
     {
         return layer.Area();
     }
-    u16 GetBaseMaterial();
+    u16  GetBaseMaterial();
 
     void Bounds(u32 ID, Fbox2& dest)
     {
@@ -112,14 +111,14 @@ public:
 
 typedef xr_vector<UVtri>::iterator UVIt;
 
-extern XRLC_LIGHT_API void Jitter_Select(Fvector2*& Jitter, u32& Jcount);
-extern void                blit(u32* dest, u32 ds_x, u32 ds_y, u32* src, u32 ss_x, u32 ss_y, u32 px, u32 py, u32 aREF);
+extern XRLC_LIGHT_API void         Jitter_Select(Fvector2*& Jitter, u32& Jcount);
+extern void                        blit(u32* dest, u32 ds_x, u32 ds_y, u32* src, u32 ss_x, u32 ss_y, u32 px, u32 py, u32 aREF);
 extern XRLC_LIGHT_API void
             blit(lm_layer& dst, u32 ds_x, u32 ds_y, lm_layer& src, u32 ss_x, u32 ss_y, u32 px, u32 py, u32 aREF);
 extern void blit_r(u32* dest, u32 ds_x, u32 ds_y, u32* src, u32 ss_x, u32 ss_y, u32 px, u32 py, u32 aREF);
 extern XRLC_LIGHT_API void
-            blit_r(lm_layer& dst, u32 ds_x, u32 ds_y, lm_layer& src, u32 ss_x, u32 ss_y, u32 px, u32 py, u32 aREF);
-extern void lblit(lm_layer& dst, lm_layer& src, u32 px, u32 py, u32 aREF);
+                           blit_r(lm_layer& dst, u32 ds_x, u32 ds_y, lm_layer& src, u32 ss_x, u32 ss_y, u32 px, u32 py, u32 aREF);
+extern void                lblit(lm_layer& dst, lm_layer& src, u32 px, u32 py, u32 aREF);
 extern XRLC_LIGHT_API void LightPoint(
     CDB::COLLIDER* DB,
     CDB::MODEL*    MDL,
@@ -135,13 +134,13 @@ extern XRLC_LIGHT_API void DumpDeflctor(const CDeflector& d);
 extern XRLC_LIGHT_API void DeflectorsStats();
 extern XRLC_LIGHT_API void DumpDeflctor(u32 id);
 
-static const u32 c_LMAP_size = 1024;   // pixels
+static const u32           c_LMAP_size = 1024;   // pixels
 
-#define rms_zero ((4 + g_params().m_lm_rms_zero) / 2)
+#define rms_zero   ((4 + g_params().m_lm_rms_zero) / 2)
 #define rms_shrink ((8 + g_params().m_lm_rms) / 2)
 
 typedef vector_serialize<t_read<CDeflector, get_id_standart<CDeflector>>>  tread_deflectors;
 typedef vector_serialize<t_write<CDeflector, get_id_standart<CDeflector>>> twrite_deflectors;
 
-extern tread_deflectors*  read_deflectors;
-extern twrite_deflectors* write_deflectors;
+extern tread_deflectors*                                                   read_deflectors;
+extern twrite_deflectors*                                                  write_deflectors;

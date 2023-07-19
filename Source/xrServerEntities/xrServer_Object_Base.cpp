@@ -15,7 +15,7 @@
 #include "../../XrEngine/xrISEAbstract.h"
 
 #pragma warning(push)
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include <malloc.h>
 #pragma warning(pop)
 
@@ -175,7 +175,7 @@ CInifile& CSE_Abstract::spawn_ini()
 {
     if (!m_ini_file)
 #pragma warning(push)
-#pragma warning(disable : 4238)
+#pragma warning(disable:4238)
         m_ini_file = xr_new<CInifile>(
             &IReader((void*)(*(m_ini_string)), m_ini_string.size()), FS.get_path("$game_config$")->m_Path);
 #pragma warning(pop)
@@ -243,9 +243,9 @@ void CSE_Abstract::Spawn_Write(NET_Packet& tNetPacket, BOOL bLocal)
 
 static enum EGameTypes
 {
-    GAME_ANY        = 0,
-    GAME_SINGLE     = 1,
-    GAME_DEATHMATCH = 2,
+    GAME_ANY                = 0,
+    GAME_SINGLE             = 1,
+    GAME_DEATHMATCH         = 2,
     //	GAME_CTF = 3,
     //	GAME_ASSAULT = 4,   // Team1 - assaulting, Team0 - Defending
     GAME_CS                 = 5,
@@ -254,7 +254,7 @@ static enum EGameTypes
     GAME_CAPTURETHEARTEFACT = 8,
 
     // identifiers in range [100...254] are registered for script game type
-    GAME_DUMMY = 255   // temporary game type
+    GAME_DUMMY              = 255   // temporary game type
 };
 
 BOOL CSE_Abstract::Spawn_Read(NET_Packet& tNetPacket)
@@ -333,7 +333,7 @@ BOOL CSE_Abstract::Spawn_Read(NET_Packet& tNetPacket)
 
         if (m_wVersion > 83)
         {
-            tNetPacket.r_u32();   // m_spawn_flags.assign(tNetPacket.r_u32());
+            tNetPacket.r_u32();           // m_spawn_flags.assign(tNetPacket.r_u32());
             xr_string temp;
             tNetPacket.r_stringZ(temp);   // tNetPacket.r_stringZ(m_spawn_control);
             tNetPacket.r_u32();           // m_max_spawn_count);
@@ -365,7 +365,7 @@ void CSE_Abstract::load(NET_Packet& tNetPacket)
     if (client_data_size > 0)
     {
 #ifdef DEBUG
-         // Msg("SERVER:loading:load:%d bytes:%d:%s",client_data_size,ID,s_name_replace ? s_name_replace : "");
+        // Msg("SERVER:loading:load:%d bytes:%d:%s",client_data_size,ID,s_name_replace ? s_name_replace : "");
 #endif   // DEBUG
         client_data.resize(client_data_size);
         tNetPacket.r(&*client_data.begin(), client_data_size);
@@ -420,7 +420,8 @@ Flags16& CSE_Abstract::flags()
     return (s_flags);
 }
 
-xr_token game_types[] = {
+xr_token game_types[] =
+{
     {"any_game", eGameIDNoGame},
     {"single", eGameIDSingle},
     {"deathmatch", eGameIDDeathmatch},
@@ -429,7 +430,8 @@ xr_token game_types[] = {
     {"capture_the_artefact", eGameIDCaptureTheArtefact},
     // eGameIDDominationZone
     // eGameIDTeamDominationZone
-    {0, 0}};
+    {0, 0}
+};
 
 #ifndef XRGAME_EXPORTS
 void CSE_Abstract::FillProps(LPCSTR pref, PropItemVec& items)

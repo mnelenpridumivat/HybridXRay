@@ -412,9 +412,9 @@ IC void CLevelGraph::contour(CLevelGraph::SContour& _contour, const CLevelGraph:
     Fvector vertex_position = this->vertex_position(vertex->p);
 
     // decompress plane
-    Fplane plane;
+    Fplane  plane;
     pvDecompress(plane.n, vertex->plane());
-    plane.d = -plane.n.dotproduct(vertex_position);
+    plane.d  = -plane.n.dotproduct(vertex_position);
 
     // create vertices
     float st = header().cell_size() / 2;
@@ -462,7 +462,7 @@ IC void CLevelGraph::nearest(Fvector& destination, const Fvector& position, cons
 
 const float corner_r = 0.05f;
 
-IC bool CLevelGraph::intersect(Fvector& dst, const Fvector& v1, const Fvector& v2, const Fvector& v3, const Fvector& v4)
+IC bool     CLevelGraph::intersect(Fvector& dst, const Fvector& v1, const Fvector& v2, const Fvector& v3, const Fvector& v4)
     const
 {
     // corner check (v4 - end, v1-v2 - segm)
@@ -522,7 +522,7 @@ IC float CLevelGraph::square(float a1, float b1, float fAlpha) const
 }
 
 #define NORMALIZE_NODE_COVER_HIGH(a, b) (float(a->high_cover(b)) / 15.f)
-#define NORMALIZE_NODE_COVER_LOW(a, b) (float(a->low_cover(b)) / 15.f)
+#define NORMALIZE_NODE_COVER_LOW(a, b)  (float(a->low_cover(b)) / 15.f)
 
 IC float CLevelGraph::compute_square(float fAngle, float fAngleOfView, float b1, float b0, float b3, float b2) const
 {
@@ -696,7 +696,7 @@ IC bool CLevelGraph::check_vertex_in_direction(u32 start_vertex_id, const Fvecto
         start_vertex_id, Fvector2().set(start_position.x, start_position.z), finish_vertex_id));
 }
 
-template <class _predicate>
+template<class _predicate>
 float CLevelGraph::vertex_cover_angle(u32 vertex_id, float inc_angle, _predicate compare_predicate) const
 {
     float best_angle = 0.f;

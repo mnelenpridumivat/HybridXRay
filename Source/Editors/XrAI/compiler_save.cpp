@@ -100,7 +100,6 @@ class CNodeRenumberer
     xr_vector<NodeCompressed>& m_nodes;
     xr_vector<u32>&            m_sorted;
     xr_vector<u32>&            m_renumbering;
-
 public:
     CNodeRenumberer(xr_vector<NodeCompressed>& nodes, xr_vector<u32>& sorted, xr_vector<u32>& renumbering):
         m_nodes(nodes), m_sorted(sorted), m_renumbering(renumbering)

@@ -6,7 +6,7 @@
 
 extern HWND logWindow;
 
-int dimX, dimZ;
+int         dimX, dimZ;
 struct Texel
 {
     vertex* N;
@@ -15,13 +15,13 @@ struct Texel
 
 Texel* texels = 0;
 
-float minH = flt_max, maxH = flt_min;
-void  InternalRender()
+float  minH = flt_max, maxH = flt_min;
+void   InternalRender()
 {
     Fvector S, P;
     LevelBB.getsize(S);
-    dimX = iCeil(S.x / g_params.fPatchSize);
-    dimZ = iCeil(S.z / g_params.fPatchSize);
+    dimX      = iCeil(S.x / g_params.fPatchSize);
+    dimZ      = iCeil(S.z / g_params.fPatchSize);
 
     // allocation
     int msize = dimX * dimZ * sizeof(Texel);
@@ -227,9 +227,9 @@ void ShowSubdiv(HWND hw)
             if (T.N)
             {
                 pixel(dc, x, z, RGB(127, 127, 127));
-                vertex& N = *T.N;
+                vertex& N  = *T.N;
 
-                int _x = x * 3, _y = z * 3;
+                int     _x = x * 3, _y = z * 3;
                 if (isBorder(N, 0))
                 {   // left
                     SetPixel(dc, _x, _y + 0, CB);

@@ -42,7 +42,7 @@ namespace lc_net
     static const u32   num_tasks   = 20000;
     static const float f_num_tasks = float(num_tasks);
 
-    static u32 get_next(u32 from, float& f_weight_per_task)
+    static u32         get_next(u32 from, float& f_weight_per_task)
     {
         u32 size = inlc_global_data()->g_deflectors().size();
         R_ASSERT(from < size);
@@ -64,12 +64,12 @@ namespace lc_net
 
     void net_lightmaps_add_all_tasks()
     {
-        u32 stride = u32(-1);
+        u32 stride          = u32(-1);
 
         u32 rest            = u32(-1);
         u32 local_num_tasks = num_tasks;
 
-        u32 size = inlc_global_data()->g_deflectors().size();
+        u32 size            = inlc_global_data()->g_deflectors().size();
 
         get_intervals(num_tasks, size, local_num_tasks, stride, rest);
 
@@ -85,7 +85,7 @@ namespace lc_net
 
         float f_weight = float(total_weight);
 
-        u32 from = 0;
+        u32   from     = 0;
 
         for (;;)
         {

@@ -433,7 +433,7 @@ void CRenderTarget::accum_volumetric(light* L)
 
     //	Calculate camera space AABB
     //	Adjust AABB according to the adjusted distance for the light volume
-    Fbox aabb;
+    Fbox    aabb;
 
     // float	scaledRadius = L->spatial.sphere.R * (1+L->m_volumetric_distance)*0.5f;
     float   scaledRadius = L->spatial.sphere.R * L->m_volumetric_distance;
@@ -467,9 +467,9 @@ void CRenderTarget::accum_volumetric(light* L)
     float fQuality   = L->m_volumetric_quality;
     int   iNumSlises = (int)(VOLUMETRIC_SLICES * fQuality);
     //			min 10 surfaces
-    iNumSlises = _max(10, iNumSlises);
+    iNumSlises       = _max(10, iNumSlises);
     //	Adjust slice intensity
-    fQuality = ((float)iNumSlises) / VOLUMETRIC_SLICES;
+    fQuality         = ((float)iNumSlises) / VOLUMETRIC_SLICES;
     Fvector L_dir, L_clr, L_pos;
     float   L_spec;
     L_clr.set(L->color.r, L->color.g, L->color.b);
@@ -515,7 +515,7 @@ void CRenderTarget::accum_volumetric(light* L)
             else
                 pszSMapName = r2_RT_smap_surf;
             // s_smap
-            STextureList* _T = &*s_accum_volume->E[0]->passes[0]->T;
+            STextureList*          _T   = &*s_accum_volume->E[0]->passes[0]->T;
 
             STextureList::iterator _it  = _T->begin();
             STextureList::iterator _end = _T->end();
@@ -555,7 +555,7 @@ void CRenderTarget::accum_volumetric(light* L)
             // RCache.set_ClipPlanes (TRUE,ClipFrustum.planes,ClipFrustum.p_count);
 
             //	Transform frustum to clip space
-            Fmatrix PlaneTransform;
+            Fmatrix           PlaneTransform;
             PlaneTransform.transpose(Device->mInvFullTransform);
             // HW.pDevice->SetRenderState(D3DRS_CLIPPLANEENABLE, 0x3F);
 

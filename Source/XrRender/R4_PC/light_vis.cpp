@@ -8,7 +8,7 @@ const u32 delay_large_min = 10;
 const u32 delay_large_max = 20;
 const u32 cullfragments   = 4;
 
-void light::vis_prepare()
+void      light::vis_prepare()
 {
     if (int(indirect_photons) != ps_r2_GI_photons)
         gi_generate();
@@ -83,8 +83,8 @@ void light::vis_update()
     u32 frame     = Device->dwFrame;
     u64 fragments = RImplementation.occq_get(vis.query_id);
     // Log					("",fragments);
-    vis.visible = (fragments > cullfragments);
-    vis.pending = false;
+    vis.visible   = (fragments > cullfragments);
+    vis.pending   = false;
     if (vis.visible)
     {
         vis.frame2test = frame + ::Random.randI(delay_large_min, delay_large_max);

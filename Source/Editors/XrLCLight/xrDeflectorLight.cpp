@@ -40,9 +40,9 @@ void GET(
     const base_color& surface_color,
     const u8          marker,
     // u32 width, u32 height, int x,  int y,
-    u32           ref,
-    u32&          count,
-    base_color_c& dst)
+    u32               ref,
+    u32&              count,
+    base_color_c&     dst)
 {
     // if (x<0) return;
     // else if (x>=(int)width)		return;
@@ -203,18 +203,18 @@ void GET(const lm_line& l, int x, u32 width, u32 ref, u32& count, base_color_c& 
 
 BOOL NEW_ApplyBorders(lm_layer& lm, u32 ref)
 {
-    bool bNeedContinue = false;
+    bool                      bNeedContinue = false;
 
     buffer_vector<base_color> buf_surf_line0(_alloca(lm.width * sizeof(base_color)), lm.width);
 
     buffer_vector<base_color> buf_surf_line1(_alloca(lm.width * sizeof(base_color)), lm.width);
 
-    buffer_vector<u8> buf_marker_line0(_alloca(lm.width * sizeof(u8)), lm.width);
+    buffer_vector<u8>         buf_marker_line0(_alloca(lm.width * sizeof(u8)), lm.width);
 
-    buffer_vector<u8> buf_marker_line1(_alloca(lm.width * sizeof(u8)), lm.width);
+    buffer_vector<u8>         buf_marker_line1(_alloca(lm.width * sizeof(u8)), lm.width);
 
-    lm_line line0(buf_surf_line0, buf_marker_line0);
-    lm_line line1(buf_surf_line1, buf_marker_line1);
+    lm_line                   line0(buf_surf_line0, buf_marker_line0);
+    lm_line                   line1(buf_surf_line1, buf_marker_line1);
 
     try
     {
@@ -229,7 +229,7 @@ BOOL NEW_ApplyBorders(lm_layer& lm, u32 ref)
 
             std::swap(l_0, l_1);
 
-            lm_line& line = *l_0;
+            lm_line&   line = *l_0;
 
             base_color sv_color0;
             sv_color0._set(-1, -1, -1);
@@ -360,8 +360,8 @@ float getLastRP_Scale(CDB::COLLIDER* DB, CDB::MODEL* MDL, R_Light& L, Face* skip
             CDB::RESULT& rpinf = DB->r_begin()[I];
 
             // Access to texture
-            CDB::TRI&  clT = MDL->get_tris()[rpinf.id];
-            base_Face* F   = (base_Face*)(clT.pointer);
+            CDB::TRI&    clT   = MDL->get_tris()[rpinf.id];
+            base_Face*   F     = (base_Face*)(clT.pointer);
             if (0 == F)
                 continue;
             if (skip == F)
@@ -401,8 +401,8 @@ float getLastRP_Scale(CDB::COLLIDER* DB, CDB::MODEL* MDL, R_Light& L, Face* skip
             // calc UV
             Fvector2* cuv = F->getTC0();
             Fvector2  uv;
-            uv.x = cuv[0].x * B.x + cuv[1].x * B.y + cuv[2].x * B.z;
-            uv.y = cuv[0].y * B.x + cuv[1].y * B.y + cuv[2].y * B.z;
+            uv.x  = cuv[0].x * B.x + cuv[1].x * B.y + cuv[2].x * B.z;
+            uv.y  = cuv[0].y * B.x + cuv[1].y * B.y + cuv[2].y * B.z;
 
             int U = iFloor(uv.x * float(T.dwWidth) + .5f);
             int V = iFloor(uv.y * float(T.dwHeight) + .5f);
@@ -486,7 +486,8 @@ void LightPoint(
         {
             switch (L->type)
             {
-                case LT_DIRECT: {
+                case LT_DIRECT:
+                {
                     // Cos
                     Ldir.invert(L->direction);
                     float D = Ldir.dotproduct(N);
@@ -500,7 +501,8 @@ void LightPoint(
                     C.rgb.z += scale * L->diffuse.z;
                 }
                 break;
-                case LT_POINT: {
+                case LT_POINT:
+                {
                     // Distance
                     float sqD = P.distance_to_sqr(L->position);
                     if (sqD > L->range2)
@@ -531,7 +533,8 @@ void LightPoint(
                     C.rgb.z += A * L->diffuse.z;
                 }
                 break;
-                case LT_SECONDARY: {
+                case LT_SECONDARY:
+                {
                     // Distance
                     float sqD = P.distance_to_sqr(L->position);
                     if (sqD > L->range2)

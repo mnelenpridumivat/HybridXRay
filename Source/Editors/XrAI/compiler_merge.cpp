@@ -3,7 +3,7 @@
 
 Marks used;
 
-BOOL NodeSimilar(vertex& N1, vertex& N2)
+BOOL  NodeSimilar(vertex& N1, vertex& N2)
 {
     // sector
     if (N1.Sector != N2.Sector)
@@ -41,7 +41,7 @@ DEF_VECTOR(vecDW, u32);
 xr_vector<vecDW> BestQuad;
 u32              BestQuad_Count;
 
-void ProcessOne(u32 Base, u32 limit = 8)
+void             ProcessOne(u32 Base, u32 limit = 8)
 {
     BestQuad.clear();
     BestQuad_Count = 0;
@@ -49,7 +49,7 @@ void ProcessOne(u32 Base, u32 limit = 8)
     // ***** build horizontal line
     vecDW BaseLine;
     BaseLine.reserve(limit * 2);
-    u32 BL_Left = 0, BL_Right = 0;
+    u32     BL_Left = 0, BL_Right = 0;
 
     // middle
     vertex& BaseNode = g_nodes[Base];
@@ -130,11 +130,11 @@ void ProcessOne(u32 Base, u32 limit = 8)
                 vecDW& src  = stack_up[stack_up.size() - 2];
                 vecDW& dest = stack_up[stack_up.size() - 1];
                 dest.reserve(limit);
-                BOOL bFailed = FALSE;
+                BOOL     bFailed = FALSE;
 
                 // iterate on it
-                vecDW_it I = src.begin();
-                vecDW_it E = src.end();
+                vecDW_it I       = src.begin();
+                vecDW_it E       = src.end();
                 for (; I != E; I++)
                 {
                     u32 id = g_nodes[*I].nForward();
@@ -169,11 +169,11 @@ void ProcessOne(u32 Base, u32 limit = 8)
                 vecDW& src  = stack_down[stack_down.size() - 2];
                 vecDW& dest = stack_down[stack_down.size() - 1];
                 dest.reserve(limit);
-                BOOL bFailed = FALSE;
+                BOOL     bFailed = FALSE;
 
                 // iterate on it
-                vecDW_it I = src.begin();
-                vecDW_it E = src.end();
+                vecDW_it I       = src.begin();
+                vecDW_it E       = src.end();
                 for (; I != E; I++)
                 {
                     u32 id = g_nodes[*I].nBack();
@@ -325,7 +325,7 @@ void xrMerge()
                 // analyze
                 vertex& Start = g_nodes[i];
 
-                int px, pz;
+                int     px, pz;
                 px = iFloor(Start.Pos.x / g_params.fPatchSize + EPS_L);
                 pz = iFloor(Start.Pos.z / g_params.fPatchSize + EPS_L);
 

@@ -22,12 +22,12 @@ namespace lc_net
         return gl_reg;
     }
 
-    template <typename e> static xr_vector<xr_vector<e_net_globals>*>& inter_get_table(enum_table<e>& table)
+    template<typename e> static xr_vector<xr_vector<e_net_globals>*>& inter_get_table(enum_table<e>& table)
     {
         return table.gl_table;
     }
 
-    template <execution_types ie, e_net_globals ig> struct add_global
+    template<execution_types ie, e_net_globals ig> struct add_global
     {
         add_global()
         {
@@ -36,7 +36,7 @@ namespace lc_net
         }
     };
 
-    template <e_net_globals ie, e_net_globals ig> struct global_add_global
+    template<e_net_globals ie, e_net_globals ig> struct global_add_global
     {
         global_add_global()
         {
@@ -45,19 +45,19 @@ namespace lc_net
         }
     };
 
-    template <class ee, e_net_globals ig> struct add_enum;
+    template<class ee, e_net_globals ig> struct add_enum;
 
-    template <e_net_globals ie, e_net_globals ig> struct add_enum<type_net_globals<ie>, ig>
+    template<e_net_globals ie, e_net_globals ig> struct add_enum<type_net_globals<ie>, ig>
     {
         global_add_global<ie, ig> v;
     };
 
-    template <execution_types ie, e_net_globals ig> struct add_enum<type_execution<ie>, ig>
+    template<execution_types ie, e_net_globals ig> struct add_enum<type_execution<ie>, ig>
     {
         add_global<ie, ig> v;
     };
 
-    template <e_net_globals i, class e> struct list_glob
+    template<e_net_globals i, class e> struct list_glob
     {
         static const e_net_globals    ii      = (e_net_globals)(i);
         static const e_net_globals    next_ii = (e_net_globals)(i + 1);
@@ -66,11 +66,11 @@ namespace lc_net
         add_enum<e, i>                remove;   //
     };
 
-    template <class e> struct list_glob<gl_last, e>
+    template<class e> struct list_glob<gl_last, e>
     {
     };
 
-    template <class e> class it
+    template<class e> class it
     {
     };
 
@@ -79,35 +79,35 @@ namespace lc_net
 
     template< class e >
     struct list_exec*/
-    template <class T> class n_type;
+    template<class T> class n_type;
 
-    template <e_net_globals v> class n_type<type_net_globals<v>>
+    template<e_net_globals v> class n_type<type_net_globals<v>>
     {
     public:
         typedef type_net_globals<e_net_globals(v + 1)> next;
     };
 
-    template <execution_types v> class n_type<type_execution<v>>
+    template<execution_types v> class n_type<type_execution<v>>
     {
     public:
         typedef type_execution<execution_types(v + 1)> next;
     };
 
-    template <typename e> struct v_type;
-    template <> struct v_type<execution_types>
+    template<typename e> struct v_type;
+    template<> struct v_type<execution_types>
     {
         static const execution_types  first = et_lightmaps;
         static const execution_types  last  = et_last;
         typedef type_execution<first> enum_type;
     };
-    template <> struct v_type<e_net_globals>
+    template<> struct v_type<e_net_globals>
     {
         static const e_net_globals      first = gl_cl_data;
         static const e_net_globals      last  = gl_last;
         typedef type_net_globals<first> enum_type;
     };
 
-    template <typename e> struct list_exec
+    template<typename e> struct list_exec
     {
         // typedef	typename e::type e_type;
         // static const  e_type		ii			=	( e_type )(e::value);
@@ -119,15 +119,15 @@ namespace lc_net
         globs                            gl;
     };
 
-    template <> struct list_exec<type_execution<et_last>>
+    template<> struct list_exec<type_execution<et_last>>
     {
     };
 
-    template <> struct list_exec<type_net_globals<gl_last>>
+    template<> struct list_exec<type_net_globals<gl_last>>
     {
     };
 
-    template <typename e> enum_table<e>::enum_table()
+    template<typename e> enum_table<e>::enum_table()
     {
         gl_table.resize(v_type<e>::last, 0);
 

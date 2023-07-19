@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 
-template <typename T> inline bool MixedNumeric(PropItem* item, bool& change)
+template<typename T> inline bool MixedNumeric(PropItem* item, bool& change)
 {
     change             = false;
     NumericValue<T>* V = dynamic_cast<NumericValue<T>*>(item->GetFrontValue());
@@ -18,7 +18,7 @@ template <typename T> inline bool MixedNumeric(PropItem* item, bool& change)
 //-----------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------
-template <class T> BOOL MixedFlag(PropItem* prop, bool& change)
+template<class T> BOOL MixedFlag(PropItem* prop, bool& change)
 {
     FlagValue<_flags<T>>* V = dynamic_cast<FlagValue<_flags<T>>*>(prop->GetFrontValue());
     if (!V)
@@ -33,7 +33,7 @@ template <class T> BOOL MixedFlag(PropItem* prop, bool& change)
 //-----------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------
-template <class T> BOOL MixedToken(PropItem* prop, bool& change)
+template<class T> BOOL MixedToken(PropItem* prop, bool& change)
 {
     TokenValue<T>* V = dynamic_cast<TokenValue<T>*>(prop->GetFrontValue());
     if (!V)
@@ -47,7 +47,7 @@ template <class T> BOOL MixedToken(PropItem* prop, bool& change)
 //-----------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------
-template <class T> BOOL MixedRToken(PropItem* prop, bool& change)
+template<class T> BOOL MixedRToken(PropItem* prop, bool& change)
 {
     RTokenValue<T>* V = dynamic_cast<RTokenValue<T>*>(prop->GetFrontValue());
     if (!V)
@@ -65,7 +65,8 @@ void UIPropertiesItem::RemoveMixed()
 
     switch (type)
     {
-        case PROP_SHORTCUT: {
+        case PROP_SHORTCUT:
+        {
             ShortcutValue* V = dynamic_cast<ShortcutValue*>(PItem->GetFrontValue());
             R_ASSERT(V);
             xr_shortcut val = *V->value;
@@ -74,7 +75,8 @@ void UIPropertiesItem::RemoveMixed()
         }
         break;
 
-        case PROP_CHOOSE: {
+        case PROP_CHOOSE:
+        {
             ChooseValue* V = dynamic_cast<ChooseValue*>(PItem->GetFrontValue());
             VERIFY(V);
             shared_str edit_val = V->GetValue();
@@ -90,7 +92,8 @@ void UIPropertiesItem::RemoveMixed()
         }
         break;
 
-        case PROP_NUMERIC: {
+        case PROP_NUMERIC:
+        {
             if (!MixedNumeric<u32>(PItem, change))
                 if (!MixedNumeric<float>(PItem, change))
                     if (!MixedNumeric<u8>(PItem, change))
@@ -102,7 +105,8 @@ void UIPropertiesItem::RemoveMixed()
         }
         break;
 
-        case PROP_BOOLEAN: {
+        case PROP_BOOLEAN:
+        {
             BOOLValue* V = dynamic_cast<BOOLValue*>(PItem->GetFrontValue());
             VERIFY(V);
             BOOL val = V->GetValue();
@@ -116,7 +120,8 @@ void UIPropertiesItem::RemoveMixed()
         }
         break;
 
-        case PROP_FLAG: {
+        case PROP_FLAG:
+        {
             if (!MixedFlag<u8>(PItem, change))
                 if (!MixedFlag<u16>(PItem, change))
                     if (!MixedFlag<u32>(PItem, change))
@@ -124,7 +129,8 @@ void UIPropertiesItem::RemoveMixed()
         }
         break;
 
-        case PROP_VECTOR: {
+        case PROP_VECTOR:
+        {
             VectorValue* V = dynamic_cast<VectorValue*>(PItem->GetFrontValue());
             R_ASSERT(V);
             Fvector edit_val = V->GetValue();
@@ -138,7 +144,8 @@ void UIPropertiesItem::RemoveMixed()
         }
         break;
 
-        case PROP_TOKEN: {
+        case PROP_TOKEN:
+        {
             if (!MixedToken<u8>(PItem, change))
                 if (!MixedToken<u16>(PItem, change))
                     if (!MixedToken<u32>(PItem, change))
@@ -146,7 +153,8 @@ void UIPropertiesItem::RemoveMixed()
         }
         break;
 
-        case PROP_RTOKEN: {
+        case PROP_RTOKEN:
+        {
             if (!MixedRToken<u8>(PItem, change))
                 if (!MixedRToken<u16>(PItem, change))
                     if (!MixedRToken<u32>(PItem, change))
@@ -154,7 +162,8 @@ void UIPropertiesItem::RemoveMixed()
         }
         break;
 
-        case PROP_RLIST: {
+        case PROP_RLIST:
+        {
             RListValue* V = dynamic_cast<RListValue*>(PItem->GetFrontValue());
             R_ASSERT(V);
             LPCSTR      edit_value = V->value ? V->value->c_str() : nullptr;
@@ -173,7 +182,8 @@ void UIPropertiesItem::RemoveMixed()
         }
         break;
 
-        case PROP_COLOR: {
+        case PROP_COLOR:
+        {
             U32Value* V = dynamic_cast<U32Value*>(PItem->GetFrontValue());
             R_ASSERT(V);
             u32 edit_val = V->GetValue();
@@ -187,7 +197,8 @@ void UIPropertiesItem::RemoveMixed()
         }
         break;
 
-        case PROP_FCOLOR: {
+        case PROP_FCOLOR:
+        {
             ColorValue* V = dynamic_cast<ColorValue*>(PItem->GetFrontValue());
             R_ASSERT(V);
             Fcolor edit_val = V->GetValue();
@@ -201,7 +212,8 @@ void UIPropertiesItem::RemoveMixed()
         }
         break;
 
-        case PROP_VCOLOR: {
+        case PROP_VCOLOR:
+        {
             VectorValue* V = dynamic_cast<VectorValue*>(PItem->GetFrontValue());
             R_ASSERT(V);
             Fvector edit_val = V->GetValue();
@@ -217,7 +229,8 @@ void UIPropertiesItem::RemoveMixed()
 
         case PROP_RTEXT:
         case PROP_STEXT:
-        case PROP_CTEXT: {
+        case PROP_CTEXT:
+        {
             CTextValue* V1 = dynamic_cast<CTextValue*>(PropertiesFrom->m_EditTextValue->GetFrontValue());
             RTextValue* V2 = dynamic_cast<RTextValue*>(PropertiesFrom->m_EditTextValue->GetFrontValue());
             STextValue* V3 = dynamic_cast<STextValue*>(PropertiesFrom->m_EditTextValue->GetFrontValue());
@@ -254,7 +267,8 @@ void UIPropertiesItem::RemoveMixed()
         }
         break;
 
-        case PROP_CLIST: {
+        case PROP_CLIST:
+        {
             CListValue* V = dynamic_cast<CListValue*>(PItem->GetFrontValue());
             R_ASSERT(V);
             LPCSTR edit_value = V->value;
@@ -273,7 +287,8 @@ void UIPropertiesItem::RemoveMixed()
         }
         break;
 
-        case PROP_SH_TOKEN: {
+        case PROP_SH_TOKEN:
+        {
             TokenValueSH* V = dynamic_cast<TokenValueSH*>(PItem->GetFrontValue());
             R_ASSERT(V);
             u32 edit_value = V->GetValue();
@@ -287,7 +302,8 @@ void UIPropertiesItem::RemoveMixed()
         }
         break;
 
-        case PROP_TEXTURE2: {
+        case PROP_TEXTURE2:
+        {
             CTextValue* T = dynamic_cast<CTextValue*>(PItem->GetFrontValue());
             R_ASSERT(T);
             xr_string edit_val = T->GetValue();
@@ -301,7 +317,8 @@ void UIPropertiesItem::RemoveMixed()
         }
         break;
 
-        case PROP_GAMETYPE: {
+        case PROP_GAMETYPE:
+        {
             GameTypeValue* V = dynamic_cast<GameTypeValue*>(PItem->GetFrontValue());
             R_ASSERT(V);
             ImGui::Text(PItem->GetDrawText().c_str());

@@ -116,21 +116,21 @@ void Object::CreateEdgeCollapse(MeshPt* pptBinned, MeshPt* pptKept)
     VERIFY(pedge != NULL);
     GeneralCollapseInfo* pGCI = xr_new<GeneralCollapseInfo>(&CollapseRoot);
 
-    pGCI->fError = FindCollapseError(pptBinned, pptKept->FindEdge(pptBinned));
+    pGCI->fError              = FindCollapseError(pptBinned, pptKept->FindEdge(pptBinned));
 
     // Because deleting a tri breaks the FirstTri, NextTri sequence,
     // we need to find the tris & just store their pointers.
     // Then we delete them.
 
-    pGCI->pptBin  = pptBinned;
-    pGCI->pptKeep = pptKept;
+    pGCI->pptBin              = pptBinned;
+    pGCI->pptKeep             = pptKept;
 
-    const int c_iMaxNumTris = 100;   // Grow as needed.
+    const int c_iMaxNumTris   = 100;   // Grow as needed.
     MeshTri*  pBinnedTris[c_iMaxNumTris];
 
-    MeshTri* ptri;
-    int      iNumTrisCollapsed = 0;
-    long     bNeedNewLevel     = FALSE;
+    MeshTri*  ptri;
+    int       iNumTrisCollapsed = 0;
+    long      bNeedNewLevel     = FALSE;
     for (ptri = pptBinned->FirstTri(); ptri != NULL; ptri = pptBinned->NextTri())
     {
         VERIFY(iNumTrisCollapsed < c_iMaxNumTris);   // Grow c_iMaxNumTris as needed.
@@ -261,7 +261,7 @@ void Object::CreateEdgeCollapse(MeshPt* pptBinned, MeshPt* pptKept)
             pTriInfoNew->ppt[2]         = pTriInfo->ppt[2];
 
             // And actually create this tri.
-            MeshTri* pTri = xr_new<MeshTri>(
+            MeshTri* pTri               = xr_new<MeshTri>(
                 pTriInfoNew->ppt[0], pTriInfoNew->ppt[1], pTriInfoNew->ppt[2], &CurTriRoot, &CurEdgeRoot);
             VERIFY(pTri != NULL);
             pTri->mytri.iSlidingWindowLevel = iCurSlidingWindowLevel + 1;

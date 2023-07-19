@@ -3,7 +3,7 @@
 #include "object.h"
 #include "object_sliding.h"
 
-#pragma warning(disable : 4018)
+#pragma warning(disable:4018)
 
 void VIPM::VIPM_Init()
 {
@@ -37,9 +37,9 @@ void VIPM::CalculateAllCollapses(Object* m_pObject, u32 max_sliding_window, floa
     {
         // Find the best collapse you can.
         // (how expensive is this? Ohhhh yes).
-        float     fBestError     = 1.0e10f;
-        MeshEdge* pedgeBestError = NULL;
-        MeshPt*   pptBestError   = NULL;
+        float     fBestError       = 1.0e10f;
+        MeshEdge* pedgeBestError   = NULL;
+        MeshPt*   pptBestError     = NULL;
         // NL = NewLevel - would force a new level.
         float     fBestErrorNL     = 1.0e10f;
         MeshEdge* pedgeBestErrorNL = NULL;
@@ -47,8 +47,8 @@ void VIPM::CalculateAllCollapses(Object* m_pObject, u32 max_sliding_window, floa
         MeshPt*   ppt;
         MeshEdge* pedge;
 
-        float fAverage = 0.0f;
-        int   iAvCount = 0;
+        float     fAverage = 0.0f;
+        int       iAvCount = 0;
 
         // Flush the cache, just in case.
         m_pObject->FindCollapseError(NULL, NULL, FALSE);

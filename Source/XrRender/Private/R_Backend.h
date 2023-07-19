@@ -53,7 +53,7 @@ struct R_statistics
 };
 
 #pragma warning(push)
-#pragma warning(disable : 4324)
+#pragma warning(disable:4324)
 class ECORE_API CBackend
 {
 public:
@@ -81,7 +81,6 @@ public:
         mtMaxVertexShaderTextures = 4,
     };
 #endif   //	USE_DX10
-
 public:
     // Dynamic geometry streams
     _VertexStream    Vertex;
@@ -127,7 +126,8 @@ private:
     u32               vb_stride;
 
     // Pixel/Vertex constants
-    ALIGN(16) R_constants constants;
+    ALIGN(16)
+    R_constants       constants;
     R_constant_table* ctable;
 
     // Shaders/State
@@ -155,19 +155,19 @@ private:
 #endif
 #endif   //	USE_DX10
 #endif
-    u32 stencil_enable;
-    u32 stencil_func;
-    u32 stencil_ref;
-    u32 stencil_mask;
-    u32 stencil_writemask;
-    u32 stencil_fail;
-    u32 stencil_pass;
-    u32 stencil_zfail;
-    u32 colorwrite_mask;
-    u32 cull_mode;
-    u32 z_enable;
-    u32 z_func;
-    u32 alpha_ref;
+    u32            stencil_enable;
+    u32            stencil_func;
+    u32            stencil_ref;
+    u32            stencil_mask;
+    u32            stencil_writemask;
+    u32            stencil_fail;
+    u32            stencil_pass;
+    u32            stencil_zfail;
+    u32            colorwrite_mask;
+    u32            cull_mode;
+    u32            z_enable;
+    u32            z_func;
+    u32            alpha_ref;
 
     // Lists
     STextureList*  T;
@@ -175,23 +175,22 @@ private:
     SConstantList* C;
 
     // Lists-expanded
-    CTexture* textures_ps[mtMaxPixelShaderTextures];   // stages
+    CTexture*      textures_ps[mtMaxPixelShaderTextures];   // stages
     // CTexture*						textures_vs	[5	];	// dmap + 4 vs
-    CTexture* textures_vs[mtMaxVertexShaderTextures];   // 4 vs
+    CTexture*      textures_vs[mtMaxVertexShaderTextures];   // 4 vs
 #if defined(USE_DX10) || defined(USE_DX11)
-    CTexture* textures_gs[mtMaxGeometryShaderTextures];   // 4 vs
+    CTexture* textures_gs[mtMaxGeometryShaderTextures];      // 4 vs
 #ifdef USE_DX11
-    CTexture* textures_hs[mtMaxHullShaderTextures];      // 4 vs
-    CTexture* textures_ds[mtMaxDomainShaderTextures];    // 4 vs
-    CTexture* textures_cs[mtMaxComputeShaderTextures];   // 4 vs
+    CTexture* textures_hs[mtMaxHullShaderTextures];          // 4 vs
+    CTexture* textures_ds[mtMaxDomainShaderTextures];        // 4 vs
+    CTexture* textures_cs[mtMaxComputeShaderTextures];       // 4 vs
 #endif
-#endif   //	USE_DX10
+#endif                                                       //	USE_DX10
 #ifdef REDITOR
-    CMatrix* matrices[8];   // matrices are supported only for FFP
+    CMatrix* matrices[8];                                    // matrices are supported only for FFP
 #endif
 
     void Invalidate();
-
 public:
     struct _stats
     {
@@ -209,13 +208,12 @@ public:
         u32 matrices;    // Number of times the shader-xform changes
         u32 constants;   // Number of times the shader-consts changes
 #endif
-        u32 xforms;
-        u32 target_rt;
-        u32 target_zb;
+        u32          xforms;
+        u32          target_rt;
+        u32          target_zb;
 
         R_statistics r;
     } stat;
-
 public:
     IC CTexture* get_ActiveTexture(u32 stage)
     {
@@ -260,21 +258,21 @@ public:
 #endif   //	USE_DX10
 
     // API
-    IC void           set_xform(u32 ID, const Fmatrix& M);
-    IC void           set_xform_world(const Fmatrix& M);
-    IC void           set_xform_view(const Fmatrix& M);
-    IC void           set_xform_project(const Fmatrix& M);
-    IC const Fmatrix& get_xform_world();
-    IC const Fmatrix& get_xform_view();
-    IC const Fmatrix& get_xform_project();
+    IC void                  set_xform(u32 ID, const Fmatrix& M);
+    IC void                  set_xform_world(const Fmatrix& M);
+    IC void                  set_xform_view(const Fmatrix& M);
+    IC void                  set_xform_project(const Fmatrix& M);
+    IC const Fmatrix&        get_xform_world();
+    IC const Fmatrix&        get_xform_view();
+    IC const Fmatrix&        get_xform_project();
 
     IC void                  set_RT(ID3DRenderTargetView* RT, u32 ID = 0);
     IC void                  set_ZB(ID3DDepthStencilView* ZB);
     IC ID3DRenderTargetView* get_RT(u32 ID = 0);
     IC ID3DDepthStencilView* get_ZB();
 
-    IC void set_Constants(R_constant_table* C);
-    IC void set_Constants(ref_ctable& C)
+    IC void                  set_Constants(R_constant_table* C);
+    IC void                  set_Constants(ref_ctable& C)
     {
         set_Constants(&*C);
     }
@@ -364,7 +362,6 @@ public:
     ICF void set_VS(ref_vs& _vs);
 #if defined(USE_DX10) || defined(USE_DX11)
     ICF void set_VS(SVS* _vs);
-
 protected:   //	In DX10 we need input shader signature which is stored in ref_vs
 #endif       //	USE_DX10
     ICF void set_VS(ID3DVertexShader* _vs, LPCSTR _n = 0);
@@ -399,9 +396,9 @@ public:
     {
         return cull_mode;
     }
-    void    set_ClipPlanes(u32 _enable, Fplane* _planes = NULL, u32 count = 0);
-    void    set_ClipPlanes(u32 _enable, Fmatrix* _xform = NULL, u32 fmask = 0xff);
-    IC void set_Scissor(Irect* rect = NULL);
+    void             set_ClipPlanes(u32 _enable, Fplane* _planes = NULL, u32 count = 0);
+    void             set_ClipPlanes(u32 _enable, Fmatrix* _xform = NULL, u32 fmask = 0xff);
+    IC void          set_Scissor(Irect* rect = NULL);
 
     // constants
     ICF ref_constant get_c(LPCSTR n)
@@ -624,11 +621,10 @@ private:
     void ApplyRTandZB();
     void ApplyPrimitieTopology(D3D_PRIMITIVE_TOPOLOGY Topology);
     bool CBuffersNeedUpdate(ref_cbuffer buf1[MaxCBuffers], ref_cbuffer buf2[MaxCBuffers], u32& uiMin, u32& uiMax);
-
 private:
     ID3DBlob* m_pInputSignature;
 
-    bool m_bChangedRTorZB;
+    bool      m_bChangedRTorZB;
 #endif   //	USE_DX10
 };
 #pragma warning(pop)

@@ -52,7 +52,6 @@ private:
         if ((p1.x < ps) && (p1.y < ps))
             cpoint.push_back(p1);   // 2nd
     }
-
 public:
     void initialize(u32 _size)
     {

@@ -24,7 +24,7 @@ int getCFormVID(vecVertex& V, Vertex* F)
     vecVertexIt it = std::lower_bound(V.begin(), V.end(), F);
     return int(it - V.begin());
 }
-int bCriticalErrCnt = 0;
+int  bCriticalErrCnt = 0;
 /*
 
 int getTriByEdge(Vertex *V1, Vertex *V2, Face* parent, vecFace &ids)
@@ -124,7 +124,7 @@ void        CBuild::BuildCForm()
     float p_total = 0;
     float p_cost  = 1.f / (cfVertices->size());
 
-    Fbox BB;
+    Fbox  BB;
     BB.invalidate();
     for (vecVertexIt it = cfVertices->begin(); it != cfVertices->end(); it++)
         BB.modify((*it)->P);

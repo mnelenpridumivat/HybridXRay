@@ -46,24 +46,24 @@ struct ECORE_API STextureList: public xr_resource_flagged, public xr_vector<std:
 
     //	Avoid using this function.
     //	If possible use precompiled texture list.
-    u32 find_texture_stage(const shared_str& TexName) const;
+    u32          find_texture_stage(const shared_str& TexName) const;
 };
 typedef resptr_core<STextureList, resptr_base<STextureList>> ref_texture_list;
 //////////////////////////////////////////////////////////////////////////
-struct ECORE_API SMatrixList: public xr_resource_flagged, public svector<ref_matrix, 4>
+struct ECORE_API                                             SMatrixList: public xr_resource_flagged, public svector<ref_matrix, 4>
 {
     ~SMatrixList();
 };
 typedef resptr_core<SMatrixList, resptr_base<SMatrixList>> ref_matrix_list;
 //////////////////////////////////////////////////////////////////////////
-struct ECORE_API SConstantList: public xr_resource_flagged, public svector<ref_constant_obsolette, 4>
+struct ECORE_API                                           SConstantList: public xr_resource_flagged, public svector<ref_constant_obsolette, 4>
 {
     ~SConstantList();
 };
 typedef resptr_core<SConstantList, resptr_base<SConstantList>> ref_constant_list;
 
 //////////////////////////////////////////////////////////////////////////
-struct ECORE_API SGeometry: public xr_resource_flagged
+struct ECORE_API                                               SGeometry: public xr_resource_flagged
 {
     ref_declaration   dcl;
     ID3DVertexBuffer* vb;
@@ -89,21 +89,21 @@ struct ECORE_API resptrcode_geom: public resptr_base<SGeometry>
 typedef resptr_core<SGeometry, resptrcode_geom> ref_geom;
 
 //////////////////////////////////////////////////////////////////////////
-struct ECORE_API SPass: public xr_resource_flagged
+struct ECORE_API                                SPass: public xr_resource_flagged
 {
-    ref_state state;   // Generic state, like Z-Buffering, samplers, etc
-    ref_ps    ps;      // may be NULL = FFP, in that case "state" must contain TSS setup
-    ref_vs vs;   // may be NULL = FFP, in that case "state" must contain RS setup, *and* FVF-compatible declaration must
-                 // be used
+    ref_state state;               // Generic state, like Z-Buffering, samplers, etc
+    ref_ps    ps;                  // may be NULL = FFP, in that case "state" must contain TSS setup
+    ref_vs    vs;                  // may be NULL = FFP, in that case "state" must contain RS setup, *and* FVF-compatible declaration must
+                                   // be used
 #if defined(USE_DX10) || defined(USE_DX11)
-    ref_gs gs;   // may be NULL = don't use geometry shader at all
+    ref_gs gs;                     // may be NULL = don't use geometry shader at all
 #ifdef USE_DX11
-    ref_hs hs;   // may be NULL = don't use hull shader at all
-    ref_ds ds;   // may be NULL = don't use domain shader at all
-    ref_cs cs;   // may be NULL = don't use compute shader at all
+    ref_hs hs;                     // may be NULL = don't use hull shader at all
+    ref_ds ds;                     // may be NULL = don't use domain shader at all
+    ref_cs cs;                     // may be NULL = don't use compute shader at all
 #endif
-#endif                      //	USE_DX10
-    ref_ctable constants;   // may be NULL
+#endif                             //	USE_DX10
+    ref_ctable        constants;   // may be NULL
 
     ref_texture_list  T;
     ref_constant_list C;
@@ -118,18 +118,17 @@ struct ECORE_API SPass: public xr_resource_flagged
 typedef resptr_core<SPass, resptr_base<SPass>> ref_pass;
 
 //////////////////////////////////////////////////////////////////////////
-struct ECORE_API ShaderElement: public xr_resource_flagged
+struct ECORE_API                               ShaderElement: public xr_resource_flagged
 {
 public:
     struct Sflags
     {
-        u32 iPriority : 2;
-        u32 bStrictB2F : 1;
-        u32 bEmissive : 1;
-        u32 bDistort : 1;
-        u32 bWmark : 1;
+        u32 iPriority :2;
+        u32 bStrictB2F:1;
+        u32 bEmissive :1;
+        u32 bDistort  :1;
+        u32 bWmark    :1;
     };
-
 public:
     Sflags                               flags;
     svector<ref_pass, SHADER_PASSES_MAX> passes;
@@ -142,7 +141,7 @@ public:
 typedef resptr_core<ShaderElement, resptr_base<ShaderElement>> ref_selement;
 
 //////////////////////////////////////////////////////////////////////////
-struct ECORE_API Shader: public xr_resource_flagged
+struct ECORE_API                                               Shader: public xr_resource_flagged
 {
 public:
     ref_selement E[6];   // R1 - 0=norm_lod0(det),	1=norm_lod1(normal),	2=L_point,		3=L_spot,	4=L_for_models,

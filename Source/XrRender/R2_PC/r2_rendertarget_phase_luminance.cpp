@@ -46,7 +46,7 @@ void CRenderTarget::phase_luminance()
         Fvector2 b_3  = {1 + a_3.x, 1 + a_3.y};
 
         // Fill vertex buffer
-        v_build* pv = (v_build*)RCache.Vertex.Lock(4, g_bloom_build->vb_stride, Offset);
+        v_build* pv   = (v_build*)RCache.Vertex.Lock(4, g_bloom_build->vb_stride, Offset);
         pv->p.set(eps, float(ts + eps), eps, 1.f);
         pv->uv0.set(a_0.x, b_0.y);
         pv->uv1.set(a_1.x, b_1.y);

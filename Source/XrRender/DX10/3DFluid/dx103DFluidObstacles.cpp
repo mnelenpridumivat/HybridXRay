@@ -51,7 +51,7 @@ namespace
     shared_str strOOBBWorldAngularVelocity("OOBBWorldAngularVelocity");
     shared_str strOOBBWorldTranslationVelocity("OOBBWorldTranslationVelocity");
 
-    Fvector4 UnitClipPlanes[] = {
+    Fvector4   UnitClipPlanes[] = {
         {-1.f, 0.0f, 0.0f, 0.5f},   //
         {1.f, 0.0f, 0.0f, 0.5f},    //
         {0.0f, -1.f, 0.0f, 0.5f},   //	Top
@@ -205,7 +205,7 @@ void dx103DFluidObstacles::ProcessDynamicObstacles(
         // renderable
         // IRenderable*	renderable		= spatial->dcast_Renderable	();
         // if (0==renderable)				continue;					// unknown, but renderable object (r1_glow???)
-        CObject* pObject = spatial->dcast_CObject();
+        CObject*  pObject = spatial->dcast_CObject();
         if (!pObject)
             continue;
 
@@ -396,7 +396,7 @@ void dx103DFluidObstacles::RenderDynamicOOBB(
 
     //	dsdad;
 
-    Fmatrix Transform;
+    Fmatrix  Transform;
     // Transform.mul(WorldToFluid, Element.XFORM());
 
     Fvector3 BoxSize;

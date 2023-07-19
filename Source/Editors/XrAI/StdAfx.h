@@ -10,10 +10,10 @@
 
 #include "../../xrCore/xrCore.h"
 
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include "directx\d3dx9.h"
 #include <commctrl.h>
-#pragma warning(default : 4995)
+#pragma warning(default:4995)
 
 #define ENGINE_API
 #define ECORE_API
@@ -68,7 +68,7 @@ IC xr_string string2xr_string(LPCSTR s)
                               .c_str());                      \
     }
 #else
-#define THROW VERIFY
+#define THROW  VERIFY
 #define THROW2 VERIFY2
 #define THROW3 VERIFY3
 #endif

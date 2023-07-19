@@ -104,7 +104,7 @@ void CResourceManager::reset_end()
     Dump(true);
 }
 
-template <class C> void mdump(C c)
+template<class C> void mdump(C c)
 {
     if (0 == c.size())
         return;

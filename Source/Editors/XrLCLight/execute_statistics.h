@@ -15,10 +15,9 @@ public:
     execute_time_statistics(): m_time(-1.f) {}
     float m_time;
 
-    void read(INetReader& r);
-    void write(IWriter& w) const;
-    void log() const;
-
+    void  read(INetReader& r);
+    void  write(IWriter& w) const;
+    void  log() const;
 private:
 };   // class execute_statistics
 class execute_statistics

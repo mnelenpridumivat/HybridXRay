@@ -13,7 +13,7 @@
 #define CACHESIZE_GEFORCE1_2 16
 
 // GeForce3 cache size
-#define CACHESIZE_GEFORCE3 24
+#define CACHESIZE_GEFORCE3   24
 
 enum PrimType
 {

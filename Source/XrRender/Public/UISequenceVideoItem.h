@@ -9,7 +9,7 @@ public:
     {
         ;
     }
-    virtual void Copy(IUISequenceVideoItem& _in) = 0;
+    virtual void Copy(IUISequenceVideoItem& _in)                 = 0;
 
     virtual bool HasTexture()                                    = 0;
     virtual void CaptureTexture()                                = 0;

@@ -199,10 +199,10 @@ namespace dx10StateUtils
         desc.FrontFace.StencilPassOp      = D3D_STENCIL_OP_KEEP;
         desc.FrontFace.StencilFunc        = D3D_COMPARISON_ALWAYS;
 
-        desc.BackFace.StencilFailOp      = D3D_STENCIL_OP_KEEP;
-        desc.BackFace.StencilDepthFailOp = D3D_STENCIL_OP_KEEP;
-        desc.BackFace.StencilPassOp      = D3D_STENCIL_OP_KEEP;
-        desc.BackFace.StencilFunc        = D3D_COMPARISON_ALWAYS;
+        desc.BackFace.StencilFailOp       = D3D_STENCIL_OP_KEEP;
+        desc.BackFace.StencilDepthFailOp  = D3D_STENCIL_OP_KEEP;
+        desc.BackFace.StencilPassOp       = D3D_STENCIL_OP_KEEP;
+        desc.BackFace.StencilFunc         = D3D_COMPARISON_ALWAYS;
     }
 
 #ifdef USE_DX11
@@ -543,18 +543,18 @@ namespace dx10StateUtils
 
         if (!desc.StencilEnable)
         {
-            desc.StencilReadMask  = 0xFF;
-            desc.StencilWriteMask = 0xFF;
+            desc.StencilReadMask              = 0xFF;
+            desc.StencilWriteMask             = 0xFF;
 
             desc.FrontFace.StencilFailOp      = D3D_STENCIL_OP_KEEP;
             desc.FrontFace.StencilDepthFailOp = D3D_STENCIL_OP_KEEP;
             desc.FrontFace.StencilPassOp      = D3D_STENCIL_OP_KEEP;
             desc.FrontFace.StencilFunc        = D3D_COMPARISON_ALWAYS;
 
-            desc.BackFace.StencilFailOp      = D3D_STENCIL_OP_KEEP;
-            desc.BackFace.StencilDepthFailOp = D3D_STENCIL_OP_KEEP;
-            desc.BackFace.StencilPassOp      = D3D_STENCIL_OP_KEEP;
-            desc.BackFace.StencilFunc        = D3D_COMPARISON_ALWAYS;
+            desc.BackFace.StencilFailOp       = D3D_STENCIL_OP_KEEP;
+            desc.BackFace.StencilDepthFailOp  = D3D_STENCIL_OP_KEEP;
+            desc.BackFace.StencilPassOp       = D3D_STENCIL_OP_KEEP;
+            desc.BackFace.StencilFunc         = D3D_COMPARISON_ALWAYS;
         }
     }
 

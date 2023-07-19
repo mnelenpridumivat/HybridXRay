@@ -184,7 +184,7 @@
 #endif   // NO_XR_GAME
 
 #ifndef NO_XR_GAME
-#define ADD(a, b, c, d) add<a, b>(c, d)
+#define ADD(a, b, c, d)          add<a, b>(c, d)
 #define ADD_MP(a, b, c, d, e, f) add(xr_new<CObjectItemClientServerSingleMp<a, b, c, d>>(e, f))
 #else
 #define ADD(a, b, c, d) add<b>(c, d)
@@ -210,7 +210,7 @@ void CObjectFactory::register_classes()
     add<game_sv_TeamDeathmatch>(CLSID_SV_GAME_TEAMDEATHMATCH, "game_sv_team_deathmatch");
     add<game_sv_ArtefactHunt>(CLSID_SV_GAME_ARTEFACTHUNT, "game_sv_artefact_hunt");
     add<game_sv_CaptureTheArtefact>(CLSID_SV_GAME_CAPTURETHEARTEFACT, "game_sv_capture_the_artefact");
-#endif   //	BENCHMARK_BUILD
+#endif   //	BENCHMARK_BUILD \
          // Client Game type
 #ifndef NO_SINGLE
     add<game_cl_Single>(CLSID_CL_GAME_SINGLE, "game_cl_single");

@@ -12,17 +12,16 @@ private:
     DetailSlot*     dtS;
     CVirtualFileRW* dtFS;
     recalculation   recalculation_data;
-
 public:
     global_slots_data(): dtS(0), dtFS(0), recalculation_data(dtH) {}
 
-    void Load();
-    void Free();
+    void                   Load();
+    void                   Free();
 
-    void FreeOnAgent();
+    void                   FreeOnAgent();
 
-    void read(INetReader& r);
-    void write(IWriter& w) const;
+    void                   read(INetReader& r);
+    void                   write(IWriter& w) const;
 
     IC const DetailHeader& header() const
     {

@@ -46,13 +46,11 @@ class MeshTri
 {
     friend class MeshPt;
     friend class MeshEdge;
-
 private:
     DlinkDefine(MeshTri, List);
     DWORD dwListId;   // For use when doing consistency checks.
 
-    void InternalDelete(BOOL bBinUnusedEdges);
-
+    void  InternalDelete(BOOL bBinUnusedEdges);
 public:
     MeshPt*   pPt1;   // Points.
     MeshPt*   pPt2;
@@ -75,27 +73,24 @@ public:
         MeshEdge* pEdgeListRoot = NULL);
     ~MeshTri(void);
     // Set bBinUnusedEdges to TRUE to autodestroy edges.
-    void Delete(BOOL bBinUnusedEdges = FALSE);
+    void     Delete(BOOL bBinUnusedEdges = FALSE);
     // Which list is this tri in?
     MeshTri* QueryList(void);
     // Move this tri to this list.
-    void SetList(MeshTri* pListRoot);
+    void     SetList(MeshTri* pListRoot);
     // Checks that all edges and pts refer back to this tri,
     // and that they're in the respective lists.
     // If the lists are NULL, the check is not made.
-    bool ConsistencyCheck(MeshPt* pPtRoot = NULL, MeshEdge* pEdgeRoot = NULL, MeshTri* pTriRoot = NULL);
-
+    bool     ConsistencyCheck(MeshPt* pPtRoot = NULL, MeshEdge* pEdgeRoot = NULL, MeshTri* pTriRoot = NULL);
 protected:
     // Add the edge to this tri.
     void AddEdge(MeshEdge* pEdge);
     // Remove the edge from this tri.
     void RemoveEdge(MeshEdge* pEdge);
-
 protected:
     // Remove the point from this tri.
     // NOTE! This is probably not a good thing to do.
     void RemovePt(MeshPt* pPt);
-
 public:
     IC bool Equal(MeshTri* F)
     {
@@ -120,16 +115,14 @@ class MeshEdge
 {
     friend class MeshPt;
     friend class MeshTri;
-
 private:
     DlinkDefine(MeshEdge, List);
     DWORD dwListId;   // For use when doing consistency checks.
-
 public:
-    MeshPt*  pPt1;
-    MeshPt*  pPt2;
-    MeshTri* pTri12;       // Tri that numbers pt1, pt2 in that order.
-    MeshTri* pTri21;       // Tri that numbers pt2, pt1 in that order.
+    MeshPt*   pPt1;
+    MeshPt*   pPt2;
+    MeshTri*  pTri12;      // Tri that numbers pt1, pt2 in that order.
+    MeshTri*  pTri21;      // Tri that numbers pt2, pt1 in that order.
 
     MeshEdge* pEdgeProx;   // The edge that this is close to, if any.
 
@@ -143,19 +136,19 @@ public:
     MeshEdge(MeshPt* pNewPt1, MeshPt* pNewPt2, MeshEdge* pListRoot = NULL);
     ~MeshEdge(void);
     // Find the other triangle that uses this edge.
-    MeshTri* OtherTri(MeshTri* pTri);
+    MeshTri*  OtherTri(MeshTri* pTri);
     // Find the other point that uses this edge.
-    MeshPt* OtherPt(MeshPt* pPt);
+    MeshPt*   OtherPt(MeshPt* pPt);
     // Try to merge these two edges. Result is TRUE if it succeeded - note that the other edge will be NOT deleted.
-    bool bTryToMergeEdges(MeshEdge* pedge);
+    bool      bTryToMergeEdges(MeshEdge* pedge);
     // Which list is this Edge in?
     MeshEdge* QueryList(void);
     // Move this Edge to this list.
-    void SetList(MeshEdge* pListRoot);
+    void      SetList(MeshEdge* pListRoot);
     // Makes these two edges prox.
     // The point prox data must agree.
     // Returns TRUE on success, or FALSE if it failed.
-    bool AddProx(MeshEdge* pEdge);
+    bool      AddProx(MeshEdge* pEdge);
     // Find the proximity edge, if any.
     // Relies on the point proximity values having been set up.
     // If one is found, it is returned.
@@ -163,18 +156,16 @@ public:
     // Removes any edge prox data.
     // Returns TRUE if there was some.
     // The pt prox data can still agree - it is not touched.
-    bool RemoveProx(void);
+    bool      RemoveProx(void);
     // Checks that all pts and tris refer back to this edge,
     // and that they're in the respective lists.
     // If the lists are NULL, the check is not made.
-    bool ConsistencyCheck(MeshPt* pPtRoot = NULL, MeshEdge* pEdgeRoot = NULL, MeshTri* pTriRoot = NULL);
-
+    bool      ConsistencyCheck(MeshPt* pPtRoot = NULL, MeshEdge* pEdgeRoot = NULL, MeshTri* pTriRoot = NULL);
 protected:
     // Remove the tri from this edge.
     void RemoveTri(MeshTri* pTri);
     // Add the tri to this edge.
     void AddTri(MeshTri* pTri);
-
 protected:
     // Remove the pt from this edge.
     // NOTE! This is probably not a good thing to do.
@@ -185,19 +176,17 @@ class MeshPt
 {
     friend class MeshEdge;
     friend class MeshTri;
-
 private:
-    ArbitraryList<MeshEdge*> EdgeList;     // The list of edges that use this point (in no order).
-    ArbitraryList<MeshTri*>  TriList;      // The list of tris that use this point (in no order).
-    ArbitraryList<MeshPt*>   ProxPtList;   // The list of prox pts (in no order).
+    ArbitraryList<MeshEdge*> EdgeList;      // The list of edges that use this point (in no order).
+    ArbitraryList<MeshTri*>  TriList;       // The list of tris that use this point (in no order).
+    ArbitraryList<MeshPt*>   ProxPtList;    // The list of prox pts (in no order).
 
-    int iCurTriNum;                        // Used with First/NextTri.
-    int iCurEdgeNum;                       // Used with First/NextEdge.
-    int iCurProxNum;                       // Used with First/NextProx.
+    int                      iCurTriNum;    // Used with First/NextTri.
+    int                      iCurEdgeNum;   // Used with First/NextEdge.
+    int                      iCurProxNum;   // Used with First/NextProx.
 
     DlinkDefine(MeshPt, List);
-    DWORD dwListId;   // For use when doing consistency checks.
-
+    DWORD dwListId;      // For use when doing consistency checks.
 public:
     MESHPT_APP_DEFINED   // App-defined data.
 
@@ -222,20 +211,20 @@ public:
     MeshEdge* FindTriEdge(MeshPt* pPt);
     // Find the tri that uses this pt and the other two given.
     // They must be in the order this,pPt1,pPt2 - not the other way round.
-    MeshTri* FindTri(MeshPt* pPt1, MeshPt* pPt2);
+    MeshTri*  FindTri(MeshPt* pPt1, MeshPt* pPt2);
 
     // Retired - there may be several tris like this - call FirstTri/NextTri.
     // Return the first tri in the list. MUST be called before calling NextTri().
     // If a non-NULL pPt is supplied, only tris using this,pPt in that order
     // are returned, otherwise all tris are returned.
-    MeshTri* FirstTri(MeshPt* pPt = NULL);
+    MeshTri*  FirstTri(MeshPt* pPt = NULL);
     // Return the next tri in the list.
     // If a non-NULL pPt is supplied, only tris using this,pPt in that order
     // are returned, otherwise all tris are returned.
-    MeshTri* NextTri(MeshPt* pPt = NULL);
+    MeshTri*  NextTri(MeshPt* pPt = NULL);
     // Terminate the current First/Next loop.
     // No need to call this if NULL was returned from NextTri().
-    void EndTri(void);
+    void      EndTri(void);
 
     // Return the first Edge in the list. MUST be called before calling NextEdge().
     // If a non-NULL pPt is supplied, only edges using this and pPt
@@ -247,41 +236,39 @@ public:
     MeshEdge* NextEdge(MeshPt* pPt = NULL);
     // Terminate the current First/Next loop.
     // No need to call this if NULL was returned from NextEdge().
-    void EndEdge(void);
+    void      EndEdge(void);
 
     // Add the given pt to the prox list (and vice versa).
     // If the pt was not already there, returns TRUE;
     // If bProxEdges is set to TRUE (default is FALSE ),
     // the edges that these two pts use are made prox if possible.
-    bool AddProx(MeshPt* pPt, bool bProxEdges = FALSE);
+    bool      AddProx(MeshPt* pPt, bool bProxEdges = FALSE);
     // Remove the given pt from the prox list (and vice versa).
     // If the pt was there, returns TRUE.
-    bool RemoveProx(MeshPt* pPt);
+    bool      RemoveProx(MeshPt* pPt);
     // Returns TRUE if the two pts are marked as being in proximity.
-    bool CheckProx(MeshPt* pPt);
+    bool      CheckProx(MeshPt* pPt);
     // Return the first prox pt. MUST be called before calling NextProx().
-    MeshPt* FirstProx(void);
+    MeshPt*   FirstProx(void);
     // Return the next prox pt.
-    MeshPt* NextProx(void);
+    MeshPt*   NextProx(void);
     // Terminate the current First/Next loop.
     // No need to call this if NULL was returned from NextProx().
-    void EndProx(void);
+    void      EndProx(void);
 
     // Which list is this Pt in?
-    MeshPt* QueryList(void);
+    MeshPt*   QueryList(void);
     // Move this Pt to this list.
-    void SetList(MeshPt* pListRoot);
+    void      SetList(MeshPt* pListRoot);
     // Checks that all edges and tris refer back to this pt,
     // and that they're in the respective lists.
     // If the lists are NULL, the check is not made.
-    bool ConsistencyCheck(MeshPt* pPtRoot = NULL, MeshEdge* pEdgeRoot = NULL, MeshTri* pTriRoot = NULL);
-
+    bool      ConsistencyCheck(MeshPt* pPtRoot = NULL, MeshEdge* pEdgeRoot = NULL, MeshTri* pTriRoot = NULL);
 protected:
     // Remove the edge from this point.
     void RemoveEdge(MeshEdge* pEdge);
     // Add the edge to this point.
     void AddEdge(MeshEdge* pEdge);
-
 protected:
     // Remove the tri from this point.
     void RemoveTri(MeshTri* pTri);
@@ -1580,12 +1567,12 @@ inline bool MeshPt::AddProx(MeshPt* pPt, bool bProxEdges)
         VERIFY(!pPt->CheckProx(this));
 
         // Add to this pt.
-        *(ProxPtList.append()) = pPt;
+        *(ProxPtList.append())      = pPt;
 
         // Add to the other pt.
         *(pPt->ProxPtList.append()) = this;
 
-        bRes = TRUE;
+        bRes                        = TRUE;
     }
 
     // Now check all their edges for proximity.

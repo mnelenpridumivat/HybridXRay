@@ -48,7 +48,7 @@ static vecTris clContactedT;
 // Notes :
 // Return: One of 3 classification codes
 // -----------------------------------------------------------------------
-IC float classifyPoint(const Fvector& point, const Fvector& planeO, const Fvector& planeN)
+IC float       classifyPoint(const Fvector& point, const Fvector& planeO, const Fvector& planeN)
 {
     Fvector dir;
     dir.sub(point, planeO);
@@ -116,9 +116,9 @@ IC void closestPointOnLine(Fvector& res, const Fvector& a, const Fvector& b, con
     res.mad(a, V, t);
 }
 IC void closestPointOnEdge(
-    Fvector&       res,   // result
+    Fvector&       res,    // result
     const Fvector& a,
-    const Fvector& b,   // points
+    const Fvector& b,      // points
     const Fvector& ED,
     float          elen,   // edge direction (b-a) and length
     const Fvector& P)      // query point
@@ -276,10 +276,10 @@ void msimulator_CheckCollision(SCollisionData& cl)
     Fvector polyIPoint;   // polygon intersection point
 
     // how long is our velocity
-    float distanceToTravel = velocity.magnitude();
+    float   distanceToTravel = velocity.magnitude();
 
-    float distToPlaneIntersection;
-    float distToEllipsoidIntersection;
+    float   distToPlaneIntersection;
+    float   distToEllipsoidIntersection;
 
     for (u32 i_t = 0; i_t != clContactedT.size(); i_t++)
     {
@@ -365,8 +365,8 @@ void msimulator_ResolveStuck(SCollisionData& cl, Fvector& position)
     Fvector stuckDir;
     int     stuckCount;
 
-    float dist;
-    float safe_R = 1.f + EPS_L * 2;   // psSqueezeVelocity*Device.fTimeDelta;
+    float   dist;
+    float   safe_R = 1.f + EPS_L * 2;   // psSqueezeVelocity*Device.fTimeDelta;
 
     for (int passes = 0; passes < psCollideActStuckDepth; passes++)
     {
@@ -499,7 +499,7 @@ Fvector msimulator_CollideWithWorld(SCollisionData& cl, Fvector position, Fvecto
         slidePlaneNormal.sub(newSourcePoint, cl.vNearestPolygonIntersectionPoint);
 
         // We now project the destination point onto the sliding plane
-        float l = intersectRayPlane(destinationPoint, slidePlaneNormal, slidePlaneOrigin, slidePlaneNormal);
+        float   l = intersectRayPlane(destinationPoint, slidePlaneNormal, slidePlaneOrigin, slidePlaneNormal);
 
         // We can now calculate a _new destination point on the sliding plane
         Fvector newDestinationPoint;
@@ -526,7 +526,7 @@ void msimulator_Simulate(Fvector& result, Fvector& start, Fvector& end, float _r
     float          half_height = _height / 2;
 
     // Calc BB
-    Fbox b1, b2, bb;
+    Fbox           b1, b2, bb;
     create_bb(b1, start, _radius, _height);
     create_bb(b2, end, _radius, _height);
     bb.merge(b1, b2);

@@ -4,7 +4,7 @@ UIChooseForm::EventsMap UIChooseForm::m_Events;
 UIChooseForm*           UIChooseForm::Form        = 0;
 ImTextureID             UIChooseForm::NullTexture = nullptr;
 
-void UIChooseForm::UpdateSelected(UIChooseFormItem* NewSelected)
+void                    UIChooseForm::UpdateSelected(UIChooseFormItem* NewSelected)
 {
     m_SelectedItem = NewSelected;
     if (m_SelectedItem)
@@ -31,10 +31,10 @@ void UIChooseForm::FillItems(u32 choose_id)
     m_RootItem      = UIChooseFormItem("");
     m_RootItem.Form = this;
 
-    m_ChooseID = choose_id;
-    int Index  = 0;
+    m_ChooseID      = choose_id;
+    int Index       = 0;
 
-    for (auto& i : m_Items)
+    for (auto& i: m_Items)
     {
         xr_string Name = i.name.c_str();
         // Name.append("*");
@@ -55,8 +55,8 @@ void UIChooseForm::FillItems(u32 choose_id)
 
     if (m_Flags.is(cfAllowNone) && !m_Flags.is(cfMultiSelect))
     {
-        m_ItemNone.name = NONE_CAPTION;
-        xr_string Name  = m_ItemNone.name.c_str();
+        m_ItemNone.name        = NONE_CAPTION;
+        xr_string         Name = m_ItemNone.name.c_str();
         // Name.append("*");
         UIChooseFormItem* Item = static_cast<UIChooseFormItem*>(m_RootItem.AppendItem(Name.c_str()));
         Item->Object           = &m_ItemNone;
@@ -207,12 +207,12 @@ void UIChooseForm::Draw()
                         "List", ImVec2(0, 0), true,
                         ImGuiWindowFlags_AlwaysHorizontalScrollbar | ImGuiWindowFlags_AlwaysVerticalScrollbar))
                 {
-                    int i = 0;
+                    int i     = 0;
 
                     int HereY = -m_SelectedList - 2;
                     if (HereY >= 0)
                         m_SelectedList = HereY;
-                    for (auto& item : m_SelectedItems)
+                    for (auto& item: m_SelectedItems)
                     {
                         if (HereY == i)
                             ImGui::SetScrollHereY();
@@ -288,7 +288,7 @@ bool UIChooseForm::GetResult(bool& change, shared_str& result)
             }
             xr_string reuslt_temp;
             int       i = 0;
-            for (auto& item : Form->m_SelectedItems)
+            for (auto& item: Form->m_SelectedItems)
             {
                 if (i != 0)
                 {
@@ -328,7 +328,7 @@ bool UIChooseForm::GetResult(bool& change, xr_string& result)
         if (Form->m_Result == R_Ok)
         {
             int i = 0;
-            for (auto& item : Form->m_SelectedItems)
+            for (auto& item: Form->m_SelectedItems)
             {
                 if (i != 0)
                 {
@@ -355,7 +355,7 @@ bool UIChooseForm::GetResult(bool& change, xr_vector<xr_string>& result)
         if (Form->m_Result == R_Ok)
         {
             int i = 0;
-            for (auto& item : Form->m_SelectedItems)
+            for (auto& item: Form->m_SelectedItems)
             {
                 result.push_back(item->name.c_str());
                 i++;

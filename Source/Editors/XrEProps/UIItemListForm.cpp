@@ -31,7 +31,7 @@ void UIItemListForm::ClearList()
     m_GeneralNode = Node();
 
     ClearSelectedItems();
-    for (ListItem* item : m_Items)
+    for (ListItem* item: m_Items)
     {
         xr_delete(item);
     }
@@ -51,7 +51,7 @@ void UIItemListForm::RemoveSelectItem()
         }
     }
     m_GeneralNode = Node();
-    for (ListItem* item : m_Items)
+    for (ListItem* item: m_Items)
     {
         Node* N = AppendObject(&m_GeneralNode, item->Key());
         VERIFY(N);
@@ -99,7 +99,7 @@ void UIItemListForm::SelectItem(const char* name)
 
 bool UIItemListForm::GetSelected(RStringVec& items) const
 {
-    for (ListItem* prop : m_SelectedItems)
+    for (ListItem* prop: m_SelectedItems)
     {
         items.push_back(prop->key);
     }
@@ -107,7 +107,7 @@ bool UIItemListForm::GetSelected(RStringVec& items) const
 }
 int UIItemListForm::GetSelected(LPCSTR pref, ListItemsVec& items, bool bOnlyObject)
 {
-    for (ListItem* prop : m_SelectedItems)
+    for (ListItem* prop: m_SelectedItems)
     {
         if (prop && (!bOnlyObject || (bOnlyObject && prop->m_Object)))
         {
@@ -140,7 +140,7 @@ void UIItemListForm::AssignItems(ListItemsVec& items, const char* name_selection
         m_GeneralNode = Node();
     }
 
-    for (ListItem* item : m_Items)
+    for (ListItem* item: m_Items)
     {
         item->Parent = this;
         Node* N      = AppendObject(&m_GeneralNode, item->Key());
@@ -160,7 +160,7 @@ void UIItemListForm::AssignItems(ListItemsVec& items, const char* name_selection
     }
     if (save_selected)
     {
-        for (shared_str& name : selection_items)
+        for (shared_str& name: selection_items)
         {
             Node* N = Find(&m_GeneralNode, name.c_str());
             if (N)
@@ -448,9 +448,10 @@ void UIItemListForm::DrawItem(Node* Node)
             if (Node->Object->selected)
             {
                 Node->Object->selected = false;
-                auto p = std::find_if(m_SelectedItems.begin(), m_SelectedItems.end(), [&Node](ListItem* a) {
-                    return a == Node->Object;
-                });
+                auto p                 = std::find_if(m_SelectedItems.begin(), m_SelectedItems.end(), [&Node](ListItem* a)
+                                    {
+                        return a == Node->Object;
+                    });
                 VERIFY(p != m_SelectedItems.end());
                 m_SelectedItems.erase(p);
             }
@@ -480,7 +481,7 @@ bool UIItemListForm::IsDrawFolder(Node* node)
         return node->Object->Visible();
     bool result = m_Flags.test(fMenuEdit);
     ;
-    for (Node& N : node->Nodes)
+    for (Node& N: node->Nodes)
     {
         result = result | IsDrawFolder(&N);
     }
@@ -544,7 +545,7 @@ void UIItemListForm::EventRemoveNode(Node* Node, const char* path)
 
 void UIItemListForm::ClearSelectedItems()
 {
-    for (auto ptr : m_SelectedItems)
+    for (auto ptr: m_SelectedItems)
     {
         ptr->selected = false;
     }

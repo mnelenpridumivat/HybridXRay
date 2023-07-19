@@ -50,7 +50,6 @@ public:
     }
 
     void Update();
-
 private:
 #if defined(USE_DX10) || defined(USE_DX11)
     void GenLUT(const DXGI_GAMMA_CONTROL_CAPABILITIES& GC, DXGI_GAMMA_CONTROL& G);

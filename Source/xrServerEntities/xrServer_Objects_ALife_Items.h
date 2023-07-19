@@ -17,7 +17,7 @@
 #include "infoportiondefs.h"
 
 #pragma warning(push)
-#pragma warning(disable : 4005)
+#pragma warning(disable:4005)
 
 class CSE_ALifeItemAmmo;
 
@@ -34,12 +34,11 @@ union mask_num_items
 {
     struct
     {
-        u8 num_items : 5;
-        u8 mask : 3;
+        u8 num_items:5;
+        u8 mask     :3;
     };
     u8 common;
 };
-
 public:
 float                 m_fCondition;
 float                 m_fMass;
@@ -50,7 +49,6 @@ float                 m_fDeteriorationValue;
 CSE_ALifeObject*      m_self;
 u32                   m_last_update_time;
 xr_vector<shared_str> m_upgrades;
-
 public:
 CSE_ALifeInventoryItem(LPCSTR caSection);
 virtual ~CSE_ALifeInventoryItem();
@@ -69,9 +67,8 @@ virtual CSE_ALifeInventoryItem* cast_inventory_item()
 virtual u32  update_rate() const;
 virtual BOOL Net_Relevant();
 
-bool has_upgrade(const shared_str& upgrade_id);
-void add_upgrade(const shared_str& upgrade_id);
-
+bool         has_upgrade(const shared_str& upgrade_id);
+void         add_upgrade(const shared_str& upgrade_id);
 private:
 bool             prev_freezed;
 bool             freezed;
@@ -79,7 +76,6 @@ u32              m_freeze_time;
 static const u32 m_freeze_delta_time;
 static const u32 random_limit;
 CRandom          m_relevent_random;
-
 public:
 // end of the virtual inheritance dependant code
 
@@ -90,8 +86,8 @@ IC bool attached() const
 virtual bool bfUseful();
 
 /////////// network ///////////////
-u8          m_u8NumItems;
-SPHNetState State;
+u8           m_u8NumItems;
+SPHNetState  State;
 ///////////////////////////////////
 SERVER_ENTITY_DECLARE_END
 add_to_type_list(CSE_ALifeInventoryItem)
@@ -171,18 +167,18 @@ EWeaponAddonStatus m_scope_status;
 EWeaponAddonStatus m_silencer_status;
 EWeaponAddonStatus m_grenade_launcher_status;
 
-u32 timestamp;
-u8  wpn_flags;
-u8  wpn_state;
-u8  ammo_type;
-u16 a_current;
-u16 a_elapsed;
+u32                timestamp;
+u8                 wpn_flags;
+u8                 wpn_state;
+u8                 ammo_type;
+u16                a_current;
+u16                a_elapsed;
 // count of grenades to spawn in grenade launcher [ttcccccc]
 // WARNING! hight 2 bits (tt bits) indicate type of grenade, so maximum grenade count is 2^6 = 64
 struct grenade_count_t
 {
-    u8 grenades_count : 6;
-    u8 grenades_type : 2;
+    u8 grenades_count:6;
+    u8 grenades_type :2;
     u8 pack_to_byte() const
     {
         return (grenades_type << 6) | grenades_count;
@@ -192,7 +188,7 @@ struct grenade_count_t
         grenades_type  = (b >> 6);
         grenades_count = b & 0x3f;   // 111111
     }
-};   // struct grenade_count_t
+};                                   // struct grenade_count_t
 grenade_count_t a_elapsed_grenades;
 
 float           m_fHitPower;
@@ -206,17 +202,17 @@ u32             m_ef_weapon_type;
 
 CSE_ALifeItemWeapon(LPCSTR caSection);
 virtual ~CSE_ALifeItemWeapon();
-virtual void OnEvent(NET_Packet& P, u16 type, u32 time, ClientID sender);
-virtual u32  ef_main_weapon_type() const;
-virtual u32  ef_weapon_type() const;
-u8           get_slot();
-u16          get_ammo_limit();
-u16          get_ammo_total();
-u16          get_ammo_elapsed();
-u16          get_ammo_magsize();
-void         clone_addons(CSE_ALifeItemWeapon* parent);
+virtual void                 OnEvent(NET_Packet& P, u16 type, u32 time, ClientID sender);
+virtual u32                  ef_main_weapon_type() const;
+virtual u32                  ef_weapon_type() const;
+u8                           get_slot();
+u16                          get_ammo_limit();
+u16                          get_ammo_total();
+u16                          get_ammo_elapsed();
+u16                          get_ammo_magsize();
+void                         clone_addons(CSE_ALifeItemWeapon* parent);
 
-virtual BOOL Net_Relevant();
+virtual BOOL                 Net_Relevant();
 
 virtual CSE_ALifeItemWeapon* cast_item_weapon()
 {

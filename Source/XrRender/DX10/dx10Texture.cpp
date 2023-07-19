@@ -8,9 +8,9 @@
 #include "..\..\External\RedImage\RedImageTool\RedImage.hpp"
 using namespace RedImageTool;
 #endif
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include "directx\d3dx9.h"
-#pragma warning(default : 4995)
+#pragma warning(default:4995)
 
 #include "directx\D3DX10Tex.h"
 
@@ -24,7 +24,7 @@ void fix_texture_name(LPSTR fn)
     LPSTR _ext = strext(fn);
     if (_ext &&
         (0 == stricmp(_ext, ".tga") || 0 == stricmp(_ext, ".dds") || 0 == stricmp(_ext, ".bmp") ||
-         0 == stricmp(_ext, ".ogm")))
+            0 == stricmp(_ext, ".ogm")))
     {
         *_ext = 0;
     }
@@ -36,11 +36,11 @@ int get_texture_load_lod(LPCSTR fn)
     CInifile::SectCIt it_   = sect.Data.begin();
     CInifile::SectCIt it_e_ = sect.Data.end();
 
-    ENGINE_API bool is_enough_address_space_available();
-    static bool     enough_address_space_available = is_enough_address_space_available();
+    ENGINE_API bool   is_enough_address_space_available();
+    static bool       enough_address_space_available = is_enough_address_space_available();
 
-    CInifile::SectCIt it   = it_;
-    CInifile::SectCIt it_e = it_e_;
+    CInifile::SectCIt it                             = it_;
+    CInifile::SectCIt it_e                           = it_e_;
 
     for (; it != it_e; ++it)
     {
@@ -93,7 +93,7 @@ const float _BUMPHEIGH = 8.f;
 //////////////////////////////////////////////////////////////////////
 // Utility pack
 //////////////////////////////////////////////////////////////////////
-IC u32 GetPowerOf2Plus1(u32 v)
+IC u32      GetPowerOf2Plus1(u32 v)
 {
     u32 cnt = 0;
     while (v)
@@ -451,7 +451,7 @@ Load:
     }*/
     FS.r_close(S);
 
-    Format = Convert(Image);
+    Format    = Convert(Image);
 
     ret_msize = Image.GetSizeInMemory();
     if (Image.IsCubeMap())
@@ -484,7 +484,7 @@ Load:
                 size_t               MipH        = RedTextureUtils::GetMip(Desc.Height, a);
                 D3D_SUBRESOURCE_DATA SubResource = {};
                 SubResource.pSysMem              = Pointer;
-                SubResource.SysMemPitch = static_cast<UINT>(RedTextureUtils::GetSizeWidth(MipW, Image.GetFormat()));
+                SubResource.SysMemPitch          = static_cast<UINT>(RedTextureUtils::GetSizeWidth(MipW, Image.GetFormat()));
                 SubResource.SysMemSlicePitch =
                     static_cast<UINT>(RedTextureUtils::GetSizeDepth(MipW, MipH, Image.GetFormat()));
                 Pointer += SubResource.SysMemSlicePitch;
@@ -517,7 +517,7 @@ Load:
                 size_t               MipH        = RedTextureUtils::GetMip(Desc.Height, a);
                 D3D_SUBRESOURCE_DATA SubResource = {};
                 SubResource.pSysMem              = Pointer;
-                SubResource.SysMemPitch = static_cast<UINT>(RedTextureUtils::GetSizeWidth(MipW, Image.GetFormat()));
+                SubResource.SysMemPitch          = static_cast<UINT>(RedTextureUtils::GetSizeWidth(MipW, Image.GetFormat()));
                 SubResource.SysMemSlicePitch =
                     static_cast<UINT>(RedTextureUtils::GetSizeDepth(MipW, MipH, Image.GetFormat()));
                 Pointer += SubResource.SysMemSlicePitch;
@@ -558,7 +558,7 @@ Load:
                 size_t               MipH        = RedTextureUtils::GetMip(Desc.Height, a);
                 D3D_SUBRESOURCE_DATA SubResource = {};
                 SubResource.pSysMem              = Pointer;
-                SubResource.SysMemPitch = static_cast<UINT>(RedTextureUtils::GetSizeWidth(MipW, Image.GetFormat()));
+                SubResource.SysMemPitch          = static_cast<UINT>(RedTextureUtils::GetSizeWidth(MipW, Image.GetFormat()));
                 SubResource.SysMemSlicePitch =
                     static_cast<UINT>(RedTextureUtils::GetSizeDepth(MipW, MipH, Image.GetFormat()));
                 Pointer += SubResource.SysMemSlicePitch;
@@ -572,16 +572,16 @@ Load:
 
 //  Moved here just to avoid warning
 #ifdef USE_DX11
-D3DX11_IMAGE_INFO IMG;
+    D3DX11_IMAGE_INFO IMG;
 #else
-D3DX10_IMAGE_INFO IMG;
+    D3DX10_IMAGE_INFO IMG;
 #endif
-ZeroMemory(&IMG, sizeof(IMG));
+    ZeroMemory(&IMG, sizeof(IMG));
 
-ID3DBaseTexture* pTexture2D = NULL;
-size_t img_size = 0;
-int img_loaded_lod = 0;
-u32 mip_cnt = u32(-1);
+    ID3DBaseTexture* pTexture2D     = NULL;
+    size_t           img_size       = 0;
+    int              img_loaded_lod = 0;
+    u32              mip_cnt        = u32(-1);
 
 _DDS:
 {
@@ -603,82 +603,82 @@ _DDS:
         goto _DDS_2D;
 
 _DDS_CUBE:
-    {
-        //	Inited to default by provided default constructor
+{
+    //	Inited to default by provided default constructor
 #ifdef USE_DX11
-        D3DX11_IMAGE_LOAD_INFO LoadInfo;
+    D3DX11_IMAGE_LOAD_INFO LoadInfo;
 #else
-        D3DX10_IMAGE_LOAD_INFO LoadInfo;
+    D3DX10_IMAGE_LOAD_INFO LoadInfo;
 #endif
-        LoadInfo.Usage = D3D_USAGE_IMMUTABLE;
-        if (bStaging)
-        {
-            LoadInfo.Usage = D3D_USAGE_STAGING;
-            LoadInfo.BindFlags = 0;
-            LoadInfo.CpuAccessFlags = D3D_CPU_ACCESS_WRITE;
-        }
-        else
-        {
-            LoadInfo.Usage = D3D_USAGE_DEFAULT;
-            LoadInfo.BindFlags = D3D_BIND_SHADER_RESOURCE;
-        }
-        LoadInfo.pSrcInfo = &IMG;
+    LoadInfo.Usage = D3D_USAGE_IMMUTABLE;
+    if (bStaging)
+    {
+        LoadInfo.Usage          = D3D_USAGE_STAGING;
+        LoadInfo.BindFlags      = 0;
+        LoadInfo.CpuAccessFlags = D3D_CPU_ACCESS_WRITE;
+    }
+    else
+    {
+        LoadInfo.Usage     = D3D_USAGE_DEFAULT;
+        LoadInfo.BindFlags = D3D_BIND_SHADER_RESOURCE;
+    }
+    LoadInfo.pSrcInfo = &IMG;
 
 #ifdef USE_DX11
-        R_CHK(D3DX11CreateTextureFromMemory(HW.pDevice, S->pointer(), S->length(), &LoadInfo, 0, &pTexture2D, 0));
+    R_CHK(D3DX11CreateTextureFromMemory(HW.pDevice, S->pointer(), S->length(), &LoadInfo, 0, &pTexture2D, 0));
 #else
-        R_CHK(D3DX10CreateTextureFromMemory(HW.pDevice, S->pointer(), S->length(), &LoadInfo, 0, &pTexture2D, 0));
+    R_CHK(D3DX10CreateTextureFromMemory(HW.pDevice, S->pointer(), S->length(), &LoadInfo, 0, &pTexture2D, 0));
 #endif
-        FS.r_close(S);
-        // OK
-        mip_cnt = IMG.MipLevels;
-        ret_msize = calc_texture_size(img_loaded_lod, mip_cnt, img_size);
-        return pTexture2D;
-    }
+    FS.r_close(S);
+    // OK
+    mip_cnt   = IMG.MipLevels;
+    ret_msize = calc_texture_size(img_loaded_lod, mip_cnt, img_size);
+    return pTexture2D;
+}
 _DDS_2D:
+{
+    // Check for LMAP and compress if needed
+    strlwr(fn);
+    img_loaded_lod = get_texture_load_lod(fn);
+    //	Inited to default by provided default constructor
+#ifdef USE_DX11
+    D3DX11_IMAGE_LOAD_INFO LoadInfo;
+#else
+    D3DX10_IMAGE_LOAD_INFO LoadInfo;
+#endif
+    // LoadInfo.FirstMipLevel = img_loaded_lod;
+    LoadInfo.Width  = IMG.Width;
+    LoadInfo.Height = IMG.Height;
+
+    if (img_loaded_lod)
     {
-        // Check for LMAP and compress if needed
-        strlwr(fn);
-        img_loaded_lod = get_texture_load_lod(fn);
-        //	Inited to default by provided default constructor
-#ifdef USE_DX11
-        D3DX11_IMAGE_LOAD_INFO LoadInfo;
-#else
-        D3DX10_IMAGE_LOAD_INFO LoadInfo;
-#endif
-        // LoadInfo.FirstMipLevel = img_loaded_lod;
-        LoadInfo.Width = IMG.Width;
-        LoadInfo.Height = IMG.Height;
-
-        if (img_loaded_lod)
-        {
-            Reduce(LoadInfo.Width, LoadInfo.Height, IMG.MipLevels, img_loaded_lod);
-        }
-        LoadInfo.Usage = D3D_USAGE_IMMUTABLE;
-        if (bStaging)
-        {
-            LoadInfo.Usage = D3D_USAGE_STAGING;
-            LoadInfo.BindFlags = 0;
-            LoadInfo.CpuAccessFlags = D3D_CPU_ACCESS_WRITE;
-        }
-        else
-        {
-            LoadInfo.Usage = D3D_USAGE_DEFAULT;
-            LoadInfo.BindFlags = D3D_BIND_SHADER_RESOURCE;
-        }
-        LoadInfo.pSrcInfo = &IMG;
-
-#ifdef USE_DX11
-        R_CHK2(D3DX11CreateTextureFromMemory(HW.pDevice, S->pointer(), S->length(), &LoadInfo, 0, &pTexture2D, 0), fn);
-#else
-        R_CHK2(D3DX10CreateTextureFromMemory(HW.pDevice, S->pointer(), S->length(), &LoadInfo, 0, &pTexture2D, 0), fn);
-#endif
-        FS.r_close(S);
-        mip_cnt = IMG.MipLevels;
-        // OK
-        ret_msize = calc_texture_size(img_loaded_lod, mip_cnt, img_size);
-        return pTexture2D;
+        Reduce(LoadInfo.Width, LoadInfo.Height, IMG.MipLevels, img_loaded_lod);
     }
+    LoadInfo.Usage = D3D_USAGE_IMMUTABLE;
+    if (bStaging)
+    {
+        LoadInfo.Usage          = D3D_USAGE_STAGING;
+        LoadInfo.BindFlags      = 0;
+        LoadInfo.CpuAccessFlags = D3D_CPU_ACCESS_WRITE;
+    }
+    else
+    {
+        LoadInfo.Usage     = D3D_USAGE_DEFAULT;
+        LoadInfo.BindFlags = D3D_BIND_SHADER_RESOURCE;
+    }
+    LoadInfo.pSrcInfo = &IMG;
+
+#ifdef USE_DX11
+    R_CHK2(D3DX11CreateTextureFromMemory(HW.pDevice, S->pointer(), S->length(), &LoadInfo, 0, &pTexture2D, 0), fn);
+#else
+    R_CHK2(D3DX10CreateTextureFromMemory(HW.pDevice, S->pointer(), S->length(), &LoadInfo, 0, &pTexture2D, 0), fn);
+#endif
+    FS.r_close(S);
+    mip_cnt   = IMG.MipLevels;
+    // OK
+    ret_msize = calc_texture_size(img_loaded_lod, mip_cnt, img_size);
+    return pTexture2D;
+}
 }
 }
 #else
@@ -698,12 +698,12 @@ ID3DBaseTexture* CRender::texture_load(LPCSTR fRName, u32& ret_msize, bool bStag
 
     ID3DBaseTexture* pTexture2D = NULL;
     // IDirect3DCubeTexture9*	pTextureCUBE	= NULL;
-    string_path fn;
+    string_path      fn;
     // u32						dwWidth,dwHeight;
-    size_t img_size = 0;
-    int img_loaded_lod = 0;
+    size_t           img_size       = 0;
+    int              img_loaded_lod = 0;
     // D3DFORMAT				fmt;
-    u32 mip_cnt = u32(-1);
+    u32              mip_cnt        = u32(-1);
     // validation
     R_ASSERT(fRName);
     R_ASSERT(fRName[0]);
@@ -781,13 +781,13 @@ _DDS_CUBE:
     LoadInfo.Usage = D3D_USAGE_IMMUTABLE;
     if (bStaging)
     {
-        LoadInfo.Usage = D3D_USAGE_STAGING;
-        LoadInfo.BindFlags = 0;
+        LoadInfo.Usage          = D3D_USAGE_STAGING;
+        LoadInfo.BindFlags      = 0;
         LoadInfo.CpuAccessFlags = D3D_CPU_ACCESS_WRITE;
     }
     else
     {
-        LoadInfo.Usage = D3D_USAGE_DEFAULT;
+        LoadInfo.Usage     = D3D_USAGE_DEFAULT;
         LoadInfo.BindFlags = D3D_BIND_SHADER_RESOURCE;
     }
 
@@ -802,7 +802,7 @@ _DDS_CUBE:
     FS.r_close(S);
 
     // OK
-    mip_cnt = IMG.MipLevels;
+    mip_cnt   = IMG.MipLevels;
     ret_msize = calc_texture_size(img_loaded_lod, mip_cnt, img_size);
     return pTexture2D;
 }
@@ -835,7 +835,7 @@ _DDS_2D:
     D3DX10_IMAGE_LOAD_INFO LoadInfo;
 #endif
     // LoadInfo.FirstMipLevel = img_loaded_lod;
-    LoadInfo.Width = IMG.Width;
+    LoadInfo.Width  = IMG.Width;
     LoadInfo.Height = IMG.Height;
 
     if (img_loaded_lod)
@@ -846,13 +846,13 @@ _DDS_2D:
     LoadInfo.Usage = D3D_USAGE_IMMUTABLE;
     if (bStaging)
     {
-        LoadInfo.Usage = D3D_USAGE_STAGING;
-        LoadInfo.BindFlags = 0;
+        LoadInfo.Usage          = D3D_USAGE_STAGING;
+        LoadInfo.BindFlags      = 0;
         LoadInfo.CpuAccessFlags = D3D_CPU_ACCESS_WRITE;
     }
     else
     {
-        LoadInfo.Usage = D3D_USAGE_DEFAULT;
+        LoadInfo.Usage     = D3D_USAGE_DEFAULT;
         LoadInfo.BindFlags = D3D_BIND_SHADER_RESOURCE;
     }
     LoadInfo.pSrcInfo = &IMG;
@@ -863,7 +863,7 @@ _DDS_2D:
     R_CHK2(D3DX10CreateTextureFromMemory(HW.pDevice, S->pointer(), S->length(), &LoadInfo, 0, &pTexture2D, 0), fn);
 #endif
     FS.r_close(S);
-    mip_cnt = IMG.MipLevels;
+    mip_cnt   = IMG.MipLevels;
     // OK
     ret_msize = calc_texture_size(img_loaded_lod, mip_cnt, img_size);
     return pTexture2D;

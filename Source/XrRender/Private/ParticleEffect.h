@@ -19,25 +19,21 @@ namespace PS
     {
         //		friend void ParticleRenderStream( LPVOID lpvParams );
         friend class CPEDef;
-
     protected:
-        float m_fElapsedLimit;
+        float   m_fElapsedLimit;
 
-        int m_HandleEffect;
-        int m_HandleActionList;
+        int     m_HandleEffect;
+        int     m_HandleActionList;
 
-        s32 m_MemDT;
+        s32     m_MemDT;
 
         Fvector m_InitialPosition;
-
     public:
         CPEDef* m_Def;
         Fmatrix m_XFORM;
-
     protected:
         DestroyCallback   m_DestroyCallback;
         CollisionCallback m_CollisionCallback;
-
     public:
         enum
         {
@@ -47,18 +43,16 @@ namespace PS
             flRT_HUDmode      = (1 << 3),
         };
         Flags8 m_RT_Flags;
-
     protected:
         BOOL SaveActionList(IWriter& F);
         BOOL LoadActionList(IReader& F);
 
         void RefreshShader();
-
     public:
         CParticleEffect();
         virtual ~CParticleEffect();
 
-        void OnFrame(u32 dt);
+        void         OnFrame(u32 dt);
 
         u32          RenderTO();
         virtual void Render(float LOD);
@@ -69,9 +63,9 @@ namespace PS
 
         virtual void UpdateParent(const Fmatrix& m, const Fvector& velocity, BOOL bXFORM);
 
-        BOOL Compile(CPEDef* def);
+        BOOL         Compile(CPEDef* def);
 
-        IC CPEDef* GetDefinition()
+        IC CPEDef*   GetDefinition()
         {
             return m_Def;
         }
@@ -120,12 +114,12 @@ namespace PS
         {
             m_CollisionCallback = collision_cb;
         }
-        void SetBirthDeadCB(PAPI::OnBirthParticleCB bc, PAPI::OnDeadParticleCB dc, void* owner, u32 p);
+        void        SetBirthDeadCB(PAPI::OnBirthParticleCB bc, PAPI::OnDeadParticleCB dc, void* owner, u32 p);
 
         virtual u32 ParticlesCount();
     };
-    void OnEffectParticleBirth(void* owner, u32 param, PAPI::Particle& m, u32 idx);
-    void OnEffectParticleDead(void* owner, u32 param, PAPI::Particle& m, u32 idx);
+    void               OnEffectParticleBirth(void* owner, u32 param, PAPI::Particle& m, u32 idx);
+    void               OnEffectParticleDead(void* owner, u32 param, PAPI::Particle& m, u32 idx);
 
     extern const u32   uDT_STEP;
     extern const float fDT_STEP;

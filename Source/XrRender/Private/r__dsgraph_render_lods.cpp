@@ -12,7 +12,7 @@
 extern float r_ssaLOD_A;
 extern float r_ssaLOD_B;
 
-ICF bool pred_dot(const std::pair<float, u32>& _1, const std::pair<float, u32>& _2)
+ICF bool     pred_dot(const std::pair<float, u32>& _1, const std::pair<float, u32>& _2)
 {
     return _1.first < _2.first;
 }
@@ -62,13 +62,13 @@ void R_dsgraph_structure::r_dsgraph_render_lods(bool _setup_zb, bool _clear)
             }
 
             // calculate alpha
-            float ssaDiff = P.ssa - r_ssaLOD_B;
-            float scale   = ssaDiff / ssaRange;
-            int   iA      = iFloor((1 - scale) * 255.f);
-            u32   uA      = u32(clampr(iA, 0, 255));
+            float   ssaDiff = P.ssa - r_ssaLOD_B;
+            float   scale   = ssaDiff / ssaRange;
+            int     iA      = iFloor((1 - scale) * 255.f);
+            u32     uA      = u32(clampr(iA, 0, 255));
 
             // calculate direction and shift
-            FLOD*   lodV = (FLOD*)P.pVisual;
+            FLOD*   lodV    = (FLOD*)P.pVisual;
             Fvector Ldir, shift;
             Ldir.sub(lodV->vis.sphere.P, Device->vCameraPosition).normalize();
             shift.mul(Ldir, -.5f * lodV->vis.sphere.R);
@@ -80,17 +80,17 @@ void R_dsgraph_structure::r_dsgraph_render_lods(bool _setup_zb, bool _clear)
                 selector.push_back(mk_pair(Ldir.dotproduct(facets[s].N), s));
             std::sort(selector.begin(), selector.end(), pred_dot);
 
-            float dot_best   = selector[selector.size() - 1].first;
-            float dot_next   = selector[selector.size() - 2].first;
-            float dot_next_2 = selector[selector.size() - 3].first;
-            u32   id_best    = selector[selector.size() - 1].second;
-            u32   id_next    = selector[selector.size() - 2].second;
+            float        dot_best   = selector[selector.size() - 1].first;
+            float        dot_next   = selector[selector.size() - 2].first;
+            float        dot_next_2 = selector[selector.size() - 3].first;
+            u32          id_best    = selector[selector.size() - 1].second;
+            u32          id_next    = selector[selector.size() - 2].second;
 
             // Now we have two "best" planes, calculate factor, and approx normal
-            float fA = dot_best, fB = dot_next, fC = dot_next_2;
-            float alpha = 0.5f + 0.5f * (1 - (fB - fC) / (fA - fC));
-            int   iF    = iFloor(alpha * 255.5f);
-            u32   uF    = u32(clampr(iF, 0, 255));
+            float        fA = dot_best, fB = dot_next, fC = dot_next_2;
+            float        alpha  = 0.5f + 0.5f * (1 - (fB - fC) / (fA - fC));
+            int          iF     = iFloor(alpha * 255.5f);
+            u32          uF     = u32(clampr(iF, 0, 255));
 
             // Fill VB
             FLOD::_face& FA     = facets[id_best];

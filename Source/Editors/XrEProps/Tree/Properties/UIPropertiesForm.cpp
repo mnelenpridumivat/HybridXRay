@@ -104,7 +104,7 @@ void UIPropertiesForm::Draw()
 void UIPropertiesForm::AssignItems(PropItemVec& items)
 {
     m_Items = items;
-    for (PropItem* item : items)
+    for (PropItem* item: items)
     {
         item->m_Owner          = this;
         UIPropertiesItem* Item = static_cast<UIPropertiesItem*>(m_Root.AppendItem(item->Key(), item->hint_text));
@@ -115,7 +115,7 @@ void UIPropertiesForm::AssignItems(PropItemVec& items)
 
 PropItem* UIPropertiesForm::FindItemOfName(shared_str name)
 {
-    for (PropItem* I : m_Items)
+    for (PropItem* I: m_Items)
     {
         const char* key = I->Key();
         if (strrchr(key, '\\'))
@@ -133,7 +133,7 @@ PropItem* UIPropertiesForm::FindItemOfName(shared_str name)
 void UIPropertiesForm::ClearProperties()
 {
     VERIFY(!m_EditChooseValue);
-    for (PropItem* I : m_Items)
+    for (PropItem* I: m_Items)
     {
         xr_delete(I);
     }
@@ -160,14 +160,16 @@ void UIPropertiesForm::DrawEditText()
 
         if (ImGui::Button("Ok"))
         {
-            auto OnOkSuccessful = [&]() {
+            auto OnOkSuccessful = [&]()
+            {
                 xr_delete(m_EditTextValueData);
                 xr_delete(m_EditTextValueInitial);
                 Modified();
                 ImGui::CloseCurrentPopup();
             };
 
-            auto OnOkFailed = [&]() {
+            auto OnOkFailed = [&]()
+            {
                 if (!m_EditTextValueData || !m_EditTextValueInitial)
                     return;
 
@@ -223,7 +225,8 @@ void UIPropertiesForm::DrawEditText()
 
         if (ImGui::Button("Apply"))
         {
-            auto OnApplySuccessful = [&]() {
+            auto OnApplySuccessful = [&]()
+            {
                 const char* newText = m_EditTextValueData;
                 xr_delete(m_EditTextValueInitial);
                 m_EditTextValueInitial = xr_strdup(newText ? newText : "");
@@ -304,7 +307,8 @@ void UIPropertiesForm::DrawEditText()
             ImGui::InputTextMultiline(
                 "##text", m_EditTextValueData, m_EditTextValueDataSize, ImVec2(500, 200),
                 ImGuiInputTextFlags_CallbackResize,
-                [](ImGuiInputTextCallbackData* data) -> int {
+                [](ImGuiInputTextCallbackData* data) -> int
+                {
                     return reinterpret_cast<UIPropertiesForm*>(data->UserData)->DrawEditText_Callback(data);
                 },
                 this);

@@ -107,7 +107,7 @@ void UIChooseFormItem::Draw()
         }
         if (ImGui::TreeNodeEx(Name.c_str(), Flags))
         {
-            for (UITreeItem* Item : Items)
+            for (UITreeItem* Item: Items)
             {
                 ((UIChooseFormItem*)Item)->Draw();
             }
@@ -120,7 +120,7 @@ void UIChooseFormItem::Draw()
 
 void UIChooseFormItem::DrawRoot()
 {
-    for (UITreeItem* Item : Items)
+    for (UITreeItem* Item: Items)
     {
         ((UIChooseFormItem*)Item)->Draw();
     }
@@ -128,24 +128,25 @@ void UIChooseFormItem::DrawRoot()
 
 void UIChooseFormItem::Sort()
 {
-    for (UITreeItem* Item : Items)
+    for (UITreeItem* Item: Items)
     {
-        std::sort(Items.begin(), Items.end(), [](UITreeItem* Right, UITreeItem* Left) -> bool {
-            UIChooseFormItem* pRight = ((UIChooseFormItem*)Right);
-            UIChooseFormItem* pLeft  = ((UIChooseFormItem*)Left);
-            if (pRight->Object && !pLeft->Object)
+        std::sort(Items.begin(), Items.end(), [](UITreeItem* Right, UITreeItem* Left) -> bool
             {
-                return false;
-            }
-            if (!pRight->Object && pLeft->Object)
-            {
-                return true;
-            }
-            return xr_strcmp(pRight->Name.c_str(), pLeft->Name.c_str()) < 0;
-        });
+                UIChooseFormItem* pRight = ((UIChooseFormItem*)Right);
+                UIChooseFormItem* pLeft  = ((UIChooseFormItem*)Left);
+                if (pRight->Object && !pLeft->Object)
+                {
+                    return false;
+                }
+                if (!pRight->Object && pLeft->Object)
+                {
+                    return true;
+                }
+                return xr_strcmp(pRight->Name.c_str(), pLeft->Name.c_str()) < 0;
+            });
     }
 
-    for (UITreeItem* Item : Items)
+    for (UITreeItem* Item: Items)
     {
         ((UIChooseFormItem*)Item)->Sort();
     }
@@ -161,7 +162,7 @@ void UIChooseFormItem::CheckFavorited()
     }
     m_bIsMixed            = false;
     bool bIsLastFavorited = ((UIChooseFormItem*)Items.front())->bIsFavorite;
-    for (UITreeItem* Item : Items)
+    for (UITreeItem* Item: Items)
     {
         ((UIChooseFormItem*)Item)->CheckFavorited();
         m_bIsMixed |= ((UIChooseFormItem*)Item)->m_bIsMixed;
@@ -182,7 +183,7 @@ void UIChooseFormItem::SetFavorite(bool bFavorited)
     }
     bIsFavorite = bFavorited;
     m_bIsMixed  = false;
-    for (UITreeItem* Item : Items)
+    for (UITreeItem* Item: Items)
     {
         ((UIChooseFormItem*)Item)->SetFavorite(bFavorited);
     }
@@ -198,7 +199,7 @@ void UIChooseFormItem::FillFavorited(xr_vector<SChooseItem*>& Favorited)
     {
         Favorited.push_back(Object);
     }
-    for (UITreeItem* Item : Items)
+    for (UITreeItem* Item: Items)
     {
         ((UIChooseFormItem*)Item)->FillFavorited(Favorited);
     }
@@ -212,11 +213,12 @@ void UIChooseFormItem::CheckFavorited(xr_vector<SChooseItem*>& Favorited)
     }
     if (Object)
     {
-        bIsFavorite = std::find_if(Favorited.begin(), Favorited.end(), [&](SChooseItem* I) {
-                          return Object == I;
-                      }) != Favorited.end();
+        bIsFavorite = std::find_if(Favorited.begin(), Favorited.end(), [&](SChooseItem* I)
+                          {
+                              return Object == I;
+                          }) != Favorited.end();
     }
-    for (UITreeItem* Item : Items)
+    for (UITreeItem* Item: Items)
     {
         ((UIChooseFormItem*)Item)->CheckFavorited(Favorited);
     }
@@ -225,7 +227,7 @@ void UIChooseFormItem::CheckFavorited(xr_vector<SChooseItem*>& Favorited)
 void UIChooseFormItem::ClearSelection()
 {
     bSelected = false;
-    for (UITreeItem* Item : Items)
+    for (UITreeItem* Item: Items)
     {
         ((UIChooseFormItem*)Item)->ClearSelection();
     }
@@ -233,7 +235,7 @@ void UIChooseFormItem::ClearSelection()
 
 void UIChooseFormItem::Selected(int Start, int End)
 {
-    for (UITreeItem* Item : Items)
+    for (UITreeItem* Item: Items)
     {
         ((UIChooseFormItem*)Item)->Selected(Start, End);
     }
@@ -260,7 +262,7 @@ void UIChooseFormItem::SelectedToFavorite(bool Favorite)
     {
         return;
     }
-    for (UITreeItem* Item : Items)
+    for (UITreeItem* Item: Items)
     {
         ((UIChooseFormItem*)Item)->SelectedToFavorite(Favorite);
     }
@@ -286,7 +288,7 @@ bool UIChooseFormItem::CheckFilter()
     else
     {
         bool bTest = false;
-        for (UITreeItem* Item : Items)
+        for (UITreeItem* Item: Items)
         {
             bTest |= ((UIChooseFormItem*)Item)->CheckFilter();
         }

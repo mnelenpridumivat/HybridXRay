@@ -123,7 +123,7 @@ CSector::~CSector() {}
 extern float r_ssaDISCARD;
 extern float r_ssaLOD_A, r_ssaLOD_B;
 
-void CSector::traverse(CFrustum& F, _scissor& R_scissor)
+void         CSector::traverse(CFrustum& F, _scissor& R_scissor)
 {
     // Register traversal process
     if (r_marker != PortalTraverser.i_marker)
@@ -209,10 +209,10 @@ void CSector::traverse(CFrustum& F, _scissor& R_scissor)
                 Fmatrix& M = PortalTraverser.i_mXFORM_01;
                 Fvector& v = p[vit];
 
-                t.x = v.x * M._11 + v.y * M._21 + v.z * M._31 + M._41;
-                t.y = v.x * M._12 + v.y * M._22 + v.z * M._32 + M._42;
-                t.z = v.x * M._13 + v.y * M._23 + v.z * M._33 + M._43;
-                t.w = v.x * M._14 + v.y * M._24 + v.z * M._34 + M._44;
+                t.x        = v.x * M._11 + v.y * M._21 + v.z * M._31 + M._41;
+                t.y        = v.x * M._12 + v.y * M._22 + v.z * M._32 + M._42;
+                t.z        = v.x * M._13 + v.y * M._23 + v.z * M._33 + M._43;
+                t.w        = v.x * M._14 + v.y * M._24 + v.z * M._34 + M._44;
                 t.mul(1.f / t.w);
 
                 if (t.x < bb.min.x)

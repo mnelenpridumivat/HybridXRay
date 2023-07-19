@@ -40,10 +40,10 @@ static void add_face(
         u32           ID =
             u32(std::lower_bound(lc_global_data()->g_vertices().begin(), lc_global_data()->g_vertices().end(), V) -
                 lc_global_data()->g_vertices().begin());
-        xr_vector<u32>& m   = remap[ID];
-        Fvector2        Ftc = F.tc.front().uv[v];
+        xr_vector<u32>& m            = remap[ID];
+        Fvector2        Ftc          = F.tc.front().uv[v];
 
-        u32 vertex_index = find_same_vertex(m, Ftc, theVerts);
+        u32             vertex_index = find_same_vertex(m, Ftc, theVerts);
 
         // Register new if not found
         if (vertex_index == u32(-1))
@@ -96,7 +96,7 @@ static xr_vector<MeshMender::Vertex> mender_in_out_verts;
 static xr_vector<unsigned int>       mender_in_out_indices;
 static xr_vector<unsigned int>       mender_mapping_out_to_in_vert;
 
-void CBuild::xrPhase_TangentBasis()
+void                                 CBuild::xrPhase_TangentBasis()
 {
     // ************************************* Declare inputs
     Status("Declarator...");

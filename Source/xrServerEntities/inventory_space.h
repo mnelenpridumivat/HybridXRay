@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #define CMD_START (1 << 0)
-#define CMD_STOP (1 << 1)
+#define CMD_STOP  (1 << 1)
 
 enum
 {
@@ -22,7 +22,7 @@ enum
 };
 
 #define RUCK_HEIGHT 280
-#define RUCK_WIDTH 7
+#define RUCK_WIDTH  7
 
 class CInventoryItem;
 class CInventory;
@@ -44,9 +44,9 @@ struct SInvItemPlace
     {
         struct
         {
-            u16 type : 4;
-            u16 slot_id : 6;
-            u16 base_slot_id : 6;
+            u16 type        :4;
+            u16 slot_id     :6;
+            u16 base_slot_id:6;
         };
         u16 value;
     };

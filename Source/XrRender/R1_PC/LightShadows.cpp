@@ -9,11 +9,11 @@
 #include "../Private/fbasicvisual.h"
 #include "../../xrEngine/CustomHUD.h"
 
-const float S_distance   = 48;
-const float S_distance2  = S_distance * S_distance;
-const float S_ideal_size = 4.f;   // ideal size for the object
-const float S_fade       = 4.5;
-const float S_fade2      = S_fade * S_fade;
+const float     S_distance    = 48;
+const float     S_distance2   = S_distance * S_distance;
+const float     S_ideal_size  = 4.f;   // ideal size for the object
+const float     S_fade        = 4.5;
+const float     S_fade2       = S_fade * S_fade;
 
 const float     S_level       = .05f;   // clip by energy level
 const int       S_size        = 85;
@@ -25,7 +25,7 @@ const int       S_clip        = 256 - 8;
 const D3DFORMAT S_rtf         = D3DFMT_A8R8G8B8;
 const float     S_blur_kernel = 0.75f;
 
-const u32 cache_old = 30 * 1000;   // 30 secs
+const u32       cache_old     = 30 * 1000;   // 30 secs
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -33,8 +33,8 @@ const u32 cache_old = 30 * 1000;   // 30 secs
 
 CLightShadows::CLightShadows()
 {
-    current = 0;
-    RT      = 0;
+    current          = 0;
+    RT               = 0;
 
     LPCSTR    RTname = "$user$shadow";
     LPCSTR    RTtemp = "$user$temp";
@@ -99,8 +99,8 @@ void CLightShadows::set_object(IRenderable* O)
         const vis_data& vis = O->renderable.visual->getVisData();
         Fvector         C;
         O->renderable.xform.transform_tiny(C, vis.sphere.P);
-        float R = vis.sphere.R;
-        float D = C.distance_to(Device->vCameraPosition) + R;
+        float R         = vis.sphere.R;
+        float D         = C.distance_to(Device->vCameraPosition) + R;
         // D=0 -> P=0;
         // R<S_ideal_size -> P=max, R>S_ideal_size -> P=min
         float _priority = (D / S_distance) * (S_ideal_size / (R + EPS));
@@ -114,7 +114,7 @@ void CLightShadows::set_object(IRenderable* O)
             ((CROS_impl*)O->renderable_ROS())->shadow_gen_frame = Device->dwFrame;
 
             // alloc
-            caster* cs = NULL;
+            caster* cs                                          = NULL;
             if (casters_pool.empty())
                 cs = xr_new<caster>();
             else
@@ -232,7 +232,7 @@ void CLightShadows::calculate()
             float   p_near = p_dist - p_R - eps;
             // float		p_nearR	=	C.C.distance_to(L.source->position) + p_R*0.85f + eps;
             //			p_nearR =	p_near;
-            float p_far = _min(Lrange, _max(p_dist + S_fade, p_dist + p_R));
+            float   p_far  = _min(Lrange, _max(p_dist + S_fade, p_dist + p_R));
             if (p_near < eps)
                 continue;
             if (p_far < (p_near + eps))
@@ -395,14 +395,14 @@ IC int PLC_calc(Fvector& P, Fvector& N, light* L, float energy, Fvector& O)
 void CLightShadows::render()
 {
     // Gain access to collision-DB
-    CDB::MODEL* DB    = g_pGameLevel->ObjectSpace.GetStaticModel();
-    CDB::TRI*   TRIS  = DB->get_tris();
-    Fvector*    VERTS = DB->get_verts();
+    CDB::MODEL* DB           = g_pGameLevel->ObjectSpace.GetStaticModel();
+    CDB::TRI*   TRIS         = DB->get_tris();
+    Fvector*    VERTS        = DB->get_verts();
 
-    int slot_line = S_rt_size / S_size;
+    int         slot_line    = S_rt_size / S_size;
 
     // Projection and xform
-    float _43 = Device->mProject._43;
+    float       _43          = Device->mProject._43;
 
     //	Handle biasing problem when near changes
     const float fMinNear     = 0.1f;

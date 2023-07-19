@@ -12,8 +12,8 @@
 
 #include "StbImage\stb_image.h"
 
-extern u32              version;
-template <class T> void transfer(const char* name, xr_vector<T>& dest, IReader& F, u32 chunk)
+extern u32             version;
+template<class T> void transfer(const char* name, xr_vector<T>& dest, IReader& F, u32 chunk)
 {
     IReader* O     = F.open_chunk(chunk);
     u32      count = O ? (O->length() / sizeof(T)) : 0;
@@ -53,16 +53,16 @@ inline bool Surface_Detect(string_path& F, LPSTR N)
 
 void CBuild::Load(const b_params& Params, const IReader& _in_FS)
 {
-    IReader& fs = const_cast<IReader&>(_in_FS);
+    IReader&    fs      = const_cast<IReader&>(_in_FS);
     // HANDLE		hLargeHeap	= HeapCreate(0,64*1024*1024,0);
     // clMsg		("* <LargeHeap> handle: %X",hLargeHeap);
 
-    u32 i = 0;
+    u32         i       = 0;
 
-    float p_total = 0;
-    float p_cost  = 1.f / 3.f;
+    float       p_total = 0;
+    float       p_cost  = 1.f / 3.f;
 
-    IReader* F = 0;
+    IReader*    F       = 0;
 
     //
     string_path sh_name;
@@ -232,7 +232,7 @@ void CBuild::Load(const b_params& Params, const IReader& _in_FS)
                     RL.type = LT_DIRECT;
                 else
                     RL.type = LT_POINT;
-                RL.level = 0;
+                RL.level   = 0;
 
                 // split energy/color
                 float   _e = (L.diffuse.r + L.diffuse.g + L.diffuse.b) / 3.f;

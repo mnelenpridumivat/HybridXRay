@@ -31,9 +31,9 @@
 #endif
 #endif
 
-#define MAX_ITEM_FOOD_COUNT 3
+#define MAX_ITEM_FOOD_COUNT    3
 #define MAX_ITEM_MEDIKIT_COUNT 3
-#define MAX_AMMO_ATTACH_COUNT 1
+#define MAX_AMMO_ATTACH_COUNT  1
 
 CALifeMonsterBrain::CALifeMonsterBrain(object_type* object)
 {
@@ -83,11 +83,11 @@ ALife::EMeetActionType CALifeMonsterBrain::action_type(
     return (ALife::eMeetActionTypeIgnore);
 }
 
-void CALifeMonsterBrain::on_register() {}
+void                   CALifeMonsterBrain::on_register() {}
 
-void CALifeMonsterBrain::on_unregister() {}
+void                   CALifeMonsterBrain::on_unregister() {}
 
-void CALifeMonsterBrain::on_location_change() {}
+void                   CALifeMonsterBrain::on_location_change() {}
 
 IC CSE_ALifeSmartZone& CALifeMonsterBrain::smart_terrain()
 {
@@ -121,7 +121,7 @@ void CALifeMonsterBrain::select_task()
     if (m_last_search_time + m_time_interval > current_time)
         return;
 
-    m_last_search_time = current_time;
+    m_last_search_time                                             = current_time;
 
     float                                               best_value = flt_min;
     CALifeSmartTerrainRegistry::OBJECTS::const_iterator I          = ai().alife().smart_terrains().objects().begin();

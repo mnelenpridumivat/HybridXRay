@@ -15,7 +15,6 @@ class Material
 {
     float transparency_for_sound;
     float transparency_for_hit;
-
 public:
     virtual u32    getID()                       = 0;
     virtual LPCSTR getName()                     = 0;

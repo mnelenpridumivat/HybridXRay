@@ -12,28 +12,24 @@
 #include "graph_edge.h"
 #include "../../xrEngine/object_broker.h"
 
-template <typename _data_type = Loki::EmptyType, typename _edge_weight_type = float, typename _vertex_id_type = u32>
+template<typename _data_type = Loki::EmptyType, typename _edge_weight_type = float, typename _vertex_id_type = u32>
 class CGraphAbstract
 {
 public:
     typedef CVertex<_data_type, _vertex_id_type, CGraphAbstract> CVertex;
 
-    typedef CEdge<_edge_weight_type, CVertex> CEdge;
-
+    typedef CEdge<_edge_weight_type, CVertex>                    CEdge;
 public:
     typedef xr_map<_vertex_id_type, CVertex*> VERTICES;
     typedef typename CVertex::EDGES           EDGES;
-
 public:
     typedef typename VERTICES::const_iterator const_vertex_iterator;
     typedef typename VERTICES::iterator       vertex_iterator;
     typedef typename EDGES::const_iterator    const_iterator;
     typedef typename EDGES::iterator          iterator;
-
 private:
     VERTICES m_vertices;
     u32      m_edge_count;
-
 public:
     IC CGraphAbstract();
     virtual ~CGraphAbstract();
@@ -70,7 +66,7 @@ public:
     IC void           begin(const CVertex* vertex, const_iterator& b, const_iterator& e) const;
 };
 
-template <typename _data_type = Loki::EmptyType, typename _edge_weight_type = float, typename _vertex_id_type = u32>
+template<typename _data_type = Loki::EmptyType, typename _edge_weight_type = float, typename _vertex_id_type = u32>
 class CGraphAbstractSerialize:
     public CGraphAbstract<_data_type, _edge_weight_type, _vertex_id_type>,
     public IPureSerializeObject<IReader, IWriter>

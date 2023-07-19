@@ -11,7 +11,6 @@ public:
         Fvector*    Max     = 0);
     virtual ~UINumericVectorForm();
     virtual void Draw();
-
 private:
     void      CLBOk();
     void      CLBCancel();

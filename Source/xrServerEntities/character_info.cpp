@@ -10,7 +10,7 @@
 #include "ui/xrUIXmlParser.h"
 #include "PhraseDialog.h"
 #include "xrServer_Objects_ALife_Monsters.h"
-#else   // XRGAME_EXPORTS
+#else    // XRGAME_EXPORTS
 #include "xrUIXmlParser.h"
 #endif   // XRGAME_EXPORTS
 
@@ -71,7 +71,7 @@ void CCharacterInfo::load_shared(LPCSTR)
 {
     const ITEM_DATA& item_data = *id_to_index::GetById(m_ProfileId);
 
-    CUIXml* pXML = item_data._xml;
+    CUIXml*          pXML      = item_data._xml;
     pXML->SetLocalRoot(pXML->GetRoot());
 
     XML_NODE* item_node = pXML->NavigateToNode(id_to_index::tag_name, item_data.pos_in_file);
@@ -84,7 +84,7 @@ void CCharacterInfo::load_shared(LPCSTR)
     {
         data()->m_CharacterId = NULL;
 
-        LPCSTR char_class = pXML->Read("class", 0, NULL);
+        LPCSTR char_class     = pXML->Read("class", 0, NULL);
 
         if (char_class)
         {

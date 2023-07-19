@@ -51,7 +51,7 @@ struct ECORE_API STextureParams
     };
     enum
     {
-        kMIPFilterAdvanced = 5,
+        kMIPFilterAdvanced  = 5,
 
         kMIPFilterPoint     = 2,
         kMIPFilterBox       = 0,
@@ -59,17 +59,17 @@ struct ECORE_API STextureParams
         kMIPFilterQuadratic = 4,
         kMIPFilterCubic     = 1,
 
-        kMIPFilterCatrom   = 6,
-        kMIPFilterMitchell = 7,
+        kMIPFilterCatrom    = 6,
+        kMIPFilterMitchell  = 7,
 
-        kMIPFilterGaussian = 8,
-        kMIPFilterSinc     = 9,
-        kMIPFilterBessel   = 10,
+        kMIPFilterGaussian  = 8,
+        kMIPFilterSinc      = 9,
+        kMIPFilterBessel    = 10,
 
-        kMIPFilterHanning  = 11,
-        kMIPFilterHamming  = 12,
-        kMIPFilterBlackman = 13,
-        kMIPFilterKaiser   = 14,
+        kMIPFilterHanning   = 11,
+        kMIPFilterHamming   = 12,
+        kMIPFilterBlackman  = 13,
+        kMIPFilterKaiser    = 14,
     };
 
     enum
@@ -84,24 +84,24 @@ struct ECORE_API STextureParams
         flDitherEachMIPLevel = (1 << 9),
         //		flGreyScale			= (1<<10),	// obsolette
 
-        flDiffuseDetail   = (1 << 23),
-        flImplicitLighted = (1 << 24),
-        flHasAlpha        = (1 << 25),
-        flBumpDetail      = (1 << 26),
+        flDiffuseDetail      = (1 << 23),
+        flImplicitLighted    = (1 << 24),
+        flHasAlpha           = (1 << 25),
+        flBumpDetail         = (1 << 26),
 
-        flForceU32 = u32(-1)
+        flForceU32           = u32(-1)
     };
 
     // texture part
-    ETFormat fmt;
-    Flags32  flags;
-    u32      border_color;
-    u32      fade_color;
-    u32      fade_amount;
-    u8       fade_delay;
-    u32      mip_filter;
-    int      width;
-    int      height;
+    ETFormat   fmt;
+    Flags32    flags;
+    u32        border_color;
+    u32        fade_color;
+    u32        fade_amount;
+    u8         fade_delay;
+    u32        mip_filter;
+    int        width;
+    int        height;
     // detail ext
     shared_str detail_name;
     float      detail_scale;
@@ -165,19 +165,19 @@ extern xr_token tfmt_token[];
 extern xr_token ttype_token[];
 
 //----------------------------------------------------
-#define THM_CHUNK_VERSION 0x0810
-#define THM_CHUNK_DATA 0x0811
-#define THM_CHUNK_TEXTUREPARAM 0x0812
-#define THM_CHUNK_TYPE 0x0813
-#define THM_CHUNK_TEXTURE_TYPE 0x0814
-#define THM_CHUNK_DETAIL_EXT 0x0815
-#define THM_CHUNK_MATERIAL 0x0816
-#define THM_CHUNK_BUMP 0x0817
+#define THM_CHUNK_VERSION       0x0810
+#define THM_CHUNK_DATA          0x0811
+#define THM_CHUNK_TEXTUREPARAM  0x0812
+#define THM_CHUNK_TYPE          0x0813
+#define THM_CHUNK_TEXTURE_TYPE  0x0814
+#define THM_CHUNK_DETAIL_EXT    0x0815
+#define THM_CHUNK_MATERIAL      0x0816
+#define THM_CHUNK_BUMP          0x0817
 #define THM_CHUNK_EXT_NORMALMAP 0x0818
-#define THM_CHUNK_FADE_DELAY 0x0819
+#define THM_CHUNK_FADE_DELAY    0x0819
 //----------------------------------------------------
-#define THUMB_WIDTH 128
-#define THUMB_HEIGHT 128
-#define THUMB_SIZE THUMB_HEIGHT* THUMB_WIDTH
+#define THUMB_WIDTH             128
+#define THUMB_HEIGHT            128
+#define THUMB_SIZE              THUMB_HEIGHT* THUMB_WIDTH
 //----------------------------------------------------
 #endif /*_INCDEF_TextureParams_H_*/

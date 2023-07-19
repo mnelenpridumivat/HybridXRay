@@ -5,9 +5,9 @@
 #include "stdafx.h"
 #pragma hdrstop
 
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include "directx\d3dx9.h"
-#pragma warning(default : 4995)
+#pragma warning(default:4995)
 
 #ifndef REDITOR
 #include "../../xrEngine/Render.h"
@@ -25,20 +25,20 @@ shared_str s_bones_array_const;
 //////////////////////////////////////////////////////////////////////
 // Body Part
 //////////////////////////////////////////////////////////////////////
-void CSkeletonX::AfterLoad(CKinematics* parent, u16 child_idx)
+void       CSkeletonX::AfterLoad(CKinematics* parent, u16 child_idx)
 {
     SetParent(parent);
     ChildIDX = child_idx;
 }
 void CSkeletonX::_Copy(CSkeletonX* B)
 {
-    Parent     = NULL;
-    ChildIDX   = B->ChildIDX;
-    Vertices1W = B->Vertices1W;
-    Vertices2W = B->Vertices2W;
-    Vertices3W = B->Vertices3W;
-    Vertices4W = B->Vertices4W;
-    BonesUsed  = B->BonesUsed;
+    Parent          = NULL;
+    ChildIDX        = B->ChildIDX;
+    Vertices1W      = B->Vertices1W;
+    Vertices2W      = B->Vertices2W;
+    Vertices3W      = B->Vertices3W;
+    Vertices4W      = B->Vertices4W;
+    BonesUsed       = B->BonesUsed;
 
     // caution - overlapped (union)
     cache_DiscardID = B->cache_DiscardID;
@@ -62,7 +62,8 @@ void CSkeletonX::_Render(ref_geom& hGeom, u32 vCount, u32 iOffset, u32 pCount)
             _Render_soft(hGeom, vCount, iOffset, pCount);
             RCache.stat.r.s_dynamic_sw.add(vCount);
             break;
-        case RM_SINGLE: {
+        case RM_SINGLE:
+        {
             Fmatrix W;
             W.mul_43(RCache.xforms.m_w, Parent->LL_GetTransform_R(u16(RMS_boneid)));
             RCache.set_xform_world(W);
@@ -74,7 +75,8 @@ void CSkeletonX::_Render(ref_geom& hGeom, u32 vCount, u32 iOffset, u32 pCount)
         case RM_SKINNING_1B:
         case RM_SKINNING_2B:
         case RM_SKINNING_3B:
-        case RM_SKINNING_4B: {
+        case RM_SKINNING_4B:
+        {
             // transfer matrices
             ref_constant array = RCache.get_c(s_bones_array_const);
             u32          count = RMS_bonecount;
@@ -104,9 +106,9 @@ void CSkeletonX::_Render(ref_geom& hGeom, u32 vCount, u32 iOffset, u32 pCount)
 }
 void CSkeletonX::_Render_soft(ref_geom& hGeom, u32 vCount, u32 iOffset, u32 pCount)
 {
-    u32 vOffset = cache_vOffset;
+    u32            vOffset = cache_vOffset;
 
-    _VertexStream& _VS = RCache.Vertex;
+    _VertexStream& _VS     = RCache.Vertex;
     if (cache_DiscardID != _VS.DiscardID() || vCount >= cache_vCount)
     {
         vertRender* Dest = (vertRender*)_VS.Lock(vCount, hGeom->vb_stride, vOffset);
@@ -185,13 +187,14 @@ void CSkeletonX::_Load(const char* N, IReader* data, u32& dwVertCount)
     dwVertType  = data->r_u32();
     dwVertCount = data->r_u32();
 
-    RenderMode = RM_SKINNING_SOFT;
+    RenderMode  = RM_SKINNING_SOFT;
     Render->shader_option_skinning(-1);
 
     switch (dwVertType)
     {
         case OGF_VERTEXFORMAT_FVF_1L:   // 1-Link
-        case 1: {
+        case 1:
+        {
             size             = dwVertCount * sizeof(vertBoned1W);
             vertBoned1W* pVO = (vertBoned1W*)data->pointer();
 
@@ -235,7 +238,8 @@ void CSkeletonX::_Load(const char* N, IReader* data, u32& dwVertCount)
         }
         break;
         case OGF_VERTEXFORMAT_FVF_2L:   // 2-Link
-        case 2: {
+        case 2:
+        {
             size             = dwVertCount * sizeof(vertBoned2W);
             vertBoned2W* pVO = (vertBoned2W*)data->pointer();
 
@@ -269,7 +273,8 @@ void CSkeletonX::_Load(const char* N, IReader* data, u32& dwVertCount)
         }
         break;
         case OGF_VERTEXFORMAT_FVF_3L:   // 3-Link
-        case 3: {
+        case 3:
+        {
             size             = dwVertCount * sizeof(vertBoned3W);
             vertBoned3W* pVO = (vertBoned3W*)data->pointer();
 
@@ -300,7 +305,8 @@ void CSkeletonX::_Load(const char* N, IReader* data, u32& dwVertCount)
         }
         break;
         case OGF_VERTEXFORMAT_FVF_4L:   // 4-Link
-        case 4: {
+        case 4:
+        {
             size             = dwVertCount * sizeof(vertBoned4W);
             vertBoned4W* pVO = (vertBoned4W*)data->pointer();
 
@@ -369,7 +375,7 @@ void get_pos_bones(const vertBoned1W& v, Fvector& p, CKinematics* Parent)
 
 void get_pos_bones(const vertBoned2W& vert, Fvector& p, CKinematics* Parent)
 {
-    Fvector P0, P1;
+    Fvector  P0, P1;
 
     Fmatrix& xform0 = Parent->LL_GetBoneInstance(vert.matrix0).mRenderTransform;
     Fmatrix& xform1 = Parent->LL_GetBoneInstance(vert.matrix1).mRenderTransform;
@@ -384,7 +390,7 @@ void get_pos_bones(const vertBoned3W& vert, Fvector& p, CKinematics* Parent)
     Fmatrix& M1 = Parent->LL_GetBoneInstance(vert.m[1]).mRenderTransform;
     Fmatrix& M2 = Parent->LL_GetBoneInstance(vert.m[2]).mRenderTransform;
 
-    Fvector P0, P1, P2;
+    Fvector  P0, P1, P2;
     M0.transform_tiny(P0, vert.P);
     P0.mul(vert.w[0]);
     M1.transform_tiny(P1, vert.P);
@@ -403,7 +409,7 @@ void get_pos_bones(const vertBoned4W& vert, Fvector& p, CKinematics* Parent)
     Fmatrix& M2 = Parent->LL_GetBoneInstance(vert.m[2]).mRenderTransform;
     Fmatrix& M3 = Parent->LL_GetBoneInstance(vert.m[3]).mRenderTransform;
 
-    Fvector P0, P1, P2, P3;
+    Fvector  P0, P1, P2, P3;
     M0.transform_tiny(P0, vert.P);
     P0.mul(vert.w[0]);
     M1.transform_tiny(P1, vert.P);
@@ -613,8 +619,8 @@ void CSkeletonX::_DuplicateIndices(const char* N, IReader* data)
     R_ASSERT(data->find_chunk(OGF_INDICES));
     u32 iCount = data->r_u32();
 
-    u32 size = iCount * 2;
-    u32 crc  = crc32(data->pointer(), size);
+    u32 size   = iCount * 2;
+    u32 crc    = crc32(data->pointer(), size);
     m_Indices.create(crc, iCount, (u16*)data->pointer());
 }
 #endif   //	USE_DX10

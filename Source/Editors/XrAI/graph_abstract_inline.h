@@ -8,9 +8,9 @@
 
 #pragma once
 
-#define TEMPLATE_SPECIALIZATION template <typename _data_type, typename _edge_weight_type, typename _vertex_id_type>
+#define TEMPLATE_SPECIALIZATION template<typename _data_type, typename _edge_weight_type, typename _vertex_id_type>
 
-#define CAbstractGraph CGraphAbstract<_data_type, _edge_weight_type, _vertex_id_type>
+#define CAbstractGraph          CGraphAbstract<_data_type, _edge_weight_type, _vertex_id_type>
 
 TEMPLATE_SPECIALIZATION
 IC CAbstractGraph::CGraphAbstract()
@@ -202,9 +202,9 @@ IC void CAbstractGraph::begin(const CVertex* vertex, const_iterator& b, const_it
 #undef TEMPLATE_SPECIALIZATION
 #undef CAbstractGraph
 
-#define TEMPLATE_SPECIALIZATION template <typename _data_type, typename _edge_weight_type, typename _vertex_id_type>
+#define TEMPLATE_SPECIALIZATION template<typename _data_type, typename _edge_weight_type, typename _vertex_id_type>
 
-#define CAbstractGraph CGraphAbstractSerialize<_data_type, _edge_weight_type, _vertex_id_type>
+#define CAbstractGraph          CGraphAbstractSerialize<_data_type, _edge_weight_type, _vertex_id_type>
 
 TEMPLATE_SPECIALIZATION
 IC void CAbstractGraph::save(IWriter& stream)

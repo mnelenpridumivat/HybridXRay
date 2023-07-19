@@ -12,7 +12,7 @@
 
 occRasterizer Raster;
 
-void fillDW_8x(void* _p, u32 size, u32 value)
+void          fillDW_8x(void* _p, u32 size, u32 value)
 {
     LPDWORD ptr = LPDWORD(_p);
     LPDWORD end = ptr + size;
@@ -94,15 +94,15 @@ void occRasterizer::propagade()
     {
         for (int x = 0; x < occ_dim_0; x++)
         {
-            int ox = x + 2, oy = y + 2;
+            int     ox = x + 2, oy = y + 2;
 
             // Y2-connect
-            int pos       = oy * occ_dim + ox;
-            int pos_up    = pos - occ_dim;
-            int pos_down  = pos + occ_dim;
-            int pos_down2 = pos_down + occ_dim;
+            int     pos       = oy * occ_dim + ox;
+            int     pos_up    = pos - occ_dim;
+            int     pos_down  = pos + occ_dim;
+            int     pos_down2 = pos_down + occ_dim;
 
-            occTri* Tu1 = pFrame[pos_up];
+            occTri* Tu1       = pFrame[pos_up];
             if (Tu1)
             {
                 // We has pixel 1scan up

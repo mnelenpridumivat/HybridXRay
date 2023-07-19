@@ -9,12 +9,12 @@
 #include "pch_script.h"
 #include "lua_studio.h"
 
-#define pstr LPSTR
-#define pcstr LPCSTR
-#define pcvoid void const*
-#define sz_cmp xr_strcmp
+#define pstr         LPSTR
+#define pcstr        LPCSTR
+#define pcvoid       void const*
+#define sz_cmp       xr_strcmp
 #define vector_class luabind::internal_vector
-#define engine lua_studio_engine
+#define engine       lua_studio_engine
 
 inline pstr sz_cpy(pstr destination, const u32& size, pcstr source)
 {
@@ -22,7 +22,7 @@ inline pstr sz_cpy(pstr destination, const u32& size, pcstr source)
     return (destination);
 }
 
-template <int size> inline pstr sz_cpy(char (&destination)[size], pcstr source)
+template<int size> inline pstr sz_cpy(char (&destination)[size], pcstr source)
 {
     xr_strcpy(destination, size, source);
     return (destination);
@@ -34,7 +34,7 @@ inline pstr sz_cat(pstr destination, const u32& size, pcstr source)
     return (destination);
 }
 
-template <int size> inline pstr sz_cat(char (&destination)[size], pcstr source)
+template<int size> inline pstr sz_cat(char (&destination)[size], pcstr source)
 {
     xr_strcat(destination, size, source);
     return (destination);
@@ -254,16 +254,18 @@ int engine::lua_debug_get_current_line(lua_Debug& instance)
     return (instance.currentline);
 }
 
-void engine::log(log_message_types const message_type, char const* const message) {}
+void  engine::log(log_message_types const message_type, char const* const message) {}
 
 char* engine::class_name(char* const buffer, unsigned int const size, luabind::detail::class_rep& class_rep)
 {
     switch (class_rep.get_class_type())
     {
-        case luabind::detail::class_rep::cpp_class: {
+        case luabind::detail::class_rep::cpp_class:
+        {
             return (sz_cpy(buffer, size, "C++ class"));
         }
-        case luabind::detail::class_rep::lua_class: {
+        case luabind::detail::class_rep::lua_class:
+        {
             return (sz_cpy(buffer, size, "Lua class"));
         }
         default:
@@ -347,7 +349,8 @@ bool engine::type_to_string(
         case engine::lua_type_coroutine:
             return (false);
         case engine::lua_type_light_user_data:
-        case engine::lua_type_user_data: {
+        case engine::lua_type_user_data:
+        {
             type_convert_userdata(buffer, size, state, index);
             return (true);
         }
@@ -478,7 +481,7 @@ bool engine::value_convert_instance(
             break;
         }
 
-        pcstr name = lua_to_string(state, -2);
+        pcstr      name = lua_to_string(state, -2);
 
         string4096 type;
         bool       use_in_description;
@@ -549,7 +552,8 @@ bool engine::value_to_string(
         case engine::lua_type_coroutine:
             return (false);
         case engine::lua_type_light_user_data:
-        case engine::lua_type_user_data: {
+        case engine::lua_type_user_data:
+        {
             if (!luabind::detail::is_class_object(state, index))
             {
                 if (!is_luabind_class(state, index))
@@ -646,17 +650,20 @@ void engine::push_user_data(lua_State* const state, char const* const id, cs::lu
 {
     switch (icon_type)
     {
-        case cs::lua_studio::icon_type_class: {
+        case cs::lua_studio::icon_type_class:
+        {
             push_class(state, id);
             break;
         }
-        case cs::lua_studio::icon_type_class_base: {
+        case cs::lua_studio::icon_type_class_base:
+        {
             push_class_base(state, id);
             break;
         }
         case cs::lua_studio::icon_type_unknown:
         case cs::lua_studio::icon_type_table:
-        case cs::lua_studio::icon_type_class_instance: {
+        case cs::lua_studio::icon_type_class_instance:
+        {
             push_class_instance(state, id);
             break;
         }
@@ -672,7 +679,8 @@ bool engine::push_value(lua_State* const state, char const* const id, cs::lua_st
         case engine::lua_type_table:
             return (false);
         case engine::lua_type_light_user_data:
-        case engine::lua_type_user_data: {
+        case engine::lua_type_user_data:
+        {
             push_user_data(state, id, icon_type);
             return (true);
         }
@@ -718,7 +726,7 @@ void engine::fill_class_data(
         lua_insert(state, 1);
         (*i).second.func(state, (*i).second.pointer_offset);
 
-        bool use_in_description;
+        bool       use_in_description;
 
         string4096 type;
         backend.type_to_string(type, sizeof(type), state, -1, use_in_description);
@@ -740,7 +748,7 @@ void engine::expand_class(
     cs::lua_studio::value_to_expand& value,
     lua_State* const                 state)
 {
-    int start = lua_gettop(state);
+    int                         start        = lua_gettop(state);
 
     luabind::detail::class_rep* class_object = static_cast<luabind::detail::class_rep*>(lua_touserdata(state, -1));
     R_ASSERT2(class_object, "invalid class userdata");
@@ -770,7 +778,7 @@ void engine::expand_class_instance(
     {
         luabind::detail::class_rep* class_rep = object->crep();
 
-        string4096 type;
+        string4096                  type;
         class_name(type, sizeof(type), *class_rep);
 
         cs::lua_studio::icon_type icon_type;
@@ -793,7 +801,7 @@ void engine::expand_class_instance(
         bool                      use_in_description;
         pcstr                     name = lua_to_string(state, -2);
 
-        string4096 type;
+        string4096                type;
         backend.type_to_string(type, sizeof(type), state, -1, use_in_description);
 
         string4096 value;
@@ -834,7 +842,8 @@ bool engine::expand_value(
         case engine::lua_type_table:
             return (false);
         case engine::lua_type_light_user_data:
-        case engine::lua_type_user_data: {
+        case engine::lua_type_user_data:
+        {
             expand_user_data(backend, value, state);
             return (true);
         }
@@ -847,4 +856,5 @@ bool engine::expand_value(
 #endif   // #ifdef DEBUG
 }
 
-engine::engine(): m_instance_count(0) {}
+engine::engine():
+    m_instance_count(0) {}

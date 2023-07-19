@@ -6,7 +6,7 @@ SWIContainer g_SWI, x_SWI;
 VBContainer  g_VB, x_VB;
 IBContainer  g_IB, x_IB;
 
-bool CBuild::IsOGFContainersEmpty()
+bool         CBuild::IsOGFContainersEmpty()
 {
     return g_SWI.is_empty() && x_SWI.is_empty() && g_VB.is_empty() && x_VB.is_empty() && g_IB.is_empty() &&
         x_IB.is_empty();
@@ -22,7 +22,7 @@ static u32 g_batch_500;
 static u32 g_batch_1000;
 static u32 g_batch_5000;
 
-u16 RegisterShader(LPCSTR T)
+u16        RegisterShader(LPCSTR T)
 {
     for (u32 it = 0; it < pBuild->g_Shaders.size(); it++)
         if (0 == stricmp(T, pBuild->g_Shaders[it]))

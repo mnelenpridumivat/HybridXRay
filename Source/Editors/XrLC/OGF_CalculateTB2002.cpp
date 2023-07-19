@@ -75,8 +75,8 @@ void retrive_data_from_mender_otput(
 // Calculate T&B
 void OGF::CalculateTB()
 {
-    u32 v_count_reserve = 3 * iFloor(float(data.vertices.size()) * 1.33f);
-    u32 i_count_reserve = 3 * data.faces.size();
+    u32                                      v_count_reserve = 3 * iFloor(float(data.vertices.size()) * 1.33f);
+    u32                                      i_count_reserve = 3 * data.faces.size();
 
     // Declare inputs
     xr_vector<NVMeshMender::VertexAttribute> input;

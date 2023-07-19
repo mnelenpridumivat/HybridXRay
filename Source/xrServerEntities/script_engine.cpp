@@ -15,15 +15,15 @@
 #ifdef USE_DEBUGGER
 #ifndef USE_LUA_STUDIO
 #include "script_debugger.h"
-#else   // #ifndef USE_LUA_STUDIO
+#else    // #ifndef USE_LUA_STUDIO
 #include "lua_studio.h"
 typedef cs::lua_studio::create_world_function_type  create_world_function_type;
 typedef cs::lua_studio::destroy_world_function_type destroy_world_function_type;
 
-static create_world_function_type  s_create_world           = 0;
-static destroy_world_function_type s_destroy_world          = 0;
-static HMODULE                     s_script_debugger_handle = 0;
-static LogCallback                 s_old_log_callback       = 0;
+static create_world_function_type                   s_create_world           = 0;
+static destroy_world_function_type                  s_destroy_world          = 0;
+static HMODULE                                      s_script_debugger_handle = 0;
+static LogCallback                                  s_old_log_callback       = 0;
 #endif   // #ifndef USE_LUA_STUDIO
 #endif
 
@@ -50,8 +50,8 @@ static void log_callback(LPCSTR message)
 
 static void initialize_lua_studio(lua_State* state, cs::lua_studio::world*& world, lua_studio_engine*& engine)
 {
-    engine = 0;
-    world  = 0;
+    engine                   = 0;
+    world                    = 0;
 
     u32 const old_error_mode = SetErrorMode(SEM_FAILCRITICALERRORS);
     s_script_debugger_handle = LoadLibrary(CS_LUA_STUDIO_BACKEND_FILE_NAME);
@@ -269,7 +269,7 @@ void CScriptEngine::setup_auto_load()
 
 extern void export_classes(lua_State* L);
 
-void CScriptEngine::init()
+void        CScriptEngine::init()
 {
 #ifdef USE_LUA_STUDIO
     bool lua_studio_connected = !!m_lua_studio_world;
@@ -313,7 +313,7 @@ void CScriptEngine::init()
 #endif   // #if defined(USE_DEBUGGER) && !defined(USE_LUA_STUDIO)
         lua_sethook(lua(), lua_hook_call, LUA_MASKLINE | LUA_MASKCALL | LUA_MASKRET, 0);
 #endif   // #ifdef DEBUG
-#endif   // #ifndef USE_LUA_STUDIO
+#endif   // #ifndef USE_LUA_STUDIO \
          //	lua_sethook							(lua(), lua_hook_call,	LUA_MASKLINE|LUA_MASKCALL|LUA_MASKRET,	0);
 
     bool save        = m_reload_modules;

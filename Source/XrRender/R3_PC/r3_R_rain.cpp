@@ -5,11 +5,11 @@
 
 #include "r3_R_sun_support.h"
 
-const float tweak_rain_COP_initial_offs         = 1200.f;
-const float tweak_rain_ortho_xform_initial_offs = 1000.f;   //. ?
+const float     tweak_rain_COP_initial_offs         = 1200.f;
+const float     tweak_rain_ortho_xform_initial_offs = 1000.f;   //. ?
 
 //	Defined in r2_R_sun.cpp
-Fvector3 wform(Fmatrix& m, Fvector3 const& v);
+Fvector3        wform(Fmatrix& m, Fvector3 const& v);
 
 //////////////////////////////////////////////////////////////////////////
 // tables to calculate view-frustum bounds in world space
@@ -17,7 +17,12 @@ Fvector3 wform(Fmatrix& m, Fvector3 const& v);
 static Fvector3 corners[8]      = {{-1, -1, 0},  {-1, -1, +1}, {-1, +1, +1}, {-1, +1, 0},
                                    {+1, +1, +1}, {+1, +1, 0},  {+1, -1, +1}, {+1, -1, 0}};
 static int      facetable[6][4] = {
-    {0, 3, 5, 7}, {1, 2, 3, 0}, {6, 7, 5, 4}, {4, 2, 1, 6}, {3, 2, 4, 5}, {1, 0, 7, 6},
+    {0, 3, 5, 7},
+    {1, 2, 3, 0},
+    {6, 7, 5, 4},
+    {4, 2, 1, 6},
+    {3, 2, 4, 5},
+    {1, 0, 7, 6},
 };
 
 //////////////////////////////////////////////////////////////////////////
@@ -30,10 +35,10 @@ void CRender::render_rain()
 
     PIX_EVENT(render_rain);
 
-    D3DXMATRIX m_LightViewProj;
+    D3DXMATRIX         m_LightViewProj;
 
     //	Use light as placeholder for rain data.
-    light RainLight;
+    light              RainLight;
 
     // static const float	source_offset		= 40.f;
 
@@ -42,7 +47,7 @@ void CRender::render_rain()
     RainLight.position.set(
         Device->vCameraPosition.x, Device->vCameraPosition.y + source_offset, Device->vCameraPosition.z);
 
-    float fBoundingSphereRadius = 0;
+    float   fBoundingSphereRadius = 0;
 
     // calculate view-frustum bounds in world space
     Fmatrix ex_project, ex_full, ex_full_inverse;
@@ -184,7 +189,7 @@ void CRender::render_rain()
 
         cull_xform.mul(mdir_Project, mdir_View);
 
-        s32 limit = _min(RImplementation.o.smapsize, ps_r3_dyn_wet_surf_sm_res);
+        s32     limit      = _min(RImplementation.o.smapsize, ps_r3_dyn_wet_surf_sm_res);
 
         // build viewport xform
         float   view_dim   = float(limit);

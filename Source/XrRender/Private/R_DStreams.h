@@ -22,12 +22,11 @@ public:
 #endif
 private:
     void _clear();
-
 public:
-    void Create();
-    void Destroy();
-    void reset_begin();
-    void reset_end();
+    void                 Create();
+    void                 Destroy();
+    void                 reset_begin();
+    void                 reset_end();
 
     IC ID3DVertexBuffer* Buffer()
     {
@@ -63,10 +62,8 @@ private:
     u32              mSize;   // real size (usually mCount, aligned on 512b boundary)
     u32              mPosition;
     u32              mDiscardID;
-
 public:
     ID3DIndexBuffer* old_pIB;
-
 private:
     void _clear()
     {
@@ -75,12 +72,11 @@ private:
         mPosition  = 0;
         mDiscardID = 0;
     }
-
 public:
-    void Create();
-    void Destroy();
-    void reset_begin();
-    void reset_end();
+    void                Create();
+    void                Destroy();
+    void                reset_begin();
+    void                reset_end();
 
     IC ID3DIndexBuffer* Buffer()
     {

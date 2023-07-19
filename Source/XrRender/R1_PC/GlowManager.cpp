@@ -10,13 +10,14 @@
 #include "GlowManager.h"
 #include "../../xrEngine/xr_object.h"
 
-#define FADE_SCALE_UP 4096.f
+#define FADE_SCALE_UP   4096.f
 #define FADE_SCALE_DOWN 1024.f
-#define MAX_GlowsDist1 float(g_pGamePersistent->Environment().CurrentEnv->far_plane)
-#define MAX_GlowsDist2 float(MAX_GlowsDist1 * MAX_GlowsDist1)
+#define MAX_GlowsDist1  float(g_pGamePersistent->Environment().CurrentEnv->far_plane)
+#define MAX_GlowsDist2  float(MAX_GlowsDist1 * MAX_GlowsDist1)
 
 //////////////////////////////////////////////////////////////////////
-CGlow::CGlow(): ISpatial(g_SpatialSpace)
+CGlow::CGlow():
+    ISpatial(g_SpatialSpace)
 {
     flags.bActive = false;
     position.set(0, 0, 0);
@@ -117,12 +118,12 @@ void CGlowManager::Load(IReader* fs)
         G->spatial.sphere.set(G->position, G->radius);
         G->direction.set(0, 0, 0);
 
-        u16 S     = fs->r_u16();
-        G->shader = ::RImplementation.getShader(S);
+        u16 S           = fs->r_u16();
+        G->shader       = ::RImplementation.getShader(S);
 
-        G->fade        = 255.f;
-        G->dwFrame     = 0x0;
-        G->bTestResult = TRUE;
+        G->fade         = 255.f;
+        G->dwFrame      = 0x0;
+        G->bTestResult  = TRUE;
 
         G->spatial.type = STYPE_RENDERABLE;
 
@@ -231,7 +232,7 @@ void CGlowManager::render_sw()
     CObject* o_main = g_pGameLevel->CurrentViewEntity();
 
     // 1. Test some number of glows
-    Fvector start = Device->vCameraPosition;
+    Fvector  start  = Device->vCameraPosition;
     for (int i = 0; i < ps_r1_GlowsPerFrame; i++, dwTestID++)
     {
         u32    ID = dwTestID % Selected.size();
@@ -280,12 +281,12 @@ void CGlowManager::render_selected()
     // 2. Sort by shader
     std::sort(Selected.begin(), Selected.end(), glow_compare);
 
-    FVF::LIT* pv;
+    FVF::LIT*  pv;
 
     u32        pos = 0, count;
     ref_shader T;
 
-    Fplane NP;
+    Fplane     NP;
     NP.build(Device->vCameraPosition, Device->vCameraDirection);
 
     float dlim2 = MAX_GlowsDist2;

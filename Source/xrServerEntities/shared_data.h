@@ -1,18 +1,16 @@
 ﻿#pragma once
 
 // Singleton template definition
-template <class T> class CSingleton
+template<class T> class CSingleton
 {
 private:
     static T*  _self;
     static int _refcount;
-
 public:
     // whether singleton will delete itself on FreeInst
     // when _refcount = 0
     // otherwise user should call DestroySingleton() manually
     static bool _on_self_delete;
-
 public:
     CSingleton() {}
     virtual ~CSingleton()
@@ -29,7 +27,6 @@ public:
         VERIFY(_refcount == 0);
         xr_delete(_self);
     };
-
 public:
     static T* Instance()
     {
@@ -51,15 +48,14 @@ public:
     }
 };
 
-template <class T> T*   CSingleton<T>::_self           = NULL;
-template <class T> int  CSingleton<T>::_refcount       = 0;
-template <class T> bool CSingleton<T>::_on_self_delete = true;
+template<class T> T*   CSingleton<T>::_self           = NULL;
+template<class T> int  CSingleton<T>::_refcount       = 0;
+template<class T> bool CSingleton<T>::_on_self_delete = true;
 
-template <class SHARED_TYPE, class KEY_TYPE> class CSharedObj: public CSingleton<CSharedObj<SHARED_TYPE, KEY_TYPE>>
+template<class SHARED_TYPE, class KEY_TYPE> class CSharedObj: public CSingleton<CSharedObj<SHARED_TYPE, KEY_TYPE>>
 {
     xr_map<KEY_TYPE, SHARED_TYPE*>                            _shared_tab;
     typedef typename xr_map<KEY_TYPE, SHARED_TYPE*>::iterator SHARED_DATA_MAP_IT;
-
 public:
     CSharedObj(){};
     virtual ~CSharedObj()
@@ -75,7 +71,7 @@ public:
     {
         SHARED_DATA_MAP_IT shared_it = _shared_tab.find(id);
 
-        SHARED_TYPE* _data;
+        SHARED_TYPE*       _data;
 
         // if not found - create appropriate shared data object
         if (_shared_tab.end() == shared_it)
@@ -93,7 +89,6 @@ public:
 class CSharedResource
 {
     bool loaded;
-
 public:
     CSharedResource()
     {
@@ -110,13 +105,13 @@ public:
     }
 };
 
-template <class SHARED_TYPE, class KEY_TYPE, bool auto_delete = true> class CSharedClass
+template<class SHARED_TYPE, class KEY_TYPE, bool auto_delete = true> class CSharedClass
 {
     SHARED_TYPE*                       _sd;
     CSharedObj<SHARED_TYPE, KEY_TYPE>* pSharedObj;
-
 public:
-    CSharedClass(): _sd(NULL)
+    CSharedClass():
+        _sd(NULL)
     {
         pSharedObj                  = CSharedObj<SHARED_TYPE, KEY_TYPE>::Instance();
         pSharedObj->_on_self_delete = auto_delete;

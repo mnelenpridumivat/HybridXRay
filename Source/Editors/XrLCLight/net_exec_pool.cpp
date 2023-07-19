@@ -121,7 +121,8 @@ namespace lc_net
         do
         {
             Sleep(1000);
-        } while (is_running());
+        }
+        while (is_running());
     }
     bool exec_pool::is_running()
     {
@@ -174,7 +175,7 @@ namespace lc_net
         strconcat(sizeof(data), data, libraries, e->data_files(files));
         run_task_lock.Enter();
         bool ok = false;
-    run_task:;
+run_task:;
 
         __try
         {

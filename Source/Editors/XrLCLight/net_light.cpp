@@ -15,7 +15,7 @@
 static xrCriticalSection block;
 LPCSTR                   dataDesc = "global_data";
 
-xr_vector<u32> net_pool;
+xr_vector<u32>           net_pool;
 /*
 static struct unload
 {
@@ -30,14 +30,14 @@ static struct unload
     }
 } _unload;
 */
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 DWORD g_sessionId = DWORD(-1);
 
 // bool  GetGlobalData( IAgent* agent,
 //				    DWORD sessionId );
-bool TaskReceive(net_task& task, IAgent* agent, DWORD sessionId, IGenericStream* inStream);
+bool  TaskReceive(net_task& task, IAgent* agent, DWORD sessionId, IGenericStream* inStream);
 
-bool GetGlobalData(IAgent* agent, DWORD sessionId)
+bool  GetGlobalData(IAgent* agent, DWORD sessionId)
 {
     if (!inlc_global_data())
     {
@@ -150,7 +150,7 @@ class net_task_interface_impl: public net_task_interface
         return true;
     }
 } g_net_task_interface_impl;
-#pragma warning(default : 4995)
+#pragma warning(default:4995)
 
 XRLC_LIGHT_API net_task_interface* g_net_task_interface = &g_net_task_interface_impl;
 /*

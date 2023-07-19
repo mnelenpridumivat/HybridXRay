@@ -11,7 +11,7 @@ namespace dx10BufferUtils
     void    ConvertVertexDeclaration(
            const xr_vector<D3DVERTEXELEMENT9>& declIn,
            xr_vector<D3D_INPUT_ELEMENT_DESC>&  declOut);
-};   // namespace dx10BufferUtils
+};       // namespace dx10BufferUtils
 
 #endif   //	USE_DX10
 #endif   //	dx10BufferUtils_included

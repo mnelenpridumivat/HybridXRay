@@ -8,7 +8,7 @@ void set_viewport(ID3DDeviceContext* dev, float w, float h)
 
 void CRenderTarget::phase_ssao()
 {
-    u32 Offset = 0;
+    u32   Offset       = 0;
 
     FLOAT ColorRGBA[4] = {0.0f, 0.0f, 0.0f, 0.0f};
     HW.pContext->ClearRenderTargetView(rt_ssao_temp->pRT, ColorRGBA);
@@ -47,8 +47,8 @@ void CRenderTarget::phase_ssao()
     float scale_X = float(Device->dwWidth) * 0.5f / float(TEX_jitter);
     float scale_Y = float(Device->dwHeight) * 0.5f / float(TEX_jitter);
 
-    float _w = float(Device->dwWidth) * 0.5f;
-    float _h = float(Device->dwHeight) * 0.5f;
+    float _w      = float(Device->dwWidth) * 0.5f;
+    float _h      = float(Device->dwHeight) * 0.5f;
 
     set_viewport(HW.pContext, _w, _h);
 
@@ -136,11 +136,11 @@ void CRenderTarget::phase_downsamp()
         m_v2w.invert(Device->mView);
 
         // Fill VB
-        float scale_X = float(w) / float(TEX_jitter);
-        float scale_Y = float(h) / float(TEX_jitter);
+        float    scale_X = float(w) / float(TEX_jitter);
+        float    scale_Y = float(h) / float(TEX_jitter);
 
         // Fill vertex buffer
-        FVF::TL* pv = (FVF::TL*)RCache.Vertex.Lock(4, g_combine->vb_stride, Offset);
+        FVF::TL* pv      = (FVF::TL*)RCache.Vertex.Lock(4, g_combine->vb_stride, Offset);
         pv->set(-1, 1, 0, 1, 0, 0, scale_Y);
         pv++;
         pv->set(-1, -1, 0, 0, 0, 0, 0);

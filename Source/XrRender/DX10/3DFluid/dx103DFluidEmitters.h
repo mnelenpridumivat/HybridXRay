@@ -19,18 +19,18 @@ public:
     {
         EmitterType m_eType;
 
-        Fvector m_vPosition;   //	In fluid space
-        float   m_fRadius;
+        Fvector     m_vPosition;   //	In fluid space
+        float       m_fRadius;
 
         //	Distribution attributes
-        float m_InvSigma_2;   //	1/Sigma^2 for gaussian distribution
+        float       m_InvSigma_2;   //	1/Sigma^2 for gaussian distribution
 
         //	Flow attributes
-        Fvector m_vFlowVelocity;   //	In fluid space
+        Fvector     m_vFlowVelocity;   //	In fluid space
 
         //	Density attributes
-        float m_fSaturation;
-        float m_fDensity;
+        float       m_fSaturation;
+        float       m_fDensity;
 
         union
         {
@@ -45,25 +45,22 @@ public:
         bool m_bApplyDensity;
         bool m_bApplyImpulse;
     };
-
 public:
     dx103DFluidEmitters(int gridWidth, int gridHeight, int gridDepth, dx103DFluidGrid* pGrid);
     ~dx103DFluidEmitters();
 
     void RenderDensity(const dx103DFluidData& FluidData);
     void RenderVelocity(const dx103DFluidData& FluidData);
-
 private:
     void InitShaders();
     void DestroyShaders();
 
     void ApplyDensity(const CEmitter& Emitter);
     void ApplyVelocity(const CEmitter& Emitter);
-
 private:
-    Fvector3 m_vGridDim;
+    Fvector3         m_vGridDim;
 
-    ref_selement m_EmitterTechnique[ET_EmittersTypeNum];
+    ref_selement     m_EmitterTechnique[ET_EmittersTypeNum];
 
     dx103DFluidGrid* m_pGrid;
 };

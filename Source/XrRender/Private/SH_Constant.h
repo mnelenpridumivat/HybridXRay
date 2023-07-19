@@ -15,10 +15,9 @@ public:
         modeProgrammable = 0,
         modeWaveForm
     };
-
 public:
-    Fcolor const_float;
-    u32    const_dword;
+    Fcolor   const_float;
+    u32      const_dword;
 
     u32      dwFrame;
     u32      dwMode;

@@ -49,42 +49,50 @@ int __cdecl Lua::LuaOut(Lua::ELuaMessageType tLuaMessageType, LPCSTR caFormat, .
     string4096 S2;
     switch (tLuaMessageType)
     {
-        case Lua::eLuaMessageTypeInfo: {
+        case Lua::eLuaMessageTypeInfo:
+        {
             S  = "* [LUA] ";
             SS = "[INFO]        ";
             break;
         }
-        case Lua::eLuaMessageTypeError: {
+        case Lua::eLuaMessageTypeError:
+        {
             S  = "! [LUA] ";
             SS = "[ERROR]       ";
             break;
         }
-        case Lua::eLuaMessageTypeMessage: {
+        case Lua::eLuaMessageTypeMessage:
+        {
             S  = "[LUA] ";
             SS = "[MESSAGE]     ";
             break;
         }
-        case Lua::eLuaMessageTypeHookCall: {
+        case Lua::eLuaMessageTypeHookCall:
+        {
             S  = "[LUA][HOOK_CALL] ";
             SS = "[CALL]        ";
             break;
         }
-        case Lua::eLuaMessageTypeHookReturn: {
+        case Lua::eLuaMessageTypeHookReturn:
+        {
             S  = "[LUA][HOOK_RETURN] ";
             SS = "[RETURN]      ";
             break;
         }
-        case Lua::eLuaMessageTypeHookLine: {
+        case Lua::eLuaMessageTypeHookLine:
+        {
             S  = "[LUA][HOOK_LINE] ";
             SS = "[LINE]        ";
             break;
         }
-        case Lua::eLuaMessageTypeHookCount: {
+        case Lua::eLuaMessageTypeHookCount:
+        {
             S  = "[LUA][HOOK_COUNT] ";
             SS = "[COUNT]       ";
             break;
         }
-        case Lua::eLuaMessageTypeHookTailReturn: {
+        case Lua::eLuaMessageTypeHookTailReturn:
+        {
             S  = "[LUA][HOOK_TAIL_RETURN] ";
             SS = "[TAIL_RETURN] ";
             break;
@@ -124,7 +132,7 @@ void Script::vfLoadStandardScripts(CLuaVirtualMachine* tpLuaVM)
     FS.update_path(S, "$game_data$", "script.ltx");
     CInifile* l_tpIniFile = xr_new<CInifile>(S);
     R_ASSERT(l_tpIniFile);
-    LPCSTR caScriptString = l_tpIniFile->r_string("common", "script");
+    LPCSTR    caScriptString  = l_tpIniFile->r_string("common", "script");
 
     u32       caNamespaceName = _GetItemCount(caScriptString);
     string256 I;

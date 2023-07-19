@@ -4,15 +4,15 @@
 
 #pragma once
 
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include "../../xrEngine/stdafx.h"
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include "directx\d3dx9.h"
-#pragma warning(default : 4995)
-#pragma warning(disable : 4714)
-#pragma warning(4 : 4018)
-#pragma warning(4 : 4244)
-#pragma warning(disable : 4237)
+#pragma warning(default:4995)
+#pragma warning(disable:4714)
+#pragma warning(4:4018)
+#pragma warning(4:4244)
+#pragma warning(disable:4237)
 
 #include <d3d10_1.h>
 #include <d3d11.h>
@@ -23,10 +23,10 @@
 
 #include "../Private/Debug/dxPixEventWrapper.h"
 
-#define R_R1 1
-#define R_R2 2
-#define R_R3 3
-#define R_R4 4
+#define R_R1   1
+#define R_R2   2
+#define R_R3   3
+#define R_R4   4
 #define RENDER R_R3
 
 #include "../../xrEngine/psystem.h"

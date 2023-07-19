@@ -2,7 +2,7 @@
 #include "NvTriStripObjects.h"
 #include "NvTriStrip.h"
 
-#pragma warning(disable : 4018)
+#pragma warning(disable:4018)
 
 ////////////////////////////////////////////////////////////////////////////////////////
 // private data
@@ -18,7 +18,7 @@ static bool         bListsOnly    = false;
 //
 // Default value: false
 //
-void SetListsOnly(const bool _bListsOnly)
+void                SetListsOnly(const bool _bListsOnly)
 {
     bListsOnly = _bListsOnly;
 }
@@ -87,7 +87,7 @@ void GenerateStrips(const u16* in_indices, const s32 in_numIndices, xr_vector<Pr
     NvStripInfoVec tempStrips;
     NvFaceInfoVec  tempFaces;
 
-    NvStripifier stripifier;
+    NvStripifier   stripifier;
 
     // do actual stripification
     stripifier.Stripify(tempIndices, cacheSize, minStripSize, tempStrips, tempFaces);
@@ -116,7 +116,7 @@ void GenerateStrips(const u16* in_indices, const s32 in_numIndices, xr_vector<Pr
         primGroups[0].indices    = xr_alloc<u16>(numIndices);
 
         // do strips
-        unsigned int indexCtr = 0;
+        unsigned int indexCtr    = 0;
         for (u32 i = 0; i < tempStrips.size(); i++)
         {
             for (int j = 0; j < tempStrips[i]->m_faces.size(); j++)
@@ -145,7 +145,7 @@ void GenerateStrips(const u16* in_indices, const s32 in_numIndices, xr_vector<Pr
         // convert to output format
         int numGroups = u16(numSeparateStrips);   // for the strips
         if (tempFaces.size() != 0)
-            numGroups++;   // we've got a list as well, increment
+            numGroups++;                          // we've got a list as well, increment
         primGroups.resize(numGroups);
 
         // first, the strips
@@ -173,7 +173,7 @@ void GenerateStrips(const u16* in_indices, const s32 in_numIndices, xr_vector<Pr
             primGroups[stripCtr].indices    = xr_alloc<u16>(stripLength);
             primGroups[stripCtr].numIndices = stripLength;
 
-            int indexCtr = 0;
+            int indexCtr                    = 0;
             for (int i = startingLoc; i < stripLength + startingLoc; i++)
                 primGroups[stripCtr].indices[indexCtr++] = u16(stripIndices[i]);
 
@@ -247,7 +247,7 @@ void RemapIndices(
     unsigned int indexCtr = 0;
     for (int i = 0; i < numGroups; i++)
     {
-        unsigned int numIndices = in_primGroups[i].numIndices;
+        unsigned int numIndices      = in_primGroups[i].numIndices;
 
         // init remapped group
         remappedGroups[i].type       = in_primGroups[i].type;
@@ -260,7 +260,7 @@ void RemapIndices(
             if (cachedIndex == -1)   // we haven't seen this index before
             {
                 // point to "last" vertex in VB
-                remappedGroups[i].indices[j] = u16(indexCtr);
+                remappedGroups[i].indices[j]            = u16(indexCtr);
 
                 // add to index cache, increment
                 indexCache[in_primGroups[i].indices[j]] = indexCtr++;

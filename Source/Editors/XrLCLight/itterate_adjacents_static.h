@@ -2,23 +2,20 @@
 #define _ITTERATE_ADJACENTS_STATIC_H_
 #include "../XrECore/Editor/face_smoth_flags.h"
 
-template <typename typeVertex> struct itterate_adjacents_params_static
+template<typename typeVertex> struct itterate_adjacents_params_static
 {
     typedef typeVertex                     type_vertex;
     typedef typename typeVertex::type_face type_face;
     typedef xr_vector<type_face*>          vecFace;
-
 private:
     const type_vertex* pTestVertex;
     vecFace&           new_adj_vec;
     const float        sm_cos;
-
 public:
     itterate_adjacents_params_static(const type_vertex* _pTestVertex, vecFace& _new_adj_vec, float _sm_cos):
         pTestVertex(_pTestVertex), new_adj_vec(_new_adj_vec), sm_cos(_sm_cos)
     {
     }
-
 private:
     IC static bool has_same_edge(const type_face* F1, const type_face* F2, u16& F1_edge_index, u16& F2_edge_index)
     {
@@ -71,7 +68,6 @@ private:
             return (cosa > sm_cos);
         }
     }
-
 public:
     IC const u32 current_adjacents_size() const
     {

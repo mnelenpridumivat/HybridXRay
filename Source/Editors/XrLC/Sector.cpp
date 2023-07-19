@@ -47,7 +47,7 @@ void CSector::BuildHierrarhy()
     BOOL    bAnyNode = FALSE;
 
     // calc scene BB
-    Fbox& scene_bb = pBuild->scene_bb;
+    Fbox&   scene_bb = pBuild->scene_bb;
     scene_bb.invalidate();
     for (int I = 0; I < s32(g_tree.size()); I++)
         scene_bb.merge(g_tree[I]->bbox);

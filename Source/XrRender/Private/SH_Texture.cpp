@@ -12,9 +12,9 @@
 
 #include "dxRenderDeviceRender.h"
 
-#define PRIORITY_HIGH 12
+#define PRIORITY_HIGH   12
 #define PRIORITY_NORMAL 8
-#define PRIORITY_LOW 4
+#define PRIORITY_LOW    4
 
 void resptrcode_texture::create(LPCSTR _name)
 {
@@ -98,7 +98,7 @@ void CTexture::apply_theora(u32 dwStage)
         rect.right  = pTheora->Width(true);
         rect.bottom = pTheora->Height(true);
 
-        u32 _w = pTheora->Width(false);
+        u32 _w      = pTheora->Width(false);
 
         R_CHK(T2D->LockRect(0, &R, &rect, 0));
         R_ASSERT(R.Pitch == int(pTheora->Width(false) * 4));
@@ -208,7 +208,7 @@ void CTexture::Load()
                 u32            _w       = pTheora->Width(false);
                 u32            _h       = pTheora->Height(false);
 
-                HRESULT hrr =
+                HRESULT        hrr =
                     HW.pDevice->CreateTexture(_w, _h, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &pTexture, NULL);
 
                 pSurface = pTexture;
@@ -235,7 +235,7 @@ void CTexture::Load()
             }
             else
             {
-                flags.MemoryUsage = pAVI->m_dwWidth * pAVI->m_dwHeight * 4;
+                flags.MemoryUsage       = pAVI->m_dwWidth * pAVI->m_dwHeight * 4;
 
                 // Now create texture
                 ID3DTexture2D* pTexture = 0;
@@ -255,7 +255,7 @@ void CTexture::Load()
         {
             // Sequence
             string256 buffer;
-            IReader*  _fs = FS.r_open(fn);
+            IReader*  _fs   = FS.r_open(fn);
 
             flags.seqCycles = FALSE;
             _fs->r_string(buffer, sizeof(buffer));

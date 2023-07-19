@@ -69,12 +69,12 @@ IC void CLevelGraph::unpack_xz(const CLevelGraph::CPosition& vertex_position, fl
     z = float(_z) * header().cell_size() + header().box().min.z;
 }
 
-template <typename T> IC void CLevelGraph::unpack_xz(const CLevelGraph::CVertex& vertex, T& x, T& z) const
+template<typename T> IC void CLevelGraph::unpack_xz(const CLevelGraph::CVertex& vertex, T& x, T& z) const
 {
     unpack_xz(vertex.position(), x, z);
 }
 
-template <typename T> IC void CLevelGraph::unpack_xz(const CLevelGraph::CVertex* vertex, T& x, T& z) const
+template<typename T> IC void CLevelGraph::unpack_xz(const CLevelGraph::CVertex* vertex, T& x, T& z) const
 {
     unpack_xz(*vertex, x, z);
 }
@@ -393,7 +393,7 @@ IC Fvector2 CLevelGraph::v2d(const Fvector& vector3d) const
     return (Fvector2().set(vector3d.x, vector3d.z));
 }
 
-template <bool bAssignY, typename T> IC bool CLevelGraph::create_straight_path(
+template<bool bAssignY, typename T> IC bool CLevelGraph::create_straight_path(
     u32             start_vertex_id,
     const Fvector2& start_point,
     const Fvector2& finish_point,
@@ -480,22 +480,26 @@ template <bool bAssignY, typename T> IC bool CLevelGraph::create_straight_path(
 
                 switch (I)
                 {
-                    case 0: {
+                    case 0:
+                    {
                         next1 = box.max;
                         next2.set(box.max.x, box.min.y);
                         break;
                     }
-                    case 1: {
+                    case 1:
+                    {
                         next1 = box.min;
                         next2.set(box.max.x, box.min.y);
                         break;
                     }
-                    case 2: {
+                    case 2:
+                    {
                         next1 = box.min;
                         next2.set(box.min.x, box.max.y);
                         break;
                     }
-                    case 3: {
+                    case 3:
+                    {
                         next1 = box.max;
                         next2.set(box.min.x, box.max.y);
                         break;
@@ -555,15 +559,15 @@ template <bool bAssignY, typename T> IC bool CLevelGraph::create_straight_path(
     }
 }
 
-template <typename T> IC void CLevelGraph::assign_y_values(xr_vector<T>& path)
+template<typename T> IC void CLevelGraph::assign_y_values(xr_vector<T>& path)
 {
-    Fvector        DUP = {0, 1, 0}, normal, v1, P = {0, 0, 0};
-    Fplane         PL;
-    const CVertex* _vertex;
-    u32            prev_id = u32(-1);
+    Fvector                DUP = {0, 1, 0}, normal, v1, P = {0, 0, 0};
+    Fplane                 PL;
+    const CVertex*         _vertex;
+    u32                    prev_id = u32(-1);
 
-    xr_vector<T>::iterator I = path.begin();
-    xr_vector<T>::iterator E = path.end();
+    xr_vector<T>::iterator I       = path.begin();
+    xr_vector<T>::iterator E       = path.end();
     for (; I != E; ++I)
     {
         if (prev_id != (*I).get_vertex_id())
@@ -656,7 +660,7 @@ IC void CLevelGraph::clear_mask_no_check(u32 vertex_id)
     m_access_mask[vertex_id] = true;
 }
 
-template <typename P> IC void
+template<typename P> IC void
     CLevelGraph::iterate_vertices(const Fvector& min_position, const Fvector& max_position, const P& predicate) const
 {
     CVertex *I, *E;

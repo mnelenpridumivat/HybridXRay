@@ -5,9 +5,9 @@
 #include "stdafx.h"
 #pragma hdrstop
 
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include "directx\d3dx9.h"
-#pragma warning(default : 4995)
+#pragma warning(default:4995)
 
 #include "ResourceManager.h"
 #include "tss.h"
@@ -15,7 +15,7 @@
 #include "blenders\blender_recorder.h"
 
 //	Already defined in Texture.cpp
-void fix_texture_name(LPSTR fn);
+void                   fix_texture_name(LPSTR fn);
 /*
 void fix_texture_name(LPSTR fn)
 {
@@ -29,7 +29,7 @@ void fix_texture_name(LPSTR fn)
 }
 */
 //--------------------------------------------------------------------------------------------------------------
-template <class T> BOOL reclaim(xr_vector<T*>& vec, const T* ptr)
+template<class T> BOOL reclaim(xr_vector<T*>& vec, const T* ptr)
 {
     xr_vector<T*>::iterator it  = vec.begin();
     xr_vector<T*>::iterator end = vec.end();
@@ -215,7 +215,7 @@ Shader* CResourceManager::_cpp_Create(
     {
         C.iElement = 1;
         //.		C.bDetail			= _GetDetailTexture(*C.L_textures[0],C.detail_texture,C.detail_scaler);
-        C.bDetail = m_textures_description.GetDetailTexture(C.L_textures[0], C.detail_texture, C.detail_scaler);
+        C.bDetail  = m_textures_description.GetDetailTexture(C.L_textures[0], C.detail_texture, C.detail_scaler);
         ShaderElement E;
         C._cpp_Compile(&E);
         S.E[1] = _CreateElement(E);
@@ -284,7 +284,7 @@ Shader* CResourceManager::_cpp_Create(LPCSTR s_shader, LPCSTR s_textures, LPCSTR
         return _cpp_Create(pBlender, s_shader, s_textures, s_constants, s_matrices);
 #else    //	USE_DX10
         return _cpp_Create(_GetBlender(s_shader ? s_shader : "null"), s_shader, s_textures, s_constants, s_matrices);
-#endif   //	USE_DX10
+#endif   //	USE_DX10 \
          // #else
     }
 #ifndef REDITOR
@@ -413,8 +413,8 @@ void CResourceManager::_GetMemoryUsage(u32& m_base, u32& c_base, u32& m_lmaps, u
 {
     m_base = c_base = m_lmaps = c_lmaps = 0;
 
-    map_Texture::iterator I = m_textures.begin();
-    map_Texture::iterator E = m_textures.end();
+    map_Texture::iterator I             = m_textures.begin();
+    map_Texture::iterator E             = m_textures.end();
     for (; I != E; I++)
     {
         u32 m = I->second->flags.MemoryUsage;

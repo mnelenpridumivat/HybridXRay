@@ -185,17 +185,17 @@ void dx103DFluidData::ParseProfile(const xr_string& Profile)
             WorldToFluid.transform(Emitter.m_vPosition);
         }
 
-        Emitter.m_fRadius = ini.r_float(EmitterSectionName, "Radius");
+        Emitter.m_fRadius    = ini.r_float(EmitterSectionName, "Radius");
 
         Emitter.m_InvSigma_2 = ini.r_float(EmitterSectionName, "Sigma");
         VERIFY(Emitter.m_InvSigma_2 > 0);
-        Emitter.m_InvSigma_2 = 1.0f / _sqr(Emitter.m_InvSigma_2);
+        Emitter.m_InvSigma_2    = 1.0f / _sqr(Emitter.m_InvSigma_2);
 
         Emitter.m_vFlowVelocity = ini.r_fvector3(EmitterSectionName, "FlowDirection");
         float fFlowSpeed        = ini.r_float(EmitterSectionName, "FlowSpeed");
         Emitter.m_vFlowVelocity.mul(fFlowSpeed);
 
-        Emitter.m_fDensity = ini.r_float(EmitterSectionName, "Density");
+        Emitter.m_fDensity      = ini.r_float(EmitterSectionName, "Density");
 
         Emitter.m_bApplyDensity = ini.r_bool(EmitterSectionName, "ApplyDensity") ? true : false;
         Emitter.m_bApplyImpulse = ini.r_bool(EmitterSectionName, "ApplyImpulse") ? true : false;

@@ -33,26 +33,30 @@ LRESULT CScriptDebugger::DebugMessage(UINT nMsg, WPARAM wParam, LPARAM lParam)
 
     switch (nMsg)
     {
-        case DMSG_NEW_CONNECTION: {
+        case DMSG_NEW_CONNECTION:
+        {
             msg.w_int(DMSG_NEW_CONNECTION);
             SendMessageToIde(msg);
         }
         break;
 
-        case DMSG_CLOSE_CONNECTION: {
+        case DMSG_CLOSE_CONNECTION:
+        {
             msg.w_int(DMSG_CLOSE_CONNECTION);
             SendMessageToIde(msg);
         }
         break;
 
-        case DMSG_WRITE_DEBUG: {
+        case DMSG_WRITE_DEBUG:
+        {
             msg.w_int(DMSG_WRITE_DEBUG);
             msg.w_string((char*)wParam);
             SendMessageToIde(msg);
         }
         break;
 
-        case DMSG_GOTO_FILELINE: {
+        case DMSG_GOTO_FILELINE:
+        {
             msg.w_int(DMSG_GOTO_FILELINE);
             msg.w_string((char*)wParam);
             msg.w_int((int)lParam);
@@ -60,21 +64,24 @@ LRESULT CScriptDebugger::DebugMessage(UINT nMsg, WPARAM wParam, LPARAM lParam)
         }
         break;
 
-        case DMSG_DEBUG_BREAK: {
+        case DMSG_DEBUG_BREAK:
+        {
             msg.w_int(DMSG_ACTIVATE_IDE);
             SendMessageToIde(msg);
             WaitForReply(true);
         }
         break;
 
-        case DMSG_CLEAR_STACKTRACE: {
+        case DMSG_CLEAR_STACKTRACE:
+        {
             m_callStack->Clear();
             msg.w_int(DMSG_CLEAR_STACKTRACE);
             SendMessageToIde(msg);
         }
         break;
 
-        case DMSG_ADD_STACKTRACE: {
+        case DMSG_ADD_STACKTRACE:
+        {
             m_callStack->Add(
                 ((StackTrace*)wParam)->szDesc, ((StackTrace*)wParam)->szFile, ((StackTrace*)wParam)->nLine);
 
@@ -84,50 +91,58 @@ LRESULT CScriptDebugger::DebugMessage(UINT nMsg, WPARAM wParam, LPARAM lParam)
         }
         break;
 
-        case DMSG_GOTO_STACKTRACE_LEVEL: {
+        case DMSG_GOTO_STACKTRACE_LEVEL:
+        {
             m_callStack->GotoStackTraceLevel((int)wParam);
             StackLevelChanged();
         }
         break;
 
-        case DMSG_CLEAR_LOCALVARIABLES: {
+        case DMSG_CLEAR_LOCALVARIABLES:
+        {
             msg.w_int(DMSG_CLEAR_LOCALVARIABLES);
             SendMessageToIde(msg);
         }
         break;
 
-        case DMSG_ADD_LOCALVARIABLE: {
+        case DMSG_ADD_LOCALVARIABLE:
+        {
             msg.w_int(DMSG_ADD_LOCALVARIABLE);
             msg.w_buff((void*)wParam, sizeof(Variable));
             SendMessageToIde(msg);
         }
         break;
 
-        case DMSG_CLEAR_THREADS: {
+        case DMSG_CLEAR_THREADS:
+        {
             msg.w_int(DMSG_CLEAR_THREADS);
             SendMessageToIde(msg);
         }
         break;
 
-        case DMSG_ADD_THREAD: {
+        case DMSG_ADD_THREAD:
+        {
             msg.w_int(DMSG_ADD_THREAD);
             msg.w_buff((void*)wParam, sizeof(SScriptThread));
             SendMessageToIde(msg);
         }
         break;
 
-        case DMSG_THREAD_CHANGED: {
+        case DMSG_THREAD_CHANGED:
+        {
             int nThreadID = (int)wParam;
             DrawThreadInfo(nThreadID);
         }
         break;
 
-        case DMSG_GET_VAR_TABLE: {
+        case DMSG_GET_VAR_TABLE:
+        {
             DrawVariableInfo((char*)wParam);
         }
         break;
 
-        case DMSG_EVAL_WATCH: {
+        case DMSG_EVAL_WATCH:
+        {
             string2048 res;
             res[0] = 0;
             Eval((const char*)wParam, res, sizeof(res));
@@ -390,7 +405,8 @@ void CScriptDebugger::WaitForReply(bool bWaitForModalResult)   // UINT nMsg)
         R_ASSERT(msg.GetLen());
 
         mr = TranslateIdeMessage(&msg);   // mr--is this an ide modalResult ?
-    } while (bWaitForModalResult && !mr);
+    }
+    while (bWaitForModalResult && !mr);
 }
 
 bool CScriptDebugger::TranslateIdeMessage(CMailSlotMsg* msg)
@@ -399,52 +415,60 @@ bool CScriptDebugger::TranslateIdeMessage(CMailSlotMsg* msg)
     msg->r_int(nType);
     switch (nType)
     {
-        case DMSG_DEBUG_GO: {
+        case DMSG_DEBUG_GO:
+        {
             m_nMode = DMOD_NONE;
             return true;
         }
         break;
 
-        case DMSG_DEBUG_BREAK: {
+        case DMSG_DEBUG_BREAK:
+        {
             m_nMode = DMOD_BREAK;
             return true;
         }
         break;
 
-        case DMSG_DEBUG_STEP_INTO: {
+        case DMSG_DEBUG_STEP_INTO:
+        {
             m_nMode = DMOD_STEP_INTO;
             return true;
         }
         break;
 
-        case DMSG_DEBUG_STEP_OVER: {
+        case DMSG_DEBUG_STEP_OVER:
+        {
             m_nLevel = 0;
             m_nMode  = DMOD_STEP_OVER;
             return true;
         }
         break;
 
-        case DMSG_DEBUG_STEP_OUT: {
+        case DMSG_DEBUG_STEP_OUT:
+        {
             m_nLevel = 0;
             m_nMode  = DMOD_STEP_OUT;
             return true;
         }
         break;
 
-        case DMSG_DEBUG_RUN_TO_CURSOR: {
+        case DMSG_DEBUG_RUN_TO_CURSOR:
+        {
             // DMOD_RUN_TO_CURSOR;
             return true;
         }
         break;
 
-        case DMSG_STOP_DEBUGGING: {
+        case DMSG_STOP_DEBUGGING:
+        {
             m_nMode = DMOD_STOP;
             //			Console->Execute("quit");
             return true;
         }
         break;
 
-        case DMSG_GOTO_STACKTRACE_LEVEL: {
+        case DMSG_GOTO_STACKTRACE_LEVEL:
+        {
             int nLevel;
             msg->r_int(nLevel);
             _SendMessage(DMSG_GOTO_STACKTRACE_LEVEL, nLevel, 0);
@@ -452,13 +476,15 @@ bool CScriptDebugger::TranslateIdeMessage(CMailSlotMsg* msg)
         }
         break;
 
-        case DMSG_GET_BREAKPOINTS: {
+        case DMSG_GET_BREAKPOINTS:
+        {
             FillBreakPointsIn(msg);
             return false;
         }
         break;
 
-        case DMSG_THREAD_CHANGED: {
+        case DMSG_THREAD_CHANGED:
+        {
             int nThreadID;
             msg->r_int(nThreadID);
             _SendMessage(DMSG_THREAD_CHANGED, nThreadID, 0);
@@ -466,7 +492,8 @@ bool CScriptDebugger::TranslateIdeMessage(CMailSlotMsg* msg)
         }
         break;
 
-        case DMSG_GET_VAR_TABLE: {
+        case DMSG_GET_VAR_TABLE:
+        {
             string512 varName;
             varName[0] = 0;
             msg->r_string(varName);
@@ -475,7 +502,8 @@ bool CScriptDebugger::TranslateIdeMessage(CMailSlotMsg* msg)
         }
         break;
 
-        case DMSG_EVAL_WATCH: {
+        case DMSG_EVAL_WATCH:
+        {
             string2048 watch;
             watch[0] = 0;
             int iItem;

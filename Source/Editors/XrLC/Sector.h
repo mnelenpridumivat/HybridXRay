@@ -14,7 +14,6 @@ class CSector
     xr_vector<u16> Portals;
     xr_vector<u16> Glows;
     xr_vector<u16> Lights;
-
 public:
     void add_portal(u16 P)
     {

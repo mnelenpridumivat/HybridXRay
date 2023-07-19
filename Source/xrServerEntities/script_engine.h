@@ -18,7 +18,7 @@ extern "C"
 #include <lua/lua.h>
 };
 
-    // #define DBG_DISABLE_SCRIPTS
+// #define DBG_DISABLE_SCRIPTS
 
 #include "script_engine_space.h"
 
@@ -49,15 +49,12 @@ public:
     typedef CScriptStorage                                         inherited;
     typedef ScriptEngine::EScriptProcessors                        EScriptProcessors;
     typedef associative_vector<EScriptProcessors, CScriptProcess*> CScriptProcessStorage;
-
 private:
     bool m_reload_modules;
-
 protected:
     CScriptProcessStorage m_script_processes;
     int                   m_stack_level;
     shared_str            m_class_registrators;
-
 protected:
 #ifdef USE_DEBUGGER
 #ifndef USE_LUA_STUDIO
@@ -67,14 +64,12 @@ protected:
     lua_studio_engine*            m_lua_studio_engine;
 #endif   // #ifndef USE_LUA_STUDIO
 #endif   // #ifdef USE_DEBUGGER
-
 private:
     string128 m_last_no_file;
     u32       m_last_no_file_length;
 
-    bool no_file_exists(LPCSTR file_name, u32 string_length);
-    void add_no_file(LPCSTR file_name, u32 string_length);
-
+    bool      no_file_exists(LPCSTR file_name, u32 string_length);
+    void      add_no_file(LPCSTR file_name, u32 string_length);
 public:
     CScriptEngine();
     virtual ~CScriptEngine();
@@ -105,7 +100,7 @@ public:
                    LPSTR     function,
                    u32 const function_size);
 
-    template <typename _result_type>
+    template<typename _result_type>
     IC bool functor(LPCSTR function_to_call, luabind::functor<_result_type>& lua_function);
 
 #ifdef USE_DEBUGGER

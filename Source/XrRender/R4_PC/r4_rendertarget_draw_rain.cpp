@@ -2,7 +2,7 @@
 
 void CRenderTarget::draw_rain(light& RainSetup)
 {
-    float fRainFactor = g_pGamePersistent->Environment().CurrentEnv->rain_density;
+    float    fRainFactor = g_pGamePersistent->Environment().CurrentEnv->rain_density;
 
     // Common calc for quad-rendering
     u32      Offset;
@@ -12,7 +12,7 @@ void CRenderTarget::draw_rain(light& RainSetup)
     Fvector2 p0, p1;
     p0.set(.5f / _w, .5f / _h);
     p1.set((_w + .5f) / _w, (_h + .5f) / _h);
-    float d_Z = EPS_S, d_W = 1.f;
+    float   d_Z = EPS_S, d_W = 1.f;
 
     // Common constants (light-related)
     Fvector L_dir;
@@ -61,7 +61,7 @@ void CRenderTarget::draw_rain(light& RainSetup)
     // recalculate d_Z, to perform depth-clipping
     const float fRainFar = ps_r3_dyn_wet_surf_far;
 
-    Fvector center_pt;
+    Fvector     center_pt;
     center_pt.mad(Device->vCameraPosition, Device->vCameraDirection, fRainFar);
     Device->mFullTransform.transform(center_pt);
     d_Z = center_pt.z;
@@ -78,13 +78,13 @@ void CRenderTarget::draw_rain(light& RainSetup)
         // texture adjustment matrix
         // float			fRange				=
         // (SE_SUN_NEAR==sub_phase)?ps_r2_sun_depth_near_scale:ps_r2_sun_depth_far_scale;
-        float fRange = 1;
+        float   fRange        = 1;
         // float			fBias				=
         // (SE_SUN_NEAR==sub_phase)?ps_r2_sun_depth_near_bias:ps_r2_sun_depth_far_bias; float			fBias
         // = 0.00001;
-        float fBias      = -0.0001;
-        float smapsize   = float(RImplementation.o.smapsize);
-        float fTexelOffs = (.5f / smapsize);
+        float   fBias         = -0.0001;
+        float   smapsize      = float(RImplementation.o.smapsize);
+        float   fTexelOffs    = (.5f / smapsize);
         //		float			view_dimX			= float(RainSetup.X.D.maxX-RainSetup.X.D.minX-2)/smapsize;
         //		float			view_dimY			= float(RainSetup.X.D.maxX-RainSetup.X.D.minX-2)/smapsize;
         //		float			view_sx				= float(RainSetup.X.D.minX+1)/smapsize;
@@ -163,7 +163,7 @@ void CRenderTarget::draw_rain(light& RainSetup)
             static float w_shift = 0;
             Fmatrix      m_xform;
             // Fvector			direction	= RainSetup.direction	;
-            Fvector normal;
+            Fvector      normal;
             normal.setHP(1, 0);
             // w_shift		+=	0.003f*Device->fTimeDelta;
             // Fvector			position;	position.set(0,0,0);
@@ -184,7 +184,7 @@ void CRenderTarget::draw_rain(light& RainSetup)
         Fvector2 j0, j1;
         float    scale_X = float(Device->dwWidth) / float(TEX_jitter);
         // float	scale_Y				= float(Device->dwHeight)/ float(TEX_jitter);
-        float offset = (.5f / float(TEX_jitter));
+        float    offset  = (.5f / float(TEX_jitter));
         j0.set(offset, offset);
         j1.set(scale_X, scale_X).add(offset);
 

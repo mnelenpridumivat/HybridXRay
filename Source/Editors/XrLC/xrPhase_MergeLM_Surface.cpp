@@ -10,7 +10,7 @@ static BYTE surface[c_LMAP_size * c_LMAP_size];
 const u32   alpha_ref = 254 - BORDER;
 
 // Initialization
-void _InitSurface()
+void        _InitSurface()
 {
     FillMemory(surface, c_LMAP_size * c_LMAP_size, 0);
 }
@@ -50,10 +50,10 @@ void _rect_register(L_rect& R, lm_layer* D, BOOL bRotate)
 // Test of per-pixel intersection (surface test)
 bool Place_Perpixel(L_rect& R, lm_layer* D, BOOL bRotate)
 {
-    u8* lm  = &*(D->marker.begin());
-    int s_x = D->width + 2 * BORDER;
-    int s_y = D->height + 2 * BORDER;
-    int x;
+    u8*           lm  = &*(D->marker.begin());
+    int           s_x = D->width + 2 * BORDER;
+    int           s_y = D->height + 2 * BORDER;
+    int           x;
 
     const __m128i mm_alpha_ref = _mm_set1_epi8(alpha_ref);
     const __m128i mm_zero      = _mm_setzero_si128();

@@ -53,15 +53,15 @@ IC shared_str CGameSpawnConstructor::actor_level_name()
 extern void read_levels(CInifile* ini, xr_set<CLevelInfo>& m_levels, bool rebuild_graph, xr_vector<LPCSTR>*);
 void        fill_needed_levels(LPSTR levels, xr_vector<LPCSTR>& result);
 
-void CGameSpawnConstructor::load_spawns(LPCSTR name, bool no_separator_check)
+void        CGameSpawnConstructor::load_spawns(LPCSTR name, bool no_separator_check)
 {
-    m_spawn_id = 0;
+    m_spawn_id    = 0;
 
     // init spawn graph
     m_spawn_graph = xr_new<SPAWN_GRAPH>();
 
     // init ini file
-    m_game_info = xr_new<CInifile>(INI_FILE);
+    m_game_info   = xr_new<CInifile>(INI_FILE);
     R_ASSERT(m_game_info->section_exist("levels"));
 
     // init patrol path storage
@@ -246,7 +246,7 @@ void CGameSpawnConstructor::remove_object(CSE_Abstract* object)
 
 void CGameSpawnConstructor::process_actor(LPCSTR start_level_name)
 {
-    m_actor = 0;
+    m_actor                         = 0;
 
     LEVEL_SPAWN_STORAGE::iterator I = m_level_spawns.begin();
     LEVEL_SPAWN_STORAGE::iterator E = m_level_spawns.end();
@@ -326,7 +326,8 @@ void clear_temp_folder()
             continue;
 
         files.push_back(file.name);
-    } while (!_findnext(handle, &file));
+    }
+    while (!_findnext(handle, &file));
 
     _findclose(handle);
 

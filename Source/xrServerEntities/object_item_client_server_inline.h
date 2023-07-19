@@ -11,7 +11,7 @@
 
 #pragma once
 
-#define TEMPLATE_SPECIALIZATION template <typename _client_type, typename _server_type>
+#define TEMPLATE_SPECIALIZATION  template<typename _client_type, typename _server_type>
 #define CSObjectItemClientServer CObjectItemClientServer<_client_type, _server_type>
 
 TEMPLATE_SPECIALIZATION
@@ -41,7 +41,7 @@ ObjectFactory::SERVER_BASE_CLASS* CSObjectItemClientServer::server_object(LPCSTR
 
 #ifndef NO_XR_GAME
 #define TEMPLATE_SPECIALIZATION                                                               \
-    template <                                                                                \
+    template<                                                                                 \
         typename _client_type_single, typename _client_type_mp, typename _server_type_single, \
         typename _server_type_mp>
 #define CSObjectItemClientServerSingleMp \

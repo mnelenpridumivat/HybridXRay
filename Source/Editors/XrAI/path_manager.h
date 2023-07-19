@@ -10,7 +10,7 @@
 
 #include "path_manager_generic.h"
 
-template <
+template<
     typename _Graph,
     typename _DataStorage,
     typename _Parameters,

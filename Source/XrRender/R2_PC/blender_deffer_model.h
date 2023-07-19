@@ -5,7 +5,6 @@ class CBlender_deffer_model: public IBlender
 public:
     xrP_Integer oAREF;
     xrP_BOOL    oBlend;
-
 public:
     virtual LPCSTR getComment()
     {
@@ -26,7 +25,6 @@ public:
 
     CBlender_deffer_model();
     virtual ~CBlender_deffer_model();
-
 private:
     xrP_TOKEN oTessellation;
 };

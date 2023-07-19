@@ -20,7 +20,6 @@ struct XRLC_LIGHT_API lm_layer
     u32                   height;
     xr_vector<base_color> surface;
     xr_vector<u8>         marker;
-
 private:
     //	LMODE					mode;
 public:

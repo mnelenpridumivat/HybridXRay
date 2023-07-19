@@ -11,7 +11,7 @@
 
 void xrLight()
 {
-    u32 range = gl_data.slots_data.size_z();
+    u32            range = gl_data.slots_data.size_z();
 
     // Start threads, wait, continue --- perform all the work
     CThreadManager Threads;

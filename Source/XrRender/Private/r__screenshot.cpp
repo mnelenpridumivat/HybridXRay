@@ -21,8 +21,8 @@ IC u32 convert(float c)
 }
 IC void MouseRayFromPoint(Fvector& direction, int x, int y, Fmatrix& m_CamMat)
 {
-    int halfwidth  = Device->dwWidth / 2;
-    int halfheight = Device->dwHeight / 2;
+    int      halfwidth  = Device->dwWidth / 2;
+    int      halfheight = Device->dwHeight / 2;
 
     Ivector2 point2;
     point2.set(x - halfwidth, halfheight - y);
@@ -30,8 +30,8 @@ IC void MouseRayFromPoint(Fvector& direction, int x, int y, Fmatrix& m_CamMat)
     float size_y = VIEWPORT_NEAR * tanf(deg2rad(60.f) * 0.5f);
     float size_x = size_y / (Device->fHeight_2 / Device->fWidth_2);
 
-    float r_pt = float(point2.x) * size_x / (float)halfwidth;
-    float u_pt = float(point2.y) * size_y / (float)halfheight;
+    float r_pt   = float(point2.x) * size_x / (float)halfwidth;
+    float u_pt   = float(point2.y) * size_y / (float)halfheight;
 
     direction.mul(m_CamMat.k, VIEWPORT_NEAR);
     direction.mad(direction, m_CamMat.j, u_pt);
@@ -39,7 +39,7 @@ IC void MouseRayFromPoint(Fvector& direction, int x, int y, Fmatrix& m_CamMat)
     direction.normalize();
 }
 
-#define SM_FOR_SEND_WIDTH 640
+#define SM_FOR_SEND_WIDTH  640
 #define SM_FOR_SEND_HEIGHT 480
 
 #if defined(USE_DX10) || defined(USE_DX11)
@@ -53,8 +53,9 @@ void CRender::ScreenshotImpl(ScreenshotMode mode, LPCSTR name, CMemoryWriter* me
     // Save
     switch (mode)
     {
-        case IRender_interface::SM_FOR_GAMESAVE: {
-            ID3DTexture2D* pSrcSmallTexture;
+        case IRender_interface::SM_FOR_GAMESAVE:
+        {
+            ID3DTexture2D*     pSrcSmallTexture;
 
             D3D_TEXTURE2D_DESC desc;
             ZeroMemory(&desc, sizeof(desc));
@@ -99,8 +100,9 @@ void CRender::ScreenshotImpl(ScreenshotMode mode, LPCSTR name, CMemoryWriter* me
             _RELEASE(pSrcSmallTexture);
         }
         break;
-        case IRender_interface::SM_FOR_MPSENDING: {
-            ID3DTexture2D* pSrcSmallTexture;
+        case IRender_interface::SM_FOR_MPSENDING:
+        {
+            ID3DTexture2D*     pSrcSmallTexture;
 
             D3D_TEXTURE2D_DESC desc;
             ZeroMemory(&desc, sizeof(desc));
@@ -151,7 +153,8 @@ void CRender::ScreenshotImpl(ScreenshotMode mode, LPCSTR name, CMemoryWriter* me
             _RELEASE(pSrcSmallTexture);
         }
         break;
-        case IRender_interface::SM_NORMAL: {
+        case IRender_interface::SM_NORMAL:
+        {
             string64    t_stemp;
             string_path buf;
             xr_sprintf(
@@ -190,7 +193,8 @@ void CRender::ScreenshotImpl(ScreenshotMode mode, LPCSTR name, CMemoryWriter* me
         }
         break;
         case IRender_interface::SM_FOR_LEVELMAP:
-        case IRender_interface::SM_FOR_CUBEMAP: {
+        case IRender_interface::SM_FOR_CUBEMAP:
+        {
             VERIFY(!"CRender::Screenshot. This screenshot type is not supported for DX10.");
             /*
             string64			t_stemp;
@@ -229,7 +233,7 @@ void CRender::ScreenshotImpl(ScreenshotMode mode, LPCSTR name, CMemoryWriter* me
     _RELEASE(pSrcTexture);
 }
 
-#else   //	USE_DX10
+#else    //	USE_DX10
 
 void CRender::ScreenshotImpl(ScreenshotMode mode, LPCSTR name, CMemoryWriter* memory_writer)
 {
@@ -297,7 +301,8 @@ void CRender::ScreenshotImpl(ScreenshotMode mode, LPCSTR name, CMemoryWriter* me
     // Save
     switch (mode)
     {
-        case IRender_interface::SM_FOR_GAMESAVE: {
+        case IRender_interface::SM_FOR_GAMESAVE:
+        {
             // texture
             ID3DTexture2D* texture = NULL;
             hr                     = D3DXCreateTexture(
@@ -336,7 +341,8 @@ void CRender::ScreenshotImpl(ScreenshotMode mode, LPCSTR name, CMemoryWriter* me
             _RELEASE(texture);
         }
         break;
-        case IRender_interface::SM_FOR_MPSENDING: {
+        case IRender_interface::SM_FOR_MPSENDING:
+        {
             // texture
             ID3DTexture2D* texture = NULL;
             hr                     = D3DXCreateTexture(
@@ -383,7 +389,8 @@ void CRender::ScreenshotImpl(ScreenshotMode mode, LPCSTR name, CMemoryWriter* me
             _RELEASE(texture);
         }
         break;
-        case IRender_interface::SM_NORMAL: {
+        case IRender_interface::SM_NORMAL:
+        {
             string64    t_stemp;
             string_path buf;
             xr_sprintf(
@@ -412,7 +419,8 @@ void CRender::ScreenshotImpl(ScreenshotMode mode, LPCSTR name, CMemoryWriter* me
         }
         break;
         case IRender_interface::SM_FOR_LEVELMAP:
-        case IRender_interface::SM_FOR_CUBEMAP: {
+        case IRender_interface::SM_FOR_CUBEMAP:
+        {
             //				string64			t_stemp;
             string_path buf;
             VERIFY(name);
@@ -424,7 +432,7 @@ void CRender::ScreenshotImpl(ScreenshotMode mode, LPCSTR name, CMemoryWriter* me
 
             //	TODO: DX10: This is totally incorrect but mimics
             //	original behavior. Fix later.
-            hr = pFB->LockRect(&D, 0, D3DLOCK_NOSYSLOCK);
+            hr       = pFB->LockRect(&D, 0, D3DLOCK_NOSYSLOCK);
             if (hr != D3D_OK)
                 return;
             hr = pFB->UnlockRect();
@@ -482,7 +490,7 @@ void CRender::ScreenshotAsyncEnd(CMemoryWriter& memory_writer)
     VERIFY(!m_bMakeAsyncSS);
 
     //	Don't own. No need to release.
-    ID3DTexture2D* pTex = Target->t_ss_async;
+    ID3DTexture2D*       pTex = Target->t_ss_async;
 
     D3D_MAPPED_TEXTURE2D MappedData;
 
@@ -530,22 +538,22 @@ void CRender::ScreenshotAsyncEnd(CMemoryWriter& memory_writer)
 
     pFB = Target->pFB;
 
-    hr = pFB->LockRect(&D, 0, D3DLOCK_NOSYSLOCK);
+    hr  = pFB->LockRect(&D, 0, D3DLOCK_NOSYSLOCK);
     if (hr != D3D_OK)
         return;
 
 #if RENDER == R_R1
-    u32 rtWidth  = Target->get_rtwidth();
-    u32 rtHeight = Target->get_rtheight();
+    u32  rtWidth  = Target->get_rtwidth();
+    u32  rtHeight = Target->get_rtheight();
 #else    //	RENDER != R_R1
     u32 rtWidth  = Device->dwWidth;
     u32 rtHeight = Device->dwHeight;
 #endif   //	RENDER != R_R1
 
     // Image processing (gamma-correct)
-    u32* pPixel  = (u32*)D.pBits;
-    u32* pOrigin = pPixel;
-    u32* pEnd    = pPixel + (rtWidth * rtHeight);
+    u32* pPixel   = (u32*)D.pBits;
+    u32* pOrigin  = pPixel;
+    u32* pEnd     = pPixel + (rtWidth * rtHeight);
 
     //	Kill alpha
 #if RENDER != R_R1
@@ -554,7 +562,7 @@ void CRender::ScreenshotAsyncEnd(CMemoryWriter& memory_writer)
         static const int iMaxPixelsInARow = 1024;
         D3DXFLOAT16*     pPixelElement16  = (D3DXFLOAT16*)pPixel;
 
-        FLOAT tmpArray[4 * iMaxPixelsInARow];
+        FLOAT            tmpArray[4 * iMaxPixelsInARow];
         while (pPixel != pEnd)
         {
             const int iProcessPixels = _min(iMaxPixelsInARow, (s32)(pEnd - pPixel));

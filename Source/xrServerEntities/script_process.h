@@ -14,7 +14,6 @@ class CScriptProcess
 {
 public:
     typedef xr_vector<CScriptThread*> SCRIPT_REGISTRY;
-
 private:
     struct CScriptToRun
     {
@@ -22,7 +21,7 @@ private:
         bool  m_do_string;
         bool  m_reload;
 
-        IC CScriptToRun(LPCSTR script_name, bool do_string, bool reload = false)
+        IC    CScriptToRun(LPCSTR script_name, bool do_string, bool reload = false)
         {
             m_script_name = xr_strdup(script_name);
             m_do_string   = do_string;
@@ -41,21 +40,16 @@ private:
             xr_free(m_script_name);
         }
     };
-
 public:
     typedef xr_vector<CScriptToRun> SCRIPTS_TO_RUN;
-
 protected:
     SCRIPT_REGISTRY m_scripts;
     SCRIPTS_TO_RUN  m_scripts_to_run;
     shared_str      m_name;
-
 protected:
     u32 m_iterator;   // Oles: iterative update
-
 protected:
     void run_scripts();
-
 public:
     CScriptProcess(shared_str anme, shared_str scripts);
     virtual ~CScriptProcess();

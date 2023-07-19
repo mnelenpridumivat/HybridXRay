@@ -19,9 +19,12 @@ Comments:
 struct DECLSPEC_NV_MATH vec2
 {
     vec2() {}
-    vec2(nv_scalar x, nv_scalar y): x(x), y(y) {}
-    vec2(const nv_scalar* xy): x(xy[0]), y(xy[1]) {}
-    vec2(const vec2& u): x(u.x), y(u.y) {}
+    vec2(nv_scalar x, nv_scalar y):
+        x(x), y(y) {}
+    vec2(const nv_scalar* xy):
+        x(xy[0]), y(xy[1]) {}
+    vec2(const vec2& u):
+        x(u.x), y(u.y) {}
     vec2(const vec3t<nv_scalar>&);
 
     bool operator==(const vec2& u) const
@@ -73,7 +76,7 @@ struct DECLSPEC_NV_MATH vec2
         };
         struct
         {
-            nv_scalar s, t;   // standard names for components
+            nv_scalar s, t;       // standard names for components
         };
         nv_scalar vec_array[2];   // array access
     };
@@ -104,7 +107,7 @@ inline const vec2 operator*(const vec2& u, const vec2& v)
     return vec2(u.x * v.x, u.y * v.y);
 }
 
-template <class _T> struct vec3t
+template<class _T> struct vec3t
 {
     vec3t() {}
     vec3t(_T x, _T y, _T z): x(x), y(y), z(z) {}
@@ -181,7 +184,7 @@ template <class _T> struct vec3t
         };
         struct
         {
-            _T s, t, r;   // standard names for components
+            _T s, t, r;    // standard names for components
         };
         _T vec_array[3];   // array access
     };
@@ -192,27 +195,27 @@ template <class _T> struct vec3t
     }
 };
 
-template <class _T> inline const vec3t<_T> operator+(const vec3t<_T>& u, const vec3t<_T>& v)
+template<class _T> inline const vec3t<_T> operator+(const vec3t<_T>& u, const vec3t<_T>& v)
 {
     return vec3t<_T>(u.x + v.x, u.y + v.y, u.z + v.z);
 }
-template <class _T> inline const vec3t<_T> operator-(const vec3t<_T>& u, const vec3t<_T>& v)
+template<class _T> inline const vec3t<_T> operator-(const vec3t<_T>& u, const vec3t<_T>& v)
 {
     return vec3t<_T>(u.x - v.x, u.y - v.y, u.z - v.z);
 }
-template <class _T> inline const vec3t<_T> operator^(const vec3t<_T>& u, const vec3t<_T>& v)
+template<class _T> inline const vec3t<_T> operator^(const vec3t<_T>& u, const vec3t<_T>& v)
 {
     return vec3t<_T>(u.y * v.z - u.z * v.y, u.z * v.x - u.x * v.z, u.x * v.y - u.y * v.x);
 }
-template <class _T> inline const vec3t<_T> operator*(const _T s, const vec3t<_T>& u)
+template<class _T> inline const vec3t<_T> operator*(const _T s, const vec3t<_T>& u)
 {
     return vec3t<_T>(s * u.x, s * u.y, s * u.z);
 }
-template <class _T> inline const vec3t<_T> operator/(const vec3t<_T>& u, const _T s)
+template<class _T> inline const vec3t<_T> operator/(const vec3t<_T>& u, const _T s)
 {
     return vec3t<_T>(u.x / s, u.y / s, u.z / s);
 }
-template <class _T> inline const vec3t<_T> operator*(const vec3t<_T>& u, const vec3t<_T>& v)
+template<class _T> inline const vec3t<_T> operator*(const vec3t<_T>& u, const vec3t<_T>& v)
 {
     return vec3t<_T>(u.x * v.x, u.y * v.y, u.z * v.z);
 }
@@ -299,7 +302,7 @@ struct DECLSPEC_NV_MATH vec4
         {
             nv_scalar s, t, r, q;   // standard names for components
         };
-        nv_scalar vec_array[4];   // array access
+        nv_scalar vec_array[4];     // array access
     };
 };
 
@@ -328,7 +331,7 @@ inline const vec4 operator*(const vec4& u, const vec4& v)
     return vec4(u.x * v.x, u.y * v.y, u.z * v.z, u.w * v.w);
 }
 
-template <class _T> inline vec3t<_T>::vec3t(const vec4& u)
+template<class _T> inline vec3t<_T>::vec3t(const vec4& u)
 {
     x = u.x;
     y = u.y;
@@ -361,7 +364,14 @@ struct DECLSPEC_NV_MATH mat3
         const nv_scalar& f7,
         const nv_scalar& f8):
         a00(f0),
-        a10(f1), a20(f2), a01(f3), a11(f4), a21(f5), a02(f6), a12(f7), a22(f8)
+        a10(f1),
+        a20(f2),
+        a01(f3),
+        a11(f4),
+        a21(f5),
+        a02(f6),
+        a12(f7),
+        a22(f8)
     {
     }
 
@@ -410,12 +420,12 @@ struct DECLSPEC_NV_MATH mat3
             nv_scalar a01, a11, a21;   // standard names for components
             nv_scalar a02, a12, a22;   // standard names for components
         };
-        nv_scalar mat_array[9];   // array access
+        nv_scalar mat_array[9];        // array access
     };
 };
 
-const vec3 operator*(const mat3&, const vec3&);
-const vec3 operator*(const vec3&, const mat3&);
+const vec3              operator*(const mat3&, const vec3&);
+const vec3              operator*(const vec3&, const mat3&);
 
 struct DECLSPEC_NV_MATH mat4
 {
@@ -441,8 +451,21 @@ struct DECLSPEC_NV_MATH mat4
         const nv_scalar& f14,
         const nv_scalar& f15):
         a00(f0),
-        a10(f1), a20(f2), a30(f3), a01(f4), a11(f5), a21(f6), a31(f7), a02(f8), a12(f9), a22(f10), a32(f11), a03(f12),
-        a13(f13), a23(f14), a33(f15)
+        a10(f1),
+        a20(f2),
+        a30(f3),
+        a01(f4),
+        a11(f5),
+        a21(f6),
+        a31(f7),
+        a02(f8),
+        a12(f9),
+        a22(f10),
+        a32(f11),
+        a03(f12),
+        a13(f13),
+        a23(f14),
+        a33(f15)
     {
     }
 
@@ -492,7 +515,7 @@ struct DECLSPEC_NV_MATH mat4
     void  set_translation(const vec3& t);
     vec3& get_translation(vec3& t) const;
 
-    mat4 operator*(const mat4&) const;
+    mat4  operator*(const mat4&) const;
 
     union
     {
@@ -524,8 +547,8 @@ struct DECLSPEC_NV_MATH mat4
     };
 };
 
-const vec4 operator*(const mat4&, const vec4&);
-const vec4 operator*(const vec4&, const mat4&);
+const vec4              operator*(const mat4&, const vec4&);
+const vec4              operator*(const vec4&, const mat4&);
 
 // quaternion
 struct DECLSPEC_NV_MATH quat
@@ -574,46 +597,46 @@ extern mat3&     quat_2_mat(mat3& M, const quat& q);
 extern quat&     mat_2_quat(quat& q, const mat3& M);
 
 // constant algebraic values
-const nv_scalar array16_id[] = {nv_one,  nv_zero, nv_zero, nv_zero, nv_zero, nv_one,  nv_zero, nv_zero,
-                                nv_zero, nv_zero, nv_one,  nv_zero, nv_zero, nv_zero, nv_zero, nv_one};
+const nv_scalar  array16_id[]         = {nv_one, nv_zero, nv_zero, nv_zero, nv_zero, nv_one, nv_zero, nv_zero,
+             nv_zero, nv_zero, nv_one, nv_zero, nv_zero, nv_zero, nv_zero, nv_one};
 
-const nv_scalar array16_null[] = {nv_zero, nv_zero, nv_zero, nv_zero, nv_zero, nv_zero, nv_zero, nv_zero,
-                                  nv_zero, nv_zero, nv_zero, nv_zero, nv_zero, nv_zero, nv_zero, nv_zero};
+const nv_scalar  array16_null[]       = {nv_zero, nv_zero, nv_zero, nv_zero, nv_zero, nv_zero, nv_zero, nv_zero,
+           nv_zero, nv_zero, nv_zero, nv_zero, nv_zero, nv_zero, nv_zero, nv_zero};
 
-const nv_scalar array16_scale_bias[] = {nv_zero_5, nv_zero,   nv_zero,   nv_zero, nv_zero,   nv_zero_5,
-                                        nv_zero,   nv_zero,   nv_zero,   nv_zero, nv_zero_5, nv_zero,
-                                        nv_zero_5, nv_zero_5, nv_zero_5, nv_one};
+const nv_scalar  array16_scale_bias[] = {nv_zero_5, nv_zero, nv_zero, nv_zero, nv_zero, nv_zero_5,
+     nv_zero, nv_zero, nv_zero, nv_zero, nv_zero_5, nv_zero,
+     nv_zero_5, nv_zero_5, nv_zero_5, nv_one};
 
-const nv_scalar array9_id[] = {nv_one, nv_zero, nv_zero, nv_zero, nv_one, nv_zero, nv_zero, nv_zero, nv_one};
+const nv_scalar  array9_id[]          = {nv_one, nv_zero, nv_zero, nv_zero, nv_one, nv_zero, nv_zero, nv_zero, nv_one};
 
-const vec2 vec2_null(nv_zero, nv_zero);
-const vec4 vec4_one(nv_one, nv_one, nv_one, nv_one);
-const vec3 vec3_one(nv_one, nv_one, nv_one);
-const vec3 vec3_null(nv_zero, nv_zero, nv_zero);
-const vec3 vec3_x(nv_one, nv_zero, nv_zero);
-const vec3 vec3_y(nv_zero, nv_one, nv_zero);
-const vec3 vec3_z(nv_zero, nv_zero, nv_one);
-const vec3 vec3_neg_x(-nv_one, nv_zero, nv_zero);
-const vec3 vec3_neg_y(nv_zero, -nv_one, nv_zero);
-const vec3 vec3_neg_z(nv_zero, nv_zero, -nv_one);
-const vec4 vec4_null(nv_zero, nv_zero, nv_zero, nv_zero);
-const vec4 vec4_x(nv_one, nv_zero, nv_zero, nv_zero);
-const vec4 vec4_neg_x(-nv_one, nv_zero, nv_zero, nv_zero);
-const vec4 vec4_y(nv_zero, nv_one, nv_zero, nv_zero);
-const vec4 vec4_neg_y(nv_zero, -nv_one, nv_zero, nv_zero);
-const vec4 vec4_z(nv_zero, nv_zero, nv_one, nv_zero);
-const vec4 vec4_neg_z(nv_zero, nv_zero, -nv_one, nv_zero);
-const vec4 vec4_w(nv_zero, nv_zero, nv_zero, nv_one);
-const vec4 vec4_neg_w(nv_zero, nv_zero, nv_zero, -nv_one);
-const quat quat_id(nv_zero, nv_zero, nv_zero, nv_one);
-const mat4 mat4_id(array16_id);
-const mat3 mat3_id(array9_id);
-const mat4 mat4_null(array16_null);
-const mat4 mat4_scale_bias(array16_scale_bias);
+const vec2       vec2_null(nv_zero, nv_zero);
+const vec4       vec4_one(nv_one, nv_one, nv_one, nv_one);
+const vec3       vec3_one(nv_one, nv_one, nv_one);
+const vec3       vec3_null(nv_zero, nv_zero, nv_zero);
+const vec3       vec3_x(nv_one, nv_zero, nv_zero);
+const vec3       vec3_y(nv_zero, nv_one, nv_zero);
+const vec3       vec3_z(nv_zero, nv_zero, nv_one);
+const vec3       vec3_neg_x(-nv_one, nv_zero, nv_zero);
+const vec3       vec3_neg_y(nv_zero, -nv_one, nv_zero);
+const vec3       vec3_neg_z(nv_zero, nv_zero, -nv_one);
+const vec4       vec4_null(nv_zero, nv_zero, nv_zero, nv_zero);
+const vec4       vec4_x(nv_one, nv_zero, nv_zero, nv_zero);
+const vec4       vec4_neg_x(-nv_one, nv_zero, nv_zero, nv_zero);
+const vec4       vec4_y(nv_zero, nv_one, nv_zero, nv_zero);
+const vec4       vec4_neg_y(nv_zero, -nv_one, nv_zero, nv_zero);
+const vec4       vec4_z(nv_zero, nv_zero, nv_one, nv_zero);
+const vec4       vec4_neg_z(nv_zero, nv_zero, -nv_one, nv_zero);
+const vec4       vec4_w(nv_zero, nv_zero, nv_zero, nv_one);
+const vec4       vec4_neg_w(nv_zero, nv_zero, nv_zero, -nv_one);
+const quat       quat_id(nv_zero, nv_zero, nv_zero, nv_one);
+const mat4       mat4_id(array16_id);
+const mat3       mat3_id(array9_id);
+const mat4       mat4_null(array16_null);
+const mat4       mat4_scale_bias(array16_scale_bias);
 
 // normalizes a vector and return a reference of itself
-extern vec3& normalize(vec3& u);
-extern vec4& normalize(vec4& u);
+extern vec3&     normalize(vec3& u);
+extern vec4&     normalize(vec4& u);
 
 // Computes the squared magnitude
 inline nv_scalar nv_sq_norm(const vec3& n)
@@ -639,7 +662,7 @@ inline nv_scalar nv_norm(const vec4& n)
 
 // computes the cross product ( v cross w) and stores the result in u
 // i.e.     u = v cross w
-extern vec3& cross(vec3& u, const vec3& v, const vec3& w);
+extern vec3&      cross(vec3& u, const vec3& v, const vec3& w);
 
 // computes the dot product ( v dot w) and stores the result in u
 // i.e.     u = v dot w
@@ -662,83 +685,83 @@ extern nv_scalar  dot(const vec4& v, const vec3& w);
 //                    \ | /
 //                     \|/
 //                      +
-extern vec3& reflect(vec3& r, const vec3& n, const vec3& l);
+extern vec3&      reflect(vec3& r, const vec3& n, const vec3& l);
 
 // Computes u = v * lambda + u
-extern vec3& madd(vec3& u, const vec3& v, const nv_scalar& lambda);
+extern vec3&      madd(vec3& u, const vec3& v, const nv_scalar& lambda);
 // Computes u = v * lambda
-extern vec3& mult(vec3& u, const vec3& v, const nv_scalar& lambda);
+extern vec3&      mult(vec3& u, const vec3& v, const nv_scalar& lambda);
 // Computes u = v * w
-extern vec3& mult(vec3& u, const vec3& v, const vec3& w);
+extern vec3&      mult(vec3& u, const vec3& v, const vec3& w);
 // Computes u = v + w
-extern vec3& add(vec3& u, const vec3& v, const vec3& w);
+extern vec3&      add(vec3& u, const vec3& v, const vec3& w);
 // Computes u = v - w
-extern vec3& sub(vec3& u, const vec3& v, const vec3& w);
+extern vec3&      sub(vec3& u, const vec3& v, const vec3& w);
 
 // Computes u = u * s
-extern vec3& scale(vec3& u, const nv_scalar s);
-extern vec4& scale(vec4& u, const nv_scalar s);
+extern vec3&      scale(vec3& u, const nv_scalar s);
+extern vec4&      scale(vec4& u, const nv_scalar s);
 
 // Computes u = M * v
-extern vec3& mult(vec3& u, const mat3& M, const vec3& v);
-extern vec4& mult(vec4& u, const mat4& M, const vec4& v);
+extern vec3&      mult(vec3& u, const mat3& M, const vec3& v);
+extern vec4&      mult(vec4& u, const mat4& M, const vec4& v);
 
 // Computes u = v * M
-extern vec3& mult(vec3& u, const vec3& v, const mat3& M);
-extern vec4& mult(vec4& u, const vec4& v, const mat4& M);
+extern vec3&      mult(vec3& u, const vec3& v, const mat3& M);
+extern vec4&      mult(vec4& u, const vec4& v, const mat4& M);
 
 // Computes u = M(4x4) * v and divides by w
-extern vec3& mult_pos(vec3& u, const mat4& M, const vec3& v);
+extern vec3&      mult_pos(vec3& u, const mat4& M, const vec3& v);
 // Computes u = M(4x4) * v
-extern vec3& mult_dir(vec3& u, const mat4& M, const vec3& v);
+extern vec3&      mult_dir(vec3& u, const mat4& M, const vec3& v);
 // Computes u = M(4x4) * v and does not divide by w (assumed to be 1)
-extern vec3& mult(vec3& u, const mat4& M, const vec3& v);
+extern vec3&      mult(vec3& u, const mat4& M, const vec3& v);
 
 // Computes u = v * M(4x4) and divides by w
-extern vec3& mult_pos(vec3& u, const vec3& v, const mat4& M);
+extern vec3&      mult_pos(vec3& u, const vec3& v, const mat4& M);
 // Computes u = v * M(4x4)
-extern vec3& mult_dir(vec3& u, const vec3& v, const mat4& M);
+extern vec3&      mult_dir(vec3& u, const vec3& v, const mat4& M);
 // Computes u = v * M(4x4) and does not divide by w (assumed to be 1)
-extern vec3& mult(vec3& u, const vec3& v, const mat4& M);
+extern vec3&      mult(vec3& u, const vec3& v, const mat4& M);
 
 // Computes A += B
-extern mat4& add(mat4& A, const mat4& B);
-extern mat3& add(mat3& A, const mat3& B);
+extern mat4&      add(mat4& A, const mat4& B);
+extern mat3&      add(mat3& A, const mat3& B);
 
 // Computes C = A * B
-extern mat4& mult(mat4& C, const mat4& A, const mat4& B);
-extern mat3& mult(mat3& C, const mat3& A, const mat3& B);
+extern mat4&      mult(mat4& C, const mat4& A, const mat4& B);
+extern mat3&      mult(mat3& C, const mat3& A, const mat3& B);
 
 // Computes B = Transpose(A)
 //       T
 //  B = A
-extern mat3& transpose(mat3& B, const mat3& A);
-extern mat4& transpose(mat4& B, const mat4& A);
-extern mat3& transpose(mat3& B);
-extern mat4& transpose(mat4& B);
+extern mat3&      transpose(mat3& B, const mat3& A);
+extern mat4&      transpose(mat4& B, const mat4& A);
+extern mat3&      transpose(mat3& B);
+extern mat4&      transpose(mat4& B);
 
 // Computes B = inverse(A)
 //       -1
 //  B = A
-extern mat4& invert(mat4& B, const mat4& A);
-extern mat3& invert(mat3& B, const mat3& A);
+extern mat4&      invert(mat4& B, const mat4& A);
+extern mat3&      invert(mat3& B, const mat3& A);
 
 // Computes B = inverse(A)
 //                                       T  T
 //                   (R t)             (R -R t)
 // assuming that A = (0 1) so that B = (0    1)
 //  B = A
-extern mat4& invert_rot_trans(mat4& B, const mat4& A);
+extern mat4&      invert_rot_trans(mat4& B, const mat4& A);
 
-extern mat4& look_at(mat4& M, const vec3& eye, const vec3& center, const vec3& up);
-extern mat4& frustum(
-    mat4&           M,
-    const nv_scalar l,
-    const nv_scalar r,
-    const nv_scalar b,
-    const nv_scalar t,
-    const nv_scalar n,
-    const nv_scalar f);
+extern mat4&      look_at(mat4& M, const vec3& eye, const vec3& center, const vec3& up);
+extern mat4&      frustum(
+         mat4&           M,
+         const nv_scalar l,
+         const nv_scalar r,
+         const nv_scalar b,
+         const nv_scalar t,
+         const nv_scalar n,
+         const nv_scalar f);
 
 extern mat4& perspective(mat4& M, const nv_scalar fovy, const nv_scalar aspect, const nv_scalar n, const nv_scalar f);
 
@@ -797,9 +820,9 @@ inline nv_scalar nv_clamp(nv_scalar u, const nv_scalar min, const nv_scalar max)
 
 extern nv_scalar nv_random();
 
-extern quat& trackball(quat& q, vec2& pt1, vec2& pt2, nv_scalar trackballsize);
+extern quat&     trackball(quat& q, vec2& pt1, vec2& pt2, nv_scalar trackballsize);
 
-extern vec3& cube_map_normal(int i, int x, int y, int cubesize, vec3& v);
+extern vec3&     cube_map_normal(int i, int x, int y, int cubesize, vec3& v);
 
 // geometry
 // computes the area of a triangle
@@ -816,9 +839,9 @@ extern nv_scalar fast_cos(const nv_scalar x);
 extern nv_scalar ffast_cos(const nv_scalar x);
 
 // determinant
-nv_scalar det(const mat3& A);
+nv_scalar        det(const mat3& A);
 
-extern void nv_is_valid(const vec3& v);
-extern void nv_is_valid(nv_scalar lambda);
+extern void      nv_is_valid(const vec3& v);
+extern void      nv_is_valid(nv_scalar lambda);
 
 #endif   // nv_algebraH

@@ -10,11 +10,11 @@
 
 #include "resample.h"
 
-#pragma warning(disable : 4995)
-#pragma warning(disable : 4244)
-#pragma warning(disable : 4130)
-#pragma warning(disable : 4018)
-#pragma warning(disable : 4267)
+#pragma warning(disable:4995)
+#pragma warning(disable:4244)
+#pragma warning(disable:4130)
+#pragma warning(disable:4018)
+#pragma warning(disable:4267)
 
 /* Some systems don't define this */
 #ifndef M_PI
@@ -86,7 +86,8 @@ static double I_zero(double x)
         t = x / n;
         u *= t * t;
         s += u;
-    } while (u > 1e-21 * s);
+    }
+    while (u > 1e-21 * s);
 
     return s;
 }
@@ -128,7 +129,7 @@ int res_init(res_state* state, int channels, int outfreq, int infreq, res_parame
     double beta = 16.0, cutoff = 0.80, gain = 1.0;
     int    taps = 45;
 
-    int factor;
+    int    factor;
 
     assert(state);
     assert(channels > 0);
@@ -170,7 +171,8 @@ int res_init(res_state* state, int channels, int outfreq, int infreq, res_parame
                     return -1;
             }
             op1 = va_arg(argp, res_parameter);
-        } while (op1 != RES_END);
+        }
+        while (op1 != RES_END);
         va_end(argp);
     }
 
@@ -186,7 +188,7 @@ int res_init(res_state* state, int channels, int outfreq, int infreq, res_parame
 
         /* compensate for the sharper roll-off requirement
          * by using a bigger hammer */
-        taps = taps * infreq / outfreq;
+        taps   = taps * infreq / outfreq;
     }
 
     assert(taps >= (infreq + outfreq - 1) / outfreq);

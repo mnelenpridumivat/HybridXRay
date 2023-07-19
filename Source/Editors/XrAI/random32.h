@@ -12,7 +12,6 @@ class CRandom32
 {
 private:
     u32 m_seed;
-
 public:
     IC u32 seed()
     {

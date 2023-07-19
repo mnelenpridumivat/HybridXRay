@@ -127,7 +127,7 @@ class CALifeSmartTerrainTask;
     INHERIT_DYNAMIC_ALIFE \
     DEFINE_LUA_WRAPPER_METHOD_0(bfUseful, bool)
 
-template <typename T> struct CWrapperPure: public T, public luabind::wrap_base
+template<typename T> struct CWrapperPure: public T, public luabind::wrap_base
 {
     typedef T               inherited;
     typedef CWrapperPure<T> self_type;
@@ -135,7 +135,7 @@ template <typename T> struct CWrapperPure: public T, public luabind::wrap_base
     INHERIT_PURE;
 };
 
-template <typename T> struct CWrapperAbstract: public T, public luabind::wrap_base
+template<typename T> struct CWrapperAbstract: public T, public luabind::wrap_base
 {
     typedef T                   inherited;
     typedef CWrapperAbstract<T> self_type;
@@ -144,7 +144,7 @@ template <typename T> struct CWrapperAbstract: public T, public luabind::wrap_ba
     INHERIT_ABSTRACT;
 };
 
-template <typename T> struct CWrapperAbstractALife: public T, public luabind::wrap_base
+template<typename T> struct CWrapperAbstractALife: public T, public luabind::wrap_base
 {
     typedef T                        inherited;
     typedef CWrapperAbstractALife<T> self_type;
@@ -152,7 +152,7 @@ template <typename T> struct CWrapperAbstractALife: public T, public luabind::wr
     INHERIT_ALIFE;
 };
 
-template <typename T> struct CWrapperAbstractDynamicALife: public T, public luabind::wrap_base
+template<typename T> struct CWrapperAbstractDynamicALife: public T, public luabind::wrap_base
 {
     typedef T                               inherited;
     typedef CWrapperAbstractDynamicALife<T> self_type;
@@ -160,7 +160,7 @@ template <typename T> struct CWrapperAbstractDynamicALife: public T, public luab
     INHERIT_DYNAMIC_ALIFE;
 };
 
-template <typename T> struct CWrapperAbstractOnlineOfflineGroup: public T, public luabind::wrap_base
+template<typename T> struct CWrapperAbstractOnlineOfflineGroup: public T, public luabind::wrap_base
 {
     typedef T                                     inherited;
     typedef CWrapperAbstractOnlineOfflineGroup<T> self_type;
@@ -168,7 +168,7 @@ template <typename T> struct CWrapperAbstractOnlineOfflineGroup: public T, publi
     INHERIT_ONLINE_OFFLINE_GROUP;
 };
 
-template <typename T> struct CWrapperAbstractZone: public T, public luabind::wrap_base
+template<typename T> struct CWrapperAbstractZone: public T, public luabind::wrap_base
 {
     typedef T                       inherited;
     typedef CWrapperAbstractZone<T> self_type;
@@ -176,7 +176,7 @@ template <typename T> struct CWrapperAbstractZone: public T, public luabind::wra
     INHERIT_ZONE;
 };
 
-template <typename T> struct CWrapperAbstractCreature: public T, public luabind::wrap_base
+template<typename T> struct CWrapperAbstractCreature: public T, public luabind::wrap_base
 {
     typedef T                           inherited;
     typedef CWrapperAbstractCreature<T> self_type;
@@ -184,7 +184,7 @@ template <typename T> struct CWrapperAbstractCreature: public T, public luabind:
     INHERIT_CREATURE;
 };
 
-template <typename T> struct CWrapperAbstractMonster: public T, public luabind::wrap_base
+template<typename T> struct CWrapperAbstractMonster: public T, public luabind::wrap_base
 {
     typedef T                          inherited;
     typedef CWrapperAbstractMonster<T> self_type;
@@ -192,7 +192,7 @@ template <typename T> struct CWrapperAbstractMonster: public T, public luabind::
     INHERIT_MONSTER;
 };
 
-template <typename T> struct CWrapperAbstractItem: public T, public luabind::wrap_base
+template<typename T> struct CWrapperAbstractItem: public T, public luabind::wrap_base
 {
     typedef T                       inherited;
     typedef CWrapperAbstractItem<T> self_type;
@@ -286,28 +286,28 @@ template <typename T> struct CWrapperAbstractItem: public T, public luabind::wra
 #define luabind_virtual_online_offline_group(a, b) DEFINE_LUABIND_VIRTUAL_FUNCTION(a, b, update)
 #endif   // #ifdef XRGAME_EXPORTS
 
-#define luabind_virtual_monster(a, b) DEFINE_LUABIND_VIRTUAL_FUNCTION(a, b, update)
+#define luabind_virtual_monster(a, b)      DEFINE_LUABIND_VIRTUAL_FUNCTION(a, b, update)
 
-#define luabind_virtual_item(a, b) DEFINE_LUABIND_VIRTUAL_FUNCTION(a, b, bfUseful)
+#define luabind_virtual_item(a, b)         DEFINE_LUABIND_VIRTUAL_FUNCTION(a, b, bfUseful)
 
-#define luabind_virtual_Pure(a, b) luabind_virtual_pure(a, b)
+#define luabind_virtual_Pure(a, b)         luabind_virtual_pure(a, b)
 
-#define luabind_virtual_Abstract(a, b) luabind_virtual_Pure(a, b) luabind_virtual_abstract(a, b)
+#define luabind_virtual_Abstract(a, b)     luabind_virtual_Pure(a, b) luabind_virtual_abstract(a, b)
 
-#define luabind_virtual_Alife(a, b) luabind_virtual_Abstract(a, b) luabind_virtual_alife(a, b)
+#define luabind_virtual_Alife(a, b)        luabind_virtual_Abstract(a, b) luabind_virtual_alife(a, b)
 
 #define luabind_virtual_DynamicAlife(a, b) luabind_virtual_Alife(a, b) luabind_virtual_dynamic_alife(a, b)
 
-#define luabind_virtual_Creature(a, b) luabind_virtual_DynamicAlife(a, b) luabind_virtual_creature(a, b)
+#define luabind_virtual_Creature(a, b)     luabind_virtual_DynamicAlife(a, b) luabind_virtual_creature(a, b)
 
-#define luabind_virtual_Zone(a, b) luabind_virtual_DynamicAlife(a, b) luabind_virtual_zone(a, b)
+#define luabind_virtual_Zone(a, b)         luabind_virtual_DynamicAlife(a, b) luabind_virtual_zone(a, b)
 
 #define luabind_virtual_OnlineOfflineGroup(a, b) \
     luabind_virtual_DynamicAlife(a, b) luabind_virtual_online_offline_group(a, b)
 
 #define luabind_virtual_Monster(a, b) luabind_virtual_Creature(a, b) luabind_virtual_monster(a, b)
 
-#define luabind_virtual_Item(a, b) luabind_virtual_DynamicAlife(a, b) luabind_virtual_item(a, b)
+#define luabind_virtual_Item(a, b)    luabind_virtual_DynamicAlife(a, b) luabind_virtual_item(a, b)
 
 //////////////////////////////////////////////////////////////////////////
 // 0

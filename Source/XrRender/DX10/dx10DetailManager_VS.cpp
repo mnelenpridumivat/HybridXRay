@@ -6,9 +6,9 @@
 
 #include "../DX10/dx10BufferUtils.h"
 
-const int quant  = 16384;
-const int c_hdr  = 10;
-const int c_size = 4;
+const int                quant    = 16384;
+const int                c_hdr    = 10;
+const int                c_size   = 4;
 
 static D3DVERTEXELEMENT9 dwDecl[] = {
     {0, 0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0},    // pos
@@ -29,7 +29,7 @@ short QC(float v);
 //	return short(t&0xffff);
 //}
 
-void CDetailManager::hw_Load_Shaders()
+void  CDetailManager::hw_Load_Shaders()
 {
     // Create shader to access constant storage
     ref_shader S;
@@ -61,8 +61,8 @@ void CDetailManager::hw_Render()
 
     // float		tm_rot1		= (PI_MUL_2*Device->fTimeGlobal/swing_current.rot1);
     // float		tm_rot2		= (PI_MUL_2*Device->fTimeGlobal/swing_current.rot2);
-    float tm_rot1 = m_time_rot_1;
-    float tm_rot2 = m_time_rot_2;
+    float    tm_rot1 = m_time_rot_1;
+    float    tm_rot2 = m_time_rot_2;
 
     Fvector4 dir1, dir2;
     dir1.set(_sin(tm_rot1), 0, _cos(tm_rot1), 0).normalize().mul(swing_current.amp1);
@@ -115,12 +115,12 @@ void CDetailManager::hw_Render_dump(
     Device->Statistic->RenderDUMP_DT_Count = 0;
 
     // Matrices and offsets
-    u32 vOffset = 0;
-    u32 iOffset = 0;
+    u32             vOffset                = 0;
+    u32             iOffset                = 0;
 
-    vis_list& list = m_visibles[var_id];
+    vis_list&       list                   = m_visibles[var_id];
 
-    IEnvDescriptor& desc = *g_pGamePersistent->Environment().CurrentEnv;
+    IEnvDescriptor& desc                   = *g_pGamePersistent->Environment().CurrentEnv;
     Fvector         c_sun, c_ambient, c_hemi;
     c_sun.set(desc.sun_color.x, desc.sun_color.y, desc.sun_color.z);
     c_sun.mul(.5f);
@@ -162,10 +162,10 @@ void CDetailManager::hw_Render_dump(
                 }
                 VERIFY(c_storage);
 
-                u32 dwBatch = 0;
+                u32                               dwBatch = 0;
 
-                xr_vector<SlotItemVec*>::iterator _vI = vis.begin();
-                xr_vector<SlotItemVec*>::iterator _vE = vis.end();
+                xr_vector<SlotItemVec*>::iterator _vI     = vis.begin();
+                xr_vector<SlotItemVec*>::iterator _vE     = vis.end();
                 for (; _vI != _vE; _vI++)
                 {
                     SlotItemVec*  items = *_vI;
@@ -177,8 +177,8 @@ void CDetailManager::hw_Render_dump(
                         u32       base     = dwBatch * 4;
 
                         // Build matrix ( 3x4 matrix, last row - color )
-                        float    scale = Instance.scale_calculated;
-                        Fmatrix& M     = Instance.mRotY;
+                        float     scale    = Instance.scale_calculated;
+                        Fmatrix&  M        = Instance.mRotY;
                         c_storage[base + 0].set(M._11 * scale, M._21 * scale, M._31 * scale, M._41);
                         c_storage[base + 1].set(M._12 * scale, M._22 * scale, M._32 * scale, M._42);
                         c_storage[base + 2].set(M._13 * scale, M._23 * scale, M._33 * scale, M._43);

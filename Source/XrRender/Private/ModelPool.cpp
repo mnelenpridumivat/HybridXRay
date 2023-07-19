@@ -153,7 +153,7 @@ dxRender_Visual* CModelPool::Instance_Load(LPCSTR name, IReader* data, BOOL allo
 {
     dxRender_Visual* V;
 
-    ogf_header H;
+    ogf_header       H;
     data->r_chunk_safe(OGF_HEADER, &H, sizeof(H));
     V = Instance_Create(H.type);
     V->Load(name, data, 0);
@@ -491,10 +491,10 @@ void CModelPool::dump()
 
 void CModelPool::memory_stats(u32& vb_mem_video, u32& vb_mem_system, u32& ib_mem_video, u32& ib_mem_system)
 {
-    vb_mem_video  = 0;
-    vb_mem_system = 0;
-    ib_mem_video  = 0;
-    ib_mem_system = 0;
+    vb_mem_video                           = 0;
+    vb_mem_system                          = 0;
+    ib_mem_video                           = 0;
+    ib_mem_system                          = 0;
 
     xr_vector<ModelDef>::iterator       it = Models.begin();
     xr_vector<ModelDef>::const_iterator en = Models.end();
@@ -578,7 +578,8 @@ void CModelPool::Render(
     switch (m_pVisual->Type)
     {
         case MT_SKELETON_ANIM:
-        case MT_SKELETON_RIGID: {
+        case MT_SKELETON_RIGID:
+        {
             if (_IsBoxVisible(m_pVisual, mTransform))
             {
                 CKinematics* pV = dynamic_cast<CKinematics*>(m_pVisual);
@@ -611,7 +612,8 @@ void CModelPool::Render(
             }
         }
         break;
-        case MT_HIERRARHY: {
+        case MT_HIERRARHY:
+        {
             if (_IsBoxVisible(m_pVisual, mTransform))
             {
                 FHierrarhyVisual* pV = dynamic_cast<FHierrarhyVisual*>(m_pVisual);
@@ -630,7 +632,8 @@ void CModelPool::Render(
             }
         }
         break;
-        case MT_PARTICLE_GROUP: {
+        case MT_PARTICLE_GROUP:
+        {
             PS::CParticleGroup* pG = dynamic_cast<PS::CParticleGroup*>(m_pVisual);
             VERIFY(pG);
             //		if (_IsBoxVisible(m_pVisual,mTransform))
@@ -646,7 +649,8 @@ void CModelPool::Render(
             }
         }
         break;
-        case MT_PARTICLE_EFFECT: {
+        case MT_PARTICLE_EFFECT:
+        {
             //		if (_IsBoxVisible(m_pVisual,mTransform))
             {
                 if (_IsValidShader(m_pVisual, priority, strictB2F))

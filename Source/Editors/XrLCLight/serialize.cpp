@@ -20,9 +20,9 @@ void write(IWriter& w, const b_texture& b)
 void read(INetReader& r, b_texture& b)
 {
     r.r_string(b.name, sizeof(b.name));
-    b.dwWidth   = r.r_u32();
-    b.dwHeight  = r.r_u32();
-    b.bHasAlpha = r.r_s32();
+    b.dwWidth      = r.r_u32();
+    b.dwHeight     = r.r_u32();
+    b.bHasAlpha    = r.r_s32();
 
     bool b_surface = !!r.r_u8();
     if (b_surface)

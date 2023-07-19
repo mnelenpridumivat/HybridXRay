@@ -13,17 +13,15 @@ class ECORE_API R_constants
         BT_DomainBuffer,
         BT_Compute
     };
-
 public:
     //	ALIGN(16)	R_constant_array	a_pixel;
     //	ALIGN(16)	R_constant_array	a_vertex;
 
     void flush_cache();
-
 public:
     // fp, non-array versions
 
-    template <typename T> ICF void set(R_constant* C, const T& A)
+    template<typename T> ICF void set(R_constant* C, const T& A)
     {
         if (C->destination & RC_dest_pixel)
         {
@@ -53,7 +51,7 @@ public:
 #endif
     }
 
-    template <typename T> ICF void seta(R_constant* C, u32 e, const T& A)
+    template<typename T> ICF void seta(R_constant* C, u32 e, const T& A)
     {
         if (C->destination & RC_dest_pixel)
         {
@@ -177,7 +175,6 @@ public:
                 *ppGData = 0;
         }
     }
-
 private:
     void set(R_constant* C, R_constant_load& L, const Fmatrix& A, BufferType BType)
     {

@@ -19,8 +19,8 @@ namespace lc_net
         u8              buff[send_receive_result_buff_size];
         INetBlockReader r(outStream, buff, sizeof(buff));
         // INetReaderGenStream r(outStream);
-        u32 _start = r.r_u32();
-        u32 _end   = r.r_u32();
+        u32             _start = r.r_u32();
+        u32             _end   = r.r_u32();
         VERIFY(_start == start);
         VERIFY(_end == end);
 
@@ -85,7 +85,7 @@ namespace lc_net
 
     bool net_execution_detail_light::execute(net_task_callback& net_callback)
     {
-        DWORDVec box_result;
+        DWORDVec      box_result;
         ////////////////////////////////////////////////////////
         CDB::COLLIDER DB;
         DB.ray_options(CDB::OPT_CULL);

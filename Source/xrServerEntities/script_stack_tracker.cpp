@@ -32,7 +32,8 @@ void CScriptStackTracker::script_hook(lua_State* L, lua_Debug* dbg)
 
     switch (dbg->event)
     {
-        case LUA_HOOKCALL: {
+        case LUA_HOOKCALL:
+        {
             if (m_current_stack_level >= max_stack_size)
                 return;
             if (!lua_getstack(L, 0, m_stack[m_current_stack_level]))
@@ -43,22 +44,26 @@ void CScriptStackTracker::script_hook(lua_State* L, lua_Debug* dbg)
             ++m_current_stack_level;
             break;
         }
-        case LUA_HOOKRET: {
+        case LUA_HOOKRET:
+        {
             if (m_current_stack_level > 0)
                 --m_current_stack_level;
             break;
         }
-        case LUA_HOOKTAILRET: {
+        case LUA_HOOKTAILRET:
+        {
             if (m_current_stack_level > 0)
                 --m_current_stack_level;
             break;
         }
-        case LUA_HOOKLINE: {
+        case LUA_HOOKLINE:
+        {
             lua_getinfo(L, "l", dbg);
             m_stack[m_current_stack_level]->currentline = dbg->currentline;
             break;
         }
-        case LUA_HOOKCOUNT: {
+        case LUA_HOOKCOUNT:
+        {
             lua_getinfo(L, "l", dbg);
             m_stack[m_current_stack_level]->currentline = dbg->currentline;
             break;

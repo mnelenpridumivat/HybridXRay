@@ -29,7 +29,7 @@ struct UCalc_mtlock
 };
 
 #pragma warning(push)
-#pragma warning(disable : 4275)
+#pragma warning(disable:4275)
 class CSkeletonWallmark: public intrusive_base   // 4+4+4+12+4+16+16 = 60 + 4 = 64
 {
 #pragma warning(pop)
@@ -53,7 +53,7 @@ public:
     DEFINE_VECTOR(WMFace, WMFacesVec, WMFacesVecIt);
     WMFacesVec m_Faces;   // 16
 public:
-    Fsphere m_Bounds;   // 16		world space
+    Fsphere m_Bounds;     // 16		world space
 public:
     CSkeletonWallmark(CKinematics* p, const Fmatrix* m, ref_shader s, const Fvector& cp, float ts):
         m_Parent(p), m_XForm(m), m_Shader(s), m_fTimeStart(ts), m_ContactPoint(cp)
@@ -127,7 +127,6 @@ class CKinematics: public FHierrarhyVisual, public IKinematics
     typedef FHierrarhyVisual inherited;
     friend class CBoneData;
     friend class CSkeletonX;
-
 public:
 #ifdef DEBUG
     BOOL dbg_single_use_marker;
@@ -139,38 +138,36 @@ public:
     void Bone_GetAnimPos(Fmatrix& pos, u16 id, u8 channel_mask, bool ignore_callbacks);
 
     virtual void
-        BuildBoneMatrix(const CBoneData* bd, CBoneInstance& bi, const Fmatrix* parent, u8 mask_channel = (1 << 0));
+                 BuildBoneMatrix(const CBoneData* bd, CBoneInstance& bi, const Fmatrix* parent, u8 mask_channel = (1 << 0));
     virtual void OnCalculateBones() {}
-
 public:
     dxRender_Visual* m_lod;
-
 protected:
-    SkeletonWMVec wallmarks;
-    u32           wm_frame;
+    SkeletonWMVec               wallmarks;
+    u32                         wm_frame;
 
     xr_vector<dxRender_Visual*> children_invisible;
 
     // Globals
-    CInifile*      pUserData;
-    CBoneInstance* bone_instances;   // bone instances
-    vecBones*      bones;            // all bones	(shared)
-    u16            iRoot;            // Root bone index
+    CInifile*                   pUserData;
+    CBoneInstance*              bone_instances;   // bone instances
+    vecBones*                   bones;            // all bones	(shared)
+    u16                         iRoot;            // Root bone index
 
     // Fast search
-    accel* bone_map_N;   // bones  associations	(shared)	- sorted by name
-    accel* bone_map_P;   // bones  associations	(shared)	- sorted by name-pointer
+    accel*                      bone_map_N;   // bones  associations	(shared)	- sorted by name
+    accel*                      bone_map_P;   // bones  associations	(shared)	- sorted by name-pointer
 
-    BOOL Update_Visibility;
-    u32  UCalc_Time;
-    s32  UCalc_Visibox;
+    BOOL                        Update_Visibility;
+    u32                         UCalc_Time;
+    s32                         UCalc_Visibox;
 
-    BonesVisible bonesvisible;
+    BonesVisible                bonesvisible;
 
-    CSkeletonX* LL_GetChild(u32 idx);
+    CSkeletonX*                 LL_GetChild(u32 idx);
 
     // internal functions
-    virtual CBoneData* CreateBoneData(u16 ID)
+    virtual CBoneData*          CreateBoneData(u16 ID)
     {
         return xr_new<CBoneData>(ID);
     }
@@ -183,18 +180,15 @@ protected:
     void Visibility_Update();
 
     void LL_Validate();
-
 public:
     UpdateCallback Update_Callback;
     void*          Update_Callback_Param;
-
 public:
     // wallmarks
     void AddWallmark(const Fmatrix* parent, const Fvector3& start, const Fvector3& dir, ref_shader shader, float size);
     void CalculateWallmarks();
     void RenderWallmark(intrusive_ptr<CSkeletonWallmark> wm, FVF::LIT*& verts);
     void ClearWallmarks();
-
 public:
     bool PickBone(
         const Fmatrix&            parent_xform,
@@ -204,15 +198,14 @@ public:
         const Fvector&            dir,
         u16                       bone_id);
     virtual void EnumBoneVertices(SEnumVerticesCallback& C, u16 bone_id);
-
 public:
     CKinematics();
     virtual ~CKinematics();
 
     // Low level interface
-    u16 _BCL    LL_BoneID(LPCSTR B);
-    u16 _BCL    LL_BoneID(const shared_str& B);
-    LPCSTR _BCL LL_BoneName_dbg(u16 ID);
+    u16 _BCL       LL_BoneID(LPCSTR B);
+    u16 _BCL       LL_BoneID(const shared_str& B);
+    LPCSTR _BCL    LL_BoneName_dbg(u16 ID);
 
     CInifile* _BCL LL_UserData()
     {
@@ -300,8 +293,8 @@ public:
     {
         return vis.box;
     }
-    void LL_GetBindTransform(xr_vector<Fmatrix>& matrices);
-    int  LL_GetBoneGroups(xr_vector<xr_vector<u16>>& groups);
+    void     LL_GetBindTransform(xr_vector<Fmatrix>& matrices);
+    int      LL_GetBoneGroups(xr_vector<xr_vector<u16>>& groups);
 
     u16 _BCL LL_GetBoneRoot()
     {
@@ -323,7 +316,7 @@ public:
     {
         return bonesvisible;
     }
-    void LL_SetBonesVisible(BonesVisible mask);
+    void         LL_SetBonesVisible(BonesVisible mask);
 
     // Main functionality
     virtual void CalculateBones(BOOL bForceExact = FALSE);   // Recalculate skeleton
@@ -356,22 +349,20 @@ public:
     // debug
 #ifdef DEBUG
     void DebugRender(Fmatrix& XFORM);
-
 protected:
     virtual shared_str _BCL getDebugName()
     {
         return dbg_name;
     }
-
 public:
 #endif
 
     // General "Visual" stuff
-    virtual void Copy(dxRender_Visual* pFrom);
-    virtual void Load(const char* N, IReader* data, u32 dwFlags);
-    virtual void Spawn();
-    virtual void Depart();
-    virtual void Release();
+    virtual void                 Copy(dxRender_Visual* pFrom);
+    virtual void                 Load(const char* N, IReader* data, u32 dwFlags);
+    virtual void                 Spawn();
+    virtual void                 Depart();
+    virtual void                 Release();
 
     virtual IKinematicsAnimated* dcast_PKinematicsAnimated()
     {
@@ -399,7 +390,6 @@ public:
         }
         return sz;
     }
-
 private:
     bool m_is_original_lod;
 };

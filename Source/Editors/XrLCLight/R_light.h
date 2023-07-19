@@ -1,7 +1,7 @@
 ﻿#pragma once
 
-#define LT_DIRECT 0
-#define LT_POINT 1
+#define LT_DIRECT    0
+#define LT_POINT     1
 #define LT_SECONDARY 2
 
 struct R_Light

@@ -4,19 +4,17 @@ struct MotionID
 {
 private:
     typedef const MotionID* (MotionID::*unspecified_bool_type)() const;
-
 public:
     union
     {
         struct
         {
-            u16 idx : 16;    // 14
-            u16 slot : 16;   // 2
+            u16 idx :16;   // 14
+            u16 slot:16;   // 2
         };
         //.		u16			val;
         u32 val;
     };
-
 public:
     MotionID()
     {

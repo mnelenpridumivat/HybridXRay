@@ -20,7 +20,7 @@ void CBlender_DESC::Setup(LPCSTR N)
 
     xr_strcpy(cComputer, Core.CompName);   // Computer
     _tzset();
-    _time32((__time32_t*)&cTime);   // Time
+    _time32((__time32_t*)&cTime);          // Time
 };
 
 //////////////////////////////////////////////////////////////////////

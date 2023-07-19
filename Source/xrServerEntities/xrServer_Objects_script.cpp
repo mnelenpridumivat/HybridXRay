@@ -29,12 +29,13 @@ CScriptIniFile* get_spawn_ini(CSE_Abstract* abstract)
     return ((CScriptIniFile*)&abstract->spawn_ini());
 }
 
-template <typename T> struct CWrapperBase: public T, public luabind::wrap_base
+template<typename T> struct CWrapperBase: public T, public luabind::wrap_base
 {
     typedef T               inherited;
     typedef CWrapperBase<T> self_type;
 
-    IC CWrapperBase(LPCSTR section): T(section) {}
+    IC                      CWrapperBase(LPCSTR section):
+        T(section) {}
 
     virtual void STATE_Read(NET_Packet& p1)
     {
@@ -80,13 +81,13 @@ void CPureServerObject::script_register(lua_State* L)
 {
     module(L)
         [class_<IPureLoadableObject<IReader>>("ipure_alife_load_object"),
-         class_<IPureSavableObject<IWriter>>("ipure_alife_save_object"),
-         class_<
-             IPureSerializeObject<IReader, IWriter>, bases<IPureLoadableObject<IReader>, IPureSavableObject<IWriter>>>(
-             "ipure_alife_load_save_object"),
-         class_<IPureServerObject, IPureSerializeObject<IReader, IWriter>>("ipure_server_object"),
-         class_<CPureServerObject, IPureServerObject>("cpure_server_object")
-         //			.def(		constructor<>())
+            class_<IPureSavableObject<IWriter>>("ipure_alife_save_object"),
+            class_<
+                IPureSerializeObject<IReader, IWriter>, bases<IPureLoadableObject<IReader>, IPureSavableObject<IWriter>>>(
+                "ipure_alife_load_save_object"),
+            class_<IPureServerObject, IPureSerializeObject<IReader, IWriter>>("ipure_server_object"),
+            class_<CPureServerObject, IPureServerObject>("cpure_server_object")
+            //			.def(		constructor<>())
     ];
 }
 
@@ -108,30 +109,30 @@ void CSE_Abstract::script_register(lua_State* L)
                   .def("STATE_Write", &BaseType::STATE_Write, &WrapType::STATE_Write_static)
                   .def("UPDATE_Read", &BaseType::UPDATE_Read, &WrapType::UPDATE_Read_static)
                   .def("UPDATE_Write", &BaseType::UPDATE_Write, &WrapType::UPDATE_Write_static)
-              //			.def(		constructor<LPCSTR>())
+        //			.def(		constructor<LPCSTR>())
     ];
 }
 
 void CSE_Shape::script_register(lua_State* L)
 {
     module(L)[class_<CSE_Shape>("cse_shape")
-              //			.def(		constructor<>())
+        //			.def(		constructor<>())
     ];
 }
 
 void CSE_Visual::script_register(lua_State* L)
 {
     module(L)[class_<CSE_Visual>("cse_visual")
-              //			.def(		constructor<>())
-              //			.def(		constructor<LPCSTR>())
+        //			.def(		constructor<>())
+        //			.def(		constructor<LPCSTR>())
     ];
 }
 
 void CSE_Motion::script_register(lua_State* L)
 {
     module(L)[class_<CSE_Motion>("cse_motion")
-              //			.def(		constructor<>())
-              //			.def(		constructor<LPCSTR>())
+        //			.def(		constructor<>())
+        //			.def(		constructor<LPCSTR>())
     ];
 }
 

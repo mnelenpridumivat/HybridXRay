@@ -32,7 +32,6 @@ public:
     u32                                    marker;
     bool                                   pmask[2];
     bool                                   pmask_wmark;
-
 public:
     // Dynamic scene graph
     // R_dsgraph::mapNormal_T										mapNormal	[2]		;	// 2==(priority/2)
@@ -61,7 +60,7 @@ public:
     xr_vector<R_dsgraph::mapNormalTextures::TNode*, render_alloc<R_dsgraph::mapNormalTextures::TNode*>> nrmTextures;
     xr_vector<R_dsgraph::mapNormalTextures::TNode*, render_alloc<R_dsgraph::mapNormalTextures::TNode*>> nrmTexturesTemp;
 
-    xr_vector<R_dsgraph::mapMatrixVS::TNode*, render_alloc<R_dsgraph::mapMatrixVS::TNode*>> matVS;
+    xr_vector<R_dsgraph::mapMatrixVS::TNode*, render_alloc<R_dsgraph::mapMatrixVS::TNode*>>             matVS;
 #if defined(USE_DX10) || defined(USE_DX11)
     xr_vector<R_dsgraph::mapMatrixGS::TNode*, render_alloc<R_dsgraph::mapMatrixGS::TNode*>> matGS;
 #endif   //	USE_DX10
@@ -71,18 +70,17 @@ public:
     xr_vector<R_dsgraph::mapMatrixTextures::TNode*, render_alloc<R_dsgraph::mapMatrixTextures::TNode*>> matTextures;
     xr_vector<R_dsgraph::mapMatrixTextures::TNode*, render_alloc<R_dsgraph::mapMatrixTextures::TNode*>> matTexturesTemp;
 
-    xr_vector<R_dsgraph::_LodItem, render_alloc<R_dsgraph::_LodItem>> lstLODs;
-    xr_vector<int, render_alloc<int>>                                 lstLODgroups;
-    xr_vector<ISpatial* /**,render_alloc<ISpatial*>/**/>              lstRenderables;
-    xr_vector<ISpatial* /**,render_alloc<ISpatial*>/**/>              lstSpatial;
-    xr_vector<dxRender_Visual*, render_alloc<dxRender_Visual*>>       lstVisuals;
+    xr_vector<R_dsgraph::_LodItem, render_alloc<R_dsgraph::_LodItem>>                                   lstLODs;
+    xr_vector<int, render_alloc<int>>                                                                   lstLODgroups;
+    xr_vector<ISpatial* /**,render_alloc<ISpatial*>/**/>                                                lstRenderables;
+    xr_vector<ISpatial* /**,render_alloc<ISpatial*>/**/>                                                lstSpatial;
+    xr_vector<dxRender_Visual*, render_alloc<dxRender_Visual*>>                                         lstVisuals;
 
-    xr_vector<dxRender_Visual*, render_alloc<dxRender_Visual*>> lstRecorded;
+    xr_vector<dxRender_Visual*, render_alloc<dxRender_Visual*>>                                         lstRecorded;
 
-    u32  counter_S;
-    u32  counter_D;
-    BOOL b_loaded;
-
+    u32                                                                                                 counter_S;
+    u32                                                                                                 counter_D;
+    BOOL                                                                                                b_loaded;
 public:
     virtual void set_Transform(Fmatrix* M)
     {
@@ -121,7 +119,6 @@ public:
     {
         counter_S = counter_D = 0;
     }
-
 public:
     R_dsgraph_structure()
     {
@@ -216,7 +213,6 @@ public:
         BOOL            _dynamic,
         BOOL            _precise_portals = FALSE);
     void r_dsgraph_render_R1_box(IRender_Sector* _sector, Fbox& _bb, int _element);
-
 public:
     virtual u32 memory_usage()
     {

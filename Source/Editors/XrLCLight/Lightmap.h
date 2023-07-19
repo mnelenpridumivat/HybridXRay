@@ -17,7 +17,6 @@ class XRLC_LIGHT_API CLightmap
 public:
     lm_layer  lm;
     b_texture lm_texture;
-
 public:
     CLightmap();
     ~CLightmap();
@@ -31,7 +30,7 @@ public:
 typedef vector_serialize<t_read<CLightmap, get_id_standart<CLightmap>>>  tread_lightmaps;
 typedef vector_serialize<t_write<CLightmap, get_id_standart<CLightmap>>> twrite_lightmaps;
 
-extern tread_lightmaps*  read_lightmaps;
-extern twrite_lightmaps* write_lightmaps;
+extern tread_lightmaps*                                                  read_lightmaps;
+extern twrite_lightmaps*                                                 write_lightmaps;
 
 #endif   // !defined(AFX_LIGHTMAP_H__889100E6_CF29_47EA_ABFD_41AE28DAC6B1__INCLUDED_)

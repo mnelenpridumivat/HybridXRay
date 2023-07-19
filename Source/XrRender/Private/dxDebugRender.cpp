@@ -54,7 +54,7 @@ void _add_lines(
     VERIFY(vertices.size() < u16(-1));
     u16 vertices_size = (u16)vertices.size();
 
-    u32 indices_size = indices.size();
+    u32 indices_size  = indices.size();
     indices.resize(indices_size + 2 * pair_count);
     xr_vector<u16>::iterator I = indices.begin() + indices_size;
     xr_vector<u16>::iterator E = indices.end();

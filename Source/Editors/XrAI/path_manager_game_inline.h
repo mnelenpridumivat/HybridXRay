@@ -9,7 +9,7 @@
 #pragma once
 
 #define TEMPLATE_SPECIALIZATION                                                                 \
-    template <                                                                                  \
+    template<                                                                                   \
         typename _DataStorage, typename _Parameters, typename _dist_type, typename _index_type, \
         typename _iteration_type>
 

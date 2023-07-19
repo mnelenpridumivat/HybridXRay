@@ -103,10 +103,10 @@ BOOL CalculateSW(Object* object, VIPM_Result* result, u32 optimize_vertex_order)
         object->DoCollapse();
     }
 
-    int iNumCollapses = iCurCollapse;
+    int  iNumCollapses = iCurCollapse;
 
     // Add the remaining existing pts in any old order.
-    WORD wCurIndex = 0;
+    WORD wCurIndex     = 0;
     for (pt = object->CurPtRoot.ListNext(); pt != NULL; pt = pt->ListNext())
     {
         if (pt->mypt.dwNewIndex == INVALID_INDEX)
@@ -133,19 +133,19 @@ BOOL CalculateSW(Object* object, VIPM_Result* result, u32 optimize_vertex_order)
     result->swr_records.resize(iCurCollapse);
     // And add the last one.
     iCurCollapse--;
-    VIPM_SWR* swr  = result->swr_records.item(iCurCollapse);
-    swr->offset    = 0;
-    swr->num_tris  = (u16)iCurNumTris;
-    swr->num_verts = wCurIndex;
+    VIPM_SWR* swr                     = result->swr_records.item(iCurCollapse);
+    swr->offset                       = 0;
+    swr->num_tris                     = (u16)iCurNumTris;
+    swr->num_verts                    = wCurIndex;
 
     // Now go through each level in turn.
 
-    int iCurTriBinned = 0;
+    int                 iCurTriBinned = 0;
 
     // Useful thing.
     ArbitraryList<WORD> wTempIndices;
 
-    int iMaxSlidingWindowLevel = iCurSlidingWindowLevel;
+    int                 iMaxSlidingWindowLevel = iCurSlidingWindowLevel;
 
     while (TRUE)
     {
@@ -177,7 +177,7 @@ BOOL CalculateSW(Object* object, VIPM_Result* result, u32 optimize_vertex_order)
         // Now undo all the collapses for this level in turn, adding vertices,
         // binned tris, and SlidingWindowRecords as we go.
         while ((object->pNextCollapse->ListNext() != NULL) &&
-               (object->pNextCollapse->ListNext()->iSlidingWindowLevel == iCurSlidingWindowLevel))
+            (object->pNextCollapse->ListNext()->iSlidingWindowLevel == iCurSlidingWindowLevel))
         {
             GeneralCollapseInfo* pCollapse = object->pNextCollapse->ListNext();
 

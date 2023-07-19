@@ -30,7 +30,7 @@ namespace lc_net
         // w_pod_vector( INetIWriterGenStream( *stream, 512 ), _cleanup.vec_cleanup );
     }
 
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
     void global_data_cleanup::on_net_receive(IAgent* agent, DWORD sessionId, IGenericStream* inStream)
     {
         u32 state = u32(-1);
@@ -62,5 +62,5 @@ namespace lc_net
         lock.Leave();
         return;
     }
-#pragma warning(default : 4995)
+#pragma warning(default:4995)
 }   // namespace lc_net

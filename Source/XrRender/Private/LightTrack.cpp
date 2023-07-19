@@ -25,14 +25,14 @@ CROS_impl::CROS_impl()
     shadow_recv_frame = u32(-1);
     shadow_recv_slot  = -1;
 
-    result_count    = 0;
-    result_iterator = 0;
-    result_frame    = u32(-1);
-    result_sun      = 0;
-    hemi_value      = 0.5f;
-    hemi_smooth     = 0.5f;
-    sun_value       = 0.2f;
-    sun_smooth      = 0.2f;
+    result_count      = 0;
+    result_iterator   = 0;
+    result_frame      = u32(-1);
+    result_sun        = 0;
+    hemi_value        = 0.5f;
+    hemi_smooth       = 0.5f;
+    sun_value         = 0.2f;
+    sun_smooth        = 0.2f;
 
 #if RENDER != R_R1
     last_position.set(0.0f, 0.0f, 0.0f);
@@ -75,7 +75,7 @@ IC bool pred_energy(const CROS_impl::Light& L1, const CROS_impl::Light& L2)
 }
 //////////////////////////////////////////////////////////////////////////
 #pragma warning(push)
-#pragma warning(disable : 4305)
+#pragma warning(disable:4305)
 
 // const float		hdir		[lt_hemisamples][3] =
 // {
@@ -108,19 +108,36 @@ IC bool pred_energy(const CROS_impl::Light& L1, const CROS_impl::Light& L2)
 // };
 
 const float hdir[lt_hemisamples][3] = {
-    {-0.26287, 0.52573, 0.80902},  {0.27639, 0.44721, 0.85065},   {-0.95106, 0.00000, 0.30902},
-    {-0.95106, 0.00000, -0.30902}, {0.58779, 0.00000, -0.80902},  {0.58779, 0.00000, 0.80902},
+    {-0.26287, 0.52573, 0.80902},
+    {0.27639, 0.44721, 0.85065},
+    {-0.95106, 0.00000, 0.30902},
+    {-0.95106, 0.00000, -0.30902},
+    {0.58779, 0.00000, -0.80902},
+    {0.58779, 0.00000, 0.80902},
 
-    {-0.00000, 0.00000, 1.00000},  {0.52573, 0.85065, 0.00000},   {-0.26287, 0.52573, -0.80902},
-    {-0.42533, 0.85065, 0.30902},  {0.95106, 0.00000, 0.30902},   {0.95106, 0.00000, -0.30902},
+    {-0.00000, 0.00000, 1.00000},
+    {0.52573, 0.85065, 0.00000},
+    {-0.26287, 0.52573, -0.80902},
+    {-0.42533, 0.85065, 0.30902},
+    {0.95106, 0.00000, 0.30902},
+    {0.95106, 0.00000, -0.30902},
 
-    {0.00000, 1.00000, 0.00000},   {-0.58779, 0.00000, 0.80902},  {-0.72361, 0.44721, 0.52573},
-    {-0.72361, 0.44721, -0.52573}, {-0.58779, 0.00000, -0.80902}, {0.16246, 0.85065, -0.50000},
+    {0.00000, 1.00000, 0.00000},
+    {-0.58779, 0.00000, 0.80902},
+    {-0.72361, 0.44721, 0.52573},
+    {-0.72361, 0.44721, -0.52573},
+    {-0.58779, 0.00000, -0.80902},
+    {0.16246, 0.85065, -0.50000},
 
-    {0.89443, 0.44721, 0.00000},   {-0.85065, 0.52573, -0.00000}, {0.16246, 0.85065, 0.50000},
-    {0.68819, 0.52573, -0.50000},  {0.27639, 0.44721, -0.85065},  {0.00000, 0.00000, -1.00000},
+    {0.89443, 0.44721, 0.00000},
+    {-0.85065, 0.52573, -0.00000},
+    {0.16246, 0.85065, 0.50000},
+    {0.68819, 0.52573, -0.50000},
+    {0.27639, 0.44721, -0.85065},
+    {0.00000, 0.00000, -1.00000},
 
-    {-0.42533, 0.85065, -0.30902}, {0.68819, 0.52573, 0.50000},
+    {-0.42533, 0.85065, -0.30902},
+    {0.68819, 0.52573, 0.50000},
 };
 #pragma warning(pop)
 
@@ -174,10 +191,10 @@ void CROS_impl::update(IRenderable* O)
     VERIFY(dynamic_cast<CROS_impl*>(O->renderable_ROS()));
     // float	dt			=	Device->fTimeDelta;
 
-    CObject* _object = dynamic_cast<CObject*>(O);
+    CObject*  _object = dynamic_cast<CObject*>(O);
 
     // select sample, randomize position inside object
-    vis_data& vis = O->renderable.visual->getVisData();
+    vis_data& vis     = O->renderable.visual->getVisData();
     Fvector   position;
     O->renderable.xform.transform_tiny(position, vis.sphere.P);
     position.y += .3f * vis.sphere.R;
@@ -250,7 +267,7 @@ void CROS_impl::update(IRenderable* O)
 #if RENDER != R_R1
         const float minHemiValue = 1 / 255.f;
 
-        float hemi_light = (lacc.x + lacc.y + lacc.z) / 3.0f * ps_r2_dhemi_light_scale;
+        float       hemi_light   = (lacc.x + lacc.y + lacc.z) / 3.0f * ps_r2_dhemi_light_scale;
 
         hemi_value += hemi_light;
         hemi_value = std::max(hemi_value, minHemiValue);
@@ -293,7 +310,7 @@ static const s32 s_iUTPosChangedMax = 6;
 static const s32 s_iUTIdleMin       = 1000;
 static const s32 s_iUTIdleMax       = 2000;
 
-void CROS_impl::smart_update(IRenderable* O)
+void             CROS_impl::smart_update(IRenderable* O)
 {
     if (!O)
         return;
@@ -341,7 +358,7 @@ void CROS_impl::smart_update(IRenderable* O)
 extern float ps_r2_lt_smooth;
 
 // hemi & sun: update and smooth
-void CROS_impl::update_smooth(IRenderable* O)
+void         CROS_impl::update_smooth(IRenderable* O)
 {
     if (dwFrameSmooth == Device->dwFrame)
         return;
@@ -381,9 +398,9 @@ void CROS_impl::calc_sun_value(Fvector& position, CObject* _object)
             Fvector direction;
             direction.set(sun->direction).invert().normalize();
             sun_value = !(g_pGameLevel->ObjectSpace.RayTest(
-                            position, direction, 500.f, collide::rqtBoth, &cache_sun, _object)) ?
-                1.f :
-                0.f;
+                            position, direction, 500.f, collide::rqtBoth, &cache_sun, _object))
+                ? 1.f
+                : 0.f;
         }
     }
 }
@@ -443,12 +460,12 @@ void CROS_impl::calc_sky_hemi_value(Fvector& position, CObject* _object)
 
 void CROS_impl::prepare_lights(Fvector& position, IRenderable* O)
 {
-    CObject* _object = dynamic_cast<CObject*>(O);
-    float    dt      = Device->fTimeDelta;
+    CObject*  _object = dynamic_cast<CObject*>(O);
+    float     dt      = Device->fTimeDelta;
 
-    vis_data& vis = O->renderable.visual->getVisData();
+    vis_data& vis     = O->renderable.visual->getVisData();
     float     radius;
-    radius = vis.sphere.R;
+    radius            = vis.sphere.R;
     // light-tracing
     BOOL bTraceLights = MODE & IRender_ObjectSpecific::TRACE_LIGHTS;
     if ((!O->renderable_ShadowGenerate()) && (!O->renderable_ShadowReceive()))
@@ -515,7 +532,7 @@ void CROS_impl::prepare_lights(Fvector& position, IRenderable* O)
             I->energy = .9f * I->energy + .1f * I->test;
 
             //
-            float E = I->energy * xrL->color.intensity();
+            float E   = I->energy * xrL->color.intensity();
             if (E > EPS)
             {
                 // Select light
@@ -536,7 +553,7 @@ void CROS_impl::prepare_lights(Fvector& position, IRenderable* O)
         light* sun = (light*)RImplementation.L_DB->sun_adapted._get();
 
         // Sun
-        float E = sun_smooth * sun->color.intensity();
+        float  E   = sun_smooth * sun->color.intensity();
         if (E > EPS)
         {
             // Select light

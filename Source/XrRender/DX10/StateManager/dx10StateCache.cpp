@@ -5,13 +5,13 @@ dx10StateCache<ID3DRasterizerState, D3D_RASTERIZER_DESC>      RSManager;
 dx10StateCache<ID3DDepthStencilState, D3D_DEPTH_STENCIL_DESC> DSSManager;
 dx10StateCache<ID3DBlendState, D3D_BLEND_DESC>                BSManager;
 
-template <class IDeviceState, class StateDecs> dx10StateCache<IDeviceState, StateDecs>::dx10StateCache()
+template<class IDeviceState, class StateDecs> dx10StateCache<IDeviceState, StateDecs>::dx10StateCache()
 {
     static const int iMasRSStates = 10;
     m_StateArray.reserve(iMasRSStates);
 }
 
-template <class IDeviceState, class StateDecs> dx10StateCache<IDeviceState, StateDecs>::~dx10StateCache()
+template<class IDeviceState, class StateDecs> dx10StateCache<IDeviceState, StateDecs>::~dx10StateCache()
 {
     ClearStateArray();
     //	VERIFY(m_StateArray.empty());
@@ -27,7 +27,7 @@ dx10StateCache<IDeviceState, StateDecs>
 }
 */
 
-template <class IDeviceState, class StateDecs> void dx10StateCache<IDeviceState, StateDecs>::ClearStateArray()
+template<class IDeviceState, class StateDecs> void dx10StateCache<IDeviceState, StateDecs>::ClearStateArray()
 {
     for (u32 i = 0; i < m_StateArray.size(); ++i)
     {
@@ -37,7 +37,7 @@ template <class IDeviceState, class StateDecs> void dx10StateCache<IDeviceState,
     m_StateArray.clear_not_free();
 }
 
-template <> void dx10StateCache<ID3DRasterizerState, D3D_RASTERIZER_DESC>::CreateState(
+template<> void dx10StateCache<ID3DRasterizerState, D3D_RASTERIZER_DESC>::CreateState(
     D3D_RASTERIZER_DESC   desc,
     ID3DRasterizerState** ppIState)
 {
@@ -49,7 +49,7 @@ template <> void dx10StateCache<ID3DRasterizerState, D3D_RASTERIZER_DESC>::Creat
 #endif   //	DEBUG
 }
 
-template <> void dx10StateCache<ID3DDepthStencilState, D3D_DEPTH_STENCIL_DESC>::CreateState(
+template<> void dx10StateCache<ID3DDepthStencilState, D3D_DEPTH_STENCIL_DESC>::CreateState(
     D3D_DEPTH_STENCIL_DESC  desc,
     ID3DDepthStencilState** ppIState)
 {
@@ -61,7 +61,7 @@ template <> void dx10StateCache<ID3DDepthStencilState, D3D_DEPTH_STENCIL_DESC>::
 #endif   //	DEBUG
 }
 
-template <>
+template<>
 void dx10StateCache<ID3DBlendState, D3D_BLEND_DESC>::CreateState(D3D_BLEND_DESC desc, ID3DBlendState** ppIState)
 {
     CHK_DX(HW.pDevice->CreateBlendState(&desc, ppIState));

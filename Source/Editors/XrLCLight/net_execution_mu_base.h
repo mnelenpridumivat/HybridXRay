@@ -12,10 +12,9 @@ namespace lc_net
 {
 
     typedef class tnet_execution_base<et_mu_base_light>::net_execution_impl execution_mu_base_light;
-    template <> class tnet_execution_base<et_mu_base_light>::net_execution_impl
+    template<> class tnet_execution_base<et_mu_base_light>::net_execution_impl
     {
         u32 mu_model_id;
-
     public:
         net_execution_impl(): mu_model_id(u32(-1)) {}
 
@@ -29,11 +28,11 @@ namespace lc_net
         void send_result(IGenericStream* outStream);
         bool execute(net_task_callback& net_callback);
     };
-    template <> struct add_global<et_mu_base_light, gl_base_cl_data>
+    template<> struct add_global<et_mu_base_light, gl_base_cl_data>
     {
     };
 
     // execution_lightmaps
-};   // namespace lc_net
+};       // namespace lc_net
 
 #endif   // #ifndef NET_EXECUTION_MU_BASE_H_INCLUDED

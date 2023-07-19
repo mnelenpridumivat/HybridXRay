@@ -32,15 +32,15 @@ public:
         return m_self_index;
     }
 };
-template <typename DataVertexType> struct Tvertex;
+template<typename DataVertexType> struct Tvertex;
 class CDeflector;
-template <typename DataVertexType>
+template<typename DataVertexType>
 struct MESHSTRUCTURE_API Tface: public DataVertexType::DataFaceType, public vector_item
 {
     typedef Tvertex<DataVertexType> type_vertex;
     typedef Tface<DataVertexType>   type_face;
     // private:
-    type_vertex* v[3];
+    type_vertex*                    v[3];
     //	u32				m_self_index;
 public:
     // IC	void			set_index	( u32 idx )		{ m_self_index = idx; }
@@ -50,17 +50,17 @@ public:
     virtual ~Tface();
     static Tface* read_create();
     ////////////////////////////////////////////////////////////////////////////////////////////////////
-    void Verify();
-    void Failure();
-    void OA_Unwarp(CDeflector* d);
+    void          Verify();
+    void          Failure();
+    void          OA_Unwarp(CDeflector* d);
 
-    virtual void read(INetReader& r);
-    virtual void write(IWriter& w) const;
-    virtual void read_vertices(INetReader& r);
-    virtual void write_vertices(IWriter& w) const;
+    virtual void  read(INetReader& r);
+    virtual void  write(IWriter& w) const;
+    virtual void  read_vertices(INetReader& r);
+    virtual void  write_vertices(IWriter& w) const;
 
     //////////////////////////////////////////////////////////////////////////////////////////////////
-    IC void raw_set_vertex(u8 index, type_vertex* _v)
+    IC void       raw_set_vertex(u8 index, type_vertex* _v)
     {
         R_ASSERT(index < 3);
         v[index] = _v;
@@ -175,7 +175,7 @@ public:
 
     void CalcNormal()
     {
-        Fvector t1, t2;
+        Fvector  t1, t2;
 
         Fvector* v0 = &(v[0]->P);
         Fvector* v1 = &(v[1]->P);
@@ -242,7 +242,7 @@ public:
         float e2 = v[0]->P.distance_to(v[2]->P);
         float e3 = v[1]->P.distance_to(v[2]->P);
 
-        float p = (e1 + e2 + e3) / 2.f;
+        float p  = (e1 + e2 + e3) / 2.f;
         return _sqrt(p * (p - e1) * (p - e2) * (p - e3));
     }
     float CalcMaxEdge()
@@ -266,16 +266,16 @@ public:
     };
 };
 
-template <typename DataVertexType> struct MESHSTRUCTURE_API Tvertex: public DataVertexType, public vector_item
+template<typename DataVertexType> struct MESHSTRUCTURE_API Tvertex: public DataVertexType, public vector_item
 {
-    typedef Tface<DataVertexType>   type_face;
-    typedef Tvertex<DataVertexType> type_vertex;
+    typedef Tface<DataVertexType>         type_face;
+    typedef Tvertex<DataVertexType>       type_vertex;
 
-    typedef xr_vector<type_face*>      v_faces;
-    typedef typename v_faces::iterator v_faces_it;
+    typedef xr_vector<type_face*>         v_faces;
+    typedef typename v_faces::iterator    v_faces_it;
 
     // typedef typename xr_vector<type_vertex>::iterator v_dummy;
-    typedef xr_vector<type_vertex*> v_vertices;
+    typedef xr_vector<type_vertex*>       v_vertices;
 
     typedef typename v_vertices::iterator v_vertices_it;
     //////////////////////////////////////////////////////////////
@@ -284,17 +284,17 @@ template <typename DataVertexType> struct MESHSTRUCTURE_API Tvertex: public Data
     Tvertex*        CreateCopy_NOADJ(v_vertices& vertises_storage) const;
     static Tvertex* read_create();
 
-    virtual void read(INetReader& r);
-    virtual void write(IWriter& w) const;
+    virtual void    read(INetReader& r);
+    virtual void    write(IWriter& w) const;
 
     //////////////////////////////////////////////////////////////
-    void isolate_pool_clear_read(INetReader& r);
-    void isolate_pool_clear_write(IWriter& w) const;
+    void            isolate_pool_clear_read(INetReader& r);
+    void            isolate_pool_clear_write(IWriter& w) const;
 
-    void read_adjacents(INetReader& r);
-    void write_adjacents(IWriter& w) const;
+    void            read_adjacents(INetReader& r);
+    void            write_adjacents(IWriter& w) const;
     ///////////////////////////////////////////////////////////////
-    v_faces m_adjacents;
+    v_faces         m_adjacents;
 
     IC type_vertex* Tvertex::CreateCopy(v_vertices& vertises_storage)
     {
@@ -325,12 +325,12 @@ template <typename DataVertexType> struct MESHSTRUCTURE_API Tvertex: public Data
     }
 };
 
-template <typename typeVertex> IC void _destroy_vertex(typeVertex*& v, bool unregister)
+template<typename typeVertex> IC void _destroy_vertex(typeVertex*& v, bool unregister)
 {
     destroy_vertex(v, unregister);
 }
 
-template <typename typeVertex> struct remove_pred
+template<typename typeVertex> struct remove_pred
 {
     bool operator()(typeVertex*& v)
     {
@@ -343,7 +343,7 @@ template <typename typeVertex> struct remove_pred
     }
 };
 
-template <typename typeVertex> IC void isolate_vertices(BOOL bProgress, xr_vector<typeVertex*>& vertices)
+template<typename typeVertex> IC void isolate_vertices(BOOL bProgress, xr_vector<typeVertex*>& vertices)
 {
     if (bProgress)
         Status("Isolating vertices...");

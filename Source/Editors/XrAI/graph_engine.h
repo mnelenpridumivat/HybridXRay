@@ -35,7 +35,7 @@ public:
 #endif   // AI_COMPILER
     typedef CDataStorageBucketList<u32, u32, 8 * 1024, false> CPriorityQueue;
 
-    typedef CVertexManagerFixed<u32, u32, 8> CVertexManager;
+    typedef CVertexManagerFixed<u32, u32, 8>                  CVertexManager;
 
 #ifndef AI_COMPILER
     typedef CVertexManagerHashFixed<u32, _solver_index_type, 256, 8 * 1024> CSolverVertexManager;
@@ -64,7 +64,6 @@ public:
 #ifndef AI_COMPILER
     CSolverAlgorithm* m_solver_algorithm;
 #endif   // AI_COMPILER
-
 public:
     IC CGraphEngine(u32 max_vertex_count);
     virtual ~CGraphEngine();
@@ -72,21 +71,21 @@ public:
     IC const CSolverAlgorithm& solver_algorithm() const;
 #endif   // AI_COMPILER
 
-    template <typename _Graph, typename _Parameters> IC bool search(
+    template<typename _Graph, typename _Parameters> IC bool search(
         const _Graph&           graph,
         const _index_type&      start_node,
         const _index_type&      dest_node,
         xr_vector<_index_type>* node_path,
         const _Parameters&      parameters);
 
-    template <typename _Graph, typename _Parameters> IC bool search(
+    template<typename _Graph, typename _Parameters> IC bool search(
         const _Graph&           graph,
         const _index_type&      start_node,
         const _index_type&      dest_node,
         xr_vector<_index_type>* node_path,
         _Parameters&            parameters);
 
-    template <typename _Graph, typename _Parameters, typename _PathManager> IC bool search(
+    template<typename _Graph, typename _Parameters, typename _PathManager> IC bool search(
         const _Graph&           graph,
         const _index_type&      start_node,
         const _index_type&      dest_node,
@@ -95,7 +94,7 @@ public:
         _PathManager&           path_manager);
 
 #ifndef AI_COMPILER
-    template <
+    template<
         typename T1,
         typename T2,
         typename T3,

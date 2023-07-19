@@ -3,7 +3,6 @@
 class XREPROPS_API UIPropertiesForm: public XrUI
 {
     friend class UIPropertiesItem;
-
 public:
     UIPropertiesForm();
     ~UIPropertiesForm() override;
@@ -45,34 +44,33 @@ public:
     {
         return m_Flags.is(plReadOnly);
     }
-
 private:
-    PropItemVec m_Items;
-    PropItem*   m_EditChooseValue;
-    PropItem*   m_EditTextureValue;
-    PropItem*   m_EditShortcutValue;
+    PropItemVec      m_Items;
+    PropItem*        m_EditChooseValue;
+    PropItem*        m_EditTextureValue;
+    PropItem*        m_EditShortcutValue;
 
     TOnModifiedEvent OnModifiedEvent;
     PropItem*        m_EditTextValue;
 
-    char* m_EditTextValueData;
-    char* m_EditTextValueInitial;
-    int   m_EditTextValueDataSize;
+    char*            m_EditTextValueData;
+    char*            m_EditTextValueInitial;
+    int              m_EditTextValueDataSize;
 
-    void DrawEditText();
-    int  DrawEditText_Callback(ImGuiInputTextCallbackData* data);
+    void             DrawEditText();
+    int              DrawEditText_Callback(ImGuiInputTextCallbackData* data);
 
-    GameTypeChooser m_EditGameTypeChooser;
-    PropItem*       m_EditGameTypeValue;
-    bool            m_bSingle;
-    bool            m_bDM;
-    bool            m_bTDM;
-    bool            m_bAH;
-    bool            m_bCTA;
+    GameTypeChooser  m_EditGameTypeChooser;
+    PropItem*        m_EditGameTypeValue;
+    bool             m_bSingle;
+    bool             m_bDM;
+    bool             m_bTDM;
+    bool             m_bAH;
+    bool             m_bCTA;
 
-    void DrawEditGameType();
-    bool m_bModified;
-    void Modified()
+    void             DrawEditGameType();
+    bool             m_bModified;
+    void             Modified()
     {
         m_bModified = true;
         if (!OnModifiedEvent.empty())

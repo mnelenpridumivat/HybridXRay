@@ -23,9 +23,9 @@ namespace lc_net
         virtual void   add_ref()                                                                 = 0;
         virtual void   free_ref()                                                                = 0;
     };
-    template <e_net_globals gl_type> class net_global_data_impl;
+    template<e_net_globals gl_type> class net_global_data_impl;
 
-    template <e_net_globals gl_type>
+    template<e_net_globals gl_type>
     class tnet_global_data_base: public net_global_data, public net_global_data_impl<gl_type>
     {
     };
@@ -33,7 +33,6 @@ namespace lc_net
     class net_globals
     {
         xr_vector<net_global_data*> data;
-
     public:
         net_globals();
 
@@ -41,18 +40,17 @@ namespace lc_net
         {
             return *data[id];
         }
-        template <e_net_globals gl_type> net_global_data_impl<gl_type>& get()
+        template<e_net_globals gl_type> net_global_data_impl<gl_type>& get()
         {
             return *static_cast<net_global_data_impl<gl_type>*>(
                 static_cast<tnet_global_data_base<gl_type>*>(data[gl_type]));
         }
-
     private:
         friend class global_data_cleanup;
         void cleanup();
     };
 
     net_globals& globals();
-    template <e_net_globals ie, e_net_globals ig> struct global_add_global;
+    template<e_net_globals ie, e_net_globals ig> struct global_add_global;
 }   // namespace lc_net
 #endif

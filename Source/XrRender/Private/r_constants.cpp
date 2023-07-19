@@ -1,9 +1,9 @@
 ﻿#include "stdafx.h"
 #pragma hdrstop
 
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include "directx\d3dx9.h"
-#pragma warning(default : 4995)
+#pragma warning(default:4995)
 
 #include "ResourceManager.h"
 
@@ -74,19 +74,19 @@ BOOL R_constant_table::parse(void* _desc, u32 destination)
         LPCSTR name = LPCSTR(ptr + it->Name);
 
         // Type
-        u16 type = RC_float;
+        u16    type = RC_float;
         if (D3DXRS_BOOL == it->RegisterSet)
             type = RC_bool;
         if (D3DXRS_INT4 == it->RegisterSet)
             type = RC_int;
 
         // Rindex,Rcount
-        u16 r_index = it->RegisterIndex;
-        u16 r_type  = u16(-1);
+        u16                  r_index = it->RegisterIndex;
+        u16                  r_type  = u16(-1);
 
         // TypeInfo + class
-        D3DXSHADER_TYPEINFO* T     = (D3DXSHADER_TYPEINFO*)(ptr + it->TypeInfo);
-        BOOL                 bSkip = FALSE;
+        D3DXSHADER_TYPEINFO* T       = (D3DXSHADER_TYPEINFO*)(ptr + it->TypeInfo);
+        BOOL                 bSkip   = FALSE;
         switch (T->Class)
         {
             case D3DXPC_SCALAR:
@@ -95,7 +95,8 @@ BOOL R_constant_table::parse(void* _desc, u32 destination)
             case D3DXPC_VECTOR:
                 r_type = RC_1x4;
                 break;
-            case D3DXPC_MATRIX_ROWS: {
+            case D3DXPC_MATRIX_ROWS:
+            {
                 switch (T->Columns)
                 {
                     case 4:
@@ -138,14 +139,16 @@ BOOL R_constant_table::parse(void* _desc, u32 destination)
             case D3DXPC_STRUCT:
                 fatal("Pclass D3DXPC_STRUCT unsupported");
                 break;
-            case D3DXPC_OBJECT: {
+            case D3DXPC_OBJECT:
+            {
                 switch (T->Type)
                 {
                     case D3DXPT_SAMPLER:
                     case D3DXPT_SAMPLER1D:
                     case D3DXPT_SAMPLER2D:
                     case D3DXPT_SAMPLER3D:
-                    case D3DXPT_SAMPLERCUBE: {
+                    case D3DXPT_SAMPLERCUBE:
+                    {
                         // ***Register sampler***
                         // We have determined all valuable info, search if constant already created
                         ref_constant C = get(name);

@@ -20,7 +20,7 @@ namespace lc_net
         if (from == to)
             return;
         R_ASSERT(from < to);
-        ImplicitExecute exec(from, to);
+        ImplicitExecute                         exec(from, to);
 
         tnet_execution_base<et_implicit_light>* el = lc_net::execution_factory.create<et_implicit_light>();
         el->implementation().construct(exec);

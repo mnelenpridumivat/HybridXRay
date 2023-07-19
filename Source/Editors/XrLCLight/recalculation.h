@@ -10,15 +10,13 @@ class recalculation
     u8*                 slots_flags;
     CVirtualFileRW*     dtFS;
 
-    Frect calculation_rect;
-    bool  recalculate;
-    bool  partial_calculate;
-    bool  force_recalculate;
-
+    Frect               calculation_rect;
+    bool                recalculate;
+    bool                partial_calculate;
+    bool                force_recalculate;
 public:
     recalculation(const DetailHeader& _dtH):
-        dtH(_dtH), calculation_rect(Frect().invalidate()), recalculate(false), partial_calculate(false),
-        force_recalculate(false), dtFS(0), slots_flags(0)
+        dtH(_dtH), calculation_rect(Frect().invalidate()), recalculate(false), partial_calculate(false), force_recalculate(false), dtFS(0), slots_flags(0)
     {
     }   //
     IC bool recalculating() const
@@ -55,7 +53,6 @@ public:
     void close();
     void read(INetReader& r);
     void write(IWriter& w) const;
-
 private:
     void load_calculation_params();
     void setup_recalculationflags_file(u32 check_sum);

@@ -50,19 +50,19 @@ public:
         g_bMaxSlidingWindow            = u32(-1);
         g_pResult                      = 0;
     }
-    Object*                g_pObject;
-    ArbitraryList<MeshPt*> g_ppTempPts;
-    float                  g_fSlidingWindowErrorTolerance;
-    BOOL                   g_bOptimiseVertexOrder;
-    u32                    g_bMaxSlidingWindow;
-    VIPM_Result*           g_pResult;
+    Object*                 g_pObject;
+    ArbitraryList<MeshPt*>  g_ppTempPts;
+    float                   g_fSlidingWindowErrorTolerance;
+    BOOL                    g_bOptimiseVertexOrder;
+    u32                     g_bMaxSlidingWindow;
+    VIPM_Result*            g_pResult;
 
-    ETOOLS_API void VIPM_Init();
-    ETOOLS_API void VIPM_AppendVertex(const Fvector3& pt, const Fvector2& uv);
-    ETOOLS_API void VIPM_AppendFace(u16 v0, u16 v1, u16 v2);
-    ETOOLS_API void CalculateAllCollapses(Object* m_pObject, u32 max_sliding_window = u32(-1), float m_fSlidingWindowErrorTolerance = 1.0f);
+    ETOOLS_API void         VIPM_Init();
+    ETOOLS_API void         VIPM_AppendVertex(const Fvector3& pt, const Fvector2& uv);
+    ETOOLS_API void         VIPM_AppendFace(u16 v0, u16 v1, u16 v2);
+    ETOOLS_API void         CalculateAllCollapses(Object* m_pObject, u32 max_sliding_window = u32(-1), float m_fSlidingWindowErrorTolerance = 1.0f);
     ETOOLS_API VIPM_Result* VIPM_Convert(u32 max_sliding_window = u32(-1), float error_tolerance = 0.1f, u32 optimize_vertex_order = 1);
-    ETOOLS_API void VIPM_Destroy();
+    ETOOLS_API void         VIPM_Destroy();
 };
 
 #endif   // PropSlimToolsH

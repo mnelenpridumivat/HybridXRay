@@ -26,7 +26,6 @@ class CMailSlotMsg
         m_pos += sz;
         m_len = m_pos;
     };
-
 public:
     CMailSlotMsg()
     {
@@ -170,14 +169,14 @@ inline BOOL CheckMailslotMessage(HANDLE hSlot, CMailSlotMsg& msg)
 
     cbMessage = cMessage = cbRead = 0;
 
-    hEvent = CreateEvent(NULL, FALSE, FALSE, "__Slot");
+    hEvent                        = CreateEvent(NULL, FALSE, FALSE, "__Slot");
     if (NULL == hEvent)
         return FALSE;
     ov.Offset     = 0;
     ov.OffsetHigh = 0;
     ov.hEvent     = hEvent;
 
-    fResult = GetMailslotInfo(
+    fResult       = GetMailslotInfo(
         hSlot,            // mailslot handle
         (LPDWORD)NULL,    // no maximum message size
         &cbMessage,       // size of next message

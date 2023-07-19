@@ -29,7 +29,6 @@ public:
 
     CBlender_default();
     virtual ~CBlender_default();
-
 private:
     xrP_TOKEN oTessellation;
 };

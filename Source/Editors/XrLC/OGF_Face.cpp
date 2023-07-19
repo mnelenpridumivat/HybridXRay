@@ -549,7 +549,7 @@ void OGF_Node::Save(IWriter& fs)
 
 extern u16 RegisterShader(LPCSTR T);
 
-void OGF_LOD::Save(IWriter& fs)
+void       OGF_LOD::Save(IWriter& fs)
 {
     OGF_Base::Save(fs);
 

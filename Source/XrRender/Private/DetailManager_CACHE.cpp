@@ -4,8 +4,8 @@
 void CDetailManager::cache_Initialize()
 {
     // Centroid
-    cache_cx = 0;
-    cache_cz = 0;
+    cache_cx  = 0;
+    cache_cz  = 0;
 
     // Initialize cache-grid
     Slot* slt = cache_pool;
@@ -45,7 +45,7 @@ void CDetailManager::cache_Task(int gx, int gz, Slot* D)
     int         sz = cg2w_Z(gz);
     DetailSlot& DS = QueryDB(sx, sz);
 
-    D->empty = (DS.id0 == DetailSlot::ID_Empty) && (DS.id1 == DetailSlot::ID_Empty) &&
+    D->empty       = (DS.id0 == DetailSlot::ID_Empty) && (DS.id1 == DetailSlot::ID_Empty) &&
         (DS.id2 == DetailSlot::ID_Empty) && (DS.id3 == DetailSlot::ID_Empty);
 
     // Unpacking

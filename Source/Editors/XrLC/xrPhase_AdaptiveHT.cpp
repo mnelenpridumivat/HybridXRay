@@ -14,7 +14,7 @@ const float aht_max_edge = c_SS_maxsize / 2.5f;   // 2.0f;			// 2 m
 // const	float	aht_min_edge	= .2f;					// 20 cm
 // const	float	aht_min_err		= 16.f/255.f;			// ~10% error
 
-bool is_CCW(int _1, int _2)
+bool        is_CCW(int _1, int _2)
 {
     if (0 == _1 && 1 == _2)
         return true;
@@ -161,7 +161,7 @@ public:
 
 CThreadManager precalc_base_hemi;
 
-void CBuild::xrPhase_AdaptiveHT()
+void           CBuild::xrPhase_AdaptiveHT()
 {
     CDB::COLLIDER DB;
     DB.ray_options(0);
@@ -203,7 +203,7 @@ void CBuild::xrPhase_AdaptiveHT()
         //LP_dont_rgb+LP_dont_sun,0); 	vC.mul				(0.5f); 	V->C._set			(vC);
         //}
 
-        u32 stride = u32(-1);
+        u32 stride  = u32(-1);
 
         u32 threads = u32(-1);
         u32 rest    = u32(-1);
@@ -289,7 +289,7 @@ void tessalate_faces(xr_vector<Face*>& faces, Vertex* V1, Vertex* V2, tesscb_fac
 {
     xr_vector<Face*>& adjacent_vec = faces;
     // create new vertex (lerp)
-    Vertex* V = lc_global_data()->create_vertex();
+    Vertex*           V            = lc_global_data()->create_vertex();
     V->P.lerp(V1->P, V2->P, .5f);
 
     // iterate on faces which share this 'problematic' edge
@@ -301,7 +301,7 @@ void tessalate_faces(xr_vector<Face*>& faces, Vertex* V1, Vertex* V2, tesscb_fac
         _TCF& atc           = AF->tc.front();
 
         // indices & tc
-        int id1 = AF->VIndex(V1);
+        int   id1           = AF->VIndex(V1);
         VERIFY(id1 >= 0 && id1 <= 2);
         int id2 = AF->VIndex(V2);
         VERIFY(id2 >= 0 && id2 <= 2);
@@ -397,7 +397,7 @@ void CBuild::u_Tesselate(tesscb_estimator* cb_E, tesscb_face* cb_F, tesscb_verte
     // main process
     FPU::m64r();
     Status("Tesselating...");
-    g_bUnregister = false;
+    g_bUnregister      = false;
 
     u32 counter_create = 0;
     u32 cnt_verts      = lc_global_data()->g_vertices().size();

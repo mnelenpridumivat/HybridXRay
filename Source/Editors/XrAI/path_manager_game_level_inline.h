@@ -9,7 +9,7 @@
 #pragma once
 
 #define TEMPLATE_SPECIALIZATION \
-    template <typename _DataStorage, typename _dist_type, typename _index_type, typename _iteration_type>
+    template<typename _DataStorage, typename _dist_type, typename _index_type, typename _iteration_type>
 
 #define CGameVertexTypePathManager                                                                               \
     CPathManager<                                                                                                \
@@ -52,7 +52,7 @@ IC bool CGameVertexTypePathManager::is_goal_reached(const _index_type& node_inde
 }
 
 TEMPLATE_SPECIALIZATION
-template <typename T> IC void CGameVertexTypePathManager::create_path(T& vertex)
+template<typename T> IC void CGameVertexTypePathManager::create_path(T& vertex)
 {
     if (path)
         inherited::create_path(vertex);

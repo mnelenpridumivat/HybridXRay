@@ -16,7 +16,7 @@
         m_pObject = NULL;                                 \
     }
 
-template <class T> class FactoryPtr
+template<class T> class FactoryPtr
 {
 public:
     FactoryPtr()
@@ -59,7 +59,6 @@ public:
     {
         return m_pObject == 0;
     }
-
 private:
     void     CreateObject();
     void     DestroyObject();
@@ -67,7 +66,6 @@ private:
     {
         return m_pObject;
     }
-
 private:
     T* m_pObject;
 };

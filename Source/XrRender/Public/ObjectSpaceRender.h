@@ -11,7 +11,7 @@ public:
     {
         ;
     }
-    virtual void Copy(IObjectSpaceRender& _in) = 0;
+    virtual void Copy(IObjectSpaceRender& _in)                   = 0;
 
     virtual void dbgRender()                                     = 0;
     virtual void dbgAddSphere(const Fsphere& sphere, u32 colour) = 0;

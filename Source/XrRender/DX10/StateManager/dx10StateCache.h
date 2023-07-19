@@ -2,14 +2,14 @@
 #define dx10StateCache_included
 #pragma once
 
-template <class IDeviceState, class StateDecs> class dx10StateCache
+template<class IDeviceState, class StateDecs> class dx10StateCache
 {
     //	Public interface
 public:
     dx10StateCache();
     ~dx10StateCache();
 
-    void ClearStateArray();
+    void          ClearStateArray();
 
     IDeviceState* GetState(SimulatorStates& state_code);
     IDeviceState* GetState(StateDecs& desc);
@@ -26,7 +26,6 @@ private:
         u32           m_crc;
         IDeviceState* m_pState;
     };
-
 private:
     void          CreateState(StateDecs desc, IDeviceState** ppIState);
     IDeviceState* FindState(const StateDecs& desc, u32 StateCRC);

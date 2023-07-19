@@ -57,7 +57,8 @@ namespace lc_net
                 start             = end;
                 task_slots_number = 0;
             }
-        } while (end != slots_count);
+        }
+        while (end != slots_count);
 
         //////////////////////////////////////////////////////////////////////////
         get_task_manager().run("Net Detail Lighting");

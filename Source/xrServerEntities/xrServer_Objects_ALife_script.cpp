@@ -17,10 +17,10 @@ void CSE_ALifeSchedulable::script_register(lua_State* L)
 {
     module(L)
         [class_<IPureSchedulableObject>("ipure_schedulable_object"),
-         //			.def(		constructor<>()),
+            //			.def(		constructor<>()),
 
-         class_<CSE_ALifeSchedulable, IPureSchedulableObject>("cse_alife_schedulable")
-         //			.def(		constructor<LPCSTR>())
+            class_<CSE_ALifeSchedulable, IPureSchedulableObject>("cse_alife_schedulable")
+            //			.def(		constructor<LPCSTR>())
     ];
 }
 
@@ -48,7 +48,7 @@ void CSE_ALifeObject::script_register(lua_State* L)
 void CSE_ALifeGroupAbstract::script_register(lua_State* L)
 {
     module(L)[class_<CSE_ALifeGroupAbstract>("cse_alife_group_abstract")
-              //			.def(		constructor<LPCSTR>())
+        //			.def(		constructor<LPCSTR>())
     ];
 }
 

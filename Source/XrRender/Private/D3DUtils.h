@@ -9,10 +9,10 @@
 #ifdef REDITOR
 class CEditableObject;
 #define DU_DRAW_DIP EDevice->DIP
-#define DU_DRAW_DP EDevice->DP
+#define DU_DRAW_DP  EDevice->DP
 #else
 #define DU_DRAW_DIP RCache.dbg_DIP
-#define DU_DRAW_DP RCache.dbg_DP
+#define DU_DRAW_DP  RCache.dbg_DP
 #endif
 
 struct SPrimitiveBuffer
@@ -26,9 +26,9 @@ struct SPrimitiveBuffer
     TOnRender                             OnRender;
     void                                  RenderDIP();
     void                                  RenderDP();
-
 public:
-    SPrimitiveBuffer(): OnRender(0), pGeom(0)
+    SPrimitiveBuffer():
+        OnRender(0), pGeom(0)
     {
         ;
     }
@@ -70,19 +70,16 @@ public:
     ref_geom vs_L;
     ref_geom vs_TL;
     ref_geom vs_LIT;
-
 protected:
     FVF::L* m_DD_pv;
     FVF::L* m_DD_pv_start;
     u32     m_DD_base;
     BOOL    m_DD_wire;
     void    DD_DrawFace_flush(BOOL try_again);
-
 public:
     void DD_DrawFace_begin(BOOL bWire);
     void DD_DrawFace_push(const Fvector& p0, const Fvector& p1, const Fvector& p2, u32 clr);
     void DD_DrawFace_end();
-
 public:
     CDrawUtilities()
     {
@@ -100,7 +97,7 @@ public:
     void         OnDeviceCreate();
     virtual void OnDeviceDestroy();
 
-    void UpdateGrid(int number_of_cell, float square_size, int subdiv = 10);
+    void         UpdateGrid(int number_of_cell, float square_size, int subdiv = 10);
 
     //----------------------------------------------------
     virtual void DrawCross(
@@ -119,7 +116,7 @@ public:
     }
     virtual void DrawEntity(u32 clr, ref_shader s);
     virtual void
-        DrawFlag(const Fvector& p, float heading, float height, float sz, float sz_fl, u32 clr, BOOL bDrawEntity);
+                 DrawFlag(const Fvector& p, float heading, float height, float sz, float sz_fl, u32 clr, BOOL bDrawEntity);
     virtual void DrawRomboid(const Fvector& p, float radius, u32 clr);
     virtual void DrawJoint(const Fvector& p, float radius, u32 clr);
 
@@ -267,7 +264,7 @@ public:
         const u32&     clr_argb,
         float          scale = 1.0f);
     virtual void
-        DrawPrimitiveL(D3DPRIMITIVETYPE pt, u32 pc, Fvector* vertices, int vc, u32 color, BOOL bCull, BOOL bCycle);
+                 DrawPrimitiveL(D3DPRIMITIVETYPE pt, u32 pc, Fvector* vertices, int vc, u32 color, BOOL bCull, BOOL bCycle);
     virtual void DrawPrimitiveTL(D3DPRIMITIVETYPE pt, u32 pc, FVF::TL* vertices, int vc, BOOL bCull, BOOL bCycle);
     virtual void DrawPrimitiveLIT(D3DPRIMITIVETYPE pt, u32 pc, FVF::LIT* vertices, int vc, BOOL bCull, BOOL bCycle);
 

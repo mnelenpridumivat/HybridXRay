@@ -10,9 +10,9 @@ void CRenderTarget::DoAsyncScreenshot()
 {
     if (RImplementation.m_bMakeAsyncSS)
     {
-        HRESULT hr;
+        HRESULT            hr;
 
-        IDirect3DSurface9* pFBSrc = HW.pBaseRT;
+        IDirect3DSurface9* pFBSrc      = HW.pBaseRT;
 
         //	Don't addref, no need to release.
         //	ID3DTexture2D *pTex = rt_Color->pSurface;
@@ -20,7 +20,7 @@ void CRenderTarget::DoAsyncScreenshot()
         //	hr = pTex->GetSurfaceLevel(0, &pFBSrc);
 
         //	SHould be async function
-        hr = HW.pDevice->GetRenderTargetData(pFBSrc, pFB);
+        hr                             = HW.pDevice->GetRenderTargetData(pFBSrc, pFB);
 
         //	pFBSrc->Release();
 
@@ -34,13 +34,13 @@ float hclip(float v, float dim)
 }
 void CRenderTarget::phase_combine()
 {
-    bool _menu_pp = g_pGamePersistent ? g_pGamePersistent->OnRenderPPUI_query() : false;
+    bool     _menu_pp = g_pGamePersistent ? g_pGamePersistent->OnRenderPPUI_query() : false;
 
-    u32      Offset = 0;
+    u32      Offset   = 0;
     Fvector2 p0, p1;
 
     //*** exposure-pipeline
-    u32 gpu_id = Device->dwFrame % HW.Caps.iGPUNum;
+    u32      gpu_id = Device->dwFrame % HW.Caps.iGPUNum;
     {
         t_LUM_src->surface_set(rt_LUM_pool[gpu_id * 2 + 0]->pSurface);
         t_LUM_dest->surface_set(rt_LUM_pool[gpu_id * 2 + 1]->pSurface);
@@ -93,7 +93,7 @@ void CRenderTarget::phase_combine()
         static Fmatrix m_saved_viewproj;
 
         // (new-camera) -> (world) -> (old_viewproj)
-        Fmatrix m_invview;
+        Fmatrix        m_invview;
         m_invview.invert(Device->mView);
         m_previous.mul(m_saved_viewproj, m_invview);
         m_current.set(Device->mProject);
@@ -127,7 +127,7 @@ void CRenderTarget::phase_combine()
         envclr.z *= 2 * ps_r2_sun_lumscale_hemi;
         Fvector4 sunclr, sundir;
 
-        float fSSAONoise = 2.0f;
+        float    fSSAONoise = 2.0f;
         fSSAONoise *= tan(deg2rad(67.5f / 2.0f));
         fSSAONoise /= tan(deg2rad(Device->fFOV / 2.0f));
 
@@ -164,10 +164,10 @@ void CRenderTarget::phase_combine()
         // RCache.Vertex.Unlock		(4,g_combine_VP->vb_stride);
 
         // Fill VB
-        float scale_X = float(Device->dwWidth) / float(TEX_jitter);
-        float scale_Y = float(Device->dwHeight) / float(TEX_jitter);
+        float    scale_X = float(Device->dwWidth) / float(TEX_jitter);
+        float    scale_Y = float(Device->dwHeight) / float(TEX_jitter);
 
-        FVF::TL* pv = (FVF::TL*)RCache.Vertex.Lock(4, g_combine_VP->vb_stride, Offset);
+        FVF::TL* pv      = (FVF::TL*)RCache.Vertex.Lock(4, g_combine_VP->vb_stride, Offset);
         pv->set(hclip(EPS, _w), hclip(_h + EPS, _h), p0.x, p1.y, 0, 0, scale_Y);
         pv++;
         pv->set(hclip(EPS, _w), hclip(EPS, _h), p0.x, p0.y, 0, 0, 0);
@@ -181,8 +181,8 @@ void CRenderTarget::phase_combine()
         dxEnvDescriptorMixerRender& envdescren = *(dxEnvDescriptorMixerRender*)(&*envdesc.m_pDescriptorMixer);
 
         // Setup textures
-        IDirect3DBaseTexture9* e0 = _menu_pp ? 0 : envdescren.sky_r_textures_env[0].second->surface_get();
-        IDirect3DBaseTexture9* e1 = _menu_pp ? 0 : envdescren.sky_r_textures_env[1].second->surface_get();
+        IDirect3DBaseTexture9*      e0         = _menu_pp ? 0 : envdescren.sky_r_textures_env[0].second->surface_get();
+        IDirect3DBaseTexture9*      e1         = _menu_pp ? 0 : envdescren.sky_r_textures_env[1].second->surface_get();
         t_envmap_0->surface_set(e0);
         _RELEASE(e0);
         t_envmap_1->surface_set(e1);
@@ -562,11 +562,11 @@ void CRenderTarget::phase_combine_volumetric()
         // RCache.Vertex.Unlock		(4,g_combine_VP->vb_stride);
 
         // Fill VB
-        float scale_X = float(Device->dwWidth) / float(TEX_jitter);
-        float scale_Y = float(Device->dwHeight) / float(TEX_jitter);
+        float    scale_X = float(Device->dwWidth) / float(TEX_jitter);
+        float    scale_Y = float(Device->dwHeight) / float(TEX_jitter);
 
         // Fill vertex buffer
-        FVF::TL* pv = (FVF::TL*)RCache.Vertex.Lock(4, g_combine_VP->vb_stride, Offset);
+        FVF::TL* pv      = (FVF::TL*)RCache.Vertex.Lock(4, g_combine_VP->vb_stride, Offset);
         pv->set(hclip(EPS, _w), hclip(_h + EPS, _h), p0.x, p1.y, 0, 0, scale_Y);
         pv++;
         pv->set(hclip(EPS, _w), hclip(EPS, _h), p0.x, p0.y, 0, 0, 0);

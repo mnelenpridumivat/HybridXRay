@@ -13,7 +13,6 @@ public:
     R_constant* c_c_scale;
     R_constant* c_c_bias;
     R_constant* c_c_sun;
-
 public:
     R_tree();
     void unmap();

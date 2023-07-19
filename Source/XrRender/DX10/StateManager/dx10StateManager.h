@@ -44,40 +44,38 @@ public:
     //	Functions which override value even if new state was set up.
     //	Reset value to current state's value if override is disabled.
     void OverrideScissoring(bool bOverride = true, BOOL bValue = TRUE);
-
 private:
     void ValidateRDesc();
     void ValidateDSDesc();
     void ValidateBDesc();
-
 private:
     //	All states are supposed to live along all application lifetime
     ID3DRasterizerState*   m_pRState;              //	Weak link
     ID3DDepthStencilState* m_pDepthStencilState;   //	Weak link
     ID3DBlendState*        m_pBlendState;          //	Weak link
 
-    UINT m_uiStencilRef;
-    UINT m_uiAlphaRef;
+    UINT                   m_uiStencilRef;
+    UINT                   m_uiAlphaRef;
 
     //	If will need more constants create support class instead
-    R_constant* m_cAlphaRef;
+    R_constant*            m_cAlphaRef;
 
     //	Appropriate state should be applied
-    bool m_bRSNeedApply;
-    bool m_bDSSNeedApply;
-    bool m_bBSNeedApply;
+    bool                   m_bRSNeedApply;
+    bool                   m_bDSSNeedApply;
+    bool                   m_bBSNeedApply;
 
     //	Appropriate state is invalid.
     //	Get a new state from cache by description before apply.
-    bool m_bRSChanged;
-    bool m_bDSSChanged;
-    bool m_bBSChanged;
+    bool                   m_bRSChanged;
+    bool                   m_bDSSChanged;
+    bool                   m_bBSChanged;
 
     //	Appropriate description is invalid.
     //	Init description before changing.
-    bool m_bRDInvalid;
-    bool m_bDSDInvalid;
-    bool m_bBDInvalid;
+    bool                   m_bRDInvalid;
+    bool                   m_bDSDInvalid;
+    bool                   m_bBDInvalid;
 
     //	Cached state descriptions
     //	Valid only if *Valid flag is set
@@ -85,9 +83,9 @@ private:
     D3D_DEPTH_STENCIL_DESC m_DSDesc;
     D3D_BLEND_DESC         m_BDesc;
 
-    bool m_bOverrideScissoring;
-    BOOL m_bOverrideScissoringValue;
-    UINT m_uiSampleMask;
+    bool                   m_bOverrideScissoring;
+    BOOL                   m_bOverrideScissoringValue;
+    UINT                   m_uiSampleMask;
 };
 
 extern dx10StateManager StateManager;

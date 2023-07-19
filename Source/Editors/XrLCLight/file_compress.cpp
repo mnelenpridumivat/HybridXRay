@@ -5,12 +5,12 @@ void decompress(LPCSTR f_in, LPCSTR f_out);
 
 void compress(LPCSTR f_in, LPCSTR f_out)
 {
-    FILE* file      = fopen(f_in, "rb");
-    u32   buff_size = 1024 * 1024 / 2;
+    FILE*     file      = fopen(f_in, "rb");
+    u32       buff_size = 1024 * 1024 / 2;
 
-    void*     buff   = _alloca(buff_size);
-    gzFile    z_file = gzopen(f_out, "wb");
-    u32 const length = _filelength(_fileno(file));
+    void*     buff      = _alloca(buff_size);
+    gzFile    z_file    = gzopen(f_out, "wb");
+    u32 const length    = _filelength(_fileno(file));
 
     for (int n = length / buff_size, i = 0; i < n; ++i)
     {
@@ -29,13 +29,13 @@ void compress(LPCSTR f_in, LPCSTR f_out)
 
 void decompress(LPCSTR f_in, LPCSTR f_out)
 {
-    FILE* file      = fopen(f_out, "wb");
-    u32   buff_size = 1024 * 1024 / 2;
+    FILE*  file      = fopen(f_out, "wb");
+    u32    buff_size = 1024 * 1024 / 2;
 
     // u32 const length	= _filelength( _fileno( file ) );
 
-    void*  buff   = _alloca(buff_size);
-    gzFile z_file = gzopen(f_in, "rb");
+    void*  buff      = _alloca(buff_size);
+    gzFile z_file    = gzopen(f_in, "rb");
 
     for (;;)
     {

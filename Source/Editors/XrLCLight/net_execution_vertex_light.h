@@ -15,11 +15,10 @@ namespace lc_net
 {
 
     typedef class tnet_execution_base<et_vertex_light>::net_execution_impl net_execution_vertex_light;
-    template <> class tnet_execution_base<et_vertex_light>::net_execution_impl
+    template<> class tnet_execution_base<et_vertex_light>::net_execution_impl
     {
         u32 start;
         u32 end;
-
     public:
         net_execution_impl(): start(u32(-1)), end(-1) {}
         void construct(u32 _start, u32 _end);   // { start = _start;end = _end; }
@@ -29,18 +28,18 @@ namespace lc_net
         void send_result(IGenericStream* outStream);
         bool execute(net_task_callback& net_callback);
     };
-    template <> struct add_global<et_vertex_light, gl_lm_data>
+    template<> struct add_global<et_vertex_light, gl_lm_data>
     {
     };
     // execution_lightmaps
 };   // namespace lc_net
 
-    // class net_execution_vertex_light {
-    // public:
-    //
-    //
-    // private:
-    //
-    // }; // class net_execution_vertex_light
+// class net_execution_vertex_light {
+// public:
+//
+//
+// private:
+//
+// }; // class net_execution_vertex_light
 
 #endif   // #ifndef NET_EXECUTION_VERTEX_LIGHT_H_INCLUDED

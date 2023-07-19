@@ -64,7 +64,7 @@ void CKinematics::CalculateBones(BOOL bForceExact)
             X.mul_43(Mbone, Mbox);
             Fvector& S = obb.m_halfsize;
 
-            Fvector P, A;
+            Fvector  P, A;
             A.set(-S.x, -S.y, -S.z);
             X.transform_tiny(P, A);
             Box.modify(P);
@@ -204,12 +204,12 @@ void CKinematics::Bone_Calculate(CBoneData* bd, Fmatrix* parent)
 
 void CKinematics::BoneChain_Calculate(const CBoneData* bd, CBoneInstance& bi, u8 mask_channel, bool ignore_callbacks)
 {
-    u16 SelfID = bd->GetSelfID();
+    u16          SelfID = bd->GetSelfID();
     // CBlendInstance& BLEND_INST	= LL_GetBlendInstance(SelfID);
     // CBlendInstance::BlendSVec &Blend = BLEND_INST.blend_vector();
     // ignore callbacks
-    BoneCallback bc = bi.callback();
-    BOOL         ow = bi.callback_overwrite();
+    BoneCallback bc     = bi.callback();
+    BOOL         ow     = bi.callback_overwrite();
     if (ignore_callbacks)
     {
         bi.set_callback(bi.callback_type(), 0, bi.callback_param(), 0);

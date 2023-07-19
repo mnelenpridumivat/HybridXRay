@@ -15,7 +15,6 @@ public:
     void Copy(VertexCache* inVcache);
     int  At(int index);
     void Set(int index, int value);
-
 private:
     xr_vector<int> entries;
 };

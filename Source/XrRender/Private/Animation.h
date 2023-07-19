@@ -26,16 +26,13 @@ namespace animation
     {
     public:
         static const u32 max = MAX_CHANNELS;
-
     private:
         static const channal_rule rules[max];
         float                     factors[max];
-
     public:
         channels();
         void init();
         void set_factor(u16 channel, float factor);
-
     public:
         IC const channal_rule& rule(u16 channel)
         {

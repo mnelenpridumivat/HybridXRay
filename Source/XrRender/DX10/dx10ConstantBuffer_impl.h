@@ -62,7 +62,7 @@ IC void dx10ConstantBuffer::set(R_constant* C, R_constant_load& L, const Fvector
     // it->set	(A);
 
     VERIFY(u32((u32)L.index + lineSize) <= m_uiBufferSize);
-    float* it = (float*)Access(L.index);
+    float* it    = (float*)Access(L.index);
 
     size_t count = 4;
     switch (L.cls)

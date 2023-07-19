@@ -10,7 +10,7 @@ typedef poolSS<Face, 8 * 1024>   poolFaces;
 static poolVertices              _VertexPool;
 static poolFaces                 _FacePool;
 
-Face* xrLC_GlobalData ::create_face()
+Face*                            xrLC_GlobalData ::create_face()
 {
     return _FacePool.create();
 }
@@ -53,8 +53,8 @@ void xrLC_GlobalData ::gl_mesh_clear()
 
 void xrLC_GlobalData ::vertices_isolate_and_pool_reload()
 {
-    const u32 inital_verts_count = _g_vertices.size();
-    u32       not_empty_verts    = 0;
+    const u32   inital_verts_count = _g_vertices.size();
+    u32         not_empty_verts    = 0;
     // for(u32 i = 0; i < inital_verts_count; ++i )
     //  if(!_g_vertices[i]->m_adjacents.empty())
     //	++not_empty_verts;

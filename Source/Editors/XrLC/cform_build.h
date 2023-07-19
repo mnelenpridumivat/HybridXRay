@@ -15,9 +15,9 @@ union cform_mergeprops
     };
 };
 
-#pragma warning(disable : 4267)
-#pragma warning(disable : 4995)
-#pragma warning(disable : 4244)
+#pragma warning(disable:4267)
+#pragma warning(disable:4995)
+#pragma warning(disable:4244)
 
 #define FLT_MIN flt_min
 #define FLT_MAX flt_max

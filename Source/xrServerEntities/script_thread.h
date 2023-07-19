@@ -30,7 +30,6 @@ private:
 protected:
     static void lua_hook_call(lua_State* L, lua_Debug* dbg);
 #endif
-
 public:
     CScriptThread(LPCSTR caNamespaceName, bool do_string = false, bool reload = false);
     virtual ~CScriptThread();

@@ -8,9 +8,9 @@
 
 #pragma once
 
-#define TEMPLATE_SPECIALIZATION template <typename _data_type, typename _vertex_id_type, typename _graph_type>
+#define TEMPLATE_SPECIALIZATION template<typename _data_type, typename _vertex_id_type, typename _graph_type>
 
-#define CSGraphVertex CVertex<_data_type, _vertex_id_type, _graph_type>
+#define CSGraphVertex           CVertex<_data_type, _vertex_id_type, _graph_type>
 
 TEMPLATE_SPECIALIZATION
 IC CSGraphVertex::CVertex(const _data_type& data, const _vertex_id_type& vertex_id, u32* edge_count)

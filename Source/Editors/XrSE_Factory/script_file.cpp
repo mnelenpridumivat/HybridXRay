@@ -65,7 +65,7 @@ void CScriptFile::RemoveBreakPoint(int nLine)
     m_nMinBreakPoint = 2147483647;
     m_nMaxBreakPoint = 0;
 
-    uniIt It = m_breakPoints.begin();
+    uniIt It         = m_breakPoints.begin();
     for (; It != m_breakPoints.end(); ++It)
     {
         if (It->first < m_nMinBreakPoint)

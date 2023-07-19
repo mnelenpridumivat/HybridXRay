@@ -28,8 +28,8 @@ void dx103DFluidVolume::Load(LPCSTR N, IReader* data, u32 dwFlags)
     const Fmatrix& Transform = m_FluidData.GetTransform();
 
     //	Update visibility data
-    vis.box.min = Fvector3().set(-0.5f, -0.5f, -0.5f);
-    vis.box.max = Fvector3().set(0.5f, 0.5f, 0.5f);
+    vis.box.min              = Fvector3().set(-0.5f, -0.5f, -0.5f);
+    vis.box.max              = Fvector3().set(0.5f, 0.5f, 0.5f);
 
     vis.box.xform(Transform);
 
@@ -94,14 +94,14 @@ void dx103DFluidVolume::Render(float LOD)   // LOD - Level Of Detail  [0.0f - mi
 
     //	FluidManager.RenderFluid( m_FluidData );
 
-    u32 dwOffset, dwCount;
+    u32       dwOffset, dwCount;
 
     FVF::LIT* pv_start = (FVF::LIT*)RCache.Vertex.Lock(6 * 3 * 2, m_Geom->vb_stride, dwOffset);
     FVF::LIT* pv       = pv_start;
 
-    u32 clr = 0xFFFFFFFF;
+    u32       clr      = 0xFFFFFFFF;
 
-    Fbox box;
+    Fbox      box;
     box.min = Fvector3().set(-0.5f, -0.5f, -0.5f);
     box.max = Fvector3().set(0.5f, 0.5f, 0.5f);
     // box.min = Fvector3().set( 0.0f,  0.0f,  0.0f);

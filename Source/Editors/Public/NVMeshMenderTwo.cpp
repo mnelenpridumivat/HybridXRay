@@ -33,7 +33,7 @@ Comments:
 
 namespace
 {
-    const unsigned int NO_GROUP = 0xFFFFFFFF;
+    const unsigned int  NO_GROUP = 0xFFFFFFFF;
 
     // IC: Replacement for D3DXVec3Normalize so that we don't have dll dependancies.
     static D3DXVECTOR3* Vec3Normalize(D3DXVECTOR3* pOut, CONST D3DXVECTOR3* pV)
@@ -498,7 +498,7 @@ bool MeshMender::Mend(
     // for each unique position
     for (VertexChildrenMap::iterator vert = m_VertexChildrenMap.begin(); vert != m_VertexChildrenMap.end(); ++vert)
     {
-        D3DXVECTOR3 workingPosition = vert->first;
+        D3DXVECTOR3   workingPosition   = vert->first;
 
         TriangleList& possibleNeighbors = vert->second;
         if (computeNormals == CALCULATE_NORMALS)
@@ -802,10 +802,10 @@ void MeshMender::OrthogonalizeTangentsAndBinormals(xr_vector<Vertex>& theVerts)
 		//	must still pass in valid normals to be used when calculating\
 		//	tangents and binormals.");
 
-		if (D3DXVec3Length(&(theVerts[i].normal)) <= 0.00001f)
-		{
-			Msg("- ..Found zero length normal [%f] when calculating tangent basis! if you are not using mesh mender to compute normals, you must still pass in valid normals to be used when calculating tangents and binormals.", D3DXVec3Length(&(theVerts[i].normal)));
-		}
+        if (D3DXVec3Length(&(theVerts[i].normal)) <= 0.00001f)
+        {
+            Msg("- ..Found zero length normal [%f] when calculating tangent basis! if you are not using mesh mender to compute normals, you must still pass in valid normals to be used when calculating tangents and binormals.", D3DXVec3Length(&(theVerts[i].normal)));
+        }
 
         // now with T and B and N we can get from tangent space to object space
         // but we want to go the other way, so we need the inverse
@@ -821,8 +821,8 @@ void MeshMender::OrthogonalizeTangentsAndBinormals(xr_vector<Vertex>& theVerts)
         D3DXVECTOR3 tmpNorm = theVerts[i].normal;
         D3DXVECTOR3 tmpBin  = theVerts[i].binormal;
 
-        D3DXVECTOR3 newT = tmpTan - (D3DXVec3Dot(&tmpNorm, &tmpTan) * tmpNorm);
-        D3DXVECTOR3 newB = tmpBin - (D3DXVec3Dot(&tmpNorm, &tmpBin) * tmpNorm) - (D3DXVec3Dot(&newT, &tmpBin) * newT);
+        D3DXVECTOR3 newT    = tmpTan - (D3DXVec3Dot(&tmpNorm, &tmpTan) * tmpNorm);
+        D3DXVECTOR3 newB    = tmpBin - (D3DXVec3Dot(&tmpNorm, &tmpBin) * tmpNorm) - (D3DXVec3Dot(&newT, &tmpBin) * newT);
 
         Vec3Normalize(&(theVerts[i].tangent), &newT);
         Vec3Normalize(&(theVerts[i].binormal), &newB);
@@ -903,13 +903,13 @@ void MeshMender::GetGradients(
     //  to <0,0,1>, straight up out of the texture map
 
     // let P = v1 - v0
-    D3DXVECTOR3 P = v1.pos - v0.pos;
+    D3DXVECTOR3 P   = v1.pos - v0.pos;
     // let Q = v2 - v0
-    D3DXVECTOR3 Q  = v2.pos - v0.pos;
-    float       s1 = v1.s - v0.s;
-    float       t1 = v1.t - v0.t;
-    float       s2 = v2.s - v0.s;
-    float       t2 = v2.t - v0.t;
+    D3DXVECTOR3 Q   = v2.pos - v0.pos;
+    float       s1  = v1.s - v0.s;
+    float       t1  = v1.t - v0.t;
+    float       s2  = v2.s - v0.s;
+    float       t2  = v2.t - v0.t;
 
     // we need to solve the equation
     //  P = s1*T + t1*B
@@ -926,7 +926,7 @@ void MeshMender::GetGradients(
 
     // solve this for the unormalized T and B to get from tangent to object space
 
-    float tmp = 0.0f;
+    float       tmp = 0.0f;
     if (_abs(s1 * t2 - s2 * t1) <= 0.0001f)
     {
         tmp = (s1 * t2 - s2 * t1) > 0.f ? 1.0f : -1.f;
@@ -936,17 +936,17 @@ void MeshMender::GetGradients(
         tmp = 1.0f / (s1 * t2 - s2 * t1);
     }
 
-    tangent.x = (t2 * P.x - t1 * Q.x);
-    tangent.y = (t2 * P.y - t1 * Q.y);
-    tangent.z = (t2 * P.z - t1 * Q.z);
+    tangent.x  = (t2 * P.x - t1 * Q.x);
+    tangent.y  = (t2 * P.y - t1 * Q.y);
+    tangent.z  = (t2 * P.z - t1 * Q.z);
 
-    tangent = tmp * tangent;
+    tangent    = tmp * tangent;
 
     binormal.x = (s1 * Q.x - s2 * P.x);
     binormal.y = (s1 * Q.y - s2 * P.y);
     binormal.z = (s1 * Q.z - s2 * P.z);
 
-    binormal = tmp * binormal;
+    binormal   = tmp * binormal;
 
     // after these vectors are smoothed together,
     // they must be again orthogonalized with the final normals

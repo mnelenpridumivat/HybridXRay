@@ -26,10 +26,10 @@ xr_vector<OGF_Base*> g_tree;
 // BOOL					b_noise		= FALSE;
 // BOOL					b_radiosity	= FALSE;
 // BOOL					b_net_light	= FALSE;
-SBuildOptions g_build_options;
-vec2Face      g_XSplit;
+SBuildOptions        g_build_options;
+vec2Face             g_XSplit;
 
-void CBuild::CheckBeforeSave(u32 stage)
+void                 CBuild::CheckBeforeSave(u32 stage)
 {
     bool b_g_tree_empty = g_tree.empty();
     R_ASSERT(b_g_tree_empty);
@@ -131,7 +131,7 @@ Shader_xrLC_LIB& CBuild::shaders()
 
 extern u16 RegisterShader(LPCSTR T);
 
-void CBuild::Light_prepare()
+void       CBuild::Light_prepare()
 {
     for (vecFaceIt I = lc_global_data()->g_faces().begin(); I != lc_global_data()->g_faces().end(); I++)
         (*I)->CacheOpacity();

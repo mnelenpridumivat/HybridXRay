@@ -6,7 +6,7 @@
 #include "../XrECore/Editor/face_smoth_flags.h"
 
 #define MAX_DECIMATE_ERROR 0.0005f
-#define COMPACTNESS_RATIO 0.001f
+#define COMPACTNESS_RATIO  0.001f
 
 void SaveAsSMF(LPCSTR fname, CDB::CollectorPacked& CL)
 {
@@ -75,11 +75,11 @@ void SimplifyCFORM(CDB::CollectorPacked& CL)
 {
     FPVec FPs;
 
-    u32 base_verts_cnt = u32(CL.getVS());
-    u32 base_faces_cnt = u32(CL.getTS());
+    u32   base_verts_cnt  = u32(CL.getVS());
+    u32   base_faces_cnt  = u32(CL.getTS());
 
     // save source SMF
-    bool keep_temp_files = !!strstr(Core.Params, "-keep_temp_files");
+    bool  keep_temp_files = !!strstr(Core.Params, "-keep_temp_files");
     if (keep_temp_files)
     {
         string_path fn;

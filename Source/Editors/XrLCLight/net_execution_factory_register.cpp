@@ -8,12 +8,11 @@
 namespace lc_net
 {
 
-    template <execution_types etype> class tnet_execution: public tnet_execution_base<etype>
+    template<execution_types etype> class tnet_execution: public tnet_execution_base<etype>
     {
     private:
         typedef tnet_execution<etype> self_type;
         net_execution_impl            execution_impl;
-
     public:
         tnet_execution(u32 id): tnet_execution_base<etype>(id)
         {
@@ -24,7 +23,6 @@ namespace lc_net
         {
             on_construct();
         }
-
     private:
         void on_construct()
         {
@@ -72,10 +70,10 @@ namespace lc_net
         };
         virtual LPCSTR data_files(string_path& buf)
         {
-            const xr_vector<e_net_globals>& v = exe_gl_reg().get_globals(etype);
+            const xr_vector<e_net_globals>& v    = exe_gl_reg().get_globals(etype);
             // xr_vector<e_net_globals>::const_iterator i = v.begin(), e = v.end();
-            u32 size = v.size();
-            buf[0]   = 0;
+            u32                             size = v.size();
+            buf[0]                               = 0;
             for (u32 i = 0; i < size; ++i)
             {
                 string_path lbuf;
@@ -83,7 +81,6 @@ namespace lc_net
             }
             return buf;
         }
-
     public:
         virtual ~tnet_execution()
         {
@@ -94,12 +91,12 @@ namespace lc_net
         }
     };
 
-    template <typename execution> class execution_type_creator: public base_execution_type_creator
+    template<typename execution> class execution_type_creator: public base_execution_type_creator
     {
         poolSS<execution, 8 * 1024> pool;
 
-        virtual void set_pool_size(u32 size){};
-        virtual void free_pool()
+        virtual void                set_pool_size(u32 size){};
+        virtual void                free_pool()
         {
             pool.clear();
         }
@@ -118,7 +115,7 @@ namespace lc_net
         {
             net_execution* _e = e;
 
-            execution* ex = static_cast<execution*>(_e);
+            execution*     ex = static_cast<execution*>(_e);
             VERIFY(ex == dynamic_cast<execution*>(_e));
             pool.destroy(ex);
             e = 0;
@@ -129,12 +126,12 @@ namespace lc_net
         }
     };
 
-    template <typename execution> static void register_type()
+    template<typename execution> static void register_type()
     {
         execution_factory.register_type(xr_new<execution_type_creator<execution>>());
     }
 
-    template <execution_types i> struct it
+    template<execution_types i> struct it
     {
         static const execution_types et      = (execution_types)(i);
         static const execution_types next_et = (execution_types)(i + 1);
@@ -145,7 +142,7 @@ namespace lc_net
             register_type<tnet_execution<et>>();
         }
     };
-    template <> struct it<et_last>
+    template<> struct it<et_last>
     {
     };
 

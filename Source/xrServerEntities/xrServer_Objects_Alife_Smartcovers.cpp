@@ -17,7 +17,7 @@
 #include "ai_space.h"
 #include "script_engine.h"
 #pragma warning(push)
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include <luabind/luabind.hpp>
 #include <shlwapi.h>
 #pragma warning(pop)
@@ -256,7 +256,7 @@ namespace smart_cover
     static LPCSTR s_enter_loophole_id = "<__ENTER__>";
     static LPCSTR s_exit_loophole_id  = "<__EXIT__>";
 
-    shared_str transform_vertex(shared_str const& vertex_id, bool const& in)
+    shared_str    transform_vertex(shared_str const& vertex_id, bool const& in)
     {
         if (*vertex_id.c_str())
             return (vertex_id);
@@ -368,14 +368,14 @@ void CSE_SmartCover::fill_visuals()
 
 void draw_frustum(CDUInterface* du, float FOV, float _FAR, float A, Fvector& P, Fvector& D, Fvector& U, u32 const& CL)
 {
-    float YFov = deg2rad(FOV * A);
-    float XFov = deg2rad(FOV);
+    float   YFov = deg2rad(FOV * A);
+    float   XFov = deg2rad(FOV);
 
     // calc window extents in camera coords
-    float wR = tanf(XFov * 0.5f);
-    float wL = -wR;
-    float wT = tanf(YFov * 0.5f);
-    float wB = -wT;
+    float   wR   = tanf(XFov * 0.5f);
+    float   wL   = -wR;
+    float   wT   = tanf(YFov * 0.5f);
+    float   wB   = -wT;
 
     // calc x-axis (viewhoriz) and store cop
     // here we are assuring that vectors are perpendicular & normalized
@@ -498,7 +498,7 @@ void CSE_SmartCover::load_draw_data()
             continue;
         }
         m_draw_data.resize(m_draw_data.size() + 1);
-        SSCDrawHelper& H = m_draw_data.back();
+        SSCDrawHelper& H    = m_draw_data.back();
 
         H.string_identifier = parse_string(table, "id");
         H.point_position    = parse_fvector(table, "fov_position");
@@ -523,8 +523,8 @@ void CSE_SmartCover::load_draw_data()
         else
             H.enter_direction.normalize();
 
-        H.fov   = parse_float(table, "fov", 0.f, 360.f);
-        H.range = parse_float(table, "range", 0.f);
+        H.fov          = parse_float(table, "fov", 0.f, 360.f);
+        H.range        = parse_float(table, "range", 0.f);
 
         /*		luabind::object	transitions;
                 parse_table		(table, "transitions", transitions);

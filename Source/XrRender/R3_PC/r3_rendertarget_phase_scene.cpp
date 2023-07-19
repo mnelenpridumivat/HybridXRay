@@ -18,7 +18,7 @@ void CRenderTarget::phase_scene_prepare()
     //	FPS. Make check for SLI configuration.
     if (RImplementation.o.advancedpp &&
         (ps_r2_ls_flags.test(R2FLAG_SOFT_PARTICLES | R2FLAG_DOF) || ((ps_r_sun_shafts > 0) && (fValue >= 0.0001)) ||
-         (ps_r_ssao > 0)))
+            (ps_r_ssao > 0)))
     {
         //	TODO: DX10: Check if we need to set RT here.
         if (!RImplementation.o.dx10_msaa)
@@ -135,7 +135,7 @@ void CRenderTarget::phase_scene_end()
     Fvector2 p0, p1;
     p0.set(.5f / _w, .5f / _h);
     p1.set((_w + .5f) / _w, (_h + .5f) / _h);
-    float d_Z = EPS_S, d_W = 1.f;
+    float    d_Z = EPS_S, d_W = 1.f;
 
     // Fill vertex buffer
     FVF::TL* pv = (FVF::TL*)RCache.Vertex.Lock(4, g_combine->vb_stride, Offset);

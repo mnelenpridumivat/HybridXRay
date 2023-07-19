@@ -38,21 +38,21 @@
  *
  */
 
-#define LI_NONE 0
+#define LI_NONE      0
 #define LI_COLLINEAR 0
 #define LI_INTERSECT 1
-#define LI_EQUAL 2
+#define LI_EQUAL     2
 
 __forceinline int lines_intersect(
-    float x1,
-    float y1, /* First line segment */
-    float x2,
-    float y2,
+    float  x1,
+    float  y1, /* First line segment */
+    float  x2,
+    float  y2,
 
-    float x3,
-    float y3, /* Second line segment */
-    float x4,
-    float y4,
+    float  x3,
+    float  y3, /* Second line segment */
+    float  x4,
+    float  y4,
 
     float* x,
     float* y /* Output value: point of intersection */

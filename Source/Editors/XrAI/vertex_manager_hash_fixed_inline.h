@@ -8,9 +8,9 @@
 
 #pragma once
 
-#define TEMPLATE_SPECIALIZATION                                                                          \
-    template <typename _path_id_type, typename _index_type, u32 hash_size, u32 fix_size> template <      \
-        template <typename _T> class _vertex, template <typename _T1, typename _T2> class _index_vertex, \
+#define TEMPLATE_SPECIALIZATION                                                                        \
+    template<typename _path_id_type, typename _index_type, u32 hash_size, u32 fix_size> template<      \
+        template<typename _T> class _vertex, template<typename _T1, typename _T2> class _index_vertex, \
         typename _data_storage>
 
 #define CHashFixedVertexManager                                                             \
@@ -143,9 +143,9 @@ IC typename CHashFixedVertexManager::CGraphVertex&
             m_hash[index_vertex->m_hash] = 0;
     }
 
-    index_vertex->m_vertex  = &vertex;
-    index_vertex->m_path_id = current_path_id();
-    vertex.index()          = vertex_id;
+    index_vertex->m_vertex     = &vertex;
+    index_vertex->m_path_id    = current_path_id();
+    vertex.index()             = vertex_id;
 
     u32                index   = hash_index(vertex_id);
     CGraphIndexVertex* _vertex = m_hash[index];

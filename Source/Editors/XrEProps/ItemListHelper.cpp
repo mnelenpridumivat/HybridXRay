@@ -49,7 +49,7 @@ bool CListHelper::NameAfterEdit(ListItem* sender, LPCSTR value, shared_str& N)
         return false;
     }
 
-    for (ListItem* item : sender->Parent->GetItems())
+    for (ListItem* item: sender->Parent->GetItems())
     {
         const char* name = strrchr(item->Key(), '\\');
         if (!name)

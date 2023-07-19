@@ -116,7 +116,7 @@ struct profile_timer_script
     u64 m_count;
     int m_recurse_mark;
 
-    IC profile_timer_script()
+    IC  profile_timer_script()
     {
         m_start_cpu_tick_count = 0;
         m_accumulator          = 0;

@@ -14,7 +14,7 @@ public:
     //	distance between enum values should be at leas 128
     enum ResourceShaderType   //	Don't change this since it's hardware-dependent
     {
-        rstPixel    = 0,   //	Default texture offset
+        rstPixel    = 0,      //	Default texture offset
         rstVertex   = D3DVERTEXTEXTURESAMPLER0,
         rstGeometry = rstVertex + 256,
         rstHull     = rstGeometry + 256,
@@ -22,24 +22,23 @@ public:
         rstCompute  = rstDomain + 256,
         rstInvalid  = rstCompute + 256
     };
-
 public:
-    void apply_load(u32 stage);
-    void apply_theora(u32 stage);
-    void apply_avi(u32 stage);
-    void apply_seq(u32 stage);
-    void apply_normal(u32 stage);
+    void             apply_load(u32 stage);
+    void             apply_theora(u32 stage);
+    void             apply_avi(u32 stage);
+    void             apply_seq(u32 stage);
+    void             apply_normal(u32 stage);
 
-    void Preload();
-    void Load();
-    void PostLoad();
-    void Unload(void);
+    void             Preload();
+    void             Load();
+    void             PostLoad();
+    void             Unload(void);
     //	void								Apply			(u32 dwStage);
 
     void             surface_set(ID3DBaseTexture* surf);
     ID3DBaseTexture* surface_get();
 
-    IC BOOL isUser()
+    IC BOOL          isUser()
     {
         return flags.bUser;
     }
@@ -72,7 +71,6 @@ public:
         return m_pSRView;
     }
 #endif   //	USE_DX10
-
 private:
     IC BOOL desc_valid()
     {
@@ -94,38 +92,37 @@ private:
 public:   //	Public class members (must be encapsulated furthur)
     struct
     {
-        u32 bLoaded : 1;
-        u32 bUser : 1;
-        u32 seqCycles : 1;
-        u32 MemoryUsage : 28;
+        u32 bLoaded    :1;
+        u32 bUser      :1;
+        u32 seqCycles  :1;
+        u32 MemoryUsage:28;
 #if defined(USE_DX10) || defined(USE_DX11)
-        u32 bLoadedAsStaging : 1;
+        u32 bLoadedAsStaging:1;
 #endif   //	USE_DX10
     } flags;
     fastdelegate::FastDelegate1<u32> bind;
 
-    CAviPlayerCustom* pAVI;
-    CTheoraSurface*   pTheora;
-    float             m_material;
-    shared_str        m_bumpmap;
+    CAviPlayerCustom*                pAVI;
+    CTheoraSurface*                  pTheora;
+    float                            m_material;
+    shared_str                       m_bumpmap;
 
     union
     {
         u32 m_play_time;   // sync theora time
         u32 seqMSPF;       // Sequence data milliseconds per frame
     };
-
 private:
-    ID3DBaseTexture* pSurface;
+    ID3DBaseTexture*            pSurface;
     // Sequence data
     xr_vector<ID3DBaseTexture*> seqDATA;
 
     // Description
-    ID3DBaseTexture*   desc_cache;
-    D3D_TEXTURE2D_DESC desc;
+    ID3DBaseTexture*            desc_cache;
+    D3D_TEXTURE2D_DESC          desc;
 
 #if defined(USE_DX10) || defined(USE_DX11)
-    ID3DShaderResourceView* m_pSRView;
+    ID3DShaderResourceView*            m_pSRView;
     // Sequence view data
     xr_vector<ID3DShaderResourceView*> m_seqSRView;
 #endif   //	USE_DX10

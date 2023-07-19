@@ -9,7 +9,7 @@
 #pragma once
 
 #define TEMPLATE_SPECIALIZATION \
-    template <typename _DataStorage, typename _dist_type, typename _index_type, typename _iteration_type>
+    template<typename _DataStorage, typename _dist_type, typename _index_type, typename _iteration_type>
 
 #define CLevelStraightLinePathManager                                                                         \
     CPathManager<                                                                                             \
@@ -34,17 +34,17 @@ IC void CLevelStraightLinePathManager::setup(
 }
 
 TEMPLATE_SPECIALIZATION
-template <typename T> IC void CLevelStraightLinePathManager::create_path(T& vertex)
+template<typename T> IC void CLevelStraightLinePathManager::create_path(T& vertex)
 {
     inherited::create_path(vertex);
 
-    _dist_type fCumulativeDistance = 0, fLastDirectDistance = 0, fDirectDistance;
+    _dist_type                       fCumulativeDistance = 0, fLastDirectDistance = 0, fDirectDistance;
 
-    Fvector tPosition = m_parameters->m_start_point;
+    Fvector                          tPosition = m_parameters->m_start_point;
 
-    xr_vector<_index_type>::iterator I      = path->begin();
-    xr_vector<_index_type>::iterator E      = path->end();
-    _index_type&                     dwNode = *I;
+    xr_vector<_index_type>::iterator I         = path->begin();
+    xr_vector<_index_type>::iterator E         = path->end();
+    _index_type&                     dwNode    = *I;
     for (++I; I != E; ++I)
     {
         u32 vertex_id = graph->check_position_in_direction(dwNode, tPosition, graph->vertex_position(*I));

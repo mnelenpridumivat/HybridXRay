@@ -14,9 +14,9 @@
 struct lua_State;
 
 #ifdef SCRIPT_REGISTRATOR
-#define script_type_list Loki::NullType
+#define script_type_list       Loki::NullType
 #define add_to_type_list(type) typedef Loki::Typelist<type, script_type_list> TypeList_##type;
-#define save_type_list(type) TypeList_##type
+#define save_type_list(type)   TypeList_##type
 #else
 #define script_type_list
 #define add_to_type_list(type) ;
@@ -28,11 +28,11 @@ public:                                  \
     static void script_register(lua_State*);
 #define DECLARE_SCRIPT_REGISTER_FUNCTION_STRUCT static void script_register(lua_State*);
 
-template <typename T> struct enum_exporter
+template<typename T> struct enum_exporter
 {
     DECLARE_SCRIPT_REGISTER_FUNCTION
 };
-template <typename T> struct class_exporter
+template<typename T> struct class_exporter
 {
     DECLARE_SCRIPT_REGISTER_FUNCTION
 };

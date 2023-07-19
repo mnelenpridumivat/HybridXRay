@@ -24,18 +24,18 @@
 // #include "i18n.h"
 #include "resample.h"
 
-#define _(a) a
+#define _(a)  a
 #define N_(a) a
 
 #ifdef HAVE_LIBFLAC
 #include "flac.h"
 #endif
 
-#pragma warning(disable : 4995)
-#pragma warning(disable : 4267)
-#pragma warning(disable : 4244)
+#pragma warning(disable:4995)
+#pragma warning(disable:4267)
+#pragma warning(disable:4244)
 
-#define WAV_HEADER_SIZE 44
+#define WAV_HEADER_SIZE  44
 
 /* Macros to read header data */
 #define READ_U32_LE(buf) (((buf)[3] << 24) | ((buf)[2] << 16) | ((buf)[1] << 8) | ((buf)[0] & 0xff))
@@ -259,7 +259,7 @@ int aiff_open(FILE* in, oe_enc_opt* opt, unsigned char* buf, int buflen)
     format.samplesize  = READ_U16_BE(buffer + 6);
     format.rate        = (int)read_IEEE80(buffer + 8);
 
-    aiff->bigendian = 1;
+    aiff->bigendian    = 1;
 
     if (aifc)
     {
@@ -316,13 +316,13 @@ int aiff_open(FILE* in, oe_enc_opt* opt, unsigned char* buf, int buflen)
         opt->read_samples              = wav_read; /* Similar enough, so we use the same */
         opt->total_samples_per_channel = format.totalframes;
 
-        aiff->f            = in;
-        aiff->samplesread  = 0;
-        aiff->channels     = format.channels;
-        aiff->samplesize   = format.samplesize;
-        aiff->totalsamples = format.totalframes;
+        aiff->f                        = in;
+        aiff->samplesread              = 0;
+        aiff->channels                 = format.channels;
+        aiff->samplesize               = format.samplesize;
+        aiff->totalsamples             = format.totalframes;
 
-        opt->readdata = (void*)aiff;
+        opt->readdata                  = (void*)aiff;
 
         seek_forward(in, format.offset); /* Swallow some data */
         return 1;
@@ -432,19 +432,19 @@ int wav_open(FILE* in, oe_enc_opt* opt, unsigned char* oldbuf, int buflen)
 
     if (format.align == format.channels * samplesize && format.samplesize == samplesize * 8 &&
         (format.samplesize == 24 || format.samplesize == 16 || format.samplesize == 8 ||
-         (format.samplesize == 32 && format.format == 3)))
+            (format.samplesize == 32 && format.format == 3)))
     {
         /* OK, good - we have the one supported format,
            now we want to find the size of the file */
-        opt->rate     = format.samplerate;
-        opt->channels = format.channels;
+        opt->rate        = format.samplerate;
+        opt->channels    = format.channels;
 
         wav->f           = in;
         wav->samplesread = 0;
         wav->bigendian   = 0;
         wav->channels    = format.channels; /* This is in several places. The price
                                                of trying to abstract stuff. */
-        wav->samplesize = format.samplesize;
+        wav->samplesize  = format.samplesize;
 
         if (len)
         {
@@ -466,7 +466,7 @@ int wav_open(FILE* in, oe_enc_opt* opt, unsigned char* oldbuf, int buflen)
         }
         wav->totalsamples = opt->total_samples_per_channel;
 
-        opt->readdata = (void*)wav;
+        opt->readdata     = (void*)wav;
         return 1;
     }
     else
@@ -543,8 +543,8 @@ long wav_read(void* in, float** buffer, int samples)
                 for (j = 0; j < f->channels; j++)
                 {
                     buffer[j][i] = ((buf[i * 3 * f->channels + 3 * j + 2] << 16) |
-                                    (((unsigned char*)buf)[i * 3 * f->channels + 3 * j + 1] << 8) |
-                                    (((unsigned char*)buf)[i * 3 * f->channels + 3 * j] & 0xff)) /
+                                       (((unsigned char*)buf)[i * 3 * f->channels + 3 * j + 1] << 8) |
+                                       (((unsigned char*)buf)[i * 3 * f->channels + 3 * j] & 0xff)) /
                         8388608.0f;
                 }
             }
@@ -601,21 +601,21 @@ void wav_close(void* info)
 int raw_open(FILE* in, oe_enc_opt* opt)
 {
     wav_fmt  format; /* fake wave header ;) */
-    wavfile* wav = (wavfile*)malloc(sizeof(wavfile));
+    wavfile* wav                   = (wavfile*)malloc(sizeof(wavfile));
 
     /* construct fake wav header ;) */
-    format.format      = 2;
-    format.channels    = opt->channels;
-    format.samplerate  = opt->rate;
-    format.samplesize  = opt->samplesize;
-    format.bytespersec = opt->channels * opt->rate * opt->samplesize / 8;
-    format.align       = format.bytespersec;
-    wav->f             = in;
-    wav->samplesread   = 0;
-    wav->bigendian     = opt->endianness;
-    wav->channels      = format.channels;
-    wav->samplesize    = opt->samplesize;
-    wav->totalsamples  = 0;
+    format.format                  = 2;
+    format.channels                = opt->channels;
+    format.samplerate              = opt->rate;
+    format.samplesize              = opt->samplesize;
+    format.bytespersec             = opt->channels * opt->rate * opt->samplesize / 8;
+    format.align                   = format.bytespersec;
+    wav->f                         = in;
+    wav->samplesread               = 0;
+    wav->bigendian                 = opt->endianness;
+    wav->channels                  = format.channels;
+    wav->samplesize                = opt->samplesize;
+    wav->totalsamples              = 0;
 
     opt->read_samples              = wav_read;
     opt->readdata                  = (void*)wav;
@@ -741,10 +741,10 @@ static long read_scaler(void* data, float** buffer, int samples)
 
 void setup_scaler(oe_enc_opt* opt, float scale)
 {
-    scaler* d = (scaler*)calloc(1, sizeof(scaler));
+    scaler* d         = (scaler*)calloc(1, sizeof(scaler));
 
-    d->real_reader   = opt->read_samples;
-    d->real_readdata = opt->readdata;
+    d->real_reader    = opt->read_samples;
+    d->real_readdata  = opt->readdata;
 
     opt->read_samples = read_scaler;
     opt->readdata     = d;
@@ -754,7 +754,7 @@ void setup_scaler(oe_enc_opt* opt, float scale)
 
 void clear_scaler(oe_enc_opt* opt)
 {
-    scaler* d = (scaler*)opt->readdata;
+    scaler* d         = (scaler*)opt->readdata;
 
     opt->read_samples = d->real_reader;
     opt->readdata     = d->real_readdata;
@@ -793,21 +793,21 @@ void setup_downmix(oe_enc_opt* opt)
         return;
     }
 
-    d->bufs        = (float**)malloc(2 * sizeof(float*));
-    d->bufs[0]     = (float*)malloc(4096 * sizeof(float));
-    d->bufs[1]     = (float*)malloc(4096 * sizeof(float));
-    d->real_reader = opt->read_samples;
+    d->bufs           = (float**)malloc(2 * sizeof(float*));
+    d->bufs[0]        = (float*)malloc(4096 * sizeof(float));
+    d->bufs[1]        = (float*)malloc(4096 * sizeof(float));
+    d->real_reader    = opt->read_samples;
 
-    d->real_readdata = opt->readdata;
+    d->real_readdata  = opt->readdata;
 
     opt->read_samples = read_downmix;
     opt->readdata     = d;
 
-    opt->channels = 1;
+    opt->channels     = 1;
 }
 void clear_downmix(oe_enc_opt* opt)
 {
-    downmix* d = (downmix*)opt->readdata;
+    downmix* d        = (downmix*)opt->readdata;
 
     opt->read_samples = d->real_reader;
     opt->readdata     = d->real_readdata;

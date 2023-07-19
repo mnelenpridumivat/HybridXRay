@@ -37,7 +37,7 @@ void FLOD::Load(LPCSTR N, IReader* data, u32 dwFlags)
         data->r(facets[f].v, sizeof(facets[f].v));
         _vertex* v = facets[f].v;
 
-        Fvector N, T;
+        Fvector  N, T;
         N.set(0, 0, 0);
         T.mknormal(v[0].v, v[1].v, v[2].v);
         N.add(T);

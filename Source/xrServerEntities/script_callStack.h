@@ -21,7 +21,6 @@ public:
         return m_nCurrentLevel;
     };
     void SetStackTraceLevel(int);
-
 protected:
     int              m_nCurrentLevel;
     xr_vector<u32>   m_levels;

@@ -19,9 +19,9 @@ class CGlow: public IRender_Glow
 {
 public:
     bool bActive;
-
 public:
-    CGlow(): bActive(false) {}
+    CGlow():
+        bActive(false) {}
     virtual void set_active(bool b)
     {
         bActive = b;
@@ -38,7 +38,7 @@ public:
     virtual void set_color(float r, float g, float b) {}
 };
 
-float r_dtex_range = 50.f;
+float          r_dtex_range = 50.f;
 //////////////////////////////////////////////////////////////////////////
 ShaderElement* CRender::rimp_select_sh_dynamic(dxRender_Visual* pVisual, float cdist_sq)
 {
@@ -104,16 +104,16 @@ extern ENGINE_API BOOL r2_sun_static;
 extern ENGINE_API BOOL r2_advanced_pp;   //	advanced post process and effects
 //////////////////////////////////////////////////////////////////////////
 // Just two static storage
-void CRender::create()
+void                   CRender::create()
 {
     Device->seqFrame.Add(this, REG_PRIORITY_HIGH + 0x12345678);
 
-    m_skinning = -1;
+    m_skinning       = -1;
 
     // hardware
-    o.smapsize    = 2048;
-    o.mrt         = (HW.Caps.raster.dwMRT_count >= 3);
-    o.mrtmixdepth = (HW.Caps.raster.b_MRT_mixdepth);
+    o.smapsize       = 2048;
+    o.mrt            = (HW.Caps.raster.dwMRT_count >= 3);
+    o.mrtmixdepth    = (HW.Caps.raster.b_MRT_mixdepth);
 
     // Check for NULL render target support
     D3DFORMAT nullrt = (D3DFORMAT)MAKEFOURCC('N', 'U', 'L', 'L');
@@ -143,7 +143,8 @@ void CRender::create()
                 case 0x194:
                 case 0x197:
                 case 0x19D:
-                case 0x19E: {
+                case 0x19E:
+                {
                     disable_nullrt = true;   // G80
                     break;
                 }
@@ -154,7 +155,8 @@ void CRender::create()
                 case 0x404:
                 case 0x405:
                 case 0x40E:
-                case 0x40F: {
+                case 0x40F:
+                {
                     disable_nullrt = true;   // G84
                     break;
                 }
@@ -165,7 +167,8 @@ void CRender::create()
                 case 0x424:
                 case 0x42D:
                 case 0x42E:
-                case 0x42F: {
+                case 0x42F:
+                {
                     disable_nullrt = true;   // G86
                     break;
                 }
@@ -232,9 +235,9 @@ void CRender::create()
         // o.nvstencil = TRUE;
         o.nvstencil =
             (S_OK ==
-             HW.pD3D->CheckDeviceFormat(
-                 D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, D3DFMT_X8R8G8B8, 0, D3DRTYPE_TEXTURE,
-                 (D3DFORMAT MAKEFOURCC('R', 'A', 'W', 'Z'))));
+                HW.pD3D->CheckDeviceFormat(
+                    D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, D3DFMT_X8R8G8B8, 0, D3DRTYPE_TEXTURE,
+                    (D3DFORMAT MAKEFOURCC('R', 'A', 'W', 'Z'))));
     }
 
     if (strstr(Core.Params, "-nonvs"))
@@ -266,8 +269,8 @@ void CRender::create()
     }
 
     // options
-    o.bug       = (strstr(Core.Params, "-bug")) ? TRUE : FALSE;
-    o.sunfilter = (strstr(Core.Params, "-sunfilter")) ? TRUE : FALSE;
+    o.bug                = (strstr(Core.Params, "-bug")) ? TRUE : FALSE;
+    o.sunfilter          = (strstr(Core.Params, "-sunfilter")) ? TRUE : FALSE;
     //.	o.sunstatic			= (strstr(Core.Params,"-sunstatic"))?	TRUE	:FALSE	;
     o.sunstatic          = r2_sun_static;
     o.advancedpp         = r2_advanced_pp;
@@ -281,10 +284,10 @@ void CRender::create()
     o.disasm             = (strstr(Core.Params, "-disasm")) ? TRUE : FALSE;
     o.forceskinw         = (strstr(Core.Params, "-skinw")) ? TRUE : FALSE;
 
-    o.ssao_blur_on   = ps_r2_ls_flags_ext.test(R2FLAGEXT_SSAO_BLUR) && ps_r_ssao != 0;
-    o.ssao_opt_data  = ps_r2_ls_flags_ext.test(R2FLAGEXT_SSAO_OPT_DATA) && (ps_r_ssao != 0);
-    o.ssao_half_data = ps_r2_ls_flags_ext.test(R2FLAGEXT_SSAO_HALF_DATA) && o.ssao_opt_data && (ps_r_ssao != 0);
-    o.ssao_hbao      = ps_r2_ls_flags_ext.test(R2FLAGEXT_SSAO_HBAO) && (ps_r_ssao != 0);
+    o.ssao_blur_on       = ps_r2_ls_flags_ext.test(R2FLAGEXT_SSAO_BLUR) && ps_r_ssao != 0;
+    o.ssao_opt_data      = ps_r2_ls_flags_ext.test(R2FLAGEXT_SSAO_OPT_DATA) && (ps_r_ssao != 0);
+    o.ssao_half_data     = ps_r2_ls_flags_ext.test(R2FLAGEXT_SSAO_HALF_DATA) && o.ssao_opt_data && (ps_r_ssao != 0);
+    o.ssao_hbao          = ps_r2_ls_flags_ext.test(R2FLAGEXT_SSAO_HBAO) && (ps_r_ssao != 0);
 
     if ((HW.Caps.id_vendor == 0x1002) && (HW.Caps.id_device <= 0x72FF))
     {
@@ -300,14 +303,14 @@ void CRender::create()
     dxRenderDeviceRender::Instance().Resources->RegisterConstantSetup(
         "pos_decompression_params", &binder_pos_decompress_params);
 
-    c_lmaterial = "L_material";
-    c_sbase     = "s_base";
+    c_lmaterial    = "L_material";
+    c_sbase        = "s_base";
 
     m_bMakeAsyncSS = false;
 
-    Target = xr_new<CRenderTarget>();   // Main target
+    Target         = xr_new<CRenderTarget>();   // Main target
 
-    Models = xr_new<CModelPool>();
+    Models         = xr_new<CModelPool>();
     PSLibrary.OnCreate();
     HWOCC.occq_create(occq_size);
 
@@ -670,7 +673,8 @@ void CRender::rmNormal()
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
-CRender::CRender(): m_bFirstFrameAfterReset(false)
+CRender::CRender():
+    m_bFirstFrameAfterReset(false)
 {
     init_cacades();
 }
@@ -852,8 +856,8 @@ HRESULT CRender::shader_compile(
     char      c_ssao[32];
     char      c_sun_quality[32];
 
-    char sh_name[MAX_PATH] = "";
-    u32  len               = 0;
+    char      sh_name[MAX_PATH] = "";
+    u32       len               = 0;
 
     // options
     {
@@ -1190,7 +1194,7 @@ HRESULT CRender::shader_compile(
     defines[def_it].Definition = 0;
     def_it++;
 
-    HRESULT _result = E_FAIL;
+    HRESULT     _result = E_FAIL;
 
     string_path folder_name, folder;
     xr_strcpy(folder, "r2\\objects\\r2\\");
@@ -1261,7 +1265,7 @@ HRESULT CRender::shader_compile(
             if ('v' == pTarget[0])
                 pTarget = D3DXGetVertexShaderProfile(HW.pDevice);   // vertex	"vs_2_a"; //
             else
-                pTarget = D3DXGetPixelShaderProfile(HW.pDevice);   // pixel	"ps_2_a"; //
+                pTarget = D3DXGetPixelShaderProfile(HW.pDevice);    // pixel	"ps_2_a"; //
         }
 
         includer            Includer;
@@ -1270,13 +1274,13 @@ HRESULT CRender::shader_compile(
         LPD3DXCONSTANTTABLE pConstants = NULL;
         LPD3DXINCLUDE       pInclude   = (LPD3DXINCLUDE)&Includer;
 
-        _result = D3DXCompileShader(
+        _result                        = D3DXCompileShader(
             (LPCSTR)pSrcData, SrcDataLen, defines, pInclude, pFunctionName, pTarget,
             Flags | D3DXSHADER_USE_LEGACY_D3DX9_31_DLL, &pShaderBuf, &pErrorBuf, &pConstants);
         if (SUCCEEDED(_result))
         {
             //			Msg						( "shader compilation succeeded" );
-            IWriter* file = FS.w_open(file_name);
+            IWriter*           file = FS.w_open(file_name);
 
             boost::crc_32_type processor;
             processor.process_block(

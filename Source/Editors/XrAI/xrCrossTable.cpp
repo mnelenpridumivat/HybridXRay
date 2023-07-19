@@ -19,7 +19,7 @@ FLOAT_VECTOR*    g_tDistances;
 CLevelGraph*     g_tMap;
 xr_vector<bool>* g_tMarks;
 
-u32 absolute(u32 a, u32 b)
+u32              absolute(u32 a, u32 b)
 {
     return ((a >= b) ? (a - b) : (b - a));
 }

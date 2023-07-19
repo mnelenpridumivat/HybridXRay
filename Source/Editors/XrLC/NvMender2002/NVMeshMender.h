@@ -122,9 +122,9 @@ matrix applied to my tex0 coords FixTangents,            // fix degenerate bases
 
 ******************************************************************************/
 
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include <string>
-#pragma warning(default : 4995)
+#pragma warning(default:4995)
 
 class NVMeshMender
 {
@@ -139,7 +139,7 @@ private:
         unsigned int face;
         unsigned int face2;
 
-        bool operator==(const Edge& rhs) const
+        bool         operator==(const Edge& rhs) const
         {
             return ((v0 == rhs.v0) && (v1 == rhs.v1));
         }
@@ -159,7 +159,6 @@ private:
             return (v1 < rhs.v1);
         }
     };
-
 public:
     void SetLastError(const xr_string& rhs) const
     {
@@ -179,15 +178,15 @@ public:
 
     struct VertexAttribute
     {
-        xr_string Name_;
+        xr_string                Name_;
 
-        typedef xr_vector<int> IntVector;
-        IntVector              intVector_;
+        typedef xr_vector<int>   IntVector;
+        IntVector                intVector_;
 
         typedef xr_vector<float> FloatVector;
         FloatVector              floatVector_;
 
-        VertexAttribute& operator=(const VertexAttribute& rhs)
+        VertexAttribute&         operator=(const VertexAttribute& rhs)
         {
             Name_        = rhs.Name_;
             intVector_   = rhs.intVector_;
@@ -195,7 +194,8 @@ public:
             return *this;
         }
 
-        VertexAttribute(const char* pName = ""): Name_(pName)
+        VertexAttribute(const char* pName = ""):
+            Name_(pName)
         {
             ;
         }

@@ -84,7 +84,7 @@ public:
 // IC	u8	u8_clr				(float a)	{ s32 _a = iFloor(a*255.f); clamp(_a,0,255); return u8(_a);		};
 
 //-----------------------------------------------------------------------------------------------------------------
-const int LIGHT_Count = 7;
+const int LIGHT_Count          = 7;
 
 //-----------------------------------------------------------------
 __declspec(thread) u64 t_start = 0;
@@ -135,17 +135,17 @@ float getLastRP_Scale(CDB::COLLIDER* DB, R_Light& L)   //, Face* skip)
     {
         for (u32 I = 0; I < tris_count; I++)
         {
-            CDB::RESULT& rpinf = DB->r_begin()[I];
+            CDB::RESULT&       rpinf = DB->r_begin()[I];
             // Access to texture
-            CDB::TRI&  clT = gl_data.RCAST_Model.get_tris()[rpinf.id];
-            b_rc_face& F   = gl_data.g_rc_faces[rpinf.id];
+            CDB::TRI&          clT   = gl_data.RCAST_Model.get_tris()[rpinf.id];
+            b_rc_face&         F     = gl_data.g_rc_faces[rpinf.id];
             //			if (0==F)									continue;
             //			if (skip==F)								continue;
 
-            b_material& M = gl_data.g_materials[F.dwMaterial];
-            b_texture&  T = gl_data.g_textures[M.surfidx];
+            b_material&        M     = gl_data.g_materials[F.dwMaterial];
+            b_texture&         T     = gl_data.g_textures[M.surfidx];
 
-            const Shader_xrLC& SH = shader(F.dwMaterial, *(gl_data.g_shaders_xrlc), gl_data.g_materials);
+            const Shader_xrLC& SH    = shader(F.dwMaterial, *(gl_data.g_shaders_xrlc), gl_data.g_materials);
             //			Shader_xrLCVec&	LIB = 		gl_data.g_shaders_xrlc->Library	();
             //			if (M.shader_xrlc>=LIB.size()) return		0;		//. hack - vy gonite rebyata - eto ne hack - eto
             //sledy zamesti - shader_xrlc - index ne togo masiva !! 			Shader_xrLC& SH	= LIB
@@ -178,8 +178,8 @@ float getLastRP_Scale(CDB::COLLIDER* DB, R_Light& L)   //, Face* skip)
             // calc UV
             Fvector2* cuv = F.t;
             Fvector2  uv;
-            uv.x = cuv[0].x * B.x + cuv[1].x * B.y + cuv[2].x * B.z;
-            uv.y = cuv[0].y * B.x + cuv[1].y * B.y + cuv[2].y * B.z;
+            uv.x  = cuv[0].x * B.x + cuv[1].x * B.y + cuv[2].x * B.z;
+            uv.y  = cuv[0].y * B.x + cuv[1].y * B.y + cuv[2].y * B.z;
 
             int U = iFloor(uv.x * float(T.dwWidth) + .5f);
             int V = iFloor(uv.y * float(T.dwHeight) + .5f);

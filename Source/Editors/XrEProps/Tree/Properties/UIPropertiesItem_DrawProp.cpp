@@ -5,11 +5,10 @@
 #define TSTRING_COUNT 10
 const LPSTR TEXTUREString[TSTRING_COUNT] =
     {
-        "Custom...", "$null",  "$base0", "$base1", "$base2",
-        "$base3",    "$base4", "$base5", "$base6", "$base7"
-    };
+        "Custom...", "$null", "$base0", "$base1", "$base2",
+        "$base3", "$base4", "$base5", "$base6", "$base7"};
 
-template <typename T> inline bool DrawNumeric(PropItem* item, bool& change, bool read_only)
+template<typename T> inline bool DrawNumeric(PropItem* item, bool& change, bool read_only)
 {
     change             = false;
     NumericValue<T>* V = dynamic_cast<NumericValue<T>*>(item->GetFrontValue());
@@ -36,7 +35,7 @@ template <typename T> inline bool DrawNumeric(PropItem* item, bool& change, bool
     }
     return true;
 }
-template <> inline bool DrawNumeric<float>(PropItem* item, bool& change, bool read_only)
+template<> inline bool DrawNumeric<float>(PropItem* item, bool& change, bool read_only)
 {
     change                 = false;
     NumericValue<float>* V = dynamic_cast<NumericValue<float>*>(item->GetFrontValue());
@@ -61,7 +60,7 @@ template <> inline bool DrawNumeric<float>(PropItem* item, bool& change, bool re
 //-----------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------
-template <class T> BOOL TokenOnEdit(PropItem* prop, bool& change)
+template<class T> BOOL TokenOnEdit(PropItem* prop, bool& change)
 {
     TokenValue<T>* V = dynamic_cast<TokenValue<T>*>(prop->GetFrontValue());
     if (!V)
@@ -80,7 +79,8 @@ template <class T> BOOL TokenOnEdit(PropItem* prop, bool& change)
     }
     if (ImGui::Combo(
             "##value", &index,
-            [](void* data, int idx, const char** out_text) -> bool {
+            [](void* data, int idx, const char** out_text) -> bool
+            {
                 *out_text = reinterpret_cast<xr_token*>(data)[idx].name;
                 return true;
             },
@@ -95,14 +95,14 @@ template <class T> BOOL TokenOnEdit(PropItem* prop, bool& change)
 //-----------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------
-template <class T> BOOL RTokenOnEdit(PropItem* prop, bool& change)
+template<class T> BOOL RTokenOnEdit(PropItem* prop, bool& change)
 {
     RTokenValue<T>* V = dynamic_cast<RTokenValue<T>*>(prop->GetFrontValue());
     if (!V)
         return FALSE;
     T edit_value = V->GetValue();
     prop->BeforeEdit<RTokenValue<T>, T>(edit_value);
-    int index = 0;
+    int        index      = 0;
 
     xr_rtoken* token_list = V->token;
     for (int cnt = 0; V->token_count > cnt; cnt++)
@@ -114,7 +114,8 @@ template <class T> BOOL RTokenOnEdit(PropItem* prop, bool& change)
     }
     if (ImGui::Combo(
             "##value", &index,
-            [](void* data, int idx, const char** out_text) -> bool {
+            [](void* data, int idx, const char** out_text) -> bool
+            {
                 *out_text = reinterpret_cast<xr_rtoken*>(data)[idx].name.c_str();
                 return true;
             },
@@ -129,7 +130,7 @@ template <class T> BOOL RTokenOnEdit(PropItem* prop, bool& change)
 //-----------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------
-template <class T> BOOL FlagOnEdit(PropItem* prop, bool& change)
+template<class T> BOOL FlagOnEdit(PropItem* prop, bool& change)
 {
     FlagValue<_flags<T>>* V = dynamic_cast<FlagValue<_flags<T>>*>(prop->GetFrontValue());
     if (!V)
@@ -152,7 +153,8 @@ void UIPropertiesItem::DrawProp()
     EPropType type = PItem->Type();
     switch (type)
     {
-        case PROP_NUMERIC: {
+        case PROP_NUMERIC:
+        {
             bool change = false;
             if (!DrawNumeric<u32>(PItem, change, PropertiesFrom->IsReadOnly()))
                 if (!DrawNumeric<float>(PItem, change, PropertiesFrom->IsReadOnly()))
@@ -168,7 +170,8 @@ void UIPropertiesItem::DrawProp()
             }
         }
         break;
-        case PROP_SHORTCUT: {
+        case PROP_SHORTCUT:
+        {
             ShortcutValue* V = dynamic_cast<ShortcutValue*>(PItem->GetFrontValue());
             R_ASSERT(V);
             if (ImGui::Button(V->GetDrawText(0).c_str(), ImVec2(-30, 0)))
@@ -186,7 +189,8 @@ void UIPropertiesItem::DrawProp()
             }
         }
         break;
-        case PROP_BOOLEAN: {
+        case PROP_BOOLEAN:
+        {
             BOOLValue* V = dynamic_cast<BOOLValue*>(PItem->GetFrontValue());
             VERIFY(V);
             BOOL new_val_as_BOOL = V->GetValue();
@@ -203,7 +207,8 @@ void UIPropertiesItem::DrawProp()
             }
         }
         break;
-        case PROP_FLAG: {
+        case PROP_FLAG:
+        {
             bool change = false;
             if (!FlagOnEdit<u8>(PItem, change))
                 if (!FlagOnEdit<u16>(PItem, change))
@@ -213,7 +218,8 @@ void UIPropertiesItem::DrawProp()
                 PropertiesFrom->Modified();
         }
         break;
-        case PROP_VECTOR: {
+        case PROP_VECTOR:
+        {
             VectorValue* V = dynamic_cast<VectorValue*>(PItem->GetFrontValue());
             R_ASSERT(V);
             Fvector edit_val = V->GetValue();
@@ -242,7 +248,8 @@ void UIPropertiesItem::DrawProp()
             }
         }
         break;
-        case PROP_COLOR: {
+        case PROP_COLOR:
+        {
             U32Value* V = dynamic_cast<U32Value*>(PItem->GetFrontValue());
             R_ASSERT(V);
             u32 edit_val = V->GetValue();
@@ -264,7 +271,8 @@ void UIPropertiesItem::DrawProp()
         }
         break;
 
-        case PROP_FCOLOR: {
+        case PROP_FCOLOR:
+        {
             ColorValue* V = dynamic_cast<ColorValue*>(PItem->GetFrontValue());
             R_ASSERT(V);
             Fcolor edit_val = V->GetValue();
@@ -286,7 +294,8 @@ void UIPropertiesItem::DrawProp()
             }
         }
         break;
-        case PROP_VCOLOR: {
+        case PROP_VCOLOR:
+        {
             VectorValue* V = dynamic_cast<VectorValue*>(PItem->GetFrontValue());
             R_ASSERT(V);
             Fvector edit_val = V->GetValue();
@@ -306,15 +315,16 @@ void UIPropertiesItem::DrawProp()
             }
         }
         break;
-        case PROP_CHOOSE: {
+        case PROP_CHOOSE:
+        {
             xr_string text = PItem->GetDrawText().c_str();
             if (!text[0])
                 text = "<none>";
             if (ImGui::Button(text.c_str(), ImVec2(-1, 0)))
             {
-                PropItem* prop = PItem;
+                PropItem*    prop = PItem;
 
-                ChooseValue* V = dynamic_cast<ChooseValue*>(prop->GetFrontValue());
+                ChooseValue* V    = dynamic_cast<ChooseValue*>(prop->GetFrontValue());
                 VERIFY(V);
                 shared_str edit_val = V->GetValue();
                 if (!edit_val.size())
@@ -334,7 +344,8 @@ void UIPropertiesItem::DrawProp()
             }
         }
         break;
-        case PROP_TOKEN: {
+        case PROP_TOKEN:
+        {
             bool change = false;
             if (!TokenOnEdit<u8>(PItem, change))
                 if (!TokenOnEdit<u16>(PItem, change))
@@ -347,7 +358,8 @@ void UIPropertiesItem::DrawProp()
         }
         break;
 
-        case PROP_RTOKEN: {
+        case PROP_RTOKEN:
+        {
             bool change = false;
             if (!RTokenOnEdit<u8>(PItem, change))
                 if (!RTokenOnEdit<u16>(PItem, change))
@@ -359,7 +371,8 @@ void UIPropertiesItem::DrawProp()
             }
         }
         break;
-        case PROP_SH_TOKEN: {
+        case PROP_SH_TOKEN:
+        {
             TokenValueSH* V = dynamic_cast<TokenValueSH*>(PItem->GetFrontValue());
             R_ASSERT(V);
             u32 edit_value = V->GetValue();
@@ -380,7 +393,8 @@ void UIPropertiesItem::DrawProp()
             }
         }
         break;
-        case PROP_TEXTURE2: {
+        case PROP_TEXTURE2:
+        {
             CTextValue* T = dynamic_cast<CTextValue*>(PItem->GetFrontValue());
             R_ASSERT(T);
             xr_string edit_val = T->GetValue();
@@ -430,7 +444,8 @@ void UIPropertiesItem::DrawProp()
             }
         }
         break;
-        case PROP_CLIST: {
+        case PROP_CLIST:
+        {
             CListValue* V = dynamic_cast<CListValue*>(PItem->GetFrontValue());
             R_ASSERT(V);
             LPCSTR edit_value = V->value;
@@ -445,7 +460,8 @@ void UIPropertiesItem::DrawProp()
             }
             if (ImGui::Combo(
                     "##value", &index,
-                    [](void* data, int idx, const char** out_text) -> bool {
+                    [](void* data, int idx, const char** out_text) -> bool
+                    {
                         *out_text = reinterpret_cast<xr_string*>(data)[idx].c_str();
                         return true;
                     },
@@ -457,7 +473,8 @@ void UIPropertiesItem::DrawProp()
             }
         }
         break;
-        case PROP_RLIST: {
+        case PROP_RLIST:
+        {
             RListValue* V = dynamic_cast<RListValue*>(PItem->GetFrontValue());
             R_ASSERT(V);
             LPCSTR edit_value = V->value ? V->value->c_str() : 0;
@@ -472,7 +489,8 @@ void UIPropertiesItem::DrawProp()
             }
             if (ImGui::Combo(
                     "##value", &index,
-                    [](void* data, int idx, const char** out_text) -> bool {
+                    [](void* data, int idx, const char** out_text) -> bool
+                    {
                         *out_text = reinterpret_cast<shared_str*>(data)[idx].c_str();
                         return true;
                     },
@@ -485,7 +503,8 @@ void UIPropertiesItem::DrawProp()
         }
         break;
 
-        case PROP_CTEXT: {
+        case PROP_CTEXT:
+        {
             CTextValue* V = dynamic_cast<CTextValue*>(PItem->GetFrontValue());
             R_ASSERT(V);
             {
@@ -517,7 +536,8 @@ void UIPropertiesItem::DrawProp()
             PropertiesFrom->DrawEditText();
         }
         break;
-        case PROP_RTEXT: {
+        case PROP_RTEXT:
+        {
             RTextValue* V = dynamic_cast<RTextValue*>(PItem->GetFrontValue());
             R_ASSERT(V);
             {
@@ -550,7 +570,8 @@ void UIPropertiesItem::DrawProp()
         }
         break;
 
-        case PROP_STEXT: {
+        case PROP_STEXT:
+        {
             STextValue* V = dynamic_cast<STextValue*>(PItem->GetFrontValue());
             R_ASSERT(V);
             {
@@ -583,7 +604,8 @@ void UIPropertiesItem::DrawProp()
         }
         break;
 
-        case PROP_TIME: {
+        case PROP_TIME:
+        {
             FloatValue* V = dynamic_cast<FloatValue*>(PItem->GetFrontValue());
             R_ASSERT(V);
             {
@@ -628,7 +650,8 @@ void UIPropertiesItem::DrawProp()
         }
         break;
 
-        case PROP_GAMETYPE: {
+        case PROP_GAMETYPE:
+        {
             GameTypeValue* V = dynamic_cast<GameTypeValue*>(PItem->GetFrontValue());
             R_ASSERT(V);
             ImGui::Text(PItem->GetDrawText().c_str());

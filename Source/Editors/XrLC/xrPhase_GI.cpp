@@ -10,11 +10,11 @@
 #include "../../xrcdb/xrcdb.h"
 
 #define GI_THREADS 2
-const u32   gi_num_photons   = 32;
-const float gi_optimal_range = 15.f;
-const float gi_reflect       = 0.9f;
-const float gi_clip          = 0.05f;
-const u32   gi_maxlevel      = 4;
+const u32                  gi_num_photons   = 32;
+const float                gi_optimal_range = 15.f;
+const float                gi_reflect       = 0.9f;
+const float                gi_clip          = 0.05f;
+const u32                  gi_maxlevel      = 4;
 //////////////////////////////////////////////////////////////////////////
 static xr_vector<R_Light>* task;
 xrCriticalSection          task_cs
@@ -22,12 +22,12 @@ xrCriticalSection          task_cs
     (MUTEX_PROFILE_ID(task_cs))
 #endif   // PROFILE_CRITICAL_SECTIONS
         ;
-static u32 task_it;
+static u32     task_it;
 
 //////////////////////////////////////////////////////////////////////////
 static Fvector GetPixel_7x7(CDB::RESULT& rpinf)
 {
-    Fvector B, P, R = {0, 0, 0};
+    Fvector    B, P, R = {0, 0, 0};
 
     // Access to texture
     CDB::TRI&  clT = lc_global_data()->RCAST_Model()->get_tris()[rpinf.id];
@@ -119,7 +119,7 @@ public:
                 src = (*task)[task_it];
                 if (0 == src.level)
                     src.range *= 1.5f;
-                dst = src;
+                dst      = src;
                 // if (LT_POINT==src.type)	(*task)[task_it].energy		= 0.f;
                 dst.type = LT_SECONDARY;
                 dst.level++;
@@ -140,7 +140,7 @@ public:
                 factor /= powf(2.f, float(src.level));   // secondary lights get half the photons
             factor *= _sqrt(src.energy);                 // 2.f is optimal energy = baseline
                                                          // factor	= _sqrt (factor);								// move towards 1.0 (one)
-            int count = iCeil(factor * float(gi_num_photons));
+            int   count  = iCeil(factor * float(gi_num_photons));
             // count		= gi_num_photons;
             float _clip  = (_sqrt(src.energy) / 10.f + gi_clip) / 2.f;
             float _scale = 1.f / _sqrt(factor);
@@ -224,8 +224,8 @@ void CBuild::xrPhase_Radiosity()
 {
     CThreadManager gi;
     Status("Working...");
-    task    = &(pBuild->L_static().rgb);
-    task_it = 0;
+    task                 = &(pBuild->L_static().rgb);
+    task_it              = 0;
 
     // calculate energy
     float _energy_before = 0;
@@ -241,7 +241,7 @@ void CBuild::xrPhase_Radiosity()
         Sleep(10);
     }
     gi.wait();
-    u32 setup_new = task->size();
+    u32   setup_new     = task->size();
 
     // renormalize
     float _energy_after = 0;

@@ -25,12 +25,11 @@ public:
         tcmScroll  = (1 << 2),
         tcmFORCE32 = u32(-1)
     };
-
 public:
     Fmatrix xform;
 
-    u32 dwFrame;
-    u32 dwMode;
+    u32     dwFrame;
+    u32     dwMode;
     union
     {
         u32     tcm;   // mask for tc-modifiers
@@ -51,7 +50,7 @@ public:
         T.m[2][0] = u;
         T.m[2][1] = v;
     }
-    void Calculate();
+    void    Calculate();
 
     IC BOOL Similar(CMatrix& M)   // comare by modes and params
     {

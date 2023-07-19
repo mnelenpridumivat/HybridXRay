@@ -5,9 +5,9 @@
 #include "stdafx.h"
 #pragma hdrstop
 
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include "directx\d3dx9.h"
-#pragma warning(default : 4995)
+#pragma warning(default:4995)
 
 #include "../../xrEngine/fmesh.h"
 #include "../../xrCPU_Pipe/xrCPU_Pipe.h"
@@ -60,16 +60,16 @@ float errN(Fvector3 v, u8* qv)
 
 static D3DVERTEXELEMENT9 dwDecl_01W[] =   // 24bytes
     {{0, 0, D3DDECLTYPE_SHORT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION,
-      0},   // : P						: 2	: -12..+12
-     {0, 8, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL,
-      0},   // : N, w=index(RC, 0..1)	: 1	:  -1..+1
-     {0, 12, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TANGENT,
-      0},   // : T						: 1	:  -1..+1
-     {0, 16, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_BINORMAL,
-      0},   // : B						: 1	:  -1..+1
-     {0, 20, D3DDECLTYPE_SHORT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD,
-      0},   // : tc						: 1	: -16..+16
-     D3DDECL_END()};
+         0},                              // : P						: 2	: -12..+12
+        {0, 8, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL,
+            0},                           // : N, w=index(RC, 0..1)	: 1	:  -1..+1
+        {0, 12, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TANGENT,
+            0},                           // : T						: 1	:  -1..+1
+        {0, 16, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_BINORMAL,
+            0},                           // : B						: 1	:  -1..+1
+        {0, 20, D3DDECLTYPE_SHORT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD,
+            0},                           // : tc						: 1	: -16..+16
+        D3DDECL_END()};
 struct vertHW_1W
 {
     s16  _P[4];
@@ -112,16 +112,16 @@ struct vertHW_1W
 
 static D3DVERTEXELEMENT9 dwDecl_2W[] =   // 28bytes
     {{0, 0, D3DDECLTYPE_SHORT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION,
-      0},   // : p					: 2	: -12..+12
-     {0, 8, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL,
-      0},   // : n.xyz, w = weight	: 1	:  -1..+1, w=0..1
-     {0, 12, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TANGENT,
-      0},   // : T						: 1	:  -1..+1
-     {0, 16, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_BINORMAL,
-      0},   // : B						: 1	:  -1..+1
-     {0, 20, D3DDECLTYPE_SHORT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD,
-      0},   // : xy(tc), zw(indices): 2	: -16..+16, zw[0..32767]
-     D3DDECL_END()};
+         0},                             // : p					: 2	: -12..+12
+        {0, 8, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL,
+            0},                          // : n.xyz, w = weight	: 1	:  -1..+1, w=0..1
+        {0, 12, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TANGENT,
+            0},                          // : T						: 1	:  -1..+1
+        {0, 16, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_BINORMAL,
+            0},                          // : B						: 1	:  -1..+1
+        {0, 20, D3DDECLTYPE_SHORT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD,
+            0},                          // : xy(tc), zw(indices): 2	: -16..+16, zw[0..32767]
+        D3DDECL_END()};
 struct vertHW_2W
 {
     s16  _P[4];
@@ -174,16 +174,16 @@ struct vertHW_2W
 };
 static D3DVERTEXELEMENT9 dwDecl_3W[] =   // 28bytes
     {{0, 0, D3DDECLTYPE_SHORT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION,
-      0},   // : p					: 2	: -12..+12
-     {0, 8, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL,
-      0},   // : n.xyz, w = weight0	: 1	:  -1..+1, w=0..1
-     {0, 12, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TANGENT,
-      0},   // : T.xyz, w = weight1	: 1	:  -1..+1, w=0..1
-     {0, 16, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_BINORMAL,
-      0},   // : B.xyz,	w = index2	: 1	:  -1..+1, w=0..255
-     {0, 20, D3DDECLTYPE_SHORT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD,
-      0},   // : xy(tc), zw(indices): 2	: -16..+16, zw[0..32767]
-     D3DDECL_END()};
+         0},                             // : p					: 2	: -12..+12
+        {0, 8, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL,
+            0},                          // : n.xyz, w = weight0	: 1	:  -1..+1, w=0..1
+        {0, 12, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TANGENT,
+            0},                          // : T.xyz, w = weight1	: 1	:  -1..+1, w=0..1
+        {0, 16, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_BINORMAL,
+            0},                          // : B.xyz,	w = index2	: 1	:  -1..+1, w=0..255
+        {0, 20, D3DDECLTYPE_SHORT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD,
+            0},                          // : xy(tc), zw(indices): 2	: -16..+16, zw[0..32767]
+        D3DDECL_END()};
 struct vertHW_3W
 {
     s16 _P[4];
@@ -268,19 +268,19 @@ struct vertHW_3W
     }
 };
 
-static D3DVERTEXELEMENT9 dwDecl_4W[] =   // 28bytes
+static D3DVERTEXELEMENT9 dwDecl_4W[] =                                                    // 28bytes
     {{0, 0, D3DDECLTYPE_SHORT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION,
-      0},   // : p					: 2	: -12..+12
-     {0, 8, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL,
-      0},   // : n.xyz, w = weight0	: 1	:  -1..+1, w=0..1
-     {0, 12, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TANGENT,
-      0},   // : T.xyz, w = weight1	: 1	:  -1..+1, w=0..1
-     {0, 16, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_BINORMAL,
-      0},   // : B.xyz,	w = weight2	: 1	:  -1..+1, w=0..1
-     {0, 20, D3DDECLTYPE_SHORT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD,
-      0},                                                                              // : xy(tc)				: 2	: -16..+16
-     {0, 24, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 1},   // : indices			: 1	: 0..255
-     D3DDECL_END()};
+         0},                                                                              // : p					: 2	: -12..+12
+        {0, 8, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL,
+            0},                                                                           // : n.xyz, w = weight0	: 1	:  -1..+1, w=0..1
+        {0, 12, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TANGENT,
+            0},                                                                           // : T.xyz, w = weight1	: 1	:  -1..+1, w=0..1
+        {0, 16, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_BINORMAL,
+            0},                                                                           // : B.xyz,	w = weight2	: 1	:  -1..+1, w=0..1
+        {0, 20, D3DDECLTYPE_SHORT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD,
+            0},                                                                           // : xy(tc)				: 2	: -16..+16
+        {0, 24, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 1},   // : indices			: 1	: 0..255
+        D3DDECL_END()};
 struct vertHW_4W
 {
     s16 _P[4];
@@ -462,7 +462,8 @@ void CSkeletonX_ext::_Load_hw(Fvisual& V, void* _verts_)
             V.rm_geom.create(vertRenderFVF, RCache.Vertex.Buffer(), V.p_rm_Indices);
             break;
         case RM_SINGLE:
-        case RM_SKINNING_1B: {
+        case RM_SKINNING_1B:
+        {
             {   //	Back up vertex data since we can't read vertex buffer in DX10
                 u32 size = V.vCount * sizeof(vertBoned1W);
                 u32 crc  = crc32(_verts_, size);
@@ -504,7 +505,8 @@ void CSkeletonX_ext::_Load_hw(Fvisual& V, void* _verts_)
             V.rm_geom.create(dwDecl_01W, V.p_rm_Vertices, V.p_rm_Indices);
         }
         break;
-        case RM_SKINNING_2B: {
+        case RM_SKINNING_2B:
+        {
             {   //	Back up vertex data since we can't read vertex buffer in DX10
                 u32 size = V.vCount * sizeof(vertBoned2W);
                 u32 crc  = crc32(_verts_, size);
@@ -548,7 +550,8 @@ void CSkeletonX_ext::_Load_hw(Fvisual& V, void* _verts_)
             V.rm_geom.create(dwDecl_2W, V.p_rm_Vertices, V.p_rm_Indices);
         }
         break;
-        case RM_SKINNING_3B: {
+        case RM_SKINNING_3B:
+        {
             {   //	Back up vertex data since we can't read vertex buffer in DX10
                 u32 size = V.vCount * sizeof(vertBoned3W);
                 u32 crc  = crc32(_verts_, size);
@@ -596,7 +599,8 @@ void CSkeletonX_ext::_Load_hw(Fvisual& V, void* _verts_)
             V.rm_geom.create(dwDecl_3W, V.p_rm_Vertices, V.p_rm_Indices);
         }
         break;
-        case RM_SKINNING_4B: {
+        case RM_SKINNING_4B:
+        {
             {   //	Back up vertex data since we can't read vertex buffer in DX10
                 u32 size = V.vCount * sizeof(vertBoned4W);
                 u32 crc  = crc32(_verts_, size);
@@ -662,7 +666,8 @@ void CSkeletonX_ext::_Load_hw(Fvisual& V, void* _verts_)
             V.rm_geom.create(vertRenderFVF, RCache.Vertex.Buffer(), V.p_rm_Indices);
             break;
         case RM_SINGLE:
-        case RM_SKINNING_1B: {
+        case RM_SKINNING_1B:
+        {
             u32 vStride = D3DXGetDeclVertexSize(dwDecl_01W, 0);
             VERIFY(vStride == sizeof(vertHW_1W));
             BYTE* bytes = 0;
@@ -684,7 +689,8 @@ void CSkeletonX_ext::_Load_hw(Fvisual& V, void* _verts_)
             V.rm_geom.create(dwDecl_01W, V.p_rm_Vertices, V.p_rm_Indices);
         }
         break;
-        case RM_SKINNING_2B: {
+        case RM_SKINNING_2B:
+        {
             u32 vStride = D3DXGetDeclVertexSize(dwDecl_2W, 0);
             VERIFY(vStride == sizeof(vertHW_2W));
             BYTE* bytes = 0;
@@ -707,7 +713,8 @@ void CSkeletonX_ext::_Load_hw(Fvisual& V, void* _verts_)
             V.rm_geom.create(dwDecl_2W, V.p_rm_Vertices, V.p_rm_Indices);
         }
         break;
-        case RM_SKINNING_3B: {
+        case RM_SKINNING_3B:
+        {
             u32 vStride = D3DXGetDeclVertexSize(dwDecl_3W, 0);
             VERIFY(vStride == sizeof(vertHW_3W));
             BYTE* bytes = 0;
@@ -732,7 +739,8 @@ void CSkeletonX_ext::_Load_hw(Fvisual& V, void* _verts_)
             V.rm_geom.create(dwDecl_3W, V.p_rm_Vertices, V.p_rm_Indices);
         }
         break;
-        case RM_SKINNING_4B: {
+        case RM_SKINNING_4B:
+        {
             u32 vStride = D3DXGetDeclVertexSize(dwDecl_4W, 0);
             VERIFY(vStride == sizeof(vertHW_4W));
             BYTE* bytes = 0;
@@ -768,7 +776,7 @@ void CSkeletonX_ext::_Load_hw(Fvisual& V, void* _verts_)
 
 #ifdef DEBUG
 
-template <typename vertex_type> static void verify_vertex(
+template<typename vertex_type> static void verify_vertex(
     const vertex_type& v,
     const Fvisual*     V,
     const CKinematics* Parent,
@@ -886,7 +894,8 @@ void CSkeletonX_ext::_CollectBoneFaces(Fvisual* V, u32 iBase, u32 iCount)
 #if !defined(USE_DX10) && !defined(USE_DX11)   //	Don't use hardware buffers in DX10 since we can't read them
         break;
         case RM_SINGLE:
-        case RM_SKINNING_1B: {
+        case RM_SKINNING_1B:
+        {
             vertHW_1W* vertices = 0;
             R_CHK(V->p_rm_Vertices->Lock(V->vBase, V->vCount, (void**)&vertices, D3DLOCK_READONLY));
             for (u32 idx = 0; idx < iCount; idx++)
@@ -898,7 +907,8 @@ void CSkeletonX_ext::_CollectBoneFaces(Fvisual* V, u32 iBase, u32 iCount)
             V->p_rm_Vertices->Unlock();
         }
         break;
-        case RM_SKINNING_2B: {
+        case RM_SKINNING_2B:
+        {
             vertHW_2W* vertices = 0;
             R_CHK(V->p_rm_Vertices->Lock(V->vBase, V->vCount, (void**)&vertices, D3DLOCK_READONLY));
 
@@ -913,7 +923,8 @@ void CSkeletonX_ext::_CollectBoneFaces(Fvisual* V, u32 iBase, u32 iCount)
             R_CHK(V->p_rm_Vertices->Unlock());
         }
         break;
-        case RM_SKINNING_3B: {
+        case RM_SKINNING_3B:
+        {
             vertHW_3W* vertices = 0;
             R_CHK(V->p_rm_Vertices->Lock(V->vBase, V->vCount, (void**)&vertices, D3DLOCK_READONLY));
 
@@ -930,7 +941,8 @@ void CSkeletonX_ext::_CollectBoneFaces(Fvisual* V, u32 iBase, u32 iCount)
             R_CHK(V->p_rm_Vertices->Unlock());
         }
         break;
-        case RM_SKINNING_4B: {
+        case RM_SKINNING_4B:
+        {
             vertHW_4W* vertices = 0;
             R_CHK(V->p_rm_Vertices->Lock(V->vBase, V->vCount, (void**)&vertices, D3DLOCK_READONLY));
 
@@ -967,7 +979,7 @@ void CSkeletonX_PM::AfterLoad(CKinematics* parent, u16 child_idx)
     inherited2::_CollectBoneFaces(this, iBase + SW.offset, SW.num_tris * 3);
 }
 
-template <typename T> IC void get_pos_bones(const T& v, Fvector& p, CKinematics* Parent)
+template<typename T> IC void get_pos_bones(const T& v, Fvector& p, CKinematics* Parent)
 {
     v.get_pos_bones(p, Parent);
 }
@@ -1485,7 +1497,7 @@ SEnumVerticesCallback &C ) const
 }
 */
 
-template <typename vertex_buffer_type> IC void
+template<typename vertex_buffer_type> IC void
     TEnumBoneVertices(vertex_buffer_type vertices, u16* indices, CBoneData::FacesVec& faces, SEnumVerticesCallback& C)
 {
     for (CBoneData::FacesVecIt it = faces.begin(); it != faces.end(); it++)

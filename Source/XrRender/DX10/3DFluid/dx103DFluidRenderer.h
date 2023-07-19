@@ -15,17 +15,16 @@ public:
         RRT_EdgeTex,
         RRT_NumRT
     };
-
 public:
     dx103DFluidRenderer();
     ~dx103DFluidRenderer();
 
-    void Initialize(int gridWidth, int gridHeight, int gridDepth);
-    void Destroy();
+    void           Initialize(int gridWidth, int gridHeight, int gridDepth);
+    void           Destroy();
 
-    void SetScreenSize(int width, int height);
+    void           SetScreenSize(int width, int height);
 
-    void Draw(const dx103DFluidData& FluidData);
+    void           Draw(const dx103DFluidData& FluidData);
 
     static LPCSTR* GetRTNames()
     {
@@ -35,7 +34,6 @@ public:
     {
         return m_pResourceRTNames;
     }
-
 private:
     enum RendererShader
     {
@@ -56,12 +54,11 @@ private:
     {
         Fvector3 m_vLightIntencity;
 
-        void Reset()
+        void     Reset()
         {
             ZeroMemory(this, sizeof(*this));
         }
     };
-
 private:
     void InitShaders();
     void DestroyShaders();
@@ -81,37 +78,36 @@ private:
     void DrawBox();
 
     void CalculateLighting(const dx103DFluidData& FluidData, FogLighting& LightData);
-
 private:
-    bool m_bInited;
+    bool                 m_bInited;
 
-    Fvector3 m_vGridDim;
-    float    m_fMaxDim;
+    Fvector3             m_vGridDim;
+    float                m_fMaxDim;
 
-    int m_iRenderTextureWidth;
-    int m_iRenderTextureHeight;
+    int                  m_iRenderTextureWidth;
+    int                  m_iRenderTextureHeight;
 
-    D3DXMATRIX m_gridMatrix;
+    D3DXMATRIX           m_gridMatrix;
     // Fmatrix		m_gridMatrix;
 
-    D3DFORMAT     RTFormats[RRT_NumRT];
-    ref_rt        RT[RRT_NumRT];
-    static LPCSTR m_pRTNames[RRT_NumRT];
-    static LPCSTR m_pResourceRTNames[RRT_NumRT];
+    D3DFORMAT            RTFormats[RRT_NumRT];
+    ref_rt               RT[RRT_NumRT];
+    static LPCSTR        m_pRTNames[RRT_NumRT];
+    static LPCSTR        m_pResourceRTNames[RRT_NumRT];
 
-    ref_selement m_RendererTechnique[RS_NumShaders];
+    ref_selement         m_RendererTechnique[RS_NumShaders];
 
-    ref_texture m_JitterTexture;
-    ref_texture m_HHGGTexture;
+    ref_texture          m_JitterTexture;
+    ref_texture          m_HHGGTexture;
 
-    ref_geom          m_GeomGridBox;
-    ID3DVertexBuffer* m_pGridBoxVertexBuffer;
-    ID3DIndexBuffer*  m_pGridBoxIndexBuffer;
-    int               m_iGridBoxVertNum;
-    int               m_iGridBoxFaceNum;
+    ref_geom             m_GeomGridBox;
+    ID3DVertexBuffer*    m_pGridBoxVertexBuffer;
+    ID3DIndexBuffer*     m_pGridBoxIndexBuffer;
+    int                  m_iGridBoxVertNum;
+    int                  m_iGridBoxFaceNum;
 
-    ref_geom          m_GeomQuadVertex;
-    ID3DVertexBuffer* m_pQuadVertexBuffer;
+    ref_geom             m_GeomQuadVertex;
+    ID3DVertexBuffer*    m_pQuadVertexBuffer;
 
     //	Cache vectors to avoid memory reallocations
     //	TODO: DX10: Reserve memory on object creation

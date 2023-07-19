@@ -11,18 +11,18 @@
 // #include "../xrcore/_std_extensions.h"
 
 // ALife objects, events and tasks
-#define ALIFE_VERSION 0x0006
-#define ALIFE_CHUNK_DATA 0x0000
-#define SPAWN_CHUNK_DATA 0x0001
-#define OBJECT_CHUNK_DATA 0x0002
-#define GAME_TIME_CHUNK_DATA 0x0005
-#define REGISTRY_CHUNK_DATA 0x0009
-#define SECTION_HEADER "location_"
-#define SAVE_EXTENSION ".scop"
-#define SPAWN_NAME "game.spawn"
+#define ALIFE_VERSION          0x0006
+#define ALIFE_CHUNK_DATA       0x0000
+#define SPAWN_CHUNK_DATA       0x0001
+#define OBJECT_CHUNK_DATA      0x0002
+#define GAME_TIME_CHUNK_DATA   0x0005
+#define REGISTRY_CHUNK_DATA    0x0009
+#define SECTION_HEADER         "location_"
+#define SAVE_EXTENSION         ".scop"
+#define SPAWN_NAME             "game.spawn"
 // inventory rukzak size
-#define MAX_ITEM_VOLUME 100
-#define INVALID_STORY_ID ALife::_STORY_ID(-1)
+#define MAX_ITEM_VOLUME        100
+#define INVALID_STORY_ID       ALife::_STORY_ID(-1)
 #define INVALID_SPAWN_STORY_ID ALife::_SPAWN_STORY_ID(-1)
 
 class CSE_ALifeDynamicObject;
@@ -193,7 +193,7 @@ namespace ALife
     }
     ENGINE_API xr_token hit_types_token[];
 
-    IC LPCSTR g_cafHitType2String(EHitType tHitType)
+    IC LPCSTR           g_cafHitType2String(EHitType tHitType)
     {
         return get_token_name(hit_types_token, tHitType);
     }
@@ -205,6 +205,6 @@ namespace ALife
 
     DEFINE_MAP(_OBJECT_ID, CSE_ALifeDynamicObject*, D_OBJECT_P_MAP, D_OBJECT_P_PAIR_IT);
     DEFINE_MAP(_STORY_ID, CSE_ALifeDynamicObject*, STORY_P_MAP, STORY_P_PAIR_IT);
-};   // namespace ALife
+};       // namespace ALife
 
 #endif   // XRAY_ALIFE_SPACE

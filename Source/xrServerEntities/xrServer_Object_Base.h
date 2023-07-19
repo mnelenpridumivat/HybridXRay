@@ -35,7 +35,7 @@ class CSE_ALifeOnlineOfflineGroup;
 class CSE_ALifeItemPDA;
 
 #pragma warning(push)
-#pragma warning(disable : 4005)
+#pragma warning(disable:4005)
 
 SERVER_ENTITY_DECLARE_BEGIN(CPureServerObject, IPureServerObject)
 virtual ~CPureServerObject() {}
@@ -58,10 +58,8 @@ add_to_type_list(CPureServerObject)
     flSpawnInfiniteCount   = u32(1 << 4),
     flSpawnDestroyOnSpawn  = u32(1 << 5),
 };
-
 private:
 LPSTR s_name_replace;
-
 public:
 virtual void load(NET_Packet& tNetPacket);
 
@@ -119,7 +117,7 @@ virtual ISE_Motion* motion();
 virtual bool        validate();
 //
 
-IC const Fvector& Position() const
+IC const Fvector&   Position() const
 {
     return o_Position;
 };
@@ -137,7 +135,7 @@ IC int script_clsid() const
     VERIFY(m_script_clsid >= 0);
     return (m_script_clsid);
 }
-CInifile& spawn_ini();
+CInifile&                       spawn_ini();
 
 // for smart cast
 virtual CSE_ALifeGroupAbstract* cast_group_abstract()

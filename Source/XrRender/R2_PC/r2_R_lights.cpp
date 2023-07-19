@@ -233,10 +233,10 @@ void CRender::render_indirect(light* L)
     float LE = L->color.intensity();
     for (u32 it = 0; it < Lvec.size(); it++)
     {
-        light_indirect& LI = Lvec[it];
+        light_indirect& LI  = Lvec[it];
 
         // energy and color
-        float LIE = LE * LI.E;
+        float           LIE = LE * LI.E;
         if (LIE < ps_r2_GI_clip)
             continue;
         Fvector T;

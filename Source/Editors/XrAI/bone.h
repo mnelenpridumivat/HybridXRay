@@ -110,7 +110,7 @@ struct ECORE_API SJointIKData
     float   break_force;    // [0..+INF]
     float   break_torque;   // [0..+INF]
 
-    float friction;
+    float   friction;
 
     SJointIKData()
     {
@@ -182,24 +182,22 @@ class ECORE_API CBone
     Fvector    rest_rotate;   // XYZ format (Game format)
     float      rest_length;
 
-    Fvector mot_offset;
-    Fvector mot_rotate;   // XYZ format (Game format)
-    float   mot_length;
+    Fvector    mot_offset;
+    Fvector    mot_rotate;   // XYZ format (Game format)
+    float      mot_length;
 
-    Fmatrix mot_transform;
+    Fmatrix    mot_transform;
 
-    Fmatrix rest_transform;
-    Fmatrix rest_i_transform;
+    Fmatrix    rest_transform;
+    Fmatrix    rest_i_transform;
 
-    Fmatrix last_transform;
+    Fmatrix    last_transform;
 
-    Fmatrix render_transform;
-
+    Fmatrix    render_transform;
 public:
     int     SelfID;
     CBone*  parent;
     BoneVec children;
-
 public:
     // editor part
     Flags8 flags;
@@ -211,9 +209,8 @@ public:
     shared_str   game_mtl;
     SBoneShape   shape;
 
-    float   mass;
-    Fvector center_of_mass;
-
+    float        mass;
+    Fvector      center_of_mass;
 public:
     CBone();
     virtual ~CBone();

@@ -57,23 +57,28 @@ void Script::vfPrintError(CLuaVirtualMachine* tpLuaVirtualMachine, int iErrorCod
 {
     switch (iErrorCode)
     {
-        case LUA_ERRRUN: {
+        case LUA_ERRRUN:
+        {
             Msg("! SCRIPT RUNTIME ERROR");
             break;
         }
-        case LUA_ERRMEM: {
+        case LUA_ERRMEM:
+        {
             Msg("! SCRIPT ERROR (memory allocation)");
             break;
         }
-        case LUA_ERRERR: {
+        case LUA_ERRERR:
+        {
             Msg("! SCRIPT ERROR (while running the error handler function)");
             break;
         }
-        case LUA_ERRFILE: {
+        case LUA_ERRFILE:
+        {
             Msg("! SCRIPT ERROR (while running file)");
             break;
         }
-        case LUA_ERRSYNTAX: {
+        case LUA_ERRSYNTAX:
+        {
             Msg("! SCRIPT SYNTAX ERROR");
             break;
         }

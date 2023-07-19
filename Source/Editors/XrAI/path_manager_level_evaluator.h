@@ -11,7 +11,7 @@
 #include "path_manager_level.h"
 #include "path_manager_params_level_evaluator.h"
 
-template <typename _DataStorage, typename _dist_type, typename _index_type, typename _iteration_type>
+template<typename _DataStorage, typename _dist_type, typename _index_type, typename _iteration_type>
 class CPathManager<CLevelGraph, _DataStorage, CAbstractVertexEvaluator, _dist_type, _index_type, _iteration_type>:
     public CPathManager<
         CLevelGraph,
@@ -32,10 +32,8 @@ protected:
         _index_type,
         _iteration_type>
         inherited;
-
 protected:
     _Parameters* m_evaluator;
-
 public:
     virtual ~CPathManager();
     IC void setup(

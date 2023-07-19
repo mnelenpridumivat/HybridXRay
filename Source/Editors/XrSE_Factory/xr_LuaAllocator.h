@@ -593,7 +593,7 @@ int             dlmallopt(int, int);
       the program needs.
     */
 
-#define M_TOP_PAD -2
+#define M_TOP_PAD        -2
 
     /*
       M_MMAP_THRESHOLD is the request size threshold for using mmap()
@@ -648,7 +648,7 @@ int             dlmallopt(int, int);
       attempts to set it to non-zero values in mallopt will fail.
     */
 
-#define M_MMAP_MAX -4
+#define M_MMAP_MAX       -4
 
     /* Unused SVID2/XPG mallopt options, listed for completeness */
 

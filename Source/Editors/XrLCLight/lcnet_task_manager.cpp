@@ -12,7 +12,7 @@
 namespace lc_net
 {
 
-    task_manager g_task_manager;
+    task_manager  g_task_manager;
 
     task_manager& get_task_manager()
     {

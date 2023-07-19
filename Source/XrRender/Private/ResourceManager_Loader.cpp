@@ -58,7 +58,7 @@ void CResourceManager::OnDeviceCreate(IReader* F)
     LS_Load();
     IReader* fs = 0;
     // Load constants
-    fs = F->open_chunk(0);
+    fs          = F->open_chunk(0);
     if (fs)
     {
         while (!fs->eof())

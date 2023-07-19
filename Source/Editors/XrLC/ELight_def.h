@@ -5,8 +5,8 @@
 #ifndef ELightDefH
 #define ELightDefH
 
-#define LCONTROL_HEMI "$hemi"       // hemisphere
-#define LCONTROL_SUN "$sun"         // sun
+#define LCONTROL_HEMI   "$hemi"     // hemisphere
+#define LCONTROL_SUN    "$sun"      // sun
 #define LCONTROL_STATIC "$static"   // all other static lights
 
 namespace ELight

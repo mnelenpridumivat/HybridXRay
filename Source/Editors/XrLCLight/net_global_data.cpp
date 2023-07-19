@@ -8,7 +8,7 @@ namespace lc_net
 {
     static net_globals globs;
 
-    net_globals& globals()
+    net_globals&       globals()
     {
         return globs;
     }
@@ -28,19 +28,18 @@ namespace lc_net
         return true;
     }
 
-    template <e_net_globals gl_type> class tnet_global_data: public tnet_global_data_base<gl_type>
+    template<e_net_globals gl_type> class tnet_global_data: public tnet_global_data_base<gl_type>
     // public net_global_data,
     // public net_global_data_impl<gl_type>
     {
         typedef net_global_data_impl<gl_type> impl;
         // net_global_data_impl<gl_type>	impl;
 
-        xrCriticalSection create_data_lock;
-        xrCriticalSection ref_lock;
-        u32               _id;
-        u32               _use_count;
-        bool              _clear;
-
+        xrCriticalSection                     create_data_lock;
+        xrCriticalSection                     ref_lock;
+        u32                                   _id;
+        u32                                   _use_count;
+        bool                                  _clear;
     public:
         tnet_global_data(): _id(0), _use_count(0), _clear(false) {}
         void clear()
@@ -59,7 +58,6 @@ namespace lc_net
         {
             return _id;
         }
-
     private:
         virtual void add_ref()
         {
@@ -121,10 +119,10 @@ namespace lc_net
         {
             //
 
-            const xr_vector<e_net_globals>& v = gl_gl_reg().get_globals(gl_type);
+            const xr_vector<e_net_globals>& v    = gl_gl_reg().get_globals(gl_type);
             // xr_vector<e_net_globals>::const_iterator i = v.begin(), e = v.end();
-            u32 size = v.size();
-            buf[0]   = 0;
+            u32                             size = v.size();
+            buf[0]                               = 0;
             for (u32 i = 0; i < size; ++i)
             {
                 string_path lbuf;
@@ -183,7 +181,7 @@ namespace lc_net
         }
     };
 
-    template <e_net_globals i> struct it
+    template<e_net_globals i> struct it
     {
         static const e_net_globals et      = (e_net_globals)(i);
         static const e_net_globals next_et = (e_net_globals)(i + 1);
@@ -201,7 +199,7 @@ namespace lc_net
             next::cleanup(data);
         }
     };
-    template <> struct it<gl_last>
+    template<> struct it<gl_last>
     {
         it(xr_vector<net_global_data*>& data) {}
         static void cleanup(xr_vector<net_global_data*>& data)

@@ -39,7 +39,7 @@ void CRenderTarget::u_setrt(const ref_rt& _1, const ref_rt& _2, const ref_rt& _3
 
         zb->GetResource(&pRes);
 
-        ID3DTexture2D* pTex = (ID3DTexture2D*)pRes;
+        ID3DTexture2D*     pTex = (ID3DTexture2D*)pRes;
 
         D3D_TEXTURE2D_DESC TexDesc;
 
@@ -85,7 +85,7 @@ void CRenderTarget::u_setrt(const ref_rt& _1, const ref_rt& _2, ID3DDepthStencil
 
         zb->GetResource(&pRes);
 
-        ID3DTexture2D* pTex = (ID3DTexture2D*)pRes;
+        ID3DTexture2D*     pTex = (ID3DTexture2D*)pRes;
 
         D3D_TEXTURE2D_DESC TexDesc;
 
@@ -226,12 +226,12 @@ Fvector vunpack(Ivector src)
 Ivector vpack(Fvector src)
 {
     Fvector _v;
-    int     bx = fpack(src.x);
-    int     by = fpack(src.y);
-    int     bz = fpackZ(src.z);
+    int     bx     = fpack(src.x);
+    int     by     = fpack(src.y);
+    int     bz     = fpackZ(src.z);
     // dumb test
-    float e_best = flt_max;
-    int   r = bx, g = by, b = bz;
+    float   e_best = flt_max;
+    int     r = bx, g = by, b = bz;
 #ifdef DEBUG
     int d = 0;
 #else
@@ -310,12 +310,12 @@ CRenderTarget::CRenderTarget()
     param_noise_fps   = 25.f;
     param_noise_scale = 1.f;
 
-    im_noise_time    = 1 / 100;
-    im_noise_shift_w = 0;
-    im_noise_shift_h = 0;
+    im_noise_time     = 1 / 100;
+    im_noise_shift_w  = 0;
+    im_noise_shift_h  = 0;
 
-    param_color_base = color_rgba(127, 127, 127, 0);
-    param_color_gray = color_rgba(85, 85, 85, 0);
+    param_color_base  = color_rgba(127, 127, 127, 0);
+    param_color_gray  = color_rgba(85, 85, 85, 0);
     // param_color_add		= color_rgba(0,0,0,			0);
     param_color_add.set(0.0f, 0.0f, 0.0f);
 
@@ -340,7 +340,7 @@ CRenderTarget::CRenderTarget()
     b_ssao      = xr_new<CBlender_SSAO_noMSAA>();
 
     // HDAO
-    b_hdao_cs = xr_new<CBlender_CS_HDAO>();
+    b_hdao_cs   = xr_new<CBlender_CS_HDAO>();
     if (RImplementation.o.dx10_msaa)
     {
         b_hdao_msaa_cs = xr_new<CBlender_CS_HDAO_MSAA>();
@@ -361,11 +361,11 @@ CRenderTarget::CRenderTarget()
             b_accum_direct_msaa[i]            = xr_new<CBlender_accum_direct_msaa>();
             b_accum_direct_volumetric_msaa[i] = xr_new<CBlender_accum_direct_volumetric_msaa>();
             // b_accum_direct_volumetric_sun_msaa[i]	= xr_new<CBlender_accum_direct_volumetric_sun_msaa>			();
-            b_accum_spot_msaa[i]       = xr_new<CBlender_accum_spot_msaa>();
-            b_accum_volumetric_msaa[i] = xr_new<CBlender_accum_volumetric_msaa>();
-            b_accum_point_msaa[i]      = xr_new<CBlender_accum_point_msaa>();
-            b_accum_reflected_msaa[i]  = xr_new<CBlender_accum_reflected_msaa>();
-            b_ssao_msaa[i]             = xr_new<CBlender_SSAO_MSAA>();
+            b_accum_spot_msaa[i]              = xr_new<CBlender_accum_spot_msaa>();
+            b_accum_volumetric_msaa[i]        = xr_new<CBlender_accum_volumetric_msaa>();
+            b_accum_point_msaa[i]             = xr_new<CBlender_accum_point_msaa>();
+            b_accum_reflected_msaa[i]         = xr_new<CBlender_accum_reflected_msaa>();
+            b_ssao_msaa[i]                    = xr_new<CBlender_SSAO_MSAA>();
             static_cast<CBlender_accum_direct_mask_msaa*>(b_accum_mask_msaa[i])->SetDefine("ISAMPLE", SampleDefs[i]);
             static_cast<CBlender_accum_direct_volumetric_msaa*>(b_accum_direct_volumetric_msaa[i])
                 ->SetDefine("ISAMPLE", SampleDefs[i]);
@@ -535,7 +535,7 @@ CRenderTarget::CRenderTarget()
             static LPCSTR      SampleDefs[] = {"0", "1", "2", "3", "4", "5", "6", "7"};
             CBlender_rain_msaa TempBlender[8];
 
-            int bound = RImplementation.o.dx10_msaa_samples;
+            int                bound = RImplementation.o.dx10_msaa_samples;
 
             if (RImplementation.o.dx10_msaa_opt)
                 bound = 1;
@@ -756,7 +756,7 @@ CRenderTarget::CRenderTarget()
             // t_material->surface_set		(t_material_surf);
             //	Use DXGI_FORMAT_R8G8_UNORM
 
-            u16 tempData[TEX_material_LdotN * TEX_material_LdotH * TEX_material_Count];
+            u16                tempData[TEX_material_LdotN * TEX_material_LdotH * TEX_material_Count];
 
             D3D_TEXTURE3D_DESC desc;
             desc.Width          = TEX_material_LdotN;
@@ -793,22 +793,26 @@ CRenderTarget::CRenderTarget()
 
                         switch (slice)
                         {
-                            case 0: {                   // looks like OrenNayar
+                            case 0:
+                            {                           // looks like OrenNayar
                                 fd = powf(ld, 0.75f);   // 0.75
                                 fs = powf(ls, 16.f) * .5f;
                             }
                             break;
-                            case 1: {                   // looks like Blinn
+                            case 1:
+                            {                           // looks like Blinn
                                 fd = powf(ld, 0.90f);   // 0.90
                                 fs = powf(ls, 24.f);
                             }
                             break;
-                            case 2: {      // looks like Phong
+                            case 2:
+                            {              // looks like Phong
                                 fd = ld;   // 1.0
                                 fs = powf(ls * 1.01f, 128.f);
                             }
                             break;
-                            case 3: {   // looks like Metal
+                            case 3:
+                            {   // looks like Metal
                                 float s0 = _abs(1 - _abs(0.05f * _sin(33.f * ld) + ld - ls));
                                 float s1 = _abs(1 - _abs(0.05f * _cos(33.f * ld * ls) + ld - ls));
                                 float s2 = _abs(1 - _abs(ld - ls));
@@ -863,8 +867,8 @@ CRenderTarget::CRenderTarget()
             // }
             //	Use DXGI_FORMAT_R8G8B8A8_SNORM
 
-            static const int sampleSize = 4;
-            u32              tempData[TEX_jitter_count][TEX_jitter * TEX_jitter];
+            static const int   sampleSize = 4;
+            u32                tempData[TEX_jitter_count][TEX_jitter * TEX_jitter];
 
             D3D_TEXTURE2D_DESC desc;
             desc.Width              = TEX_jitter;
@@ -875,10 +879,10 @@ CRenderTarget::CRenderTarget()
             desc.SampleDesc.Quality = 0;
             desc.Format             = DXGI_FORMAT_R8G8B8A8_SNORM;
             // desc.Usage = D3D_USAGE_IMMUTABLE;
-            desc.Usage          = D3D_USAGE_DEFAULT;
-            desc.BindFlags      = D3D_BIND_SHADER_RESOURCE;
-            desc.CPUAccessFlags = 0;
-            desc.MiscFlags      = 0;
+            desc.Usage              = D3D_USAGE_DEFAULT;
+            desc.BindFlags          = D3D_BIND_SHADER_RESOURCE;
+            desc.CPUAccessFlags     = 0;
+            desc.MiscFlags          = 0;
 
             D3D_SUBRESOURCE_DATA subData[TEX_jitter_count];
 
@@ -899,7 +903,7 @@ CRenderTarget::CRenderTarget()
                     {
                         u32* p = (u32*)(LPBYTE(subData[it].pSysMem) + y * subData[it].SysMemPitch + x * 4);
 
-                        *p = data[it];
+                        *p     = data[it];
                     }
                 }
             }
@@ -920,7 +924,7 @@ CRenderTarget::CRenderTarget()
                 // R_CHK						(t_noise_surf[it]->LockRect	(0,&R[it],0,0));
             }
 
-            float tempDataHBAO[TEX_jitter * TEX_jitter * 4];
+            float              tempDataHBAO[TEX_jitter * TEX_jitter * 4];
 
             // generate HBAO jitter texture (last)
             D3D_TEXTURE2D_DESC descHBAO;
@@ -932,14 +936,14 @@ CRenderTarget::CRenderTarget()
             descHBAO.SampleDesc.Quality = 0;
             descHBAO.Format             = DXGI_FORMAT_R32G32B32A32_FLOAT;
             // desc.Usage = D3D_USAGE_IMMUTABLE;
-            descHBAO.Usage          = D3D_USAGE_DEFAULT;
-            descHBAO.BindFlags      = D3D_BIND_SHADER_RESOURCE;
-            descHBAO.CPUAccessFlags = 0;
-            descHBAO.MiscFlags      = 0;
+            descHBAO.Usage              = D3D_USAGE_DEFAULT;
+            descHBAO.BindFlags          = D3D_BIND_SHADER_RESOURCE;
+            descHBAO.CPUAccessFlags     = 0;
+            descHBAO.MiscFlags          = 0;
 
-            int it                  = TEX_jitter_count - 1;
-            subData[it].pSysMem     = tempDataHBAO;
-            subData[it].SysMemPitch = descHBAO.Width * sampleSize * sizeof(float);
+            int it                      = TEX_jitter_count - 1;
+            subData[it].pSysMem         = tempDataHBAO;
+            subData[it].SysMemPitch     = descHBAO.Width * sampleSize * sizeof(float);
 
             // Fill it,
             for (u32 y = 0; y < TEX_jitter; y++)
@@ -962,8 +966,8 @@ CRenderTarget::CRenderTarget()
                             numDir = 8.0f;
                             break;
                     }
-                    float angle = 2 * PI * ::Random.randF(0.0f, 1.0f) / numDir;
-                    float dist  = ::Random.randF(0.0f, 1.0f);
+                    float  angle = 2 * PI * ::Random.randF(0.0f, 1.0f) / numDir;
+                    float  dist  = ::Random.randF(0.0f, 1.0f);
 
                     float* p =
                         (float*)(LPBYTE(subData[it].pSysMem) + y * subData[it].SysMemPitch + x * 4 * sizeof(float));
@@ -1031,7 +1035,7 @@ CRenderTarget::~CRenderTarget()
 #ifdef DEBUG
     ID3DBaseTexture* pSurf = 0;
 
-    pSurf = t_envmap_0->surface_get();
+    pSurf                  = t_envmap_0->surface_get();
     if (pSurf)
         pSurf->Release();
     _SHOW_REF("t_envmap_0 - #small", pSurf);
@@ -1176,7 +1180,8 @@ bool CRenderTarget::use_minmax_sm_this_frame()
             return true;
         case CRender::MMSM_AUTO:
             return need_to_render_sunshafts();
-        case CRender::MMSM_AUTODETECT: {
+        case CRender::MMSM_AUTODETECT:
+        {
             u32 dwScreenArea = HW.m_ChainDesc.BufferDesc.Width * HW.m_ChainDesc.BufferDesc.Height;
 
             if ((dwScreenArea >= RImplementation.o.dx10_minmax_sm_screenarea_threshold))

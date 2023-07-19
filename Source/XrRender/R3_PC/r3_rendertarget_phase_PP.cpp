@@ -134,11 +134,11 @@ void CRenderTarget::phase_pp()
         RCache.set_Element(s_postprocess_msaa->E[bCMap ? 4 : 0]);
     }
 
-    int     gblend       = clampr(iFloor((1 - param_gray) * 255.f), 0, 255);
-    int     nblend       = clampr(iFloor((1 - param_noise) * 255.f), 0, 255);
-    u32     p_color      = subst_alpha(param_color_base, nblend);
-    u32     p_gray       = subst_alpha(param_color_gray, gblend);
-    Fvector p_brightness = param_color_add;
+    int      gblend       = clampr(iFloor((1 - param_gray) * 255.f), 0, 255);
+    int      nblend       = clampr(iFloor((1 - param_noise) * 255.f), 0, 255);
+    u32      p_color      = subst_alpha(param_color_base, nblend);
+    u32      p_gray       = subst_alpha(param_color_gray, gblend);
+    Fvector  p_brightness = param_color_add;
     // Msg				("param_gray:%f(%d),param_noise:%f(%d)",param_gray,gblend,param_noise,nblend);
     // Msg				("base: %d,%d,%d",	color_get_R(p_color),		color_get_G(p_color),
     // color_get_B(p_color)); Msg				("gray: %d,%d,%d",	color_get_R(p_gray),		color_get_G(p_gray),
@@ -147,9 +147,9 @@ void CRenderTarget::phase_pp()
     // color_get_B(p_brightness));
 
     // Draw full-screen quad textured with our scene image
-    u32   Offset;
-    float _w = float(Device->dwWidth);
-    float _h = float(Device->dwHeight);
+    u32      Offset;
+    float    _w = float(Device->dwWidth);
+    float    _h = float(Device->dwHeight);
 
     Fvector2 n0, n1, r0, r1, l0, l1;
     u_calc_tc_duality_ss(r0, r1, l0, l1);

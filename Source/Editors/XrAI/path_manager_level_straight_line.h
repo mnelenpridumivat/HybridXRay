@@ -10,7 +10,7 @@
 
 #include "path_manager_level.h"
 
-template <typename _DataStorage, typename _dist_type, typename _index_type, typename _iteration_type>
+template<typename _DataStorage, typename _dist_type, typename _index_type, typename _iteration_type>
 class CPathManager<
     CLevelGraph,
     _DataStorage,
@@ -37,10 +37,8 @@ protected:
         _index_type,
         _iteration_type>
         inherited;
-
 protected:
     _Parameters* m_parameters;
-
 public:
     virtual ~CPathManager();
     IC void setup(
@@ -50,7 +48,7 @@ public:
         const _index_type&      _start_node_index,
         const _index_type&      _goal_node_index,
         _Parameters&            params);
-    template <typename T> IC void create_path(T& vertex);
+    template<typename T> IC void create_path(T& vertex);
 };
 
 #include "path_manager_level_straight_line_inline.h"

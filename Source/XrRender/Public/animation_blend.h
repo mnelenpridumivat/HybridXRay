@@ -7,10 +7,8 @@ class bnon_copy
 {
 protected:
     bnon_copy() {}
-
 protected:
     bnon_copy(const bnon_copy&) {}
-
 protected:
     const bnon_copy& operator=(const bnon_copy&)
     {
@@ -29,7 +27,6 @@ public:
         eFalloff,
         eFORCEDWORD = u32(-1)
     };
-
 public:
     float    blendAmount;
     float    timeCurrent;
@@ -37,15 +34,13 @@ public:
     MotionID motionID;
     u16      bone_or_part;   // startup parameters
     u8       channel;
-
 private:
     ECurvature blend;
-
 public:
-    float blendAccrue;    // increasing
-    float blendFalloff;   // decreasing
-    float blendPower;
-    float speed;
+    float        blendAccrue;    // increasing
+    float        blendFalloff;   // decreasing
+    float        blendPower;
+    float        speed;
 
     BOOL         playing;
     BOOL         stop_at_end_callback;
@@ -54,9 +49,9 @@ public:
     PlayCallback Callback;
     void*        CallbackParam;
 
-    u32 dwFrame;
+    u32          dwFrame;
 
-    u32 mem_usage()
+    u32          mem_usage()
     {
         return sizeof(*this);
     }
@@ -87,9 +82,7 @@ public:
 #ifdef DEBUG
     CBlend():
 
-        blendAmount(0), timeCurrent(0), timeTotal(0), motionID(), bone_or_part(0), channel(0), blend(eFREE_SLOT),
-        blendAccrue(0), blendFalloff(0), blendPower(0), speed(0), playing(0), stop_at_end_callback(0), stop_at_end(0),
-        fall_at_end(0), Callback(0), CallbackParam(0), dwFrame(0)
+        blendAmount(0), timeCurrent(0), timeTotal(0), motionID(), bone_or_part(0), channel(0), blend(eFREE_SLOT), blendAccrue(0), blendFalloff(0), blendPower(0), speed(0), playing(0), stop_at_end_callback(0), stop_at_end(0), fall_at_end(0), Callback(0), CallbackParam(0), dwFrame(0)
     {
     }
 

@@ -14,7 +14,6 @@ class FHierrarhyVisual: public dxRender_Visual
 public:
     xr_vector<dxRender_Visual*> children;
     BOOL                        bDontDelete;
-
 public:
     FHierrarhyVisual();
     virtual ~FHierrarhyVisual();

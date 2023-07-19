@@ -10,7 +10,6 @@ class CBlender_Detail_Still: public IBlender
 {
 public:
     xrP_BOOL oBlend;
-
 public:
     virtual LPCSTR getComment()
     {

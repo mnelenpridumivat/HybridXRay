@@ -10,7 +10,7 @@
 #include "../../xrCore/doug_lea_allocator.h"
 extern doug_lea_allocator g_render_lua_allocator;
 
-template <class T> class doug_lea_alloc
+template<class T> class doug_lea_alloc
 {
 public:
     typedef size_t    size_type;
@@ -20,13 +20,11 @@ public:
     typedef T&        reference;
     typedef const T&  const_reference;
     typedef T         value_type;
-
 public:
-    template <class _Other> struct rebind
+    template<class _Other> struct rebind
     {
         typedef doug_lea_alloc<_Other> other;
     };
-
 public:
     pointer address(reference _Val) const
     {
@@ -38,8 +36,8 @@ public:
     }
     doug_lea_alloc() {}
     doug_lea_alloc(const doug_lea_alloc<T>&) {}
-    template <class _Other> doug_lea_alloc(const doug_lea_alloc<_Other>&) {}
-    template <class _Other> doug_lea_alloc<T>& operator=(const doug_lea_alloc<_Other>&)
+    template<class _Other> doug_lea_alloc(const doug_lea_alloc<_Other>&) {}
+    template<class _Other> doug_lea_alloc<T>& operator=(const doug_lea_alloc<_Other>&)
     {
         return (*this);
     }
@@ -75,18 +73,18 @@ public:
     }
 };
 
-template <class _Ty, class _Other> inline bool operator==(const doug_lea_alloc<_Ty>&, const doug_lea_alloc<_Other>&)
+template<class _Ty, class _Other> inline bool operator==(const doug_lea_alloc<_Ty>&, const doug_lea_alloc<_Other>&)
 {
     return (true);
 }
-template <class _Ty, class _Other> inline bool operator!=(const doug_lea_alloc<_Ty>&, const doug_lea_alloc<_Other>&)
+template<class _Ty, class _Other> inline bool operator!=(const doug_lea_alloc<_Ty>&, const doug_lea_alloc<_Other>&)
 {
     return (false);
 }
 
 struct doug_lea_allocator_wrapper
 {
-    template <typename T> struct helper
+    template<typename T> struct helper
     {
         typedef doug_lea_alloc<T> result;
     };
@@ -95,7 +93,7 @@ struct doug_lea_allocator_wrapper
     {
         return g_render_lua_allocator.malloc_impl((u32)n);
     }
-    template <typename T> static void dealloc(T*& p)
+    template<typename T> static void dealloc(T*& p)
     {
         g_render_lua_allocator.free_impl((void*&)p);
     }
@@ -104,7 +102,7 @@ struct doug_lea_allocator_wrapper
 #define render_alloc doug_lea_alloc
 typedef doug_lea_allocator_wrapper render_allocator;
 
-#else   // USE_DOUG_LEA_ALLOCATOR_FOR_RENDER
+#else    // USE_DOUG_LEA_ALLOCATOR_FOR_RENDER
 #define render_alloc xalloc
 typedef xr_allocator render_allocator;
 #endif   // USE_DOUG_LEA_ALLOCATOR_FOR_RENDER
@@ -150,7 +148,7 @@ namespace R_dsgraph
     typedef ref_hs hs_type;
     typedef ref_ds ds_type;
 #endif
-#endif   //	USE_DX10
+#endif                                       //	USE_DX10
 #else
 #if defined(USE_DX10) || defined(USE_DX11)   //	DX10 needs shader signature to propperly bind deometry to shader
     typedef SVS*                vs_type;
@@ -213,8 +211,8 @@ namespace R_dsgraph
     {
     };
 #endif   //	USE_DX10
-    typedef mapNormalVS mapNormal_T;
-    typedef mapNormal_T mapNormalPasses_T[SHADER_PASSES_MAX];
+    typedef mapNormalVS                                                           mapNormal_T;
+    typedef mapNormal_T                                                           mapNormalPasses_T[SHADER_PASSES_MAX];
 
     // MATRIX
     typedef xr_vector<_MatrixItem, render_allocator::helper<_MatrixItem>::result> mapMatrixDirect;
@@ -264,8 +262,8 @@ namespace R_dsgraph
     {
     };
 #endif   //	USE_DX10
-    typedef mapMatrixVS mapMatrix_T;
-    typedef mapMatrix_T mapMatrixPasses_T[SHADER_PASSES_MAX];
+    typedef mapMatrixVS                                     mapMatrix_T;
+    typedef mapMatrix_T                                     mapMatrixPasses_T[SHADER_PASSES_MAX];
 
     // Top level
     typedef FixedMAP<float, _MatrixItemS, render_allocator> mapSorted_T;
@@ -274,6 +272,6 @@ namespace R_dsgraph
     typedef FixedMAP<float, _MatrixItemS, render_allocator> mapHUD_T;
     typedef mapHUD_T::TNode                                 mapHUD_Node;
 
-    typedef FixedMAP<float, _LodItem, render_allocator> mapLOD_T;
-    typedef mapLOD_T::TNode                             mapLOD_Node;
+    typedef FixedMAP<float, _LodItem, render_allocator>     mapLOD_T;
+    typedef mapLOD_T::TNode                                 mapLOD_Node;
 };   // namespace R_dsgraph

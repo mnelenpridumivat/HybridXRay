@@ -15,7 +15,6 @@ protected:
     FSlideWindowItem  nSWI;
     FSlideWindowItem* xSWI;
     u32               last_lod;
-
 public:
     FProgressive();
     virtual ~FProgressive();
@@ -23,7 +22,6 @@ public:
     virtual void Load(const char* N, IReader* data, u32 dwFlags);
     virtual void Copy(dxRender_Visual* pFrom);
     virtual void Release();
-
 private:
     FProgressive(const FProgressive& other);
     void operator=(const FProgressive& other);

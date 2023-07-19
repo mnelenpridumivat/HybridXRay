@@ -19,7 +19,7 @@
 
 using namespace R_dsgraph;
 
-CRender RImplementation;
+CRender        RImplementation;
 
 //////////////////////////////////////////////////////////////////////////
 ShaderElement* CRender::rimp_select_sh_dynamic(dxRender_Visual* pVisual, float cdist_sq)
@@ -27,8 +27,7 @@ ShaderElement* CRender::rimp_select_sh_dynamic(dxRender_Visual* pVisual, float c
     switch (phase)
     {
         case PHASE_NORMAL:
-            return (RImplementation.L_Projector->shadowing() ? pVisual->shader->E[SE_R1_NORMAL_HQ] :
-                                                               pVisual->shader->E[SE_R1_NORMAL_LQ])
+            return (RImplementation.L_Projector->shadowing() ? pVisual->shader->E[SE_R1_NORMAL_HQ] : pVisual->shader->E[SE_R1_NORMAL_LQ])
                 ._get();
         case PHASE_POINT:
             return pVisual->shader->E[SE_R1_LPOINT]._get();
@@ -47,8 +46,7 @@ ShaderElement* CRender::rimp_select_sh_static(dxRender_Visual* pVisual, float cd
     switch (phase)
     {
         case PHASE_NORMAL:
-            return (((_sqrt(cdist_sq) - pVisual->vis.sphere.R) < 44) ? pVisual->shader->E[SE_R1_NORMAL_HQ] :
-                                                                       pVisual->shader->E[SE_R1_NORMAL_LQ])
+            return (((_sqrt(cdist_sq) - pVisual->vis.sphere.R) < 44) ? pVisual->shader->E[SE_R1_NORMAL_HQ] : pVisual->shader->E[SE_R1_NORMAL_LQ])
                 ._get();
         case PHASE_POINT:
             return pVisual->shader->E[SE_R1_LPOINT]._get();
@@ -106,7 +104,7 @@ void CRender::create()
     }
     Msg("* color_mapping: %s, dev(%d),need(%d)", o.color_mapping ? "used" : "unavailable", v_dev, v_need);
 
-    m_skinning = -1;
+    m_skinning           = -1;
 
     // disasm
     o.disasm             = (strstr(Core.Params, "-disasm")) ? TRUE : FALSE;
@@ -114,14 +112,14 @@ void CRender::create()
     o.no_detail_textures = !ps_r2_ls_flags.test(R1FLAG_DETAIL_TEXTURES);
     c_ldynamic_props     = "L_dynamic_props";
 
-    m_bMakeAsyncSS = false;
+    m_bMakeAsyncSS       = false;
 
     //---------
-    Target = xr_new<CRenderTarget>();
+    Target               = xr_new<CRenderTarget>();
     //---------
     //
-    Models    = xr_new<CModelPool>();
-    L_Dynamic = xr_new<CLightR_Manager>();
+    Models               = xr_new<CModelPool>();
+    L_Dynamic            = xr_new<CLightR_Manager>();
     PSLibrary.OnCreate();
     //.	HWOCC.occq_create			(occq_size);
 
@@ -440,7 +438,7 @@ void CRender::apply_object(IRenderable* O)
 float       g_fSCREEN;
 static BOOL gm_Nearer = 0;
 
-IC void gm_SetNearer(BOOL bNearer)
+IC void     gm_SetNearer(BOOL bNearer)
 {
     if (bNearer != gm_Nearer)
     {
@@ -455,7 +453,8 @@ IC void gm_SetNearer(BOOL bNearer)
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
-CRender::CRender(): m_bFirstFrameAfterReset(false) {}
+CRender::CRender():
+    m_bFirstFrameAfterReset(false) {}
 
 CRender::~CRender() {}
 
@@ -465,7 +464,7 @@ extern float r_ssaLOD_A, r_ssaLOD_B;
 extern float r_ssaGLOD_start, r_ssaGLOD_end;
 extern float r_ssaHZBvsTEX;
 
-ICF bool pred_sp_sort(ISpatial* _1, ISpatial* _2)
+ICF bool     pred_sp_sort(ISpatial* _1, ISpatial* _2)
 {
     float d1 = _1->spatial.sphere.P.distance_to_sqr(Device->vCameraPosition);
     float d2 = _2->spatial.sphere.P.distance_to_sqr(Device->vCameraPosition);
@@ -635,7 +634,7 @@ void CRender::Calculate()
                             renderable->renderable_Render();
                             set_Object(0);   //? is it needed at all
                         }
-                        break;   // exit loop on frustums
+                        break;               // exit loop on frustums
                     }
                 }
                 else
@@ -712,16 +711,16 @@ void       CRender::Render()
     Target->Begin();
     o.vis_intersect = FALSE;
     phase           = PHASE_NORMAL;
-    r_dsgraph_render_hud();      // hud
-    r_dsgraph_render_graph(0);   // normal level
+    r_dsgraph_render_hud();                            // hud
+    r_dsgraph_render_graph(0);                         // normal level
     if (Details)
-        Details->Render();                // grass / details
-    r_dsgraph_render_lods(true, false);   // lods - FB
+        Details->Render();                             // grass / details
+    r_dsgraph_render_lods(true, false);                // lods - FB
 
     g_pGamePersistent->Environment().RenderSky();      // sky / sun
     g_pGamePersistent->Environment().RenderClouds();   // clouds
 
-    r_pmask(true, false);   // disable priority "1"
+    r_pmask(true, false);                              // disable priority "1"
     o.vis_intersect = TRUE;
     HOM.Disable();
     L_Dynamic->render(0);   // addititional light sources
@@ -733,14 +732,14 @@ void       CRender::Render()
     HOM.Enable();
     o.vis_intersect = FALSE;
     phase           = PHASE_NORMAL;
-    r_pmask(true, true);   // enable priority "0" and "1"
+    r_pmask(true, true);                               // enable priority "0" and "1"
     if (L_Shadows)
-        L_Shadows->render();              // ... and shadows
-    r_dsgraph_render_lods(false, true);   // lods - FB
-    r_dsgraph_render_graph(1);            // normal level, secondary priority
-    L_Dynamic->render(1);                 // addititional light sources, secondary priority
-    PortalTraverser.fade_render();        // faded-portals
-    r_dsgraph_render_sorted();            // strict-sorted geoms
+        L_Shadows->render();                           // ... and shadows
+    r_dsgraph_render_lods(false, true);                // lods - FB
+    r_dsgraph_render_graph(1);                         // normal level, secondary priority
+    L_Dynamic->render(1);                              // addititional light sources, secondary priority
+    PortalTraverser.fade_render();                     // faded-portals
+    r_dsgraph_render_sorted();                         // strict-sorted geoms
     if (L_Glows)
         L_Glows->Render();                             // glows
     g_pGamePersistent->Environment().RenderFlares();   // lens-flares
@@ -954,10 +953,10 @@ HRESULT CRender::shader_compile(
     void*&       result)
 {
     D3DXMACRO defines[128];
-    int       def_it = 0;
+    int       def_it            = 0;
 
-    char sh_name[MAX_PATH] = "";
-    u32  len               = 0;
+    char      sh_name[MAX_PATH] = "";
+    u32       len               = 0;
 
     // options
     if (o.forceskinw)
@@ -1034,7 +1033,7 @@ HRESULT CRender::shader_compile(
     def_it++;
     R_ASSERT(def_it < 128);
 
-    HRESULT _result = E_FAIL;
+    HRESULT     _result = E_FAIL;
 
     string_path folder_name, folder;
     xr_strcpy(folder, "r1\\objects\\r1\\");
@@ -1097,12 +1096,12 @@ HRESULT CRender::shader_compile(
         LPD3DXCONSTANTTABLE pConstants = NULL;
         LPD3DXINCLUDE       pInclude   = (LPD3DXINCLUDE)&Includer;
 
-        _result = D3DXCompileShader(
+        _result                        = D3DXCompileShader(
             (LPCSTR)pSrcData, SrcDataLen, defines, pInclude, pFunctionName, pTarget,
             Flags | D3DXSHADER_USE_LEGACY_D3DX9_31_DLL, &pShaderBuf, &pErrorBuf, &pConstants);
         if (SUCCEEDED(_result))
         {
-            IWriter* file = FS.w_open(file_name);
+            IWriter*           file = FS.w_open(file_name);
 
             boost::crc_32_type processor;
             processor.process_block(
