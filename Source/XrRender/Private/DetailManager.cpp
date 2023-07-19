@@ -9,9 +9,9 @@
 #include "cl_intersect.h"
 
 #ifdef _EDITOR
-#include "ESceneClassList.h"
-#include "Scene.h"
-#include "SceneObject.h"
+#include "../Editors/LevelEditor/Editor/Tools/ESceneClassList.h"
+#include "../Editors/LevelEditor/Editor/Scene/scene.h"
+#include "../Editors/LevelEditor/Editor/Entry/StaticObject/SceneObject.h"
 #include "igame_persistent.h"
 #include "environment.h"
 #else

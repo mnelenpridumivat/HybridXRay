@@ -351,7 +351,7 @@ struct SNodePositionOld
 };
 #pragma pack(pop)
 
-#ifdef _EDITOR
+#ifdef REDITOR
 typedef SNodePositionOld NodePosition;
 #endif
 
