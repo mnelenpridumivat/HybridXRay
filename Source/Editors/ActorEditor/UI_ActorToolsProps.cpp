@@ -400,12 +400,18 @@ void    CActorTools::FillMotionProperties(PropItemVec& items, LPCSTR pref, ListI
     {
         B = PHelper().CreateButton(items, PrepareKey(pref, "Global\\Edit"), "Append,Delete,Save", ButtonValue::flFirstOnly);
         B->OnBtnClickEvent.bind   (this, &CActorTools::OnMotionEditClick);
-        PHelper().CreateBOOL(items, PrepareKey(pref, "Global\\MotionExport\\Force 16bit Motion"), &g_force16BitTransformQuant)->Owner()->hint_text =
+
+        V = PHelper().CreateBOOL(items, PrepareKey(pref, "Global\\MotionExport\\Force 16bit Motion"), &g_force16BitTransformQuant);
+        V->Owner()->hint_text = 
             "Export animations 16 bit - CoP Format, good quality.\n If nothing is selected, animations will be exported\n 8 bit - SoC Format, poor quality."_RU >
             u8"Экспорт анимаций 16 bit - CoP Формат, хорошее качество.\n Если ничего не выбрано - анимации будут экспортированы\n 8 bit - SoC Формат, плохое качество.";
-        PHelper().CreateBOOL(items, PrepareKey(pref, "Global\\MotionExport\\No Compress Motion"), &g_forceFloatTransformQuant)->Owner()->hint_text =
+        V->OnChangeEvent.bind(this, &CActorTools::OnMotionCompressionChanged);
+
+        V = PHelper().CreateBOOL(items, PrepareKey(pref, "Global\\MotionExport\\No Compress Motion"), &g_forceFloatTransformQuant);
+        V->Owner()->hint_text = 
             "No compress - New uncompressed format, better quality.\n To support such animations, engine edits are required.\n If nothing is selected, animations will be exported\n 8 bit - SoC Format, poor quality."_RU >
             u8"No compress - Новый формат без сжатия, лучшее качество.\n Для поддержки таких анимаций - требуются движковые правки.\n Если ничего не выбрано - анимации будут экспортированы\n 8 bit - SoC Формат, плохое качество.";
+        V->OnChangeEvent.bind(this, &CActorTools::OnMotionCompressionChanged);
     }
     if (SM)
     {
@@ -785,6 +791,19 @@ void CActorTools::OnBoneFileClick(ButtonValue* V, bool& bModif, bool& bSafe)
 void CActorTools::OnBoneLimitsChange(PropValue* sender)
 {
     m_pEditObject->ClampByLimits(true);
+}
+
+void CActorTools::OnMotionCompressionChanged(PropValue* sender)
+{
+  BOOLValue * casted = dynamic_cast<BOOLValue*>(sender);
+
+  if (g_force16BitTransformQuant && g_forceFloatTransformQuant)
+  {
+    if(casted->value == &g_force16BitTransformQuant)
+      g_forceFloatTransformQuant = false;
+    else
+      g_force16BitTransformQuant = false;
+  }
 }
 
 void CActorTools::FillBoneProperties(PropItemVec& items, LPCSTR pref, ListItem* sender)

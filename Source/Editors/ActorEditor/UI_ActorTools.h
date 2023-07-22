@@ -180,7 +180,7 @@ class CActorTools: public CToolCustom
     void OnBoneEditClick(ButtonValue* sender, bool& bModif, bool& bSafe);
     void OnBoneFileClick(ButtonValue* sender, bool& bModif, bool& bSafe);
     void OnBoneLimitsChange(PropValue* sender);
-
+    void OnMotionCompressionChanged(PropValue* sender);
     void OnJointTypeChange(PropValue* sender);
     void OnShapeTypeChange(PropValue* sender);
 
