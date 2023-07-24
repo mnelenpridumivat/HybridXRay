@@ -70,6 +70,7 @@ public:
 
 protected:
     void OnKeyboardCommonFileClick(ButtonValue* value, bool& bModif, bool& bSafe);
+    void OnMotionCompressChanged(PropValue* sender);
     void OnClose();
     void ApplyValues();
 

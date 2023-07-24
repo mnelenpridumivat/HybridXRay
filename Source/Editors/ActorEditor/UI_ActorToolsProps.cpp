@@ -135,8 +135,10 @@ void CActorTools::OnMotionEditClick(ButtonValue* V, bool& bModif, bool& bSafe)
                 _SequenceToList(lst, fnames.c_str());
                 bool bRes = false;
                 for (AStringIt it = lst.begin(); it != lst.end(); it++)
+                {
                     if (AppendMotion(it->c_str()))
                         bRes = true;
+                }
                 ExecCommand(COMMAND_UPDATE_PROPERTIES);
                 if (bRes)
                     OnMotionKeysModified();
@@ -401,13 +403,13 @@ void    CActorTools::FillMotionProperties(PropItemVec& items, LPCSTR pref, ListI
         B = PHelper().CreateButton(items, PrepareKey(pref, "Global\\Edit"), "Append,Delete,Save", ButtonValue::flFirstOnly);
         B->OnBtnClickEvent.bind   (this, &CActorTools::OnMotionEditClick);
 
-        V = PHelper().CreateBOOL(items, PrepareKey(pref, "Global\\MotionExport\\Force 16bit Motion"), &g_force16BitTransformQuant);
+        V = PHelper().CreateBOOL(items, PrepareKey(pref, "MotionExport\\Force 16bit Motion"), &g_force16BitTransformQuant);
         V->Owner()->hint_text = 
             "Export animations 16 bit - CoP Format, good quality.\n If nothing is selected, animations will be exported\n 8 bit - SoC Format, poor quality."_RU >
             u8"Экспорт анимаций 16 bit - CoP Формат, хорошее качество.\n Если ничего не выбрано - анимации будут экспортированы\n 8 bit - SoC Формат, плохое качество.";
         V->OnChangeEvent.bind(this, &CActorTools::OnMotionCompressionChanged);
 
-        V = PHelper().CreateBOOL(items, PrepareKey(pref, "Global\\MotionExport\\No Compress Motion"), &g_forceFloatTransformQuant);
+        V = PHelper().CreateBOOL(items, PrepareKey(pref, "MotionExport\\No Compress Motion"), &g_forceFloatTransformQuant);
         V->Owner()->hint_text = 
             "No compress - New uncompressed format, better quality.\n To support such animations, engine edits are required.\n If nothing is selected, animations will be exported\n 8 bit - SoC Format, poor quality."_RU >
             u8"No compress - Новый формат без сжатия, лучшее качество.\n Для поддержки таких анимаций - требуются движковые правки.\n Если ничего не выбрано - анимации будут экспортированы\n 8 bit - SoC Формат, плохое качество.";
@@ -532,8 +534,7 @@ void CActorTools::OnBindTransformChange(PropValue* V)
 
 void CActorTools::OnTypeChange(PropValue* V)
 {
-    u32 current_type = m_pEditObject->m_objectFlags.flags &
-        (CEditableObject::eoDynamic | CEditableObject::eoHOM | CEditableObject::eoSoundOccluder | CEditableObject::eoMultipleUsage);
+    u32 current_type = m_pEditObject->m_objectFlags.flags & (CEditableObject::eoDynamic | CEditableObject::eoHOM | CEditableObject::eoSoundOccluder | CEditableObject::eoMultipleUsage);
     m_pEditObject->m_objectFlags.flags = m_pEditObjectType;
 
     if (current_type != m_pEditObjectType)
@@ -828,12 +829,9 @@ void CActorTools::FillBoneProperties(PropItemVec& items, LPCSTR pref, ListItem* 
     {
         PropValue* V;
         PHelper().CreateCaption(items, PrepareKey(pref, "Bone\\Name"), BONE->Name());
+        PHelper().CreateNameCB(items, PrepareKey(pref, "Bone\\NameEditable"), &BONE->NameRef(), 0, 0, RTextValue::TOnAfterEditEvent(this, &CActorTools::OnBoneNameAfterEdit))->OnChangeEvent.bind(this, &CActorTools::OnBoneNameChangeEvent);
 
-        PHelper().CreateNameCB(items, PrepareKey(pref, "Bone\\NameEditable"), &BONE->NameRef(), 0, 0,
-            RTextValue::TOnAfterEditEvent(this, &CActorTools::OnBoneNameAfterEdit))->OnChangeEvent.bind(this, &CActorTools::OnBoneNameChangeEvent);
-
-        //.		PHelper().CreateCaption		(items, PrepareKey(pref,"Bone\\Influence"),					shared_str().sprintf("%d
-        //vertices",0));
+        // PHelper().CreateCaption(items, PrepareKey(pref,"Bone\\Influence"), shared_str().sprintf("%d vertices",0));
         PHelper().CreateChoose(items, PrepareKey(pref, "Bone\\Game Material"), &BONE->game_mtl, smGameMaterial);
         PHelper().CreateFloat(items, PrepareKey(pref, "Bone\\Mass"), &BONE->mass, 0.f, 10000.f);
         PHelper().CreateVector(items, PrepareKey(pref, "Bone\\Center Of Mass"), &BONE->center_of_mass, -10000.f, 10000.f);
@@ -994,8 +992,7 @@ void CActorTools::FillObjectProperties(PropItemVec& items, LPCSTR pref, ListItem
 {
     R_ASSERT(m_pEditObject);
     PropValue* V      = 0;
-    m_pEditObjectType = m_pEditObject->m_objectFlags.flags &
-        (CEditableObject::eoDynamic | CEditableObject::eoHOM | CEditableObject::eoSoundOccluder | CEditableObject::eoMultipleUsage);
+    m_pEditObjectType = m_pEditObject->m_objectFlags.flags & (CEditableObject::eoDynamic | CEditableObject::eoHOM | CEditableObject::eoSoundOccluder | CEditableObject::eoMultipleUsage);
     PHelper().CreateToken32(items, "Object\\Object Type", &m_pEditObjectType, eo_type_token)->OnChangeEvent.bind(this, &CActorTools::OnTypeChange);
 
     if (m_pEditObjectType & CEditableObject::eoDynamic)
@@ -1059,7 +1056,7 @@ void CActorTools::FillObjectProperties(PropItemVec& items, LPCSTR pref, ListItem
     V = PHelper().CreateCaption( items, "Object\\Transform\\BBox Min", shared_str().printf("{%3.2f, %3.2f, %3.2f}", VPUSH(m_pEditObject->GetBox().min)));
     V = PHelper().CreateCaption(items, "Object\\Transform\\BBox Max", shared_str().printf("{%3.2f, %3.2f, %3.2f}", VPUSH(m_pEditObject->GetBox().max)));
 
-    // .PHelper().CreateChoose(items, "Object\\LOD\\Reference", &m_pEditObject->m_LODs, smObject);
+    // PHelper().CreateChoose(items, "Object\\LOD\\Reference", &m_pEditObject->m_LODs, smObject);
     PHelper().CreateChoose(items, "Object\\LOD\\Reference", &m_pEditObject->m_LODs, smVisual);
     if (m_pEditObject->m_objectFlags.flags & CEditableObject::eoUsingLOD)
     {
@@ -1074,7 +1071,8 @@ void CActorTools::SelectListItem(LPCSTR pref, LPCSTR name, bool bVal, bool bLeav
 {
     xr_string nm = (name && name[0]) ? PrepareKey(pref, name).c_str() : xr_string(pref).c_str();
     m_ObjectItems->SelectItem(nm.c_str());
-    /*if (pref){
+    /*if (pref)
+    {
         m_ObjectItems->SelectItem(pref);
     }*/
 }
@@ -1083,29 +1081,30 @@ void CActorTools::SelectListItem(LPCSTR pref, LPCSTR name, bool bVal, bool bLeav
 void CActorTools::OnChangeFlag(PropValue* sender)
 {
     const auto flag = dynamic_cast<Flag32Value*>(sender);
-
+    //------------------------------------------------------------------------------
     // HQ Geometry / HQ Geometry+
-    const bool changingHqGeom = !strcmp(flag->Owner()->Key(), "Object\\Model export\\Optimize:\\HQ Geometry");
-    const auto hqFlag         = CEditableObject::eoHQExport;
-    const auto hq2Flag        = CEditableObject::eoHQExportPlus;
+    const bool changingHqGeom      = !strcmp(flag->Owner()->Key(), "Object\\Model export\\Optimize:\\HQ Geometry");
+    const auto hqFlag              = CEditableObject::eoHQExport;
+    const auto hq2Flag             = CEditableObject::eoHQExportPlus;
 
-    const bool hqSet  = m_pEditObject->m_objectFlags.test(hqFlag);
-    const bool hq2Set = m_pEditObject->m_objectFlags.test(hq2Flag);
+    const bool hqSet               = m_pEditObject->m_objectFlags.test(hqFlag);
+    const bool hq2Set              = m_pEditObject->m_objectFlags.test(hq2Flag);
 
     if (hqSet && hq2Set)
     {
-        if (changingHqGeom)   // включение hq, когда hq2 уже включен, отключить hq2
+        if (changingHqGeom)
             m_pEditObject->m_objectFlags.set(hq2Flag, FALSE);
-        else   // включение hq2, когда hq уже включен, отключить hq
+        else
             m_pEditObject->m_objectFlags.set(hqFlag, FALSE);
     }
+    //------------------------------------------------------------------------------
     // Make progressive / Make stripify
-    const bool changingProgressive = !strcmp(flag->Owner()->Key(), "Object\\Model export\\Optimize:\\Make progressive meshes");
+    const bool changingProgressive = !strcmp(flag->Owner()->Key(), "Object\\Model export\\Optimize:\\Make progressive");
     const auto ProgFlag            = CEditableObject::eoProgressive;
     const auto Prog2Flag           = CEditableObject::eoStripify;
 
-    const bool ProgSet  = m_pEditObject->m_objectFlags.test(ProgFlag);
-    const bool Prog2Set = m_pEditObject->m_objectFlags.test(Prog2Flag);
+    const bool ProgSet             = m_pEditObject->m_objectFlags.test(ProgFlag);
+    const bool Prog2Set            = m_pEditObject->m_objectFlags.test(Prog2Flag);
 
     if (ProgSet && Prog2Set)
     {
@@ -1114,17 +1113,18 @@ void CActorTools::OnChangeFlag(PropValue* sender)
         else
             m_pEditObject->m_objectFlags.set(ProgFlag, FALSE);
     }
+    //------------------------------------------------------------------------------
     // split normals / CS/CoP Smooth / SoC Smooth
-    const bool changingNormals    = !strcmp(flag->Owner()->Key(), "Object\\Model export\\Smooth Type:\\Use split Normals");
-    const bool changingCoP        = !strcmp(flag->Owner()->Key(), "Object\\Model export\\Smooth Type:\\Smooth CS/CoP");
-    const bool changingSoC        = !strcmp(flag->Owner()->Key(), "Object\\Model export\\Smooth Type:\\Smooth SoC");
-    const auto Smooth1Flag        = CEditableObject::eoNormals;
-    const auto Smooth2Flag        = CEditableObject::eoCoPSmooth;
-    const auto Smooth3Flag        = CEditableObject::eoSoCSmooth;
+    const bool changingNormals     = !strcmp(flag->Owner()->Key(), "Object\\Model export\\Smooth Type:\\Use split Normals");
+    const bool changingCoP         = !strcmp(flag->Owner()->Key(), "Object\\Model export\\Smooth Type:\\Smooth CS/CoP");
+    const bool changingSoC         = !strcmp(flag->Owner()->Key(), "Object\\Model export\\Smooth Type:\\Smooth SoC");
+    const auto Smooth1Flag         = CEditableObject::eoNormals;
+    const auto Smooth2Flag         = CEditableObject::eoCoPSmooth;
+    const auto Smooth3Flag         = CEditableObject::eoSoCSmooth;
 
-    const bool Smooth1Set = m_pEditObject->m_objectFlags.test(Smooth1Flag);
-    const bool Smooth2Set = m_pEditObject->m_objectFlags.test(Smooth2Flag);
-    const bool Smooth3Set = m_pEditObject->m_objectFlags.test(Smooth3Flag);
+    const bool Smooth1Set          = m_pEditObject->m_objectFlags.test(Smooth1Flag);
+    const bool Smooth2Set          = m_pEditObject->m_objectFlags.test(Smooth2Flag);
+    const bool Smooth3Set          = m_pEditObject->m_objectFlags.test(Smooth3Flag);
 
     if (Smooth1Set || Smooth2Set || Smooth3Set)
     {

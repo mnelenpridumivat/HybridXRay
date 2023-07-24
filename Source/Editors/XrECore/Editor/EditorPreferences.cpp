@@ -130,11 +130,37 @@ void CCustomPreferences::OnKeyboardCommonFileClick(ButtonValue* B, bool& bModif,
 
 extern ECORE_API BOOL g_extendedLog;
 extern ECORE_API BOOL g_extendedLogPlus;
+extern ECORE_API BOOL g_force16BitTransformQuant;
+extern ECORE_API BOOL g_forceFloatTransformQuant;
+
+void CCustomPreferences::OnMotionCompressChanged(PropValue* sender)
+{
+    BOOLValue* casted = dynamic_cast<BOOLValue*>(sender);
+
+    if (g_force16BitTransformQuant && g_forceFloatTransformQuant)
+    {
+        if (casted->value == &g_force16BitTransformQuant)
+            g_forceFloatTransformQuant = false;
+        else
+            g_force16BitTransformQuant = false;
+    }
+}
 
 void CCustomPreferences::FillProp(PropItemVec& props)
 {
     PHelper().CreateBOOL(props, "Log\\Extended Log", &g_extendedLog);
     PHelper().CreateBOOL(props, "Log\\Full Log", &g_extendedLogPlus);
+
+    auto FlagMotExp16bit = PHelper().CreateBOOL(props, "Objects\\MotionExport\\Force 16bit Motion", &g_force16BitTransformQuant);
+    FlagMotExp16bit->OnChangeEvent.bind(this, &CCustomPreferences::OnMotionCompressChanged);
+    FlagMotExp16bit->Owner()->hint_text =
+        "Export animations 16 bit - CoP Format, good quality.\n If nothing is selected, animations will be exported\n 8 bit - SoC Format, poor quality."_RU >
+        u8"Экспорт анимаций 16 bit - CoP Формат, хорошее качество.\n Если ничего не выбрано - анимации будут экспортированы\n 8 bit - SoC Формат, плохое качество.";
+    auto FlagMotExpNOCompress = PHelper().CreateBOOL(props, "Objects\\MotionExport\\No Compress Motion", &g_forceFloatTransformQuant);
+    FlagMotExpNOCompress->OnChangeEvent.bind(this, &CCustomPreferences::OnMotionCompressChanged);
+    FlagMotExpNOCompress->Owner()->hint_text =
+        "No compress - New uncompressed format, better quality.\n To support such animations, engine edits are required.\n If nothing is selected, animations will be exported\n 8 bit - SoC Format, poor quality."_RU >
+        u8"No compress - Новый формат без сжатия, лучшее качество.\n Для поддержки таких анимаций - требуются движковые правки.\n Если ничего не выбрано - анимации будут экспортированы\n 8 bit - SoC Формат, плохое качество.";
 
     PHelper().CreateFlag32(props, "Objects\\Library\\Discard Instance", &object_flags, epoDiscardInstance);
     PHelper().CreateFlag32(props, "Objects\\Skeleton\\Draw Joints", &object_flags, epoDrawJoints);

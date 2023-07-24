@@ -330,18 +330,12 @@ void CAEPreferences::Save(CInifile* I)
     I->w_bool("ae_prefs", "always_show_keybar34", bAlwaysShowKeyBar34);
 }
 
-extern ECORE_API BOOL g_force16BitTransformQuant;
-extern ECORE_API BOOL g_forceFloatTransformQuant;
-
 void CAEPreferences::FillProp(PropItemVec& props)
 {
     inherited::FillProp(props);
 
     PHelper().CreateBOOL(props, "Keybar\\show footsteps 12", &bAlwaysShowKeyBar12);
     PHelper().CreateBOOL(props, "Keybar\\show footsteps 34", &bAlwaysShowKeyBar34);
-
-    PHelper().CreateBOOL(props, "Tools\\MotionExport\\Force 16bit MotionT", &g_force16BitTransformQuant);
-    PHelper().CreateBOOL(props, "Tools\\MotionExport\\Force No Compress Motion", &g_forceFloatTransformQuant);
 }
 
 CActorMain::CActorMain()

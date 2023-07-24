@@ -292,13 +292,11 @@ public:
     }
     IC BOOL IsStatic()
     {
-        return !m_objectFlags.is(eoSoundOccluder) && !m_objectFlags.is(eoDynamic) && !m_objectFlags.is(eoHOM) &&
-            !m_objectFlags.is(eoMultipleUsage);
+        return !m_objectFlags.is(eoSoundOccluder) && !m_objectFlags.is(eoDynamic) && !m_objectFlags.is(eoHOM) && !m_objectFlags.is(eoMultipleUsage);
     }
     IC BOOL IsMUStatic()
     {
-        return !m_objectFlags.is(eoSoundOccluder) && !m_objectFlags.is(eoDynamic) && !m_objectFlags.is(eoHOM) &&
-            m_objectFlags.is(eoMultipleUsage);
+        return !m_objectFlags.is(eoSoundOccluder) && !m_objectFlags.is(eoDynamic) && !m_objectFlags.is(eoHOM) && m_objectFlags.is(eoMultipleUsage);
     }
 
 private:
