@@ -47,7 +47,7 @@ struct CKeyQT_FFT
 
 struct CKeyQR_FFT
 {
-    float x, y, z, w; // rotation
+    float x, y, z, w;   // rotation
 };
 /*
 struct  CKeyQT
@@ -63,17 +63,17 @@ class ENGINE_API CMotion
 {
     struct
     {
-        u32 _flags : 8;
-        u32 _count : 24;
+        u32 _flags:8;
+        u32 _count:24;
     };
-
 public:
-    ref_smem<CKeyQR>   _keysR;
-    ref_smem<CKeyQT8>  _keysT8;
-    ref_smem<CKeyQT16> _keysT16;
-    Fvector            _initT;
-    Fvector            _sizeT;
-
+    ref_smem<CKeyQR>     _keysR;
+    ref_smem<CKeyQR_FFT> _keysR_FFT;
+    ref_smem<CKeyQT8>    _keysT8;
+    ref_smem<CKeyQT16>   _keysT16;
+    ref_smem<CKeyQT_FFT> _keysT_FFT;
+    Fvector              _initT;
+    Fvector              _sizeT;
 public:
     void set_flags(u8 val)
     {
@@ -115,6 +115,10 @@ public:
             sz += _keysT8.size() * sizeof(CKeyQT8) / _keysT8.ref_count();
         if (_keysT16.size())
             sz += _keysT16.size() * sizeof(CKeyQT16) / _keysT16.ref_count();
+        if (_keysR_FFT.size())
+            sz += _keysR_FFT.size() * sizeof(CKeyQR_FFT) / _keysR_FFT.ref_count();
+        if (_keysT_FFT.size())
+            sz += _keysT_FFT.size() * sizeof(CKeyQT_FFT) / _keysT_FFT.ref_count();
         return sz;
     }
 };
@@ -228,7 +232,6 @@ public:
 class ENGINE_API CPartition
 {
     CPartDef P[MAX_PARTS];
-
 public:
     IC CPartDef& operator[](u16 id)
     {
@@ -265,10 +268,10 @@ struct ENGINE_API motions_value
     BoneMotionMap m_motions;
     MotionDefVec  m_mdefs;
 
-    shared_str m_id;
+    shared_str    m_id;
 
-    BOOL       load(LPCSTR N, IReader* data, vecBones* bones);
-    MotionVec* bone_motions(shared_str bone_name);
+    BOOL          load(LPCSTR N, IReader* data, vecBones* bones);
+    MotionVec*    bone_motions(shared_str bone_name);
 
     u32 mem_usage()
     {
@@ -286,7 +289,6 @@ class ENGINE_API motions_container
 {
     DEFINE_MAP(shared_str, motions_value*, SharedMotionsMap, SharedMotionsMapIt);
     SharedMotionsMap container;
-
 public:
     motions_container();
     ~motions_container();
@@ -302,7 +304,6 @@ class ENGINE_API shared_motions
 {
 private:
     motions_value* p_;
-
 protected:
     // ref-counting
     void destroy()
@@ -313,15 +314,9 @@ protected:
         if (0 == p_->m_dwReference)
             p_ = 0;
     }
-
 public:
-    bool create(
-        shared_str key,
-        IReader*   data,
-        vecBones*  bones);   //{	motions_value* v = g_pMotionsContainer->dock(key,data,bones); if (0!=v)
-                            //v->m_dwReference++; destroy(); p_ = v;	}
-    bool create(shared_motions const&
-                    rhs);   //	{	motions_value* v = rhs.p_; if (0!=v) v->m_dwReference++; destroy(); p_ = v;	}
+    bool create(shared_str key, IReader* data, vecBones* bones);   // {motions_value* v = g_pMotionsContainer->dock(key,data,bones); if (0!=v) v->m_dwReference++; destroy(); p_ = v;}
+    bool create(shared_motions const& rhs);                        // {motions_value* v = rhs.p_; if (0!=v) v->m_dwReference++; destroy(); p_ = v;}
 public:
     // construction
     shared_motions()

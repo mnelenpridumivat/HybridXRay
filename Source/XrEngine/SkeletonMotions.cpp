@@ -3,7 +3,7 @@
 #pragma hdrstop
 
 #include "SkeletonMotions.h"
-// #include 	"SkeletonAnimated.h"
+// #include "SkeletonAnimated.h"
 #include "Fmesh.h"
 #include "motion.h"
 #include "Kinematics.h"
@@ -78,7 +78,7 @@ BOOL motions_value::load(LPCSTR N, IReader* data, vecBones* bones)
 {
     m_id = N;
 
-    bool bRes = true;
+    bool     bRes = true;
     // Load definitions
     U16Vec   rm_bones(bones->size(), BI_NONE);
     IReader* MP = data->open_chunk(OGF_S_SMPARAMS);
@@ -209,43 +209,72 @@ BOOL motions_value::load(LPCSTR N, IReader* data, vecBones* bones)
             M.set_count(dwLen);
             M.set_flags(MS->r_u8());
 
-            if (M.test_flag(flRKeyAbsent))
+            if (M.test_flag(flTKeyFFT_Bit))
             {
-                CKeyQR* r     = (CKeyQR*)MS->pointer();
-                u32     crc_q = crc32(r, sizeof(CKeyQR));
-                M._keysR.create(crc_q, 1, r);
-                MS->advance(1 * sizeof(CKeyQR));
-            }
-            else
-            {
-                u32 crc_q = MS->r_u32();
-                M._keysR.create(crc_q, dwLen, (CKeyQR*)MS->pointer());
-                MS->advance(dwLen * sizeof(CKeyQR));
-            }
-            if (M.test_flag(flTKeyPresent))
-            {
-                u32 crc_t = MS->r_u32();
-                if (M.test_flag(flTKey16IsBit))
+                if (M.test_flag(flRKeyAbsent))
                 {
-                    M._keysT16.create(crc_t, dwLen, (CKeyQT16*)MS->pointer());
-                    MS->advance(dwLen * sizeof(CKeyQT16));
+                    CKeyQR_FFT* r     = (CKeyQR_FFT*)MS->pointer();
+                    u32         crc_q = crc32(r, sizeof(CKeyQR_FFT));
+                    M._keysR_FFT.create(crc_q, 1, r);
+                    MS->advance(1 * sizeof(CKeyQR_FFT));
                 }
                 else
                 {
-                    M._keysT8.create(crc_t, dwLen, (CKeyQT8*)MS->pointer());
-                    MS->advance(dwLen * sizeof(CKeyQT8));
-                };
-
-                MS->r_fvector3(M._sizeT);
-                MS->r_fvector3(M._initT);
+                    u32 crc_q = MS->r_u32();
+                    M._keysR_FFT.create(crc_q, dwLen, (CKeyQR_FFT*)MS->pointer());
+                    MS->advance(dwLen * sizeof(CKeyQR_FFT));
+                }
+                if (M.test_flag(flTKeyPresent))
+                {
+                    u32 crc_t = MS->r_u32();
+                    M._keysT_FFT.create(crc_t, dwLen, (CKeyQT_FFT*)MS->pointer());
+                    MS->advance(dwLen * sizeof(CKeyQT_FFT));
+                }
+                else
+                {
+                    MS->r_fvector3(M._initT);
+                }
             }
             else
             {
-                MS->r_fvector3(M._initT);
+                if (M.test_flag(flRKeyAbsent))
+                {
+                    CKeyQR* r     = (CKeyQR*)MS->pointer();
+                    u32     crc_q = crc32(r, sizeof(CKeyQR));
+                    M._keysR.create(crc_q, 1, r);
+                    MS->advance(1 * sizeof(CKeyQR));
+                }
+                else
+                {
+                    u32 crc_q = MS->r_u32();
+                    M._keysR.create(crc_q, dwLen, (CKeyQR*)MS->pointer());
+                    MS->advance(dwLen * sizeof(CKeyQR));
+                }
+                if (M.test_flag(flTKeyPresent))
+                {
+                    u32 crc_t = MS->r_u32();
+                    if (M.test_flag(flTKey16IsBit))
+                    {
+                        M._keysT16.create(crc_t, dwLen, (CKeyQT16*)MS->pointer());
+                        MS->advance(dwLen * sizeof(CKeyQT16));
+                    }
+                    else
+                    {
+                        M._keysT8.create(crc_t, dwLen, (CKeyQT8*)MS->pointer());
+                        MS->advance(dwLen * sizeof(CKeyQT8));
+                    };
+
+                    MS->r_fvector3(M._sizeT);
+                    MS->r_fvector3(M._initT);
+                }
+                else
+                {
+                    MS->r_fvector3(M._initT);
+                }
             }
         }
     }
-    //	Msg("Motions %d/%d %4d/%4d/%d, %s",p_cnt,m_cnt, m_load,m_total,m_r,N);
+    // Msg("Motions %d/%d %4d/%4d/%d, %s",p_cnt,m_cnt, m_load,m_total,m_r,N);
     MS->close();
 
     return bRes;
@@ -254,7 +283,7 @@ BOOL motions_value::load(LPCSTR N, IReader* data, vecBones* bones)
 MotionVec* motions_value::bone_motions(shared_str bone_name)
 {
     BoneMotionMapIt I = m_motions.find(bone_name);
-    //	VERIFY			(I != m_motions.end());
+    // VERIFY(I != m_motions.end());
     if (I == m_motions.end())
         return (0);
 
