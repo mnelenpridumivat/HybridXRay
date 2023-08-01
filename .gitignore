@@ -1,15 +1,12 @@
 .vs/
 Source/.vs/
-gamedata/shaders/r5/.vs/
-Icons/
 
 _bak/
 _appdata_/
 _appdata_cs_/
 _appdata_soc_/
+_Build/
 /Bin/
-Intermediate/
-/Lib/
 import/
 rawdata/
 rawdata_soc/
