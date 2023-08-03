@@ -1,0 +1,42 @@
+[guid]
+        guid_g0                          = 5730902926000145350
+        guid_g1                          = 3846799431945762467
+ 
+[main]
+        objects_count                    = 2
+        version                          = 0
+ 
+[modif]
+        name                             =
+        time                             = 0
+ 
+[object_0]
+        clsid                            = 7
+        co_flags                         = 0
+        name                             = zat_a1_actor_start_game_walk
+        position                         = 0.000000, 0.000000, 0.000000
+        rotation                         = 0.000000, 0.000000, 0.000000
+        scale                            = 1.000000, 1.000000, 1.000000
+        type                             = 0
+        version                          = 19
+        wp_0_flags                       = 1
+        wp_0_name                        = wp00
+        wp_0_pos                         = 1.968686, 0.770646, 8.685957
+        wp_0_selected                    = off
+        wp_count                         = 1
+ 
+[object_1]
+        clsid                            = 7
+        co_flags                         = 0
+        name                             = zat_a1_actor_start_game_look
+        position                         = 0.000000, 0.000000, 0.000000
+        rotation                         = 0.000000, 0.000000, 0.000000
+        scale                            = 1.000000, 1.000000, 1.000000
+        type                             = 0
+        version                          = 19
+        wp_0_flags                       = 1
+        wp_0_name                        = wp00
+        wp_0_pos                         = -5.826492, 0.773336, -10.866605
+        wp_0_selected                    = on
+        wp_count                         = 1
+ 

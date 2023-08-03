@@ -1,1 +1,1 @@
-start Bin\Win32\Debug\xrai.exe -f test_light -draft -keep_temp_files
+start Bin\x64\Debug\XrAI.exe -f map_test -draft -keep_temp_files

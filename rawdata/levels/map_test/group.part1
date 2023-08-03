@@ -1,0 +1,516 @@
+[guid]
+        guid_g0                          = 5730902926000145350
+        guid_g1                          = 3846799431945762467
+ 
+[main]
+        objects_count                    = 3
+        version                          = 0
+ 
+[modif]
+        name                             =
+        time                             = 0
+ 
+[object_0]
+        clsid                            = 0
+        co_flags                         = 3
+        ingroup_count                    = 5
+        name                             = light_preset\light_uglovaya_12m_0000
+        position                         = -5.500000, 8.400001, -2.600000
+        ref_name                         = light_preset\light_uglovaya_12m
+        rotation                         = 0.000000, 0.872665, -2.617994
+        scale                            = 1.000000, 1.000000, 1.000000
+        version                          = 18
+ 
+[object_0_ingroup_0]
+        clsid                            = 1
+        co_flags                         = 3
+        flags                            = 0
+        name                             = glow_0000
+        position                         = -5.627877, 8.369338, -2.752551
+        radius                           = 0.700000
+        rotation                         = 0.000001, 0.872666, -2.617994
+        scale                            = 0.700000, 0.700000, 0.700000
+        shader_name                      = effects\glow
+        texture_name                     = glow\glow_white
+        version                          = 18
+ 
+[object_0_ingroup_1]
+        anim_ref_name                    =
+        attenuation0                     = 0.350000
+        attenuation1                     = 0.100000
+        attenuation2                     = 0.050000
+        brightness                       = 1.000000
+        clsid                            = 3
+        co_flags                         = 2
+        color                            = 1.000000, 0.862745, 0.674510, 0.000000
+        cone                             = 0.392699
+        fallof_texture                   =
+        fuzzy_box_dim                    = 0.100000, 0.100000, 0.100000
+        fuzzy_point_0                    = 0.013653, -0.027113, -0.001120
+        fuzzy_point_1                    = -0.007157, 0.024518, 0.023872
+        fuzzy_point_2                    = 0.000405, -0.000033, -0.032317
+        fuzzy_point_count                = 3
+        fuzzy_shape_type                 = 0
+        fuzzy_sphere_radius              = 0.050000
+        light_control                    = 0
+        light_flags                      = 17
+        name                             = light_uglovaya_12m_0000
+        position                         = -5.579998, 8.393548, -2.756177
+        range                            = 12.000000
+        rotation                         = 0.000001, 0.872666, -2.617994
+        scale                            = 1.000000, 1.000000, 1.000000
+        type                             = 1
+        use_in_d3d                       = on
+        version                          = 17
+        virtual_size                     = 0.000000
+ 
+[object_0_ingroup_2]
+        anim_ref_name                    =
+        attenuation0                     = 1.000000
+        attenuation1                     = 0.100000
+        attenuation2                     = 0.200000
+        brightness                       = 0.300000
+        clsid                            = 3
+        co_flags                         = 2
+        color                            = 1.000000, 0.960784, 0.780392, 0.000000
+        cone                             = 0.392699
+        fallof_texture                   =
+        light_control                    = 0
+        light_flags                      = 1
+        name                             = light_uglovaya_12m_ambient_0000
+        position                         = -6.540633, 7.660266, -3.840142
+        range                            = 12.000000
+        rotation                         = 0.000001, 0.872666, -2.617994
+        scale                            = 1.000000, 1.000000, 1.000000
+        type                             = 1
+        use_in_d3d                       = on
+        version                          = 17
+        virtual_size                     = 0.000000
+ 
+[object_0_ingroup_3]
+        anim_ref_name                    =
+        attenuation0                     = 1.000000
+        attenuation1                     = 1.000000
+        attenuation2                     = 0.050000
+        brightness                       = 1.000000
+        clsid                            = 3
+        co_flags                         = 2
+        color                            = 1.000000, 0.843137, 0.627451, 0.000000
+        cone                             = 0.392699
+        fallof_texture                   =
+        light_control                    = 0
+        light_flags                      = 2
+        name                             = light_uglovaya_12m_dinamic_0000
+        position                         = -5.614440, 8.286371, -2.797262
+        range                            = 12.000000
+        rotation                         = 0.000001, 0.872666, -2.617994
+        scale                            = 1.000000, 1.000000, 1.000000
+        type                             = 1
+        use_in_d3d                       = on
+        version                          = 17
+        virtual_size                     = 0.000000
+ 
+[object_0_ingroup_4]
+        clsid                            = 6
+        co_flags                         = 2
+        name                             = light_uglovaya_1_glass_0000
+        position                         = -5.500000, 8.400001, -2.600000
+        rotation                         = 0.000001, 0.872666, -2.617994
+        scale                            = 1.000000, 1.000000, 1.000000
+        type                             = 2
+        version                          = 23
+ 
+[object_0_ingroup_4_spawndata]
+        000001                           = 1
+        000002                           = "lights_hanging_lamp"
+        000003                           = "light_uglovaya_1_glass_0000"
+        000004                           = 0
+        000005                           = 254
+        000006                           = -5.500000, 8.400001, -2.600000
+        000007                           = 0.000001, 0.872666, -2.617994
+        000008                           = 0
+        000009                           = 65535
+        000010                           = 65535
+        000011                           = 65535
+        000012                           = 33
+        000013                           = 128
+        000014                           = 65535
+        000015                           = 12
+        000016                           = 0
+        000017                           = 65535
+        000018                           = 0
+        000019                           = 65535
+        000020                           = 0.000000
+        000021                           = 1
+        000022                           = -1
+        000023                           = -198
+        000024                           = "[collide]
+ignore_static
+"
+        000025                           = -1
+        000026                           = -1
+        000027                           = "dynamics\light\light_uglovaya_1_glass"
+        000028                           = 0
+        000029                           = "$editor"
+        000030                           = 0
+        000031                           = 65535
+        000032                           = -1
+        000033                           = 0.800000
+        000034                           = "light\light_omni_white_idle"
+        000035                           = 12.000000
+        000036                           = 26
+        000037                           = "$editor"
+        000038                           = "link"
+        000039                           = 100.000000
+        000040                           = 0.100000
+        000041                           = 3.500000
+        000042                           = 0.400000
+        000043                           = ""
+        000044                           = "lights\lights_spot_wire_02"
+        000045                           = "bone_lamp"
+        000046                           = 2.094395
+        000047                           = ""
+        000048                           = 0.700000
+        000049                           = "bone_omni"
+        000050                           = 1.000000
+        000051                           = 1.000000
+        000052                           = 1.000000
+        fl                               = 0
+        name                             = lights_hanging_lamp
+ 
+[object_1]
+        clsid                            = 0
+        co_flags                         = 3
+        ingroup_count                    = 5
+        name                             = light_preset\light_uglovaya_12m_0000_00
+        position                         = -0.100000, 6.000000, -0.100000
+        ref_name                         = light_preset\light_uglovaya_12m
+        rotation                         = 0.000000, 2.268928, -2.443461
+        scale                            = 1.000000, 1.000000, 1.000000
+        version                          = 18
+ 
+[object_1_ingroup_0]
+        clsid                            = 1
+        co_flags                         = 3
+        flags                            = 0
+        name                             = glow_0000_00
+        position                         = 0.029504, 6.004344, -0.254165
+        radius                           = 0.700000
+        rotation                         = 0.000001, 2.268929, -8.726645
+        scale                            = 0.700000, 0.700000, 0.700000
+        shader_name                      = effects\glow
+        texture_name                     = glow\glow_white
+        version                          = 18
+ 
+[object_1_ingroup_1]
+        anim_ref_name                    =
+        attenuation0                     = 0.350000
+        attenuation1                     = 0.100000
+        attenuation2                     = 0.050000
+        brightness                       = 1.000000
+        clsid                            = 3
+        co_flags                         = 2
+        color                            = 1.000000, 0.862745, 0.674510, 0.000000
+        cone                             = 0.392699
+        fallof_texture                   =
+        fuzzy_box_dim                    = 0.100000, 0.100000, 0.100000
+        fuzzy_point_0                    = 0.013653, -0.027113, -0.001120
+        fuzzy_point_1                    = -0.007157, 0.024518, 0.023872
+        fuzzy_point_2                    = 0.000405, -0.000033, -0.032317
+        fuzzy_point_count                = 3
+        fuzzy_shape_type                 = 0
+        fuzzy_sphere_radius              = 0.050000
+        light_control                    = 0
+        light_flags                      = 17
+        name                             = light_uglovaya_12m_0000_00
+        position                         = 0.038969, 6.023305, -0.204754
+        range                            = 12.000000
+        rotation                         = 0.000001, 2.268929, -8.726645
+        scale                            = 1.000000, 1.000000, 1.000000
+        type                             = 1
+        use_in_d3d                       = on
+        version                          = 17
+        virtual_size                     = 0.000000
+ 
+[object_1_ingroup_2]
+        anim_ref_name                    =
+        attenuation0                     = 1.000000
+        attenuation1                     = 0.100000
+        attenuation2                     = 0.200000
+        brightness                       = 0.300000
+        clsid                            = 3
+        co_flags                         = 2
+        color                            = 1.000000, 0.960784, 0.780392, 0.000000
+        cone                             = 0.392699
+        fallof_texture                   =
+        light_control                    = 0
+        light_flags                      = 1
+        name                             = light_uglovaya_12m_ambient_0000_00
+        position                         = 1.007461, 5.552549, -1.419797
+        range                            = 12.000000
+        rotation                         = 0.000001, 2.268929, -8.726645
+        scale                            = 1.000000, 1.000000, 1.000000
+        type                             = 1
+        use_in_d3d                       = on
+        version                          = 17
+        virtual_size                     = 0.000000
+ 
+[object_1_ingroup_3]
+        anim_ref_name                    =
+        attenuation0                     = 1.000000
+        attenuation1                     = 1.000000
+        attenuation2                     = 0.050000
+        brightness                       = 1.000000
+        clsid                            = 3
+        co_flags                         = 2
+        color                            = 1.000000, 0.843137, 0.627451, 0.000000
+        cone                             = 0.392699
+        fallof_texture                   =
+        light_control                    = 0
+        light_flags                      = 2
+        name                             = light_uglovaya_12m_dinamic_0000_00
+        position                         = 0.084892, 5.927073, -0.259446
+        range                            = 12.000000
+        rotation                         = 0.000001, 2.268929, -8.726645
+        scale                            = 1.000000, 1.000000, 1.000000
+        type                             = 1
+        use_in_d3d                       = on
+        version                          = 17
+        virtual_size                     = 0.000000
+ 
+[object_1_ingroup_4]
+        clsid                            = 6
+        co_flags                         = 2
+        name                             = light_uglovaya_1_glass_0000_00
+        position                         = -0.100000, 6.000000, -0.100000
+        rotation                         = 0.000001, 2.268929, -8.726645
+        scale                            = 1.000000, 1.000000, 1.000000
+        type                             = 2
+        version                          = 23
+ 
+[object_1_ingroup_4_spawndata]
+        000001                           = 1
+        000002                           = "lights_hanging_lamp"
+        000003                           = "light_uglovaya_1_glass_0000_00"
+        000004                           = 0
+        000005                           = 254
+        000006                           = -0.100000, 6.000000, -0.100000
+        000007                           = 0.000001, 2.268929, -8.726645
+        000008                           = 0
+        000009                           = 65535
+        000010                           = 65535
+        000011                           = 65535
+        000012                           = 33
+        000013                           = 128
+        000014                           = 65535
+        000015                           = 12
+        000016                           = 0
+        000017                           = 65535
+        000018                           = 0
+        000019                           = 65535
+        000020                           = 0.000000
+        000021                           = 1
+        000022                           = -1
+        000023                           = -198
+        000024                           = "[collide]
+ignore_static
+"
+        000025                           = -1
+        000026                           = -1
+        000027                           = "dynamics\light\light_uglovaya_1_glass"
+        000028                           = 0
+        000029                           = "$editor"
+        000030                           = 0
+        000031                           = 65535
+        000032                           = -1
+        000033                           = 0.800000
+        000034                           = "light\light_omni_white_idle"
+        000035                           = 12.000000
+        000036                           = 26
+        000037                           = "$editor"
+        000038                           = "link"
+        000039                           = 100.000000
+        000040                           = 0.100000
+        000041                           = 3.500000
+        000042                           = 0.400000
+        000043                           = ""
+        000044                           = "lights\lights_spot_wire_02"
+        000045                           = "bone_lamp"
+        000046                           = 2.094395
+        000047                           = ""
+        000048                           = 0.700000
+        000049                           = "bone_omni"
+        000050                           = 1.000000
+        000051                           = 1.000000
+        000052                           = 1.000000
+        fl                               = 0
+        name                             = lights_hanging_lamp
+ 
+[object_2]
+        clsid                            = 0
+        co_flags                         = 3
+        ingroup_count                    = 5
+        name                             = light_preset\light_uglovaya_12m_0000_00_00
+        position                         = -3.700000, 7.400000, 9.800000
+        ref_name                         = light_preset\light_uglovaya_12m
+        rotation                         = 0.000000, 3.141593, -2.617994
+        scale                            = 1.000000, 1.000000, 1.000000
+        version                          = 18
+ 
+[object_2_ingroup_0]
+        clsid                            = 1
+        co_flags                         = 3
+        flags                            = 0
+        name                             = glow_0000_00_00
+        position                         = -3.500941, 7.369290, 9.800082
+        radius                           = 0.700000
+        rotation                         = 0.000001, 3.141593, -8.901178
+        scale                            = 0.700000, 0.700000, 0.700000
+        shader_name                      = effects\glow
+        texture_name                     = glow\glow_white
+        version                          = 18
+ 
+[object_2_ingroup_1]
+        anim_ref_name                    =
+        attenuation0                     = 0.350000
+        attenuation1                     = 0.100000
+        attenuation2                     = 0.050000
+        brightness                       = 1.000000
+        clsid                            = 3
+        co_flags                         = 2
+        color                            = 1.000000, 0.862745, 0.674510, 0.000000
+        cone                             = 0.392699
+        fallof_texture                   =
+        fuzzy_box_dim                    = 0.100000, 0.100000, 0.100000
+        fuzzy_point_0                    = 0.013653, -0.027113, -0.001120
+        fuzzy_point_1                    = -0.007157, 0.024518, 0.023872
+        fuzzy_point_2                    = 0.000405, -0.000033, -0.032317
+        fuzzy_point_count                = 3
+        fuzzy_shape_type                 = 0
+        fuzzy_sphere_radius              = 0.050000
+        light_control                    = 0
+        light_flags                      = 17
+        name                             = light_uglovaya_12m_0000_00_00
+        position                         = -3.528940, 7.393481, 9.839099
+        range                            = 12.000000
+        rotation                         = 0.000001, 3.141593, -8.901178
+        scale                            = 1.000000, 1.000000, 1.000000
+        type                             = 1
+        use_in_d3d                       = on
+        version                          = 17
+        virtual_size                     = 0.000000
+ 
+[object_2_ingroup_2]
+        anim_ref_name                    =
+        attenuation0                     = 1.000000
+        attenuation1                     = 0.100000
+        attenuation2                     = 0.200000
+        brightness                       = 0.300000
+        clsid                            = 3
+        co_flags                         = 2
+        color                            = 1.000000, 0.960784, 0.780392, 0.000000
+        cone                             = 0.392699
+        fallof_texture                   =
+        light_control                    = 0
+        light_flags                      = 1
+        name                             = light_uglovaya_12m_ambient_0000_00_00
+        position                         = -2.080875, 6.660096, 9.799927
+        range                            = 12.000000
+        rotation                         = 0.000001, 3.141593, -8.901178
+        scale                            = 1.000000, 1.000000, 1.000000
+        type                             = 1
+        use_in_d3d                       = on
+        version                          = 17
+        virtual_size                     = 0.000000
+ 
+[object_2_ingroup_3]
+        anim_ref_name                    =
+        attenuation0                     = 1.000000
+        attenuation1                     = 1.000000
+        attenuation2                     = 0.050000
+        brightness                       = 1.000000
+        clsid                            = 3
+        co_flags                         = 2
+        color                            = 1.000000, 0.843137, 0.627451, 0.000000
+        cone                             = 0.392699
+        fallof_texture                   =
+        light_control                    = 0
+        light_flags                      = 2
+        name                             = light_uglovaya_12m_dinamic_0000_00_00
+        position                         = -3.475184, 7.286312, 9.839085
+        range                            = 12.000000
+        rotation                         = 0.000001, 3.141593, -8.901178
+        scale                            = 1.000000, 1.000000, 1.000000
+        type                             = 1
+        use_in_d3d                       = on
+        version                          = 17
+        virtual_size                     = 0.000000
+ 
+[object_2_ingroup_4]
+        clsid                            = 6
+        co_flags                         = 2
+        name                             = light_uglovaya_1_glass_0000_00_00
+        position                         = -3.700000, 7.400000, 9.800000
+        rotation                         = 0.000001, 3.141593, -8.901178
+        scale                            = 1.000000, 1.000000, 1.000000
+        type                             = 2
+        version                          = 23
+ 
+[object_2_ingroup_4_spawndata]
+        000001                           = 1
+        000002                           = "lights_hanging_lamp"
+        000003                           = "light_uglovaya_1_glass_0000_00_00"
+        000004                           = 0
+        000005                           = 254
+        000006                           = -3.700000, 7.400000, 9.800000
+        000007                           = 0.000001, 3.141593, -8.901178
+        000008                           = 0
+        000009                           = 65535
+        000010                           = 65535
+        000011                           = 65535
+        000012                           = 33
+        000013                           = 128
+        000014                           = 65535
+        000015                           = 12
+        000016                           = 0
+        000017                           = 65535
+        000018                           = 0
+        000019                           = 65535
+        000020                           = 0.000000
+        000021                           = 1
+        000022                           = -1
+        000023                           = -198
+        000024                           = "[collide]
+ignore_static
+"
+        000025                           = -1
+        000026                           = -1
+        000027                           = "dynamics\light\light_uglovaya_1_glass"
+        000028                           = 0
+        000029                           = "$editor"
+        000030                           = 0
+        000031                           = 65535
+        000032                           = -1
+        000033                           = 0.800000
+        000034                           = "light\light_omni_white_idle"
+        000035                           = 12.000000
+        000036                           = 26
+        000037                           = "$editor"
+        000038                           = "link"
+        000039                           = 100.000000
+        000040                           = 0.100000
+        000041                           = 3.500000
+        000042                           = 0.400000
+        000043                           = ""
+        000044                           = "lights\lights_spot_wire_02"
+        000045                           = "bone_lamp"
+        000046                           = 2.094395
+        000047                           = ""
+        000048                           = 0.700000
+        000049                           = "bone_omni"
+        000050                           = 1.000000
+        000051                           = 1.000000
+        000052                           = 1.000000
+        fl                               = 0
+        name                             = lights_hanging_lamp
+ 

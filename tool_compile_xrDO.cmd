@@ -1,1 +1,1 @@
-start Bin\Win32\Development\xrDO_light.exe -f %1
+start Bin\x64\Debug\xrDO_Light.exe -f map_test

@@ -1,0 +1,407 @@
+[appendrandom]
+        AppendRandomMaxRotation          = 0.000000, 0.000000, 0.000000
+        AppendRandomMaxScale             = 1.000000, 1.000000, 1.000000
+        AppendRandomMinRotation          = 0.000000, 0.000000, 0.000000
+        AppendRandomMinScale             = 1.000000, 1.000000, 1.000000
+        AppendRandomObjects_size         = 0
+ 
+[guid]
+        guid_g0                          = 5730902926000145350
+        guid_g1                          = 3846799431945762467
+ 
+[main]
+        flags                            = 0
+        objects_count                    = 22
+        version                          = 0
+ 
+[modif]
+        name                             =
+        time                             = 0
+ 
+[object_0]
+        000001                           = 1
+        000002                           = "balls"
+        000003                           = "def_shaders\def_vertex"
+        000004                           = "def_shaders\def_vertex"
+        000005                           = "materials\metal"
+        000006                           = "user\user_smallballs"
+        000007                           = "Texture"
+        clsid                            = 2
+        co_flags                         = 0
+        flags                            = 1
+        name                             = statics\user\user_bigballs_01_00_00
+        position                         = 14.100000, 3.100000, -1.700000
+        reference_name                   = statics\user\user_bigballs
+        rotation                         = 0.000000, 0.000000, 1.570796
+        scale                            = 1.000000, 1.000000, 1.000000
+        version                          = 18
+ 
+[object_1]
+        clsid                            = 2
+        co_flags                         = 0
+        flags                            = 0
+        name                             = statics\user\user_shaderball
+        position                         = -13.100000, 1.000000, -9.600000
+        reference_name                   = statics\user\user_shaderball
+        rotation                         = 0.000000, 1.570796, 0.000000
+        scale                            = 2.000000, 2.000000, 2.000000
+        version                          = 18
+ 
+[object_10]
+        000001                           = 1
+        000002                           = "balls"
+        000003                           = "def_shaders\def_vertex"
+        000004                           = "def_shaders\def_vertex"
+        000005                           = "materials\metal"
+        000006                           = "user\user_smallballs"
+        000007                           = "Texture"
+        clsid                            = 2
+        co_flags                         = 0
+        flags                            = 1
+        name                             = statics\user\user_bigballs_01
+        position                         = 11.500000, 1.000000, -6.700000
+        reference_name                   = statics\user\user_bigballs
+        rotation                         = 0.000000, 0.000000, 0.000000
+        scale                            = 1.000000, 1.000000, 1.000000
+        version                          = 18
+ 
+[object_11]
+        000001                           = 1
+        000002                           = "balls"
+        000003                           = "def_shaders\def_vertex"
+        000004                           = "def_shaders\def_vertex"
+        000005                           = "materials\metal"
+        000006                           = "user\user_smallballs"
+        000007                           = "Texture"
+        clsid                            = 2
+        co_flags                         = 0
+        flags                            = 1
+        name                             = statics\user\user_bigballs_01_00
+        position                         = 11.500000, 1.000000, -1.700000
+        reference_name                   = statics\user\user_bigballs
+        rotation                         = 0.000000, 0.000000, 0.000000
+        scale                            = 1.000000, 1.000000, 1.000000
+        version                          = 18
+ 
+[object_12]
+        000001                           = 1
+        000002                           = "balls"
+        000003                           = "def_shaders\def_vertex"
+        000004                           = "def_shaders\def_vertex"
+        000005                           = "materials\metal"
+        000006                           = "user\user_smallballs"
+        000007                           = "Texture"
+        clsid                            = 2
+        co_flags                         = 0
+        flags                            = 1
+        name                             = statics\user\user_bigballs_02
+        position                         = 14.100000, 3.100000, -11.600000
+        reference_name                   = statics\user\user_bigballs
+        rotation                         = 0.000000, 0.000000, 1.570796
+        scale                            = 1.000000, 1.000000, 1.000000
+        version                          = 18
+ 
+[object_13]
+        000001                           = 1
+        000002                           = "balls"
+        000003                           = "def_shaders\def_vertex"
+        000004                           = "def_shaders\def_vertex"
+        000005                           = "materials\metal"
+        000006                           = "user\user_smallballs"
+        000007                           = "Texture"
+        clsid                            = 2
+        co_flags                         = 0
+        flags                            = 1
+        name                             = statics\user\user_bigballs_01_01
+        position                         = 14.100000, 3.100000, -6.700000
+        reference_name                   = statics\user\user_bigballs
+        rotation                         = 0.000000, 0.000000, 1.570796
+        scale                            = 1.000000, 1.000000, 1.000000
+        version                          = 18
+ 
+[object_14]
+        000001                           = 1
+        000002                           = "balls"
+        000003                           = "def_shaders\def_vertex"
+        000004                           = "def_shaders\def_vertex"
+        000005                           = "materials\metal"
+        000006                           = "user\user_smallballs"
+        000007                           = "Texture"
+        clsid                            = 2
+        co_flags                         = 0
+        flags                            = 1
+        name                             = statics\user\user_bigballs_03
+        position                         = 11.500000, 3.100000, -13.800000
+        reference_name                   = statics\user\user_bigballs
+        rotation                         = 1.570796, 0.000000, 0.000000
+        scale                            = 1.000000, 1.000000, 1.000000
+        version                          = 18
+ 
+[object_15]
+        000001                           = 1
+        000002                           = "balls"
+        000003                           = "def_shaders\def_vertex"
+        000004                           = "def_shaders\def_vertex"
+        000005                           = "materials\metal"
+        000006                           = "user\user_smallballs"
+        000007                           = "Texture"
+        clsid                            = 2
+        co_flags                         = 0
+        flags                            = 1
+        name                             = statics\user\user_bigballs_00_01
+        position                         = 6.600000, 3.100000, -13.800000
+        reference_name                   = statics\user\user_bigballs
+        rotation                         = 1.570796, 0.000000, 0.000000
+        scale                            = 1.000000, 1.000000, 1.000000
+        version                          = 18
+ 
+[object_16]
+        000001                           = 1
+        000002                           = "balls"
+        000003                           = "def_shaders\def_vertex"
+        000004                           = "def_shaders\def_vertex"
+        000005                           = "materials\metal"
+        000006                           = "user\user_smallballs"
+        000007                           = "Texture"
+        clsid                            = 2
+        co_flags                         = 0
+        flags                            = 1
+        name                             = statics\user\user_bigballs_00_00_00
+        position                         = 1.700000, 3.100000, -13.800000
+        reference_name                   = statics\user\user_bigballs
+        rotation                         = 1.570796, 0.000000, 0.000000
+        scale                            = 1.000000, 1.000000, 1.000000
+        version                          = 18
+ 
+[object_17]
+        000001                           = 1
+        000002                           = "balls"
+        000003                           = "def_shaders\def_vertex"
+        000004                           = "def_shaders\def_vertex"
+        000005                           = "materials\metal"
+        000006                           = "user\user_smallballs"
+        000007                           = "Texture"
+        clsid                            = 2
+        co_flags                         = 0
+        flags                            = 1
+        name                             = statics\user\user_bigballs_9
+        position                         = 11.500000, 1.000000, 2.400000
+        reference_name                   = statics\user\user_bigballs_9
+        rotation                         = 0.000000, 0.000000, 0.000000
+        scale                            = 1.000000, 1.000000, 1.000000
+        version                          = 18
+ 
+[object_18]
+        000001                           = 3
+        000002                           = "shaderBall_metal"
+        000003                           = "def_shaders\def_vertex"
+        000004                           = "def_shaders\def_vertex"
+        000005                           = "materials\metal"
+        000006                           = "user\user_shaderball_metal"
+        000007                           = "Texture"
+        000008                           = "shaderBall_metal_plate"
+        000009                           = "def_shaders\def_vertex"
+        000010                           = "def_shaders\def_vertex"
+        000011                           = "materials\metal_plate"
+        000012                           = "user\user_shaderball_metal"
+        000013                           = "Texture"
+        000014                           = "shaderBall_metal_pipe"
+        000015                           = "def_shaders\def_vertex"
+        000016                           = "def_shaders\def_vertex"
+        000017                           = "materials\metal_pipe"
+        000018                           = "user\user_shaderball_metal"
+        000019                           = "Texture"
+        clsid                            = 2
+        co_flags                         = 0
+        flags                            = 1
+        name                             = statics\user\user_shaderball_3
+        position                         = -10.600000, 1.000000, -13.800000
+        reference_name                   = statics\user\user_shaderball_3
+        rotation                         = 0.000000, -3.141593, -0.000000
+        scale                            = 1.700000, 1.700000, 1.700000
+        version                          = 18
+ 
+[object_19]
+        000001                           = 1
+        000002                           = "balls_"
+        000003                           = "def_shaders\def_vertex"
+        000004                           = "def_shaders\def_vertex"
+        000005                           = "materials\metal"
+        000006                           = "user\user_shaderball_metal"
+        000007                           = "Texture"
+        clsid                            = 2
+        co_flags                         = 0
+        flags                            = 1
+        name                             = statics\user\user_shaderbox_00
+        position                         = -12.800000, 1.000000, -2.500000
+        reference_name                   = statics\user\user_shaderbox
+        rotation                         = 0.000000, 0.000000, 0.000000
+        scale                            = 2.400000, 2.400000, 2.400000
+        version                          = 18
+ 
+[object_2]
+        000001                           = 1
+        000002                           = "balls"
+        000003                           = "def_shaders\def_vertex"
+        000004                           = "def_shaders\def_vertex"
+        000005                           = "materials\metal"
+        000006                           = "user\user_smallballs"
+        000007                           = "Texture"
+        clsid                            = 2
+        co_flags                         = 0
+        flags                            = 1
+        name                             = statics\user\user_smallballs
+        position                         = 11.800000, 1.000000, 11.900001
+        reference_name                   = statics\user\user_smallballs
+        rotation                         = 0.000000, 0.000000, 0.000000
+        scale                            = 0.750000, 0.750000, 0.750000
+        version                          = 18
+ 
+[object_20]
+        000001                           = 1
+        000002                           = "balls_"
+        000003                           = "def_shaders\def_vertex"
+        000004                           = "def_shaders\def_vertex"
+        000005                           = "materials\metal"
+        000006                           = "user\user_smallballs"
+        000007                           = "Texture"
+        clsid                            = 2
+        co_flags                         = 0
+        flags                            = 1
+        name                             = statics\user\user_shaderbox_00_00
+        position                         = -11.700000, 1.000000, 1.900000
+        reference_name                   = statics\user\user_shaderbox
+        rotation                         = 0.000000, 0.000000, 0.000000
+        scale                            = 2.400000, 2.400000, 2.400000
+        version                          = 18
+ 
+[object_21]
+        clsid                            = 2
+        co_flags                         = 0
+        flags                            = 0
+        name                             = mp_test\mp_test_arena
+        position                         = 0.000000, 0.000000, 0.000000
+        reference_name                   = mp_test\mp_test_arena
+        rotation                         = 0.000000, 0.000000, 0.000000
+        scale                            = 1.000000, 1.000000, 1.000000
+        version                          = 18
+ 
+[object_3]
+        000001                           = 1
+        000002                           = "balls"
+        000003                           = "def_shaders\def_vertex"
+        000004                           = "def_shaders\def_vertex"
+        000005                           = "materials\metal"
+        000006                           = "user\user_smallballs"
+        000007                           = "Texture"
+        clsid                            = 2
+        co_flags                         = 0
+        flags                            = 1
+        name                             = statics\user\user_smallballs_0000
+        position                         = 13.300000, 2.000000, 11.900001
+        reference_name                   = statics\user\user_smallballs
+        rotation                         = -1.570796, 1.570796, 0.000000
+        scale                            = 0.750000, 0.750000, 0.750000
+        version                          = 18
+ 
+[object_4]
+        000001                           = 1
+        000002                           = "balls"
+        000003                           = "def_shaders\def_vertex"
+        000004                           = "def_shaders\def_vertex"
+        000005                           = "materials\metal"
+        000006                           = "user\user_smallballs"
+        000007                           = "Texture"
+        clsid                            = 2
+        co_flags                         = 0
+        flags                            = 1
+        name                             = statics\user\user_smallballs_0001
+        position                         = 11.800000, 2.000000, 13.400001
+        reference_name                   = statics\user\user_smallballs
+        rotation                         = 1.570796, 0.000000, 0.000000
+        scale                            = 0.750000, 0.750000, 0.750000
+        version                          = 18
+ 
+[object_5]
+        000001                           = 1
+        000002                           = "balls_"
+        000003                           = "def_shaders\def_vertex"
+        000004                           = "def_shaders\def_vertex"
+        000005                           = "materials\metal"
+        000006                           = "user\user_floor_dirty_gr"
+        000007                           = "Texture"
+        clsid                            = 2
+        co_flags                         = 0
+        flags                            = 1
+        name                             = statics\user\user_shaderbox
+        position                         = -12.800000, 1.000000, -5.700000
+        reference_name                   = statics\user\user_shaderbox
+        rotation                         = 0.000000, 0.000000, 0.000000
+        scale                            = 1.000000, 1.000000, 1.000000
+        version                          = 18
+ 
+[object_6]
+        clsid                            = 2
+        co_flags                         = 0
+        flags                            = 0
+        name                             = statics\user\user_shaderball_0000
+        position                         = -6.700000, 1.000000, -13.600000
+        reference_name                   = statics\user\user_shaderball
+        rotation                         = 0.000000, 3.141593, 0.000000
+        scale                            = 1.000000, 1.000000, 1.000000
+        version                          = 18
+ 
+[object_7]
+        000001                           = 1
+        000002                           = "balls"
+        000003                           = "def_shaders\def_vertex"
+        000004                           = "def_shaders\def_vertex"
+        000005                           = "materials\metal"
+        000006                           = "user\user_smallballs"
+        000007                           = "Texture"
+        clsid                            = 2
+        co_flags                         = 0
+        flags                            = 1
+        name                             = statics\user\user_bigballs
+        position                         = 11.500000, 1.000000, -11.600000
+        reference_name                   = statics\user\user_bigballs
+        rotation                         = 0.000000, 0.000000, 0.000000
+        scale                            = 1.000000, 1.000000, 1.000000
+        version                          = 18
+ 
+[object_8]
+        000001                           = 1
+        000002                           = "balls"
+        000003                           = "def_shaders\def_vertex"
+        000004                           = "def_shaders\def_vertex"
+        000005                           = "materials\metal"
+        000006                           = "user\user_smallballs"
+        000007                           = "Texture"
+        clsid                            = 2
+        co_flags                         = 0
+        flags                            = 1
+        name                             = statics\user\user_bigballs_00
+        position                         = 6.600000, 1.000000, -11.600000
+        reference_name                   = statics\user\user_bigballs
+        rotation                         = 0.000000, 0.000000, 0.000000
+        scale                            = 1.000000, 1.000000, 1.000000
+        version                          = 18
+ 
+[object_9]
+        000001                           = 1
+        000002                           = "balls"
+        000003                           = "def_shaders\def_vertex"
+        000004                           = "def_shaders\def_vertex"
+        000005                           = "materials\metal"
+        000006                           = "user\user_smallballs"
+        000007                           = "Texture"
+        clsid                            = 2
+        co_flags                         = 0
+        flags                            = 1
+        name                             = statics\user\user_bigballs_00_00
+        position                         = 1.700000, 1.000000, -11.600000
+        reference_name                   = statics\user\user_bigballs
+        rotation                         = 0.000000, 0.000000, 0.000000
+        scale                            = 1.000000, 1.000000, 1.000000
+        version                          = 18
+ 

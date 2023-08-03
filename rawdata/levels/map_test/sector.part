@@ -1,0 +1,72 @@
+[guid]
+        guid_g0                          = 5730902926000145350
+        guid_g1                          = 3846799431945762467
+ 
+[main]
+        flags                            = 0
+        objects_count                    = 1
+        version                          = 0
+ 
+[modif]
+        name                             =
+        time                             = 0
+ 
+[object_0]
+        change_map_to_idx                = 255
+        clsid                            = 8
+        co_flags                         = 0
+        default                          = on
+        item_mesh_name_0000              = user_bigballs
+        item_mesh_name_0001              = user_shaderball
+        item_mesh_name_0002              = user_smallballs
+        item_mesh_name_0003              = user_smallballs
+        item_mesh_name_0004              = user_smallballs
+        item_mesh_name_0005              = user_shaderbox
+        item_mesh_name_0006              = user_shaderball
+        item_mesh_name_0007              = user_bigballs
+        item_mesh_name_0008              = user_bigballs
+        item_mesh_name_0009              = user_bigballs
+        item_mesh_name_0010              = user_bigballs
+        item_mesh_name_0011              = user_bigballs
+        item_mesh_name_0012              = user_bigballs
+        item_mesh_name_0013              = user_bigballs
+        item_mesh_name_0014              = user_bigballs
+        item_mesh_name_0015              = user_bigballs
+        item_mesh_name_0016              = user_bigballs
+        item_mesh_name_0017              = user_bigballs_9
+        item_mesh_name_0018              = user_shaderball_3
+        item_mesh_name_0019              = user_shaderbox
+        item_mesh_name_0020              = user_shaderbox
+        item_mesh_name_0021              = mp_test_cube1
+        item_mesh_name_0022              = mp_test_cube2
+        item_object_name_0000            = statics\user\user_bigballs_01_00_00
+        item_object_name_0001            = statics\user\user_shaderball
+        item_object_name_0002            = statics\user\user_smallballs
+        item_object_name_0003            = statics\user\user_smallballs_0000
+        item_object_name_0004            = statics\user\user_smallballs_0001
+        item_object_name_0005            = statics\user\user_shaderbox
+        item_object_name_0006            = statics\user\user_shaderball_0000
+        item_object_name_0007            = statics\user\user_bigballs
+        item_object_name_0008            = statics\user\user_bigballs_00
+        item_object_name_0009            = statics\user\user_bigballs_00_00
+        item_object_name_0010            = statics\user\user_bigballs_01
+        item_object_name_0011            = statics\user\user_bigballs_01_00
+        item_object_name_0012            = statics\user\user_bigballs_02
+        item_object_name_0013            = statics\user\user_bigballs_01_01
+        item_object_name_0014            = statics\user\user_bigballs_03
+        item_object_name_0015            = statics\user\user_bigballs_00_01
+        item_object_name_0016            = statics\user\user_bigballs_00_00_00
+        item_object_name_0017            = statics\user\user_bigballs_9
+        item_object_name_0018            = statics\user\user_shaderball_3
+        item_object_name_0019            = statics\user\user_shaderbox_00
+        item_object_name_0020            = statics\user\user_shaderbox_00_00
+        item_object_name_0021            = mp_test\mp_test_arena
+        item_object_name_0022            = mp_test\mp_test_arena
+        items_count                      = 23
+        name                             = Sector_DEFAULT
+        position                         = 0.000000, 0.000000, 0.000000
+        rotation                         = 0.000000, 0.000000, 0.000000
+        scale                            = 1.000000, 1.000000, 1.000000
+        sector_color                     = 255, 0, 0, 0
+        version                          = 18
+ 
