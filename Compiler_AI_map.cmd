@@ -1,0 +1,1 @@
+start Bin\compilers_sky_x64\xrCompiler.exe -aispawn -f map_test
