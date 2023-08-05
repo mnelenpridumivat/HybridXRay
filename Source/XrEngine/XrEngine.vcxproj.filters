@@ -954,6 +954,7 @@
     <ClInclude Include="gametype_chooser.h">
       <Filter>Game API\Server</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="defines.cpp">
