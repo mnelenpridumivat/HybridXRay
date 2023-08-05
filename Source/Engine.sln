@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.33027.164
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XrCore", "XrCore\XrCore.vcxproj", "{DA642D7C-4FFF-43DC-98F8-3F96CAF1E4BA}"
 EndProject
@@ -360,13 +360,11 @@ Global
 		{1A55ED80-8CD5-49AA-882F-5CFD33D4741E}.Debug|x64.ActiveCfg = Debug|x64
 		{1A55ED80-8CD5-49AA-882F-5CFD33D4741E}.Debug|x64.Build.0 = Debug|x64
 		{1A55ED80-8CD5-49AA-882F-5CFD33D4741E}.Release|x64.ActiveCfg = Release|x64
-		{1A55ED80-8CD5-49AA-882F-5CFD33D4741E}.Release|x64.Build.0 = Release|x64
 		{1A55ED80-8CD5-49AA-882F-5CFD33D4741E}.ReleaseNoEditor|x64.ActiveCfg = Release|x64
 		{1A55ED80-8CD5-49AA-882F-5CFD33D4741E}.ReleaseNoEditor|x64.Build.0 = Release|x64
 		{BBE4A2FC-4EA8-4B3A-842B-5433D518E914}.Debug|x64.ActiveCfg = Debug|x64
 		{BBE4A2FC-4EA8-4B3A-842B-5433D518E914}.Debug|x64.Build.0 = Debug|x64
 		{BBE4A2FC-4EA8-4B3A-842B-5433D518E914}.Release|x64.ActiveCfg = Release|x64
-		{BBE4A2FC-4EA8-4B3A-842B-5433D518E914}.Release|x64.Build.0 = Release|x64
 		{BBE4A2FC-4EA8-4B3A-842B-5433D518E914}.ReleaseNoEditor|x64.ActiveCfg = Release|x64
 		{BBE4A2FC-4EA8-4B3A-842B-5433D518E914}.ReleaseNoEditor|x64.Build.0 = Release|x64
 		{323EB07B-872D-42BD-AFD7-18BD573D8468}.Debug|x64.ActiveCfg = Debug|x64
