@@ -1,1 +1,1 @@
-start bin\x64\Debug\ShaderEditor.exe
+start bin\x64\Release\ShaderEditor.exe

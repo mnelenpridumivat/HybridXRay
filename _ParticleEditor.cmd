@@ -1,1 +1,1 @@
-start bin\x64\Debug\ParticleEditor.exe
+start bin\x64\Release\ParticleEditor.exe

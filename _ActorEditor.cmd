@@ -1,1 +1,1 @@
-start bin\x64\Debug\ActorEditor.exe
+start bin\x64\Release\ActorEditor.exe

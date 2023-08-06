@@ -1,1 +1,1 @@
-start bin\x64\Debug\LevelEditor.exe
+start bin\x64\Release\LevelEditor.exe
