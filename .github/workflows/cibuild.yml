@@ -42,6 +42,7 @@ jobs:
 
     - name: Upload Symbols
       uses: actions/upload-artifact@main
+      if: matrix.Configuration == 'Release'
       with:
         name: Symbols.${{ matrix.Configuration }} ${{ matrix.Platform }} (github-${{ github.run_number }}).7z
         path: Symbols.*.7z
