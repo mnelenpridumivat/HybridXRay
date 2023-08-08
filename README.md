@@ -5,56 +5,100 @@
 <div align="center">
   <p>
     <a href="https://github.com/Roman-n/HybridXRay">
-      <img src="https://github.com/Roman-n/HybridXRay/blob/!_test_Build_workflow/utils/image/Icon_HybridXRay.png" alt="HybridXRay" width="250" height="250" />
+      <img src="https://github.com/Roman-n/HybridXRay/blob/Renewal_SDK_dev/utils/image/Icon_HybridXRay.png" alt="HybridXRay" width="250" height="250" />
     </a>
   </p>
-
+  <p>
+    <a href="https://github.com/Roman-n/HybridXRay/releases/tag/SDK__v.0.8.1b">
+      <img src="https://img.shields.io/github/v/release/Roman-n/HybridXRay?include_latest&label=Release" alt="SDK__v.0.8.1b" />
+    </a>
+    <a href="https://github.com/Roman-n/HybridXRay/actions/workflows/cibuild.yml">
+      <img src="https://github.com/Roman-n/HybridXRay/actions/workflows/cibuild.yml/badge.svg?branch=Renewal_SDK" alt="Build Project" />
+    </a>
+  </p>
+  <p>
+    <a href="https://github.com/Roman-n/HybridXRay/releases/tag/latest-nightly">
+      <img src="https://img.shields.io/github/v/release/Roman-n/HybridXRay?include_prereleases&label=Release" alt="Latest nightly build" />
+    </a>
+    <a href="https://github.com/Roman-n/HybridXRay/actions/workflows/cibuild.yml">
+      <img src="https://github.com/Roman-n/HybridXRay/actions/workflows/cibuild.yml/badge.svg?branch=Renewal_SDK_dev" alt="Build Project" />
+    </a>
+  </p>
+  
+  [Группа в ВК![VK](https://camo.githubusercontent.com/6f99d8999cea4b31acf470097215eb280b60ba6c176f1b993a66a226f790ea70/68747470733a2f2f692e6962622e636f2f636b6e786a78442f32342e706e67)](https://vk.com/cocr_team)
 </div>
 
 ___
 <h2 align="center">
-  Описание:
+  Описание|Description:
 </h2>
 
   За основу взят проект [SDK 0.8 от RedPanda(isobolevskiy, aka BearIvan)](https://github.com/RedPandaProjects/XRayEngine).
 <details>
   <summary>
     <h3 align="center">
-      Описание от <b>Red Panda</b>:
+      Описание от <b>RedPanda</b>:
     </h2>
   </summary>
 
-XRayEngine [![Discord](https://img.shields.io/discord/530968529311367178?label=discord)](https://discord.gg/AyyCFs7)
-==========================
-
-###  Особенности:
-* Оригинальный движок Зова припяти с минимальными изменениями
-* Полный порт Editors на  visual studio и x64
-* Робочий ЧН на ЗП
-
-### Features:
-* Original Call of Pripyat engine with minimal changes
-* Full port of Editors on visual studio and x64
-* Working CS on COP Engine
-
-### More details
-This repository contains XRay Engine 1.6 sources based on T-6638
-
-It is a place to share ideas on what to implement, gather people that want to work on the engine,
-and work on the source code.
-
-If you find a bug or have an enhancement request, file an [Issue](https://github.com/TheBearProject/XRayEngine/issues).
-
-Pull requests appreciated! However, the following things should be taken into consideration:
-* We want to keep the game as close as possible to the vanilla game, so instead of introducing new gameplay features,
-  consider adding non-gameplay features, fixing bugs, improving performance and code quality
-* Major changes should be discussed before implementation
-
-Be advised that this project is not sanctioned by GSC Game World in any way – and they remain the copyright holders
-of all the original source code.
-
+> XRayEngine [![Discord](https://img.shields.io/discord/530968529311367178?label=discord)](https://discord.gg/AyyCFs7)
+> ==========================
+>
+> ###  Особенности:
+> * Оригинальный движок Зова припяти с минимальными изменениями
+> * Полный порт Editors на  visual studio и x64
+> * Робочий ЧН на ЗП
+>
+> ### Features:
+> * Original Call of Pripyat engine with minimal changes
+> * Full port of Editors on visual studio and x64
+> * Working CS on COP Engine
+>
+> ### More details
+> This repository contains XRay Engine 1.6 sources based on T-6638
+>
+> It is a place to share ideas on what to implement, gather people that want to work on the engine, and work on the source code.
+>
+> If you find a bug or have an enhancement request, file an [Issue](https://github.com/TheBearProject/XRayEngine/issues).
+>
+> Pull requests appreciated! However, the following things should be taken into consideration:
+> * We want to keep the game as close as possible to the vanilla game, so instead of introducing new gameplay features, consider adding non-gameplay features, fixing bugs, improving performance and code quality
+> * Major changes should be discussed before implementation
+>
+> Be advised that this project is not sanctioned by GSC Game World in any way – and they remain the copyright holders of all the original source code.
+> 
 </details>
 
+___
+<details>
+  <summary>
+    <h3 align="center">
+      Description in <b>English</b:
+    </h2>
+  </summary>
+
+> ## Project Goals:
+> - Bugfix sdk 0.8, attempt to get sdk up and running, with latest changes including `inGame` mode.
+> - Implementation of new features and tools for developers on the XRay engine platform.
+> - The priority is to improve the graphics and performance of the XRay engine.
+>
+> ### Supported configurations:
+> - `Debug` - Building the engine and editors on a debug configuration.
+> - `Release` - Building the engine and editors on the release configuration.
+> - `ReleaseNoEditor` - Building the engine on the Release configuration, but without editors.
+> - Only `x64` is supported, I see no point in supporting `x32(x86)`.
+>
+> ___
+> ### [Download and install](https://github.com/Roman-n/HybridXRay/wiki/%5BEN%5D-How-to-install-SDK)
+> ### [Building Instructions](https://github.com/Roman-n/HybridXRay/wiki/%5BEN%5D-Building-in-Visual-Studio)
+> ### [List of changes](https://github.com/Roman-n/HybridXRay/wiki/%5BEN%5D-Changelog)
+> ### Suggestions|comments|bugs - [write here](https://github.com/Roman-n/HybridXRay/issues)
+> * All the necessary information [here](https://github.com/Roman-n/HybridXRay/wiki).
+> * All releases [here](https://github.com/Roman-n/HybridXRay/releases).
+>
+</details>
+
+___
 ## Цели проекта:
 - Исправление ошибок sdk 0.8, попытка привести сдк к работоспособному состоянию, с последними нововведениями, включая `inGame` режим.
 - Внедрение новых возможностей и инструментария для разработчиков на платформе движка XRay.
@@ -66,237 +110,58 @@ of all the original source code.
 - `ReleaseNoEditor` - Сборка движка на конфигурации Release, но без редакторов.
 - Поддерживается исключительно `x64`, в поддержке `x32(x86)` не вижу смысла.
 
-
-
 ___
-<details>
-  <summary>
-    <h2 align="center">
-      Инструкции по сборке:
-    </h2>
-  </summary>
-
-- Рекомендуется актуальная версия Visual Studio 2022.
-  - MFC
-  - C++/CLI
-  - Windows SDK 10.0
-
-- Клонировать репозиторий, набрав команду в терминале:
-
-```console
-git clone https://github.com/Roman-n/HybridXRay.git
-```
-
-- Открыть решение Engine.sln.
-- Выбрать необходимую конфигурацию `Debug | Release | ReleaseNoEditor`
-- Запустить `Собрать решение`.
-
-</details>
-
+### [Скачать и установить](https://github.com/Roman-n/HybridXRay/wiki/%5BRU%5D-Как-установить-SDK)
+### [Инструкции по сборке](https://github.com/Roman-n/HybridXRay/wiki/%5BRU%5D-Как-собрать-в-Visual-Studio)
+### [Список изменений](https://github.com/Roman-n/HybridXRay/wiki/%5BRU%5D-Список-изменений)
+### Предложения|замечания|ошибки - [пишем сюда](https://github.com/Roman-n/HybridXRay/issues)
+* Вся необходимая информация [тут](https://github.com/Roman-n/HybridXRay/wiki/Главная).
+* Все релизы [тут](https://github.com/Roman-n/HybridXRay/releases).
 ___
 <details>
   <summary>
     <h3 align="center">
-      Авторы и форки, чьи наработки использовались:
+      Авторы и форки, чьи наработки использовались[Authors and forks whose work was used]:
     </h3>
   </summary>
 
-- [RedProjects](https://github.com/RedPandaProjects/XRayEngine)
-- [VaIeroK](https://github.com/VaIeroK)
-    + [XrayExportTool](https://github.com/VaIeroK/XrayExportTool)
-- [Graff46](https://github.com/Graff46/XRayEngine)
-- [tsmp](https://github.com/tsmp)
-    + [xraySdkEditors](https://github.com/tsmp/xraySdkEditors)
-- [X-RAY - SDK(OMP fix v1)](https://github.com/xray-omp/omp-sdk)
-- [xray-csky_borscht_sdk](https://bitbucket.org/stalker/xray-csky_borscht_sdk/src)
-- [OpenXRay](https://github.com/OpenXRay/xray-16)
-- [LVutner](https://github.com/LVutner)
-- [OGSR-Engine](https://github.com/OGSR/OGSR-Engine)
-
+> - [RedProjects](https://github.com/RedPandaProjects/XRayEngine)
+> - [VaIeroK](https://github.com/VaIeroK)
+>     + [XrayExportTool](https://github.com/VaIeroK/XrayExportTool)
+> - [Graff46](https://github.com/Graff46/XRayEngine)
+> - [tsmp](https://github.com/tsmp)
+>     + [xraySdkEditors](https://github.com/tsmp/xraySdkEditors)
+> - [xray-omp](https://github.com/xray-omp)
+>     + [X-RAY - SDK(OMP fix v1)](https://github.com/xray-omp/omp-sdk)
+> - [xray-csky_borscht_sdk](https://bitbucket.org/stalker/xray-csky_borscht_sdk/src)
+> - [OpenXRay](https://github.com/OpenXRay/xray-16)
+> - [LVutner](https://github.com/LVutner)
+> - [OGSR-Engine](https://github.com/OGSR/OGSR-Engine)
+> - [SkyLoader](https://github.com/SkyLoaderr)
+>
 </details>
 <details>
   <summary>
     <h3 align="center">
-      Отдельныя благодарность за неоценимую помощь и подсказки:
+      Отдельныя благодарность за неоценимую помощь[Thanks for the invaluable help]:
     </h3>
   </summary>
 
-- [RedPanda](https://github.com/RedPandaProjects)
-- [Debrovski](https://github.com/Debrovski)
-- [tsmp](https://github.com/tsmp)(maks0)
-- [abramcumner](https://github.com/abramcumner)
-- [VaIeroK](https://github.com/VaIeroK)
-- [Xottab_DUTY](https://github.com/Xottab-DUTY)
-- [Mortan](https://github.com/mortany)
-
-</details>
-
-___
-<details>
-  <summary>
-    <h1 align="center">
-      Список изменений(Changelog)
-    </h1>
-  </summary>
-
-`[Очерёдность изменений - снизу вверх]`
-
-## SDK 0.8.1b:
-
-- [XrEngine] Поддержка анимаций нового формата(без сжатия). by Mortan.
-- [LevelEditor] Фикс травы в редакторе.
-+ Добавлены Дефолтные настройки редакторов:
-    - Теперь по умолчанию, при первом запуске редакторов, окна редакторов будут с настроенными окнами.
-    - По умолчанию у редакторов в оконном режиме разрешение 1280х800 - если разрешение экрана будет меньше этого разрешения - редакторы могут запускаться со сбитыми настройами окон -> в таком случае приходится самостоятельно всё в ручную настраивать по новой.
-    - Радиус рендера геометрии по дефолту увеличил до 500м.
-    - 'Far Plane' по дефолту уменьшил до 1000м., снижение 'Far Plane' позволяет увеличить производительность, если включить статический свет в LE.
-- [LevelEditor]  Фикс вылета, при нажатии 'Align To Object' в Группах при пустой сцене.
-- К новым функциям в AE, в пропах добавлены всплывающие подсказки. В будущем надо будет добавить подсказки ко всем функциям.
-- Сделана возможность добавлять всплывающие подсказки в пропах.
-- Ко всем кнопкам на панели меню добавлены всплывающие подсказки, в две локализации.
-- [ShaderEditor] 'Preview' и 'Item Properties' перенёс в 'UIRightBarForm'. Ибо гораздо удобнее работать, когда свойства в отдельном окне.
-- [ShaderEditor|ActorEditor] Добавлена очистка в пропах. Чтоб при смене итема не оставались секции от прошлых выбранных итемов.
-- [ParticleEditor] Добавлена очистка эффектов в пропах. Чтоб при смене партиклов не оставались секции эффектов от прошлых выбранных партиклов.
-- Улучшен интерфейс всех редакторов, сделан более удобным и схожим с оригинальным СДК.
-+ Улучшен лог.
-    - Некоторый вывод в лог убран под опции "рассширенного лога" в настройках.
-    - Поправлены цвета сообщений в логе.
-    - Расширенный лог включён по умолчанию. Так же по дефолту включил флаг анимаций "force 16Bit".
-+ [shaders] Фикс шейдерных багов от LVutner:
-    - Светлая обводка вокруг объектов при освещении.
-    - Косяк с тенями облаков.
-- [ActorEditor]  Drag'N'Drop в 'UIBoneForm', он же 'BonePart'.
-- Фикс загрузки/выгрузки материалов в AE, спасибо за помощь abramcumner'у.
-- Реализация локализации, в редакторах, на 2 языка En/Ru, переключение добавлено на панель меню редакторов.
-- Фикс движка - когда он не мог загрузить текстуру сохранения на r3-r4.
-+ [Splash]:
-    - На Splash сделан прогресс бар и вывод стадий загрузки.
-    - Всем редакторам добавлен Splash при запуске.
-+ [Image Editor]:
-    - Возможность самостоятельно указывать формат бампа.
-    - Увеличено окно предпросмотра текстуры.
-    - Обновление 'RedImage', Image Editor теперь полностью функционален.(спасибо за обновление RedPanda)
-    - При этом, после обновления RedImage - так же заработал движок на r3-r4.
-    - Исправлено обновление списка свойств при изменении типа текстуры в 'ImageEditor'.[tsmp]
-- Удалены лишние проекты.
-- Форматирование файлов(кода) настроенным .clang-format. Не всё и не везде, и не идеально - но лучше чем было.
-- Переделаны и заменены иконки всех редакторов и движка.
-- Настройка проектов под 'PlatformToolset v141/v142/v143'. Т.е. поддержка VS2017-VS2022, протестировано на VS2019-VS2022.(Подсмотрено в OpenXRay)
-- Исправлена компиляция всех проектов, исправлены почти все варнинги.
-
-___
-## Список изменений от других авторов/проектов:
-
-### Список изменений [XrayExportTool(VaIeroK)]:
-- Фикс загрузки рендер буфферов. В идеале их перезагружать после смены типа сглаживания для визуализации.
-- Фикс экспорта ogf без скелета, опциональные нормали.
-- Сохранение скейла для статических объектов.
-+ Автодетект типа сглаживания.
-    - Сглаживание модели автоматически определяется при импорте модели в AE, и автоматически устанавливается флаг сглаживания, который соответствует сглаживанию модели.
-- Переписана пысовская система экспорта статик моделей, снято ограничение на колличество полигонов.
-- Починил кривую пысовскую сортировку мешей.
-- Правки по DM, скейл для DM.
-- Добавил разделение мешей если у меша больше 60000 вертексов, 65535 чаще всего выбивал так как было уже поздно разделять.
-- Многопоточный Batch, работает в 8 раз быстрее чем без многопотока.
-- Stripify для статики.
-- Немного многопотока(tbb).
-- Настройка сообщений в Лог.
-- tbb для статик геометрии.
-- Добавил tbb.
-- Поддержка скейла для ogf без костей, obj.
-- Поддержка ТЧ(SoC) экспорта ogf.
-- Поддержка ТЧ(SoC) сглаживания!
-- Вместо вылета `<!(Pos <= Size) && (Pos >= 0)` - запись в логе.
-- Масштабирование моделей в Actor Editor - BORSCHT SDK.
-- Добавил нужные и вырезал ненужные оптимизации моделей.
-- Поддержка оригинальных нормалей модели от Мортана.
-- Вывел stripify оптимизацию под флаг, по дефолту она не нужна.
-- HQ Geometry+
-- Optimize surfaces.
-- Экспорт анимаций без сжатия.
-- Вырезана оптимизация skls и оптимизация ключей анимаций.
-- Возможность экспортировать анимации с битым boneparts.
-
-___
-### Список изменений [xraySdkEditors(tsmp)]:
-- Переделаны иконки редакторов.
-- Исправлен краш при рендере связи вейпоинтов в одной точке.
-- Исправлено неправильное поведение окна подтверждения.
-- Починено отображение выделения рамкой партиклов.
-- Расширен лимит команды в рпоинте до 31.
-- Не падаем при ошибках в анимациях.
-- Починен множественный выбор файлов в диалогах.
-- Исправлено несохранение настроек расположения окон когда путь до сдк содержит кириллицу и некоторые символы.
-- Увеличен FRUSTUM_SAFE в 4 раза(Вылетало на гигантских локациях с кучей порталов при их выделелении прямоугольником).
-- Исправлены неправильные координаты на экране при качестве рендера не 100% (#1).
-- Исправлен краш при изменении текстовых свойств нескольких объектов с разными значениями.
-- Исправлена установка значения -1 вместо любого вводимого, для числовых свойств с максимальным значением u32(-1).
-- ChooseForm при открытии выделяет выбранные ранее элементы.
-- Поправлен запуск с рабочим каталогом, отличающимся от корня сдк на ресурсах чистого sdk 0.7. Часть путей в fs.ltx стандартного sdk 0.7 имеет вместо root add, и не имеет add. Предусматриваем такой вариант.
-- Исправлен краш при закрытии Level Editor.
-- Исправлен краш при нажатии apply и ok в текстовых свойствах.
-- Закрываем редактор текстового свойства по нажатию "ок" если сохраненное значение совпадает с введенным.
-- Исправлено не закрывающееся окно Minimap editor.
-- Восстановлена настройка Respawn time.
-- Починена работа с буфером обмена. Также переделана иначе правка сохранения настроек расположения окон.
-- Обновление списка объектов вынесено в отдельный поток.
-+ [Library Editor]:
-    - Реализована основа Library Editor на imgui.
-    - Исправлено отображение случайного количества полигонов при отсутствии превью.
-    - Реализовано превью в Library editor.
-    - Library editor: создание превью-картинки.
-    - Library editor: создание lod текстур.
-- Исправлен вылет от неправильного типа звука.
-- Добавлено выставление флага сохраненной сцены.
-- Исправлен спавн рпоинта и env mod.
-- Исправлена ошибка с неправильным сохранением количества объектов.
-- Исправлен вылет на верификации при отсутствии шейдера.
-- Добавлено сообщение при экспорте сетки большего размера, чем может обработать стандартный компилятор и игра.
-
-___
-### Список изменений [Graff46]:
-- Fixed path when compiling DO
-- Поправил добавление расширения файла (dds) текстуры травы локации простым добавлением строки. Функция `EFS_Utils::ChangeFileExt(LPCSTR src, LPCSTR ext)` работает с ошибками.
-- Исправлен не корректный поиск пути к файлу если в названии папок присутствуют точки.
-
-___
-### Список изменений [X-RAY - SDK(OMP fix v1)]:
-- Исправлено создание порталов на х64.
-- Исправлена возможность поворачивать объекты.
-- Исправлены лютые лаги при взаимодействии с объектом, после изменения чего либо в Properties.
-- Исправлена возможность создания $rpoint.
-- Расширено количество Team у $rpoint'a до 32 (для МП проектов).
-- Исправлены галочки GameType.
-- Исправлен вылет при попытке задать имя Waypoint'у.
-- Исправлена ситуации когда объекту не назначается имя (после сохранения\загрузки происходил вылет _name).
-- Добавлены недостающие параметры в Properties к Sound source.
-- Добавлена возможность загрузить лог xrAI после verify (облегчен поиск некоректных нодов).
-- В Object List добавлена кнопка Focus on Selected - для фокусировки камеры на выделенный объект в списке.
-- В контекстное меню (по ПКМ) добавлена кнопка Duplicate - дублирует выделенный объект.
-- Добавлен фикс битых thm (взято из https://github.com/OGSR/OGSR-Engine).
-- Увеличен максимальный размер LOD текстуры до 8192х8192.
-- Увеличен максимальный размер Detail текстуры до 8192х8192, количество detail object до 512.
-- Исправлен контрол выбора цвета (например в секторах).
-- Исправлен баг с созданием дерева каталогов, приводило к вылету если у файла и папки рядом с ним одинаковое имя. Так же добавлен пропуск и предупреждение при ошибке в построении древа каталогов\файлов.
-- Добавлен фокус на Properties после выбора другого объекта во вьюпорте.
-- Увеличена максимальная длина текста в TextView с 20 до 40.
-- Исправлена генерация *_bump#.
-- Ускорена компрессия текстур.
-- Добавлена фозможность растягивать Image Editor.
-- Добавлен горизонтальный скролл в Image Editor.
-- Исправлена не правильная позиция во вью порте при изменении параметра Quality.
-- Исправлен не корректный поиск пути к файлу если в названии папок присутствуют точки (взято из https://github.com/Graff46/XRayEngine).
-- Измененена цветовая палитра редакторов.
-- Исправлен Object List при низких или высоких разрешениях (теперь имеет фиксированый размер и добавлен общий скролл).
-- Прочие мелкие изменения.
-
+> - [RedPanda](https://github.com/RedPandaProjects)
+> - [Debrovski](https://github.com/Debrovski)
+> - [tsmp](https://github.com/tsmp)(maks0)
+> - [abramcumner](https://github.com/abramcumner)
+> - [VaIeroK](https://github.com/VaIeroK)
+> - [Xottab_DUTY](https://github.com/Xottab-DUTY)
+> - [Mortan](https://github.com/mortany)
+>
 </details>
 
 ___
 <details>
   <summary>
     <h2 align="center">
-      Известные баги:
+      Известные баги|Known bugs:
     </h2>
   </summary>
 
@@ -310,5 +175,4 @@ ___
 </details>
 
 ## License
-
 Подробнее смотреть [в этом файле](License.txt).
