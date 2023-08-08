@@ -22,16 +22,10 @@ rawdata/textures/
 rawdata/*.dti
 logs/
 temp/
-#gamedata
 gamedata_soc/
 gamedata_cs/
-gamedata/*.*
-gamedata/ai/
-gamedata/anims/
-gamedata/configs/
 gamedata/levels/
 gamedata/meshes/
-gamedata/scripts/
 gamedata/sounds/
 gamedata/spawns/
 gamedata/textures/
