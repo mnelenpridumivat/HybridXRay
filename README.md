@@ -121,7 +121,7 @@ ___
 <details>
   <summary>
     <h3 align="center">
-      Авторы и форки, чьи наработки использовались[Authors and forks whose work was used]:
+      Авторы и форки, чьи наработки использовались:
     </h3>
   </summary>
 
@@ -143,7 +143,7 @@ ___
 <details>
   <summary>
     <h3 align="center">
-      Отдельныя благодарность за неоценимую помощь[Thanks for the invaluable help]:
+      Отдельныя благодарность за неоценимую помощь и подсказки:
     </h3>
   </summary>
 
