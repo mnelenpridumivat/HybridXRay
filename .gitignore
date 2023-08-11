@@ -8,11 +8,9 @@ _appdata_soc_/
 _Build/
 /Bin/
 import/
-rawdata/
 rawdata_soc/
 rawdata_cs/
 rawdata/backup/
-rawdata/groups/
 rawdata/levels/
 rawdata/objects/
 rawdata/particles/
