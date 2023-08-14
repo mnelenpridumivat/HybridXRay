@@ -87,6 +87,7 @@ ___
 > - `Release` - Building the engine and editors on the release configuration.
 > - `ReleaseNoEditor` - Building the engine on the Release configuration, but without editors.
 > - Only `x64` is supported, I see no point in supporting `x32(x86)`.
+> - There will also be no support for SoC/CS, I'm just not interested - but this possibility remains in the project from author(RedPanda), if anyone has a desire to set up, test and maintain support for SoC and CS - write [here](https://github.com/Roman-n/HybridXRay/issues), or in [group VK](https://vk.com/topic-219137052_50305480).
 >
 > ___
 > ### [Download and install](https://github.com/Roman-n/HybridXRay/wiki/%5BEN%5D-How-to-install-SDK)
@@ -109,6 +110,7 @@ ___
 - `Release` - Сборка движка и редакторов на релизной конфигурации.
 - `ReleaseNoEditor` - Сборка движка на конфигурации Release, но без редакторов.
 - Поддерживается исключительно `x64`, в поддержке `x32(x86)` не вижу смысла.
+- Так же не будет поддержки ТЧ/ЧН, мне это просто не интересно - но такая возможность остаётся в проекте от автора(RedPanda), если у кого будет желание всё это настраивать, тестировать и вести поддержку ТЧ и ЧН - пишите [сюда](https://github.com/Roman-n/HybridXRay/issues), или в [группу ВК](https://vk.com/topic-219137052_50305480).
 
 ___
 ### [Скачать и установить](https://github.com/Roman-n/HybridXRay/wiki/%5BRU%5D-Как-установить-SDK)
