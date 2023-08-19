@@ -4,7 +4,7 @@ UIChooseForm::EventsMap UIChooseForm::m_Events;
 UIChooseForm*           UIChooseForm::Form        = 0;
 ImTextureID             UIChooseForm::NullTexture = nullptr;
 
-void                    UIChooseForm::UpdateSelected(UIChooseFormItem* NewSelected)
+void UIChooseForm::UpdateSelected(UIChooseFormItem* NewSelected)
 {
     m_SelectedItem = NewSelected;
     if (m_SelectedItem)
@@ -203,9 +203,7 @@ void UIChooseForm::Draw()
                                             (m_Texture)m_Texture->Release(); m_Texture = 0; } */
                     ImGui::SameLine();
                 }
-                if (ImGui::BeginChild(
-                        "List", ImVec2(0, 0), true,
-                        ImGuiWindowFlags_AlwaysHorizontalScrollbar | ImGuiWindowFlags_AlwaysVerticalScrollbar))
+                if (ImGui::BeginChild("List", ImVec2(0, 0), true, ImGuiWindowFlags_AlwaysHorizontalScrollbar | ImGuiWindowFlags_AlwaysVerticalScrollbar))
                 {
                     int i     = 0;
 
@@ -228,7 +226,7 @@ void UIChooseForm::Draw()
 
             ImGui::EndChild();
 
-            ImGui::BeginDisabled(!m_Flags.is(cfMultiSelect) && !GetSelectedItem());
+            ImGui::BeginDisabled(!GetSelectedItem());
             if (ImGui::Button("Ok", ImVec2(100, 0)))
             {
                 if (!m_Flags.is(cfMultiSelect))

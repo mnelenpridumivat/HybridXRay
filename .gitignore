@@ -10,6 +10,7 @@ _Build/
 import/
 rawdata_soc/
 rawdata_cs/
+rawdata/
 rawdata/backup/
 rawdata/levels/
 rawdata/objects/
