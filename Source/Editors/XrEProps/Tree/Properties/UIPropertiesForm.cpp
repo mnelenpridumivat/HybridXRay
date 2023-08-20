@@ -20,6 +20,15 @@ UIPropertiesForm::~UIPropertiesForm()
 
 void UIPropertiesForm::Draw()
 {
+  static ImGuiTableFlags flags = ImGuiTableFlags_Borders | ImGuiTableFlags_Resizable | ImGuiTableFlags_RowBg;
+  if (ImGui::BeginTable("props", 2, flags))
+  {
+    ImGui::TableSetupColumn("Name"_RU >> u8"Имя", ImGuiTableColumnFlags_NoHide);
+    ImGui::TableSetupColumn("Prop"_RU >> u8"Значение", ImGuiTableColumnFlags_WidthFixed);
+    ImGui::TableHeadersRow();
+    m_Root.DrawRoot();
+    ImGui::EndTable();
+  }
     {
         if (m_EditChooseValue)
         {
@@ -90,15 +99,6 @@ void UIPropertiesForm::Draw()
         }
     }
 
-    static ImGuiTableFlags flags = ImGuiTableFlags_Borders | ImGuiTableFlags_Resizable | ImGuiTableFlags_RowBg;
-    if (ImGui::BeginTable("props", 2, flags))
-    {
-        ImGui::TableSetupColumn("Name"_RU >> u8"Имя", ImGuiTableColumnFlags_NoHide);
-        ImGui::TableSetupColumn("Prop"_RU >> u8"Значение", ImGuiTableColumnFlags_WidthFixed);
-        ImGui::TableHeadersRow();
-        m_Root.DrawRoot();
-        ImGui::EndTable();
-    }
 }
 
 void UIPropertiesForm::AssignItems(PropItemVec& items)
