@@ -26,7 +26,6 @@ inline void not_implemented()
 #include "Tree\Base\UITreeItem.h"
 #include "ItemListHelper.h"
 #include "UITextForm.h"
-#include "UINumericVectorForm.h"
 #include "Tree\Properties\UIPropertiesItem.h"
 #include "Tree\Properties\UIPropertiesForm.h"
 #include "UIItemListForm.h"

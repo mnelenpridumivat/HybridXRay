@@ -143,6 +143,7 @@
     <ClCompile Include="Editor\pDomain.cpp" />
     <ClCompile Include="Editor\PhysicsShellHolderEditorBase.cpp" />
     <ClCompile Include="Editor\render.cpp" />
+    <ClCompile Include="Editor\UIMoveToForm.cpp" />
     <ClCompile Include="Editor\UISoundEditorForm.cpp" />
     <ClCompile Include="Editor\SoundManager.cpp" />
     <ClCompile Include="Editor\TLSPRITE.CPP" />
@@ -259,6 +260,7 @@
     <ClInclude Include="Editor\render.h" />
     <ClInclude Include="Editor\SkeletonFace.h" />
     <ClInclude Include="Editor\SkeletonVert.h" />
+    <ClInclude Include="Editor\UIMoveToForm.h" />
     <ClInclude Include="Editor\UISoundEditorForm.h" />
     <ClInclude Include="Editor\SoundManager.h" />
     <ClInclude Include="Editor\TLSPRITE.h" />

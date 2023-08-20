@@ -15,6 +15,13 @@ class XREUI_API XrUIManager
 public:
     XrUIManager();
     void Push(XrUI* ui, bool need_deleted = true);
+
+    template<typename T>
+    inline bool IsPushedOfType() const
+    {
+      return std::any_of(m_UIArray.begin(), m_UIArray.end(), [](XrUI* Form){return dynamic_cast<T*>(Form);});
+    }
+
     void Draw();
 
     virtual ~XrUIManager();

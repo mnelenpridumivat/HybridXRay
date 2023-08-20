@@ -547,6 +547,9 @@
     <ClCompile Include="..\Public\NVMeshMenderTwo.cpp">
       <Filter>Editor</Filter>
     </ClCompile>
+    <ClCompile Include="Editor\UIMoveToForm.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WildMagic\WmlMath.h">
@@ -832,6 +835,9 @@
     </ClInclude>
     <ClInclude Include="Engine\guid_generator.h">
       <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\UIMoveToForm.h">
+      <Filter>Editor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -10,6 +10,7 @@
 #include "UIImageEditorForm.h"
 #include "UIMinimapEditorForm.h"
 #include "UISoundEditorForm.h"
+#include "UIMoveToForm.h"
 #include "d3dutils.h"
 
 #include "PSLibrary.h"
@@ -613,10 +614,9 @@ CCommandVar CommandMuteSound(CCommandVar p1, CCommandVar p2)
 
 CCommandVar CommandMoveCameraTo(CCommandVar p1, CCommandVar p2)
 {
-    not_implemented();
-    Fvector pos = EDevice->m_Camera.GetPosition();
-    /*if (NumericVectorRun("Move to", &pos, 3))
-        EDevice->m_Camera.Set(EDevice->m_Camera.GetHPB(), pos);*/
+    if(!UI->IsPushedOfType<UIMoveToForm>())
+      UI->Push(xr_new<UIMoveToForm>(), true);
+      
     return TRUE;
 }
 

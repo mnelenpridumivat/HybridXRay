@@ -32,7 +32,6 @@
     <ClCompile Include="Tree\Properties\UIPropertiesItem.cpp" />
     <ClCompile Include="UIItemListForm.cpp" />
     <ClCompile Include="UIKeyPressForm.cpp" />
-    <ClCompile Include="UINumericVectorForm.cpp" />
     <ClCompile Include="UITextForm.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -46,7 +45,6 @@
     <ClInclude Include="Tree\Properties\UIPropertiesItem.h" />
     <ClInclude Include="UIItemListForm.h" />
     <ClInclude Include="UIKeyPressForm.h" />
-    <ClInclude Include="UINumericVectorForm.h" />
     <ClInclude Include="UITextForm.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
