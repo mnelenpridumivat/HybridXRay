@@ -28,9 +28,7 @@ jobs:
 
     - name: Build
       working-directory: Source
-      run: >
-        set CL=/DNIGHT_BUILD_NUMBER#${{ github.run_number }}
-        msbuild /m /p:Configuration="${{ matrix.Configuration }}" /p:Platform="${{ matrix.Platform }}" Engine.sln
+      run: set CL=/DNIGHT_BUILD_NUMBER#${{ github.run_number }} & msbuild /m /p:Configuration="${{ matrix.Configuration }}" /p:Platform="${{ matrix.Platform }}" Engine.sln
 
     - name: Prepare artifacts
       shell: cmd
