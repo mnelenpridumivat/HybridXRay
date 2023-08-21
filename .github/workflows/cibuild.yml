@@ -28,11 +28,11 @@ jobs:
 
     - name: Build
       working-directory: Source
-      run: set CL=/DNIGHT_BUILD_NUMBER#${{ github.run_number }} & msbuild /m /p:Configuration="${{ matrix.Configuration }}" /p:Platform="${{ matrix.Platform }}" Engine.sln
+      run: "set CL=/DNIGHT_BUILD_NUMBER=${{ github.run_number }}" & msbuild /m /p:Configuration="${{ matrix.Configuration }}" /p:Platform="${{ matrix.Platform }}" Engine.sln
 
     - name: Prepare artifacts
       shell: cmd
-      run: utils/misc/xr_pack_build.cmd "${{ matrix.Configuration }}" "${{ matrix.Platform }}" "NightBuild#${{ github.run_number }}"
+      run: utils/misc/xr_pack_build.cmd "${{ matrix.Configuration }}" "${{ matrix.Platform }}" "Build${{ github.run_number }}"
 
     - name: Upload HybridXRay artifact
       uses: actions/upload-artifact@main
