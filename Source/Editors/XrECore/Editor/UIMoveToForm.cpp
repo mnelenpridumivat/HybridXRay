@@ -38,12 +38,12 @@ void UIMoveToForm::Draw()
         CLBReset();
     ImGui::EndGroup();
     ImGui::End();
-    UI->RedrawScene();
 }
 
 void UIMoveToForm::CLBOk()
 {
     EDevice->m_Camera.Set(EDevice->m_Camera.GetHPB(), m_DesiredCameraPosition);
+    UI->RedrawScene();
     // bOpen  = false;
 }
 
