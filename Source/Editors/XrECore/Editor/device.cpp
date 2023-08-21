@@ -320,6 +320,18 @@ void CEditorRenderDevice::_Destroy(BOOL bKeepTextures)
     ::RImplementation.OnDeviceDestroy();
 }
 
+xr_string CEditorRenderDevice::_GetWindowTitle()
+{
+  xr_string Result;
+  Result += UI->EditorDesc();
+
+#ifdef NIGHT_BUILD_NUMBER
+  Result += " [build #" + xr_string(NIGHT_BUILD_NUMBER) + "] [" + xr_string(__DATE__) + ']';
+#endif
+  
+  return Result;
+}
+
 //---------------------------------------------------------------------------
 void CEditorRenderDevice::Resize(int w, int h, bool maximized)
 {
@@ -504,7 +516,7 @@ void CEditorRenderDevice::CreateWindow()
             TEXT("XRay Editor"), NULL};
     ::RegisterClassEx(&m_WC);
     m_hWnd = ::CreateWindowA(
-        m_WC.lpszClassName, UI->EditorDesc(), WS_OVERLAPPEDWINDOW, 100, 100, 1280, 800, NULL, NULL, m_WC.hInstance,
+        m_WC.lpszClassName, _GetWindowTitle().c_str(), WS_OVERLAPPEDWINDOW, 100, 100, 1280, 800, NULL, NULL, m_WC.hInstance,
         NULL);
 
     ::UpdateWindow(m_hWnd);

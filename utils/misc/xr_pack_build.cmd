@@ -10,13 +10,20 @@ if [%2]==[] (
   EXIT /B
 )
 
+if [%3]==[] (
+  echo Please, specify build name
+  EXIT /B
+)
+
 set CONFIGURATION=%~1
 set PLATFORM=%~2
+set BUILD_NAME=%~3
 
 if %PLATFORM%==x64 (
-    set EDITION_NAME=%CONFIGURATION% 64-bit
+    set EDITION_NAME=%BUILD_NAME% %CONFIGURATION%
 ) else (
-    set EDITION_NAME=%CONFIGURATION% %PLATFORM%
+	echo Expected x64 only
+	EXIT /B
 )
 
 rem Replace spaces with dots to avoid possible problems (e.g. with GitHub nighly builds uploading)

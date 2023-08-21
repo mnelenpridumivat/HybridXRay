@@ -31,9 +31,10 @@ class ECORE_API CEditorRenderDevice: public XrDeviceInterface
 
     ref_shader m_CurrentShader;
 
-    void _SetupStates();
-    void _Create(IReader* F);
-    void _Destroy(BOOL bKeepTextures);
+    void      _SetupStates();
+    void      _Create(IReader* F);
+    void      _Destroy(BOOL bKeepTextures);
+    xr_string _GetWindowTitle();
 
 public:
     ref_shader m_WireShader;
