@@ -13,6 +13,8 @@ UIMoveToForm::UIMoveToForm()
 
 void UIMoveToForm::Draw()
 {
+    ImGui::SetNextWindowPos(ImGui::GetWindowViewport()->GetCenter(), ImGuiCond_Appearing, {0.5f, 0.5f});
+
     ImGui::Begin("Move to", 0, ImGuiWindowFlags_::ImGuiWindowFlags_NoDocking
         | ImGuiWindowFlags_NoResize
         | ImGuiWindowFlags_NoSavedSettings
