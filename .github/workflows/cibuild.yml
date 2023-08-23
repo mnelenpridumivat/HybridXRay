@@ -28,7 +28,7 @@ jobs:
 
     - name: Build
       working-directory: Source
-      run: set CL=/DNIGHT_BUILD_NUMBER=${{ github.run_number }} & msbuild /m /p:Configuration="${{ matrix.Configuration }}" /p:Platform="${{ matrix.Platform }}" Engine.sln
+      run: set CL=/DNIGHT_BUILD_NUMBER=${{ github.run_number }}; msbuild /m /p:Configuration="${{ matrix.Configuration }}" /p:Platform="${{ matrix.Platform }}" Engine.sln
 
     - name: Prepare artifacts
       shell: cmd
@@ -58,4 +58,4 @@ jobs:
       if: ${{ steps.update-latest-nightly-tag.outcome == 'success' }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: gh release upload --clobber latest-nightly (get-item *.*.7z)
+      run: gh release delete latest-nightly --yes; gh release create latest-nightly (get-item *.*.7z) --prerelease --title "Последняя ночная сборка/Latest nightly build" --notes "### Это последняя ночная сборка, скомпилированная из последнего коммита`n### This is the latest nightly build compiled from the latest commit"
