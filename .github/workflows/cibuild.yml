@@ -8,8 +8,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-windows:
-    name: Windows ${{ matrix.Configuration }} ${{ matrix.Platform }} (msvc)
+  build-sdk:
+    name: Build SDK [${{ matrix.Configuration }}]
     runs-on: windows-latest
     strategy:
       fail-fast: false
@@ -28,23 +28,23 @@ jobs:
 
     - name: Build
       working-directory: Source
-      run: set CL=/DNIGHT_BUILD_NUMBER=${{ github.run_number }}; msbuild /m /p:Configuration="${{ matrix.Configuration }}" /p:Platform="${{ matrix.Platform }}" Engine.sln
+      env:
+        CL: /DNIGHT_BUILD_NUMBER=${{ github.run_number }}
+      run: msbuild /m /p:Configuration="${{ matrix.Configuration }}" /p:Platform="${{ matrix.Platform }}" Engine.sln
 
     - name: Prepare artifacts
       shell: cmd
       run: utils/misc/xr_pack_build.cmd "${{ matrix.Configuration }}" "${{ matrix.Platform }}" "Build${{ github.run_number }}"
 
     - name: Upload HybridXRay artifact
-      uses: actions/upload-artifact@main
+      uses: kittaakos/upload-artifact-as-is@v0
       with:
-        name: HybridXRay.${{ matrix.Configuration }} ${{ matrix.Platform }} (github-${{ github.run_number }}).7z
         path: HybridXRay.*.7z
 
     - name: Upload Symbols
-      uses: actions/upload-artifact@main
+      uses: kittaakos/upload-artifact-as-is@v0
       if: matrix.Configuration == 'Release'
       with:
-        name: Symbols.${{ matrix.Configuration }} ${{ matrix.Platform }} (github-${{ github.run_number }}).7z
         path: Symbols.*.7z
 
     - name: Update latest-nightly tag
@@ -54,8 +54,20 @@ jobs:
       with:
         ref: latest-nightly
 
+  publish-sdk:
+    needs: build-sdk
+    name: Publish SDK
+    runs-on: windows-latest
+    steps:
+
+    - uses: actions/checkout@main
+    
+    - name: Download all artifacts
+      uses: actions/download-artifact@v3
+      with:
+        path: artifacts/
+
     - name: Publish latest nightly build
-      if: ${{ steps.update-latest-nightly-tag.outcome == 'success' }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: gh release delete latest-nightly --yes; gh release create latest-nightly (get-item *.*.7z) --prerelease --title "Последняя ночная сборка/Latest nightly build" --notes "### Это последняя ночная сборка, скомпилированная из последнего коммита`n### This is the latest nightly build compiled from the latest commit"
+      run: gh release delete latest-nightly --yes; gh release create latest-nightly (Get-ChildItem artifacts/*.7z -Recurse) --prerelease --title "Последняя ночная сборка/Latest nightly build" --notes "### Это последняя ночная сборка, скомпилированная из последнего коммита`n### This is the latest nightly build compiled from the latest commit"

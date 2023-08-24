@@ -326,7 +326,7 @@ xr_string CEditorRenderDevice::_GetWindowTitle()
   Result += UI->EditorDesc();
 
 #ifdef NIGHT_BUILD_NUMBER
-  Result += " [build #" + xr_string(NIGHT_BUILD_NUMBER) + "] [" + xr_string(__DATE__) + ']';
+  Result += " [night build #" + xr_string(NIGHT_BUILD_NUMBER) + "] [" + xr_string(__DATE__) + ']';
 #endif
   
   return Result;
