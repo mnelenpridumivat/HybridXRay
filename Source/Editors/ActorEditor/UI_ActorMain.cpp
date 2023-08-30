@@ -509,41 +509,41 @@ void CActorMain::RegisterCommands()
 {
     inherited::RegisterCommands();
     // tools
-    REGISTER_CMD_CE(COMMAND_CLEAR, "File\\Clear Scene", ATools, CActorTools::CommandClear, true);
-    REGISTER_CMD_CE(COMMAND_LOAD, "File\\Load", ATools, CActorTools::CommandLoad, true);
+    REGISTER_CMD_CE(COMMAND_CLEAR, "File\\Clear Scene", xr_shortcut('N', false, true, false), ATools, CActorTools::CommandClear, true);
+    REGISTER_CMD_CE(COMMAND_LOAD, "File\\Load", xr_shortcut('L', false, true, false), ATools, CActorTools::CommandLoad, true);
     REGISTER_CMD_C(COMMAND_SAVE_BACKUP, ATools, CActorTools::CommandSaveBackup);
     REGISTER_SUB_CMD_CE(COMMAND_SAVE, "File", ATools, CActorTools::CommandSave, true);
-    APPEND_SUB_CMD("Save", 0, 0);
-    APPEND_SUB_CMD("Save As", 0, 1);
+    APPEND_SUB_CMD("Save", xr_shortcut('S', false, true, false), 0, 0);
+    APPEND_SUB_CMD("Save As", xr_shortcut('S', false, true, true), 0, 1);
     REGISTER_SUB_CMD_END;
-    REGISTER_CMD_CE(COMMAND_IMPORT, "File\\Import", ATools, CActorTools::CommandImport, true);
-    REGISTER_CMD_CE(COMMAND_EXPORT_DM, "File\\Export DM", ATools, CActorTools::CommandExportDM, true);
-    REGISTER_CMD_CE(COMMAND_EXPORT_OBJ, "File\\Export OBJ", ATools, CActorTools::CommandExportOBJ, true);
-    REGISTER_CMD_CE(COMMAND_EXPORT_OGF, "File\\Export OGF", ATools, CActorTools::CommandExportOGF, true);
-    REGISTER_CMD_CE(COMMAND_EXPORT_OMF, "File\\Export OMF", ATools, CActorTools::CommandExportOMF, true);
-    REGISTER_CMD_CE(COMMAND_EXPORT_CPP, "File\\Export CPP", ATools, CActorTools::CommandExportCPP, true);
-    REGISTER_CMD_CE(COMMAND_UNDO, "Edit\\Undo", ATools, CActorTools::CommandUndo, false);
-    REGISTER_CMD_CE(COMMAND_REDO, "Edit\\Redo", ATools, CActorTools::CommandRedo, false);
+    REGISTER_CMD_CE(COMMAND_IMPORT, "File\\Import", xr_shortcut(), ATools, CActorTools::CommandImport, true);
+    REGISTER_CMD_CE(COMMAND_EXPORT_DM, "File\\Export DM", xr_shortcut(  ), ATools, CActorTools::CommandExportDM, true);
+    REGISTER_CMD_CE(COMMAND_EXPORT_OBJ, "File\\Export OBJ", xr_shortcut(), ATools, CActorTools::CommandExportOBJ, true);
+    REGISTER_CMD_CE(COMMAND_EXPORT_OGF, "File\\Export OGF", xr_shortcut(), ATools, CActorTools::CommandExportOGF, true);
+    REGISTER_CMD_CE(COMMAND_EXPORT_OMF, "File\\Export OMF", xr_shortcut(), ATools, CActorTools::CommandExportOMF, true);
+    REGISTER_CMD_CE(COMMAND_EXPORT_CPP, "File\\Export CPP", xr_shortcut(), ATools, CActorTools::CommandExportCPP, true);
+    REGISTER_CMD_CE(COMMAND_UNDO, "Edit\\Undo", xr_shortcut('Z', false, true, false), ATools, CActorTools::CommandUndo, false);
+    REGISTER_CMD_CE(COMMAND_REDO, "Edit\\Redo", xr_shortcut('Y', false, true, false), ATools, CActorTools::CommandRedo, false);
     REGISTER_CMD_C(COMMAND_OPTIMIZE_MOTIONS, ATools, CActorTools::CommandOptimizeMotions);
-    REGISTER_CMD_CE(COMMAND_MAKE_THUMBNAIL, "Make Thumbnail", ATools, CActorTools::CommandMakeThumbnail, false);
-    REGISTER_CMD_CE(COMMAND_BATCH_CONVERT, "File\\Batch Convert", ATools, CActorTools::CommandBatchConvert, false);
+    REGISTER_CMD_CE(COMMAND_MAKE_THUMBNAIL, "Make Thumbnail", xr_shortcut(), ATools, CActorTools::CommandMakeThumbnail, false);
+    REGISTER_CMD_CE(COMMAND_BATCH_CONVERT, "File\\Batch Convert", xr_shortcut(), ATools, CActorTools::CommandBatchConvert, false);
     // ui
     REGISTER_CMD_S(COMMAND_SHOW_CLIPMAKER, CommandShowClipMaker);
     REGISTER_CMD_S(COMMAND_MAKE_PREVIEW, CommandMakePreview);
     REGISTER_CMD_S(COMMAND_PREVIEW_OBJ_PREF, CommandPreviewObjPref);
     REGISTER_CMD_S(COMMAND_SELECT_PREVIEW_OBJ, CommandSelectPreviewObj);
-    REGISTER_CMD_SE(COMMAND_LOAD_FIRSTRECENT, "File\\Load First Recent", CommandLoadFirstRecent, true);
-    REGISTER_CMD_SE(COMMAND_FILE_MENU, "File Menu", CommandFileMenu, true);
+    REGISTER_CMD_SE(COMMAND_LOAD_FIRSTRECENT, "File\\Load First Recent", xr_shortcut('R', false, true, false), CommandLoadFirstRecent, true);
+    REGISTER_CMD_SE(COMMAND_FILE_MENU, "File Menu", xr_shortcut('F', true, false, false), CommandFileMenu, true);
     REGISTER_CMD_S(COMMAND_REFRESH_UI_BAR, CommandRefreshUIBar);
     REGISTER_CMD_S(COMMAND_RESTORE_UI_BAR, CommandRestoreUIBar);
     REGISTER_CMD_S(COMMAND_SAVE_UI_BAR, CommandSaveUIBar);
     REGISTER_CMD_S(COMMAND_UPDATE_TOOLBAR, CommandUpdateToolBar);
     REGISTER_CMD_S(COMMAND_UPDATE_CAPTION, CommandUpdateCaption);
     REGISTER_SUB_CMD_SE(COMMAND_CHANGE_TARGET, "Change Target", CommandChangeTarget, true);
-    APPEND_SUB_CMD(BONES_PREFIX, xr_string(BONES_PREFIX), 0);
-    APPEND_SUB_CMD(MOTIONS_PREFIX, xr_string(MOTIONS_PREFIX), 0);
-    APPEND_SUB_CMD(OBJECT_PREFIX, xr_string(OBJECT_PREFIX), 0);
-    APPEND_SUB_CMD(SURFACES_PREFIX, xr_string(SURFACES_PREFIX), 0);
+    APPEND_SUB_CMD(BONES_PREFIX, xr_shortcut(), xr_string(BONES_PREFIX),  0);
+    APPEND_SUB_CMD(MOTIONS_PREFIX, xr_shortcut(), xr_string(MOTIONS_PREFIX),  0);
+    APPEND_SUB_CMD(OBJECT_PREFIX, xr_shortcut(), xr_string(OBJECT_PREFIX),  0);
+    APPEND_SUB_CMD(SURFACES_PREFIX, xr_shortcut(), xr_string(SURFACES_PREFIX),  0);
     REGISTER_SUB_CMD_END;
 }
 

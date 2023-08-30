@@ -141,15 +141,15 @@ void CParticleMain::RegisterCommands()
     // REGISTER_CMD_CE	(COMMAND_SELECT_PREVIEW_OBJ,"Select Preview
     // Object",PTools,CParticleTool::CommandSelectPreviewObj, true); REGISTER_CMD_CE
     // (COMMAND_EDIT_PREVIEW_PROPS,"Select Preview Props",	PTools,CParticleTool::CommandEditPreviewProps, true);
-    REGISTER_CMD_CE(COMMAND_SAVE, "File\\Save", PTools, CParticleTool::CommandSave, true);
+    REGISTER_CMD_CE(COMMAND_SAVE, "File\\Save", xr_shortcut(), PTools, CParticleTool::CommandSave, true);
     REGISTER_CMD_C(COMMAND_SAVE_BACKUP, PTools, CParticleTool::CommandSaveBackup);
-    REGISTER_CMD_CE(COMMAND_LOAD, "File\\Reload", PTools, CParticleTool::CommandReload, true);
+    REGISTER_CMD_CE(COMMAND_LOAD, "File\\Reload", xr_shortcut('L', false, true, false), PTools, CParticleTool::CommandReload, true);
     REGISTER_CMD_C(COMMAND_VALIDATE, PTools, CParticleTool::CommandValidate);
-    REGISTER_CMD_CE(COMMAND_CLEAR, "File\\Clear", PTools, CParticleTool::CommandClear, true);
-    REGISTER_CMD_CE(COMMAND_PLAY_CURRENT, "Particles\\Play", PTools, CParticleTool::CommandPlayCurrent, true);
+    REGISTER_CMD_CE(COMMAND_CLEAR, "File\\Clear", xr_shortcut('N', false, true, false), PTools, CParticleTool::CommandClear, true);
+    REGISTER_CMD_CE(COMMAND_PLAY_CURRENT, "Particles\\Play", xr_shortcut(), PTools, CParticleTool::CommandPlayCurrent, true);
     REGISTER_SUB_CMD_CE(COMMAND_STOP_CURRENT, "Particles", PTools, CParticleTool::CommandStopCurrent, true);
-    APPEND_SUB_CMD("Stop Immediate", 0, 0);
-    APPEND_SUB_CMD("Stop Deffered", 1, 0);
+    APPEND_SUB_CMD("Stop Immediate", xr_shortcut(), 0, 0);
+    APPEND_SUB_CMD("Stop Deffered", xr_shortcut(), 1, 0);
     REGISTER_SUB_CMD_END;
     REGISTER_CMD_S(COMMAND_REFRESH_UI_BAR, CommandRefreshUIBar);
     REGISTER_CMD_S(COMMAND_RESTORE_UI_BAR, CommandRestoreUIBar);
@@ -160,9 +160,7 @@ void CParticleMain::RegisterCommands()
     REGISTER_CMD_C(COMMAND_SAVE_XR, PTools, CParticleTool::CommandSaveXR);
     REGISTER_CMD_C(COMMAND_LOAD_XR, PTools, CParticleTool::CommandLoadXR);
     REGISTER_CMD_C(COMMAND_COMPACT_PARTICLES, PTools, CParticleTool::Compact);
-    REGISTER_CMD_CE(
-        COMMAND_CREATE_GROUP_FROM_SELECTED, "Particles\\CreateGroupFromEffect", PTools,
-        CParticleTool::CreateGroupFromSelected, true);
+    REGISTER_CMD_CE(COMMAND_CREATE_GROUP_FROM_SELECTED, "Particles\\CreateGroupFromEffect", xr_shortcut(), PTools, CParticleTool::CreateGroupFromSelected, true);
 }
 
 void CParticleMain::OnDrawUI()

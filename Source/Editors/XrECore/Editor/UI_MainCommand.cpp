@@ -153,10 +153,10 @@ void RegisterCommand(u32 cmd, SECommand* cmd_impl)
     }
     CMD = cmd_impl;
 }
-void RegisterSubCommand(SECommand* cmd_impl, LPCSTR desc, CCommandVar p0, CCommandVar p1)
+void RegisterSubCommand(SECommand* cmd_impl, LPCSTR desc, xr_shortcut shortcut, CCommandVar p0, CCommandVar p1)
 {
     VERIFY(cmd_impl);
-    cmd_impl->AppendSubCommand(desc, p0, p1);
+    cmd_impl->AppendSubCommand(desc, p0, p1, shortcut);
 }
 BOOL LoadShortcuts(CInifile* ini)
 {
@@ -765,16 +765,16 @@ void TUI::RegisterCommands()
 {
     REGISTER_CMD_S(COMMAND_INITIALIZE, CommandInitialize);
     REGISTER_CMD_S(COMMAND_DESTROY, CommandDestroy);
-    REGISTER_CMD_SE(COMMAND_EXIT, "Exit", CommandExit, true);
+    REGISTER_CMD_SE(COMMAND_EXIT, "Exit", xr_shortcut('Q',false,false,true), CommandExit, true);
     REGISTER_CMD_S(COMMAND_QUIT, CommandQuit);
-    REGISTER_CMD_SE(COMMAND_EDITOR_PREF, "Editor Preference", CommandEditorPrefs, false);
+    REGISTER_CMD_SE(COMMAND_EDITOR_PREF, "Editor Preference", xr_shortcut('P', false, true, false), CommandEditorPrefs, false);
 
-    REGISTER_CMD_SE(COMMAND_SIMULATE, "Simulate", CommandSimulate, true);
-    REGISTER_CMD_SE(COMMAND_USE_SIMULATE_POSITIONS, "Use Simulate Positions", CommandUseSimulatePositions, true);
+    REGISTER_CMD_SE(COMMAND_SIMULATE, "Simulate", xr_shortcut(), CommandSimulate, true);
+    REGISTER_CMD_SE(COMMAND_USE_SIMULATE_POSITIONS, "Use Simulate Positions", xr_shortcut(), CommandUseSimulatePositions, true);
 
     REGISTER_SUB_CMD_SE(COMMAND_CHANGE_ACTION, "Change Action", CommandChangeAction, false);
-    APPEND_SUB_CMD("Select", etaSelect, 0);
-    APPEND_SUB_CMD("Add", etaAdd, 0);
+    APPEND_SUB_CMD("Select", xr_shortcut('S', false, false, false), etaSelect, 0);
+    APPEND_SUB_CMD("Add", xr_shortcut('A', false, false, false), etaAdd, 0);
     REGISTER_SUB_CMD_END;
     REGISTER_CMD_S(COMMAND_SET_SETTINGS, CommandSetSettings);
     REGISTER_CMD_S(COMMAND_SOUND_EDITOR, CommandSoundEditor);
@@ -790,40 +790,40 @@ void TUI::RegisterCommands()
     REGISTER_CMD_S(COMMAND_EVICT_OBJECTS, CommandEvictObjects);
     REGISTER_CMD_S(COMMAND_EVICT_TEXTURES, CommandEvictTextures);
     REGISTER_CMD_S(COMMAND_CHECK_MODIFIED, CommandCheckModified);
-    REGISTER_CMD_SE(COMMAND_SHOW_PROPERTIES, "Show Properties", CommandShowProperties, false);
+    REGISTER_CMD_SE(COMMAND_SHOW_PROPERTIES, "Show Properties", xr_shortcut(VK_RETURN, false, false, false), CommandShowProperties, false);
     REGISTER_CMD_S(COMMAND_UPDATE_PROPERTIES, CommandUpdateProperties);
     REGISTER_CMD_S(COMMAND_REFRESH_PROPERTIES, CommandRefreshProperties);
     REGISTER_SUB_CMD_SE(COMMAND_ZOOM_EXTENTS, "Zoom", CommandZoomExtents, false);
-    APPEND_SUB_CMD("Extent", 0, 0);
-    APPEND_SUB_CMD("Selected", 1, 0);
+    APPEND_SUB_CMD("Extent", xr_shortcut(), 0, 0);
+    APPEND_SUB_CMD("Selected", xr_shortcut('A', false, false, true), 1, 0);
     REGISTER_SUB_CMD_END;
-    REGISTER_CMD_SE(COMMAND_MOVE_CAMERA_TO, "Scene\\Move Camera To", CommandMoveCameraTo, false);
-    REGISTER_CMD_SE(COMMAND_TOGGLE_RENDER_WIRE, "Toggle Wireframe", CommandToggleRenderWire, false);
+    REGISTER_CMD_SE(COMMAND_MOVE_CAMERA_TO, "Scene\\Move Camera To", xr_shortcut(VK_RETURN, false, true, false), CommandMoveCameraTo, false);
+    REGISTER_CMD_SE(COMMAND_TOGGLE_RENDER_WIRE, "Toggle Wireframe", xr_shortcut('W', false, false, false), CommandToggleRenderWire, false);
     REGISTER_CMD_C(COMMAND_RENDER_FOCUS, this, TUI::CommandRenderFocus);
-    REGISTER_CMD_CE(COMMAND_BREAK_LAST_OPERATION, "Break Last Operation", this, TUI::CommandBreakLastOperation, false);
-    REGISTER_CMD_SE(COMMAND_TOGGLE_SAFE_RECT, "Toggle Safe Rect", CommandToggleSafeRect, false);
+    REGISTER_CMD_CE(COMMAND_BREAK_LAST_OPERATION, "Break Last Operation", xr_shortcut(VK_CANCEL, false, true, false), this, TUI::CommandBreakLastOperation, false);
+    REGISTER_CMD_SE(COMMAND_TOGGLE_SAFE_RECT, "Toggle Safe Rect", xr_shortcut('F', false, true, false), CommandToggleSafeRect, false);
     REGISTER_CMD_C(COMMAND_RENDER_RESIZE, this, TUI::CommandRenderResize);
-    REGISTER_CMD_SE(COMMAND_TOGGLE_GRID, "Toggle Grid", CommandToggleGrid, false);
+    REGISTER_CMD_SE(COMMAND_TOGGLE_GRID, "Toggle Grid", xr_shortcut('G', false, true, false), CommandToggleGrid, false);
     REGISTER_CMD_S(COMMAND_UPDATE_GRID, CommandUpdateGrid);
     REGISTER_CMD_S(COMMAND_GRID_NUMBER_OF_SLOTS, CommandGridNumberOfSlots);
     REGISTER_SUB_CMD_SE(COMMAND_GRID_SLOT_SIZE, "Change Grid Size", CommandGridSlotSize, false);
-    APPEND_SUB_CMD("Decrease", 0, 0);
-    APPEND_SUB_CMD("Increase", 1, 0);
+    APPEND_SUB_CMD("Decrease", xr_shortcut(VK_OEM_4, false, false, false), 0, 0);
+    APPEND_SUB_CMD("Increase", xr_shortcut(VK_OEM_6, false, false, false), 1, 0);
     REGISTER_SUB_CMD_END;
     REGISTER_CMD_S(COMMAND_CREATE_SOUND_LIB, CommandCreateSoundLib);
     REGISTER_CMD_S(COMMAND_MUTE_SOUND, CommandMuteSound);
     REGISTER_CMD_S(COMMAND_EDIT_COMMAND_LIST, CommandEditCommandList);
     REGISTER_CMD_S(COMMAND_EXECUTE_COMMAND_LIST, CommandExecuteCommandList);
     REGISTER_CMD_S(COMMAND_LOG_COMMANDS, CommandLogCommands);
-    REGISTER_SUB_CMD_SE(COMMAND_RUN_MACRO, "Run Macro", CommandRunMacro, false);
-    APPEND_SUB_CMD("Slot #1", xr_string(""), 0);
-    APPEND_SUB_CMD("Slot #2", xr_string(""), 0);
-    APPEND_SUB_CMD("Slot #3", xr_string(""), 0);
-    APPEND_SUB_CMD("Slot #4", xr_string(""), 0);
-    APPEND_SUB_CMD("Slot #5", xr_string(""), 0);
-    APPEND_SUB_CMD("Slot #6", xr_string(""), 0);
-    APPEND_SUB_CMD("Slot #7", xr_string(""), 0);
-    APPEND_SUB_CMD("Slot #8", xr_string(""), 0);
+    REGISTER_SUB_CMD_SE(COMMAND_RUN_MACRO, "Run Macro",  CommandRunMacro, false);
+    APPEND_SUB_CMD("Slot #1", xr_shortcut('1', true, false, false), xr_string(""), 0);
+    APPEND_SUB_CMD("Slot #2", xr_shortcut('2', true, false, false), xr_string(""), 0);
+    APPEND_SUB_CMD("Slot #3", xr_shortcut('3', true, false, false), xr_string(""), 0);
+    APPEND_SUB_CMD("Slot #4", xr_shortcut('4', true, false, false), xr_string(""), 0);
+    APPEND_SUB_CMD("Slot #5", xr_shortcut('5', true, false, false), xr_string(""), 0);
+    APPEND_SUB_CMD("Slot #6", xr_shortcut('6', true, false, false), xr_string(""), 0);
+    APPEND_SUB_CMD("Slot #7", xr_shortcut('7', true, false, false), xr_string(""), 0);
+    APPEND_SUB_CMD("Slot #8", xr_shortcut('8', true, false, false), xr_string(""), 0);
     REGISTER_SUB_CMD_END;
     REGISTER_CMD_S(COMMAND_ASSIGN_MACRO, CommandAssignMacro);
 }

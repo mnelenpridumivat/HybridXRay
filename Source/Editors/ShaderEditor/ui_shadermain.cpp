@@ -85,11 +85,11 @@ void CShaderMain::RegisterCommands()
 {
     inherited::RegisterCommands();
     // tools
-    REGISTER_CMD_CE(COMMAND_SAVE, "File\\Save", STools, CShaderTool::CommandSave, true);
+    REGISTER_CMD_CE(COMMAND_SAVE, "File\\Save", xr_shortcut(), STools, CShaderTool::CommandSave, true);
     REGISTER_CMD_C(COMMAND_SAVE_BACKUP, STools, CShaderTool::CommandSaveBackup);
-    REGISTER_CMD_CE(COMMAND_LOAD, "File\\Reload", STools, CShaderTool::CommandReload, true);
-    REGISTER_CMD_CE(COMMAND_CLEAR, "File\\Clear", STools, CShaderTool::CommandClear, true);
-    REGISTER_CMD_CE(COMMAND_UPDATE_LIST, "Update List", STools, CShaderTool::CommandUpdateList, true);
+    REGISTER_CMD_CE(COMMAND_LOAD, "File\\Reload", xr_shortcut('L', false, true, false), STools, CShaderTool::CommandReload, true);
+    REGISTER_CMD_CE(COMMAND_CLEAR, "File\\Clear", xr_shortcut('N', false, true, false), STools, CShaderTool::CommandClear, true);
+    REGISTER_CMD_CE(COMMAND_UPDATE_LIST, "Update List", xr_shortcut(), STools, CShaderTool::CommandUpdateList, true);
     REGISTER_CMD_S(COMMAND_REFRESH_UI_BAR, CommandRefreshUIBar);
     REGISTER_CMD_S(COMMAND_RESTORE_UI_BAR, CommandRestoreUIBar);
     REGISTER_CMD_S(COMMAND_SAVE_UI_BAR, CommandSaveUIBar);
