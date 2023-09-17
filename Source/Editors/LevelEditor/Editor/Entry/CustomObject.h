@@ -219,11 +219,7 @@ public:
 
     virtual void OnSceneRemove(){};
 
-    virtual bool RaySelect(
-        int            flag,
-        const Fvector& start,
-        const Fvector& dir,
-        bool           bRayTest = false);   // flag 1,0,-1 (-1 invert)
+    virtual bool RaySelect(int flag, const Fvector& start, const Fvector& dir, bool bRayTest = false);   // flag 1,0,-1 (-1 invert)
     virtual bool FrustumSelect(int flag, const CFrustum& frustum);
     virtual bool RayPick(float& dist, const Fvector& start, const Fvector& dir, SRayPickInfo* pinf = NULL)
     {

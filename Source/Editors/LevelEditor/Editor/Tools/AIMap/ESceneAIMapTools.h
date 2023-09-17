@@ -184,8 +184,7 @@ public:
 
     // selection manipulate
     SAINode* PickNode(const Fvector& start, const Fvector& dir, float& dist);
-    virtual int
-        RaySelect(int flag, float& distance, const Fvector& start, const Fvector& direction, BOOL bDistanceOnly);
+    virtual int RaySelect(int flag, float& distance, const Fvector& start, const Fvector& direction, BOOL bDistanceOnly);
     virtual int  FrustumSelect(int flag, const CFrustum& frustum);
     virtual void SelectObjects(bool flag);
     virtual void InvertSelection();

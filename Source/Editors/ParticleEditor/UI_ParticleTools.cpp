@@ -138,10 +138,11 @@ void CParticleTool::OnItemModified()
 void CParticleTool::RenderEnvironment()
 {
     /*
-        if (psDeviceFlags.is(rsEnvironment)){
-            g_pGamePersistent->Environment().RenderSky	();
-            g_pGamePersistent->Environment().RenderClouds	();
-        }
+    if (psDeviceFlags.is(rsEnvironment))
+    {
+        g_pGamePersistent->Environment().RenderSky();
+        g_pGamePersistent->Environment().RenderClouds();
+    }
     */
 }
 
@@ -161,12 +162,14 @@ void CParticleTool::Render()
     {
         case emNone:
             break;
-        case emEffect: {
+        case emEffect:
+        {
             if (m_EditPE && m_EditPE->GetDefinition())
                 m_EditPE->GetDefinition()->Render(m_Transform);
         }
         break;
-        case emGroup: {
+        case emGroup:
+        {
             if (m_EditPG)
             {
                 int cnt = m_EditPG->items.size();

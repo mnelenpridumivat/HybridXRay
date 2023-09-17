@@ -37,9 +37,7 @@ void CWayPoint::Render(LPCSTR parent_name, bool bParentSelect)
 {
     Fvector pos;
     pos.set(m_vPosition.x, m_vPosition.y + WAYPOINT_SIZE * 0.85f, m_vPosition.z);
-    DU_impl.DrawCross(
-        pos, WAYPOINT_RADIUS, WAYPOINT_SIZE * 0.85f, WAYPOINT_RADIUS, WAYPOINT_RADIUS, WAYPOINT_SIZE * 0.15f,
-        WAYPOINT_RADIUS, 0x0000ff00);
+    DU_impl.DrawCross(pos, WAYPOINT_RADIUS, WAYPOINT_SIZE * 0.85f, WAYPOINT_RADIUS, WAYPOINT_RADIUS, WAYPOINT_SIZE * 0.15f, WAYPOINT_RADIUS, 0x0000ff00);
     // draw links
     Fvector p1;
     p1.set(m_vPosition.x, m_vPosition.y + WAYPOINT_SIZE * 0.85f, m_vPosition.z);
@@ -57,9 +55,7 @@ void CWayPoint::Render(LPCSTR parent_name, bool bParentSelect)
         for (WPLIt it = m_Links.begin(); it != m_Links.end(); it++)
         {
             SWPLink* O = (SWPLink*)(*it);
-            p2.set(
-                O->way_point->m_vPosition.x, O->way_point->m_vPosition.y + WAYPOINT_SIZE * 0.85f,
-                O->way_point->m_vPosition.z);
+            p2.set(O->way_point->m_vPosition.x, O->way_point->m_vPosition.y + WAYPOINT_SIZE * 0.85f, O->way_point->m_vPosition.z);
             Fvector xx;
             xx.sub(p2, p1);
             xx.mul(0.95f);
@@ -76,9 +72,7 @@ void CWayPoint::Render(LPCSTR parent_name, bool bParentSelect)
     for (WPLIt it = m_Links.begin(); it != m_Links.end(); it++)
     {
         SWPLink* O = (SWPLink*)(*it);
-        p2.set(
-            O->way_point->m_vPosition.x, O->way_point->m_vPosition.y + WAYPOINT_SIZE * 0.85f,
-            O->way_point->m_vPosition.z);
+        p2.set(O->way_point->m_vPosition.x, O->way_point->m_vPosition.y + WAYPOINT_SIZE * 0.85f, O->way_point->m_vPosition.z);
         DU_impl.DrawLink(p1, p2, 0.25f, l);
     }
     if (bParentSelect && m_bSelected)
@@ -926,9 +920,7 @@ void CWayObject::FillProp(LPCSTR pref, PropItemVec& items)
     PropValue* V;
 
     FName = GetName();
-    V     = PHelper().CreateNameCB(
-        items, PrepareKey(pref, "Way Name"), &FName, NULL, NULL,
-        RTextValue::TOnAfterEditEvent(this, &CCustomObject::OnObjectNameAfterEdit));
+    V = PHelper().CreateNameCB(items, PrepareKey(pref, "Way Name"), &FName, NULL, NULL, RTextValue::TOnAfterEditEvent(this, &CCustomObject::OnObjectNameAfterEdit));
     V->OnChangeEvent.bind(this, &CWayObject::OnNameChange);
 
     if (IsPointMode())
@@ -938,20 +930,14 @@ void CWayObject::FillProp(LPCSTR pref, PropItemVec& items)
             CWayPoint* W = *it;
             if ((*it)->m_bSelected)
             {
-                PHelper().CreateNameCB(
-                    items, PrepareKey(pref, "Way Point\\Name"), &W->m_Name, 0, 0,
-                    RTextValue::TOnAfterEditEvent(this, &CWayObject::OnWayPointNameAfterEdit));
-                PHelper().CreateVector(
-                    items, PrepareKey(pref, "Way Point\\Transform\\Position"), &W->m_vPosition, -10000, 10000, 0.01, 2);
+                PHelper().CreateNameCB(items, PrepareKey(pref, "Way Point\\Name"), &W->m_Name, 0, 0, RTextValue::TOnAfterEditEvent(this, &CWayObject::OnWayPointNameAfterEdit));
+                PHelper().CreateVector(items, PrepareKey(pref, "Way Point\\Transform\\Position"), &W->m_vPosition, -10000, 10000, 0.01, 2);
 
                 for (WPLIt l_it = W->m_Links.begin(); l_it != W->m_Links.end(); l_it++)
-                    PHelper().CreateFloat(
-                        items, PrepareKey(pref, "Way Point\\Links", *(*l_it)->way_point->m_Name),
-                        &(*l_it)->probability);
+                    PHelper().CreateFloat(items, PrepareKey(pref, "Way Point\\Links", *(*l_it)->way_point->m_Name), &(*l_it)->probability);
 
                 for (int k = 0; k < 32; k++)
-                    PHelper().CreateFlag32(
-                        items, PrepareKey(pref, "Way Point\\Flags", xr_string(k).c_str()), &W->m_Flags, 1 << k);
+                    PHelper().CreateFlag32(items, PrepareKey(pref, "Way Point\\Flags", xr_string(k).c_str()), &W->m_Flags, 1 << k);
             }
         }
     }

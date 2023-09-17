@@ -107,10 +107,8 @@ bool TUI_ControlSectorAdd::AddSectors()
                 cnt++;
                 u32 clr = 0;
                 do
-                {
-                } while (!valid_color(
-                    clr = color_rgba(
-                        Random.randI(0, 3) * 255 / 2, Random.randI(0, 3) * 255 / 2, Random.randI(0, 3) * 255 / 2, 0)));
+                {}
+                while (!valid_color(clr = color_rgba(Random.randI(0, 3) * 255 / 2, Random.randI(0, 3) * 255 / 2, Random.randI(0, 3) * 255 / 2, 0)));
                 _O->SetColor(clr);
                 Scene->SelectObjects(false, OBJCLASS_SECTOR);
                 Scene->AppendObject(_O);

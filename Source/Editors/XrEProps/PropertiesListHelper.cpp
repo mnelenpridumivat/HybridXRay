@@ -25,8 +25,7 @@ PropItem* CPropHelper::CreateItem(PropItemVec& items, const shared_str& key, EPr
     }
     return item;
 }
-PropValue*
-    CPropHelper::AppendValue(PropItemVec& items, const shared_str& key, PropValue* val, EPropType type, u32 item_flags)
+PropValue* CPropHelper::AppendValue(PropItemVec& items, const shared_str& key, PropValue* val, EPropType type, u32 item_flags)
 {
     PropItem* item = CreateItem(items, key, type, item_flags);
     val->m_Owner   = item;
@@ -59,18 +58,13 @@ CanvasValue* CPropHelper::CreateCanvas(PropItemVec& items, shared_str key, share
 {
     return (CanvasValue*)AppendValue(items, key, xr_new<CanvasValue>(val, height), PROP_CANVAS);
 }
-ButtonValue* CPropHelper::CreateButton(
-    PropItemVec&             items,
-    shared_str               key,
-    shared_str               val,
-    u32                      flags,
-    ButtonValue::TOnBtnClick onClick)
+ButtonValue* CPropHelper::CreateButton(PropItemVec& items, shared_str key, shared_str val, u32 flags, ButtonValue::TOnBtnClick onClick)
 {
     PropValue*   PV     = AppendValue(items, key, xr_new<ButtonValue>(val, flags), PROP_BUTTON);
     ButtonValue* BV     = dynamic_cast<ButtonValue*>(PV);
     BV->OnBtnClickEvent = onClick;
     return BV;
-    //	return	   	(ButtonValue*)	AppendValue	(items,key,xr_new<ButtonValue>(val,flags),PROP_BUTTON);
+    //	return (ButtonValue*)AppendValue(items,key,xr_new<ButtonValue>(val,flags),PROP_BUTTON);
 }
 S8Value* CPropHelper::CreateS8(PropItemVec& items, shared_str key, s8* val, s8 mn, s8 mx, s8 inc)
 {
@@ -96,8 +90,7 @@ U32Value* CPropHelper::CreateU32(PropItemVec& items, shared_str key, u32* val, u
 {
     return (U32Value*)AppendValue(items, key, xr_new<U32Value>(val, mn, mx, inc, 0), PROP_NUMERIC);
 }
-FloatValue*
-    CPropHelper::CreateFloat(PropItemVec& items, shared_str key, float* val, float mn, float mx, float inc, int decim)
+FloatValue* CPropHelper::CreateFloat(PropItemVec& items, shared_str key, float* val, float mn, float mx, float inc, int decim)
 {
     return (FloatValue*)AppendValue(items, key, xr_new<FloatValue>(val, mn, mx, inc, decim), PROP_NUMERIC);
 }
@@ -105,41 +98,19 @@ BOOLValue* CPropHelper::CreateBOOL(PropItemVec& items, shared_str key, BOOL* val
 {
     return (BOOLValue*)AppendValue(items, key, xr_new<BOOLValue>(val), PROP_BOOLEAN);
 }
-VectorValue* CPropHelper::CreateVector(
-    PropItemVec& items,
-    shared_str   key,
-    Fvector*     val,
-    float        mn,
-    float        mx,
-    float        inc,
-    int          decim)
+VectorValue* CPropHelper::CreateVector(PropItemVec& items, shared_str key, Fvector* val, float mn, float mx, float inc, int decim)
 {
     return (VectorValue*)AppendValue(items, key, xr_new<VectorValue>(val, mn, mx, inc, decim), PROP_VECTOR);
 }
-Flag8Value*
-    CPropHelper::CreateFlag8(PropItemVec& items, shared_str key, Flags8* val, u8 mask, LPCSTR c0, LPCSTR c1, u32 flags)
+Flag8Value* CPropHelper::CreateFlag8(PropItemVec& items, shared_str key, Flags8* val, u8 mask, LPCSTR c0, LPCSTR c1, u32 flags)
 {
     return (Flag8Value*)AppendValue(items, key, xr_new<Flag8Value>(val, mask, c0, c1, flags), PROP_FLAG);
 }
-Flag16Value* CPropHelper::CreateFlag16(
-    PropItemVec& items,
-    shared_str   key,
-    Flags16*     val,
-    u16          mask,
-    LPCSTR       c0,
-    LPCSTR       c1,
-    u32          flags)
+Flag16Value* CPropHelper::CreateFlag16(PropItemVec& items, shared_str key, Flags16* val, u16 mask, LPCSTR c0, LPCSTR c1, u32 flags)
 {
     return (Flag16Value*)AppendValue(items, key, xr_new<Flag16Value>(val, mask, c0, c1, flags), PROP_FLAG);
 }
-Flag32Value* CPropHelper::CreateFlag32(
-    PropItemVec& items,
-    shared_str   key,
-    Flags32*     val,
-    u32          mask,
-    LPCSTR       c0,
-    LPCSTR       c1,
-    u32          flags)
+Flag32Value* CPropHelper::CreateFlag32(PropItemVec& items, shared_str key, Flags32* val, u32 mask, LPCSTR c0, LPCSTR c1, u32 flags)
 {
     return (Flag32Value*)AppendValue(items, key, xr_new<Flag32Value>(val, mask, c0, c1, flags), PROP_FLAG);
 }
@@ -167,8 +138,7 @@ RToken32Value* CPropHelper::CreateRToken32(PropItemVec& items, shared_str key, u
 {
     return (RToken32Value*)AppendValue(items, key, xr_new<RToken32Value>(val, token, t_cnt), PROP_RTOKEN);
 }
-TokenValueSH*
-    CPropHelper::CreateTokenSH(PropItemVec& items, shared_str key, u32* val, const TokenValueSH::Item* lst, u32 cnt)
+TokenValueSH* CPropHelper::CreateTokenSH(PropItemVec& items, shared_str key, u32* val, const TokenValueSH::Item* lst, u32 cnt)
 {
     return (TokenValueSH*)AppendValue(items, key, xr_new<TokenValueSH>(val, lst, cnt), PROP_SH_TOKEN);
 }
@@ -215,18 +185,9 @@ GameTypeValue* CPropHelper::CreateGameType(PropItemVec& items, shared_str key, G
 }
 
 //---------------------------------------------------------------------------
-ChooseValue* CPropHelper::CreateChoose(
-    PropItemVec& items,
-    shared_str   key,
-    shared_str*  val,
-    u32          mode,
-    LPCSTR       path,
-    void*        fill_param,
-    u32          sub_item_count,
-    u32          choose_flags)
+ChooseValue* CPropHelper::CreateChoose(PropItemVec& items, shared_str key, shared_str* val, u32 mode, LPCSTR path, void* fill_param, u32 sub_item_count, u32 choose_flags)
 {
-    ChooseValue* cv = (ChooseValue*)AppendValue(
-        items, key, xr_new<ChooseValue>(val, mode, path, fill_param, sub_item_count, choose_flags), PROP_CHOOSE);
+    ChooseValue* cv = (ChooseValue*)AppendValue(items, key, xr_new<ChooseValue>(val, mode, path, fill_param, sub_item_count, choose_flags), PROP_CHOOSE);
     SChooseEvents* E = UIChooseForm::GetEvents(mode);
     /*if (E&&!E->on_thm.empty()){
         cv->Owner()->m_Flags.set(PropItem::flDrawThumbnail,TRUE);
@@ -263,8 +224,7 @@ CTextValue* CPropHelper::CreateCName(PropItemVec& items, shared_str key, LPSTR v
 }
 //---------------------------------------------------------------------------
 
-FloatValue*
-    CPropHelper::CreateAngle(PropItemVec& items, shared_str key, float* val, float mn, float mx, float inc, int decim)
+FloatValue* CPropHelper::CreateAngle(PropItemVec& items, shared_str key, float* val, float mn, float mx, float inc, int decim)
 {
     FloatValue* V = (FloatValue*)AppendValue(items, key, xr_new<FloatValue>(val, mn, mx, inc, decim), PROP_NUMERIC);
     V->OnAfterEditEvent.bind(this, &CPropHelper::floatRDOnAfterEdit);
@@ -272,14 +232,7 @@ FloatValue*
     V->Owner()->OnDrawTextEvent.bind(this, &CPropHelper::floatRDOnDraw);
     return V;
 }
-VectorValue* CPropHelper::CreateAngle3(
-    PropItemVec& items,
-    shared_str   key,
-    Fvector*     val,
-    float        mn,
-    float        mx,
-    float        inc,
-    int          decim)
+VectorValue* CPropHelper::CreateAngle3(PropItemVec& items, shared_str key, Fvector* val, float mn, float mx, float inc, int decim)
 {
     VectorValue* V = (VectorValue*)AppendValue(items, key, xr_new<VectorValue>(val, mn, mx, inc, decim), PROP_VECTOR);
     V->OnAfterEditEvent.bind(this, &CPropHelper::FvectorRDOnAfterEdit);
@@ -299,13 +252,7 @@ RTextValue* CPropHelper::CreateName(PropItemVec& items, shared_str key, shared_s
         V->Owner()->m_Flags.set(PropItem::flDisabled, TRUE);
     return V;
 }
-RTextValue* CPropHelper::CreateNameCB(
-    PropItemVec&                   items,
-    shared_str                     key,
-    shared_str*                    val,
-    TOnDrawTextEvent               draw,
-    RTextValue::TOnBeforeEditEvent before,
-    RTextValue::TOnAfterEditEvent  after)
+RTextValue* CPropHelper::CreateNameCB(PropItemVec& items, shared_str key, shared_str* val, TOnDrawTextEvent draw, RTextValue::TOnBeforeEditEvent before, RTextValue::TOnAfterEditEvent after)
 {
     RTextValue* V               = (RTextValue*)CreateRText(items, key, val);
     V->OnAfterEditEvent         = after;

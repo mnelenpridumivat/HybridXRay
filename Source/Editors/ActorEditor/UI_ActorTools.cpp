@@ -201,8 +201,7 @@ void CActorTools::Render()
             m_pEditObject->UpdateObjectXform(World);
         }
         m_RenderObject.OnRender();
-        if (m_RenderObject.IsRenderable() &&
-            MainForm->GetLeftBarForm()->GetRenderMode() == UILeftBarForm::Render_Engine)
+        if (m_RenderObject.IsRenderable() && MainForm->GetLeftBarForm()->GetRenderMode() == UILeftBarForm::Render_Engine)
         {
             RImplementation.model_RenderSingle(m_RenderObject.m_pVisual, m_RenderObject.ObjectXFORM(), m_RenderObject.m_fLOD);
             RCache.set_xform_world(World);
@@ -321,8 +320,7 @@ void CActorTools::OnFrame()
     if (m_Flags.is(flRefreshProps))
         RealUpdateProperties();
 
-    /*if (fraLeftBar->ebRenderEditorStyle->Down && !m_CurrentMotion.IsEmpty() && NULL ==
-    m_pEditObject->GetActiveSMotion())
+    /*if (fraLeftBar->ebRenderEditorStyle->Down && !m_CurrentMotion.IsEmpty() && NULL == m_pEditObject->GetActiveSMotion())
     {
         AnsiString	tmp = m_CurrentMotion;
         m_CurrentMotion = "";
@@ -429,7 +427,8 @@ void CActorTools::ZoomObject(BOOL bSelOnly)
         Fbox BB;
         switch (m_EditMode)
         {
-            case emBone: {
+            case emBone:
+            {
                 BoneVec lst;
                 if (m_pEditObject->GetSelectedBones(lst))
                 {
@@ -441,9 +440,7 @@ void CActorTools::ZoomObject(BOOL bSelOnly)
                         switch ((*b_it)->shape.type)
                         {
                             case SBoneShape::stBox:
-                                r = _max(
-                                    _max((*b_it)->shape.box.m_halfsize.x, (*b_it)->shape.box.m_halfsize.y),
-                                    (*b_it)->shape.box.m_halfsize.z);
+                                r = _max(_max((*b_it)->shape.box.m_halfsize.x, (*b_it)->shape.box.m_halfsize.y), (*b_it)->shape.box.m_halfsize.z);
                                 C = (*b_it)->shape.box.m_translate;
                                 break;
                             case SBoneShape::stSphere:
@@ -575,17 +572,15 @@ bool CActorTools::MouseStart(TShiftState Shift)
             switch (MainForm->GetLeftBarForm()->GetPickMode())
             {
                 case 2:
-				{
+                {
                     CBone* B    = m_pEditObject->PickBone(UI->m_CurrentRStart, UI->m_CurrentRDir, m_AVTransform);
                     bool   bVal = B ? (Shift | ssAlt) ? false : ((Shift | ssCtrl) ? !B->Selected() : true) : false;
                     if (B)
-                        SelectListItem(
-                            BONES_PREFIX, B ? MakeFullBoneName(B).c_str() : 0, bVal,
-                            (Shift | ssCtrl) || (Shift | ssAlt), true);
+                        SelectListItem(BONES_PREFIX, B ? MakeFullBoneName(B).c_str() : 0, bVal, (Shift | ssCtrl) || (Shift | ssAlt), true);
                 }
                 break;
                 case 1:
-				{
+                {
                     SRayPickInfo pinf;
                     float        dis = UI->ZFar();
                     Fmatrix      iTransform;
@@ -827,8 +822,7 @@ bool CActorTools::RayPick(const Fvector& start, const Fvector& dir, float& dist,
 
 void CActorTools::GetStatTime(float& a, float& b, float& c)
 {
-    if (m_RenderObject.IsRenderable() && MainForm->GetLeftBarForm()->GetRenderMode() == UILeftBarForm::Render_Engine &&
-        m_RenderObject.m_pBlend)
+    if (m_RenderObject.IsRenderable() && MainForm->GetLeftBarForm()->GetRenderMode() == UILeftBarForm::Render_Engine && m_RenderObject.m_pBlend)
     {
         a = 0;
         b = m_RenderObject.m_pBlend->timeTotal / m_RenderObject.m_pBlend->speed;
@@ -841,8 +835,7 @@ void CActorTools::GetStatTime(float& a, float& b, float& c)
     }
     else
     {
-        if (MainForm->GetLeftBarForm()->GetRenderMode() == UILeftBarForm::Render_Editor && m_pEditObject &&
-            m_pEditObject->GetActiveSMotion())
+        if (MainForm->GetLeftBarForm()->GetRenderMode() == UILeftBarForm::Render_Editor && m_pEditObject && m_pEditObject->GetActiveSMotion())
         {
             SAnimParams& P = m_pEditObject->m_SMParam;
             a              = P.min_t;
@@ -1169,8 +1162,7 @@ void CActorTools::RealGenerateLOD(bool hq)
             _ChangeSymbol(tmp, ':', '_');
             tex_name = xr_string("lod_") + tmp;
             tex_name = ImageLib.UpdateFileName(tex_name);
-            ImageLib.CreateLODTexture(
-                O, tex_name.c_str(), LOD_IMAGE_SIZE, LOD_IMAGE_SIZE, LOD_SAMPLE_COUNT, O->Version(), hq ? 4 /*7*/ : 1);
+            ImageLib.CreateLODTexture(O, tex_name.c_str(), LOD_IMAGE_SIZE, LOD_IMAGE_SIZE, LOD_SAMPLE_COUNT, O->Version(), hq ? 4 /*7*/ : 1);
             O->OnDeviceDestroy();
             O->m_objectFlags.set(CEditableObject::eoUsingLOD, bLod);
             ELog.Msg(mtInformation, "+ LOD for object '%s' successfully created.", O->GetName());

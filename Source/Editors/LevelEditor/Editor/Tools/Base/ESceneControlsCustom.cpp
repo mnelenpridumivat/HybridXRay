@@ -82,9 +82,10 @@ bool TUI_CustomControl::HiddenMode()
     return false;
 }
 
+//------------------------------------------------------------------------------
 // add
-CCustomObject*
-    TUI_CustomControl::DefaultAddObject(TShiftState Shift, TBeforeAppendCallback before, TAfterAppendCallback after)
+//------------------------------------------------------------------------------
+CCustomObject* TUI_CustomControl::DefaultAddObject(TShiftState Shift, TBeforeAppendCallback before, TAfterAppendCallback after)
 {
     if (Shift == ssRBOnly)
     {
@@ -131,6 +132,7 @@ bool TUI_CustomControl::AddStart(TShiftState Shift)
     return false;
 }
 void TUI_CustomControl::AddProcess(TShiftState _Shift) {}
+
 bool TUI_CustomControl::AddEnd(TShiftState _Shift)
 {
     return true;
@@ -140,8 +142,7 @@ bool TUI_CustomControl::CheckSnapList(TShiftState Shift)
 {
     if (MainForm->GetLeftBarForm()->IsSnapListMode())
     {
-        CCustomObject* O =
-            Scene->RayPickObject(UI->ZFar(), UI->m_CurrentRStart, UI->m_CurrentRDir, OBJCLASS_SCENEOBJECT, 0, 0);
+        CCustomObject* O = Scene->RayPickObject(UI->ZFar(), UI->m_CurrentRStart, UI->m_CurrentRDir, OBJCLASS_SCENEOBJECT, 0, 0);
         if (O)
         {
             if (Scene->FindObjectInSnapList(O))
@@ -193,7 +194,7 @@ bool TUI_CustomControl::SelectStart(TShiftState Shift)
     if (!((Shift & ssCtrl) || (Shift & ssAlt)))
         Scene->SelectObjects(false, cls);
 
-    int cnt       = Scene->RaySelect((Shift & ssCtrl) ? -1 : (Shift & ssAlt) ? 0 : 1, parent_tool->FClassID);
+    int cnt = Scene->RaySelect((Shift & ssCtrl) ? -1 : (Shift & ssAlt) ? 0 : 1, parent_tool->FClassID);
     bBoxSelection = ((0 != cnt) && ((Shift & ssCtrl) || (Shift & ssAlt))) || (0 == cnt);
     if (bBoxSelection)
     {

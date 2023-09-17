@@ -170,8 +170,7 @@ void ESceneLightTool::FillProp(LPCSTR pref, PropItemVec& items)
 {
     ButtonValue* B = 0;
     // hemisphere
-    //.	PHelper().CreateRToken32(items, PrepareKey(pref,"Common\\Hemisphere\\Light Control"),	&m_HemiControl,
-    //&*lcontrols.begin(), lcontrols.size());
+    //.	PHelper().CreateRToken32(items, PrepareKey(pref,"Common\\Hemisphere\\Light Control"),	&m_HemiControl, &*lcontrols.begin(), lcontrols.size());
 
     // sun
     PHelper().CreateFlag32(items, PrepareKey(pref, "Common\\Sun Shadow\\Visible"), &m_Flags, flShowSun);
@@ -179,10 +178,9 @@ void ESceneLightTool::FillProp(LPCSTR pref, PropItemVec& items)
     PHelper().CreateAngle(items, PrepareKey(pref, "Common\\Sun Shadow\\Longitude"), &m_SunShadowDir.y, 0, PI_MUL_2);
     // light controls
     PHelper().CreateFlag32(items, PrepareKey(pref, "Common\\Controls\\Draw Name"), &m_Flags, flShowControlName);
-    PHelper().CreateCaption(
-        items, PrepareKey(pref, "Common\\Controls\\Count"), shared_str().printf("%d", lcontrols.size()));
-    //	B=PHelper().CreateButton(items,PHelper().PrepareKey(pref,"Common\\Controls\\Edit"),	"Append",
-    //ButtonValue::flFirstOnly); 	B->OnBtnClickEvent	= OnControlAppendClick;
+    PHelper().CreateCaption(items, PrepareKey(pref, "Common\\Controls\\Count"), shared_str().printf("%d", lcontrols.size()));
+    // B=PHelper().CreateButton(items,PHelper().PrepareKey(pref,"Common\\Controls\\Edit"), "Append", ButtonValue::flFirstOnly);
+    // B->OnBtnClickEvent	= OnControlAppendClick;
     RTokenVecIt _I = lcontrols.begin();
     RTokenVecIt _E = lcontrols.end();
     for (; _I != _E; _I++)
@@ -193,9 +191,7 @@ void ESceneLightTool::FillProp(LPCSTR pref, PropItemVec& items)
         }
         else
         {
-            B = PHelper().CreateButton(
-                items, PrepareKey(pref, "Common\\Controls\\User", *_I->name), "Rename,Remove",
-                ButtonValue::flFirstOnly);
+            B = PHelper().CreateButton(items, PrepareKey(pref, "Common\\Controls\\User", *_I->name), "Rename,Remove", ButtonValue::flFirstOnly);
             B->OnBtnClickEvent.bind(this, &ESceneLightTool::OnControlRenameRemoveClick);
         }
     }
@@ -209,7 +205,8 @@ xr_string ESceneLightTool::GenLightControlName()
     do
     {
         name.sprintf("control_%02d", idx++);
-    } while (FindLightControl(name.c_str()));
+    }
+    while (FindLightControl(name.c_str()));
     return name;
 }
 
@@ -348,30 +345,27 @@ void CLight:xr_token sun_quality[]={
 {
     CEditFlare& F 			= m_LensFlare;
     PropValue* prop			= 0;
-    PHelper().CreateToken		(items, PHelper().PrepareKey(pref,"Sun\\Quality"),				&m_SunQuality,
-sun_quality);
+    PHelper().CreateToken		(items, PHelper().PrepareKey(pref,"Sun\\Quality"),				&m_SunQuality, sun_quality);
 
-    PHelper().CreateFlag32	(items, PHelper().PrepareKey(pref,"Sun\\Source\\Enabled"),		&F.m_Flags,
-CEditFlare::flSource); PHelper().CreateFloat		(items, PHelper().PrepareKey(pref,"Sun\\Source\\Radius"),
-&F.m_Source.fRadius,	0.f,10.f); prop 					= PHelper().CreateTexture	(items,
-PHelper().PrepareKey(pref,"Sun\\Source\\Texture"),		F.m_Source.texture,		sizeof(F.m_Source.texture));
+    PHelper().CreateFlag32	(items, PHelper().PrepareKey(pref,"Sun\\Source\\Enabled"),		&F.m_Flags, CEditFlare::flSource);
+    PHelper().CreateFloat		(items, PHelper().PrepareKey(pref,"Sun\\Source\\Radius"), &F.m_Source.fRadius,	0.f,10.f); prop 					= PHelper().CreateTexture	(items,
+    PHelper().PrepareKey(pref,"Sun\\Source\\Texture"),		F.m_Source.texture,		sizeof(F.m_Source.texture)); 
     prop->OnChangeEvent		= OnNeedUpdate;
 
-    PHelper().CreateFlag32	(items, PHelper().PrepareKey(pref,"Sun\\Gradient\\Enabled"),		&F.m_Flags,
-CEditFlare::flGradient); PHelper().CreateFloat		(items, PHelper().PrepareKey(pref,"Sun\\Gradient\\Radius"),
-&F.m_Gradient.fRadius,	0.f,100.f); PHelper().CreateFloat		(items,
-PHelper().PrepareKey(pref,"Sun\\Gradient\\Opacity"),		&F.m_Gradient.fOpacity,	0.f,1.f); prop					=
-PHelper().CreateTexture	(items, PHelper().PrepareKey(pref,"Sun\\Gradient\\Texture"),	F.m_Gradient.texture,
-sizeof(F.m_Gradient.texture)); prop->OnChangeEvent		= OnNeedUpdate;
+    PHelper().CreateFlag32	(items, PHelper().PrepareKey(pref,"Sun\\Gradient\\Enabled"),		&F.m_Flags, CEditFlare::flGradient);
+    PHelper().CreateFloat		(items, PHelper().PrepareKey(pref,"Sun\\Gradient\\Radius"), &F.m_Gradient.fRadius,	0.f,100.f);
+    PHelper().CreateFloat		(items, PHelper().PrepareKey(pref,"Sun\\Gradient\\Opacity"),		&F.m_Gradient.fOpacity,	0.f,1.f);
+    prop					= PHelper().CreateTexture	(items, PHelper().PrepareKey(pref,"Sun\\Gradient\\Texture"),	F.m_Gradient.texture, sizeof(F.m_Gradient.texture));
+    prop->OnChangeEvent		= OnNeedUpdate;
 
-    PHelper().CreateFlag32	(items, PHelper().PrepareKey(pref,"Sun\\Flares\\Enabled"),		&F.m_Flags,
-CEditFlare::flFlare); for (CEditFlare::FlareIt it=F.m_Flares.begin(); it!=F.m_Flares.end(); it++){ xr_string nm;
-nm.sprintf("%s\\Sun\\Flares\\Flare %d",pref,it-F.m_Flares.begin()); PHelper().CreateFloat	(items,
-PHelper().PrepareKey(nm.c_str(),"Radius"), 	&it->fRadius,  	0.f,10.f); PHelper().CreateFloat	(items,
-PHelper().PrepareKey(nm.c_str(),"Opacity"),	&it->fOpacity,	0.f,1.f); PHelper().CreateFloat	(items,
-PHelper().PrepareKey(nm.c_str(),"Position"),	&it->fPosition,	-10.f,10.f);
-        prop				= PHelper().CreateTexture	(items, PHelper().PrepareKey(nm.c_str(),"Texture"), it->texture,
-sizeof(it->texture)); prop->OnChangeEvent	= OnNeedUpdate;
+    PHelper().CreateFlag32	(items, PHelper().PrepareKey(pref,"Sun\\Flares\\Enabled"),		&F.m_Flags, CEditFlare::flFlare);
+    for (CEditFlare::FlareIt it=F.m_Flares.begin(); it!=F.m_Flares.end(); it++){
+        xr_string nm; nm.sprintf("%s\\Sun\\Flares\\Flare %d",pref,it-F.m_Flares.begin());
+        PHelper().CreateFloat	(items, PHelper().PrepareKey(nm.c_str(),"Radius"), 	&it->fRadius,  	0.f,10.f);
+        PHelper().CreateFloat	(items, PHelper().PrepareKey(nm.c_str(),"Opacity"),	&it->fOpacity,	0.f,1.f);
+        PHelper().CreateFloat	(items, PHelper().PrepareKey(nm.c_str(),"Position"),	&it->fPosition,	-10.f,10.f);
+        prop				= PHelper().CreateTexture	(items, PHelper().PrepareKey(nm.c_str(),"Texture"), it->texture, sizeof(it->texture));
+        prop->OnChangeEvent	= OnNeedUpdate;
     }
 }
 
@@ -492,19 +486,21 @@ void CEditFlare::CreateShaders()
                 suns += l->Name;
                 pIni->w_fcolor	(l->Name, "sun_color", 			l->m_D3D.diffuse);
                 pIni->w_fvector3(l->Name, "sun_dir", 			l->m_D3D.direction);
-                pIni->w_string	(l->Name, "gradient",
-l->m_LensFlare.m_Flags.is(CLensFlare::flGradient)?"on":"off"); pIni->w_string	(l->Name, "source",
-l->m_LensFlare.m_Flags.is(CLensFlare::flSource)?"on":"off"); pIni->w_string	(l->Name, "flares",
-l->m_LensFlare.m_Flags.is(CLensFlare::flFlare)?"on":"off"); pIni->w_float	(l->Name, "gradient_opacity",
-l->m_LensFlare.m_Gradient.fOpacity); pIni->w_string	(l->Name, "gradient_texture", 	l->m_LensFlare.m_Gradient.texture);
+                pIni->w_string	(l->Name, "gradient",           l->m_LensFlare.m_Flags.is(CLensFlare::flGradient)?"on":"off");
+                pIni->w_string	(l->Name, "source",             l->m_LensFlare.m_Flags.is(CLensFlare::flSource)?"on":"off");
+               pIni->w_string	(l->Name, "flares",             l->m_LensFlare.m_Flags.is(CLensFlare::flFlare)?"on":"off");
+               pIni->w_float	(l->Name, "gradient_opacity",   l->m_LensFlare.m_Gradient.fOpacity);
+                pIni->w_string	(l->Name, "gradient_texture", 	l->m_LensFlare.m_Gradient.texture);
                 pIni->w_float	(l->Name, "gradient_radius", 	l->m_LensFlare.m_Gradient.fRadius);
                 pIni->w_string	(l->Name, "source_texture", 	l->m_LensFlare.m_Source.texture);
                 pIni->w_float	(l->Name, "source_radius", 	l->m_LensFlare.m_Source.fRadius);
                 xr_string FT=""; xr_string FR=""; xr_string FO=""; xr_string FP="";
                 xr_string T="";
                 int i=l->m_LensFlare.m_Flares.size();
-                for (CEditFlare::FlareIt it = l->m_LensFlare.m_Flares.begin(); it!=l->m_LensFlare.m_Flares.end();
-it++,i--){ FT += it->texture; T.sprintf("%.3f",it->fRadius); 	FR += T; T.sprintf("%.3f",it->fOpacity);	FO += T;
+                for (CEditFlare::FlareIt it = l->m_LensFlare.m_Flares.begin(); it!=l->m_LensFlare.m_Flares.end(); it++,i--){
+                    FT += it->texture;
+                    T.sprintf("%.3f",it->fRadius); 	FR += T;
+                    T.sprintf("%.3f",it->fOpacity);	FO += T;
                     T.sprintf("%.3f",it->fPosition);FP += T;
                     if (i>1){FT+=","; FR+=","; FO+=","; FP+=",";}
                 }

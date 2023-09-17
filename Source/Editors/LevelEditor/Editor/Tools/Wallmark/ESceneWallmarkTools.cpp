@@ -1,17 +1,17 @@
 ﻿#include "stdafx.h"
 
 // chunks
-#define WM_VERSION 0x0004
+#define WM_VERSION                0x0004
 
-#define WM_CHUNK_VERSION 0x0001
-#define WM_CHUNK_FLAGS 0x0002
-#define WM_CHUNK_PARAMS 0x0003
-#define WM_CHUNK_ITEMS 0x0004
-#define WM_CHUNK_ITEMS2 0x0005
+#define WM_CHUNK_VERSION          0x0001
+#define WM_CHUNK_FLAGS            0x0002
+#define WM_CHUNK_PARAMS           0x0003
+#define WM_CHUNK_ITEMS            0x0004
+#define WM_CHUNK_ITEMS2           0x0005
 
-#define MAX_WALLMARK_COUNT 500
+#define MAX_WALLMARK_COUNT        500
 #define MAX_WALLMARK_VERTEX_COUNT 8192
-#define COMPILER_SHADER "def_shaders\\def_vertex_ghost_no_shadow"
+#define COMPILER_SHADER           "def_shaders\\def_vertex_ghost_no_shadow"
 
 ESceneWallmarkTool::ESceneWallmarkTool(): ESceneToolBase(OBJCLASS_WM)
 {
@@ -26,12 +26,7 @@ ESceneWallmarkTool::ESceneWallmarkTool(): ESceneToolBase(OBJCLASS_WM)
 
 ESceneWallmarkTool::~ESceneWallmarkTool() {}
 
-int ESceneWallmarkTool::RaySelect(
-    int            flag,
-    float&         distance,
-    const Fvector& start,
-    const Fvector& direction,
-    BOOL           bDistanceOnly)
+int ESceneWallmarkTool::RaySelect(int flag, float& distance, const Fvector& start, const Fvector& direction, BOOL bDistanceOnly)
 {
     if (!m_Flags.is(flDrawWallmark))
         return 0;
@@ -178,7 +173,7 @@ void ESceneWallmarkTool::OnFrame() {}
 
 struct zero_slot_pred
 {
-    template <class C> bool operator()(const C x)
+    template<class C> bool operator()(const C x)
     {
         return x == 0;
     }
@@ -209,8 +204,7 @@ void ESceneWallmarkTool::OnRender(int priority, bool strictB2F)
     {
         wm_slot* slot = *slot_it;
         VERIFY(slot->shader);
-        if ((u32(priority) == slot->shader->E[0]->flags.iPriority) &&
-            (strictB2F == !!(slot->shader->E[0]->flags.bStrictB2F)))
+        if ((u32(priority) == slot->shader->E[0]->flags.iPriority) && (strictB2F == !!(slot->shader->E[0]->flags.bStrictB2F)))
         {
             // Projection and xform
             float _43 = EDevice->mProject._43;
@@ -291,7 +285,7 @@ void ESceneWallmarkTool::OnRender(int priority, bool strictB2F)
 
 struct zero_item_pred
 {
-    template <class C> bool operator()(const C x)
+    template<class C> bool operator()(const C x)
     {
         return x == 0;
     }
@@ -735,14 +729,7 @@ int ESceneWallmarkTool::ObjectCount()
     return count;
 }
 
-BOOL ESceneWallmarkTool::AddWallmark_internal(
-    const Fvector& start,
-    const Fvector& dir,
-    shared_str     sh,
-    shared_str     tx,
-    float          width,
-    float          height,
-    float          rotate)
+BOOL ESceneWallmarkTool::AddWallmark_internal(const Fvector& start, const Fvector& dir, shared_str sh, shared_str tx, float width, float height, float rotate)
 {
     /*
     if (ObjectCount()>=MAX_WALLMARK_COUNT){
@@ -913,8 +900,7 @@ BOOL ESceneWallmarkTool::MoveSelectedWallmarkTo(const Fvector& start, const Fvec
 void ESceneWallmarkTool::FillPropObjects(LPCSTR pref, PropItemVec& items)
 {
     PHelper().CreateFlag32(items, PrepareKey(pref, "Common\\Draw Wallmarks"), &m_Flags, flDrawWallmark);
-    PHelper().CreateFlag32(
-        items, PrepareKey(pref, "Common\\Alignment"), &m_Flags, flAxisAlign, "By Camera", "By World Axis");
+    PHelper().CreateFlag32(items, PrepareKey(pref, "Common\\Alignment"), &m_Flags, flAxisAlign, "By Camera", "By World Axis");
     PHelper().CreateFloat(items, PrepareKey(pref, "Common\\Width"), &m_MarkWidth, 0.01f, 10.f);
     PHelper().CreateFloat(items, PrepareKey(pref, "Common\\Height"), &m_MarkHeight, 0.01f, 10.f);
     PHelper().CreateAngle(items, PrepareKey(pref, "Common\\Rotate"), &m_MarkRotate);

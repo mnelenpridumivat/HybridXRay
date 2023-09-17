@@ -420,18 +420,14 @@ void                   TUI::Redraw()
     PrepareRedraw();
     try
     {
-        if (u32(RTSize.x * EDevice->m_ScreenQuality) != RT->dwWidth ||
-            u32(RTSize.y * EDevice->m_ScreenQuality) != RT->dwHeight || !RT->pSurface)
+        if (u32(RTSize.x * EDevice->m_ScreenQuality) != RT->dwWidth || u32(RTSize.y * EDevice->m_ScreenQuality) != RT->dwHeight || !RT->pSurface)
         {
             GetRenderWidth()  = RTSize.x * EDevice->m_ScreenQuality;
             GetRenderHeight() = RTSize.y * EDevice->m_ScreenQuality;
             RT.destroy();
             ZB.destroy();
-            RT.create(
-                "rt_color", RTSize.x * EDevice->m_ScreenQuality, RTSize.y * EDevice->m_ScreenQuality, HW.Caps.fTarget);
-            ZB.create(
-                "rt_depth", RTSize.x * EDevice->m_ScreenQuality, RTSize.y * EDevice->m_ScreenQuality,
-                D3DFORMAT::D3DFMT_D24X8);
+            RT.create("rt_color", RTSize.x * EDevice->m_ScreenQuality, RTSize.y * EDevice->m_ScreenQuality, HW.Caps.fTarget);
+            ZB.create("rt_depth", RTSize.x * EDevice->m_ScreenQuality, RTSize.y * EDevice->m_ScreenQuality, D3DFORMAT::D3DFMT_D24X8);
             m_Flags.set(flRedraw, TRUE);
             EDevice->fASPECT = ((float)RTSize.y) / ((float)RTSize.x);
 
@@ -446,8 +442,7 @@ void                   TUI::Redraw()
         }
         if (!UI->IsPlayInEditor())
         {
-            EDevice->mProject.build_projection(
-                deg2rad(EDevice->fFOV), EDevice->fASPECT, EDevice->m_Camera.m_Znear, EDevice->m_Camera.m_Zfar);
+            EDevice->mProject.build_projection(deg2rad(EDevice->fFOV), EDevice->fASPECT, EDevice->m_Camera.m_Znear, EDevice->m_Camera.m_Zfar);
         }
 
         if (EDevice->Begin())
@@ -461,8 +456,7 @@ void                   TUI::Redraw()
                 RCache.set_ZB(ZB->pRT);
                 EDevice->Statistic->RenderDUMP_RT.Begin();
                 {
-                    CHK_DX(HW.pDevice->Clear(
-                        0, 0, D3DCLEAR_ZBUFFER | D3DCLEAR_TARGET, EPrefs ? EPrefs->scene_clear_color : 0x0, 1, 0));
+                    CHK_DX(HW.pDevice->Clear(0, 0, D3DCLEAR_ZBUFFER | D3DCLEAR_TARGET, EPrefs ? EPrefs->scene_clear_color : 0x0, 1, 0));
                 }
                 EDevice->UpdateView();
                 EDevice->ResetMaterial();
@@ -606,8 +600,8 @@ bool TUI::Idle()
             }
             continue;
         }
-
-    } while (msg.message);
+    }
+    while (msg.message);
     if (m_Flags.is(flResetUI))
         RealResetUI();
     Sleep(1);
@@ -660,7 +654,7 @@ bool TUI::OnCreate()
     if (!CreateMailslot())
 	{
         ELog.DlgMsg(mtError, "& Can't create mail slot.\nIt's possible two Editors started.");
-        return 		false;
+        return false;
     }
 #endif
     string_path log_path;

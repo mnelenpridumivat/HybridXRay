@@ -65,8 +65,7 @@ void UIRenderForm::Draw()
         UI->RTSize.set(canvas_size.x, canvas_size.y);
 
         ImGui::SetCursorScreenPos(canvas_pos);
-        draw_list->AddImage(
-            UI->RT->pSurface, canvas_pos, ImVec2(canvas_pos.x + canvas_size.x, canvas_pos.y + canvas_size.y));
+        draw_list->AddImage(UI->RT->pSurface, canvas_pos, ImVec2(canvas_pos.x + canvas_size.x, canvas_pos.y + canvas_size.y));
 
         if (m_OnToolBar)
             m_OnToolBar(canvas_size);

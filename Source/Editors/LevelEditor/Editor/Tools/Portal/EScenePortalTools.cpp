@@ -54,9 +54,7 @@ struct co_plane_pred
     co_plane_pred(CPortal* p): m_portal(p)
     {
         Fvector rkOffset, rkNormal;
-        Mgc::OrthogonalPlaneFit(
-            m_portal->m_Vertices.size(), (Mgc::Vector3*)m_portal->m_Vertices.data(), (Mgc::Vector3&)rkOffset,
-            (Mgc::Vector3&)rkNormal);
+        Mgc::OrthogonalPlaneFit(m_portal->m_Vertices.size(), (Mgc::Vector3*)m_portal->m_Vertices.data(), (Mgc::Vector3&)rkOffset, (Mgc::Vector3&)rkNormal);
         m_plane.build(rkOffset, rkNormal);
         float plane_magn = sqrt(plane_dot(m_plane, m_plane));
         m_plane.n.div(plane_magn);
@@ -72,9 +70,7 @@ struct co_plane_pred
         {
             Fvector rkOffset, rkNormal;
             Fplane  p_plane;
-            Mgc::OrthogonalPlaneFit(
-                P->m_Vertices.size(), (Mgc::Vector3*)P->m_Vertices.data(), (Mgc::Vector3&)rkOffset,
-                (Mgc::Vector3&)rkNormal);
+            Mgc::OrthogonalPlaneFit(P->m_Vertices.size(), (Mgc::Vector3*)P->m_Vertices.data(), (Mgc::Vector3&)rkOffset, (Mgc::Vector3&)rkNormal);
             p_plane.build(rkOffset, rkNormal);
             float plane_magn = sqrt(plane_dot(p_plane, p_plane));
             p_plane.n.div(plane_magn);
@@ -96,7 +92,7 @@ struct co_plane_pred
     }
 };
 
-template <int I> bool int_greater(int val)
+template<int I> bool int_greater(int val)
 {
     return val > I;
 }

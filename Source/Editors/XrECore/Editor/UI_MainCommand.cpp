@@ -244,8 +244,7 @@ CCommandVar TUI::CommandRenderFocus(CCommandVar p1, CCommandVar p2)
 }
 CCommandVar TUI::CommandBreakLastOperation(CCommandVar p1, CCommandVar p2)
 {
-    // if (mrYes == ELog.DlgMsg(mtConfirmation, TMsgDlgButtons() << mbYes << mbNo, "Are you sure to break current
-    // action?"))
+    // if (mrYes == ELog.DlgMsg(mtConfirmation, TMsgDlgButtons() << mbYes << mbNo, "Are you sure to break current action?"))
     if (mrYes == ELog.DlgMsg(mtConfirmation, mbYes | mbNo, "Are you sure to break current action?"))
     {
         NeedBreak();
@@ -293,9 +292,7 @@ CCommandVar CommandInitialize(CCommandVar p1, CCommandVar p2)
         string_path fname;
         FS.update_path(fname, "$game_config$", "game.ltx");
         pGameIni = xr_new<CInifile>(fname, TRUE);
-        CHECK_OR_EXIT(
-            0 != pGameIni->section_count(),
-            make_string("Cannot find file %s.\nReinstalling application may fix this problem.", fname));
+        CHECK_OR_EXIT(0 != pGameIni->section_count(), make_string("Cannot find file %s.\nReinstalling application may fix this problem.", fname));
     }
     // make interface
     //----------------
@@ -462,8 +459,7 @@ CCommandVar CommandCheckTextures(CCommandVar p1, CCommandVar p2)
 }
 CCommandVar CommandRefreshTextures(CCommandVar p1, CCommandVar p2)
 {
-    if (ELog.DlgMsg(mtConfirmation, TMsgDlgButtons() << mbYes << mbNo, "Are you sure to synchronize textures?") ==
-        mrYes)
+    if (ELog.DlgMsg(mtConfirmation, TMsgDlgButtons() << mbYes << mbNo, "Are you sure to synchronize textures?") == mrYes)
         ImageLib.RefreshTextures(0);
     return TRUE;
 }
@@ -709,10 +705,10 @@ bool OnCloseCommandListEditor()
 CCommandVar CommandEditCommandList(CCommandVar _p1, CCommandVar _p2)
 {
     not_implemented();
-    /*  if (NULL==frmEditCommandList){
-      //	frmEditCommandList	= TfrmText::CreateForm(sCommandListText,"Execute command
-      list",0,0,"Run",OnRunExecuteListClick,OnCloseCommandListEditor); return TRUE;
-      }*/
+    /* if (NULL==frmEditCommandList){
+    // frmEditCommandList	= TfrmText::CreateForm(sCommandListText,"Execute command list",0,0,"Run",OnRunExecuteListClick,OnCloseCommandListEditor);
+       return TRUE;
+    }*/
     return FALSE;
 }
 
@@ -809,8 +805,8 @@ void TUI::RegisterCommands()
     REGISTER_CMD_S(COMMAND_UPDATE_PROPERTIES, CommandUpdateProperties);
     REGISTER_CMD_S(COMMAND_REFRESH_PROPERTIES, CommandRefreshProperties);
     REGISTER_SUB_CMD_SE(COMMAND_ZOOM_EXTENTS, "Zoom", CommandZoomExtents, false);
-    APPEND_SUB_CMD("Extent", xr_shortcut(), 0, 0);
-    APPEND_SUB_CMD("Selected", xr_shortcut('A', false, false, true), 1, 0);
+        APPEND_SUB_CMD("Extent", xr_shortcut(), 0, 0);
+        APPEND_SUB_CMD("Selected", xr_shortcut('A', false, false, true), 1, 0);
     REGISTER_SUB_CMD_END;
     REGISTER_CMD_SE(COMMAND_MOVE_CAMERA_TO, "Scene\\Move Camera To", xr_shortcut(VK_RETURN, false, true, false), CommandMoveCameraTo, false);
     REGISTER_CMD_SE(COMMAND_TOGGLE_RENDER_WIRE, "Toggle Wireframe", xr_shortcut('W', false, false, false), CommandToggleRenderWire, false);
@@ -822,8 +818,8 @@ void TUI::RegisterCommands()
     REGISTER_CMD_S(COMMAND_UPDATE_GRID, CommandUpdateGrid);
     REGISTER_CMD_S(COMMAND_GRID_NUMBER_OF_SLOTS, CommandGridNumberOfSlots);
     REGISTER_SUB_CMD_SE(COMMAND_GRID_SLOT_SIZE, "Change Grid Size", CommandGridSlotSize, false);
-    APPEND_SUB_CMD("Decrease", xr_shortcut(VK_OEM_4, false, false, false), 0, 0);
-    APPEND_SUB_CMD("Increase", xr_shortcut(VK_OEM_6, false, false, false), 1, 0);
+        APPEND_SUB_CMD("Decrease", xr_shortcut(VK_OEM_4, false, false, false), 0, 0);
+        APPEND_SUB_CMD("Increase", xr_shortcut(VK_OEM_6, false, false, false), 1, 0);
     REGISTER_SUB_CMD_END;
     REGISTER_CMD_S(COMMAND_CREATE_SOUND_LIB, CommandCreateSoundLib);
     REGISTER_CMD_S(COMMAND_MUTE_SOUND, CommandMuteSound);
@@ -831,14 +827,14 @@ void TUI::RegisterCommands()
     REGISTER_CMD_S(COMMAND_EXECUTE_COMMAND_LIST, CommandExecuteCommandList);
     REGISTER_CMD_S(COMMAND_LOG_COMMANDS, CommandLogCommands);
     REGISTER_SUB_CMD_SE(COMMAND_RUN_MACRO, "Run Macro",  CommandRunMacro, false);
-    APPEND_SUB_CMD("Slot #1", xr_shortcut('1', true, false, false), xr_string(""), 0);
-    APPEND_SUB_CMD("Slot #2", xr_shortcut('2', true, false, false), xr_string(""), 0);
-    APPEND_SUB_CMD("Slot #3", xr_shortcut('3', true, false, false), xr_string(""), 0);
-    APPEND_SUB_CMD("Slot #4", xr_shortcut('4', true, false, false), xr_string(""), 0);
-    APPEND_SUB_CMD("Slot #5", xr_shortcut('5', true, false, false), xr_string(""), 0);
-    APPEND_SUB_CMD("Slot #6", xr_shortcut('6', true, false, false), xr_string(""), 0);
-    APPEND_SUB_CMD("Slot #7", xr_shortcut('7', true, false, false), xr_string(""), 0);
-    APPEND_SUB_CMD("Slot #8", xr_shortcut('8', true, false, false), xr_string(""), 0);
+        APPEND_SUB_CMD("Slot #1", xr_shortcut('1', true, false, false), xr_string(""), 0);
+        APPEND_SUB_CMD("Slot #2", xr_shortcut('2', true, false, false), xr_string(""), 0);
+        APPEND_SUB_CMD("Slot #3", xr_shortcut('3', true, false, false), xr_string(""), 0);
+        APPEND_SUB_CMD("Slot #4", xr_shortcut('4', true, false, false), xr_string(""), 0);
+        APPEND_SUB_CMD("Slot #5", xr_shortcut('5', true, false, false), xr_string(""), 0);
+        APPEND_SUB_CMD("Slot #6", xr_shortcut('6', true, false, false), xr_string(""), 0);
+        APPEND_SUB_CMD("Slot #7", xr_shortcut('7', true, false, false), xr_string(""), 0);
+        APPEND_SUB_CMD("Slot #8", xr_shortcut('8', true, false, false), xr_string(""), 0);
     REGISTER_SUB_CMD_END;
     REGISTER_CMD_S(COMMAND_ASSIGN_MACRO, CommandAssignMacro);
 }
@@ -859,9 +855,7 @@ bool TUI::ApplyShortCut(DWORD Key, TShiftState Shift)
 
     xr_shortcut SC;
     SC.key = Key;
-    SC.ext.assign(
-        u8((Shift & ssShift ? xr_shortcut::flShift : 0) | (Shift & ssCtrl ? xr_shortcut::flCtrl : 0) |
-           (Shift & ssAlt ? xr_shortcut::flAlt : 0)));
+    SC.ext.assign(u8((Shift & ssShift ? xr_shortcut::flShift : 0) | (Shift & ssCtrl ? xr_shortcut::flCtrl : 0) | (Shift & ssAlt ? xr_shortcut::flAlt : 0)));
     SESubCommand* SUB = FindCommandByShortcut(SC);
 
     if (!SUB || SUB->parent->global_shortcut)
@@ -877,9 +871,7 @@ bool TUI::ApplyGlobalShortCut(DWORD Key, TShiftState Shift)
 
     xr_shortcut SC;
     SC.key = Key;
-    SC.ext.assign(
-        u8((Shift & ssShift ? xr_shortcut::flShift : 0) | (Shift & ssCtrl ? xr_shortcut::flCtrl : 0) |
-           (Shift & ssAlt ? xr_shortcut::flAlt : 0)));
+    SC.ext.assign(u8((Shift & ssShift ? xr_shortcut::flShift : 0) | (Shift & ssCtrl ? xr_shortcut::flCtrl : 0) | (Shift & ssAlt ? xr_shortcut::flAlt : 0)));
 
     if (UIKeyPressForm::SetResult(SC))
         return true;

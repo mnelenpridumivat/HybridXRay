@@ -44,21 +44,12 @@ bool CLevelTool::OnCreate()
     m_WorldProps = xr_new<UIPropertiesForm>();
     m_WorldProps->SetModifiedEvent(TOnCloseEvent(this, &CLevelTool::OnPropsModified));
     /*
-      ssRBOnly << ssRight;
-      paParent 		= fraLeftBar->paFrames;   VERIFY(paParent);
-
-      // scene creating
-
-      // change target to Object
-
-      m_Props 		= TProperties::CreateForm(	"Object Inspector",
-                                                  0,
-                                                  alClient,
-                                                  TOnModifiedEvent(this,&CLevelTool::OnPropsModified),
-                                                  0,
-                                                  TOnCloseEvent(this,&CLevelTool::OnPropsClose),
-                            TProperties::plItemFolders|TProperties::plFolderStore|TProperties::plNoClearStore|TProperties::plFullExpand);
-      pObjectListForm = TfrmObjectList::CreateForm();*/
+    ssRBOnly << ssRight;
+    paParent = fraLeftBar->paFrames;   VERIFY(paParent);
+    // scene creating
+    // change target to Object
+    m_Props = TProperties::CreateForm("Object Inspector", 0, alClient, TOnModifiedEvent(this,&CLevelTool::OnPropsModified), 0, TOnCloseEvent(this,&CLevelTool::OnPropsClose), TProperties::plItemFolders|TProperties::plFolderStore|TProperties::plNoClearStore|TProperties::plFullExpand);
+    pObjectListForm = TfrmObjectList::CreateForm();*/
     return true;
 }
 
@@ -390,13 +381,9 @@ LPCSTR CLevelTool::GetInfo()
 
 void CLevelTool::OnFrame()
 {
-    if (psDeviceFlags.is(rsEnvironment) && !UI->IsPlayInEditor() && g_pGamePersistent &&
-        g_pGamePersistent->pEnvironment)
+    if (psDeviceFlags.is(rsEnvironment) && !UI->IsPlayInEditor() && g_pGamePersistent && g_pGamePersistent->pEnvironment)
     {
-        g_pGamePersistent->Environment().SetGameTime(
-            g_pGamePersistent->Environment().GetGameTime() +
-                Device->fTimeDelta * g_pGamePersistent->Environment().fTimeFactor,
-            g_pGamePersistent->Environment().fTimeFactor);
+        g_pGamePersistent->Environment().SetGameTime(g_pGamePersistent->Environment().GetGameTime() + Device->fTimeDelta * g_pGamePersistent->Environment().fTimeFactor, g_pGamePersistent->Environment().fTimeFactor);
     }
     Scene->OnFrame(EDevice->fTimeDelta);
     EEditorState est = UI->GetEState();
@@ -734,9 +721,7 @@ void CLevelTool::RunXrAI_Spawn(bool current_level)
     ZeroMemory(&m_CompilerProcess, sizeof(m_CompilerProcess));
 
     string_path CommandLine;
-    xr_sprintf(
-        CommandLine, "xrAI.exe -no_separator_check -s %s -out all",
-        current_level ? Scene->m_LevelOp.m_FNLevelPath.c_str() : "");
+    xr_sprintf(CommandLine, "xrAI.exe -no_separator_check -s %s -out all", current_level ? Scene->m_LevelOp.m_FNLevelPath.c_str() : "");
     Msg("~ Run %s.\n", CommandLine);
     // Start the child process.
     if (!CreateProcess(

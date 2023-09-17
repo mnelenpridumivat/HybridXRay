@@ -462,7 +462,7 @@ CCommandVar CommandCut(CCommandVar p1, CCommandVar p2)
     {
         Scene->CutSelection(LTools->CurrentClassID());
         /* fraLeftBar->miPaste->Enabled = true;
-         fraLeftBar->miPaste2->Enabled = true;*/
+        fraLeftBar->miPaste2->Enabled = true;*/
         Scene->UndoSave();
         return TRUE;
     }
@@ -1194,12 +1194,7 @@ void RetrieveSceneObjPointAndNormal(Fvector& hitpoint, Fvector* hitnormal, const
     }
 }
 
-bool EditLibPickObjectGeometry(
-    Fvector&       hitpoint,
-    const Fvector& start,
-    const Fvector& direction,
-    int            bSnap,
-    Fvector*       hitnormal)
+bool EditLibPickObjectGeometry(Fvector& hitpoint, const Fvector& start, const Fvector& direction, int bSnap, Fvector* hitnormal)
 {
     SRayPickInfo pinf;
     /*if( TfrmEditLibrary::RayPick( start, direction, &pinf ) )
@@ -1210,12 +1205,7 @@ bool EditLibPickObjectGeometry(
     return false;
 }
 
-bool ScenePickObjectGeometry(
-    Fvector&       hitpoint,
-    const Fvector& start,
-    const Fvector& direction,
-    int            bSnap,
-    Fvector*       hitnormal)
+bool ScenePickObjectGeometry(Fvector& hitpoint, const Fvector& start, const Fvector& direction, int bSnap, Fvector* hitnormal)
 {
     SRayPickInfo pinf;
 
@@ -1224,8 +1214,7 @@ bool ScenePickObjectGeometry(
 
     {
         SRayPickInfo l_pinf;
-        bool         l_bres = Scene->RayPickObject(
-            l_pinf.inf.range, start, direction, OBJCLASS_SPAWNPOINT, &l_pinf, Scene->GetSnapList(false));
+        bool         l_bres = Scene->RayPickObject(l_pinf.inf.range, start, direction, OBJCLASS_SPAWNPOINT, &l_pinf, Scene->GetSnapList(false));
 
         if (l_bres)
         {
@@ -1235,8 +1224,7 @@ bool ScenePickObjectGeometry(
     }
     {
         SRayPickInfo l_pinf;
-        bool         l_bres = Scene->RayPickObject(
-            l_pinf.inf.range, start, direction, OBJCLASS_SCENEOBJECT, &l_pinf, Scene->GetSnapList(false));
+        bool         l_bres = Scene->RayPickObject(l_pinf.inf.range, start, direction, OBJCLASS_SCENEOBJECT, &l_pinf, Scene->GetSnapList(false));
 
         if (!bResult || (l_bres && l_pinf.inf.range < pinf.inf.range))
             pinf = l_pinf;
@@ -1249,13 +1237,7 @@ bool ScenePickObjectGeometry(
     return bResult;
 }
 
-bool PickObjectGeometry(
-    EEditorState   est,
-    Fvector&       hitpoint,
-    const Fvector& start,
-    const Fvector& direction,
-    int            bSnap,
-    Fvector*       hitnormal)
+bool PickObjectGeometry(EEditorState est, Fvector& hitpoint, const Fvector& start, const Fvector& direction, int bSnap, Fvector* hitnormal)
 {
     switch (est)
     {
@@ -1300,12 +1282,7 @@ bool PickGrid(Fvector& hitpoint, const Fvector& start, const Fvector& direction,
     return true;
 }
 
-bool CLevelMain::PickGround(
-    Fvector&       hitpoint,
-    const Fvector& start,
-    const Fvector& direction,
-    int            bSnap,
-    Fvector*       hitnormal)
+bool CLevelMain::PickGround(Fvector& hitpoint, const Fvector& start, const Fvector& direction, int bSnap, Fvector* hitnormal)
 {
     VERIFY(m_bReady);
 

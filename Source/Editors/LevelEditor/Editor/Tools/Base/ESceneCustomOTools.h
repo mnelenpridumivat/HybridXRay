@@ -27,8 +27,7 @@ public:
     virtual void        UpdateSnapList();
 
     // selection manipulate
-    virtual int
-        RaySelect(int flag, float& distance, const Fvector& start, const Fvector& direction, BOOL bDistanceOnly);
+    virtual int RaySelect(int flag, float& distance, const Fvector& start, const Fvector& direction, BOOL bDistanceOnly);
     virtual int  FrustumSelect(int flag, const CFrustum& frustum);
     virtual void SelectObjects(bool flag);
     virtual void InvertSelection();
@@ -92,12 +91,7 @@ public:
     virtual BOOL _RemoveObject(CCustomObject* object);
 
     // pick function
-    virtual BOOL RayPick(
-        CCustomObject*& object,
-        float&          distance,
-        const Fvector&  start,
-        const Fvector&  direction,
-        SRayPickInfo*   pinf);
+    virtual BOOL RayPick(CCustomObject*& object, float& distance, const Fvector& start, const Fvector& direction, SRayPickInfo* pinf);
     virtual BOOL FrustumPick(ObjectList& lst, const CFrustum& frustum);
     virtual BOOL SpherePick(ObjectList& lst, const Fvector& center, float radius);
     virtual int  GetQueryObjects(ObjectList& lst, int iSel, int iVis, int iLock);

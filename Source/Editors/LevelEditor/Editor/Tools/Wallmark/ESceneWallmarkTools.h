@@ -63,8 +63,7 @@ private:
 
     void RecurseTri(u32 t, Fmatrix& mView, wallmark& W);
     void BuildMatrix(Fmatrix& mView, float inv_w, float inv_h, float angle, const Fvector& from);
-    BOOL
-        AddWallmark_internal(const Fvector& S, const Fvector& D, shared_str s, shared_str t, float w, float h, float r);
+    BOOL AddWallmark_internal(const Fvector& S, const Fvector& D, shared_str s, shared_str t, float w, float h, float r);
 
     void RefiningSlots();
 
@@ -114,8 +113,7 @@ public:
     }
 
     // selection manipulate
-    virtual int
-        RaySelect(int flag, float& distance, const Fvector& start, const Fvector& direction, BOOL bDistanceOnly);
+    virtual int  RaySelect(int flag, float& distance, const Fvector& start, const Fvector& direction, BOOL bDistanceOnly);
     virtual int  FrustumSelect(int flag, const CFrustum& frustum);
     virtual void SelectObjects(bool flag);
     virtual void InvertSelection();

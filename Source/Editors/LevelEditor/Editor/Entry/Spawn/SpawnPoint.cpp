@@ -67,8 +67,7 @@ void CLE_Visual::OnChangeVisual()
 
         if (NULL == visual && !g_tmp_lock)
         {
-            xr_string _msg = "Model [" + xr_string(source->visual_name.c_str()) +
-                "] not found. Do you want to select it from library?";
+            xr_string _msg = "Model [" + xr_string(source->visual_name.c_str()) + "] not found. Do you want to select it from library?";
             int    mr       = ELog.DlgMsg(mtConfirmation, mbYes | mbNo, _msg.c_str());
             LPCSTR _new_val = 0;
             g_tmp_lock      = true;
@@ -464,14 +463,12 @@ void CSpawnPoint::SSpawnData::FillProp(LPCSTR pref, PropItemVec& items)
 {
     m_Data->FillProp(pref, items);
 
-    if (Scene->m_LevelOp.m_mapUsage.MatchType(
-            eGameIDDeathmatch | eGameIDTeamDeathmatch | eGameIDArtefactHunt | eGameIDCaptureTheArtefact))
+    if (Scene->m_LevelOp.m_mapUsage.MatchType(eGameIDDeathmatch | eGameIDTeamDeathmatch | eGameIDArtefactHunt | eGameIDCaptureTheArtefact))
         PHelper().CreateFlag8(items, PrepareKey(pref, "MP respawn"), &m_flags, eSDTypeRespawn);
 
     if (m_Visual)
     {
-        ButtonValue* BV = PHelper().CreateButton(
-            items, PrepareKey(pref, m_Data->name(), "Model\\AnimationControl"), "|<<,Play,Pause,Stop,>>|", 0);
+        ButtonValue* BV = PHelper().CreateButton(items, PrepareKey(pref, m_Data->name(), "Model\\AnimationControl"), "|<<,Play,Pause,Stop,>>|", 0);
         BV->OnBtnClickEvent.bind(this, &CSpawnPoint::SSpawnData::OnAnimControlClick);
     }
 }
@@ -893,7 +890,8 @@ void CSpawnPoint::Render(int priority, bool strictB2F)
             {
                 switch (m_Type)
                 {
-                    case ptRPoint: {
+                    case ptRPoint:
+                    {
                         ESceneSpawnTool* st = dynamic_cast<ESceneSpawnTool*>(FParentTools);
                         VERIFY(st);
 
@@ -905,13 +903,13 @@ void CSpawnPoint::Render(int priority, bool strictB2F)
                         }
                     }
                     break;
-                    case ptEnvMod: {
+                    case ptEnvMod:
+                    {
                         Fvector pos = {0, 0, 0};
                         EDevice->SetShader(EDevice->m_WireShader);
                         DU_impl.DrawCross(pos, 0.25f, 0x20FFAE00, true);
                         if (Selected())
-                            DU_impl.DrawSphere(
-                                Fidentity, GetPosition(), m_EM_Radius, 0x30FFAE00, 0x00FFAE00, true, true);
+                            DU_impl.DrawSphere(Fidentity, GetPosition(), m_EM_Radius, 0x30FFAE00, 0x00FFAE00, true, true);
                     }
                     break;
 
@@ -1091,7 +1089,8 @@ bool CSpawnPoint::LoadLTX(CInifile& ini, LPCSTR sect_name)
     }
     switch (m_Type)
     {
-        case ptSpawnPoint: {
+        case ptSpawnPoint:
+        {
             string128 buff;
             strconcat(sizeof(buff), buff, sect_name, "_spawndata");
             if (!m_SpawnData.LoadLTX(ini, buff))
@@ -1102,7 +1101,8 @@ bool CSpawnPoint::LoadLTX(CInifile& ini, LPCSTR sect_name)
             SetValid(true);
         }
         break;
-        case ptRPoint: {
+        case ptRPoint:
+        {
             if (version >= 0x0017)
                 m_rpProfile = ini.r_string(sect_name, "rp_profile");
 
@@ -1111,7 +1111,8 @@ bool CSpawnPoint::LoadLTX(CInifile& ini, LPCSTR sect_name)
             m_GameType.LoadLTX(ini, sect_name, (version == 0x0014));
         }
         break;
-        case ptEnvMod: {
+        case ptEnvMod:
+        {
             m_EM_Radius       = ini.r_float(sect_name, "em_radius");
             m_EM_Power        = ini.r_float(sect_name, "em_power");
             m_EM_ViewDist     = ini.r_float(sect_name, "view_dist");
@@ -1160,19 +1161,22 @@ void CSpawnPoint::SaveLTX(CInifile& ini, LPCSTR sect_name)
 
     switch (m_Type)
     {
-        case ptSpawnPoint: {
+        case ptSpawnPoint:
+        {
             string128 buff;
             m_SpawnData.SaveLTX(ini, strconcat(sizeof(buff), buff, sect_name, "_spawndata"));
         }
         break;
-        case ptRPoint: {
+        case ptRPoint:
+        {
             ini.w_u8(sect_name, "team_id", m_RP_TeamID);
             ini.w_string(sect_name, "rp_profile", m_rpProfile.c_str());
             ini.w_u8(sect_name, "rp_type", m_RP_Type);
             m_GameType.SaveLTX(ini, sect_name);
         }
         break;
-        case ptEnvMod: {
+        case ptEnvMod:
+        {
             ini.w_float(sect_name, "em_radius", m_EM_Radius);
             ini.w_float(sect_name, "em_power", m_EM_Power);
             ini.w_float(sect_name, "view_dist", m_EM_ViewDist);
@@ -1257,8 +1261,7 @@ bool CSpawnPoint::LoadStream(IReader& F)
     }
 
     // objects
-    Scene->ReadObjectsStream(
-        F, SPAWNPOINT_CHUNK_ATTACHED_OBJ, EScene::TAppendObject(this, &CSpawnPoint::OnAppendObject), 0);
+    Scene->ReadObjectsStream(F, SPAWNPOINT_CHUNK_ATTACHED_OBJ, EScene::TAppendObject(this, &CSpawnPoint::OnAppendObject), 0);
 
     UpdateTransform();
 
@@ -1481,9 +1484,7 @@ void CSpawnPoint::FillProp(LPCSTR pref, PropItemVec& items)
     {
         shared_str pref1      = PrepareKey(pref, m_SpawnData.m_Data->name());
         m_SpawnData.m_Profile = SectionToEditor(m_SpawnData.m_Data->name());
-        ChooseValue* C        = PHelper().CreateChoose(
-            items, PrepareKey(pref1.c_str(), "Profile (spawn section)"), &m_SpawnData.m_Profile, smCustom, 0, 0, 1,
-            cfFullExpand);
+        ChooseValue* C        = PHelper().CreateChoose(items, PrepareKey(pref1.c_str(), "Profile (spawn section)"), &m_SpawnData.m_Profile, smCustom, 0, 0, 1, cfFullExpand);
         C->OnChooseFillEvent.bind(this, &CSpawnPoint::OnFillChooseItems);
         C->OnChangeEvent.bind(this, &CSpawnPoint::OnProfileChange);
         m_SpawnData.FillProp(pref, items);
@@ -1492,76 +1493,59 @@ void CSpawnPoint::FillProp(LPCSTR pref, PropItemVec& items)
     {
         switch (m_Type)
         {
-            case ptRPoint: {
+            case ptRPoint:
+            {
                 if (m_RP_Type == rptItemSpawn)
                 {
-                    ChooseValue* C = PHelper().CreateChoose(
-                        items, PrepareKey(pref, "Respawn Point\\Profile"), &m_rpProfile, smCustom, 0, 0, 10,
-                        cfMultiSelect);
+                    ChooseValue* C = PHelper().CreateChoose(items, PrepareKey(pref, "Respawn Point\\Profile"), &m_rpProfile, smCustom, 0, 0, 10, cfMultiSelect);
                     C->OnChooseFillEvent.bind(this, &CSpawnPoint::OnFillRespawnItemProfile);
                 }
                 else
                 {
                     PHelper().CreateU8(items, PrepareKey(pref, "Respawn Point\\Team"), &m_RP_TeamID, 0, MAX_TEAM - 1);
                 }
-                Token8Value* TV = PHelper().CreateToken8(
-                    items, PrepareKey(pref, "Respawn Point\\Spawn Type"), &m_RP_Type, rpoint_type);
+                Token8Value* TV = PHelper().CreateToken8(items, PrepareKey(pref, "Respawn Point\\Spawn Type"), &m_RP_Type, rpoint_type);
                 TV->OnChangeEvent.bind(this, &CSpawnPoint::OnRPointTypeChange);
 
                 m_GameType.FillProp(pref, items);
             }
             break;
-            case ptEnvMod: {
-                PHelper().CreateFloat(
-                    items, PrepareKey(pref, "Environment Modificator\\Radius"), &m_EM_Radius, EPS_L, 10000.f);
-                PHelper().CreateFloat(
-                    items, PrepareKey(pref, "Environment Modificator\\Power"), &m_EM_Power, EPS, 1000.f);
+            case ptEnvMod:
+            {
+                PHelper().CreateFloat(items, PrepareKey(pref, "Environment Modificator\\Radius"), &m_EM_Radius, EPS_L, 10000.f);
+                PHelper().CreateFloat(items, PrepareKey(pref, "Environment Modificator\\Power"), &m_EM_Power, EPS, 1000.f);
 
                 Flag16Value* FV = NULL;
 
-                FV = PHelper().CreateFlag16(
-                    items, PrepareKey(pref, "Environment Modificator\\View Distance"), &m_EM_Flags, eViewDist);
+                FV = PHelper().CreateFlag16(items, PrepareKey(pref, "Environment Modificator\\View Distance"), &m_EM_Flags, eViewDist);
                 FV->OnChangeEvent.bind(this, &CSpawnPoint::OnEnvModFlagChange);
                 if (m_EM_Flags.test(eViewDist))
-                    PHelper().CreateFloat(
-                        items, PrepareKey(pref, "Environment Modificator\\View Distance\\ "), &m_EM_ViewDist, EPS_L,
-                        10000.f);
+                    PHelper().CreateFloat(items, PrepareKey(pref, "Environment Modificator\\View Distance\\ "), &m_EM_ViewDist, EPS_L, 10000.f);
 
-                FV = PHelper().CreateFlag16(
-                    items, PrepareKey(pref, "Environment Modificator\\Fog Color"), &m_EM_Flags, eFogColor);
+                FV = PHelper().CreateFlag16(items, PrepareKey(pref, "Environment Modificator\\Fog Color"), &m_EM_Flags, eFogColor);
                 FV->OnChangeEvent.bind(this, &CSpawnPoint::OnEnvModFlagChange);
                 if (m_EM_Flags.test(eFogColor))
-                    PHelper().CreateColor(
-                        items, PrepareKey(pref, "Environment Modificator\\Fog Color\\ "), &m_EM_FogColor);
+                    PHelper().CreateColor(items, PrepareKey(pref, "Environment Modificator\\Fog Color\\ "), &m_EM_FogColor);
 
-                FV = PHelper().CreateFlag16(
-                    items, PrepareKey(pref, "Environment Modificator\\Fog Density"), &m_EM_Flags, eFogDensity);
+                FV = PHelper().CreateFlag16(items, PrepareKey(pref, "Environment Modificator\\Fog Density"), &m_EM_Flags, eFogDensity);
                 FV->OnChangeEvent.bind(this, &CSpawnPoint::OnEnvModFlagChange);
                 if (m_EM_Flags.test(eFogDensity))
-                    PHelper().CreateFloat(
-                        items, PrepareKey(pref, "Environment Modificator\\Fog Density\\ "), &m_EM_FogDensity, 0.f,
-                        10000.f);
+                    PHelper().CreateFloat(items, PrepareKey(pref, "Environment Modificator\\Fog Density\\ "), &m_EM_FogDensity, 0.f, 10000.f);
 
-                FV = PHelper().CreateFlag16(
-                    items, PrepareKey(pref, "Environment Modificator\\Ambient Color"), &m_EM_Flags, eAmbientColor);
+                FV = PHelper().CreateFlag16(items, PrepareKey(pref, "Environment Modificator\\Ambient Color"), &m_EM_Flags, eAmbientColor);
                 FV->OnChangeEvent.bind(this, &CSpawnPoint::OnEnvModFlagChange);
                 if (m_EM_Flags.test(eAmbientColor))
-                    PHelper().CreateColor(
-                        items, PrepareKey(pref, "Environment Modificator\\Ambient Color\\ "), &m_EM_AmbientColor);
+                    PHelper().CreateColor(items, PrepareKey(pref, "Environment Modificator\\Ambient Color\\ "), &m_EM_AmbientColor);
 
-                FV = PHelper().CreateFlag16(
-                    items, PrepareKey(pref, "Environment Modificator\\Sky Color"), &m_EM_Flags, eSkyColor);
+                FV = PHelper().CreateFlag16(items, PrepareKey(pref, "Environment Modificator\\Sky Color"), &m_EM_Flags, eSkyColor);
                 FV->OnChangeEvent.bind(this, &CSpawnPoint::OnEnvModFlagChange);
                 if (m_EM_Flags.test(eSkyColor))
-                    PHelper().CreateColor(
-                        items, PrepareKey(pref, "Environment Modificator\\Sky Color\\ "), &m_EM_SkyColor);
+                    PHelper().CreateColor(items, PrepareKey(pref, "Environment Modificator\\Sky Color\\ "), &m_EM_SkyColor);
 
-                FV = PHelper().CreateFlag16(
-                    items, PrepareKey(pref, "Environment Modificator\\Hemi Color"), &m_EM_Flags, eHemiColor);
+                FV = PHelper().CreateFlag16(items, PrepareKey(pref, "Environment Modificator\\Hemi Color"), &m_EM_Flags, eHemiColor);
                 FV->OnChangeEvent.bind(this, &CSpawnPoint::OnEnvModFlagChange);
                 if (m_EM_Flags.test(eHemiColor))
-                    PHelper().CreateColor(
-                        items, PrepareKey(pref, "Environment Modificator\\Hemi Color\\ "), &m_EM_HemiColor);
+                    PHelper().CreateColor(items, PrepareKey(pref, "Environment Modificator\\Hemi Color\\ "), &m_EM_HemiColor);
             }
             break;
             default:

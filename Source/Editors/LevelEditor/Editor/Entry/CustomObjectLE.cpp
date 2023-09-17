@@ -12,8 +12,7 @@ void CCustomObject::SnapMove(Fvector& pos, Fvector& rot, const Fmatrix& rotRP, c
     s2.mad(s1, up, EPrefs->snap_moveto);
 
     pinf.inf.range = EPrefs->snap_moveto;
-    if (Scene->RayPickObject(pinf.inf.range, s1, dn, OBJCLASS_SCENEOBJECT, &pinf, Scene->GetSnapList(false)) ||
-        Scene->RayPickObject(pinf.inf.range, s2, dn, OBJCLASS_SCENEOBJECT, &pinf, Scene->GetSnapList(false)))
+    if (Scene->RayPickObject(pinf.inf.range, s1, dn, OBJCLASS_SCENEOBJECT, &pinf, Scene->GetSnapList(false)) || Scene->RayPickObject(pinf.inf.range, s2, dn, OBJCLASS_SCENEOBJECT, &pinf, Scene->GetSnapList(false)))
     {
         pos.set(pinf.pt);
         if (Tools->GetSettings(etfNormalAlign))
@@ -74,7 +73,7 @@ void CCustomObject::OnAttach(CCustomObject* owner)
     R_ASSERT(owner);
     R_ASSERT2(((!m_pOwnerObject) || (m_pOwnerObject == owner)), "Object already has owner!");
     m_pOwnerObject = owner;
-    //.    Scene->RemoveObject		(this,false,false);
+    // Scene->RemoveObject(this,false,false);
     if (owner->FClassID == OBJCLASS_GROUP)
         m_CO_Flags.set(flObjectInGroup, TRUE);
 
@@ -220,9 +219,7 @@ void CCustomObject::FillProp(LPCSTR pref, PropItemVec& items)
 {
     PropValue* V;
     EName = GetName();
-    V     = PHelper().CreateNameCB(
-        items, PrepareKey(pref, "Name"), &EName, NULL, NULL,
-        RTextValue::TOnAfterEditEvent(this, &CCustomObject::OnObjectNameAfterEdit));
+    V = PHelper().CreateNameCB(items, PrepareKey(pref, "Name"), &EName, NULL, NULL, RTextValue::TOnAfterEditEvent(this, &CCustomObject::OnObjectNameAfterEdit));
     V->OnChangeEvent.bind(this, &CCustomObject::OnNameChange);
     EPosition = GetPosition();
     V = PHelper().CreateVector(items, PrepareKey(pref, "Transform\\Position"), &EPosition, -10000, 10000, 0.01, 2);

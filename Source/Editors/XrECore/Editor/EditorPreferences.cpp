@@ -222,8 +222,7 @@ void CCustomPreferences::FillProp(PropItemVec& props)
                 SESubCommand*& SUB_CMD = CMD->sub_commands[sub_cmd_idx];
                 string128      nm;
                 sprintf(nm, "%s%s%s", CMD->Desc(), !SUB_CMD->desc.empty() ? "\\" : "", SUB_CMD->desc.c_str());
-                ShortcutValue* V =
-                    PHelper().CreateShortcut(props, PrepareKey("Keyboard\\Shortcuts", nm), &SUB_CMD->shortcut);
+                ShortcutValue* V = PHelper().CreateShortcut(props, PrepareKey("Keyboard\\Shortcuts", nm), &SUB_CMD->shortcut);
                 V->OnValidateResultEvent.bind(CheckValidate);
             }
         }
@@ -437,7 +436,7 @@ void CCustomPreferences::OnCreate()
     m_ItemProps = xr_new<UIPropertiesForm>();
     // m_ItemProps 		= TProperties::CreateModalForm("Editor
     // Preferences",false,0,0,TOnCloseEvent(this,&CCustomPreferences::OnClose),TProperties::plItemFolders|TProperties::plFullSort);
-    // //TProperties::plFullExpand TProperties::plFullSort TProperties::plNoClearStore|TProperties::plFolderStore|
+    // TProperties::plFullExpand TProperties::plFullSort TProperties::plNoClearStore|TProperties::plFolderStore|
 }
 //---------------------------------------------------------------------------
 

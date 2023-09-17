@@ -1,15 +1,15 @@
 ﻿#include "stdafx.h"
 
 // chunks
-#define AIMAP_VERSION 0x0002
+#define AIMAP_VERSION              0x0002
 
-#define AIMAP_CHUNK_VERSION 0x0001
-#define AIMAP_CHUNK_FLAGS 0x0002
-#define AIMAP_CHUNK_BOX 0x0003
-#define AIMAP_CHUNK_PARAMS 0x0004
-#define AIMAP_CHUNK_NODES 0x0006
-#define AIMAP_CHUNK_SNAP_OBJECTS 0x0007
-#define AIMAP_CHUNK_INTERNAL_DATA 0x0008
+#define AIMAP_CHUNK_VERSION        0x0001
+#define AIMAP_CHUNK_FLAGS          0x0002
+#define AIMAP_CHUNK_BOX            0x0003
+#define AIMAP_CHUNK_PARAMS         0x0004
+#define AIMAP_CHUNK_NODES          0x0006
+#define AIMAP_CHUNK_SNAP_OBJECTS   0x0007
+#define AIMAP_CHUNK_INTERNAL_DATA  0x0008
 #define AIMAP_CHUNK_INTERNAL_DATA2 0x0009
 
 poolSS<SAINode, 1024> g_ainode_pool;
@@ -505,7 +505,8 @@ void ESceneAIMapTool::SelectObjects(bool flag)
 {
     switch (LTools->GetSubTarget())
     {
-        case estAIMapNode: {
+        case estAIMapNode:
+        {
             for (AINodeIt it = m_Nodes.begin(); it != m_Nodes.end(); it++)
                 //			if (!(*it)->flags.is(SAINode::flHide))
                 (*it)->flags.set(SAINode::flSelected, flag);
@@ -534,7 +535,8 @@ void ESceneAIMapTool::RemoveSelection()
 {
     switch (LTools->GetSubTarget())
     {
-        case estAIMapNode: {
+        case estAIMapNode:
+        {
             if (m_Nodes.size() == (u32)SelectionCount(true))
             {
                 Clear(true);
@@ -564,7 +566,8 @@ void ESceneAIMapTool::InvertSelection()
 {
     switch (LTools->GetSubTarget())
     {
-        case estAIMapNode: {
+        case estAIMapNode:
+        {
             for (AINodeIt it = m_Nodes.begin(); it != m_Nodes.end(); it++)
                 //			if (!(*it)->flags.is(SAINode::flHide))
                 (*it)->flags.invert(SAINode::flSelected);
@@ -580,7 +583,8 @@ int ESceneAIMapTool::SelectionCount(bool testflag)
     int count = 0;
     switch (LTools->GetSubTarget())
     {
-        case estAIMapNode: {
+        case estAIMapNode:
+        {
             for (AINodeIt it = m_Nodes.begin(); it != m_Nodes.end(); it++)
                 if ((*it)->flags.is(SAINode::flSelected) == testflag)
                     count++;
@@ -592,8 +596,7 @@ int ESceneAIMapTool::SelectionCount(bool testflag)
 
 void ESceneAIMapTool::FillProp(LPCSTR pref, PropItemVec& items)
 {
-    PHelper().CreateFlag32(
-        items, PrepareKey(pref, "Common\\Draw Nodes"), &m_Flags, flHideNodes, 0, 0, FlagValueCustom::flInvertedDraw);
+    PHelper().CreateFlag32(items, PrepareKey(pref, "Common\\Draw Nodes"), &m_Flags, flHideNodes, 0, 0, FlagValueCustom::flInvertedDraw);
     PHelper().CreateFlag32(items, PrepareKey(pref, "Common\\Slow Calculate Mode"), &m_Flags, flSlowCalculate);
     PHelper().CreateFloat(items, PrepareKey(pref, "Common\\Visible Radius"), &m_VisRadius, 10.f, 250.f);
     PHelper().CreateFloat(items, PrepareKey(pref, "Common\\Smooth Height"), &m_SmoothHeight, 0.1f, 100.f);
@@ -607,7 +610,8 @@ void ESceneAIMapTool::GetBBox(Fbox& bb, bool bSelOnly)
 {
     switch (LTools->GetSubTarget())
     {
-        case estAIMapNode: {
+        case estAIMapNode:
+        {
             if (bSelOnly)
             {
                 for (AINodeIt it = m_Nodes.begin(); it != m_Nodes.end(); it++)

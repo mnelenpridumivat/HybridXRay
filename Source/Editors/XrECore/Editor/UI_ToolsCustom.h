@@ -141,13 +141,7 @@ public:
             m_Lines.back().i = i;
             m_Lines.back().m = m;
         }
-        void AppendWireFace(
-            const Fvector& p0,
-            const Fvector& p1,
-            const Fvector& p2,
-            u32            c = 0xffff0000,
-            bool           i = true,
-            bool           m = true)
+        void AppendWireFace(const Fvector& p0, const Fvector& p1, const Fvector& p2, u32 c = 0xffff0000, bool i = true, bool m = true)
         {
             m_WireFaces.push_back(Face());
             m_WireFaces.back().p[0].set(p0);
@@ -157,13 +151,7 @@ public:
             m_WireFaces.back().i = i;
             m_WireFaces.back().m = m;
         }
-        void AppendSolidFace(
-            const Fvector& p0,
-            const Fvector& p1,
-            const Fvector& p2,
-            u32            c = 0xffff0000,
-            bool           i = true,
-            bool           m = true)
+        void AppendSolidFace(const Fvector& p0, const Fvector& p1, const Fvector& p2, u32 c = 0xffff0000, bool i = true, bool m = true)
         {
             m_SolidFaces.push_back(Face());
             m_SolidFaces.back().p[0].set(p0);
@@ -218,38 +206,38 @@ public:
         dwFogColor = fog_color;
         fFogness   = fogness;
     }
-    virtual void GetCurrentFog(u32& fog_color, float& s_fog, float& e_fog);
+    virtual void   GetCurrentFog(u32& fog_color, float& s_fog, float& e_fog);
 
-    virtual void Render()            = 0;
-    virtual void RenderEnvironment() = 0;
-    virtual void OnFrame()           = 0;
+    virtual void   Render()                                  = 0;
+    virtual void   RenderEnvironment()                       = 0;
+    virtual void   OnFrame()                                 = 0;
 
-    virtual bool OnCreate()  = 0;
-    virtual void OnDestroy() = 0;
+    virtual bool   OnCreate()                                = 0;
+    virtual void   OnDestroy()                               = 0;
 
-    virtual bool IfModified() = 0;
-    virtual bool IsModified() = 0;
-    virtual void Modified()   = 0;
+    virtual bool   IfModified()                              = 0;
+    virtual bool   IsModified()                              = 0;
+    virtual void   Modified()                                = 0;
 
-    virtual LPCSTR GetInfo() = 0;
+    virtual LPCSTR GetInfo()                                 = 0;
 
-    virtual void ZoomObject(BOOL bSelOnly) = 0;
+    virtual void   ZoomObject(BOOL bSelOnly)                 = 0;
 
-    virtual bool Load(LPCSTR name)                         = 0;
-    virtual bool Save(LPCSTR name, bool bInternal = false) = 0;
-    virtual void Reload()                                  = 0;
+    virtual bool   Load(LPCSTR name)                         = 0;
+    virtual bool   Save(LPCSTR name, bool bInternal = false) = 0;
+    virtual void   Reload()                                  = 0;
 
-    virtual void OnDeviceCreate()  = 0;
-    virtual void OnDeviceDestroy() = 0;
+    virtual void   OnDeviceCreate()                          = 0;
+    virtual void   OnDeviceDestroy()                         = 0;
 
-    virtual void Clear() = 0;
+    virtual void   Clear()                                   = 0;
 
-    virtual void OnShowHint(AStringVec& SS) = 0;
+    virtual void   OnShowHint(AStringVec& SS)                = 0;
 
-    virtual bool MouseStart(TShiftState Shift) = 0;
-    virtual bool MouseEnd(TShiftState Shift)   = 0;
-    virtual void MouseMove(TShiftState Shift)  = 0;
-    virtual bool HiddenMode()
+    virtual bool   MouseStart(TShiftState Shift)             = 0;
+    virtual bool   MouseEnd(TShiftState Shift)               = 0;
+    virtual void   MouseMove(TShiftState Shift)              = 0;
+    virtual bool   HiddenMode()
     {
         return m_bHiddenMode;
     }
@@ -266,12 +254,12 @@ public:
         return false;
     }
 
-    virtual bool Pick(TShiftState Shift)                                                                         = 0;
-    virtual bool RayPick(const Fvector& start, const Fvector& dir, float& dist, Fvector* pt = 0, Fvector* n = 0) = 0;
+    virtual bool     Pick(TShiftState Shift)                                                                         = 0;
+    virtual bool     RayPick(const Fvector& start, const Fvector& dir, float& dist, Fvector* pt = 0, Fvector* n = 0) = 0;
 
-    virtual void ShowProperties(LPCSTR focused_item)    = 0;
-    virtual void UpdateProperties(BOOL bForced = FALSE) = 0;
-    virtual void RefreshProperties()                    = 0;
+    virtual void     ShowProperties(LPCSTR focused_item)                                                             = 0;
+    virtual void     UpdateProperties(BOOL bForced = FALSE)                                                          = 0;
+    virtual void     RefreshProperties()                                                                             = 0;
 
     const xr_string& GetEditFileName()
     {
@@ -290,8 +278,8 @@ public:
 extern ECORE_API CToolCustom* Tools;
 
 #define SURFACES_PREFIX "Surfaces"
-#define BONES_PREFIX "Bones"
-#define MOTIONS_PREFIX "Motions"
-#define OBJECT_PREFIX "Object"
+#define BONES_PREFIX    "Bones"
+#define MOTIONS_PREFIX  "Motions"
+#define OBJECT_PREFIX   "Object"
 //---------------------------------------------------------------------------
 #endif

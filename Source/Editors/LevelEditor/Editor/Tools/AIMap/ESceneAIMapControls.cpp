@@ -14,8 +14,7 @@ bool TUI_ControlAIMapNodeAdd::Start(TShiftState Shift)
     if (S->PickObjects(p, UI->m_CurrentRStart, UI->m_CurrentRDir, UI->ZFar()))
     {
         S->SelectObjects(false);
-        append_nodes = S->AddNode(
-            p, ((UIAIMapTool*)S->pForm)->IsIgnoreConstraints(), ((UIAIMapTool*)S->pForm)->IsAutoLink(), S->m_BrushSize);
+        append_nodes = S->AddNode(p, ((UIAIMapTool*)S->pForm)->IsIgnoreConstraints(), ((UIAIMapTool*)S->pForm)->IsAutoLink(), S->m_BrushSize);
         if (Shift & ssAlt)
         {
             if (append_nodes)
@@ -34,8 +33,7 @@ void TUI_ControlAIMapNodeAdd::Move(TShiftState _Shift)
     ESceneAIMapTool* S = (ESceneAIMapTool*)parent_tool;
     if (S->PickObjects(p, UI->m_CurrentRStart, UI->m_CurrentRDir, UI->ZFar()))
     {
-        append_nodes += S->AddNode(
-            p, ((UIAIMapTool*)S->pForm)->IsIgnoreConstraints(), ((UIAIMapTool*)S->pForm)->IsAutoLink(), S->m_BrushSize);
+        append_nodes += S->AddNode(p, ((UIAIMapTool*)S->pForm)->IsIgnoreConstraints(), ((UIAIMapTool*)S->pForm)->IsAutoLink(), S->m_BrushSize);
     }
 }
 bool TUI_ControlAIMapNodeAdd::End(TShiftState _Shift)

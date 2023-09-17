@@ -15,7 +15,8 @@ bool CGroupObject::GetBox(Fbox& bb)
         {
             case OBJCLASS_SPAWNPOINT:
             case OBJCLASS_SCENEOBJECT:
-            case OBJCLASS_WAY: {
+            case OBJCLASS_WAY:
+            {
                 Fbox box;
                 if (it->pObject->GetBox(box))
                     bb.merge(box);
