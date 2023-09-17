@@ -602,8 +602,10 @@ bool CActorTools::MouseStart(TShiftState Shift)
             break;
         case etaAdd:
             break;
-            /* case etaMove:	break;
-             case etaRotate:	break;*/
+        case etaMove:
+            break;
+        case etaRotate:
+            break;
     }
     return m_bHiddenMode;
 }
@@ -617,52 +619,55 @@ bool CActorTools::MouseEnd(TShiftState Shift)
             break;
         case etaAdd:
             break;
-            /*  case etaMove:
-              {
-                  switch (m_EditMode)
-                  {
-                  case emObject:
-                      if (Shift|ssCtrl)
-                          OnMotionKeysModified();
-                      break;
+        case etaMove:
+        {
+            switch (m_EditMode)
+            {
+                case emObject:
+                    if (Shift | ssCtrl)
+                        OnMotionKeysModified();
+                    break;
 
-                  case emBone:
-                      if (Shift|ssCtrl)
-                          OnBoneModified();
+                case emBone:
+                    if (Shift | ssCtrl)
+                        OnBoneModified();
 
-                      if (Shift|ssAlt)
-                          OnBoneModified();
-                      break;
-                  }
-              }break;
-              case etaRotate:
-              {
-                  switch (m_EditMode)
-                  {
-                  case emObject:
-                      if (Shift|ssCtrl)
-                          OnMotionKeysModified();
-                      break;
+                    if (Shift | ssAlt)
+                        OnBoneModified();
+                    break;
+            }
+        }
+        break;
+        case etaRotate:
+        {
+            switch (m_EditMode)
+            {
+                case emObject:
+                    if (Shift | ssCtrl)
+                        OnMotionKeysModified();
+                    break;
 
-                  case emBone:
-                      if (Shift|ssCtrl)
-                          OnBoneModified();
+                case emBone:
+                    if (Shift | ssCtrl)
+                        OnBoneModified();
 
-                      if (Shift|ssAlt)
-                          OnBoneModified();
-                      break;
-                  }
-              }break;
-              case etaScale:
-              {
-                  switch (m_EditMode)
-                  {
-                  case emBone:
-                      if (Shift|ssCtrl)
-                          OnBoneModified();
-                      break;
-                  }
-              }break;*/
+                    if (Shift | ssAlt)
+                        OnBoneModified();
+                    break;
+            }
+        }
+        break;
+        case etaScale:
+        {
+            switch (m_EditMode)
+            {
+                case emBone:
+                    if (Shift | ssCtrl)
+                        OnBoneModified();
+                    break;
+            }
+        }
+        break;
     }
     return true;
 }
@@ -679,10 +684,10 @@ void CActorTools::MouseMove(TShiftState Shift)
             break;
         case etaAdd:
             break;
-            /*case etaMove:
+        case etaMove:
+        {
+            switch (m_EditMode)
             {
-                switch (m_EditMode)
-                {
                 case emObject:
                     if (true || Shift | ssCtrl)
                         m_pEditObject->a_vPosition.add(m_MovedAmount);
@@ -692,34 +697,35 @@ void CActorTools::MouseMove(TShiftState Shift)
                     BoneVec lst;
                     if (m_pEditObject->GetSelectedBones(lst))
                     {
-                        if (Shift | ssCtrl) {
+                        if (Shift | ssCtrl)
+                        {
                             for (BoneIt b_it = lst.begin(); b_it != lst.end(); ++b_it)
-                               ShapeMove(*(*b_it),m_MovedAmount);
+                                ShapeMove(*(*b_it), m_MovedAmount);
+                        }
+                        else if (Shift | ssAlt)
+                        {
+                            for (BoneIt b_it = lst.begin(); b_it != lst.end(); ++b_it)
+                                (*b_it)->BindMove(m_MovedAmount);
 
+                            m_pEditObject->OnBindTransformChange();
+                            RefreshSubProperties();
                         }
                         else
-                            if (Shift | ssAlt)
-                            {
-                                for (BoneIt b_it = lst.begin(); b_it != lst.end(); ++b_it)
-                                    (*b_it)->BindMove(m_MovedAmount);
+                        {
+                            for (BoneIt b_it = lst.begin(); b_it != lst.end(); ++b_it)
+                                (*b_it)->BoneMove(m_MovedAmount);
 
-                                m_pEditObject->OnBindTransformChange();
-                                RefreshSubProperties();
-                            }
-                            else {
-                                for (BoneIt b_it = lst.begin(); b_it != lst.end(); ++b_it)
-                                    (*b_it)->BoneMove(m_MovedAmount);
-
-                                RefreshSubProperties();
-                            }
+                            RefreshSubProperties();
+                        }
                     }
                     break;
-                }
-            }break;
-            case etaRotate:
+            }
+        }
+        break;
+        case etaRotate:
+        {
+            switch (m_EditMode)
             {
-                switch (m_EditMode)
-                {
                 case emObject:
                     if (Shift | ssCtrl)
                         m_pEditObject->a_vRotate.mad(m_RotateVector, m_RotateAmount);
@@ -735,33 +741,33 @@ void CActorTools::MouseMove(TShiftState Shift)
                         if (Shift | ssCtrl)
                         {
                             for (BoneIt b_it = lst.begin(); b_it != lst.end(); ++b_it)
-                              ShapeRotate(*(*b_it),rot);
+                                ShapeRotate(*(*b_it), rot);
+                        }
+                        else if (Shift | ssAlt)
+                        {
+                            for (BoneIt b_it = lst.begin(); b_it != lst.end(); ++b_it)
+                                (*b_it)->BindRotate(rot);
 
+                            m_pEditObject->OnBindTransformChange();
+                            RefreshSubProperties();
                         }
                         else
-                            if (Shift | ssAlt)
-                            {
-                                for (BoneIt b_it = lst.begin(); b_it != lst.end(); ++b_it)
-                                    (*b_it)->BindRotate(rot);
+                        {
+                            for (BoneIt b_it = lst.begin(); b_it != lst.end(); ++b_it)
+                                BoneRotate(*(*b_it), m_RotateVector, m_RotateAmount);
 
-                                m_pEditObject->OnBindTransformChange();
-                                RefreshSubProperties();
-                            }
-                            else
-                            {
-                                for (BoneIt b_it = lst.begin(); b_it != lst.end(); ++b_it)
-                                   BoneRotate(*(*b_it),m_RotateVector, m_RotateAmount);
-
-                                RefreshSubProperties();
-                            }
+                            RefreshSubProperties();
+                        }
                     }
-                }break;
                 }
-            }break;
-            case etaScale:
+                break;
+            }
+        }
+        break;
+        case etaScale:
+        {
+            switch (m_EditMode)
             {
-                switch (m_EditMode)
-                {
                 case emBone:
                     if (Shift | ssCtrl)
                     {
@@ -771,8 +777,9 @@ void CActorTools::MouseMove(TShiftState Shift)
                                 (*b_it)->ShapeScale(m_ScaleAmount);
                     }
                     break;
-                }
-            }break;*/
+            }
+        }
+        break;
     }
 }
 

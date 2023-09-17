@@ -22,7 +22,6 @@ struct SAINode   // definition of "patch" or "node"
     };
     Fplane  Plane;     // plane of patch
     Fvector Pos;       // position of patch center
-    Fvector SavePos;   // position of patch center
 
     enum
     {

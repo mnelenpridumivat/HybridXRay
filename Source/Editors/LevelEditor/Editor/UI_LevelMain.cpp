@@ -1176,7 +1176,10 @@ void RetrieveSceneObjPointAndNormal(Fvector& hitpoint, Fvector* hitnormal, const
         else
             pn.set(verts[2]);
 
-        hitpoint.set(pinf.pt);
+        if (pn.distance_to(pinf.pt) < LTools->m_MoveSnap)
+            hitpoint.set(pn);
+        else
+            hitpoint.set(pinf.pt);
     }
     else
     {
@@ -1285,10 +1288,10 @@ bool PickGrid(Fvector& hitpoint, const Fvector& start, const Fvector& direction,
     hitpoint.y = start.y + direction.y * alpha;
     hitpoint.z = start.z + direction.z * alpha;
 
-    if (LTools->GetGimzo()->IsStepEnable(Gizmo::EType::Move) && bSnap)
+    if (Tools->GetSettings(etfGSnap) && bSnap)
     {
-        hitpoint.x = snapto(hitpoint.x, LTools->GetGimzo()->GetStep(Gizmo::EType::Move));
-        hitpoint.z = snapto(hitpoint.z, LTools->GetGimzo()->GetStep(Gizmo::EType::Move));
+        hitpoint.x = snapto(hitpoint.x, LTools->m_MoveSnap);
+        hitpoint.z = snapto(hitpoint.z, LTools->m_MoveSnap);
         hitpoint.y = 0.f;
     }
 

@@ -396,6 +396,12 @@ CCommandVar CommandChangeAction(CCommandVar p1, CCommandVar p2)
     return TRUE;
 }
 
+CCommandVar CommandChangeAxis(CCommandVar p1, CCommandVar p2)
+{
+    Tools->SetAxis(ETAxis(u32(p1)));
+    return TRUE;
+}
+
 CCommandVar CommandSimulate(CCommandVar p1, CCommandVar p2)
 {
     Tools->Simulate();
@@ -773,8 +779,17 @@ void TUI::RegisterCommands()
     REGISTER_CMD_SE(COMMAND_USE_SIMULATE_POSITIONS, "Use Simulate Positions", xr_shortcut(), CommandUseSimulatePositions, true);
 
     REGISTER_SUB_CMD_SE(COMMAND_CHANGE_ACTION, "Change Action", CommandChangeAction, false);
-    APPEND_SUB_CMD("Select", xr_shortcut('S', false, false, false), etaSelect, 0);
-    APPEND_SUB_CMD("Add", xr_shortcut('A', false, false, false), etaAdd, 0);
+        APPEND_SUB_CMD("Select", xr_shortcut('S', false, false, false), etaSelect, 0);
+        APPEND_SUB_CMD("Add", xr_shortcut('A', false, false, false), etaAdd, 0);
+        APPEND_SUB_CMD("Move", xr_shortcut('D', false, false, false), etaMove, 0);
+        APPEND_SUB_CMD("Rotate", xr_shortcut('R', false, false, false), etaRotate, 0);
+        APPEND_SUB_CMD("Scale", xr_shortcut('T', false, false, false), etaScale, 0);
+    REGISTER_SUB_CMD_END;
+    REGISTER_SUB_CMD_SE(COMMAND_CHANGE_AXIS, "Change Axis", CommandChangeAxis, false);
+        APPEND_SUB_CMD("X", xr_shortcut('Z', false, false, false), etAxisX, 0);
+        APPEND_SUB_CMD("Y", xr_shortcut('X', false, false, false), etAxisY, 0);
+        APPEND_SUB_CMD("Z", xr_shortcut('C', false, false, false), etAxisZ, 0);
+        APPEND_SUB_CMD("ZX", xr_shortcut('V', false, false, false), etAxisZX, 0);
     REGISTER_SUB_CMD_END;
     REGISTER_CMD_S(COMMAND_SET_SETTINGS, CommandSetSettings);
     REGISTER_CMD_S(COMMAND_SOUND_EDITOR, CommandSoundEditor);

@@ -4,10 +4,12 @@
 #include "resources\splash.h"
 
 ECORE_API extern bool bIsActorEditor;
+ECORE_API extern bool bIsLevelEditor;
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
 {
     bIsActorEditor = true;
+    bIsLevelEditor = false;
     if (strstr(GetCommandLine(), "-nosplash") == nullptr)
     {
         constexpr bool topmost = false;

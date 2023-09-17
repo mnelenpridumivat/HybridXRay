@@ -739,33 +739,44 @@ bool CParticleTool::MouseStart(TShiftState Shift)
             break;
         case etaAdd:
             break;
-            /*case etaMove: {
-                if (Shift|ssCtrl){
-                    if (m_EditObject){
-                        float dist = UI->ZFar();
-                        SRayPickInfo pinf;
-                        if (m_EditObject->RayPick(dist,UI->m_CurrentRStart,UI->m_CurrentRDir,Fidentity,&pinf))
-                            m_Transform.c.set(pinf.pt);
-                    }else{
-                        // pick grid
-                        Fvector normal={0.f, 1.f, 0.f};
-                        float clcheck = UI->m_CurrentRDir.dotproduct( normal );
-                        if( fis_zero( clcheck ) ) return false;
-                        float alpha = - UI->m_CurrentRStart.dotproduct(normal) / clcheck;
-                        if( alpha <= 0 ) return false;
+        case etaMove:
+        {
+            if (Shift | ssCtrl)
+            {
+                if (m_EditObject)
+                {
+                    float dist = UI->ZFar();
+                    SRayPickInfo pinf;
+                    if (m_EditObject->RayPick(dist, UI->m_CurrentRStart, UI->m_CurrentRDir, Fidentity, &pinf))
+                        m_Transform.c.set(pinf.pt);
+                }
+                else
+                {
+                    // pick grid
+                    Fvector normal = {0.f, 1.f, 0.f};
+                    float clcheck = UI->m_CurrentRDir.dotproduct(normal);
+                    if(fis_zero(clcheck))
+                        return false;
+                    float alpha = - UI->m_CurrentRStart.dotproduct(normal) / clcheck;
+                    if(alpha <= 0)
+                        return false;
 
-                        m_Transform.c.mad(UI->m_CurrentRStart,UI->m_CurrentRDir,alpha);
+                    m_Transform.c.mad(UI->m_CurrentRStart, UI->m_CurrentRDir, alpha);
 
-                        if (m_Settings.is(etfGSnap)){
-                            m_Transform.c.x = snapto( m_Transform.c.x, m_MoveSnap );
-                            m_Transform.c.z = snapto( m_Transform.c.z, m_MoveSnap );
-                            m_Transform.c.y = 0.f;
-                        }
+                    if (m_Settings.is(etfGSnap))
+                    {
+                        m_Transform.c.x = snapto(m_Transform.c.x, m_MoveSnap);
+                        m_Transform.c.z = snapto(m_Transform.c.z, m_MoveSnap);
+                        m_Transform.c.y = 0.f;
                     }
                 }
-            }break;
-            case etaRotate:	break;
-            case etaScale:  break;*/
+            }
+        }
+        break;
+        case etaRotate:
+            break;
+        case etaScale:
+            break;
     }
     ApplyParent();
     return m_bHiddenMode;
@@ -786,24 +797,24 @@ void CParticleTool::MouseMove(TShiftState Shift)
             break;
         case etaAdd:
             break;
-            /*case etaMove:
-                m_Transform.c.add(m_MovedAmount);
+        case etaMove:
+            m_Transform.c.add(m_MovedAmount);
+        break;
+        case etaRotate:
+        {
+            Fmatrix mR;
+            mR.identity();
+            if (!fis_zero(m_RotateVector.x))
+                mR.rotateX(m_RotateAmount);
+            else if (!fis_zero(m_RotateVector.y))
+                mR.rotateY(m_RotateAmount);
+            else if (!fis_zero(m_RotateVector.z))
+                mR.rotateZ(m_RotateAmount);
+            m_Transform.mulB_43(mR);
+        }
+        break;
+        case etaScale:
             break;
-            case etaRotate:
-            {
-                Fmatrix mR;
-                mR.identity();
-                if (!fis_zero(m_RotateVector.x))
-                    mR.rotateX(m_RotateAmount);
-                else if (!fis_zero(m_RotateVector.y))
-                    mR.rotateY(m_RotateAmount);
-                else if (!fis_zero(m_RotateVector.z))
-                    mR.rotateZ(m_RotateAmount);
-                m_Transform.mulB_43(mR);
-            }
-            break;
-            case etaScale:
-                break;*/
     }
     ApplyParent();
 }

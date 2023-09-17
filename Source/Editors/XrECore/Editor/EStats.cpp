@@ -5,6 +5,7 @@
 #include "hw.h"
 #include "gamefont.h"
 
+ECORE_API extern bool bIsLevelEditor = true;
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -68,7 +69,10 @@ void CEStats::Show(CGameFont* font)
     {
         CGameFont& F = *font;
         F.SetColor(0xFFFFFFFF);
-        F.OutSet(5, ImGui::GetFrameHeight() * 2);
+        if (bIsLevelEditor)
+            F.OutSet(30, ImGui::GetFrameHeight() * 1.5);
+        else
+            F.OutSet(5, 5);
         F.OutNext("FPS/RFPS:     %3.1f/%3.1f", fFPS, fRFPS);
         F.OutNext("TPS:          %2.2f M", fTPS);
         F.OutNext("VERT:         %d", DPS.verts);

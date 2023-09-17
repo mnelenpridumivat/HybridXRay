@@ -74,10 +74,6 @@ protected:
 public:
     void   SetAction(int action);
     void   SetSubTarget(int target);
-    IC int GetSubTarget(int target) const
-    {
-        return sub_target;
-    }
     void ResetSubTarget();
 
 protected:
@@ -214,10 +210,6 @@ public:
     virtual const CCustomObject* LastSelected() const
     {
         return NULL;
-    }
-    virtual class ESceneCustomOTool* CastObjectTool()
-    {
-        return nullptr;
     }
 };
 

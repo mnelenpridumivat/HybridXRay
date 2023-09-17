@@ -43,7 +43,6 @@ bool CLevelTool::OnCreate()
     m_Props->SetModifiedEvent(TOnCloseEvent(this, &CLevelTool::OnPropsModified));
     m_WorldProps = xr_new<UIPropertiesForm>();
     m_WorldProps->SetModifiedEvent(TOnCloseEvent(this, &CLevelTool::OnPropsModified));
-    m_Gizmo = xr_new<Gizmo>();
     /*
       ssRBOnly << ssRight;
       paParent 		= fraLeftBar->paFrames;   VERIFY(paParent);
@@ -74,7 +73,6 @@ void CLevelTool::OnDestroy()
     if (pCurTool)
         pCurTool->OnDeactivate();
     Scene->OnDestroy();
-    xr_delete(m_Gizmo);
 }
 
 void CLevelTool::Reset()
@@ -419,7 +417,6 @@ void CLevelTool::OnFrame()
             RealUpdateObjectList();
         // TfrmEditLightAnim::OnIdle();
     }
-    m_Gizmo->OnFrame();
 
     if (IsCompilerRunning())
     {
@@ -500,7 +497,7 @@ void CLevelTool::Render()
     }
     // draw cursor
     LUI->m_Cursor->Render();
-    m_Gizmo->Render();
+
     inherited::Render();
 }
 

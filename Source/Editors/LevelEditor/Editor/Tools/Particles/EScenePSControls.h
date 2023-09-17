@@ -1,17 +1,5 @@
 ﻿#pragma once
-class TUI_ControlPSToolsSelect: public TUI_CustomControl
-{
-public:
-    TUI_ControlPSToolsSelect(int st, int act, ESceneToolBase* parent): TUI_CustomControl(st, act, parent) {}
-    virtual bool IsSupportRotate()
-    {
-        return false;
-    }
-    virtual bool IsSupportScale()
-    {
-        return false;
-    }
-};
+
 class TUI_ControlPSAdd: public TUI_CustomControl
 {
     bool AfterAppendCallback(TShiftState Shift, CCustomObject* obj);

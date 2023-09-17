@@ -82,10 +82,27 @@ void CCustomObject::OnAttach(CCustomObject* owner)
     FParentTools->SetChanged(TRUE);
 }
 
-void CCustomObject::Move(Fvector& Position)
+void CCustomObject::Move(Fvector& amount)
 {
     UI->UpdateScene();
-    SetPosition(Position);
+    Fvector v = GetPosition();
+    Fvector r = FRotation;
+    if (Tools->GetSettings(etfMTSnap))
+    {
+        BOOL bVis = Visible();
+        BOOL bSel = Selected();
+        Show(FALSE);
+        Select(FALSE);
+        SnapMove(v, r, FTransformRP, amount);
+        Show(bVis);
+        Select(bSel);
+    }
+    else
+    {
+        v.add(amount);
+    }
+    SetPosition(v);
+    FRotation = r;
 }
 
 void CCustomObject::MoveTo(const Fvector& pos, const Fvector& up)
@@ -120,7 +137,7 @@ void CCustomObject::RotateParent(Fvector& axis, float angle)
     UI->UpdateScene();
     Fvector r = FRotation;
     r.mad(axis, angle);
-    SetRotation(r);
+    FRotation = r;
 }
 
 void CCustomObject::RotateLocal(Fvector& axis, float angle)
@@ -137,8 +154,7 @@ void CCustomObject::ScalePivot(const Fmatrix& prev_inv, const Fmatrix& current, 
 {
     UI->UpdateScene();
     Fvector p = GetPosition();
-    Fvector s = GetSaveScale();
-    ;
+    Fvector s = GetScale();
     s.add(amount);
     if (s.x < EPS)
         s.x = EPS;
@@ -155,10 +171,11 @@ void CCustomObject::ScalePivot(const Fmatrix& prev_inv, const Fmatrix& current, 
     SetPosition(p);
 }
 
-void CCustomObject::Scale(Fvector& Scale)
+void CCustomObject::Scale(Fvector& amount)
 {
     UI->UpdateScene();
-    Fvector s = Scale;
+    Fvector s = GetScale();
+    s.add(amount);
     if (s.x < EPS)
         s.x = EPS;
     if (s.y < EPS)

@@ -1,21 +1,8 @@
 ﻿#include "stdafx.h"
-class TUI_ControlSoundSrcTool: public TUI_CustomControl
-{
-public:
-    TUI_ControlSoundSrcTool(int st, int act, ESceneToolBase* parent): TUI_CustomControl(st, act, parent) {}
-    virtual bool IsSupportRotate()
-    {
-        return false;
-    }
-    virtual bool IsSupportScale()
-    {
-        return false;
-    }
-};
+
 void ESceneSoundSrcTool::CreateControls()
 {
     inherited::CreateDefaultControls(estDefault);
-    AddControl(xr_new<TUI_ControlSoundSrcTool>(estDefault, etaSelect, this));
 }
 
 void ESceneSoundSrcTool::RemoveControls()

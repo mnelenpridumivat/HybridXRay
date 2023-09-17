@@ -143,7 +143,12 @@ void TUI::MousePress(TShiftState Shift, int X, int Y)
             return;
         if (!m_MouseCaptured)
         {
-            if (!Tools->HiddenMode())
+            if (Tools->HiddenMode())
+            {
+                IR_GetMousePosScreen(m_StartCpH);
+                m_DeltaCpH.set(0, 0);
+            }
+            else
             {
                 m_CurrentCp = GetRenderMousePosition();
                 m_StartCp   = m_CurrentCp;
@@ -157,12 +162,6 @@ void TUI::MousePress(TShiftState Shift, int X, int Y)
                 if (Tools->HiddenMode())
                     ShowCursor(FALSE);
                 m_MouseCaptured = true;
-            }
-
-            if (Tools->HiddenMode())
-            {
-                IR_GetMousePosScreen(m_StartCpH);
-                m_DeltaCpH.set(0, 0);
             }
         }
     }
@@ -219,6 +218,8 @@ void TUI::IR_OnMouseMove(int x, int y)
 {
     if (!m_bReady)
         return;
+    bool bRayUpdated = false;
+
     if (!EDevice->m_Camera.Process(m_ShiftState, x, y))
     {
         if (m_MouseCaptured || m_MouseMultiClickCaptured)
@@ -238,8 +239,10 @@ void TUI::IR_OnMouseMove(int x, int y)
                 Tools->MouseMove(m_ShiftState);
             }
             RedrawScene();
+            bRayUpdated = true;
         }
     }
+    if (!bRayUpdated)
     {
         m_CurrentCp = GetRenderMousePosition();
         EDevice->m_Camera.MouseRayFromPoint(m_CurrentRStart, m_CurrentRDir, m_CurrentCp);

@@ -190,9 +190,6 @@
     <Filter Include="Editor\Utils">
       <UniqueIdentifier>{1e4a5268-1a87-461a-8d57-cb323e0072e8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Editor\Utils\Gimzo">
-      <UniqueIdentifier>{8a2b9cb2-c4cf-4fa0-bee9-357e694c6e12}</UniqueIdentifier>
-    </Filter>
     <Filter Include="UI\ObjectList">
       <UniqueIdentifier>{f0688181-e4ba-409f-a053-c01eaf476c27}</UniqueIdentifier>
     </Filter>
@@ -635,9 +632,6 @@
     <ClCompile Include="Editor\Utils\XrSEFactoryManager.cpp">
       <Filter>Editor\Utils</Filter>
     </ClCompile>
-    <ClCompile Include="Editor\Utils\Gimzo\Gizmo.cpp">
-      <Filter>Editor\Utils\Gimzo</Filter>
-    </ClCompile>
     <ClCompile Include="UI\UIWorldPropertiesFrom.cpp">
       <Filter>UI</Filter>
     </ClCompile>
@@ -1055,9 +1049,6 @@
     </ClInclude>
     <ClInclude Include="Editor\Utils\XrSEFactoryManager.h">
       <Filter>Editor\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Utils\Gimzo\Gizmo.h">
-      <Filter>Editor\Utils\Gimzo</Filter>
     </ClInclude>
     <ClInclude Include="UI\UIWorldPropertiesFrom.h">
       <Filter>UI</Filter>

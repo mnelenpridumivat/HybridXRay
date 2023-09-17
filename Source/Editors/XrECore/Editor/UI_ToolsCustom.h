@@ -16,7 +16,19 @@ enum ETAction
 {
     etaSelect = 0,
     etaAdd,
+    etaMove,
+    etaRotate,
+    etaScale,
     etaMaxActions
+};
+
+enum ETAxis
+{
+    etAxisY,
+    etAxisX,
+    etAxisZ,
+    etAxisZX,
+    etAxisUndefined,
 };
 
 enum ETFlags
@@ -35,31 +47,35 @@ enum ETFlags
 class ECORE_API CToolCustom
 {
     friend class CCustomPreferences;
-
 protected:
-    bool m_bReady;
+    bool     m_bReady;
 
     ETAction m_Action;
+    ETAxis   m_Axis;
+    ECameraStyle m_Style;
     Flags32  m_Settings;
 
-    bool m_bHiddenMode;
+    bool     m_bHiddenMode;
     // move
-    Fvector m_MoveXVector;
-    Fvector m_MoveYVector;
-    Fvector m_MoveReminder;
-    Fvector m_MovedAmount;
+    Fvector  m_MoveXVector;
+    Fvector  m_MoveYVector;
+    Fvector  m_MoveReminder;
+    Fvector  m_MovedAmount;
     // scale
-    Fvector m_ScaleCenter;
-    Fvector m_ScaleAmount;
+    Fvector  m_ScaleCenter;
+    Fvector  m_ScaleAmount;
     // rotate
-    Fvector m_RotateCenter;
-    Fvector m_RotateVector;
-    float   m_fRotateSnapValue;
-    float   m_RotateAmount;
-
+    Fvector  m_RotateCenter;
+    Fvector  m_RotateVector;
+    float    m_fRotateSnapValue;
+    float    m_RotateAmount;
 public:
-    float fFogness;
-    u32   dwFogColor;
+    float    m_MoveSnap;
+    float    m_MoveSnapTo;
+    float    m_RotateSnapAngle;
+public:
+    float    fFogness;
+    u32      dwFogColor;
 
 public:
     xr_string m_LastFileName;
@@ -178,11 +194,20 @@ public:
     {
         return m_Action;
     }
+    ETAxis GetAxis()
+    {
+        return m_Axis;
+    }
+    ECameraStyle GetStyle()
+    {
+        return m_Style;
+    }
     BOOL GetSettings(u32 mask)
     {
         return m_Settings.is(mask);
     }
     virtual void SetAction(ETAction act);
+    virtual void SetAxis(ETAxis axis);
     virtual void SetSettings(u32 mask, BOOL val);
 
     virtual void Simulate(){};
@@ -253,7 +278,8 @@ public:
         return m_LastFileName;
     }
 
-    Fmatrix m_axis_xform;
+    CEditableObject* m_pAxisMoveObject;
+    Fmatrix          m_axis_xform;
 
     virtual bool GetSelectionPosition(Fmatrix& result) = 0;
     virtual bool UpdateCamera()

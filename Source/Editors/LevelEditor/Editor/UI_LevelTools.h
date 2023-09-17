@@ -28,9 +28,7 @@ class CLevelTool: public CToolCustom
     UIToolCustom*       m_ToolForm;
     int                 sub_target;
     ObjClassID          target;
-
-    Flags32 m_Flags;
-    Gizmo*  m_Gizmo;
+    Flags32             m_Flags;
 
     enum
     {
@@ -71,10 +69,6 @@ public:
     CLevelTool();
     virtual ~CLevelTool();
 
-    IC Gizmo* GetGimzo()
-    {
-        return m_Gizmo;
-    }
     IC UIToolCustom* GetToolForm() const
     {
         return m_ToolForm;
