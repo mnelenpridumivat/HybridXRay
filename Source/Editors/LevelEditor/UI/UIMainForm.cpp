@@ -1420,7 +1420,7 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Size)
     // Camera
     {
         ImGui::BeginGroup();
-        ECameraStyle Camera = LTools->GetStyle();
+        ECameraStyle Camera = EDevice->m_Camera.GetStyle();
         // --------------------------------------------------------------------------------------------
         // Свободный режим камеры
         {

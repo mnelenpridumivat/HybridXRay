@@ -52,7 +52,6 @@ protected:
 
     ETAction m_Action;
     ETAxis   m_Axis;
-    ECameraStyle m_Style;
     Flags32  m_Settings;
 
     bool     m_bHiddenMode;
@@ -185,10 +184,6 @@ public:
     ETAxis GetAxis()
     {
         return m_Axis;
-    }
-    ECameraStyle GetStyle()
-    {
-        return m_Style;
     }
     BOOL GetSettings(u32 mask)
     {
