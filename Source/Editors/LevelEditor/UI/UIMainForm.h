@@ -66,7 +66,11 @@ private:
     ref_texture m_tScaleGrid;
     ref_texture m_tAngle;
 
+    ref_texture m_tCsLocal;
+    ref_texture m_tNuScale;
+
     // Axis
+    ref_texture m_tShowAxisMove;
     ref_texture m_tX;
     ref_texture m_tY;
     ref_texture m_tZ;

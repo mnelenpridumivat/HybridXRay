@@ -36,47 +36,51 @@ UIMainForm::UIMainForm()
     }
 
     // Action
-    m_tMenu       = EDevice->Resources->_CreateTexture("ed\\bar\\menu");
-    m_tSelect     = EDevice->Resources->_CreateTexture("ed\\bar\\select");
-    m_tAdd        = EDevice->Resources->_CreateTexture("ed\\bar\\add");
-    m_tMove       = EDevice->Resources->_CreateTexture("ed\\bar\\move");
-    m_tScale      = EDevice->Resources->_CreateTexture("ed\\bar\\scale");
-    m_tRotate     = EDevice->Resources->_CreateTexture("ed\\bar\\rotate");
+    m_tMenu         = EDevice->Resources->_CreateTexture("ed\\bar\\menu");
+    m_tSelect       = EDevice->Resources->_CreateTexture("ed\\bar\\select");
+    m_tAdd          = EDevice->Resources->_CreateTexture("ed\\bar\\add");
+    m_tMove         = EDevice->Resources->_CreateTexture("ed\\bar\\move");
+    m_tScale        = EDevice->Resources->_CreateTexture("ed\\bar\\scale");
+    m_tRotate       = EDevice->Resources->_CreateTexture("ed\\bar\\rotate");
 
     // Snap
-    m_tGSnap      = EDevice->Resources->_CreateTexture("ed\\bar\\gsnap");
-    m_tOSnap      = EDevice->Resources->_CreateTexture("ed\\bar\\osnap");
-    m_tMoveToSnap = EDevice->Resources->_CreateTexture("ed\\bar\\movetosnap");
-    m_tNSnap      = EDevice->Resources->_CreateTexture("ed\\bar\\nsnap");
-    m_tVSnap      = EDevice->Resources->_CreateTexture("ed\\bar\\vsnap");
-    m_tASnap      = EDevice->Resources->_CreateTexture("ed\\bar\\asnap");
-    m_tMSnap      = EDevice->Resources->_CreateTexture("ed\\bar\\msnap");
-    m_tZoom       = EDevice->Resources->_CreateTexture("ed\\bar\\zoom");
-    m_tZoomSel    = EDevice->Resources->_CreateTexture("ed\\bar\\zoomsel");
+    m_tGSnap        = EDevice->Resources->_CreateTexture("ed\\bar\\gsnap");
+    m_tOSnap        = EDevice->Resources->_CreateTexture("ed\\bar\\osnap");
+    m_tMoveToSnap   = EDevice->Resources->_CreateTexture("ed\\bar\\movetosnap");
+    m_tNSnap        = EDevice->Resources->_CreateTexture("ed\\bar\\nsnap");
+    m_tVSnap        = EDevice->Resources->_CreateTexture("ed\\bar\\vsnap");
+    m_tASnap        = EDevice->Resources->_CreateTexture("ed\\bar\\asnap");
+    m_tMSnap        = EDevice->Resources->_CreateTexture("ed\\bar\\msnap");
+    m_tZoom         = EDevice->Resources->_CreateTexture("ed\\bar\\zoom");
+    m_tZoomSel      = EDevice->Resources->_CreateTexture("ed\\bar\\zoomsel");
 
     // Axis
-    m_tX          = EDevice->Resources->_CreateTexture("ed\\bar\\AxisX");
-    m_tY          = EDevice->Resources->_CreateTexture("ed\\bar\\AxisY");
-    m_tZ          = EDevice->Resources->_CreateTexture("ed\\bar\\AxisZ");
-    m_tZX         = EDevice->Resources->_CreateTexture("ed\\bar\\AxisZX");
+    m_tShowAxisMove = EDevice->Resources->_CreateTexture("ed\\bar\\AxisMove");
+    m_tX            = EDevice->Resources->_CreateTexture("ed\\bar\\AxisX");
+    m_tY            = EDevice->Resources->_CreateTexture("ed\\bar\\AxisY");
+    m_tZ            = EDevice->Resources->_CreateTexture("ed\\bar\\AxisZ");
+    m_tZX           = EDevice->Resources->_CreateTexture("ed\\bar\\AxisZX");
 
-    m_tGrid       = EDevice->Resources->_CreateTexture("ed\\bar\\grid");
-    m_tScaleGrid  = EDevice->Resources->_CreateTexture("ed\\bar\\scale_grid");
-    m_tAngle      = EDevice->Resources->_CreateTexture("ed\\bar\\angle");
+    m_tGrid         = EDevice->Resources->_CreateTexture("ed\\bar\\grid");
+    m_tScaleGrid    = EDevice->Resources->_CreateTexture("ed\\bar\\scale_grid");
+    m_tAngle        = EDevice->Resources->_CreateTexture("ed\\bar\\angle");
+
+    m_tCsLocal      = EDevice->Resources->_CreateTexture("ed\\bar\\cslocal");
+    m_tNuScale      = EDevice->Resources->_CreateTexture("ed\\bar\\nuscale");
 
     // View
-    m_tVFront     = EDevice->Resources->_CreateTexture("ed\\bar\\ViewFront");
-    m_tVBack      = EDevice->Resources->_CreateTexture("ed\\bar\\ViewB");
-    m_tVLeft      = EDevice->Resources->_CreateTexture("ed\\bar\\ViewLeft");
-    m_tVRight     = EDevice->Resources->_CreateTexture("ed\\bar\\ViewRight");
-    m_tVTop       = EDevice->Resources->_CreateTexture("ed\\bar\\ViewTop");
-    m_tVBottom    = EDevice->Resources->_CreateTexture("ed\\bar\\ViewB");
-    m_tVReset     = EDevice->Resources->_CreateTexture("ed\\bar\\ViewReset");
+    m_tVFront       = EDevice->Resources->_CreateTexture("ed\\bar\\ViewFront");
+    m_tVBack        = EDevice->Resources->_CreateTexture("ed\\bar\\ViewB");
+    m_tVLeft        = EDevice->Resources->_CreateTexture("ed\\bar\\ViewLeft");
+    m_tVRight       = EDevice->Resources->_CreateTexture("ed\\bar\\ViewRight");
+    m_tVTop         = EDevice->Resources->_CreateTexture("ed\\bar\\ViewTop");
+    m_tVBottom      = EDevice->Resources->_CreateTexture("ed\\bar\\ViewB");
+    m_tVReset       = EDevice->Resources->_CreateTexture("ed\\bar\\ViewReset");
 
     // Camera
-    m_tPlaneMove  = EDevice->Resources->_CreateTexture("ed\\bar\\PlaneMove");
-    m_tArcBall    = EDevice->Resources->_CreateTexture("ed\\bar\\ArcBall");
-    m_tFreeFly    = EDevice->Resources->_CreateTexture("ed\\bar\\FreeFly");
+    m_tPlaneMove    = EDevice->Resources->_CreateTexture("ed\\bar\\PlaneMove");
+    m_tArcBall      = EDevice->Resources->_CreateTexture("ed\\bar\\ArcBall");
+    m_tFreeFly      = EDevice->Resources->_CreateTexture("ed\\bar\\FreeFly");
 }
 
 UIMainForm::~UIMainForm()
@@ -110,6 +114,7 @@ UIMainForm::~UIMainForm()
     m_tMSnap.destroy();
 
     // Axis
+    m_tShowAxisMove.destroy();
     m_tX.destroy();
     m_tY.destroy();
     m_tZ.destroy();
@@ -120,6 +125,9 @@ UIMainForm::~UIMainForm()
     m_tGrid.destroy();
     m_tScaleGrid.destroy();
     m_tAngle.destroy();
+
+    m_tCsLocal.destroy();
+    m_tNuScale.destroy();
 
     // View
     m_tVFront.destroy();
@@ -1070,10 +1078,101 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Size)
     // --------------------------------------------------------------------------------------------*/
     ImGui::NewLine();
     // --------------------------------------------------------------------------------------------
+    //
+    {
+        ImGui::BeginGroup();
+        // --------------------------------------------------------------------------------------------
+        // Parent CS Toggle
+        {
+            bool bPushColor = false;
+            if (Tools->GetSettings(etfCSParent))
+            {
+                bPushColor = true;
+                ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_Border));
+                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImGui::GetStyleColorVec4(ImGuiCol_Border));
+            }
+            m_tCsLocal->Load();
+            if (ImGui::ImageButton(m_tCsLocal->surface_get(), ImVec2(16, ImGui::GetFontSize()), ImVec2(0, 0), ImVec2(0.5f, 1.f)))
+            {
+                ExecCommand(COMMAND_SET_SETTINGS, etfCSParent, !Tools->GetSettings(etfCSParent));
+            }
+            if (bPushColor)
+            {
+                ImGui::PopStyleColor();
+                ImGui::PopStyleColor();
+            }
+        }
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SetTooltip("Parent CS Toggle"_RU >> u8"Parent CS Toggle");
+        }
+        ImGui::Spacing();
+        // --------------------------------------------------------------------------------------------
+        // Маштабирование по осям
+        {
+            bool bPushColor = false;
+            if (Tools->GetSettings(etfNUScale))
+            {
+                bPushColor = true;
+                ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_Border));
+                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImGui::GetStyleColorVec4(ImGuiCol_Border));
+            }
+            m_tNuScale->Load();
+            if (ImGui::ImageButton(m_tNuScale->surface_get(), ImVec2(16, ImGui::GetFontSize()), ImVec2(0, 0), ImVec2(0.5f, 1.f)))
+            {
+                ExecCommand(COMMAND_SET_SETTINGS, etfNUScale, !Tools->GetSettings(etfNUScale));
+            }
+            if (bPushColor)
+            {
+                ImGui::PopStyleColor();
+                ImGui::PopStyleColor();
+            }
+        }
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SetTooltip("Scaling by Axes only"_RU >> u8"Маштабирование только по Осям");
+        }
+        ImGui::EndGroup();
+    }
+    // --------------------------------------------------------------------------------------------
+    ImGui::NewLine();
+    // --------------------------------------------------------------------------------------------
     // Выбор Осей.
     {
         ImGui::BeginGroup();
+        // --------------------------------------------------------------------------------------------
+        // Show Move Axis
+        {
+            bool bPushColor = false;
+            if (EPrefs->tools_show_move_axis)
+            {
+                bPushColor = true;
+                ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_Border));
+                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImGui::GetStyleColorVec4(ImGuiCol_Border));
+            }
+            m_tShowAxisMove->Load();
+            if (ImGui::ImageButton(m_tShowAxisMove->surface_get(), ImVec2(16, ImGui::GetFontSize())))
+            {
+                if (EPrefs->tools_show_move_axis)
+                    EPrefs->tools_show_move_axis = false;
+                else
+                    EPrefs->tools_show_move_axis = true;
+            }
+            if (bPushColor)
+            {
+                ImGui::PopStyleColor();
+                ImGui::PopStyleColor();
+            }
+        }
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SetTooltip("Show Move Axis"_RU >> u8"Показать Ось Перемещения");
+        }
         ETAxis Axis = LTools->GetAxis();
+        // --------------------------------------------------------------------------------------------
         // Ось X
         {
             bool bPushColor = false;
