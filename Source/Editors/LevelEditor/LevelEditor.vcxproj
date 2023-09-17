@@ -299,7 +299,6 @@
     <ClInclude Include="UI\UILPropertiesFrom.h" />
     <ClInclude Include="UI\UIPropertiesModal.h" />
     <ClInclude Include="UI\UITopBarForm.h" />
-    <ClInclude Include="UI\UITopBarForm_ButtonList.h" />
     <ClInclude Include="UI\UIWorldPropertiesFrom.h" />
     <ClInclude Include="UI\UIEditLibrary.h" />
     <ClInclude Include="resources\splash.h" />

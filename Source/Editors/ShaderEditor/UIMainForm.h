@@ -14,6 +14,10 @@ public:
     {
         return m_TopBar;
     }
+    IC UIRightBarForm* GetRightBarForm()
+    {
+        return m_RightBar;
+    }
 
 private:
     UITopBarForm*   m_TopBar;

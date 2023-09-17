@@ -37,7 +37,6 @@
     <ClInclude Include="UIMainMenuForm.h" />
     <ClInclude Include="UIRightBarForm.h" />
     <ClInclude Include="UITopBarForm.h" />
-    <ClInclude Include="UITopBarForm_ButtonList.h" />
     <ClInclude Include="ui_shadermain.h" />
     <ClInclude Include="UI_shadertools.h" />
     <ClInclude Include="resources\resource.h" />

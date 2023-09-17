@@ -33,7 +33,6 @@
     <ClInclude Include="UIMainMenuForm.h" />
     <ClInclude Include="UIRightBarForm.h" />
     <ClInclude Include="UITopBarForm.h" />
-    <ClInclude Include="UITopBarForm_ButtonList.h" />
     <ClInclude Include="UI_ParticleMain.h" />
     <ClInclude Include="UI_ParticleTools.h" />
     <ClInclude Include="resources\resource.h" />

@@ -6,7 +6,6 @@ public:
     UITopBarForm();
     virtual ~UITopBarForm();
     virtual void Draw();
-    void RefreshBar();
 
 private:
     void        ClickUndo();

@@ -22,7 +22,6 @@ UITopBarForm::UITopBarForm()
     m_tReloadConfigs         = EDevice->Resources->_CreateTexture("ed\\bar\\reload_configs");
     m_tOpenGameData          = EDevice->Resources->_CreateTexture("ed\\bar\\open_gamedata");
     m_VerifySpaceRestrictors = false;
-    RefreshBar();
 }
 
 UITopBarForm::~UITopBarForm() {}
@@ -247,29 +246,6 @@ void UITopBarForm::Draw()
     ImGui::SameLine(0, 1);
     ImGui::End();
     ImGui::PopStyleVar(5);
-}
-void UITopBarForm::RefreshBar()
-{ /*
-     {
-         m_bSelect = false;
-         m_bAdd = false;
-
-         switch (Tools->GetAction()) {
-         case etaSelect: 	m_bSelect = true; 	break;
-         case etaAdd:    m_bAdd = true; 		break;
-         default: THROW;
-         }
-     }
-     // settings
-     m_bCsLocal = Tools->GetSettings(etfCSParent);
-     m_bNuScale = Tools->GetSettings(etfNUScale);
-     m_bNSnap = Tools->GetSettings(etfNormalAlign);
-     m_bGSnap = Tools->GetSettings(etfGSnap);
-     m_bOSnap = Tools->GetSettings(etfOSnap);
-     m_bMoveToSnap = Tools->GetSettings(etfMTSnap);
-     m_bVSnap = Tools->GetSettings(etfVSnap);
-     m_bASnap = Tools->GetSettings(etfASnap);
-     m_bMSnap = Tools->GetSettings(etfMSnap);*/
 }
 
 void UITopBarForm::ClickUndo()

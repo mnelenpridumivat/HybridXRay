@@ -98,9 +98,6 @@
     <ClInclude Include="UITopBarForm.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="UITopBarForm_ButtonList.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="UILeftBarForm.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>

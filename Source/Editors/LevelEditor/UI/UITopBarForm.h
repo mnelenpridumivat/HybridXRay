@@ -5,7 +5,6 @@ public:
     UITopBarForm();
     virtual ~UITopBarForm();
     virtual void Draw();
-    void         RefreshBar();
     bool         VerifySpaceRestrictors() const
     {
         return m_VerifySpaceRestrictors;

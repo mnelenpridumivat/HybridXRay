@@ -141,7 +141,6 @@
     <ClInclude Include="UIMainForm.h" />
     <ClInclude Include="UIMainMenuForm.h" />
     <ClInclude Include="UITopBarForm.h" />
-    <ClInclude Include="UITopBarForm_ButtonList.h" />
     <ClInclude Include="UI_ActorMain.h" />
     <ClInclude Include="UI_ActorTools.h" />
     <ClInclude Include="resources\resource.h" />

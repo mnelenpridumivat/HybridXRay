@@ -12,7 +12,6 @@ UITopBarForm::UITopBarForm()
     m_tSave = EDevice->Resources->_CreateTexture("ed\\bar\\save");
     m_tOpenGameData = EDevice->Resources->_CreateTexture("ed\\bar\\open_gamedata");
     m_Simulate = false;
-    RefreshBar();
 }
 
 UITopBarForm::~UITopBarForm() {}
@@ -127,7 +126,6 @@ void UITopBarForm::Draw()
     ImGui::End();
     ImGui::PopStyleVar(5);
 }
-void UITopBarForm::RefreshBar() {}
 
 void UITopBarForm::ClickUndo()
 {

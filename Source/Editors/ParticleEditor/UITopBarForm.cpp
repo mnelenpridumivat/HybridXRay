@@ -12,7 +12,6 @@ UITopBarForm::UITopBarForm()
     m_tSaveXr          = EDevice->Resources->_CreateTexture("ed\\bar\\save_xr");
     m_tOpenGameData    = EDevice->Resources->_CreateTexture("ed\\bar\\open_gamedata");
     m_tValidate        = EDevice->Resources->_CreateTexture("ed\\bar\\validate");
-    RefreshBar();
 }
 
 UITopBarForm::~UITopBarForm() {}
@@ -141,7 +140,6 @@ void UITopBarForm::Draw()
     ImGui::End();
     ImGui::PopStyleVar(5);
 }
-void UITopBarForm::RefreshBar() {}
 
 void UITopBarForm::ClickUndo()
 {
