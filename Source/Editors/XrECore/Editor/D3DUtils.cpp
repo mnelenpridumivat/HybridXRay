@@ -1413,7 +1413,7 @@ void CDrawUtilities::DrawAxis(const Fmatrix& T)
 
     Fmatrix M = Fidentity;
     Fmatrix S;
-    S.scale(0.03f, 0.03f, 0.03f);
+    S.scale(0.04f, 0.04f, 0.04f);
     M.mulB_44(S);
 
     Fvector  start, dir;

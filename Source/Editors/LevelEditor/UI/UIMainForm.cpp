@@ -65,6 +65,7 @@ UIMainForm::UIMainForm()
     m_tScaleGrid    = EDevice->Resources->_CreateTexture("ed\\bar\\scale_grid");
     m_tAngle        = EDevice->Resources->_CreateTexture("ed\\bar\\angle");
 
+    m_tShowPivot    = EDevice->Resources->_CreateTexture("ed\\bar\\pivot");
     m_tCsLocal      = EDevice->Resources->_CreateTexture("ed\\bar\\cslocal");
     m_tNuScale      = EDevice->Resources->_CreateTexture("ed\\bar\\nuscale");
 
@@ -126,6 +127,7 @@ UIMainForm::~UIMainForm()
     m_tScaleGrid.destroy();
     m_tAngle.destroy();
 
+    m_tShowPivot.destroy();
     m_tCsLocal.destroy();
     m_tNuScale.destroy();
 
@@ -1078,9 +1080,39 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Size)
     // --------------------------------------------------------------------------------------------*/
     ImGui::NewLine();
     // --------------------------------------------------------------------------------------------
-    //
+    // Pivot ...
     {
         ImGui::BeginGroup();
+        // --------------------------------------------------------------------------------------------
+        // Показать Pivot выбранного объекта
+        {
+            bool bPushColor = false;
+            if (EPrefs->object_flags.is(epoDrawPivot))
+            {
+                bPushColor = true;
+                ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_Border));
+                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImGui::GetStyleColorVec4(ImGuiCol_Border));
+            }
+            m_tShowPivot->Load();
+            if (ImGui::ImageButton(m_tShowPivot->surface_get(), ImVec2(16, ImGui::GetFontSize())))
+            {
+                if (!EPrefs->object_flags.is(epoDrawPivot))
+                    EPrefs->object_flags.set(epoDrawPivot, true);
+                else
+                    EPrefs->object_flags.set(epoDrawPivot, false);
+            }
+            if (bPushColor)
+            {
+                ImGui::PopStyleColor();
+                ImGui::PopStyleColor();
+            }
+        }
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SetTooltip("Show Pivot of selected object"_RU >> u8"Показать Pivot выбранного объекта");
+        }
+        ImGui::Spacing();
         // --------------------------------------------------------------------------------------------
         // Parent CS Toggle
         {
@@ -1156,9 +1188,14 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Size)
             if (ImGui::ImageButton(m_tShowAxisMove->surface_get(), ImVec2(16, ImGui::GetFontSize())))
             {
                 if (EPrefs->tools_show_move_axis)
+                {
                     EPrefs->tools_show_move_axis = false;
+                }
                 else
+                {
                     EPrefs->tools_show_move_axis = true;
+                    LTools->SetAction(etaMove);
+                }
             }
             if (bPushColor)
             {
@@ -1171,6 +1208,8 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Size)
             ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::SetTooltip("Show Move Axis"_RU >> u8"Показать Ось Перемещения");
         }
+        ImGui::Spacing();
+        // --------------------------------------------------------------------------------------------
         ETAxis Axis = LTools->GetAxis();
         // --------------------------------------------------------------------------------------------
         // Ось X

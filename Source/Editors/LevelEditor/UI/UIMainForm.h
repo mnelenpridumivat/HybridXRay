@@ -66,6 +66,7 @@ private:
     ref_texture m_tScaleGrid;
     ref_texture m_tAngle;
 
+    ref_texture m_tShowPivot;
     ref_texture m_tCsLocal;
     ref_texture m_tNuScale;
 
