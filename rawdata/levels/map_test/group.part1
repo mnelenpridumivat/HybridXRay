@@ -3,7 +3,7 @@
         guid_g1                          = 3846799431945762467
  
 [main]
-        objects_count                    = 3
+        objects_count                    = 6
         version                          = 0
  
 [modif]
@@ -137,12 +137,12 @@
         000014                           = 65535
         000015                           = 12
         000016                           = 0
-        000017                           = 65535
+        000017                           = 0
         000018                           = 0
-        000019                           = 65535
+        000019                           = 0
         000020                           = 0.000000
         000021                           = 1
-        000022                           = -1
+        000022                           = 912
         000023                           = -198
         000024                           = "[collide]
 ignore_static
@@ -305,12 +305,12 @@ ignore_static
         000014                           = 65535
         000015                           = 12
         000016                           = 0
-        000017                           = 65535
+        000017                           = 1
         000018                           = 0
-        000019                           = 65535
+        000019                           = 0
         000020                           = 0.000000
         000021                           = 1
-        000022                           = -1
+        000022                           = 912
         000023                           = -198
         000024                           = "[collide]
 ignore_static
@@ -473,12 +473,12 @@ ignore_static
         000014                           = 65535
         000015                           = 12
         000016                           = 0
-        000017                           = 65535
+        000017                           = 2
         000018                           = 0
-        000019                           = 65535
+        000019                           = 0
         000020                           = 0.000000
         000021                           = 1
-        000022                           = -1
+        000022                           = 912
         000023                           = -198
         000024                           = "[collide]
 ignore_static
@@ -501,6 +501,454 @@ ignore_static
         000040                           = 0.100000
         000041                           = 3.500000
         000042                           = 0.400000
+        000043                           = ""
+        000044                           = "lights\lights_spot_wire_02"
+        000045                           = "bone_lamp"
+        000046                           = 2.094395
+        000047                           = ""
+        000048                           = 0.700000
+        000049                           = "bone_omni"
+        000050                           = 1.000000
+        000051                           = 1.000000
+        000052                           = 1.000000
+        fl                               = 0
+        name                             = lights_hanging_lamp
+ 
+[object_3]
+        clsid                            = 0
+        co_flags                         = 3
+        ingroup_count                    = 5
+        name                             = light_preset\zone_fireplace
+        position                         = -9.000000, 1.000000, 6.200000
+        ref_name                         = light_preset\zone_fireplace
+        rotation                         = 0.000000, 0.000000, 0.000000
+        scale                            = 1.000000, 1.000000, 1.000000
+        version                          = 18
+ 
+[object_3_ingroup_0]
+        clsid                            = 2
+        co_flags                         = 3
+        flags                            = 0
+        name                             = statics\fireplace\fireplace_1
+        position                         = -9.000000, 1.000000, 6.200000
+        reference_name                   = statics\fireplace\fireplace_1
+        rotation                         = 0.000000, 0.000000, 0.000000
+        scale                            = 1.000000, 1.000000, 1.000000
+        version                          = 18
+ 
+[object_3_ingroup_1]
+        anim_ref_name                    =
+        attenuation0                     = 0.500000
+        attenuation1                     = 0.800000
+        attenuation2                     = 0.100000
+        brightness                       = 1.500000
+        clsid                            = 3
+        co_flags                         = 2
+        color                            = 1.000000, 0.690196, 0.352941, 0.000000
+        cone                             = 0.000000
+        fallof_texture                   =
+        light_control                    = 0
+        light_flags                      = -303174167
+        name                             = light_fireplace
+        position                         = -9.024014, 2.297234, 6.166126
+        range                            = 10.000000
+        rotation                         = 0.000000, 0.000000, 0.000000
+        scale                            = 1.000000, 1.000000, 1.000000
+        type                             = 1
+        use_in_d3d                       = on
+        version                          = 17
+        virtual_size                     = 0.000000
+ 
+[object_3_ingroup_2]
+        anim_ref_name                    =
+        attenuation0                     = 0.350000
+        attenuation1                     = 0.800000
+        attenuation2                     = 1.000000
+        brightness                       = 1.000000
+        clsid                            = 3
+        co_flags                         = 2
+        color                            = 1.000000, 0.690196, 0.352941, 0.000000
+        cone                             = 0.000000
+        fallof_texture                   =
+        fuzzy_box_dim                    = 0.100000, 0.100000, 0.100000
+        fuzzy_point_0                    = 0.051823, 0.242317, 0.073801
+        fuzzy_point_1                    = 0.345005, -0.006021, 0.227513
+        fuzzy_point_2                    = 0.254380, 0.657274, -0.464105
+        fuzzy_point_3                    = -0.008936, -0.013511, -0.001099
+        fuzzy_point_4                    = 0.464638, 0.807576, -0.340416
+        fuzzy_point_5                    = -0.057386, -0.008013, 0.849248
+        fuzzy_point_count                = 6
+        fuzzy_shape_type                 = 0
+        fuzzy_sphere_radius              = 1.000000
+        light_control                    = 0
+        light_flags                      = -303174151
+        name                             = light_fireplace_ambient_0000
+        position                         = -9.024014, 1.397240, 6.166141
+        range                            = 4.000000
+        rotation                         = 0.000000, 0.000000, 0.000000
+        scale                            = 1.000000, 1.000000, 1.000000
+        type                             = 1
+        use_in_d3d                       = on
+        version                          = 17
+        virtual_size                     = 0.000000
+ 
+[object_3_ingroup_3]
+        anim_ref_name                    =
+        attenuation0                     = 0.350000
+        attenuation1                     = 0.500000
+        attenuation2                     = 0.500000
+        brightness                       = 0.800000
+        clsid                            = 3
+        co_flags                         = 2
+        color                            = 1.000000, 0.690196, 0.352941, 0.000000
+        cone                             = 0.000000
+        fallof_texture                   =
+        light_control                    = 0
+        light_flags                      = -303174166
+        name                             = light_fireplace_dinamic
+        position                         = -9.024014, 2.067235, 6.166126
+        range                            = 5.000000
+        rotation                         = 0.000000, 0.000000, 0.000000
+        scale                            = 1.000000, 1.000000, 1.000000
+        type                             = 1
+        use_in_d3d                       = on
+        version                          = 17
+        virtual_size                     = 0.000000
+ 
+[object_3_ingroup_4]
+        attached_count                   = 1
+        clsid                            = 6
+        co_flags                         = 2
+        name                             = campfire_dinamic
+        position                         = -9.000000, 1.395999, 6.200000
+        rotation                         = 0.000000, 0.000000, 0.000000
+        scale                            = 1.000000, 1.000000, 1.000000
+        type                             = 2
+        version                          = 23
+ 
+[object_3_ingroup_4_attached_0]
+        clsid                            = 4
+        co_flags                         = 2
+        name                             = shape_0000
+        position                         = -9.000000, 1.395999, 6.200000
+        rotation                         = 0.000000, 0.000000, 0.000000
+        scale                            = 1.000000, 1.000000, 1.000000
+        shape_center_0                   = 0.000000, 0.000000, 0.000000
+        shape_center_1                   = 0.000000, 0.558000, 0.000000
+        shape_radius_0                   = 0.387240
+        shape_radius_1                   = 0.674519
+        shape_type                       = 0
+        shape_type_0                     = 0
+        shape_type_1                     = 0
+        shapes_count                     = 2
+        version                          = 2
+ 
+[object_3_ingroup_4_spawndata]
+        000001                           = 1
+        000002                           = "campfire"
+        000003                           = ""
+        000004                           = 0
+        000005                           = 254
+        000006                           = 0.000000, 0.000000, 0.000000
+        000007                           = 0.000000, 0.000000, 0.000000
+        000008                           = 0
+        000009                           = 65535
+        000010                           = 65535
+        000011                           = 65535
+        000012                           = 33
+        000013                           = 128
+        000014                           = 65535
+        000015                           = 12
+        000016                           = 0
+        000017                           = 65535
+        000018                           = 0
+        000019                           = 65535
+        000020                           = 0.000000
+        000021                           = 1
+        000022                           = -1
+        000023                           = -194
+        000024                           = ""
+        000025                           = -1
+        000026                           = -1
+        000027                           = 0
+        000028                           = 3
+        000029                           = 0.000000
+        000030                           = -1
+        000031                           = 0
+        000032                           = 0
+        000033                           = 0
+        000034                           = 30.000000
+        000035                           = 32
+        000036                           = 4
+        fl                               = 0
+        name                             = campfire
+ 
+[object_4]
+        clsid                            = 0
+        co_flags                         = 0
+        ingroup_count                    = 5
+        name                             = light_preset\zone_campfire_grill
+        position                         = 7.000000, 1.000000, -8.000000
+        ref_name                         = light_preset\zone_campfire_grill
+        rotation                         = 0.000000, -1.134464, 0.000000
+        scale                            = 1.000000, 1.000000, 1.000000
+        version                          = 18
+ 
+[object_4_ingroup_0]
+        anim_ref_name                    =
+        attenuation0                     = 1.000000
+        attenuation1                     = 1.000000
+        attenuation2                     = 1.000000
+        brightness                       = 0.400000
+        clsid                            = 3
+        co_flags                         = 2
+        color                            = 1.000000, 0.725490, 0.129412, 0.000000
+        cone                             = 0.000000
+        fallof_texture                   =
+        fuzzy_box_dim                    = 0.100000, 0.100000, 0.100000
+        fuzzy_point_0                    = 0.000000, 0.000000, 0.000000
+        fuzzy_point_1                    = 0.000000, 0.000000, 0.000000
+        fuzzy_point_2                    = 0.000000, 0.000000, 0.000000
+        fuzzy_point_3                    = 0.000000, 0.000000, 0.000000
+        fuzzy_point_4                    = 0.000000, 0.000000, 0.000000
+        fuzzy_point_5                    = 0.000000, 0.000000, 0.000000
+        fuzzy_point_count                = 6
+        fuzzy_shape_type                 = 0
+        fuzzy_sphere_radius              = 1.000000
+        light_control                    = 0
+        light_flags                      = -303174151
+        name                             = light_campfire_grill
+        position                         = 7.000000, 1.000000, -8.000000
+        range                            = 1.600000
+        rotation                         = 0.000000, -1.134464, 0.000000
+        scale                            = 1.000000, 1.000000, 1.000000
+        type                             = 1
+        use_in_d3d                       = on
+        version                          = 17
+        virtual_size                     = 0.000000
+ 
+[object_4_ingroup_1]
+        active_time                      = 0.000000, 0.000000
+        clsid                            = 5
+        co_flags                         = 0
+        flags                            = 3
+        freq                             = 1.000000
+        max_ai_dist                      = 15.000000
+        max_dist                         = 15.000000
+        min_dist                         = 0.300000
+        name                             = sound_src_fire_2
+        play_time                        = 0.000000, 0.000000
+        position                         = 0.000000, 0.000000, 0.000000
+        random_pause                     = 0.000000, 0.000000
+        rotation                         = 0.000000, -1.134464, 0.000000
+        scale                            = 1.000000, 1.000000, 1.000000
+        snd_name                         = ambient\fire2
+        snd_position                     = 7.000000, 1.450000, -8.000000
+        snd_type                         = 0
+        version                          = 20
+        volume                           = 1.000000
+ 
+[object_4_ingroup_2]
+        clsid                            = 6
+        co_flags                         = 2
+        name                             = light_campfire_grill_omni_0000
+        position                         = 6.996331, 0.906376, -7.754391
+        rotation                         = 0.000000, -1.134464, 0.000000
+        scale                            = 1.000000, 1.000000, 1.000000
+        type                             = 2
+        version                          = 23
+ 
+[object_4_ingroup_2_spawndata]
+        000001                           = 1
+        000002                           = "lights_hanging_lamp"
+        000003                           = "lights_camp_fire_omni_r1_r2_0001"
+        000004                           = 0
+        000005                           = 254
+        000006                           = 12.654584, 1.840567, -37.421776
+        000007                           = 0.045553, -0.001745, 0.013963
+        000008                           = 0
+        000009                           = 65535
+        000010                           = 65535
+        000011                           = 65535
+        000012                           = 33
+        000013                           = 128
+        000014                           = 65535
+        000015                           = 12
+        000016                           = 0
+        000017                           = 65535
+        000018                           = 0
+        000019                           = 65535
+        000020                           = 0.000000
+        000021                           = 1
+        000022                           = -1
+        000023                           = -198
+        000024                           = ""
+        000025                           = -1
+        000026                           = -1
+        000027                           = ""
+        000028                           = 0
+        000029                           = "$editor"
+        000030                           = 0
+        000031                           = 65535
+        000032                           = -346105
+        000033                           = 0.400000
+        000034                           = "koster"
+        000035                           = 1.600000
+        000036                           = 8
+        000037                           = "$editor"
+        000038                           = ""
+        000039                           = 100.000000
+        000040                           = 0.100000
+        000041                           = 2.000000
+        000042                           = 0.400000
+        000043                           = ""
+        000044                           = ""
+        000045                           = ""
+        000046                           = 2.094395
+        000047                           = ""
+        000048                           = 0.700000
+        000049                           = ""
+        000050                           = 1.000000
+        000051                           = 1.000000
+        000052                           = 1.000000
+        fl                               = 0
+        name                             = lights_hanging_lamp
+ 
+[object_4_ingroup_3]
+        clsid                            = 6
+        co_flags                         = 2
+        name                             = campfire_grill_boar
+        position                         = 7.000000, 1.000000, -8.000000
+        rotation                         = 0.000000, -1.134464, 0.000000
+        scale                            = 1.000000, 1.000000, 1.000000
+        type                             = 2
+        version                          = 23
+ 
+[object_4_ingroup_3_spawndata]
+        000001                           = 1
+        000002                           = "physic_object"
+        000003                           = "level_prefix_physic_object0001"
+        000004                           = 0
+        000005                           = 254
+        000006                           = 13.700000, 0.000000, 18.700001
+        000007                           = 0.000000, 0.000000, 0.000000
+        000008                           = 0
+        000009                           = 65535
+        000010                           = 65535
+        000011                           = 65535
+        000012                           = 33
+        000013                           = 128
+        000014                           = 65535
+        000015                           = 12
+        000016                           = 0
+        000017                           = 65535
+        000018                           = 0
+        000019                           = 65535
+        000020                           = 0.000000
+        000021                           = 1
+        000022                           = -1
+        000023                           = -198
+        000024                           = "[collide]
+ignore_static
+
+"
+        000025                           = -1
+        000026                           = -1
+        000027                           = "dynamics\dead_body\vertel_boar"
+        000028                           = 0
+        000029                           = "$editor"
+        000030                           = 0
+        000031                           = 65535
+        000032                           = 3
+        000033                           = 10.000000
+        000034                           = "link"
+        fl                               = 0
+        name                             = physic_object
+ 
+[object_4_ingroup_4]
+        clsid                            = 11
+        co_flags                         = 2
+        game_type                        = 65535
+        name                             = campfire_grill_particles
+        position                         = 7.000000, 1.000000, -8.000000
+        ref_name                         = explosions\campfire_boar_grill
+        rotation                         = 0.000000, -1.134464, 0.000000
+        scale                            = 1.000000, 1.000000, 1.000000
+        version                          = 19
+ 
+[object_5]
+        clsid                            = 0
+        co_flags                         = 3
+        ingroup_count                    = 1
+        name                             = light_preset\light_abajour_2_lowrez
+        position                         = 0.589569, 4.507999, 1.777653
+        ref_name                         = light_preset\light_abajour_2_lowrez
+        rotation                         = 0.000000, 0.000000, 3.141593
+        scale                            = 1.000000, 1.000000, 1.000000
+        version                          = 18
+ 
+[object_5_ingroup_0]
+        clsid                            = 6
+        co_flags                         = 2
+        name                             = light_abajour_2_lowrez
+        position                         = 0.589569, 4.507999, 1.777653
+        rotation                         = 0.000000, 0.000001, 3.141593
+        scale                            = 1.000000, 1.000000, 1.000000
+        type                             = 2
+        version                          = 23
+ 
+[object_5_ingroup_0_spawndata]
+        000001                           = 1
+        000002                           = "lights_hanging_lamp"
+        000003                           = "light_sharnir_1_0006"
+        000004                           = 0
+        000005                           = 254
+        000006                           = -45.442337, -3.757524, -44.105709
+        000007                           = 6.283186, 1.570796, -4.712389
+        000008                           = 0
+        000009                           = 65535
+        000010                           = 65535
+        000011                           = 65535
+        000012                           = 33
+        000013                           = 128
+        000014                           = 65535
+        000015                           = 12
+        000016                           = 0
+        000017                           = 65535
+        000018                           = 0
+        000019                           = 65535
+        000020                           = 0.000000
+        000021                           = 1
+        000022                           = -1
+        000023                           = -198
+        000024                           = "[collide]
+ignore_static
+
+[logic]
+active = ph_oscillate
+
+[ph_oscillate]
+joint = provod    ; имя кости к которой будет применена сила
+force = 1.5       ; собственно сила (в ньютонах)
+period = 500      ; время прикладывания силы."
+        000025                           = -1
+        000026                           = -1
+        000027                           = "dynamics\light\light_abajour_2_lowrez"
+        000028                           = 0
+        000029                           = "$editor"
+        000030                           = 0
+        000031                           = 65535
+        000032                           = -1
+        000033                           = 0.600000
+        000034                           = "light\light_omni_white_idle"
+        000035                           = 6.000000
+        000036                           = 63
+        000037                           = "$editor"
+        000038                           = "link"
+        000039                           = 100.000000
+        000040                           = 0.100000
+        000041                           = 3.500000
+        000042                           = 0.500000
         000043                           = ""
         000044                           = "lights\lights_spot_wire_02"
         000045                           = "bone_lamp"

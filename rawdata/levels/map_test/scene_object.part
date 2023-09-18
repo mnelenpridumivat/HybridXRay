@@ -11,7 +11,7 @@
  
 [main]
         flags                            = 0
-        objects_count                    = 22
+        objects_count                    = 25
         version                          = 0
  
 [modif]
@@ -193,7 +193,7 @@
  
 [object_18]
         000001                           = 3
-        000002                           = "shaderBall_metal"
+        000002                           = "shaderBall"
         000003                           = "def_shaders\def_vertex"
         000004                           = "def_shaders\def_vertex"
         000005                           = "materials\metal"
@@ -223,11 +223,11 @@
  
 [object_19]
         000001                           = 1
-        000002                           = "balls_"
+        000002                           = "balls"
         000003                           = "def_shaders\def_vertex"
         000004                           = "def_shaders\def_vertex"
         000005                           = "materials\metal"
-        000006                           = "user\user_shaderball_metal"
+        000006                           = "_pbr\metall\_pbr_metal_kub"
         000007                           = "Texture"
         clsid                            = 2
         co_flags                         = 0
@@ -259,11 +259,11 @@
  
 [object_20]
         000001                           = 1
-        000002                           = "balls_"
+        000002                           = "balls"
         000003                           = "def_shaders\def_vertex"
         000004                           = "def_shaders\def_vertex"
         000005                           = "materials\metal"
-        000006                           = "user\user_smallballs"
+        000006                           = "_pbr\metall\_pbr_metal_kub"
         000007                           = "Texture"
         clsid                            = 2
         co_flags                         = 0
@@ -284,6 +284,106 @@
         reference_name                   = mp_test\mp_test_arena
         rotation                         = 0.000000, 0.000000, 0.000000
         scale                            = 1.000000, 1.000000, 1.000000
+        version                          = 18
+ 
+[object_22]
+        clsid                            = 2
+        co_flags                         = 0
+        flags                            = 0
+        name                             = statics\user\user_shaderbox_kub
+        position                         = -12.000000, 1.000000, 12.000000
+        reference_name                   = statics\user\user_shaderbox_kub
+        rotation                         = 0.000000, 0.000000, 0.000000
+        scale                            = 3.000000, 3.000000, 3.000000
+        version                          = 18
+ 
+[object_23]
+        clsid                            = 2
+        co_flags                         = 0
+        flags                            = 0
+        name                             = statics\user\user_shaderbox_kub_00
+        position                         = 0.602974, 1.000000, 1.515122
+        reference_name                   = statics\user\user_shaderbox_kub
+        rotation                         = 0.000000, 0.000000, 0.000000
+        scale                            = 1.000000, 1.000000, 1.000000
+        version                          = 18
+ 
+[object_24]
+        000001                           = 11
+        000002                           = "ammo_5x45_S"
+        000003                           = "def_shaders\def_vertex"
+        000004                           = "def_shaders\def_vertex"
+        000005                           = "materials\metal"
+        000006                           = "user\user_smallballs"
+        000007                           = "Texture"
+        000008                           = "an94_barrel_base_S"
+        000009                           = "def_shaders\def_vertex"
+        000010                           = "def_shaders\def_vertex"
+        000011                           = "materials\metal"
+        000012                           = "user\user_smallballs"
+        000013                           = "Texture"
+        000014                           = "an94_body2_S"
+        000015                           = "def_shaders\def_vertex"
+        000016                           = "def_shaders\def_vertex"
+        000017                           = "materials\metal"
+        000018                           = "user\user_smallballs"
+        000019                           = "Texture"
+        000020                           = "an94_body_S"
+        000021                           = "def_shaders\def_vertex"
+        000022                           = "def_shaders\def_vertex"
+        000023                           = "materials\metal"
+        000024                           = "user\user_smallballs"
+        000025                           = "Texture"
+        000026                           = "an94_bolttrigger_S"
+        000027                           = "def_shaders\def_vertex"
+        000028                           = "def_shaders\def_vertex"
+        000029                           = "materials\metal"
+        000030                           = "user\user_smallballs"
+        000031                           = "Texture"
+        000032                           = "an94_grip_S"
+        000033                           = "def_shaders\def_vertex"
+        000034                           = "def_shaders\def_vertex"
+        000035                           = "materials\metal"
+        000036                           = "user\user_smallballs"
+        000037                           = "Texture"
+        000038                           = "an94_handguard_S"
+        000039                           = "def_shaders\def_vertex"
+        000040                           = "def_shaders\def_vertex"
+        000041                           = "materials\metal"
+        000042                           = "user\user_smallballs"
+        000043                           = "Texture"
+        000044                           = "an94_mag_S"
+        000045                           = "def_shaders\def_vertex"
+        000046                           = "def_shaders\def_vertex"
+        000047                           = "materials\metal"
+        000048                           = "user\user_smallballs"
+        000049                           = "Texture"
+        000050                           = "an94_mushka_S"
+        000051                           = "def_shaders\def_vertex"
+        000052                           = "def_shaders\def_vertex"
+        000053                           = "materials\metal"
+        000054                           = "user\user_smallballs"
+        000055                           = "Texture"
+        000056                           = "an94_stock_S"
+        000057                           = "def_shaders\def_vertex"
+        000058                           = "def_shaders\def_vertex"
+        000059                           = "materials\metal"
+        000060                           = "user\user_smallballs"
+        000061                           = "Texture"
+        000062                           = "an94_trit_S"
+        000063                           = "def_shaders\def_vertex"
+        000064                           = "def_shaders\def_vertex"
+        000065                           = "materials\metal"
+        000066                           = "user\user_smallballs"
+        000067                           = "Texture"
+        clsid                            = 2
+        co_flags                         = 0
+        flags                            = 1
+        name                             = statics\weapons\wpn_abakan\wpn_abakan_hud_static_shakal
+        position                         = 0.320533, 2.827996, 0.289436
+        reference_name                   = statics\weapons\wpn_abakan\wpn_abakan_hud_static_shakal
+        rotation                         = 0.000000, 0.000000, 0.000000
+        scale                            = 2.227585, 2.227585, 2.227585
         version                          = 18
  
 [object_3]
@@ -324,11 +424,11 @@
  
 [object_5]
         000001                           = 1
-        000002                           = "balls_"
+        000002                           = "balls"
         000003                           = "def_shaders\def_vertex"
         000004                           = "def_shaders\def_vertex"
         000005                           = "materials\metal"
-        000006                           = "user\user_floor_dirty_gr"
+        000006                           = "_pbr\metall\_pbr_metal_kub"
         000007                           = "Texture"
         clsid                            = 2
         co_flags                         = 0

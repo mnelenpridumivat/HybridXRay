@@ -3,8 +3,8 @@
         light_pixel_per_meter            = 1.000000
         light_quality                    = 2
         light_quality_reserved           = 31868
-        light_rms                        = 5
-        light_rms_zero                   = 5
+        light_rms                        = 1
+        light_rms_zero                   = 1
         reserved_0                       = 21058815172677055454858346078431870976.000000
         reserved_1                       = 5264785556632978584510983056964714496.000000
         reserved_2                       = 5243934922647774610257814908466888704.000000
@@ -15,8 +15,8 @@
         weld_distance                    = 0.005000
  
 [camera]
-        hpb                              = -3.852076, -0.702113, 0.000000
-        pos                              = 18.701918, 16.027683, 21.138535
+        hpb                              = 2.431112, -0.327209, 0.000000
+        pos                              = 16.197855, 11.059730, 19.166281
  
 [guid]
         guid_g0                          = 5730902926000145350
@@ -39,6 +39,7 @@
  
 [snap_objects]
         mp_test\mp_test_arena            =
+        statics\fireplace\fireplace_1    =
         statics\user\user_bigballs       =
         statics\user\user_bigballs_00    =
         statics\user\user_bigballs_00_00 =
@@ -57,9 +58,12 @@
         statics\user\user_shaderbox      =
         statics\user\user_shaderbox_00   =
         statics\user\user_shaderbox_00_00 =
+        statics\user\user_shaderbox_kub  =
+        statics\user\user_shaderbox_kub_00 =
         statics\user\user_smallballs     =
         statics\user\user_smallballs_0000 =
         statics\user\user_smallballs_0001 =
+        statics\weapons\wpn_abakan\wpn_abakan_hud_static_shakal =
  
 [version]
         value                            = 5
