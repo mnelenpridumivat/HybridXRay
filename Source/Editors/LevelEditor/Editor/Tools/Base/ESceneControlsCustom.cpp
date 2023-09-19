@@ -245,7 +245,8 @@ bool TUI_CustomControl::MovingStart(TShiftState Shift)
             if (lst.size() == 1)
             {
                 Fvector p, n;
-                UI->IR_GetMousePosReal(EDevice->m_hWnd, UI->m_CurrentCp);
+                // UI->IR_GetMousePosReal(EDevice->m_hWnd, UI->m_CurrentCp);
+                UI->GetRenderMousePosition();
                 EDevice->m_Camera.MouseRayFromPoint(UI->m_CurrentRStart, UI->m_CurrentRDir, UI->m_CurrentCp);
                 if (LUI->PickGround(p, UI->m_CurrentRStart, UI->m_CurrentRDir, 1, &n))
                 {
