@@ -2000,6 +2000,9 @@ enum ImGuiMouseCursor_
     ImGuiMouseCursor_ResizeNWSE,        // При наведении курсора на правый нижний угол окна
     ImGuiMouseCursor_Hand,              // (Не используется функциями Dear ImGui. Используйте для эл. г. гиперссылки)
     ImGuiMouseCursor_NotAllowed,        // При наведении курсора на что-то с запрещенным взаимодействием. Обычно перечеркнутый круг.
+    ImGuiMouseCursor_СrossSelect,       // Перекрестие.
+    ImGuiMouseCursor_Size,              // Спец. выделение(стрелка)
+    ImGuiMouseCursor_Help,              // Выбор справки(стрелка с вопросом)
     ImGuiMouseCursor_COUNT
 };
 

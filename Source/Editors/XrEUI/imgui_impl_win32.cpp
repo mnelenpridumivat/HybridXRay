@@ -1,4 +1,4 @@
-// dear imgui: Platform Backend for Windows (standard windows API for 32 and 64 bits applications)
+﻿// dear imgui: Platform Backend for Windows (standard windows API for 32 and 64 bits applications)
 // This needs to be used along with a Renderer (e.g. DirectX11, OpenGL3, Vulkan..)
 
 // Implemented features:
@@ -217,6 +217,11 @@ static bool ImGui_ImplWin32_UpdateMouseCursor()
         case ImGuiMouseCursor_ResizeNWSE:   win32_cursor = IDC_SIZENWSE; break;
         case ImGuiMouseCursor_Hand:         win32_cursor = IDC_HAND; break;
         case ImGuiMouseCursor_NotAllowed:   win32_cursor = IDC_NO; break;
+        // дополнительно
+        case ImGuiMouseCursor_СrossSelect:  win32_cursor = IDC_CROSS; break;
+        case ImGuiMouseCursor_Size:         win32_cursor = IDC_SIZE; break;
+        case ImGuiMouseCursor_Help:         win32_cursor = IDC_HELP; break;
+
         }
         ::SetCursor(::LoadCursor(NULL, win32_cursor));
     }

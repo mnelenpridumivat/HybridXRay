@@ -305,6 +305,9 @@ static bool ImGui_ImplWin32_UpdateMouseCursor()
         LPTSTR win32_cursor = IDC_ARROW;
         switch (imgui_cursor)
         {
+            case ImGuiMouseCursor_СrossSelect:
+                win32_cursor = IDC_CROSS;
+                break;
             case ImGuiMouseCursor_Arrow:
                 win32_cursor = IDC_ARROW;
                 break;
@@ -328,6 +331,12 @@ static bool ImGui_ImplWin32_UpdateMouseCursor()
                 break;
             case ImGuiMouseCursor_Hand:
                 win32_cursor = IDC_HAND;
+                break;
+            case ImGuiMouseCursor_Size:
+                win32_cursor = IDC_SIZE;
+                break;
+            case ImGuiMouseCursor_Help:
+                win32_cursor = IDC_HELP;
                 break;
             case ImGuiMouseCursor_NotAllowed:
                 win32_cursor = IDC_NO;

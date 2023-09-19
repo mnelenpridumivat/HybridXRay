@@ -1205,7 +1205,7 @@ bool EditLibPickObjectGeometry(Fvector& hitpoint, const Fvector& start, const Fv
     return false;
 }
 
-bool ScenePickObjectGeometry(Fvector& hitpoint, const Fvector& start, const Fvector& direction, int bSnap, Fvector* hitnormal)
+bool CLevelMain::ScenePickObjectGeometry(Fvector& hitpoint, const Fvector& start, const Fvector& direction, int bSnap, Fvector* hitnormal)
 {
     SRayPickInfo pinf;
 
@@ -1244,7 +1244,7 @@ bool PickObjectGeometry(EEditorState est, Fvector& hitpoint, const Fvector& star
         case esEditLibrary:
             return EditLibPickObjectGeometry(hitpoint, start, direction, bSnap, hitnormal);
         case esEditScene:
-            return ScenePickObjectGeometry(hitpoint, start, direction, bSnap, hitnormal);
+            return LUI->ScenePickObjectGeometry(hitpoint, start, direction, bSnap, hitnormal);
         default:
             NODEFAULT;
     }

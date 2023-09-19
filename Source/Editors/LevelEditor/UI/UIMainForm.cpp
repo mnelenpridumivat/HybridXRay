@@ -472,19 +472,20 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Size)
     // --------------------------------------------------------------------------------------------
     // Action
     {
+        Fvector p, n;
         ETAction Action = LTools->GetAction();
         ImGui::BeginGroup();
         // --------------------------------------------------------------------------------------------
         // Select
         {
             bool bPushColor = false;
-            if (Action == etaSelect /* && LTools->GetSettings(etaSelect)*/)
+            if (Action == etaSelect)
             {
                 bPushColor = true;
                 ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_Border));
                 ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImGui::GetStyleColorVec4(ImGuiCol_Border));
-                // if (m_Render)
-                //    ImGui::SetMouseCursor(ImGuiMouseCursor_Arrow);
+                if (LUI->ScenePickObjectGeometry(p, UI->m_CurrentRStart, UI->m_CurrentRDir, 1, &n))
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_СrossSelect);
             }
             m_tSelect->Load();
             if (ImGui::ImageButton(m_tSelect->surface_get(), ImVec2(16, ImGui::GetFontSize())))
@@ -512,8 +513,8 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Size)
                 bPushColor = true;
                 ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_Border));
                 ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImGui::GetStyleColorVec4(ImGuiCol_Border));
-                if (m_Render)
-                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                if (LUI->ScenePickObjectGeometry(p, UI->m_CurrentRStart, UI->m_CurrentRDir, 1, &n))
+                     ImGui::SetMouseCursor(ImGuiMouseCursor_Arrow);
             }
             m_tAdd->Load();
             if (ImGui::ImageButton(m_tAdd->surface_get(), ImVec2(16, ImGui::GetFontSize())))
@@ -541,8 +542,13 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Size)
                 bPushColor = true;
                 ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_Border));
                 ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImGui::GetStyleColorVec4(ImGuiCol_Border));
-                if (m_Render)
-                    ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeAll);
+                if (LUI->ScenePickObjectGeometry(p, UI->m_CurrentRStart, UI->m_CurrentRDir, 1, &n))
+                {
+                    if (!EPrefs->tools_show_move_axis)
+                        ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeAll);
+                    else
+                        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                }
             }
             m_tMove->Load();
             if (ImGui::ImageButton(m_tMove->surface_get(), ImVec2(16, ImGui::GetFontSize())))
@@ -571,7 +577,7 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Size)
                 bPushColor = true;
                 ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_Border));
                 ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImGui::GetStyleColorVec4(ImGuiCol_Border));
-                if (m_Render)
+                if (LUI->ScenePickObjectGeometry(p, UI->m_CurrentRStart, UI->m_CurrentRDir, 1, &n))
                     ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeNS);
             }
             m_tScale->Load();
@@ -600,7 +606,7 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Size)
                 bPushColor = true;
                 ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_Border));
                 ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImGui::GetStyleColorVec4(ImGuiCol_Border));
-                if (m_Render)
+                if (LUI->ScenePickObjectGeometry(p, UI->m_CurrentRStart, UI->m_CurrentRDir, 1, &n))
                     ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeEW);
             }
             m_tRotate->Load();

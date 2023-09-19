@@ -182,6 +182,7 @@ void CUI_Camera::Update(float dt)
     {
         BOOL bLeftDn  = m_Shift & ssLeft;
         BOOL bRightDn = m_Shift & ssRight;
+        BOOL bCtrlDn  = m_Shift & ssCtrl;
         if ((m_Style == csFreeFly) && (bLeftDn || bRightDn) && !(bLeftDn && bRightDn))
         {
             Fvector vmove;
@@ -192,7 +193,7 @@ void CUI_Camera::Update(float dt)
             else if (bRightDn)
                 m_Position.sub(vmove);
 
-            if (m_Shift & ssCtrl)
+            if (bCtrlDn)
             {
                 float dist = UI->ZFar();
                 if (Tools->RayPick(m_Position, down_dir, dist))   // UI->R PickGround(pos,m_Position,dir,-1))
