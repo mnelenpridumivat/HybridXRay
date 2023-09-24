@@ -2,6 +2,7 @@
 #include "imgui_impl_dx9.h"
 #include "imgui_impl_win32.h"
 #include "spectrum.h"
+#include "ImGuizmo.h"
 
 XrUIManager::XrUIManager() {}
 
@@ -239,6 +240,7 @@ void XrUIManager::Draw()
     ImGui_ImplDX9_NewFrame();
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
+    ImGuizmo::BeginFrame();
     // ImGui::DockSpaceOverViewport();
     {
         ImGuiViewport* viewport = ImGui::GetMainViewport();

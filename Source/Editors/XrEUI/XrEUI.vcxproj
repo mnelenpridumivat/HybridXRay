@@ -15,6 +15,7 @@
     <ClCompile Include="spectrum.cpp" />
     <ClCompile Include="XrUI.cpp" />
     <ClCompile Include="XrUIManager.cpp" />
+    <ClCompile Include="ImGuizmo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imconfig.h" />
@@ -31,6 +32,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="XrUI.h" />
     <ClInclude Include="XrUIManager.h" />
+    <ClInclude Include="ImGuizmo.h" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="imgui.natvis" />

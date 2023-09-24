@@ -121,6 +121,7 @@
     <ClCompile Include="Editor\Utils\Custom2DProjector.cpp" />
     <ClCompile Include="Editor\Utils\FS2.cpp" />
     <ClCompile Include="Editor\Utils\GeometryPartExtractor.cpp" />
+    <ClCompile Include="Editor\Utils\Gizmo\IM_Manipulator.cpp" />
     <ClCompile Include="Editor\Utils\iniStreamImpl.cpp" />
     <ClCompile Include="Editor\Utils\LevelPreferences.cpp" />
     <ClCompile Include="Editor\Utils\portalutils.cpp" />
@@ -266,6 +267,7 @@
     <ClInclude Include="Editor\Utils\Custom2DProjector.h" />
     <ClInclude Include="Editor\Utils\FS2.h" />
     <ClInclude Include="Editor\Utils\GeometryPartExtractor.h" />
+    <ClInclude Include="Editor\Utils\Gizmo\IM_Manipulator.h" />
     <ClInclude Include="Editor\Utils\iniStreamImpl.h" />
     <ClInclude Include="Editor\Utils\LevelPreferences.h" />
     <ClInclude Include="Editor\Utils\lwchunks.h" />

@@ -68,7 +68,7 @@ void UIRenderForm::Draw()
         draw_list->AddImage(UI->RT->pSurface, canvas_pos, ImVec2(canvas_pos.x + canvas_size.x, canvas_pos.y + canvas_size.y));
 
         if (m_OnToolBar)
-            m_OnToolBar(canvas_size);
+            m_OnToolBar(canvas_pos, canvas_size);
 
         ImGui::SetCursorScreenPos(canvas_pos);
         ImGui::InvisibleButton("canvas", canvas_size);

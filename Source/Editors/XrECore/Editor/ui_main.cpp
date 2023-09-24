@@ -15,7 +15,7 @@
 #include "UIImageEditorForm.h"
 #include "UISoundEditorForm.h"
 #include "UIMinimapEditorForm.h"
-#include "..\XrETools\ETools.h"
+#include "../XrETools/ETools.h"
 #include "UILogForm.h"
 #include "gamefont.h"
 #include "../XrEngine/XR_IOConsole.h"
@@ -367,10 +367,9 @@ void TUI::PrepareRedraw()
     /*
         if (0==g_pGamePersistent->Environment().GetWeather().size())
         {
-            g_pGamePersistent->Environment().CurrentEnv->fog_color.set
-       (color_get_R(fog_color),color_get_G(fog_color),color_get_B(fog_color));
-            g_pGamePersistent->Environment().CurrentEnv->fog_far		= fog_end;
-            g_pGamePersistent->Environment().CurrentEnv->fog_near		= fog_start;
+            g_pGamePersistent->Environment().CurrentEnv->fog_color.set(color_get_R(fog_color),color_get_G(fog_color),color_get_B(fog_color));
+            g_pGamePersistent->Environment().CurrentEnv->fog_far = fog_end;
+            g_pGamePersistent->Environment().CurrentEnv->fog_near = fog_start;
         }
     */
     EDevice->SetRS(D3DRS_FOGCOLOR, fog_color);
@@ -415,7 +414,7 @@ void TUI::PrepareRedraw()
     RCache.set_xform_world(Fidentity);
 }
 extern ENGINE_API BOOL g_bRendering;
-void                   TUI::Redraw()
+void TUI::Redraw()
 {
     PrepareRedraw();
     try
@@ -536,11 +535,11 @@ void                   TUI::Redraw()
     catch (...)
     {
         ELog.DlgMsg(mtError, "& Please notify AlexMX!!! Critical error has occured in render routine!!! [Type A]");
-        //		_clear87();
-        //		FPU::m24r();
-        //    	ELog.DlgMsg(mtError, "! Critical error has occured in render routine.\nEditor may work incorrectly.");
+        // _clear87();
+        // FPU::m24r();
+        // ELog.DlgMsg(mtError, "! Critical error has occured in render routine.\nEditor may work incorrectly.");
         EDevice->End();
-        //		EDevice->Resize(m_D3DWindow->Width,m_D3DWindow->Height);
+        // EDevice->Resize(m_D3DWindow->Width,m_D3DWindow->Height);
     }
 
     OutInfo();

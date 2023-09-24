@@ -405,6 +405,7 @@ void CLevelTool::OnFrame()
         // TfrmEditLightAnim::OnIdle();
     }
 
+
     if (IsCompilerRunning())
     {
         DWORD ExitCode = 0;
@@ -485,7 +486,7 @@ void CLevelTool::Render()
     // draw cursor
     LUI->m_Cursor->Render();
 
-    inherited::Render();
+   //inherited::Render();
 }
 
 void CLevelTool::ShowObjectList()

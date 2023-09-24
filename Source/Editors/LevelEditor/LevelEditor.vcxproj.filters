@@ -190,6 +190,9 @@
     <Filter Include="Editor\Utils">
       <UniqueIdentifier>{1e4a5268-1a87-461a-8d57-cb323e0072e8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Editor\Utils\Gizmo">
+      <UniqueIdentifier>{8a2b9cb2-c4cf-4fa0-bee9-357e694c6e12}</UniqueIdentifier>
+    </Filter>
     <Filter Include="UI\ObjectList">
       <UniqueIdentifier>{f0688181-e4ba-409f-a053-c01eaf476c27}</UniqueIdentifier>
     </Filter>
@@ -645,6 +648,7 @@
       <Filter>Editor\Scene</Filter>
     </ClCompile>
     <ClCompile Include="resources\splash.cpp" />
+    <ClCompile Include="Editor\Utils\Gizmo\IM_Manipulator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -1064,6 +1068,7 @@
     </ClInclude>
     <ClInclude Include="resources\resource.h" />
     <ClInclude Include="resources\splash.h" />
+    <ClInclude Include="Editor\Utils\Gizmo\IM_Manipulator.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources\LevelEditor.rc" />
