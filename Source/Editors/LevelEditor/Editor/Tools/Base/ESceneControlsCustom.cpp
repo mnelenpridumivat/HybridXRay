@@ -53,15 +53,6 @@ void TUI_CustomControl::Move(TShiftState _Shift)
         case etaAdd:
             AddProcess(_Shift);
             break;
-        case etaMove:
-            MovingProcess(_Shift);
-            break;
-        case etaRotate:
-            RotateProcess(_Shift);
-            break;
-        case etaScale:
-            ScaleProcess(_Shift);
-            break;
     }
 }
 bool TUI_CustomControl::HiddenMode()
@@ -317,18 +308,6 @@ bool TUI_CustomControl::DefaultMovingProcess(TShiftState Shift, Fvector& amount)
     return false;
 }
 
-void TUI_CustomControl::MovingProcess(TShiftState _Shift)
-{
-    Fvector amount;
-    if (DefaultMovingProcess(_Shift, amount))
-    {
-        ObjectList lst;
-        if (Scene->GetQueryObjects(lst, LTools->CurrentClassID(), 1, 1, 0))
-            for (ObjectIt _F = lst.begin(); _F != lst.end(); _F++)
-                (*_F)->Move(amount);
-    }
-}
-
 bool TUI_CustomControl::MovingEnd(TShiftState _Shift)
 {
     Scene->UndoSave();
@@ -361,28 +340,6 @@ bool TUI_CustomControl::RotateStart(TShiftState Shift)
     return true;
 }
 
-void TUI_CustomControl::RotateProcess(TShiftState _Shift)
-{
-    if (_Shift & ssLeft)
-    {
-        float amount = -UI->m_DeltaCpH.x * UI->m_MouseSR;
-
-        if (Tools->GetSettings(etfASnap))
-            CHECK_SNAP(m_fRotateSnapAngle, amount, Tools->m_RotateSnapAngle);
-
-        ObjectList lst;
-        if (Scene->GetQueryObjects(lst, LTools->CurrentClassID(), 1, 1, 0))
-            for (ObjectIt _F = lst.begin(); _F != lst.end(); _F++)
-                if (Tools->GetSettings(etfCSParent))
-                {
-                    (*_F)->RotateParent(m_RotateVector, amount);
-                }
-                else
-                {
-                    (*_F)->RotateLocal(m_RotateVector, amount);
-                }
-    }
-}
 bool TUI_CustomControl::RotateEnd(TShiftState _Shift)
 {
     Scene->UndoSave();
@@ -403,33 +360,6 @@ bool TUI_CustomControl::ScaleStart(TShiftState Shift)
     if (Scene->SelectionCount(true, cls) == 0)
         return false;
     return true;
-}
-
-void TUI_CustomControl::ScaleProcess(TShiftState _Shift)
-{
-    float dy = UI->m_DeltaCpH.x * UI->m_MouseSS;
-    if (dy > 1.f)
-        dy = 1.f;
-    else if (dy < -1.f)
-        dy = -1.f;
-
-    Fvector amount;
-    amount.set(dy, dy, dy);
-
-    if (Tools->GetSettings(etfNUScale))
-    {
-        if (!(etAxisX == Tools->GetAxis()) && !(etAxisZX == Tools->GetAxis()))
-            amount.x = 0.f;
-        if (!(etAxisZ == Tools->GetAxis()) && !(etAxisZX == Tools->GetAxis()))
-            amount.z = 0.f;
-        if (!(etAxisY == Tools->GetAxis()))
-            amount.y = 0.f;
-    }
-
-    ObjectList lst;
-    if (Scene->GetQueryObjects(lst, LTools->CurrentClassID(), 1, 1, 0))
-        for (ObjectIt _F = lst.begin(); _F != lst.end(); _F++)
-            (*_F)->Scale(amount);
 }
 
 bool TUI_CustomControl::ScaleEnd(TShiftState _Shift)
