@@ -107,6 +107,7 @@ void XrUIManager::Initialize(HWND hWnd, IDirect3DDevice9* device, const char* in
     (void)io;
     xr_strcpy(m_name_ini, ini_path);
     io.IniFilename = m_name_ini;
+    io.ConfigWindowsMoveFromTitleBarOnly = true;
     // io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
     // io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;   // Enable Keyboard Controls
