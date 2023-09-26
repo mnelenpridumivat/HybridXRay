@@ -1,6 +1,8 @@
 ﻿#include "stdafx.h"
 #include "UIRenderForm.h"
 #include "ui_main.h"
+#include "../XrEUI/ImGuizmo.h"
+
 UIRenderForm::UIRenderForm()
 {
     m_mouse_down      = false;
@@ -71,7 +73,9 @@ void UIRenderForm::Draw()
             m_OnToolBar(canvas_pos, canvas_size);
 
         ImGui::SetCursorScreenPos(canvas_pos);
-        ImGui::InvisibleButton("canvas", canvas_size);
+
+        if (!ImGuizmo::IsUsing())
+          ImGui::InvisibleButton("canvas", canvas_size);
 
         if (ImGui::IsItemFocused())
         {
