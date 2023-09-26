@@ -1442,9 +1442,6 @@ namespace ImGuizmo
 
    static bool CanActivate()
    {
-    bool value1 = ImGui::IsMouseClicked(0);
-    bool value2 = ImGui::IsAnyItemHovered();
-    bool value3 = ImGui::IsAnyItemActive();
       if (ImGui::IsMouseClicked(0) /*&& !ImGui::IsAnyItemHovered()*/ && !ImGui::IsAnyItemActive()) // commented to fix compatibility issues with ImGui::InvisibleButton usage [Debrovski]
       {
          return true;
