@@ -27,7 +27,7 @@ CCustomPreferences::CCustomPreferences()
     tools_sens_move      = 0.3f;
     tools_sens_rot       = 0.3f;
     tools_sens_scale     = 0.3f;
-    tools_show_move_axis = true;
+    tools_show_move_axis = false;
     // box pick
     bp_lim_depth         = TRUE;
     bp_cull              = TRUE;

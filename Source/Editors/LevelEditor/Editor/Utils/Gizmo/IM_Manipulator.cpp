@@ -1,5 +1,5 @@
-﻿//Originally by B.O.R.S.C.H.T. team
-//see https://bitbucket.org/stalker/xray-csky_borscht_sdk
+﻿// Originally by B.O.R.S.C.H.T. team
+// see https://bitbucket.org/stalker/xray-csky_borscht_sdk
 
 #include "stdafx.h"
 
@@ -15,7 +15,7 @@ IM_Manipulator imManipulator;
 void IM_Manipulator::Render(float canvasX, float canvasY, float canvasWidth, float canvasHeight)
 {
     ImGuizmo::SetDrawlist();
-    // ELog.Msg(mtInformation, "%d", LTools->CurrentClassID());
+    // ELog.Msg(mtInformation, "# %d", LTools->CurrentClassID());
     ESceneCustomOTool* tool = Scene->GetOTool(LTools->CurrentClassID());
     if (!tool)
         return;
@@ -111,13 +111,13 @@ void IM_Manipulator::Render(float canvasX, float canvasY, float canvasWidth, flo
                     Fvector rot_diff;
                     rot_diff.set(rot).sub(original_rot);
 
-                    // ELog.Msg(mtInformation, "%f %f %f", rot_diff.x, rot_diff.y, rot_diff.z);
+                    // ELog.Msg(mtInformation, "# %f %f %f", rot_diff.x, rot_diff.y, rot_diff.z);
 
                     for (ObjectIt it = lst.begin(); it != lst.end(); it++)
                     {
-                        (*it)->RotateParent(Fvector().set(0, 0, 1), rot_diff.z);
                         (*it)->RotateParent(Fvector().set(1, 0, 0), rot_diff.x);
                         (*it)->RotateParent(Fvector().set(0, 1, 0), rot_diff.y);
+                        (*it)->RotateParent(Fvector().set(0, 0, 1), rot_diff.z);
                     }
                 }
             }
