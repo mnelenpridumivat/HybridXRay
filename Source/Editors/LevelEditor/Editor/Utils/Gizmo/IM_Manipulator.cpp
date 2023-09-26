@@ -14,8 +14,9 @@ IM_Manipulator imManipulator;
 
 void IM_Manipulator::Render(float canvasX, float canvasY, float canvasWidth, float canvasHeight)
 {
+    ImGuizmo::SetRect(canvasX, canvasY, canvasWidth, canvasHeight);
     ImGuizmo::SetDrawlist();
-    // ELog.Msg(mtInformation, "# %d", LTools->CurrentClassID());
+
     ESceneCustomOTool* tool = Scene->GetOTool(LTools->CurrentClassID());
     if (!tool)
         return;
@@ -25,129 +26,75 @@ void IM_Manipulator::Render(float canvasX, float canvasY, float canvasWidth, flo
     if (lst.size() < 1)
         return;
 
-    bool bWorld = Tools->GetSettings(etfCSParent);
-
-    ImGuizmo::OPERATION op;
-    ImGuizmo::MODE      mode;
-    float*              snap = NULL;
-
-    ImGuizmo::SetRect(canvasX, canvasY, canvasWidth, canvasHeight);
+    const bool           IsCSParent   = Tools->GetSettings(etfCSParent);
+    Fmatrix              ObjectMatrix = lst.front()->FTransformRP;
+    Fmatrix              DeltaMatrix  = Fidentity;
+    float*               Snap         = NULL;
 
     switch (LTools->GetAction())
     {
         case etaMove:
         {
-            op          = ImGuizmo::TRANSLATE;
-            mode        = bWorld ? ImGuizmo::WORLD : ImGuizmo::LOCAL;
-            snap        = LTools->GetSettings(etfMSnap) ? &Tools->m_MoveSnap : NULL;
+            Snap = LTools->GetSettings(etfMSnap) ? &Tools->m_MoveSnap : NULL;
 
-            Fmatrix mat = lst.front()->FTransformRP, delta = Fidentity;
+            const bool IsManipulated = ImGuizmo::Manipulate((float*)&Device->mView, (float*)&Device->mProject, ImGuizmo::TRANSLATE, ImGuizmo::WORLD, (float*)&ObjectMatrix, (float*)&DeltaMatrix, Snap);
 
-            bool m = ImGuizmo::Manipulate((float*)&Device->mView, (float*)&Device->mProject, op, mode, (float*)&mat, (float*)&delta, snap);
-
-            if (m)
+            if (IsManipulated)
             {
-                if (bWorld)
-                {
-                    for (ObjectIt it = lst.begin(); it != lst.end(); it++)
-                        (*it)->Move(delta.c);
-                }
-                else
-                {
-                    Fmatrix rot_inv      = Fmatrix().invert(lst.front()->FTransformR);
-                    Fmatrix local_offset = Fmatrix().mul(rot_inv, delta);
-
-                    for (ObjectIt it = lst.begin(); it != lst.end(); it++)
-                    {
-                        Fmatrix offset;
-                        offset.mul((*it)->FTransformR, local_offset);
-
-                        (*it)->Move(offset.c);
-                    }
-                }
+              for (ObjectIt it = lst.begin(); it != lst.end(); it++)
+                  (*it)->Move(DeltaMatrix.c);
             }
         }
         break;
         case etaRotate:
         {
-            op          = ImGuizmo::ROTATE;
-            mode        = bWorld ? ImGuizmo::WORLD : ImGuizmo::LOCAL;
+            float   Angle = rad2deg(Tools->m_RotateSnapAngle);
+            Fvector OriginalRotation;
 
-            float ang   = rad2deg(Tools->m_RotateSnapAngle);
-            snap        = LTools->GetSettings(etfASnap) ? &ang : NULL;
+            ObjectMatrix.getXYZ(OriginalRotation);
+            Snap = LTools->GetSettings(etfASnap) ? &Angle : NULL;
 
-            // if (lst.size() > 1)
-            // {
-            //     return;
-            // }
+            const bool IsManipulated = ImGuizmo::Manipulate((float*)&Device->mView, (float*)&Device->mProject, ImGuizmo::ROTATE, ImGuizmo::WORLD, (float*)&ObjectMatrix, (float*)&DeltaMatrix, Snap);
 
-            Fmatrix mat = lst.front()->FTransformRP, diff = Fidentity;
-
-            Fvector original_rot;
-            mat.getXYZ(original_rot);
-
-            bool m = ImGuizmo::Manipulate((float*)&Device->mView, (float*)&Device->mProject, op, mode, (float*)&mat, (float*)&diff, snap);
-
-            if (m)
+            if (IsManipulated)
             {
-                if (bWorld)
+                Fvector DeltaXYZ;
+                 
+                DeltaMatrix.getXYZ(DeltaXYZ);
+
+                for (ObjectIt it = lst.begin(); it != lst.end(); it++)
                 {
-                    for (ObjectIt it = lst.begin(); it != lst.end(); it++)
-                    {
-                        Fmatrix t;
-                        t.mul(diff, (*it)->FTransformR);
+                  void (CCustomObject::*Handler) (Fvector&, float);
 
-                        Fvector rot;
-                        t.getXYZ(rot);
+                  if (IsCSParent)
+                    Handler = &CCustomObject::RotateParent;
+                  else
+                    Handler = &CCustomObject::RotateLocal;
 
-                        (*it)->SetRotation(rot);
-                    }
+                  (*it->*Handler)(Fvector().set(0, 0, 1), -DeltaXYZ.z);
+                  (*it->*Handler)(Fvector().set(1, 0, 0), -DeltaXYZ.x);
+                  (*it->*Handler)(Fvector().set(0, 1, 0), -DeltaXYZ.y);
                 }
-                else
-                {
-                    Fvector rot;
-                    mat.getXYZ(rot);
 
-                    Fvector rot_diff;
-                    rot_diff.set(rot).sub(original_rot);
-
-                    // ELog.Msg(mtInformation, "# %f %f %f", rot_diff.x, rot_diff.y, rot_diff.z);
-
-                    for (ObjectIt it = lst.begin(); it != lst.end(); it++)
-                    {
-                        (*it)->RotateParent(Fvector().set(1, 0, 0), rot_diff.x);
-                        (*it)->RotateParent(Fvector().set(0, 1, 0), rot_diff.y);
-                        (*it)->RotateParent(Fvector().set(0, 0, 1), rot_diff.z);
-                    }
-                }
+                UI->UpdateScene();
             }
         }
         break;
         case etaScale:
         {
-            op          = ImGuizmo::SCALE;
-            mode        = ImGuizmo::LOCAL;
-
-            // if (lst.size() > 1)
-            // {
-            //     return;
-            // }
-
-            Fmatrix mat = lst.front()->FTransform;
-
             Fvector original_scale;
-            original_scale.x = mat.i.magnitude();
-            original_scale.y = mat.j.magnitude();
-            original_scale.z = mat.k.magnitude();
+            original_scale.x = ObjectMatrix.i.magnitude();
+            original_scale.y = ObjectMatrix.j.magnitude();
+            original_scale.z = ObjectMatrix.k.magnitude();
 
-            bool m = ImGuizmo::Manipulate((float*)&Device->mView, (float*)&Device->mProject, op, mode, (float*)&mat);
+            const bool IsManipulated = ImGuizmo::Manipulate((float*)&Device->mView, (float*)&Device->mProject, ImGuizmo::SCALE, ImGuizmo::WORLD, (float*)&ObjectMatrix);
 
-            if (m)
+            if (IsManipulated)
             {
                 Fvector scale;
-                scale.x = mat.i.magnitude() - original_scale.x;
-                scale.y = mat.j.magnitude() - original_scale.y;
-                scale.z = mat.k.magnitude() - original_scale.z;
+                scale.x = ObjectMatrix.i.magnitude() - original_scale.x;
+                scale.y = ObjectMatrix.j.magnitude() - original_scale.y;
+                scale.z = ObjectMatrix.k.magnitude() - original_scale.z;
 
                 for (ObjectIt it = lst.begin(); it != lst.end(); it++)
                     (*it)->Scale(scale);
