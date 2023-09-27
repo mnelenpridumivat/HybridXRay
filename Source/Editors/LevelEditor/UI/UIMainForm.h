@@ -69,6 +69,7 @@ private:
     ref_texture m_tShowPivot;
     ref_texture m_tCsLocal;
     ref_texture m_tNuScale;
+    ref_texture m_tEdgedFaces;
 
     // Axis
     ref_texture m_tShowAxisMove;

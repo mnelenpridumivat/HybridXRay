@@ -70,6 +70,7 @@ UIMainForm::UIMainForm()
     m_tShowPivot    = EDevice->Resources->_CreateTexture("ed\\bar\\pivot");
     m_tCsLocal      = EDevice->Resources->_CreateTexture("ed\\bar\\cslocal");
     m_tNuScale      = EDevice->Resources->_CreateTexture("ed\\bar\\nuscale");
+    m_tEdgedFaces   = EDevice->Resources->_CreateTexture("ed\\bar\\EdgedFaces");
 
     // View
     m_tVFront       = EDevice->Resources->_CreateTexture("ed\\bar\\ViewFront");
@@ -132,6 +133,7 @@ UIMainForm::~UIMainForm()
     m_tShowPivot.destroy();
     m_tCsLocal.destroy();
     m_tNuScale.destroy();
+    m_tEdgedFaces.destroy();
 
     // View
     m_tVFront.destroy();
@@ -1173,6 +1175,38 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
         {
             ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::SetTooltip("Scaling by Axes only"_RU >> u8"Маштабирование только по Осям");
+        }
+        ImGui::Spacing();
+        // --------------------------------------------------------------------------------------------
+        // Edged Faces | Краевые грани
+        {
+            bool selected = psDeviceFlags.test(rsEdgedFaces);
+            bool bPushColor = false;
+            if (selected)
+            {
+                bPushColor = true;
+                ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_Border));
+                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImGui::GetStyleColorVec4(ImGuiCol_Border));
+            }
+            m_tEdgedFaces->Load();
+            if (ImGui::ImageButton(m_tEdgedFaces->surface_get(), ImVec2(16, ImGui::GetFontSize())))
+            {
+                if (selected)
+                    psDeviceFlags.set(rsEdgedFaces, selected = false);
+                else
+                    psDeviceFlags.set(rsEdgedFaces, selected = true);
+                UI->RedrawScene();
+            }
+            if (bPushColor)
+            {
+                ImGui::PopStyleColor();
+                ImGui::PopStyleColor();
+            }
+        }
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SetTooltip("Edged Faces"_RU >> u8"Показать Рёбра");
         }
         ImGui::EndGroup();
     }
