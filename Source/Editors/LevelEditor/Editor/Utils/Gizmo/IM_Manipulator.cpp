@@ -27,7 +27,7 @@ void IM_Manipulator::Render(float canvasX, float canvasY, float canvasWidth, flo
         return;
 
     const bool           IsCSParent   = Tools->GetSettings(etfCSParent);
-    Fmatrix              ObjectMatrix = lst.front()->FTransformRP;
+    Fmatrix              ObjectMatrix = lst.front()->FTransform;
     Fmatrix              DeltaMatrix  = Fidentity;
     float*               Snap         = NULL;
 
@@ -82,22 +82,22 @@ void IM_Manipulator::Render(float canvasX, float canvasY, float canvasWidth, flo
         break;
         case etaScale:
         {
-            Fvector original_scale;
-            original_scale.x = ObjectMatrix.i.magnitude();
-            original_scale.y = ObjectMatrix.j.magnitude();
-            original_scale.z = ObjectMatrix.k.magnitude();
-
-            const bool IsManipulated = ImGuizmo::Manipulate((float*)&Device->mView, (float*)&Device->mProject, ImGuizmo::SCALE, ImGuizmo::WORLD, (float*)&ObjectMatrix);
+            const bool IsManipulated = ImGuizmo::Manipulate((float*)&Device->mView, (float*)&Device->mProject, ImGuizmo::SCALE, ImGuizmo::LOCAL, (float*)&ObjectMatrix, (float*)&DeltaMatrix);
 
             if (IsManipulated)
             {
-                Fvector scale;
-                scale.x = ObjectMatrix.i.magnitude() - original_scale.x;
-                scale.y = ObjectMatrix.j.magnitude() - original_scale.y;
-                scale.z = ObjectMatrix.k.magnitude() - original_scale.z;
+                Fvector Scale;
+                Scale.x = DeltaMatrix.i.magnitude();
+                Scale.y = DeltaMatrix.j.magnitude();
+                Scale.z = DeltaMatrix.k.magnitude();
 
                 for (ObjectIt it = lst.begin(); it != lst.end(); it++)
-                    (*it)->Scale(scale);
+                {
+                  Scale.mul((*it)->GetScale());
+                  (*it)->SetScale(Scale);
+                }
+                    
+                UI->UpdateScene();
             }
         }
         break;
