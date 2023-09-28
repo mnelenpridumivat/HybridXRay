@@ -501,16 +501,16 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
             {
                 LTools->SetAction(etaSelect);
             }
+            if (ImGui::IsItemHovered())
+            {
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                ImGui::SetTooltip("Select"_RU >> u8"Выбрать");
+            }
             if (bPushColor)
             {
                 ImGui::PopStyleColor();
                 ImGui::PopStyleColor();
             }
-        }
-        if (ImGui::IsItemHovered())
-        {
-            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-            ImGui::SetTooltip("Select"_RU >> u8"Выбрать");
         }
         ImGui::SameLine();
         // --------------------------------------------------------------------------------------------
@@ -530,16 +530,16 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
             {
                 LTools->SetAction(etaAdd);
             }
+            if (ImGui::IsItemHovered())
+            {
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                ImGui::SetTooltip("Add"_RU >> u8"Установить в сцене");
+            }
             if (bPushColor)
             {
                 ImGui::PopStyleColor();
                 ImGui::PopStyleColor();
             }
-        }
-        if (ImGui::IsItemHovered())
-        {
-            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-            ImGui::SetTooltip("Add"_RU >> u8"Установить в сцене");
         }
         ImGui::SameLine();
         // --------------------------------------------------------------------------------------------
@@ -564,17 +564,16 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
             {
                 LTools->SetAction(etaMove);
             }
-
+            if (ImGui::IsItemHovered())
+            {
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                ImGui::SetTooltip("Move"_RU >> u8"Двигать");
+            }
             if (bPushColor)
             {
                 ImGui::PopStyleColor();
                 ImGui::PopStyleColor();
             }
-        }
-        if (ImGui::IsItemHovered())
-        {
-            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-            ImGui::SetTooltip("Move"_RU >> u8"Двигать");
         }
         ImGui::SameLine();
         // --------------------------------------------------------------------------------------------
@@ -594,16 +593,16 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
             {
                 LTools->SetAction(etaScale);
             }
+            if (ImGui::IsItemHovered())
+            {
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                ImGui::SetTooltip("Scale"_RU >> u8"Масштабирование");
+            }
             if (bPushColor)
             {
                 ImGui::PopStyleColor();
                 ImGui::PopStyleColor();
             }
-        }
-        if (ImGui::IsItemHovered())
-        {
-            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-            ImGui::SetTooltip("Scale"_RU >> u8"Масштабирование");
         }
         ImGui::SameLine();
         // --------------------------------------------------------------------------------------------
@@ -623,16 +622,16 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
             {
                 LTools->SetAction(etaRotate);
             }
+            if (ImGui::IsItemHovered())
+            {
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                ImGui::SetTooltip("Rotate"_RU >> u8"Вращать");
+            }
             if (bPushColor)
             {
                 ImGui::PopStyleColor();
                 ImGui::PopStyleColor();
             }
-        }
-        if (ImGui::IsItemHovered())
-        {
-            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-            ImGui::SetTooltip("Rotate"_RU >> u8"Вращать");
         }
         ImGui::EndGroup();
     }
@@ -1163,7 +1162,7 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
     // --------------------------------------------------------------------------------------------*/
     ImGui::NewLine();
     // --------------------------------------------------------------------------------------------
-    // Pivot ...
+    // Pivot и прочее...
     {
         ImGui::BeginGroup();
         // --------------------------------------------------------------------------------------------
@@ -1184,16 +1183,16 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
                 else
                     EPrefs->object_flags.set(epoDrawPivot, false);
             }
+            if (ImGui::IsItemHovered())
+            {
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                ImGui::SetTooltip("Show Pivot of selected object"_RU >> u8"Показать Pivot выбранного объекта");
+            }
             if (bPushColor)
             {
                 ImGui::PopStyleColor();
                 ImGui::PopStyleColor();
             }
-        }
-        if (ImGui::IsItemHovered())
-        {
-            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-            ImGui::SetTooltip("Show Pivot of selected object"_RU >> u8"Показать Pivot выбранного объекта");
         }
         ImGui::Spacing();
         // --------------------------------------------------------------------------------------------
@@ -1211,16 +1210,16 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
             {
                 ExecCommand(COMMAND_SET_SETTINGS, etfCSParent, !Tools->GetSettings(etfCSParent));
             }
+            if (ImGui::IsItemHovered())
+            {
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                ImGui::SetTooltip("Parent CS Toggle"_RU >> u8"Parent CS Toggle");
+            }
             if (bPushColor)
             {
                 ImGui::PopStyleColor();
                 ImGui::PopStyleColor();
             }
-        }
-        if (ImGui::IsItemHovered())
-        {
-            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-            ImGui::SetTooltip("Parent CS Toggle"_RU >> u8"Parent CS Toggle");
         }
         ImGui::Spacing();
         // --------------------------------------------------------------------------------------------
@@ -1238,16 +1237,16 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
             {
                 ExecCommand(COMMAND_SET_SETTINGS, etfNUScale, !Tools->GetSettings(etfNUScale));
             }
+            if (ImGui::IsItemHovered())
+            {
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                ImGui::SetTooltip("Scaling by Axes only"_RU >> u8"Маштабирование только по Осям");
+            }
             if (bPushColor)
             {
                 ImGui::PopStyleColor();
                 ImGui::PopStyleColor();
             }
-        }
-        if (ImGui::IsItemHovered())
-        {
-            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-            ImGui::SetTooltip("Scaling by Axes only"_RU >> u8"Маштабирование только по Осям");
         }
         ImGui::Spacing();
         // --------------------------------------------------------------------------------------------
@@ -1270,16 +1269,16 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
                     psDeviceFlags.set(rsEdgedFaces, selected = true);
                 UI->RedrawScene();
             }
+            if (ImGui::IsItemHovered())
+            {
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                ImGui::SetTooltip("Edged Faces"_RU >> u8"Показать Рёбра");
+            }
             if (bPushColor)
             {
                 ImGui::PopStyleColor();
                 ImGui::PopStyleColor();
             }
-        }
-        if (ImGui::IsItemHovered())
-        {
-            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-            ImGui::SetTooltip("Edged Faces"_RU >> u8"Показать Рёбра");
         }
         ImGui::EndGroup();
     }
@@ -1312,16 +1311,16 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
                     LTools->SetAction(etaMove);
                 }
             }
+            if (ImGui::IsItemHovered())
+            {
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                ImGui::SetTooltip("Show Move Axis"_RU >> u8"Показать Ось Перемещения");
+            }
             if (bPushColor)
             {
                 ImGui::PopStyleColor();
                 ImGui::PopStyleColor();
             }
-        }
-        if (ImGui::IsItemHovered())
-        {
-            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-            ImGui::SetTooltip("Show Move Axis"_RU >> u8"Показать Ось Перемещения");
         }
         ImGui::Spacing();
         // --------------------------------------------------------------------------------------------
@@ -1341,16 +1340,16 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
             {
                 ExecCommand(COMMAND_CHANGE_AXIS, etAxisX, !LTools->GetSettings(etAxisX));
             }
+            if (ImGui::IsItemHovered())
+            {
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                ImGui::SetTooltip("Select X Axis"_RU >> u8"Выбрать Ось X");
+            }
             if (bPushColor)
             {
                 ImGui::PopStyleColor();
                 ImGui::PopStyleColor();
             }
-        }
-        if (ImGui::IsItemHovered())
-        {
-            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-            ImGui::SetTooltip("Select X Axis"_RU >> u8"Выбрать Ось X");
         }
         ImGui::Spacing();
         // --------------------------------------------------------------------------------------------
@@ -1368,16 +1367,16 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
             {
                 ExecCommand(COMMAND_CHANGE_AXIS, etAxisY, !LTools->GetSettings(etAxisY));
             }
+            if (ImGui::IsItemHovered())
+            {
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                ImGui::SetTooltip("Select Y Axis"_RU >> u8"Выбрать Ось Y");
+            }
             if (bPushColor)
             {
                 ImGui::PopStyleColor();
                 ImGui::PopStyleColor();
             }
-        }
-        if (ImGui::IsItemHovered())
-        {
-            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-            ImGui::SetTooltip("Select Y Axis"_RU >> u8"Выбрать Ось Y");
         }
         ImGui::Spacing();
         // --------------------------------------------------------------------------------------------
@@ -1395,16 +1394,16 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
             {
                 ExecCommand(COMMAND_CHANGE_AXIS, etAxisZ, !LTools->GetSettings(etAxisZ));
             }
+            if (ImGui::IsItemHovered())
+            {
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                ImGui::SetTooltip("Select Z Axis"_RU >> u8"Выбрать Ось Z");
+            }
             if (bPushColor)
             {
                 ImGui::PopStyleColor();
                 ImGui::PopStyleColor();
             }
-        }
-        if (ImGui::IsItemHovered())
-        {
-            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-            ImGui::SetTooltip("Select Z Axis"_RU >> u8"Выбрать Ось Z");
         }
         ImGui::Spacing();
         // --------------------------------------------------------------------------------------------
@@ -1422,16 +1421,16 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
             {
                 ExecCommand(COMMAND_CHANGE_AXIS, etAxisZX, !LTools->GetSettings(etAxisZX));
             }
+            if (ImGui::IsItemHovered())
+            {
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                ImGui::SetTooltip("Select ZX Axis"_RU >> u8"Выбрать Ось ZX");
+            }
             if (bPushColor)
             {
                 ImGui::PopStyleColor();
                 ImGui::PopStyleColor();
             }
-        }
-        if (ImGui::IsItemHovered())
-        {
-            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-            ImGui::SetTooltip("Select ZX Axis"_RU >> u8"Выбрать Ось ZX");
         }
         ImGui::EndGroup();
     }
@@ -1591,16 +1590,16 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
                 EDevice->m_Camera.SetStyle(csPlaneMove);
                 UI->RedrawScene();
             }
+            if (ImGui::IsItemHovered())
+            {
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                ImGui::SetTooltip("Free camera mode"_RU >> u8"Свободный режим камеры");
+            }
             if (bPushColor)
             {
                 ImGui::PopStyleColor();
                 ImGui::PopStyleColor();
             }
-        }
-        if (ImGui::IsItemHovered())
-        {
-            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-            ImGui::SetTooltip("Free camera mode"_RU >> u8"Свободный режим камеры");
         }
         ImGui::Spacing();
         // --------------------------------------------------------------------------------------------
@@ -1619,16 +1618,16 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
                 EDevice->m_Camera.SetStyle(cs3DArcBall);
                 UI->RedrawScene();
             }
+            if (ImGui::IsItemHovered())
+            {
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                ImGui::SetTooltip("Snap the camera to the center of coordinates|scene"_RU >> u8"Привязка камеры к центру координат|сцены");
+            }
             if (bPushColor)
             {
                 ImGui::PopStyleColor();
                 ImGui::PopStyleColor();
             }
-        }
-        if (ImGui::IsItemHovered())
-        {
-            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-            ImGui::SetTooltip("Snap the camera to the center of coordinates|scene"_RU >> u8"Привязка камеры к центру координат|сцены");
         }
         ImGui::Spacing();
         // --------------------------------------------------------------------------------------------
@@ -1647,16 +1646,16 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
                 EDevice->m_Camera.SetStyle(csFreeFly);
                 UI->RedrawScene();
             }
+            if (ImGui::IsItemHovered())
+            {
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                ImGui::SetTooltip("Automatic camera flyover of the scene"_RU >> u8"Автооблёт сцены камерой");
+            }
             if (bPushColor)
             {
                 ImGui::PopStyleColor();
                 ImGui::PopStyleColor();
             }
-        }
-        if (ImGui::IsItemHovered())
-        {
-            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-            ImGui::SetTooltip("Automatic camera flyover of the scene"_RU >> u8"Автооблёт сцены камерой");
         }
         ImGui::EndGroup();
     }
