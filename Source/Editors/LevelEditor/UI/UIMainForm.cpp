@@ -85,6 +85,11 @@ UIMainForm::UIMainForm()
     m_tPlaneMove    = EDevice->Resources->_CreateTexture("ed\\bar\\PlaneMove");
     m_tArcBall      = EDevice->Resources->_CreateTexture("ed\\bar\\ArcBall");
     m_tFreeFly      = EDevice->Resources->_CreateTexture("ed\\bar\\FreeFly");
+
+    snap_angle = deg2rad(5.f);
+    Tools->m_RotateSnapAngle = snap_angle;
+    snap_move = 0.1f;
+    Tools->m_MoveSnap = snap_move;
 }
 
 UIMainForm::~UIMainForm()
@@ -633,7 +638,7 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
     }
     ImGui::SameLine(0, ImGui::GetFontSize() * 1.5);
     // --------------------------------------------------------------------------------------------
-    // Привязка и фокус
+    // Привязки
     {
         ImGui::BeginGroup();
         // --------------------------------------------------------------------------------------------
@@ -651,16 +656,16 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
             {
                 ExecCommand(COMMAND_SET_SETTINGS, etfOSnap, !Tools->GetSettings(etfOSnap));
             }
+            if (ImGui::IsItemHovered())
+            {
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                ImGui::SetTooltip("Object Snap Toggle"_RU >> u8"Привязка к объектам");
+            }
             if (bPushColor)
             {
                 ImGui::PopStyleColor();
                 ImGui::PopStyleColor();
             }
-        }
-        if (ImGui::IsItemHovered())
-        {
-            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-            ImGui::SetTooltip("Object Snap Toggle"_RU >> u8"Привязка к объектам");
         }
         ImGui::SameLine();
         // --------------------------------------------------------------------------------------------
@@ -678,16 +683,16 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
             {
                 ExecCommand(COMMAND_SET_SETTINGS, etfMTSnap, !Tools->GetSettings(etfMTSnap));
             }
+            if (ImGui::IsItemHovered())
+            {
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                ImGui::SetTooltip("Moving Snap To Object Toggle"_RU >> u8"Переключатель перемещения привязки к объекту");
+            }
             if (bPushColor)
             {
                 ImGui::PopStyleColor();
                 ImGui::PopStyleColor();
             }
-        }
-        if (ImGui::IsItemHovered())
-        {
-            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-            ImGui::SetTooltip("Moving Snap To Object Toggle"_RU >> u8"Переключатель перемещения привязки к объекту");
         }
         ImGui::SameLine();
         // --------------------------------------------------------------------------------------------
@@ -705,22 +710,81 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
             {
                 ExecCommand(COMMAND_SET_SETTINGS, etfNormalAlign, !Tools->GetSettings(etfNormalAlign));
             }
+            if (ImGui::IsItemHovered())
+            {
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                ImGui::SetTooltip("Normal Alignment"_RU >> u8"Привязка к Нормалям");
+            }
             if (bPushColor)
             {
                 ImGui::PopStyleColor();
                 ImGui::PopStyleColor();
             }
         }
-        if (ImGui::IsItemHovered())
-        {
-            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-            ImGui::SetTooltip("Normal Alignment"_RU >> u8"Привязка к Нормалям");
-        }
-        ImGui::SameLine(0, ImGui::GetFontSize() * 1);
+        ImGui::SameLine();
         // --------------------------------------------------------------------------------------------
-        // Фокусировка
+        // Привязка к сетке
         {
-            // Оптимальный вид - вся сцена
+            bool bPushColor = false;
+            if (Tools->GetSettings(etfGSnap))
+            {
+                bPushColor = true;
+                ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_Border));
+                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImGui::GetStyleColorVec4(ImGuiCol_Border));
+            }
+            m_tGSnap->Load();
+            if (ImGui::ImageButton(m_tGSnap->surface_get(), ImVec2(16, ImGui::GetFontSize()), ImVec2(0, 0), ImVec2(0.5f, 1.f)))
+            {
+                ExecCommand(COMMAND_SET_SETTINGS, etfGSnap, !Tools->GetSettings(etfGSnap));
+            }
+            if (ImGui::IsItemHovered())
+            {
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                ImGui::SetTooltip("Grid Snap Toggle"_RU >> u8"Привязка к сетке");
+            }
+            if (bPushColor)
+            {
+                ImGui::PopStyleColor();
+                ImGui::PopStyleColor();
+            }
+        }
+        ImGui::SameLine();
+        // --------------------------------------------------------------------------------------------
+        // Привязка к вершинам
+        {
+            bool bPushColor = false;
+            if (Tools->GetSettings(etfVSnap))
+            {
+                bPushColor = true;
+                ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_Border));
+                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImGui::GetStyleColorVec4(ImGuiCol_Border));
+            }
+            m_tVSnap->Load();
+            if (ImGui::ImageButton(m_tVSnap->surface_get(), ImVec2(16, ImGui::GetFontSize()), ImVec2(0, 0), ImVec2(0.5f, 1.f)))
+            {
+                ExecCommand(COMMAND_SET_SETTINGS, etfVSnap, !Tools->GetSettings(etfVSnap));
+            }
+            if (ImGui::IsItemHovered())
+            {
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                ImGui::SetTooltip("Vertex Snap Toggle"_RU >> u8"Привязка к вершинам");
+            }
+            if (bPushColor)
+            {
+                ImGui::PopStyleColor();
+                ImGui::PopStyleColor();
+            }
+        }
+        ImGui::EndGroup();
+    }
+    // --------------------------------------------------------------------------------------------
+    ImGui::SameLine(0, ImGui::GetFontSize() * 1);
+    // --------------------------------------------------------------------------------------------
+    // Фокусировка
+    {
+        ImGui::BeginGroup();
+        // Оптимальный вид - вся сцена
+        {
             m_tZoom->Load();
             if (ImGui::ImageButton(m_tZoom->surface_get(), ImVec2(16, ImGui::GetFontSize()), ImVec2(0, 0), ImVec2(0.5f, 1.f)))
             {
@@ -731,9 +795,11 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
                 ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 ImGui::SetTooltip("Focus the whole scene"_RU >> u8"Оптимальный вид - вся сцена");
             }
-            ImGui::SameLine();
-            // --------------------------------------------------------------------------------------------
-            // Сфокусироваться на выбранном объекте
+        }
+        ImGui::SameLine();
+        // --------------------------------------------------------------------------------------------
+        // Сфокусироваться на выбранном объекте
+        {
             m_tZoomSel->Load();
             if (ImGui::ImageButton(m_tZoomSel->surface_get(), ImVec2(16, ImGui::GetFontSize()), ImVec2(0, 0), ImVec2(0.5f, 1.f)))
             {
@@ -745,93 +811,18 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
                 ImGui::SetTooltip("Focus on the selected object"_RU >> u8"Сфокусироваться на выбранном объекте");
             }
         }
-        ImGui::SameLine(0, ImGui::GetFontSize() * 1);
+        ImGui::EndGroup();
+    }
+    // --------------------------------------------------------------------------------------------
+    ImGui::SameLine(0, ImGui::GetFontSize() * 1);
+    // --------------------------------------------------------------------------------------------
+    // Фиксации манипуляторов
+    {
+        string_path Temp;
+        ImGui::BeginGroup();
         // --------------------------------------------------------------------------------------------
-        // Привязка|Snap
+        // Move
         {
-            ImGui::BeginGroup();
-            // Привязка к сетке
-            {
-                bool bPushColor = false;
-                if (Tools->GetSettings(etfGSnap))
-                {
-                    bPushColor = true;
-                    ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_Border));
-                    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImGui::GetStyleColorVec4(ImGuiCol_Border));
-                }
-                m_tGSnap->Load();
-                if (ImGui::ImageButton(m_tGSnap->surface_get(), ImVec2(16, ImGui::GetFontSize()), ImVec2(0, 0), ImVec2(0.5f, 1.f)))
-                {
-                    ExecCommand(COMMAND_SET_SETTINGS, etfGSnap, !Tools->GetSettings(etfGSnap));
-                }
-                if (bPushColor)
-                {
-                    ImGui::PopStyleColor();
-                    ImGui::PopStyleColor();
-                }
-            }
-            if (ImGui::IsItemHovered())
-            {
-                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-                ImGui::SetTooltip("Grid Snap Toggle"_RU >> u8"Привязка к сетке");
-            }
-            ImGui::SameLine();
-            // --------------------------------------------------------------------------------------------
-            // Привязка к вершинам
-            {
-                bool bPushColor = false;
-                if (Tools->GetSettings(etfVSnap))
-                {
-                    bPushColor = true;
-                    ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_Border));
-                    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImGui::GetStyleColorVec4(ImGuiCol_Border));
-                }
-                m_tVSnap->Load();
-                if (ImGui::ImageButton(m_tVSnap->surface_get(), ImVec2(16, ImGui::GetFontSize()), ImVec2(0, 0), ImVec2(0.5f, 1.f)))
-                {
-                    ExecCommand(COMMAND_SET_SETTINGS, etfVSnap, !Tools->GetSettings(etfVSnap));
-                }
-                if (bPushColor)
-                {
-                    ImGui::PopStyleColor();
-                    ImGui::PopStyleColor();
-                }
-            }
-            if (ImGui::IsItemHovered())
-            {
-                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-                ImGui::SetTooltip("Vertex Snap Toggle"_RU >> u8"Привязка к вершинам");
-            }
-            ImGui::SameLine();
-            // --------------------------------------------------------------------------------------------
-            // Привязка к углу
-            {
-                bool bPushColor = false;
-                if (Tools->GetSettings(etfASnap))
-                {
-                    bPushColor = true;
-                    ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_Border));
-                    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImGui::GetStyleColorVec4(ImGuiCol_Border));
-                }
-                m_tASnap->Load();
-                if (ImGui::ImageButton(m_tASnap->surface_get(), ImVec2(16, ImGui::GetFontSize()), ImVec2(0, 0), ImVec2(0.5f, 1.f)))
-                {
-                    ExecCommand(COMMAND_SET_SETTINGS, etfASnap, !Tools->GetSettings(etfASnap));
-                }
-                if (bPushColor)
-                {
-                    ImGui::PopStyleColor();
-                    ImGui::PopStyleColor();
-                }
-            }
-            if (ImGui::IsItemHovered())
-            {
-                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-                ImGui::SetTooltip("Angle Snap Toggle"_RU >> u8"Привязка к углу");
-            }
-            ImGui::SameLine();
-            // --------------------------------------------------------------------------------------------
-            // Привязка к перемещению
             {
                 bool bPushColor = false;
                 if (Tools->GetSettings(etfMSnap))
@@ -840,10 +831,15 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
                     ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_Border));
                     ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImGui::GetStyleColorVec4(ImGuiCol_Border));
                 }
-                m_tMSnap->Load();
-                if (ImGui::ImageButton(m_tMSnap->surface_get(), ImVec2(16, ImGui::GetFontSize()), ImVec2(0, 0), ImVec2(0.5f, 1.f)))
+                m_tGrid->Load();
+                if (ImGui::ImageButton(m_tGrid->surface_get(), ImVec2(16, ImGui::GetFontSize())))
                 {
                     ExecCommand(COMMAND_SET_SETTINGS, etfMSnap, !Tools->GetSettings(etfMSnap));
+                }
+                if (ImGui::IsItemHovered())
+                {
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                    ImGui::SetTooltip("Fixed object movement"_RU >> u8"Фиксированное перемещение объекта");
                 }
                 if (bPushColor)
                 {
@@ -851,239 +847,316 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
                     ImGui::PopStyleColor();
                 }
             }
+            ImGui::SameLine();
+            ImGui::SetNextItemWidth(ImGui::GetFontSize() * 4);
+            xr_sprintf(Temp, "%.2f", Tools->m_MoveSnap);
+            if (ImGui::BeginCombo("##move", Temp, ImGuiComboFlags_None))
+            {
+                if (ImGui::Selectable("0.01", false))
+                {
+                    Tools->m_MoveSnap = 0.01f;
+                }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                if (ImGui::Selectable("0.05", false))
+                {
+                    Tools->m_MoveSnap = 0.05f;
+                }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                if (ImGui::Selectable("0.1", false))
+                {
+                    Tools->m_MoveSnap = 0.1f;
+                }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                if (ImGui::Selectable("0.5", false))
+                {
+                    Tools->m_MoveSnap = 0.5f;
+                }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                if (ImGui::Selectable("1", false))
+                {
+                    Tools->m_MoveSnap = 1.f;
+                }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                if (ImGui::Selectable("2", false))
+                {
+                    Tools->m_MoveSnap = 2.f;
+                }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                if (ImGui::Selectable("5", false))
+                {
+                    Tools->m_MoveSnap = 5.f;
+                }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                if (ImGui::Selectable("10", false))
+                {
+                    Tools->m_MoveSnap = 10.f;
+                }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                if (ImGui::Selectable("25", false))
+                {
+                    Tools->m_MoveSnap = 25.f;
+                }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                if (ImGui::Selectable("50", false))
+                {
+                    Tools->m_MoveSnap = 50.f;
+                }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                if (ImGui::Selectable("100", false))
+                {
+                    Tools->m_MoveSnap = 100.f;
+                }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                if (ImGui::Selectable("250", false))
+                {
+                    Tools->m_MoveSnap = 250.f;
+                }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                if (ImGui::Selectable("500", false))
+                {
+                    Tools->m_MoveSnap = 500.f;
+                }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                if (ImGui::Selectable("1000", false))
+                {
+                    Tools->m_MoveSnap = 1000.f;
+                }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                ImGui::EndCombo();
+            }
             if (ImGui::IsItemHovered())
             {
                 ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-                ImGui::SetTooltip("Moving Snap Toggle"_RU >> u8"Привязка к перемещению");
+                ImGui::SetTooltip("The choice of a fixed distance of movement of the object"_RU >> u8"Выбор фиксированного растояния перемещения объекта");
             }
-            ImGui::EndGroup();
-        }
-        ImGui::EndGroup();
-    }
-    /*/ --------------------------------------------------------------------------------------------
-    {
-        string_path Temp;
-        ImGui::SameLine(0, ImGui::GetFontSize() * 2);
-        ImGui::BeginGroup();
-
-        {
-            bool bPushColor = false;
-
-            if (LTools->GetGimzo()->IsStepEnable(Gizmo::EType::Move))
-            {
-                bPushColor = true;
-                ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_Border));
-                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImGui::GetStyleColorVec4(ImGuiCol_Border));
-            }
-            m_tGrid->Load();
-            if (ImGui::ImageButton(m_tGrid->surface_get(), ImVec2(16, ImGui::GetFontSize())))
-            {
-                LTools->GetGimzo()->SwitchStep(Gizmo::EType::Move, !LTools->GetGimzo()->IsStepEnable(Gizmo::EType::Move));
-            }
-            if (ImGui::IsItemHovered())
-            {
-                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-                ImGui::SetTooltip("Fixed object movement"_RU >> u8"Фиксированное перемещение объекта");
-            }
-            if (bPushColor)
-            {
-                ImGui::PopStyleColor();
-                ImGui::PopStyleColor();
-            }
-        }
-        ImGui::SameLine();
-        ImGui::SetNextItemWidth(ImGui::GetFontSize() * 4);
-        xr_sprintf(Temp, "%.2f", LTools->GetGimzo()->GetStep(Gizmo::EType::Move));
-        if (ImGui::BeginCombo("##move", Temp, ImGuiComboFlags_None))
-        {
-            if (ImGui::Selectable("0.01", false))
-            {
-                LTools->GetGimzo()->SetStep(Gizmo::EType::Move, 0.01f);
-            }
-            if (ImGui::Selectable("0.05", false))
-            {
-                LTools->GetGimzo()->SetStep(Gizmo::EType::Move, 0.05f);
-            }
-            if (ImGui::Selectable("0.1", false))
-            {
-                LTools->GetGimzo()->SetStep(Gizmo::EType::Move, 0.1f);
-            }
-            if (ImGui::Selectable("1", false))
-            {
-                LTools->GetGimzo()->SetStep(Gizmo::EType::Move, 1.f);
-            }
-            if (ImGui::Selectable("2", false))
-            {
-                LTools->GetGimzo()->SetStep(Gizmo::EType::Move, 2.f);
-            }
-            if (ImGui::Selectable("5", false))
-            {
-                LTools->GetGimzo()->SetStep(Gizmo::EType::Move, 5.f);
-            }
-            if (ImGui::Selectable("50", false))
-            {
-                LTools->GetGimzo()->SetStep(Gizmo::EType::Move, 50.f);
-            }
-            if (ImGui::Selectable("200", false))
-            {
-                LTools->GetGimzo()->SetStep(Gizmo::EType::Move, 200.f);
-            }
-            if (ImGui::Selectable("1000", false))
-            {
-                LTools->GetGimzo()->SetStep(Gizmo::EType::Move, 1000.f);
-            }
-            ImGui::EndCombo();
-        }
-        if (ImGui::IsItemHovered())
-        {
-            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-            ImGui::SetTooltip("The choice of a fixed distance of movement of the object"_RU >> u8"Выбор фиксированного растояния перемещения объекта");
         }
         ImGui::SameLine(0, ImGui::GetFontSize());
-
+        // --------------------------------------------------------------------------------------------
+        /*/ Scale
         {
-            bool bPushColor = false;
-            if (LTools->GetGimzo()->IsStepEnable(Gizmo::EType::Scale))
             {
-                bPushColor = true;
-                ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_Border));
-                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImGui::GetStyleColorVec4(ImGuiCol_Border));
+                bool bPushColor = false;
+                if (LTools->GetGimzo()->IsStepEnable(Gizmo::EType::Scale))
+                {
+                    bPushColor = true;
+                    ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_Border));
+                    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImGui::GetStyleColorVec4(ImGuiCol_Border));
+                }
+                m_tScaleGrid->Load();
+                if (ImGui::ImageButton(m_tScaleGrid->surface_get(), ImVec2(16, ImGui::GetFontSize())))
+                {
+                    LTools->GetGimzo()->SwitchStep(Gizmo::EType::Scale, !LTools->GetGimzo()->IsStepEnable(Gizmo::EType::Scale));
+                }
+                if (ImGui::IsItemHovered())
+                {
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                    ImGui::SetTooltip("Fixed Object Scaling"_RU >> u8"Фиксированное масштабирование объкта");
+                }
+                if (bPushColor)
+                {
+                    ImGui::PopStyleColor();
+                    ImGui::PopStyleColor();
+                }
             }
-            m_tScaleGrid->Load();
-            if (ImGui::ImageButton(m_tScaleGrid->surface_get(), ImVec2(16, ImGui::GetFontSize())))
+            ImGui::SameLine();
+            ImGui::SetNextItemWidth(ImGui::GetFontSize() * 4);
+            xr_sprintf(Temp, "%.2f", LTools->GetGimzo()->GetStep(Gizmo::EType::Scale));
+            if (ImGui::BeginCombo("##scale", Temp, ImGuiComboFlags_None))
             {
-                LTools->GetGimzo()->SwitchStep(Gizmo::EType::Scale, !LTools->GetGimzo()->IsStepEnable(Gizmo::EType::Scale));
+                if (ImGui::Selectable("0.01", false))
+                {
+                    LTools->GetGimzo()->SetStep(Gizmo::EType::Scale, 0.01f);
+                }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                if (ImGui::Selectable("0.05", false))
+                {
+                    LTools->GetGimzo()->SetStep(Gizmo::EType::Scale, 0.05f);
+                }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                if (ImGui::Selectable("0.1", false))
+                {
+                    LTools->GetGimzo()->SetStep(Gizmo::EType::Scale, 0.1f);
+                }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                if (ImGui::Selectable("0.5", false))
+                {
+                    LTools->GetGimzo()->SetStep(Gizmo::EType::Scale, 0.5f);
+                }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                if (ImGui::Selectable("1", false))
+                {
+                    LTools->GetGimzo()->SetStep(Gizmo::EType::Scale, 1.f);
+                }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                if (ImGui::Selectable("2", false))
+                {
+                    LTools->GetGimzo()->SetStep(Gizmo::EType::Scale, 2.f);
+                }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                if (ImGui::Selectable("5", false))
+                {
+                    LTools->GetGimzo()->SetStep(Gizmo::EType::Scale, 5.f);
+                }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                if (ImGui::Selectable("10", false))
+                {
+                    LTools->GetGimzo()->SetStep(Gizmo::EType::Scale, 10.f);
+                }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                if (ImGui::Selectable("25", false))
+                {
+                    LTools->GetGimzo()->SetStep(Gizmo::EType::Scale, 25.f);
+                }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                if (ImGui::Selectable("50", false))
+                {
+                    LTools->GetGimzo()->SetStep(Gizmo::EType::Scale, 50.f);
+                }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                if (ImGui::Selectable("100", false))
+                {
+                    LTools->GetGimzo()->SetStep(Gizmo::EType::Scale, 100.f);
+                }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                if (ImGui::Selectable("250", false))
+                {
+                    LTools->GetGimzo()->SetStep(Gizmo::EType::Scale, 250.f);
+                }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                if (ImGui::Selectable("500", false))
+                {
+                    LTools->GetGimzo()->SetStep(Gizmo::EType::Scale, 500.f);
+                }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                if (ImGui::Selectable("1000", false))
+                {
+                    LTools->GetGimzo()->SetStep(Gizmo::EType::Scale, 1000.f);
+                }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                ImGui::EndCombo();
             }
             if (ImGui::IsItemHovered())
             {
                 ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-                ImGui::SetTooltip("Fixed Object Scaling"_RU >> u8"Фиксированное масштабирование объкта");
+                ImGui::SetTooltip("Setting a Fixed Object Scaling"_RU >> u8"Установка фиксированного масштабирования объкта");
             }
-            if (bPushColor)
-            {
-                ImGui::PopStyleColor();
-                ImGui::PopStyleColor();
-            }
-        }
-
-        ImGui::SameLine();
-        ImGui::SetNextItemWidth(ImGui::GetFontSize() * 4);
-        xr_sprintf(Temp, "%.2f", LTools->GetGimzo()->GetStep(Gizmo::EType::Scale));
-        if (ImGui::BeginCombo("##scale", Temp, ImGuiComboFlags_None))
-        {
-            if (ImGui::Selectable("0.01", false))
-            {
-                LTools->GetGimzo()->SetStep(Gizmo::EType::Scale, 0.01f);
-            }
-            if (ImGui::Selectable("0.05", false))
-            {
-                LTools->GetGimzo()->SetStep(Gizmo::EType::Scale, 0.05f);
-            }
-            if (ImGui::Selectable("0.1", false))
-            {
-                LTools->GetGimzo()->SetStep(Gizmo::EType::Scale, 0.1f);
-            }
-            if (ImGui::Selectable("1", false))
-            {
-                LTools->GetGimzo()->SetStep(Gizmo::EType::Scale, 1.f);
-            }
-            if (ImGui::Selectable("2", false))
-            {
-                LTools->GetGimzo()->SetStep(Gizmo::EType::Scale, 2.f);
-            }
-            if (ImGui::Selectable("5", false))
-            {
-                LTools->GetGimzo()->SetStep(Gizmo::EType::Scale, 5.f);
-            }
-            if (ImGui::Selectable("50", false))
-            {
-                LTools->GetGimzo()->SetStep(Gizmo::EType::Scale, 50.f);
-            }
-            if (ImGui::Selectable("200", false))
-            {
-                LTools->GetGimzo()->SetStep(Gizmo::EType::Scale, 200.f);
-            }
-            if (ImGui::Selectable("1000", false))
-            {
-                LTools->GetGimzo()->SetStep(Gizmo::EType::Scale, 1000.f);
-            }
-            ImGui::EndCombo();
-        }
-        if (ImGui::IsItemHovered())
-        {
-            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-            ImGui::SetTooltip("Setting a Fixed Object Scaling"_RU >> u8"Установка фиксированного масштабирования объкта");
         }
         ImGui::SameLine(0, ImGui::GetFontSize());
-
+        // --------------------------------------------------------------------------------------------*/
+        // ROTATE
         {
-            bool bPushColor = false;
-            if (LTools->GetGimzo()->IsStepEnable(Gizmo::EType::Rotate))
             {
-                bPushColor = true;
-                ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_Border));
-                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImGui::GetStyleColorVec4(ImGuiCol_Border));
+                bool bPushColor = false;
+                if (Tools->GetSettings(etfASnap))
+                {
+                    bPushColor = true;
+                    ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_Border));
+                    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImGui::GetStyleColorVec4(ImGuiCol_Border));
+                }
+                m_tAngle->Load();
+                if (ImGui::ImageButton(m_tAngle->surface_get(), ImVec2(16, ImGui::GetFontSize())))
+                {
+                    ExecCommand(COMMAND_SET_SETTINGS, etfASnap, !Tools->GetSettings(etfASnap));
+                }
+                if (ImGui::IsItemHovered())
+                {
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                    ImGui::SetTooltip("Fixed object rotation angle"_RU >> u8"Фиксированный угол вращения объекта");
+                }
+                if (bPushColor)
+                {
+                    ImGui::PopStyleColor();
+                    ImGui::PopStyleColor();
+                }
             }
-            m_tAngle->Load();
-            if (ImGui::ImageButton(m_tAngle->surface_get(), ImVec2(16, ImGui::GetFontSize())))
+            ImGui::SameLine();
+            ImGui::SetNextItemWidth(ImGui::GetFontSize() * 3);
+            xr_sprintf(Temp, "%.f", rad2deg(Tools->m_RotateSnapAngle));
+            if (ImGui::BeginCombo("##rotate", Temp, ImGuiComboFlags_None))
             {
-                LTools->GetGimzo()->SwitchStep(Gizmo::EType::Rotate, !LTools->GetGimzo()->IsStepEnable(Gizmo::EType::Rotate));
+                if (ImGui::Selectable("1", false))
+                {
+                    Tools->m_RotateSnapAngle = deg2rad(1.f);
+                }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                if (ImGui::Selectable("5", false))
+                {
+                    Tools->m_RotateSnapAngle = deg2rad(5.f);
+                }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                if (ImGui::Selectable("10", false))
+                {
+                    Tools->m_RotateSnapAngle = deg2rad(10.f);
+                }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                if (ImGui::Selectable("15", false))
+                {
+                    Tools->m_RotateSnapAngle = deg2rad(15.f);
+                }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                if (ImGui::Selectable("45", false))
+                {
+                    Tools->m_RotateSnapAngle = deg2rad(45.f);
+                }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                if (ImGui::Selectable("90", false))
+                {
+                    Tools->m_RotateSnapAngle = deg2rad(90.f);
+                }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                if (ImGui::Selectable("180", false))
+                {
+                    Tools->m_RotateSnapAngle = deg2rad(180.f);
+                }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                if (ImGui::Selectable("360", false))
+                {
+                    Tools->m_RotateSnapAngle = deg2rad(360.f);
+                }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                ImGui::EndCombo();
             }
             if (ImGui::IsItemHovered())
             {
                 ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-                ImGui::SetTooltip("Fixed object rotation angle"_RU >> u8"Фиксированный угол вращения объкта");
+                ImGui::SetTooltip("Set a fixed rotation angle of the object (in degrees)"_RU >> u8"Установка фиксированного угла вращения объкта(в градусах)");
             }
-            if (bPushColor)
-            {
-                ImGui::PopStyleColor();
-                ImGui::PopStyleColor();
-            }
-        }
-
-        ImGui::SameLine();
-        ImGui::SetNextItemWidth(ImGui::GetFontSize() * 5);
-        xr_sprintf(Temp, "%.5f", LTools->GetGimzo()->GetStep(Gizmo::EType::Rotate));
-        if (ImGui::BeginCombo("##rotate", Temp, ImGuiComboFlags_None))
-        {
-            if (ImGui::Selectable("1.40625", false))
-            {
-                LTools->GetGimzo()->SetStep(Gizmo::EType::Rotate, 1.40625f);
-            }
-            if (ImGui::Selectable("2.8125", false))
-            {
-                LTools->GetGimzo()->SetStep(Gizmo::EType::Rotate, 2.8125f);
-            }
-            if (ImGui::Selectable("5.625", false))
-            {
-                LTools->GetGimzo()->SetStep(Gizmo::EType::Rotate, 5.625f);
-            }
-            if (ImGui::Selectable("11.25", false))
-            {
-                LTools->GetGimzo()->SetStep(Gizmo::EType::Rotate, 11.25f);
-            }
-            if (ImGui::Selectable("22.5", false))
-            {
-                LTools->GetGimzo()->SetStep(Gizmo::EType::Rotate, 22.5f);
-            }
-            if (ImGui::Selectable("45", false))
-            {
-                LTools->GetGimzo()->SetStep(Gizmo::EType::Rotate, 45.f);
-            }
-            if (ImGui::Selectable("90", false))
-            {
-                LTools->GetGimzo()->SetStep(Gizmo::EType::Rotate, 90.f);
-            }
-            if (ImGui::Selectable("180", false))
-            {
-                LTools->GetGimzo()->SetStep(Gizmo::EType::Rotate, 180.f);
-            }
-            ImGui::EndCombo();
-        }
-        if (ImGui::IsItemHovered())
-        {
-            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-            ImGui::SetTooltip("Set a fixed rotation angle of the object (in degrees)"_RU >> u8"Установка фиксированного угла вращения объкта(в градусах)");
         }
         ImGui::EndGroup();
     }
@@ -1592,9 +1665,4 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
     {
       imManipulator.Render(Pos.x, Pos.y, Size.x, Size.y);
     }
-
-
-    
-
-
 }

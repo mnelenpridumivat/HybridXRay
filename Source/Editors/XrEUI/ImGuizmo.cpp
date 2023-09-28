@@ -2092,9 +2092,7 @@ namespace ImGuizmo
                 gContext.mbUsing              = true;
                 gContext.mEditingID           = gContext.mActualID;
                 gContext.mCurrentOperation    = type;
-                vec_t movePlanNormal[]        = {gContext.mModel.v.right, gContext.mModel.v.up, gContext.mModel.v.dir,
-                           gContext.mModel.v.right, gContext.mModel.v.up, gContext.mModel.v.dir,
-                           -gContext.mCameraDir};
+                vec_t movePlanNormal[]        = {gContext.mModel.v.right, gContext.mModel.v.up, gContext.mModel.v.dir, gContext.mModel.v.right, gContext.mModel.v.up, gContext.mModel.v.dir, -gContext.mCameraDir};
 
                 vec_t cameraToModelNormalized = Normalized(gContext.mModel.v.position - gContext.mCameraEye);
                 for (unsigned int i = 0; i < 3; i++)
