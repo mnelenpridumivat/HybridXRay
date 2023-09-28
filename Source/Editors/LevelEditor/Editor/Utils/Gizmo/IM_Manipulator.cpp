@@ -29,15 +29,18 @@ void IM_Manipulator::Render(float canvasX, float canvasY, float canvasWidth, flo
     const bool           IsCSParent   = Tools->GetSettings(etfCSParent);
     Fmatrix              ObjectMatrix = lst.front()->FTransform;
     Fmatrix              DeltaMatrix  = Fidentity;
-    float*               Snap         = NULL;
 
     switch (LTools->GetAction())
     {
         case etaMove:
         {
-            Snap = LTools->GetSettings(etfMSnap) ? &Tools->m_MoveSnap : NULL;
+            float  MoveSnap[3];
+            float* PtrMoveSnap = LTools->GetSettings(etfMSnap) ? MoveSnap : nullptr;
+            
+            if(PtrMoveSnap)
+              std::fill_n(MoveSnap, std::size(MoveSnap), Tools->m_MoveSnap);
 
-            const bool IsManipulated = ImGuizmo::Manipulate((float*)&Device->mView, (float*)&Device->mProject, ImGuizmo::TRANSLATE, ImGuizmo::WORLD, (float*)&ObjectMatrix, (float*)&DeltaMatrix, Snap);
+            const bool IsManipulated = ImGuizmo::Manipulate((float*)&Device->mView, (float*)&Device->mProject, ImGuizmo::TRANSLATE, ImGuizmo::WORLD, (float*)&ObjectMatrix, (float*)&DeltaMatrix, PtrMoveSnap);
 
             if (IsManipulated)
             {
@@ -48,13 +51,17 @@ void IM_Manipulator::Render(float canvasX, float canvasY, float canvasWidth, flo
         break;
         case etaRotate:
         {
-            float   Angle = rad2deg(Tools->m_RotateSnapAngle);
+            float  RotateSnap;
+            float* PtrRotateSnap = LTools->GetSettings(etfASnap) ? &RotateSnap : nullptr;
+
+            if(PtrRotateSnap)
+              RotateSnap = rad2deg(Tools->m_RotateSnapAngle);
+
             Fvector OriginalRotation;
 
             ObjectMatrix.getXYZ(OriginalRotation);
-            Snap = LTools->GetSettings(etfASnap) ? &Angle : NULL;
 
-            const bool IsManipulated = ImGuizmo::Manipulate((float*)&Device->mView, (float*)&Device->mProject, ImGuizmo::ROTATE, ImGuizmo::WORLD, (float*)&ObjectMatrix, (float*)&DeltaMatrix, Snap);
+            const bool IsManipulated = ImGuizmo::Manipulate((float*)&Device->mView, (float*)&Device->mProject, ImGuizmo::ROTATE, ImGuizmo::WORLD, (float*)&ObjectMatrix, (float*)&DeltaMatrix, PtrRotateSnap);
 
             if (IsManipulated)
             {
