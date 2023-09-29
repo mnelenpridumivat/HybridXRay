@@ -86,12 +86,12 @@ UIMainForm::UIMainForm()
     m_tArcBall      = EDevice->Resources->_CreateTexture("ed\\bar\\ArcBall");
     m_tFreeFly      = EDevice->Resources->_CreateTexture("ed\\bar\\FreeFly");
 
-    snap_angle = deg2rad(5.f);
-    Tools->m_RotateSnapAngle = snap_angle;
-    snap_move = 0.1f;
-    Tools->m_MoveSnap = snap_move;
-    scale_fixed = 0.1f;
-    Tools->m_ScaleFixed = scale_fixed;
+    set_snap_angle = EPrefs->snap_angle;
+    Tools->m_RotateSnapAngle = set_snap_angle;
+    set_snap_move = EPrefs->snap_move;
+    Tools->m_MoveSnap = set_snap_move;
+    set_scale_fixed = EPrefs->scale_fixed;
+    Tools->m_ScaleFixed = set_scale_fixed;
 }
 
 UIMainForm::~UIMainForm()
@@ -779,7 +779,7 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
         ImGui::EndGroup();
     }
     // --------------------------------------------------------------------------------------------
-    ImGui::SameLine(0, ImGui::GetFontSize() * 1);
+    ImGui::SameLine(0, ImGui::GetFontSize() * 1.5);
     // --------------------------------------------------------------------------------------------
     // Фокусировка
     {
@@ -815,7 +815,7 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
         ImGui::EndGroup();
     }
     // --------------------------------------------------------------------------------------------
-    ImGui::SameLine(0, ImGui::GetFontSize() * 1);
+    ImGui::SameLine(0, ImGui::GetFontSize() * 1.5);
     // --------------------------------------------------------------------------------------------
     // Фиксации манипуляторов
     {
@@ -849,7 +849,7 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
                 }
             }
             ImGui::SameLine();
-            ImGui::SetNextItemWidth(ImGui::GetFontSize() * 4);
+            ImGui::SetNextItemWidth(ImGui::GetFontSize() * 3.5); 
             xr_sprintf(Temp, "%.2f", Tools->m_MoveSnap);
             if (ImGui::BeginCombo("##move", Temp, ImGuiComboFlags_None))
             {
