@@ -85,13 +85,6 @@ UIMainForm::UIMainForm()
     m_tPlaneMove    = EDevice->Resources->_CreateTexture("ed\\bar\\PlaneMove");
     m_tArcBall      = EDevice->Resources->_CreateTexture("ed\\bar\\ArcBall");
     m_tFreeFly      = EDevice->Resources->_CreateTexture("ed\\bar\\FreeFly");
-
-    set_snap_angle = EPrefs->snap_angle;
-    Tools->m_RotateSnapAngle = set_snap_angle;
-    set_snap_move = EPrefs->snap_move;
-    Tools->m_MoveSnap = set_snap_move;
-    set_scale_fixed = EPrefs->scale_fixed;
-    Tools->m_ScaleFixed = set_scale_fixed;
 }
 
 UIMainForm::~UIMainForm()

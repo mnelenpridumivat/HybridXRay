@@ -27,10 +27,6 @@ public:
     {
         return m_WorldProperties;
     }
-    // snap
-    float set_snap_move;
-    float set_snap_angle;
-    float set_scale_fixed;
 
 private:
     UITopBarForm*                m_TopBar;
