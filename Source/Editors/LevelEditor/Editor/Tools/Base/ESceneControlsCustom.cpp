@@ -416,6 +416,13 @@ void TUI_CustomControl::ScaleProcess(TShiftState _Shift)
     Fvector amount;
     amount.set(dy, dy, dy);
 
+    if (Tools->GetSettings(etfScaleFixed))
+    {
+        CHECK_SNAP(Tools->m_fScaleFixedValue.x, amount.x, Tools->m_ScaleFixed);
+        CHECK_SNAP(Tools->m_fScaleFixedValue.y, amount.y, Tools->m_ScaleFixed);
+        CHECK_SNAP(Tools->m_fScaleFixedValue.z, amount.z, Tools->m_ScaleFixed);
+    }
+
     if (Tools->GetSettings(etfNUScale))
     {
         if (!(etAxisX == Tools->GetAxis()) && !(etAxisZX == Tools->GetAxis()))

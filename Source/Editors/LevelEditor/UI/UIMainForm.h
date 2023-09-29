@@ -30,6 +30,7 @@ public:
     // snap
     float snap_move;
     float snap_angle;
+    float scale_fixed;
 
 private:
     UITopBarForm*                m_TopBar;

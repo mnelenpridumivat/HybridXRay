@@ -35,6 +35,7 @@ CCustomPreferences::CCustomPreferences()
     // snap
     snap_angle           = deg2rad(5.f);
     snap_move            = 0.1f;
+    scale_fixed          = 0.1f;
     snap_moveto          = 0.5f;
     // grid
     grid_cell_size       = 1.f;
@@ -55,6 +56,7 @@ void CCustomPreferences::ApplyValues()
     Tools->m_MoveSnap        = snap_move;
     Tools->m_MoveSnapTo      = snap_moveto;
     Tools->m_RotateSnapAngle = snap_angle;
+    Tools->m_ScaleFixed      = scale_fixed;
 
     EDevice->m_Camera.SetViewport(view_np, view_fp, rad2deg(view_fov));
     Tools->SetFog(fog_color, fog_fogness);
@@ -193,9 +195,11 @@ void CCustomPreferences::FillProp(PropItemVec& props)
 
     PHelper().CreateFloat(props, "Tools\\Sens\\Rotate", &tools_sens_rot);
     PHelper().CreateFloat(props, "Tools\\Sens\\Scale", &tools_sens_scale);
-    PHelper().CreateAngle(props, "Tools\\Snap\\Angle", &snap_angle, 0, PI_MUL_2);
-    PHelper().CreateFloat(props, "Tools\\Snap\\Move", &snap_move, 0.01f, 1000.f);
     PHelper().CreateFloat(props, "Tools\\Snap\\Move To", &snap_moveto, 0.01f, 1000.f);
+
+    PHelper().CreateAngle(props, "Tools\\Snap\\Rotate Angle Fixed", &snap_angle, 0, PI_MUL_2);
+    PHelper().CreateFloat(props, "Tools\\Snap\\Move Fixed", &snap_move, 0.01f, 500.f);
+    PHelper().CreateFloat(props, "Tools\\Snap\\Scale Fixed", &scale_fixed, 0.01f, 10.f);
 
     PHelper().CreateFloat(props, "Viewport\\Camera\\Move Sens", &cam_sens_move);
     PHelper().CreateFloat(props, "Viewport\\Camera\\Rotate Sens", &cam_sens_rot);
@@ -277,6 +281,8 @@ void CCustomPreferences::Load(CInifile* I)
 
     snap_angle              = R_FLOAT_SAFE("editor_prefs", "snap_angle", snap_angle);
     snap_move               = R_FLOAT_SAFE("editor_prefs", "snap_move", snap_move);
+    scale_fixed             = R_FLOAT_SAFE("editor_prefs", "scale_fixed", scale_fixed);
+
     snap_moveto             = R_FLOAT_SAFE("editor_prefs", "snap_moveto", snap_moveto);
 
     grid_cell_size          = R_FLOAT_SAFE("editor_prefs", "grid_cell_size", grid_cell_size);
@@ -343,6 +349,8 @@ void CCustomPreferences::Save(CInifile* I)
 
     I->w_float("editor_prefs", "snap_angle", snap_angle);
     I->w_float("editor_prefs", "snap_move", snap_move);
+    I->w_float("editor_prefs", "scale_fixed", scale_fixed);
+
     I->w_float("editor_prefs", "snap_moveto", snap_moveto);
 
     I->w_float("editor_prefs", "grid_cell_size", grid_cell_size);

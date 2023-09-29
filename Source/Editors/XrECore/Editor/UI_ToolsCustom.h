@@ -42,6 +42,7 @@ enum ETFlags
     etfVSnap       = (1 << 6),
     etfASnap       = (1 << 7),
     etfMSnap       = (1 << 8),
+    etfScaleFixed  = (1 << 8),
 };
 
 class ECORE_API CToolCustom
@@ -69,9 +70,11 @@ protected:
     float    m_fRotateSnapValue;
     float    m_RotateAmount;
 public:
+    Fvector  m_fScaleFixedValue;
     float    m_MoveSnap;
     float    m_MoveSnapTo;
     float    m_RotateSnapAngle;
+    float    m_ScaleFixed;
 public:
     float    fFogness;
     u32      dwFogColor;

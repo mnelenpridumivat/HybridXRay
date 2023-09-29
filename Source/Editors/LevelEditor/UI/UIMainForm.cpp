@@ -90,6 +90,8 @@ UIMainForm::UIMainForm()
     Tools->m_RotateSnapAngle = snap_angle;
     snap_move = 0.1f;
     Tools->m_MoveSnap = snap_move;
+    scale_fixed = 0.1f;
+    Tools->m_ScaleFixed = scale_fixed;
 }
 
 UIMainForm::~UIMainForm()
@@ -929,12 +931,6 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
                 }
                 if (ImGui::IsItemHovered())
                     ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-                if (ImGui::Selectable("1000", false))
-                {
-                    Tools->m_MoveSnap = 1000.f;
-                }
-                if (ImGui::IsItemHovered())
-                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 ImGui::EndCombo();
             }
             if (ImGui::IsItemHovered())
@@ -945,11 +941,11 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
         }
         ImGui::SameLine(0, ImGui::GetFontSize());
         // --------------------------------------------------------------------------------------------
-        /*/ Scale
+        // Scale
         {
             {
                 bool bPushColor = false;
-                if (LTools->GetGimzo()->IsStepEnable(Gizmo::EType::Scale))
+                if (Tools->GetSettings(etfScaleFixed))
                 {
                     bPushColor = true;
                     ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_Border));
@@ -958,12 +954,12 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
                 m_tScaleGrid->Load();
                 if (ImGui::ImageButton(m_tScaleGrid->surface_get(), ImVec2(16, ImGui::GetFontSize())))
                 {
-                    LTools->GetGimzo()->SwitchStep(Gizmo::EType::Scale, !LTools->GetGimzo()->IsStepEnable(Gizmo::EType::Scale));
+                    ExecCommand(COMMAND_SET_SETTINGS, etfScaleFixed, !Tools->GetSettings(etfScaleFixed));
                 }
                 if (ImGui::IsItemHovered())
                 {
                     ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-                    ImGui::SetTooltip("Fixed Object Scaling"_RU >> u8"Фиксированное масштабирование объкта");
+                    ImGui::SetTooltip("Fixed Object Scaling"_RU >> u8"Фиксированное масштабирование объекта");
                 }
                 if (bPushColor)
                 {
@@ -972,91 +968,61 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
                 }
             }
             ImGui::SameLine();
-            ImGui::SetNextItemWidth(ImGui::GetFontSize() * 4);
-            xr_sprintf(Temp, "%.2f", LTools->GetGimzo()->GetStep(Gizmo::EType::Scale));
+            ImGui::SetNextItemWidth(ImGui::GetFontSize() * 3);
+            xr_sprintf(Temp, "%.2f", Tools->m_ScaleFixed);
             if (ImGui::BeginCombo("##scale", Temp, ImGuiComboFlags_None))
             {
                 if (ImGui::Selectable("0.01", false))
                 {
-                    LTools->GetGimzo()->SetStep(Gizmo::EType::Scale, 0.01f);
+                    Tools->m_ScaleFixed = 0.01f;
                 }
                 if (ImGui::IsItemHovered())
                     ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 if (ImGui::Selectable("0.05", false))
                 {
-                    LTools->GetGimzo()->SetStep(Gizmo::EType::Scale, 0.05f);
+                    Tools->m_ScaleFixed = 0.05f;
                 }
                 if (ImGui::IsItemHovered())
                     ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 if (ImGui::Selectable("0.1", false))
                 {
-                    LTools->GetGimzo()->SetStep(Gizmo::EType::Scale, 0.1f);
+                    Tools->m_ScaleFixed = 0.1f;
+                }
+                if (ImGui::IsItemHovered())
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                if (ImGui::Selectable("0.25", false))
+                {
+                    Tools->m_ScaleFixed = 0.25f;
                 }
                 if (ImGui::IsItemHovered())
                     ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 if (ImGui::Selectable("0.5", false))
                 {
-                    LTools->GetGimzo()->SetStep(Gizmo::EType::Scale, 0.5f);
+                    Tools->m_ScaleFixed = 0.5f;
                 }
                 if (ImGui::IsItemHovered())
                     ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 if (ImGui::Selectable("1", false))
                 {
-                    LTools->GetGimzo()->SetStep(Gizmo::EType::Scale, 1.f);
+                    Tools->m_ScaleFixed = 1.f;
                 }
                 if (ImGui::IsItemHovered())
                     ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 if (ImGui::Selectable("2", false))
                 {
-                    LTools->GetGimzo()->SetStep(Gizmo::EType::Scale, 2.f);
+                    Tools->m_ScaleFixed = 2.f;
                 }
                 if (ImGui::IsItemHovered())
                     ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 if (ImGui::Selectable("5", false))
                 {
-                    LTools->GetGimzo()->SetStep(Gizmo::EType::Scale, 5.f);
+                    Tools->m_ScaleFixed = 5.f;
                 }
                 if (ImGui::IsItemHovered())
                     ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 if (ImGui::Selectable("10", false))
                 {
-                    LTools->GetGimzo()->SetStep(Gizmo::EType::Scale, 10.f);
-                }
-                if (ImGui::IsItemHovered())
-                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-                if (ImGui::Selectable("25", false))
-                {
-                    LTools->GetGimzo()->SetStep(Gizmo::EType::Scale, 25.f);
-                }
-                if (ImGui::IsItemHovered())
-                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-                if (ImGui::Selectable("50", false))
-                {
-                    LTools->GetGimzo()->SetStep(Gizmo::EType::Scale, 50.f);
-                }
-                if (ImGui::IsItemHovered())
-                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-                if (ImGui::Selectable("100", false))
-                {
-                    LTools->GetGimzo()->SetStep(Gizmo::EType::Scale, 100.f);
-                }
-                if (ImGui::IsItemHovered())
-                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-                if (ImGui::Selectable("250", false))
-                {
-                    LTools->GetGimzo()->SetStep(Gizmo::EType::Scale, 250.f);
-                }
-                if (ImGui::IsItemHovered())
-                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-                if (ImGui::Selectable("500", false))
-                {
-                    LTools->GetGimzo()->SetStep(Gizmo::EType::Scale, 500.f);
-                }
-                if (ImGui::IsItemHovered())
-                    ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-                if (ImGui::Selectable("1000", false))
-                {
-                    LTools->GetGimzo()->SetStep(Gizmo::EType::Scale, 1000.f);
+                    Tools->m_ScaleFixed = 10.f;
                 }
                 if (ImGui::IsItemHovered())
                     ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
@@ -1065,7 +1031,7 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
             if (ImGui::IsItemHovered())
             {
                 ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-                ImGui::SetTooltip("Setting a Fixed Object Scaling"_RU >> u8"Установка фиксированного масштабирования объкта");
+                ImGui::SetTooltip("Setting a Fixed Object Scaling"_RU >> u8"Установка фиксированного масштабирования объекта");
             }
         }
         ImGui::SameLine(0, ImGui::GetFontSize());
@@ -1154,7 +1120,7 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
             if (ImGui::IsItemHovered())
             {
                 ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-                ImGui::SetTooltip("Set a fixed rotation angle of the object (in degrees)"_RU >> u8"Установка фиксированного угла вращения объкта(в градусах)");
+                ImGui::SetTooltip("Set a fixed rotation angle of the object (in degrees)"_RU >> u8"Установка фиксированного угла вращения объекта(в градусах)");
             }
         }
         ImGui::EndGroup();

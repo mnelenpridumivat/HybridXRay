@@ -34,7 +34,7 @@ CToolCustom::CToolCustom()
 {
     m_bReady = false;
     m_Action = etaSelect;
-    m_Settings.assign(etfNormalAlign | etfGSnap | etfOSnap | etfMTSnap | etfVSnap | etfASnap | etfMSnap);
+    m_Settings.assign(etfNormalAlign | etfGSnap | etfOSnap | etfMTSnap | etfVSnap | etfASnap | etfMSnap | etfScaleFixed);
     m_Axis            = etAxisZX;
     fFogness          = 0.9f;
     dwFogColor        = 0xffffffff;
@@ -174,6 +174,7 @@ bool CToolCustom::MouseStart(TShiftState Shift)
         break;
         case etaScale:
             m_ScaleAmount.set(0, 0, 0);
+            m_fScaleFixedValue.set(0, 0, 0);
         break;
     }
 
@@ -265,6 +266,12 @@ void CToolCustom::MouseMove(TShiftState Shift)
         break;
         case etaScale:
         {
+            if (m_Settings.is(etfScaleFixed))
+            {
+                CHECK_SNAP(m_fScaleFixedValue.x, m_ScaleAmount.x, m_ScaleFixed);
+                CHECK_SNAP(m_fScaleFixedValue.y, m_ScaleAmount.y, m_ScaleFixed);
+                CHECK_SNAP(m_fScaleFixedValue.z, m_ScaleAmount.z, m_ScaleFixed);
+            }
             float dy = UI->m_DeltaCpH.x * UI->m_MouseSS;
             if (dy > 1.f)
                 dy = 1.f;

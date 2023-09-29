@@ -82,14 +82,19 @@ void IM_Manipulator::Render(float canvasX, float canvasY, float canvasWidth, flo
                   (*it->*Handler)(Fvector().set(1, 0, 0), -DeltaXYZ.x);
                   (*it->*Handler)(Fvector().set(0, 1, 0), -DeltaXYZ.y);
                 }
-
                 UI->UpdateScene();
             }
         }
         break;
         case etaScale:
         {
-            const bool IsManipulated = ImGuizmo::Manipulate((float*)&Device->mView, (float*)&Device->mProject, ImGuizmo::SCALE, ImGuizmo::LOCAL, (float*)&ObjectMatrix, (float*)&DeltaMatrix);
+            float  ScaleSnap[3];
+            float* PtrScaleSnap = LTools->GetSettings(etfScaleFixed) ? ScaleSnap : nullptr;
+
+            if (PtrScaleSnap)
+                std::fill_n(ScaleSnap, std::size(ScaleSnap), Tools->m_ScaleFixed);
+
+            const bool IsManipulated = ImGuizmo::Manipulate((float*)&Device->mView, (float*)&Device->mProject, ImGuizmo::SCALE, ImGuizmo::LOCAL, (float*)&ObjectMatrix, (float*)&DeltaMatrix, PtrScaleSnap);
 
             if (IsManipulated)
             {
@@ -103,7 +108,6 @@ void IM_Manipulator::Render(float canvasX, float canvasY, float canvasWidth, flo
                   Scale.mul((*it)->GetScale());
                   (*it)->SetScale(Scale);
                 }
-                    
                 UI->UpdateScene();
             }
         }
