@@ -3,7 +3,7 @@
         guid_g1                          = 3846799431945762467
  
 [main]
-        objects_count                    = 6
+        objects_count                    = 5
         version                          = 0
  
 [modif]
@@ -516,175 +516,6 @@ ignore_static
  
 [object_3]
         clsid                            = 0
-        co_flags                         = 3
-        ingroup_count                    = 5
-        name                             = light_preset\zone_fireplace
-        position                         = -9.000000, 1.000000, 6.200000
-        ref_name                         = light_preset\zone_fireplace
-        rotation                         = 0.000000, 0.000000, 0.000000
-        scale                            = 1.000000, 1.000000, 1.000000
-        version                          = 18
- 
-[object_3_ingroup_0]
-        clsid                            = 2
-        co_flags                         = 3
-        flags                            = 0
-        name                             = statics\fireplace\fireplace_1
-        position                         = -9.000000, 1.000000, 6.200000
-        reference_name                   = statics\fireplace\fireplace_1
-        rotation                         = 0.000000, 0.000000, 0.000000
-        scale                            = 1.000000, 1.000000, 1.000000
-        version                          = 18
- 
-[object_3_ingroup_1]
-        anim_ref_name                    =
-        attenuation0                     = 0.500000
-        attenuation1                     = 0.800000
-        attenuation2                     = 0.100000
-        brightness                       = 1.500000
-        clsid                            = 3
-        co_flags                         = 2
-        color                            = 1.000000, 0.690196, 0.352941, 0.000000
-        cone                             = 0.000000
-        fallof_texture                   =
-        light_control                    = 0
-        light_flags                      = -303174167
-        name                             = light_fireplace
-        position                         = -9.024014, 2.297234, 6.166126
-        range                            = 10.000000
-        rotation                         = 0.000000, 0.000000, 0.000000
-        scale                            = 1.000000, 1.000000, 1.000000
-        type                             = 1
-        use_in_d3d                       = on
-        version                          = 17
-        virtual_size                     = 0.000000
- 
-[object_3_ingroup_2]
-        anim_ref_name                    =
-        attenuation0                     = 0.350000
-        attenuation1                     = 0.800000
-        attenuation2                     = 1.000000
-        brightness                       = 1.000000
-        clsid                            = 3
-        co_flags                         = 2
-        color                            = 1.000000, 0.690196, 0.352941, 0.000000
-        cone                             = 0.000000
-        fallof_texture                   =
-        fuzzy_box_dim                    = 0.100000, 0.100000, 0.100000
-        fuzzy_point_0                    = 0.051823, 0.242317, 0.073801
-        fuzzy_point_1                    = 0.345005, -0.006021, 0.227513
-        fuzzy_point_2                    = 0.254380, 0.657274, -0.464105
-        fuzzy_point_3                    = -0.008936, -0.013511, -0.001099
-        fuzzy_point_4                    = 0.464638, 0.807576, -0.340416
-        fuzzy_point_5                    = -0.057386, -0.008013, 0.849248
-        fuzzy_point_count                = 6
-        fuzzy_shape_type                 = 0
-        fuzzy_sphere_radius              = 1.000000
-        light_control                    = 0
-        light_flags                      = -303174151
-        name                             = light_fireplace_ambient_0000
-        position                         = -9.024014, 1.397240, 6.166141
-        range                            = 4.000000
-        rotation                         = 0.000000, 0.000000, 0.000000
-        scale                            = 1.000000, 1.000000, 1.000000
-        type                             = 1
-        use_in_d3d                       = on
-        version                          = 17
-        virtual_size                     = 0.000000
- 
-[object_3_ingroup_3]
-        anim_ref_name                    =
-        attenuation0                     = 0.350000
-        attenuation1                     = 0.500000
-        attenuation2                     = 0.500000
-        brightness                       = 0.800000
-        clsid                            = 3
-        co_flags                         = 2
-        color                            = 1.000000, 0.690196, 0.352941, 0.000000
-        cone                             = 0.000000
-        fallof_texture                   =
-        light_control                    = 0
-        light_flags                      = -303174166
-        name                             = light_fireplace_dinamic
-        position                         = -9.024014, 2.067235, 6.166126
-        range                            = 5.000000
-        rotation                         = 0.000000, 0.000000, 0.000000
-        scale                            = 1.000000, 1.000000, 1.000000
-        type                             = 1
-        use_in_d3d                       = on
-        version                          = 17
-        virtual_size                     = 0.000000
- 
-[object_3_ingroup_4]
-        attached_count                   = 1
-        clsid                            = 6
-        co_flags                         = 2
-        name                             = campfire_dinamic
-        position                         = -9.000000, 1.395999, 6.200000
-        rotation                         = 0.000000, 0.000000, 0.000000
-        scale                            = 1.000000, 1.000000, 1.000000
-        type                             = 2
-        version                          = 23
- 
-[object_3_ingroup_4_attached_0]
-        clsid                            = 4
-        co_flags                         = 2
-        name                             = shape_0000
-        position                         = -9.000000, 1.395999, 6.200000
-        rotation                         = 0.000000, 0.000000, 0.000000
-        scale                            = 1.000000, 1.000000, 1.000000
-        shape_center_0                   = 0.000000, 0.000000, 0.000000
-        shape_center_1                   = 0.000000, 0.558000, 0.000000
-        shape_radius_0                   = 0.387240
-        shape_radius_1                   = 0.674519
-        shape_type                       = 0
-        shape_type_0                     = 0
-        shape_type_1                     = 0
-        shapes_count                     = 2
-        version                          = 2
- 
-[object_3_ingroup_4_spawndata]
-        000001                           = 1
-        000002                           = "campfire"
-        000003                           = ""
-        000004                           = 0
-        000005                           = 254
-        000006                           = 0.000000, 0.000000, 0.000000
-        000007                           = 0.000000, 0.000000, 0.000000
-        000008                           = 0
-        000009                           = 65535
-        000010                           = 65535
-        000011                           = 65535
-        000012                           = 33
-        000013                           = 128
-        000014                           = 65535
-        000015                           = 12
-        000016                           = 0
-        000017                           = 65535
-        000018                           = 0
-        000019                           = 65535
-        000020                           = 0.000000
-        000021                           = 1
-        000022                           = -1
-        000023                           = -194
-        000024                           = ""
-        000025                           = -1
-        000026                           = -1
-        000027                           = 0
-        000028                           = 3
-        000029                           = 0.000000
-        000030                           = -1
-        000031                           = 0
-        000032                           = 0
-        000033                           = 0
-        000034                           = 30.000000
-        000035                           = 32
-        000036                           = 4
-        fl                               = 0
-        name                             = campfire
- 
-[object_4]
-        clsid                            = 0
         co_flags                         = 0
         ingroup_count                    = 5
         name                             = light_preset\zone_campfire_grill
@@ -694,7 +525,7 @@ ignore_static
         scale                            = 1.000000, 1.000000, 1.000000
         version                          = 18
  
-[object_4_ingroup_0]
+[object_3_ingroup_0]
         anim_ref_name                    =
         attenuation0                     = 1.000000
         attenuation1                     = 1.000000
@@ -727,7 +558,7 @@ ignore_static
         version                          = 17
         virtual_size                     = 0.000000
  
-[object_4_ingroup_1]
+[object_3_ingroup_1]
         active_time                      = 0.000000, 0.000000
         clsid                            = 5
         co_flags                         = 0
@@ -748,7 +579,7 @@ ignore_static
         version                          = 20
         volume                           = 1.000000
  
-[object_4_ingroup_2]
+[object_3_ingroup_2]
         clsid                            = 6
         co_flags                         = 2
         name                             = light_campfire_grill_omni_0000
@@ -758,14 +589,14 @@ ignore_static
         type                             = 2
         version                          = 23
  
-[object_4_ingroup_2_spawndata]
+[object_3_ingroup_2_spawndata]
         000001                           = 1
         000002                           = "lights_hanging_lamp"
-        000003                           = "lights_camp_fire_omni_r1_r2_0001"
+        000003                           = "light_campfire_grill_omni_0000"
         000004                           = 0
         000005                           = 254
-        000006                           = 12.654584, 1.840567, -37.421776
-        000007                           = 0.045553, -0.001745, 0.013963
+        000006                           = 6.996331, 0.906376, -7.754391
+        000007                           = 0.000000, -1.134464, 0.000000
         000008                           = 0
         000009                           = 65535
         000010                           = 65535
@@ -814,7 +645,7 @@ ignore_static
         fl                               = 0
         name                             = lights_hanging_lamp
  
-[object_4_ingroup_3]
+[object_3_ingroup_3]
         clsid                            = 6
         co_flags                         = 2
         name                             = campfire_grill_boar
@@ -824,14 +655,14 @@ ignore_static
         type                             = 2
         version                          = 23
  
-[object_4_ingroup_3_spawndata]
+[object_3_ingroup_3_spawndata]
         000001                           = 1
         000002                           = "physic_object"
-        000003                           = "level_prefix_physic_object0001"
+        000003                           = "campfire_grill_boar"
         000004                           = 0
         000005                           = 254
-        000006                           = 13.700000, 0.000000, 18.700001
-        000007                           = 0.000000, 0.000000, 0.000000
+        000006                           = 7.000000, 1.000000, -8.000000
+        000007                           = 0.000000, -1.134464, 0.000000
         000008                           = 0
         000009                           = 65535
         000010                           = 65535
@@ -865,7 +696,7 @@ ignore_static
         fl                               = 0
         name                             = physic_object
  
-[object_4_ingroup_4]
+[object_3_ingroup_4]
         clsid                            = 11
         co_flags                         = 2
         game_type                        = 65535
@@ -876,7 +707,7 @@ ignore_static
         scale                            = 1.000000, 1.000000, 1.000000
         version                          = 19
  
-[object_5]
+[object_4]
         clsid                            = 0
         co_flags                         = 3
         ingroup_count                    = 1
@@ -887,7 +718,7 @@ ignore_static
         scale                            = 1.000000, 1.000000, 1.000000
         version                          = 18
  
-[object_5_ingroup_0]
+[object_4_ingroup_0]
         clsid                            = 6
         co_flags                         = 2
         name                             = light_abajour_2_lowrez
@@ -897,14 +728,14 @@ ignore_static
         type                             = 2
         version                          = 23
  
-[object_5_ingroup_0_spawndata]
+[object_4_ingroup_0_spawndata]
         000001                           = 1
         000002                           = "lights_hanging_lamp"
-        000003                           = "light_sharnir_1_0006"
+        000003                           = "light_abajour_2_lowrez"
         000004                           = 0
         000005                           = 254
-        000006                           = -45.442337, -3.757524, -44.105709
-        000007                           = 6.283186, 1.570796, -4.712389
+        000006                           = 0.589569, 4.507999, 1.777653
+        000007                           = 0.000000, 0.000001, 3.141593
         000008                           = 0
         000009                           = 65535
         000010                           = 65535

@@ -1,6 +1,6 @@
 [build_params]
         light_jitter_samples             = 4
-        light_pixel_per_meter            = 1.000000
+        light_pixel_per_meter            = 2.000000
         light_quality                    = 2
         light_quality_reserved           = 31868
         light_rms                        = 1
@@ -15,8 +15,8 @@
         weld_distance                    = 0.005000
  
 [camera]
-        hpb                              = 2.431112, -0.327209, 0.000000
-        pos                              = 16.197855, 11.059730, 19.166281
+        hpb                              = 2.488712, -0.381114, 0.000000
+        pos                              = 17.583138, 10.195760, 23.953531
  
 [guid]
         guid_g0                          = 5730902926000145350
@@ -39,7 +39,6 @@
  
 [snap_objects]
         mp_test\mp_test_arena            =
-        statics\fireplace\fireplace_1    =
         statics\user\user_bigballs       =
         statics\user\user_bigballs_00    =
         statics\user\user_bigballs_00_00 =
