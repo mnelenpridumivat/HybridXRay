@@ -51,17 +51,17 @@ u16 pvCompress(const Fvector& vec)
     if (negative(tmp.x))
     {
         mVec |= pvXSIGN_MASK;
-        set_positive(tmp.x);
+        tmp.x = -tmp.x;   // set_positive(tmp.x); // range36rus
     }
     if (negative(tmp.y))
     {
         mVec |= pvYSIGN_MASK;
-        set_positive(tmp.y);
+        tmp.y = -tmp.y;   // set_positive(tmp.y); // range36rus
     }
     if (negative(tmp.z))
     {
         mVec |= pvZSIGN_MASK;
-        set_positive(tmp.z);
+        tmp.z = -tmp.z;   // set_positive(tmp.z); // range36rus
     }
 
     // project the normal onto the plane that goes through
@@ -73,8 +73,11 @@ u16 pvCompress(const Fvector& vec)
     // a little slower... old pack was 4 multiplies and 2 adds.
     // This is 2 multiplies, 2 adds, and a divide....
     float w     = 126.0f / (tmp.x + tmp.y + tmp.z);
-    int   xbits = iFloor(tmp.x * w);
-    int   ybits = iFloor(tmp.y * w);
+    // range36rus
+    // int   xbits = iFloor(tmp.x * w);
+    // int   ybits = iFloor(tmp.y * w);
+    long  xbits = (long)(tmp.x * w);
+    long  ybits = (long)(tmp.y * w);
 
     /*
     VERIFY( xbits <  127 );
@@ -113,8 +116,11 @@ void pvDecompress(Fvector& vec, u16 mVec)
     // multiplication
 
     // get the x and y bits
-    int xbits = ((mVec & pvTOP_MASK) >> 7);
-    int ybits = (mVec & pvBOTTOM_MASK);
+    // range36rus
+    // int xbits = ((mVec & pvTOP_MASK) >> 7);
+    // int ybits = (mVec & pvBOTTOM_MASK);
+    long xbits = ((mVec & pvTOP_MASK) >> 7);
+    long ybits = (mVec & pvBOTTOM_MASK);
 
     // map the numbers back to the triangle (0,0)-(0,126)-(126,0)
     if ((xbits + ybits) >= 127)
@@ -132,9 +138,9 @@ void pvDecompress(Fvector& vec, u16 mVec)
 
     // set all the sign bits
     if (mVec & pvXSIGN_MASK)
-        set_negative(vec.x);
+        vec.x = -vec.x;   // set_negative(vec.x); // range36rus
     if (mVec & pvYSIGN_MASK)
-        set_negative(vec.y);
+        vec.y = -vec.y;   // set_negative(vec.y); // range36rus
     if (mVec & pvZSIGN_MASK)
-        set_negative(vec.z);
+        vec.z = -vec.z;   // set_negative(vec.z); // range36rus
 }
