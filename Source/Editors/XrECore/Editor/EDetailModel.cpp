@@ -22,19 +22,20 @@ void EDetail::EVertexIn::remapUV(const fvfVertexIn& src, const Fvector2& offs, c
     ImageLib.MergedTextureRemapUV(u, v, src.u, src.v, offs, scale, bRotate);
 }
 
-EDetail::EDetail()
+EDetail::EDetail(bool lib)
 {
     shader = 0;
     m_Flags.zero();
-    m_pRefs          = 0;
-    m_fMinScale      = 0.5f;
-    m_fMaxScale      = 2.f;
-    m_fDensityFactor = 1.f;
-    m_sRefs          = "";
-    vertices         = 0;
-    number_vertices  = 0;
-    indices          = 0;
-    number_indices   = 0;
+    m_pRefs            = 0;
+    m_fMinScale        = 0.5f;
+    m_fMaxScale        = 2.f;
+    m_fDensityFactor   = 1.f;
+    m_sRefs            = "";
+    vertices           = 0;
+    number_vertices    = 0;
+    indices            = 0;
+    number_indices     = 0;
+    m_bLoadFromLibrary = lib;
 }
 
 EDetail::~EDetail()
@@ -45,7 +46,10 @@ EDetail::~EDetail()
 void EDetail::Unload()
 {
     CDetail::Unload();
-    Lib.RemoveEditObject(m_pRefs);
+    if (m_bLoadFromLibrary)
+        Lib.RemoveEditObject(m_pRefs);
+    else
+        xr_delete(m_pRefs);
     OnDeviceDestroy();
 }
 
@@ -121,13 +125,28 @@ bool EDetail::Update(LPCSTR name)
 {
     m_sRefs = name;
     // update link
-    CEditableObject* R = Lib.CreateEditObject(name);
+    CEditableObject* R;
 
-    if (!R)
+    if (m_bLoadFromLibrary)
     {
-        ELog.Msg(mtError, "! Can't load detail object '%s'.", name);
-        return false;
+        R = Lib.CreateEditObject(name);
+        if (!R)
+        {
+            ELog.Msg(mtError, "! Can't load detail object '%s'.", name);
+            return false;
+        }
     }
+    else
+    {
+        R = xr_new<CEditableObject>(name);
+        if (!R->Load(name))
+        {
+            ELog.Msg(mtError, "! Can't load detail object '%s'.", name);
+            xr_delete(R);
+            return false;
+        }
+    }
+
     if (R->SurfaceCount() != 1)
     {
         ELog.Msg(mtError, "& Object must contain 1 material.");
@@ -141,7 +160,10 @@ bool EDetail::Update(LPCSTR name)
         return false;
     }
 
-    Lib.RemoveEditObject(m_pRefs);
+    if (m_bLoadFromLibrary)
+        Lib.RemoveEditObject(m_pRefs);
+    else
+        xr_delete(m_pRefs);
     m_pRefs = R;
 
     // fill geometry
