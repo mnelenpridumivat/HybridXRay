@@ -364,7 +364,10 @@ void CDetailManager::MT_CALC()
 
     MT.Enter();
     if (m_frame_calc != Device->dwFrame)
+    {
+    #ifndef _EDITOR
         if ((m_frame_rendered + 1) == Device->dwFrame)   // already rendered
+    #endif
         {
             Fvector EYE = Device->vCameraPosition_saved;
 
@@ -378,5 +381,6 @@ void CDetailManager::MT_CALC()
             UpdateVisibleM();
             m_frame_calc = Device->dwFrame;
         }
+    }
     MT.Leave();
 }

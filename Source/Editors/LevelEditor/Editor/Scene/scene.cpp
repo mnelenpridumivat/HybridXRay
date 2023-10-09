@@ -40,7 +40,7 @@ void st_LevelOptions::SetHighQuality()
     m_LightSunQuality  = 3;
 }
 
-#define MAX_VISUALS 16384
+#define MAX_VISUALS 262144
 #ifdef USE_ARENA_ALLOCATOR
 extern char* s_fake_array;
 #endif

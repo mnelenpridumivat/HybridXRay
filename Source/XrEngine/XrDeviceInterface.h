@@ -122,11 +122,11 @@ public:
 
 public:
     // Engine flow-control
-    u32 dwFrame;
+    s32 dwFrame;
 
     float fTimeDelta;
     float fTimeGlobal;
-    u32   dwTimeDelta;
+    s32   dwTimeDelta;
     u32   dwTimeGlobal;
     u32   dwTimeContinual;
 
