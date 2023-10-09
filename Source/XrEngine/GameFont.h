@@ -144,9 +144,9 @@ public:
         strings.clear();
     };
 
-#ifdef DEBUG
+// #ifdef DEBUG
     shared_str m_font_name;
-#endif
+// #endif
 };
 
 #endif   // _XR_GAMEFONT_H_

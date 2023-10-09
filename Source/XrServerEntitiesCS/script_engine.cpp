@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: script_engine.cpp
 //	Created 	: 01.04.2004
 //  Modified 	: 01.04.2004
@@ -379,6 +379,7 @@ void CScriptEngine::process_file_if_exists	(LPCSTR file_name, bool warn_if_not_e
 		FS.update_path		(S,"$game_scripts$",strconcat(sizeof(S1),S1,file_name,".script"));
 		if (!warn_if_not_exist && !FS.exist(S)) {
 #ifdef PRINT_CALL_STACK
+#ifdef DEBUG
 #	ifndef XRSEFACTORY_EXPORTS;
 			if (psAI_Flags.test(aiNilObjectAccess))
 #	endif
@@ -387,6 +388,7 @@ void CScriptEngine::process_file_if_exists	(LPCSTR file_name, bool warn_if_not_e
 				Msg					("* trying to access variable %s, which doesn't exist, or to load script %s, which doesn't exist too",file_name,S1);
 				m_stack_is_ready	= true;
 			}
+#endif
 #endif
 			add_no_file		(file_name,string_length);
 			return;
