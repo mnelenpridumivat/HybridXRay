@@ -1,32 +1,35 @@
 ﻿#include "stdafx.h"
 
-#define SPAWNPOINT_CHUNK_VERSION 0xE411
-#define SPAWNPOINT_CHUNK_POSITION 0xE412
-#define SPAWNPOINT_CHUNK_RPOINT 0xE413
-#define SPAWNPOINT_CHUNK_DIRECTION 0xE414
-#define SPAWNPOINT_CHUNK_SQUADID 0xE415
-#define SPAWNPOINT_CHUNK_GROUPID 0xE416
-#define SPAWNPOINT_CHUNK_TYPE 0xE417
-#define SPAWNPOINT_CHUNK_FLAGS 0xE418
+#define SPAWNPOINT_CHUNK_VERSION      0xE411
+#define SPAWNPOINT_CHUNK_POSITION     0xE412
+#define SPAWNPOINT_CHUNK_RPOINT       0xE413
+#define SPAWNPOINT_CHUNK_DIRECTION    0xE414
+#define SPAWNPOINT_CHUNK_SQUADID      0xE415
+#define SPAWNPOINT_CHUNK_GROUPID      0xE416
+#define SPAWNPOINT_CHUNK_TYPE         0xE417
+#define SPAWNPOINT_CHUNK_FLAGS        0xE418
 
-#define SPAWNPOINT_CHUNK_ENTITYREF 0xE419
-#define SPAWNPOINT_CHUNK_SPAWNDATA 0xE420
+#define SPAWNPOINT_CHUNK_ENTITYREF    0xE419
+#define SPAWNPOINT_CHUNK_SPAWNDATA    0xE420
 
 #define SPAWNPOINT_CHUNK_ATTACHED_OBJ 0xE421
 
-#define SPAWNPOINT_CHUNK_ENVMOD 0xE422
-#define SPAWNPOINT_CHUNK_ENVMOD2 0xE423
-#define SPAWNPOINT_CHUNK_ENVMOD3 0xE424
-#define SPAWNPOINT_CHUNK_FLAGS 0xE425
+#define SPAWNPOINT_CHUNK_ENVMOD       0xE422
+#define SPAWNPOINT_CHUNK_ENVMOD2      0xE423
+#define SPAWNPOINT_CHUNK_ENVMOD3      0xE424
+#define SPAWNPOINT_CHUNK_FLAGS        0xE425
 
-const float RPOINT_SIZE = 0.5f;
-const float ENVMOD_SIZE = 0.25f;
-const int   MAX_TEAM    = 32;
+const float RPOINT_SIZE         = 0.5f;
+const float ENVMOD_SIZE         = 0.25f;
+const int   MAX_TEAM            = 32;
 
-const u32 RP_COLORS[MAX_TEAM] = {0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0x00ffff, 0xff00ff, 0xCD5C5C, 0xF08080,
-                                 0xDC143C, 0xB22222, 0x8B0000, 0xFFC0CB, 0xFF69B4, 0xC71585, 0xFF7F50, 0xFF8C00,
-                                 0xFFD700, 0xFFFFE0, 0xFFE4B5, 0xF0E68C, 0xBDB76B, 0xE6E6FA, 0xDDA0DD, 0xEE82EE,
-                                 0xFF00FF, 0xBA55D3, 0x9400D3, 0x4B0082, 0xB8860B, 0x800000, 0x808080, 0x000000};
+const u32   RP_COLORS[MAX_TEAM] =
+{
+    0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0x00ffff, 0xff00ff, 0xCD5C5C, 0xF08080,
+    0xDC143C, 0xB22222, 0x8B0000, 0xFFC0CB, 0xFF69B4, 0xC71585, 0xFF7F50, 0xFF8C00,
+    0xFFD700, 0xFFFFE0, 0xFFE4B5, 0xF0E68C, 0xBDB76B, 0xE6E6FA, 0xDDA0DD, 0xEE82EE,
+    0xFF00FF, 0xBA55D3, 0x9400D3, 0x4B0082, 0xB8860B, 0x800000, 0x808080, 0x000000
+};
 
 // CLE_Visual
 CLE_Visual::CLE_Visual(ISE_Visual* src)
@@ -67,10 +70,10 @@ void CLE_Visual::OnChangeVisual()
 
         if (NULL == visual && !g_tmp_lock)
         {
-            xr_string _msg = "Model [" + xr_string(source->visual_name.c_str()) + "] not found. Do you want to select it from library?";
-            int    mr       = ELog.DlgMsg(mtConfirmation, mbYes | mbNo, _msg.c_str());
-            LPCSTR _new_val = 0;
-            g_tmp_lock      = true;
+            xr_string _msg     = "Model [" + xr_string(source->visual_name.c_str()) + "] not found. Do you want to select it from library?";
+            int       mr       = ELog.DlgMsg(mtConfirmation, mbYes | mbNo, _msg.c_str());
+            LPCSTR    _new_val = 0;
+            g_tmp_lock         = true;
             if (mr == mrYes)
             {
                 UIChooseForm::SelectItem(smVisual, 1);
@@ -411,7 +414,6 @@ void CSpawnPoint::SSpawnData::PreExportSpawn(CSpawnPoint* owner)
     if (cform && !(owner->m_AttachedObject && (owner->m_AttachedObject->FClassID == OBJCLASS_SHAPE)))
     {
         ELog.DlgMsg(mtError, "& Spawn Point: '%s' must contain attached shape.", owner->GetName());
-        ;
     }
     if (cform)
     {
@@ -428,34 +430,53 @@ void CSpawnPoint::SSpawnData::OnAnimControlClick(ButtonValue* value, bool& bModi
 {
     ButtonValue* B = dynamic_cast<ButtonValue*>(value);
     R_ASSERT(B);
-    switch (B->btn_num)
+    if (m_Visual)
     {
-            //		"First,Play,Pause,Stop,Last",
-        case 0:   // first
+        switch (B->btn_num)
         {
-            m_Visual->PlayAnimationFirstFrame();
+            // "First,Play,Pause,Stop,Last",
+            case 0:   // first
+                m_Visual->PlayAnimationFirstFrame();
+            break;
+            case 1:   // play
+                m_Visual->PlayAnimation();
+            break;
+            case 2:   // pause
+                m_Visual->PauseAnimation();
+            break;
+            case 3:   // stop
+                m_Visual->StopAllAnimations();
+            break;
+            case 4:   // last
+                m_Visual->PlayAnimationLastFrame();
+            break;
         }
-        break;
-        case 1:   // play
+    }
+    else
+    {
+        xr_vector<CLE_Visual*>::iterator v_it, v_end;
+        for (v_it = m_VisualHelpers.begin(), v_end = m_VisualHelpers.end(); v_it != v_end; v_it++)
         {
-            m_Visual->PlayAnimation();
+            CLE_Visual* V = *v_it;
+            switch (B->btn_num)
+            {
+                case 0:
+                    V->PlayAnimationFirstFrame();
+                break;   // first
+                case 1:
+                    V->PlayAnimation();
+                break;   // play
+                case 2:
+                    V->PauseAnimation();
+                break;   // pause
+                case 3:
+                    V->StopAllAnimations();
+                break;   // stop
+                case 4:
+                    V->PlayAnimationLastFrame();
+                break;   // last
+            }
         }
-        break;
-        case 2:   // pause
-        {
-            m_Visual->PauseAnimation();
-        }
-        break;
-        case 3:   // stop
-        {
-            m_Visual->StopAllAnimations();
-        }
-        break;
-        case 4:   // last
-        {
-            m_Visual->PlayAnimationLastFrame();
-        }
-        break;
     }
 }
 
@@ -466,7 +487,7 @@ void CSpawnPoint::SSpawnData::FillProp(LPCSTR pref, PropItemVec& items)
     if (Scene->m_LevelOp.m_mapUsage.MatchType(eGameIDDeathmatch | eGameIDTeamDeathmatch | eGameIDArtefactHunt | eGameIDCaptureTheArtefact))
         PHelper().CreateFlag8(items, PrepareKey(pref, "MP respawn"), &m_flags, eSDTypeRespawn);
 
-    if (m_Visual)
+    if (m_Visual || m_VisualHelpers.size())
     {
         ButtonValue* BV = PHelper().CreateButton(items, PrepareKey(pref, m_Data->name(), "Model\\AnimationControl"), "|<<,Play,Pause,Stop,>>|", 0);
         BV->OnBtnClickEvent.bind(this, &CSpawnPoint::SSpawnData::OnAnimControlClick);
@@ -675,10 +696,10 @@ bool CSpawnPoint::AttachObject(CCustomObject* obj)
         {
             case OBJCLASS_SHAPE:
                 bAllowed = !!m_SpawnData.m_Data->shape();
-                break;
-                //        case OBJCLASS_SCENEOBJECT:
-                //	    	bAllowed = !!dynamic_cast<xrSE_Visualed*>(m_SpawnData.m_Data);
-                //        break;
+            break;
+            // case OBJCLASS_SCENEOBJECT:
+            //     bAllowed = !!dynamic_cast<xrSE_Visualed*>(m_SpawnData.m_Data);
+            // break;
         }
     }
     //
@@ -740,7 +761,7 @@ bool CSpawnPoint::GetBox(Fbox& box)
         case ptEnvMod:
             box.set(GetPosition(), GetPosition());
             box.grow(Selected() ? m_EM_Radius : ENVMOD_SIZE);
-            break;
+        break;
         case ptSpawnPoint:
             if (m_SpawnData.Valid())
             {
@@ -808,7 +829,7 @@ bool CSpawnPoint::GetBox(Fbox& box)
                 box.max.y += RPOINT_SIZE * 2.f;
                 box.max.z += RPOINT_SIZE;
             }
-            break;
+        break;
         default:
             NODEFAULT;
     }
@@ -850,7 +871,7 @@ void CSpawnPoint::RenderSimBox()
     m.scale(Fvector().mul(s, 2));
     m.c.set(c);
 
-    //     B.mulA_43			(_Transform());
+    // B.mulA_43(_Transform());
     RCache.set_xform_world(m);
     u32 clr = 0x06005000;
     DU_impl.DrawIdentBox(true, false, clr, clr);
