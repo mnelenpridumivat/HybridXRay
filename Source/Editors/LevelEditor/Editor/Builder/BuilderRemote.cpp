@@ -1539,8 +1539,7 @@ BOOL SceneBuilder::CompileStatic(bool b_selected_only)
         SSimpleImage merged_image;
         xr_string    fn_color  = ChangeFileExt(MakeLevelPath(LEVEL_LODS_TEX_NAME).c_str(), ".dds").c_str();
         xr_string    fn_normal = ChangeFileExt(MakeLevelPath(LEVEL_LODS_NRM_NAME).c_str(), ".dds").c_str();
-        if (1 ==
-            ImageLib.CreateMergedTexture(2, images, merged_image, 512, 8192, 64, 8192, offsets, scales, rotated, remap))
+        if (1 == ImageLib.CreateMergedTexture(2, images, merged_image, 512, 8192, 64, 8192, offsets, scales, rotated, remap))
         {
             // all right, make texture
             STextureParams tp;
