@@ -834,10 +834,10 @@ void CActorTools::FillBoneProperties(PropItemVec& items, LPCSTR pref, ListItem* 
         // PHelper().CreateCaption(items, PrepareKey(pref,"Bone\\Influence"), shared_str().sprintf("%d vertices",0));
         PHelper().CreateChoose(items, PrepareKey(pref, "Bone\\Game Material"), &BONE->game_mtl, smGameMaterial);
         PHelper().CreateFloat(items, PrepareKey(pref, "Bone\\Mass"), &BONE->mass, 0.f, 10000.f);
-        PHelper().CreateVector(items, PrepareKey(pref, "Bone\\Center Of Mass"), &BONE->center_of_mass, -10000.f, 10000.f);
-        V = PHelper().CreateVector(items, PrepareKey(pref, "Bone\\Bind Position"), &BONE->_RestOffset(), -10000.f, 10000.f);
+        PHelper().CreateVector(items, PrepareKey(pref, "Bone\\Center Of Mass"), &BONE->center_of_mass, -10000.f, 10000.f, 0.01f, 4);
+        V = PHelper().CreateVector(items, PrepareKey(pref, "Bone\\Bind Position"), &BONE->_RestOffset(), -10000.f, 10000.f, 0.01f, 4);
         V->OnChangeEvent.bind(this, &CActorTools::OnBindTransformChange);
-        V = PHelper().CreateAngle3(items, PrepareKey(pref, "Bone\\Bind Rotation"), &BONE->_RestRotate());
+        V = PHelper().CreateAngle3(items, PrepareKey(pref, "Bone\\Bind Rotation"), &BONE->_RestRotate(), flt_min, flt_max, 0.01f, 2);
         V->OnChangeEvent.bind(this, &CActorTools::OnBindTransformChange);
         PHelper().CreateFlag16(items, PrepareKey(pref, "Bone\\Shape\\Flags\\No Pickable"), &BONE->shape.flags, SBoneShape::sfNoPickable);
         PHelper().CreateFlag16(items, PrepareKey(pref, "Bone\\Shape\\Flags\\No Physics"), &BONE->shape.flags, SBoneShape::sfNoPhysics);
@@ -849,18 +849,18 @@ void CActorTools::FillBoneProperties(PropItemVec& items, LPCSTR pref, ListItem* 
         switch (BONE->shape.type)
         {
             case SBoneShape::stBox:
-                PHelper().CreateVector(items, PrepareKey(pref, "Bone\\Shape\\Box\\Center"), &BONE->shape.box.m_translate, -10000.f, 10000.f);
+                PHelper().CreateVector(items, PrepareKey(pref, "Bone\\Shape\\Box\\Center"), &BONE->shape.box.m_translate, -10000.f, 10000.f, 0.01f, 4);
                 B = PHelper().CreateButton(items, PrepareKey(pref, "Bone\\Shape\\Box\\Align Axis"), "X,Y,Z", 0);
                 B->OnBtnClickEvent.bind(this, &CActorTools::OnBoxAxisClick);
                 B->tag = (size_t)BONE;
-                PHelper().CreateVector(items, PrepareKey(pref, "Bone\\Shape\\Box\\Half Size"), &BONE->shape.box.m_halfsize, 0.f, 1000.f);
+                PHelper().CreateVector(items, PrepareKey(pref, "Bone\\Shape\\Box\\Half Size"), &BONE->shape.box.m_halfsize, 0.f, 1000.f, 0.01f, 4);
                 break;
             case SBoneShape::stSphere:
-                PHelper().CreateVector(items, PrepareKey(pref, "Bone\\Shape\\Sphere\\Position"), &BONE->shape.sphere.P, -10000.f, 10000.f);
+                PHelper().CreateVector(items, PrepareKey(pref, "Bone\\Shape\\Sphere\\Position"), &BONE->shape.sphere.P, -10000.f, 10000.f, 0.01f, 4);
                 PHelper().CreateFloat(items, PrepareKey(pref, "Bone\\Shape\\Sphere\\Radius"), &BONE->shape.sphere.R, 0.f, 1000.f);
                 break;
             case SBoneShape::stCylinder:
-                PHelper().CreateVector(items, PrepareKey(pref, "Bone\\Shape\\Cylinder\\Center"), &BONE->shape.cylinder.m_center, -10000.f, 10000.f);
+                PHelper().CreateVector(items, PrepareKey(pref, "Bone\\Shape\\Cylinder\\Center"), &BONE->shape.cylinder.m_center, -10000.f, 10000.f, 0.01f, 4);
                 B = PHelper().CreateButton(items, PrepareKey(pref, "Bone\\Shape\\Cylinder\\Align Axis"), "X,Y,Z", 0);
                 B->OnBtnClickEvent.bind(this, &CActorTools::OnCylinderAxisClick);
                 B->tag = (size_t)BONE;
@@ -1046,9 +1046,9 @@ void CActorTools::FillObjectProperties(PropItemVec& items, LPCSTR pref, ListItem
         "Anti-aliasing type when exporting a model - SoC: type #1.\n Default - when importing a model into the editor\n the anti-aliasing type is determined automatically\n and the necessary anti-aliasing flag is already set."_RU >
         u8"Тип сглаживания при экспорте модели - SoC: тип #1.\n По умолчанию - при импорте модели в редактор\n тип сглаживания определяется автоматически\n и уже установлен необходимый флаг сглаживания.";
 
-    V = PHelper().CreateVector(items, "Object\\Transform\\Position", &m_pEditObject->a_vPosition, -10000, 10000, 0.01, 2);
+    V = PHelper().CreateVector(items, "Object\\Transform\\Position", &m_pEditObject->a_vPosition, -10000, 10000, 0.01, 4);
     V->OnChangeEvent.bind(this, &CActorTools::OnChangeTransform);
-    V = PHelper().CreateAngle3(items, "Object\\Transform\\Rotation", &m_pEditObject->a_vRotate, -10000, 10000, 0.1, 1);
+    V = PHelper().CreateAngle3(items, "Object\\Transform\\Rotation", &m_pEditObject->a_vRotate, -10000, 10000, 0.1, 2);
     V->OnChangeEvent.bind(this, &CActorTools::OnChangeTransform);
     V = PHelper().CreateFloat(items, "Object\\Transform\\Scale", &m_pEditObject->a_vScale, -10000, 10000, 0.01, 2);
     V->OnChangeEvent.bind(this, &CActorTools::OnChangeTransform);
