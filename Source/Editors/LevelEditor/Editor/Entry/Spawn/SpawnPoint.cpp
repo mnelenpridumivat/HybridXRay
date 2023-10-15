@@ -226,6 +226,12 @@ void CSpawnPoint::CLE_Motion::PlayMotion()
 // SpawnData
 void CSpawnPoint::SSpawnData::Create(LPCSTR _entity_ref)
 {
+    if (!pSettings->section_exist(_entity_ref))
+    {
+        ELog.Msg(mtError, "! Section doesn't exist: %s", _entity_ref);
+        return;
+    }
+
     m_Data = g_SEFactoryManager->create_entity(_entity_ref);
     if (m_Data)
     {
