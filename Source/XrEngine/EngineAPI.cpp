@@ -179,8 +179,7 @@ void CEngineAPI::Initialize(void)
         g_current_renderer = 1;
     }
     {
-        InitializeRendering* pInitializeRendering =
-            (InitializeRendering*)GetProcAddress(hRender, "InitializeRendering");
+        InitializeRendering* pInitializeRendering = (InitializeRendering*)GetProcAddress(hRender, "InitializeRendering");
         R_ASSERT(pInitializeRendering);
         pInitializeRendering();
     }

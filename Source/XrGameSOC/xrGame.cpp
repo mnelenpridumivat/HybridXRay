@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: xrGame.cpp
 //	Created 	: 07.01.2001
 //  Modified 	: 27.05.2004
@@ -12,40 +12,39 @@
 #include "xr_level_controller.h"
 #include "profiler.h"
 
-extern void setup_luabind_allocator();
 extern void CCC_RegisterCommands();
+extern void setup_luabind_allocator();
 
-extern "C" {
-	DLL_API DLL_Pure*	__cdecl xrFactory_Create		(CLASS_ID clsid)
-	{
-		static bool bIsInitilize = false;
-		if (!bIsInitilize)
-		{
-			CCC_RegisterCommands();
-			// keyboard binding
-			CCC_RegisterInput();
+extern void clean_game_globals();
+extern void init_game_globals();
+extern "C"
+{
+    DLL_API void __cdecl xrGameInitialize()
+    {
+        // PhysicsInitialize();
+        CCC_RegisterCommands();
+        // keyboard binding
+        CCC_RegisterInput();
 
-			setup_luabind_allocator();
+        setup_luabind_allocator();
 
 #ifdef DEBUG
-			g_profiler = xr_new<CProfiler>();
+        g_profiler = xr_new<CProfiler>();
 #endif
-
-			bIsInitilize = true;
-		}
-
-		DLL_Pure			*object = object_factory().client_object(clsid);
+    }
+    DLL_API DLL_Pure* __cdecl xrFactory_Create(CLASS_ID clsid)
+    {
+        DLL_Pure* object = object_factory().client_object(clsid);
 #ifdef DEBUG
-		if (!object)
-			return			(0);
+        if (!object)
+            return (0);
 #endif
-		object->CLS_ID		= clsid;
-		return				(object);
-	}
+        object->CLS_ID = clsid;
+        return (object);
+    }
 
-	DLL_API void		__cdecl	xrFactory_Destroy		(DLL_Pure* O)
-	{
-		xr_delete			(O);
-	}
+    DLL_API void __cdecl xrFactory_Destroy(DLL_Pure* O)
+    {
+        xr_delete(O);
+    }
 };
-

@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+﻿#include "StdAfx.h"
 #include "UIOutfitInfo.h"
 #include "UIXmlInit.h"
 #include "UIStatic.h"
@@ -100,9 +100,12 @@ void CUIOutfitInfo::SetItem(u32 hitType, bool force_add)
 
 	if(fsimilar(_val_outfit, 0.0f) && fsimilar(_val_af, 0.0f) && !force_add)
 	{
-		if(_s->GetParent()!=NULL)
-			m_listWnd->RemoveWindow(_s);
-		return;
+        if (_s && _s != nullptr)
+        {
+            if (_s->GetParent() != NULL)
+                m_listWnd->RemoveWindow(_s);
+        }
+        return;
 	}
 
 //	LPCSTR			_clr_outfit, _clr_af;
@@ -115,8 +118,11 @@ void CUIOutfitInfo::SetItem(u32 hitType, bool force_add)
 	{
 		_sz		+= sprintf_s	(_buff+_sz,sizeof(_buff)-_sz,"%s %+3.0f%%", (_val_af>0.0f)?"%c[green]":"%c[red]", _val_af*100.0f);
 	}
-	_s->SetText			(_buff);
+    if (_s && _s != nullptr)
+    {
+        _s->SetText(_buff);
 
-	if(_s->GetParent()==NULL)
-		m_listWnd->AddWindow(_s, false);
+        if (_s->GetParent() == NULL)
+            m_listWnd->AddWindow(_s, false);
+    }
 }

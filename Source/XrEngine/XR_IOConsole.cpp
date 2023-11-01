@@ -493,7 +493,7 @@ void CConsole::DrawBackgrounds(bool bGame)
             {
                 continue;
             }
-            int str_size = (int)ts.text.size();
+            size_t str_size = (int)ts.text.size();
             if ((ts.HL_start >= str_size) || (ts.HL_finish > str_size))
             {
                 continue;
@@ -567,7 +567,9 @@ void CConsole::DrawRect(Frect const& r, u32 color)
 
 void CConsole::ExecuteCommand(LPCSTR cmd_str, bool record_cmd)
 {
-    u32  str_size = xr_strlen(cmd_str);
+
+    size_t str_size = xr_strlen(cmd_str);
+    
     PSTR edt      = (PSTR)_alloca((str_size + 1) * sizeof(char));
     PSTR first    = (PSTR)_alloca((str_size + 1) * sizeof(char));
     PSTR last     = (PSTR)_alloca((str_size + 1) * sizeof(char));
@@ -686,8 +688,7 @@ void CConsole::Hide()
     {
         return;
     }
-    //	if  ( g_pGameLevel ||
-    //		( g_pGamePersistent && g_pGamePersistent->m_pMainMenu && g_pGamePersistent->m_pMainMenu->IsActive() ))
+    // if  ( g_pGameLevel || ( g_pGamePersistent && g_pGamePersistent->m_pMainMenu && g_pGamePersistent->m_pMainMenu->IsActive() ))
 
     if (pInput->get_exclusive_mode())
     {
@@ -723,8 +724,8 @@ void CConsole::Execute(LPCSTR cmd)
 
 void CConsole::ExecuteScript(LPCSTR str)
 {
-    u32  str_size = xr_strlen(str);
-    PSTR buf      = (PSTR)_alloca((str_size + 10) * sizeof(char));
+    size_t str_size = xr_strlen(str);
+    PSTR   buf      = (PSTR)_alloca((str_size + 10) * sizeof(char));
     xr_strcpy(buf, str_size + 10, "cfg_load ");
     xr_strcat(buf, str_size + 10, str);
     Execute(buf);
@@ -736,7 +737,7 @@ IConsole_Command* CConsole::find_next_cmd(LPCSTR in_str, shared_str& out_str)
 {
     LPCSTR radmin_cmd_name = "ra ";
     bool   b_ra            = (in_str == strstr(in_str, radmin_cmd_name));
-    u32    offset          = (b_ra) ? xr_strlen(radmin_cmd_name) : 0;
+    size_t offset          = (b_ra) ? xr_strlen(radmin_cmd_name) : 0;
 
     LPSTR t2;
     STRCONCAT(t2, in_str + offset, " ");
@@ -818,7 +819,7 @@ bool CConsole::add_internal_cmds(LPCSTR in_str, vecTipsEx& out_v)
     for (; itb != ite; ++itb)
     {
         LPCSTR name    = itb->first;
-        u32    name_sz = xr_strlen(name);
+        size_t name_sz = xr_strlen(name);
         PSTR   name2   = (PSTR)_alloca((name_sz + 1) * sizeof(char));
 
         if (name_sz >= in_sz)
@@ -886,7 +887,7 @@ void CConsole::update_tips()
     }
 
     LPCSTR cur        = ec().str_edit();
-    u32    cur_length = xr_strlen(cur);
+    size_t cur_length = xr_strlen(cur);
 
     if (cur_length == 0)
     {
@@ -904,7 +905,7 @@ void CConsole::update_tips()
     PSTR last  = (PSTR)_alloca((cur_length + 1) * sizeof(char));
     text_editor::split_cmd(first, last, cur);
 
-    u32 first_lenght = xr_strlen(first);
+    size_t first_lenght = xr_strlen(first);
 
     if ((first_lenght > 2) && (first_lenght + 1 <= cur_length))   // param
     {
