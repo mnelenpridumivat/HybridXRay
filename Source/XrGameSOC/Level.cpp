@@ -49,7 +49,6 @@
 #	include "debug_renderer.h"
 #	include "physicobject.h"
 #endif
-#include <functional>
 ENGINE_API bool g_dedicated_server;
 
 extern BOOL	g_bDebugDumpPhysicsStep;

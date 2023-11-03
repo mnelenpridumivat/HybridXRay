@@ -6,7 +6,6 @@
 #include "game_cl_mp.h"
 #include "string_table.h"
 #include "clsid_game.h"
-#include <functional>
 
 #include "ui\UIBuyWndShared.h"
 

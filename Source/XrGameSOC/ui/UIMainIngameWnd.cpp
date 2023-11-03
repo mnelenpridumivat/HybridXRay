@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include <functional>
 
 #include "UIMainIngameWnd.h"
 #include "UIMessagesWindow.h"

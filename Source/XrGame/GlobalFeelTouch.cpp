@@ -1,6 +1,5 @@
 ﻿#include "stdafx.h"
 #include "GlobalFeelTouch.hpp"
-#include <functional>
 
 GlobalFeelTouch::GlobalFeelTouch() {}
 
