@@ -16,7 +16,7 @@
 #if 1
 #include "Shader.h"
 
-ECORE_API extern bool bIsActorEditor = true;
+XREPROPS_API extern bool bIsActorEditor;
 
 bool CEditableObject::Load(const char* fname)
 {

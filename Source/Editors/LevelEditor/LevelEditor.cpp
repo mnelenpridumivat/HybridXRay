@@ -11,7 +11,7 @@
 #include "Engine\XRayEditor.h"
 #include "resources\splash.h"
 
-ECORE_API extern bool bIsActorEditor;
+XREPROPS_API extern bool bIsActorEditor;
 ECORE_API extern bool bIsLevelEditor;
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)

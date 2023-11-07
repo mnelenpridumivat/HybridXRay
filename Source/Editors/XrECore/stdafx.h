@@ -6,7 +6,7 @@
 #include <d3d9.h>
 #include "directx\d3dx9.h"
 #include "..\..\XrRender\Private\xrD3dDefs.h"
-#include "../XrCore/Utils.hpp"
+#include "..\XrCore\Utils.hpp"
 
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>

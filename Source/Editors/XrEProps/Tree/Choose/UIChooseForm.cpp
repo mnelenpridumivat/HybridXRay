@@ -1,5 +1,7 @@
 ﻿#include "stdafx.h"
 #include "UIChooseForm.h"
+
+XREPROPS_API extern bool bIsActorEditor = true;
 UIChooseForm::EventsMap UIChooseForm::m_Events;
 UIChooseForm*           UIChooseForm::Form        = 0;
 ImTextureID             UIChooseForm::NullTexture = nullptr;
@@ -199,10 +201,9 @@ void UIChooseForm::Draw()
                     m_SelectedItems.clear();
                     m_RootItem.CheckFavorited(m_SelectedItems);
                     CheckFavorite();
-                    m_SelectedList = -1; /*  if (E.flags.test(SChooseEvents::flClearTexture) ){ if
-                                            (m_Texture)m_Texture->Release(); m_Texture = 0; } */
-                    ImGui::SameLine();
+                    m_SelectedList = -1;
                 }
+                ImGui::Separator();
                 if (ImGui::BeginChild("List", ImVec2(0, 0), true, ImGuiWindowFlags_AlwaysHorizontalScrollbar | ImGuiWindowFlags_AlwaysVerticalScrollbar))
                 {
                     int i     = 0;
@@ -226,7 +227,7 @@ void UIChooseForm::Draw()
 
             ImGui::EndChild();
 
-            ImGui::BeginDisabled(!GetSelectedItem());
+            ImGui::BeginDisabled(!GetSelectedItem() && !bIsActorEditor);
             if (ImGui::Button("Ok", ImVec2(100, 0)))
             {
                 if (!m_Flags.is(cfMultiSelect))
