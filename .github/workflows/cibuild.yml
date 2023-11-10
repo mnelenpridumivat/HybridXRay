@@ -20,6 +20,8 @@ jobs:
     - uses: actions/checkout@main
 
     - uses: microsoft/setup-msbuild@main
+      with:
+        vs-prerelease: true
 
     - uses: nuget/setup-nuget@main
 
