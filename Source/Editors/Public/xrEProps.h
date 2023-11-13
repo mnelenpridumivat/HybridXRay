@@ -1,4 +1,4 @@
-#ifndef xrEPropsH
+﻿#ifndef xrEPropsH
 #define xrEPropsH
 
 #	ifndef XREPROPS_API
@@ -116,13 +116,17 @@ public:
 //---------------------------------------------------------------------------
 
 extern XREPROPS_API IPropHelper &PHelper();
+extern ENGINE_API xr_token rpoint_game_type[];
 
 //------------------------------------------------------------------------------
 // Create Props for GameTypeChooser
 //------------------------------------------------------------------------------
 IC void CreatePropsForGameTypeChooser(GameTypeChooser* chooser, LPCSTR pref, PropItemVec& items)
 {
-  //PHelper().CreateGameType(items, PrepareKey(pref, "Game Type"), chooser);
+    if (xrGameManager::GetGame() == EGame::SHOC)
+        PHelper().CreateToken16(items, PrepareKey(pref, "Game Type"), &chooser->m_GameType.flags, rpoint_game_type);   // &m_RP_GameType, rpoint_game_type
+    else
+        PHelper().CreateGameType(items, PrepareKey(pref, "Game Type"), chooser);
 }
 
 //------------------------------------------------------------------------------

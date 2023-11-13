@@ -13,13 +13,15 @@ enum ERPGameType
     rpgtGameCount,
 };
 
-xr_token rpoint_game_type[] = {
-    {"Any game", rpgtGameAny},
-    {"Deathmatch", rpgtGameDeathmatch},
-    {"TeamDeathmatch", rpgtGameTeamDeathmatch},
-    {"ArtefactHunt", rpgtGameArtefactHunt},
+extern ENGINE_API xr_token rpoint_game_type[] =
+{
+    {"Any game",           rpgtGameAny},
+    {"Deathmatch",         rpgtGameDeathmatch},
+    {"TeamDeathmatch",     rpgtGameTeamDeathmatch},
+    {"ArtefactHunt",       rpgtGameArtefactHunt},
     {"CaptureTheArtefact", rpgtGameCaptureTheArtefact},
-    {0, 0}};
+    {0, 0}
+};
 
 #ifndef MASTER_GOLD
 bool GameTypeChooser::LoadStream(IReader& F)
