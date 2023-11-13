@@ -299,7 +299,7 @@ void EParticlesObject::FillProp(LPCSTR pref, PropItemVec& items)
     B = PHelper().CreateButton(items, PrepareKey(pref, "Controls"), "Play,Stop", 0);
     B->OnBtnClickEvent.bind(this, &EParticlesObject::OnControlClick);
 
-    m_GameType.FillProp(pref, items);
+    CreatePropsForGameTypeChooser(&m_GameType, pref, items);
 }
 
 bool EParticlesObject::GetSummaryInfo(SSceneSummary* inf)

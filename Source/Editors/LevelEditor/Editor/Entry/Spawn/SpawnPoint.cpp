@@ -1507,7 +1507,7 @@ void CSpawnPoint::FillProp(LPCSTR pref, PropItemVec& items)
                 Token8Value* TV = PHelper().CreateToken8(items, PrepareKey(pref, "Respawn Point\\Spawn Type"), &m_RP_Type, rpoint_type);
                 TV->OnChangeEvent.bind(this, &CSpawnPoint::OnRPointTypeChange);
 
-                m_GameType.FillProp(pref, items);
+                CreatePropsForGameTypeChooser(&m_GameType, pref, items);
             }
             break;
             case ptEnvMod:

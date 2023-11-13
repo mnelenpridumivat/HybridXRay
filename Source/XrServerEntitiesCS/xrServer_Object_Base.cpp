@@ -415,7 +415,7 @@ xr_token game_types[]={
 void CSE_Abstract::FillProps(LPCSTR pref, PropItemVec& items)
 {
 #ifdef XRSEFACTORY_EXPORTS;
-    m_gameType.FillProp(pref, items);
+  CreatePropsForGameTypeChooser(&m_gameType, pref, items);
 #endif // #ifdef XRSEFACTORY_EXPORTS;
 /*
 #ifdef XRGAME_EXPORTS

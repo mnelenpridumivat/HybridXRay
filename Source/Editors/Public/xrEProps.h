@@ -116,7 +116,14 @@ public:
 //---------------------------------------------------------------------------
 
 extern XREPROPS_API IPropHelper &PHelper();
-//---------------------------------------------------------------------------
+
+//------------------------------------------------------------------------------
+// Create Props for GameTypeChooser
+//------------------------------------------------------------------------------
+IC void CreatePropsForGameTypeChooser(GameTypeChooser* chooser, LPCSTR pref, PropItemVec& items)
+{
+  //PHelper().CreateGameType(items, PrepareKey(pref, "Game Type"), chooser);
+}
 
 //------------------------------------------------------------------------------
 // List

@@ -23,9 +23,6 @@ DEFINE_VECTOR(PropItem*, PropItemVec, PropItemIt);
 struct ENGINE_API GameTypeChooser
 {
     Flags16 m_GameType;
-#ifndef MASTER_GOLD
-    void FillProp(LPCSTR pref, PropItemVec& items);
-#endif   // #ifndef XRGAME_EXPORTS
 
 #ifndef MASTER_GOLD
     bool LoadStream(IReader& F);
