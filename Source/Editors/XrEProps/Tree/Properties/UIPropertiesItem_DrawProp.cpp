@@ -6,7 +6,8 @@
 const LPSTR TEXTUREString[TSTRING_COUNT] =
     {
         "Custom...", "$null", "$base0", "$base1", "$base2",
-        "$base3", "$base4", "$base5", "$base6", "$base7"};
+        "$base3", "$base4", "$base5", "$base6", "$base7"
+    };
 
 template<typename T> inline bool DrawNumeric(PropItem* item, bool& change, bool read_only)
 {
@@ -256,8 +257,7 @@ void UIPropertiesItem::DrawProp()
 
             PItem->BeforeEdit<U32Value, u32>(edit_val);
             u32   a        = color_get_A(edit_val);
-            float color[3] = {
-                color_get_B(edit_val) / 255.f, color_get_G(edit_val) / 255.f, color_get_R(edit_val) / 255.f};
+            float color[3] = {color_get_R(edit_val) / 255.f, color_get_G(edit_val) / 255.f, color_get_B(edit_val) / 255.f};
             if (ImGui::ColorEdit3("##value", color))
             {
                 edit_val = color_rgba_f(color[2], color[1], color[0], 1.f);
