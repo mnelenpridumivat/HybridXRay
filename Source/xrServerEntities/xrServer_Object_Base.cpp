@@ -187,7 +187,7 @@ void CSE_Abstract::Spawn_Write(NET_Packet& tNetPacket, BOOL bLocal)
     tNetPacket.w_begin(M_SPAWN);
     tNetPacket.w_stringZ(s_name);
     tNetPacket.w_stringZ(s_name_replace ? s_name_replace : "");
-    tNetPacket.w_u8(0);
+    tNetPacket.w_u8(0);   // в тч тут режим был, s_gameid!
     tNetPacket.w_u8(s_RP);
     tNetPacket.w_vec3(o_Position);
     tNetPacket.w_vec3(o_Angle);

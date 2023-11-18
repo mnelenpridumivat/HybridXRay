@@ -60,7 +60,10 @@ void st_LevelOptions::SaveLTX(CInifile& ini)
 void st_LevelOptions::Save(IWriter& F)
 {
     F.open_chunk(CHUNK_LO_VERSION);
-    F.w_u32(CURRENT_LEVELOP_VERSION);
+    if (xrGameManager::GetGame() != EGame::SHOC)
+        F.w_u32(CURRENT_LEVELOP_VERSION);
+    else
+        F.w_u32(0x00000008);
     F.close_chunk();
 
     F.open_chunk(CHUNK_LO_NAMES);
@@ -75,9 +78,12 @@ void st_LevelOptions::Save(IWriter& F)
     F.w_stringZ(m_BOPText.size() ? m_BOPText.c_str() : "");
     F.close_chunk();
 
-    F.open_chunk(CHUNK_LO_MAP_VER);
-    F.w_stringZ(m_map_version.size() ? m_map_version.c_str() : "1.0");
-    F.close_chunk();
+    if (xrGameManager::GetGame() != EGame::SHOC)
+    {
+        F.open_chunk(CHUNK_LO_MAP_VER);
+        F.w_stringZ(m_map_version.size() ? m_map_version.c_str() : "1.0");
+        F.close_chunk();
+    }
 
     F.open_chunk(CHUNK_LO_BP_VERSION);
     F.w_u32(CURRENT_LEVELOP_BP_VERSION);
@@ -93,7 +99,14 @@ void st_LevelOptions::Save(IWriter& F)
     F.close_chunk();
 
     F.open_chunk(CHUNK_MAP_USAGE);
-    F.w_u16(m_mapUsage.m_GameType.get());
+    if (xrGameManager::GetGame() == EGame::SHOC)
+    {
+        F.w_s32(m_mapUsage.m_GameType.is(eGameIDDeathmatch));
+        F.w_s32(m_mapUsage.m_GameType.is(eGameIDTeamDeathmatch));
+        F.w_s32(m_mapUsage.m_GameType.is(eGameIDArtefactHunt));
+    }
+    else
+        F.w_u16(m_mapUsage.m_GameType.get());
     F.close_chunk();
 }
 
@@ -468,7 +481,8 @@ bool EScene::LoadToolLTX(ObjClassID clsid, LPCSTR fn)
 
 void EScene::Save(LPCSTR map_name, bool bUndo, bool bForceSaveAll)
 {
-    R_ASSERT(bUndo);
+    if (xrGameManager::GetGame() != EGame::SHOC)
+        R_ASSERT(bUndo);
     VERIFY(map_name);
 
     CTimer T;

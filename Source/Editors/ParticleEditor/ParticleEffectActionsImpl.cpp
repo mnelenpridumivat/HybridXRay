@@ -8,7 +8,8 @@
 #include "../../xrParticles/particle_actions_collection.h"
 
 using namespace PAPI;
-#define PARTICLE_ACTION_VERSION 0x0001
+const u32 PARTICLE_ACTION_VERSION     = 0x0001;
+const u32 PARTICLE_ACTION_VERSION_SOC = 0x0000;
 //---------------------------------------------------------------------------
 
 xr_token2 actions_token[] =
@@ -158,7 +159,12 @@ void EParticleAction::Render(const Fmatrix& parent)
 void EParticleAction::Load(IReader& F)
 {
     u32 vers = F.r_u32();
-    R_ASSERT(vers == PARTICLE_ACTION_VERSION);
+
+    if (xrGameManager::GetGame() == EGame::SHOC)
+        R_ASSERT(vers == PARTICLE_ACTION_VERSION_SOC);
+    else
+        R_ASSERT(vers == PARTICLE_ACTION_VERSION);
+
     F.r_stringZ(actionName);
     flags.assign(F.r_u32());
     for (PFloatMapIt f_it = floats.begin(); f_it != floats.end(); f_it++)
@@ -1199,15 +1205,20 @@ EPATargetColor::EPATargetColor(): EParticleAction(PAPI::PATargetColorID)
     appendVector("Color", PVector::vColor, 1.f, 1.f, 1.f, 0.f, 1.f);
     appendFloat("Alpha", 1.f, 0.0f, 1.0f);
     appendFloat("Scale", 1.f, 0.01f, P_MAXFLOAT);
-    appendFloat("TimeFrom", 0.0f, 0.0f, 1.0f);
-    appendFloat("TimeTo", 1.0f, 0.0f, 1.0f);
+
+    if (xrGameManager::GetGame() != EGame::SHOC)
+    {
+        appendFloat("TimeFrom", 0.0f, 0.0f, 1.0f);
+        appendFloat("TimeTo", 1.0f, 0.0f, 1.0f);
+    }
 }
 
 void EPATargetColor::Compile(IWriter& F)
 {
-    pTargetColor(
-        F, _vector("Color").val, _float("Alpha").val, _float("Scale").val, _float("TimeFrom").val,
-        _float("TimeTo").val);
+    if (xrGameManager::GetGame() == EGame::SHOC)
+        pTargetColor(F, _vector("Color").val, _float("Alpha").val, _float("Scale").val, 0.f, 1.f);
+    else
+        pTargetColor(F, _vector("Color").val, _float("Alpha").val, _float("Scale").val, _float("TimeFrom").val, _float("TimeTo").val);
 }
 
 EPATargetSize::EPATargetSize(): EParticleAction(PAPI::PATargetSizeID)

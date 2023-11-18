@@ -184,9 +184,9 @@ void CSE_Abstract::Spawn_Write(NET_Packet& tNetPacket, BOOL bLocal)
         tNetPacket.w_u16(u16(s_flags.flags & ~(M_SPAWN_OBJECT_LOCAL | M_SPAWN_OBJECT_ASPLAYER)));
 
     tNetPacket.w_u16(SPAWN_VERSION);
+    tNetPacket.w_u16(m_gameType.m_GameType.flags);
 
     tNetPacket.w_u16(script_server_object_version());
-    tNetPacket.w_u16(m_gameType.m_GameType.flags);
 
     // client object custom data serialization SAVE
     u16 client_data_size = (u16)client_data.size();   // не может быть больше 256 байт
@@ -376,14 +376,14 @@ Flags16& CSE_Abstract::flags()
 
 xr_token game_types[] =
 {
-    {"any game", GAME_ANY},
-    {"single", GAME_SINGLE},
-    {"deathmatch", GAME_DEATHMATCH},
-    // { "CTF", GAME_CTF },
-    // { "assault", GAME_ASSAULT },
-    {"counterstrike", GAME_CS},
-    {"teamdeathmatch", GAME_TEAMDEATHMATCH},
-    {"artefacthunt", GAME_ARTEFACTHUNT},
+    {"any_game", eGameIDNoGame},
+    {"single", eGameIDSingle},
+    {"deathmatch", eGameIDDeathmatch},
+    {"team_deathmatch", eGameIDTeamDeathmatch},
+    {"artefacthunt", eGameIDArtefactHunt},
+    {"capture_the_artefact", eGameIDCaptureTheArtefact},
+    // eGameIDDominationZone
+    // eGameIDTeamDominationZone
     {0, 0}
 };
 

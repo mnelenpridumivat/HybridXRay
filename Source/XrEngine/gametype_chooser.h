@@ -1,7 +1,15 @@
-﻿#ifndef GAMETYPE_CHOOSER_INCLUDED
-#define GAMETYPE_CHOOSER_INCLUDED
+﻿#pragma once
 
-#pragma once
+// old
+enum ERPGameType
+{
+    rpgtGameAny = u8(0),
+    rpgtGameDeathmatch,
+    rpgtGameTeamDeathmatch,
+    rpgtGameArtefactHunt,
+    rpgtGameCaptureTheArtefact,
+    rpgtGameCount,
+};
 
 // new
 enum EGameIDs
@@ -42,5 +50,3 @@ struct ENGINE_API GameTypeChooser
         return (t == eGameIDNoGame) || !!m_GameType.test(t);
     };
 };
-
-#endif

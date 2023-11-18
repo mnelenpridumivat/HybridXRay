@@ -7,6 +7,7 @@
 #define SCENEOBJ_CHUNK_PLACEMENT 0x0904
 #define SCENEOBJ_CHUNK_FLAGS     0x0905
 #define SCENEOBJ_CHUNK_SURFACE   0x0906
+
 bool CSceneObject::LoadLTX(CInifile& ini, LPCSTR sect_name)
 {
     bool bRes = true;
@@ -29,8 +30,7 @@ bool CSceneObject::LoadLTX(CInifile& ini, LPCSTR sect_name)
             if (b_found)
             {
                 xr_string _message;
-                _message = "Object [" + ref_name + "] not found. Relace it with [" + _new_name +
-                    "] or select other from library?";
+                _message = "Object [" + ref_name + "] not found. Relace it with [" + _new_name + "] or select other from library?";
                 mr = ELog.DlgMsg(mtConfirmation, mbYes | mbNo, _message.c_str());
                 if (mrYes == mr)
                 {
@@ -190,16 +190,6 @@ bool CSceneObject::LoadStream(IReader& F)
                     bRes = SetReference(_new_name.c_str());
                 }
             }
-            if (!bRes)
-            {
-                /*if ( (mr==mrNone||mr==mrYes) && TfrmChoseItem::SelectItem(smObject,new_val,1))
-                {
-                    bRes = SetReference(new_val);
-                    if(bRes)
-                        Scene->RegisterSubstObjectName(buf, new_val);
-                }*/
-            }
-
             Scene->Modified();
         }
 
@@ -263,12 +253,22 @@ void CSceneObject::SaveStream(IWriter& F)
     CCustomObject::SaveStream(F);
 
     F.open_chunk(SCENEOBJ_CHUNK_VERSION);
-    F.w_u16(SCENEOBJ_CURRENT_VERSION);
+    if (xrGameManager::GetGame() == EGame::SHOC)
+        F.w_u16(SCENEOBJ_CURRENT_VERSION - 1);
+    else
+        F.w_u16(SCENEOBJ_CURRENT_VERSION);
     F.close_chunk();
 
     // reference object version
     F.open_chunk(SCENEOBJ_CHUNK_REFERENCE);
     R_ASSERT2(m_pReference, "Empty SceneObject REFS");
+
+    if (xrGameManager::GetGame() == EGame::SHOC)
+    {
+        F.w_s32(m_pReference->Version());
+        F.w_s32(0); // reserved
+    }
+
     F.w_stringZ(m_ReferenceName);
     F.close_chunk();
 
@@ -276,7 +276,7 @@ void CSceneObject::SaveStream(IWriter& F)
     F.w_u32(m_Flags.flags);
     F.close_chunk();
 
-    if (m_Flags.test(flUseSurface))
+    if (m_Flags.test(flUseSurface) && xrGameManager::GetGame() != EGame::SHOC)
     {
         F.open_chunk(SCENEOBJ_CHUNK_FLAGS);
         F.w_u32(m_Surfaces.size());

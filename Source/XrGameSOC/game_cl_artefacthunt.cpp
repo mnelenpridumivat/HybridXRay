@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "game_cl_artefacthunt.h"
 #include "xrMessages.h"
 #include "hudmanager.h"
@@ -33,7 +33,7 @@
 
 #include "game_cl_artefacthunt_snd_msg.h"
 #include "../XrEngine/IGame_Persistent.h"
-//old
+/*/old
 enum ERPGameType {		// [0..255]
 	rpgtGameAny = u8(0),
 	rpgtGameDeathmatch,
@@ -41,7 +41,7 @@ enum ERPGameType {		// [0..255]
 	rpgtGameArtefactHunt,
 	rpgtGameCaptureTheArtefact,
 	rpgtGameCount,
-};
+};*/
 game_cl_ArtefactHunt::game_cl_ArtefactHunt()
 {
 	m_game_ui = NULL;

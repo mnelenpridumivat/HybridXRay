@@ -447,7 +447,10 @@ void CEditShape::SaveStream(IWriter& F)
     inherited::SaveStream(F);
 
     F.open_chunk(SHAPE_CHUNK_VERSION);
-    F.w_u16(SHAPE_CURRENT_VERSION);
+    if (xrGameManager::GetGame() == EGame::SHOC)
+        F.w_u16(SHAPE_CURRENT_VERSION - 1);
+    else
+        F.w_u16(SHAPE_CURRENT_VERSION);
     F.close_chunk();
 
     F.open_chunk(SHAPE_CHUNK_SHAPES);
@@ -455,9 +458,12 @@ void CEditShape::SaveStream(IWriter& F)
     F.w(shapes.data(), shapes.size() * sizeof(shape_def));
     F.close_chunk();
 
-    F.open_chunk(SHAPE_CHUNK_DATA);
-    F.w_u8(m_shape_type);
-    F.close_chunk();
+    if (xrGameManager::GetGame() != EGame::SHOC)
+    {
+        F.open_chunk(SHAPE_CHUNK_DATA);
+        F.w_u8(m_shape_type);
+        F.close_chunk();
+    }
 }
 
 void CEditShape::FillProp(LPCSTR pref, PropItemVec& values)

@@ -36,7 +36,7 @@ bool pgd_find_pred(const PS::CPGDef* a, LPCSTR b)
 void CPSLibrary::OnCreate()
 {
 #ifdef REDITOR
-    if (pCreateEAction)
+    if (pCreateEAction && xrGameManager::GetGame() != EGame::SHOC)
     {
         Load2();
     }

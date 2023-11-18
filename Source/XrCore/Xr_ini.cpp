@@ -387,27 +387,29 @@ void CInifile::Load(
                 {
                     *t = 0;
                     _Trim(name);
-                    ++t;
-                    xr_strcpy(value_raw, sizeof(value_raw), t);
-                    bInsideSTR = _parse(str2, value_raw);
-                    if (bInsideSTR)   // multiline str value
+
+                    if (xrGameManager::GetGame() == EGame::SHOC)
+                        _parse(str2, ++t);
+                    else
                     {
-                        while (bInsideSTR)
+                        ++t;
+                        xr_strcpy(value_raw, sizeof(value_raw), t);
+                        bInsideSTR = _parse(str2, value_raw);
+                        if (bInsideSTR)   // multiline str value
                         {
-                            xr_strcat(value_raw, sizeof(value_raw), "\r\n");
-                            string4096 str_add_raw;
-                            F->r_string(str_add_raw, sizeof(str_add_raw));
-                            R_ASSERT2(
-                                xr_strlen(value_raw) + xr_strlen(str_add_raw) < sizeof(value_raw),
-                                make_string(
-                                    "Incorrect inifile format: section[%s], variable[%s]. Odd number of quotes (\") found, but should be even.",
-                                    Current->Name.c_str(), name));
-                            xr_strcat(value_raw, sizeof(value_raw), str_add_raw);
-                            bInsideSTR = _parse(str2, value_raw);
-                            if (bInsideSTR)
+                            while (bInsideSTR)
                             {
-                                if (is_empty_line_now(F))
-                                    xr_strcat(value_raw, sizeof(value_raw), "\r\n");
+                                xr_strcat(value_raw, sizeof(value_raw), "\r\n");
+                                string4096 str_add_raw;
+                                F->r_string(str_add_raw, sizeof(str_add_raw));
+                                R_ASSERT2(xr_strlen(value_raw) + xr_strlen(str_add_raw) < sizeof(value_raw), make_string("Incorrect inifile format: section[%s], variable[%s]. Odd number of quotes (\") found, but should be even.", Current->Name.c_str(), name));
+                                xr_strcat(value_raw, sizeof(value_raw), str_add_raw);
+                                bInsideSTR = _parse(str2, value_raw);
+                                if (bInsideSTR)
+                                {
+                                    if (is_empty_line_now(F))
+                                        xr_strcat(value_raw, sizeof(value_raw), "\r\n");
+                                }
                             }
                         }
                     }
@@ -422,7 +424,7 @@ void CInifile::Load(
                 I.first  = (name[0] ? name : NULL);
                 I.second = (str2[0] ? str2 : NULL);
                 // #ifdef DEBUG
-                //				I.comment	= m_flags.test(eReadOnly)?0:comment;
+                //     I.comment = m_flags.test(eReadOnly)?0:comment;
                 // #endif
 
                 if (m_flags.test(eReadOnly))
@@ -434,7 +436,7 @@ void CInifile::Load(
                 {
                     if (*I.first || *I.second
                         // #ifdef DEBUG
-                        //							|| *I.comment
+                        //    || *I.comment
                         // #endif
                     )
                         insert_item(Current, I);

@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "xrServer.h"
 #include "..\XrEngine\LevelGameDef.h"
 #include "script_process.h"
@@ -368,7 +368,7 @@ void game_sv_GameState::OnPlayerDisconnect		(ClientID /**id_who/**/, LPSTR, u16 
 {
 	signal_Syncronize	();
 }
-//old
+/*/old
 enum ERPGameType {		// [0..255]
 	rpgtGameAny = u8(0),
 	rpgtGameDeathmatch,
@@ -376,7 +376,7 @@ enum ERPGameType {		// [0..255]
 	rpgtGameArtefactHunt,
 	rpgtGameCaptureTheArtefact,
 	rpgtGameCount,
-};
+};*/
 static float							rpoints_Dist [TEAM_COUNT] = {1000.f, 1000.f, 1000.f, 1000.f};
 void game_sv_GameState::Create					(shared_str &options)
 {

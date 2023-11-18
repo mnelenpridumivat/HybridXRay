@@ -26,6 +26,7 @@ enum ERPpointType
     rptActorSpawn = 0,
     rptArtefactSpawn,
     rptItemSpawn,
+    rptTeamBaseParticle = rptItemSpawn
 };
 
 enum EEnvModUsedParams
@@ -39,6 +40,7 @@ enum EEnvModUsedParams
 };
 
 extern ENGINE_API xr_token rpoint_type[];
+extern ENGINE_API xr_token rpoint_type_soc[];
 extern ENGINE_API xr_token rpoint_game_type[];
 
 // BASE offset

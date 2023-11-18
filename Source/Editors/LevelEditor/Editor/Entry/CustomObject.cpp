@@ -9,6 +9,17 @@
 #define CUSTOMOBJECT_CHUNK_NAME         0xF907
 #define CUSTOMOBJECT_CHUNK_MOTION_PARAM 0xF908
 
+enum class SocFlags : u32
+{
+    flSelected   = (1 << 0),
+    flVisible    = (1 << 1),
+    flLocked     = (1 << 2),
+    flMotion     = (1 << 3),
+
+    flAutoKey    = (1 << 30),
+    flCameraView = (1 << 31),
+};
+
 CCustomObject::CCustomObject(LPVOID data, LPCSTR name)
 {
     save_id      = 0;
@@ -44,11 +55,11 @@ bool CCustomObject::IsRender()
     GetBox(bb);
 
     float distance = 0.f;
-    {
-        Fvector center;
-        bb.getcenter(center);
-        distance = center.distance_to(EDevice->vCameraPosition);
-    }
+    Fvector center;
+
+    bb.getcenter(center);
+    distance = center.distance_to(EDevice->vCameraPosition);
+
     if (distance > bb.getradius() + EDevice->RadiusRender)
         return false;
     return ::Render->occ_visible(bb) || (Selected() && m_CO_Flags.is_any(flRenderAnyWayIfSelected | flMotion));
@@ -91,7 +102,7 @@ void CCustomObject::Show(BOOL flag)
         m_RT_Flags.set(flRT_Selected, FALSE);
 
     UI->RedrawScene();
-};
+}
 
 BOOL CCustomObject::Editable() const
 {
@@ -114,29 +125,32 @@ bool CCustomObject::LoadLTX(CInifile& ini, LPCSTR sect_name)
 
     // object motion
     if (m_CO_Flags.is(flMotion))
-    {
         m_CO_Flags.set(flMotion, FALSE);
-        //    	R_ASSERT		(0);
-        /*
-                VERIFY			(m_Motion);
-                F.open_chunk	(CUSTOMOBJECT_CHUNK_MOTION);
-                m_Motion->Save	(F);
-                F.close_chunk	();
-          */
-        //        m_MotionParams->t_current = ini.r_float		(sect_name, "motion_params_t");
-    }
+
     return true;
 }
 
 bool CCustomObject::LoadStream(IReader& F)
 {
     R_ASSERT(F.find_chunk(CUSTOMOBJECT_CHUNK_FLAGS));
-    {
-        m_CO_Flags.assign(F.r_u32());
 
-        R_ASSERT(F.find_chunk(CUSTOMOBJECT_CHUNK_NAME));
-        F.r_stringZ(FName);
+    if (xrGameManager::GetGame() != EGame::SHOC)
+        m_CO_Flags.assign(F.r_u32());
+    else
+    {
+        Flags32 tempFlags;
+        tempFlags.assign(F.r_u32());
+
+        m_RT_Flags.set(flRT_Selected, tempFlags.is((u32)SocFlags::flSelected));
+        m_RT_Flags.set(flRT_Visible, tempFlags.is((u32)SocFlags::flVisible));
+        m_RT_Flags.set(flRT_Visible, tempFlags.is((u32)SocFlags::flVisible));
+        m_CO_Flags.set(flMotion, tempFlags.is((u32)SocFlags::flMotion));
+        m_CO_Flags.set(flAutoKey, tempFlags.is((u32)SocFlags::flAutoKey));
+        m_CO_Flags.set(flCameraView, tempFlags.is((u32)SocFlags::flCameraView));
     }
+
+    R_ASSERT(F.find_chunk(CUSTOMOBJECT_CHUNK_NAME));
+    F.r_stringZ(FName);
 
     if (F.find_chunk(CUSTOMOBJECT_CHUNK_TRANSFORM))
     {
@@ -181,27 +195,24 @@ void CCustomObject::SaveLTX(CInifile& ini, LPCSTR sect_name)
     ini.w_fvector3(sect_name, "position", FPosition);
     ini.w_fvector3(sect_name, "rotation", FRotation);
     ini.w_fvector3(sect_name, "scale", FScale);
-
-    /*
-        // object motion
-        if (m_CO_Flags.is(flMotion))
-        {
-            R_ASSERT		(0);
-
-            VERIFY			(m_Motion);
-            F.open_chunk	(CUSTOMOBJECT_CHUNK_MOTION);
-            m_Motion->Save	(F);
-            F.close_chunk	();
-
-            ini.w_float		(sect_name, "motion_params_t", m_MotionParams->t_current);
-        }
-    */
 }
 
 void CCustomObject::SaveStream(IWriter& F)
 {
     F.open_chunk(CUSTOMOBJECT_CHUNK_FLAGS);
-    F.w_u32(m_CO_Flags.get());
+    if (xrGameManager::GetGame() != EGame::SHOC)
+        F.w_u32(m_CO_Flags.get());
+    else
+    {
+        Flags32 tempFlags;
+        tempFlags.set((u32)SocFlags::flSelected, m_RT_Flags.is(flRT_Selected));
+        tempFlags.set((u32)SocFlags::flVisible, m_RT_Flags.is(flRT_Visible));
+        tempFlags.set((u32)SocFlags::flLocked, false);
+        tempFlags.set((u32)SocFlags::flMotion, m_CO_Flags.is(flMotion));
+        tempFlags.set((u32)SocFlags::flAutoKey, m_CO_Flags.is(flAutoKey));
+        tempFlags.set((u32)SocFlags::flCameraView, m_CO_Flags.is(flCameraView));
+        F.w_u32(tempFlags.get());
+    }
     F.close_chunk();
 
     F.open_chunk(CUSTOMOBJECT_CHUNK_NAME);

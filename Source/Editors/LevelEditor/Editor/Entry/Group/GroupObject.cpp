@@ -8,6 +8,7 @@
 #include "../../UI_LevelMain.h"
 
 //----------------------------------------------------
+#define GROUPOBJ_CURRENT_VERSION_SOC    0x0011
 #define GROUPOBJ_CURRENT_VERSION        0x0012
 //----------------------------------------------------
 #define GROUPOBJ_CHUNK_VERSION          0x0000
@@ -75,10 +76,7 @@ bool CGroupObject::LL_AppendObject(CCustomObject* object)
     }
     if (object->GetOwner())
     {
-        if (mrNo ==
-            ELog.DlgMsg(
-                mtConfirmation, mbYes | mbNo, "Object '%s' already in group '%s'. Change group?", object->GetName(),
-                object->GetOwner()->GetName()))
+        if (mrNo == ELog.DlgMsg(mtConfirmation, mbYes | mbNo, "Object '%s' already in group '%s'. Change group?", object->GetName(), object->GetOwner()->GetName()))
             return false;
 
         object->OnDetach();
@@ -122,6 +120,7 @@ void CGroupObject::SetRefName(LPCSTR nm)
         save_id = 0;
 }
 
+//------------------------------------------------------------------------------
 bool CGroupObject::LoadLTX(CInifile& ini, LPCSTR sect_name)
 {
     u32 version = ini.r_u32(sect_name, "version");
@@ -140,7 +139,7 @@ bool CGroupObject::LoadLTX(CInifile& ini, LPCSTR sect_name)
     // objects
     if (/*IsOpened()*/ tmp_flags.test((1 << 0)))
     {   // old opened group save format
-        ELog.DlgMsg(mtError, "old opened group save format");
+        ELog.DlgMsg(mtError, "! old opened group save format");
         return false;
         /*
                 u32 cnt 	= ini.r_u32			(sect_name, "objects_in_group_count");
@@ -205,7 +204,7 @@ bool CGroupObject::LoadStream(IReader& F)
     R_ASSERT(F.r_chunk(GROUPOBJ_CHUNK_VERSION, &version));
     if (version < 0x0011)
     {
-        ELog.DlgMsg(mtError, "CGroupObject: unsupported file version. Object can't load.");
+        ELog.DlgMsg(mtError, "! CGroupObject: unsupported file version. Object can't load.");
         return false;
     }
     CCustomObject::LoadStream(F);
@@ -216,19 +215,10 @@ bool CGroupObject::LoadStream(IReader& F)
         F.r_chunk(GROUPOBJ_CHUNK_FLAGS, &tmp_flags);
 
     // objects
-    if (tmp_flags.test(1 << 0))
-    {   // old format, opened group
-        ELog.DlgMsg(mtError, "old format, opened group");
+    if (tmp_flags.test(1 << 0))   // opened flag, old group format
+    {
+        ELog.DlgMsg(mtError, "! Warning! Group has old format. Objects from group will be loaded ungrouped.");
         return false;
-        /*
-                R_ASSERT(F.find_chunk(GROUPOBJ_CHUNK_OPEN_OBJECT_LIST));
-                u32 cnt 	= F.r_u32();
-                for (u32 k=0; k<cnt; ++k)
-                {
-                    m_ObjectsInGroup.resize	(m_ObjectsInGroup.size()+1);
-                    F.r_stringZ				(m_ObjectsInGroup.back().ObjectName);
-                }
-        */
     }
     else
     {
@@ -261,8 +251,21 @@ void CGroupObject::SaveStream(IWriter& F)
     CCustomObject::SaveStream(F);
 
     F.open_chunk(GROUPOBJ_CHUNK_VERSION);
-    F.w_u16(GROUPOBJ_CURRENT_VERSION);
-    F.close_chunk();
+
+    if (xrGameManager::GetGame() == EGame::SHOC)
+    {
+        F.w_u16(GROUPOBJ_CURRENT_VERSION_SOC);
+        F.close_chunk();
+
+        Flags32 flags;
+        flags.zero();
+        F.w_chunk(GROUPOBJ_CHUNK_FLAGS, &flags, sizeof(flags));
+    }
+    else
+    {
+        F.w_u16(GROUPOBJ_CURRENT_VERSION);
+        F.close_chunk();
+    }
 
     {
         ObjectList grp_lst;
@@ -281,6 +284,7 @@ void CGroupObject::SaveStream(IWriter& F)
     F.w_stringZ(m_ReferenceName_);
     F.close_chunk();
 }
+//----------------------------------------------------
 
 bool CGroupObject::ExportGame(SExportStreams* data)
 {
@@ -291,6 +295,7 @@ void CGroupObject::ReferenceChange(PropValue* sender)
 {
     UpdateReference(true);
 }
+//----------------------------------------------------
 
 bool CGroupObject::SetReference(LPCSTR ref_name)
 {
@@ -385,6 +390,7 @@ bool CGroupObject::UpdateReference(bool bForceReload)
 
     return bres;
 }
+//----------------------------------------------------
 
 void CGroupObject::FillProp(LPCSTR pref, PropItemVec& items)
 {
@@ -399,8 +405,7 @@ void CGroupObject::FillProp(LPCSTR pref, PropItemVec& items)
     for (ObjectsInGroup::iterator it = m_ObjectsInGroup.begin(); it != m_ObjectsInGroup.end(); ++it)
     {
         string_path pk;
-        sprintf(
-            pk, "%s (%s)", PrepareKey(pref, it->pObject->GetName()).c_str(), it->pObject->FParentTools->ClassDesc());
+        sprintf(pk, "%s (%s)", PrepareKey(pref, it->pObject->GetName()).c_str(), it->pObject->FParentTools->ClassDesc());
         V = PHelper().CreateFlag32(items, pk, &it->pObject->m_CO_Flags, flObjectInGroupUnique);
         V->OnChangeEvent.bind(this, &CCustomObject::OnChangeIngroupUnique);
     }
@@ -429,6 +434,8 @@ void CGroupObject::OnFreezeAllClick(ButtonValue* sender, bool& bModif, bool& bSa
     bModif = true;
 }
 
+//----------------------------------------------------
+
 void CGroupObject::OnShowHint(AStringVec& dest)
 {
     inherited::OnShowHint(dest);
@@ -437,6 +444,7 @@ void CGroupObject::OnShowHint(AStringVec& dest)
     for (ObjectsInGroup::iterator it = m_ObjectsInGroup.begin(); it != m_ObjectsInGroup.end(); ++it)
         dest.push_back(it->pObject->GetName());
 }
+//----------------------------------------------------
 
 void CGroupObject::OnObjectRemove(const CCustomObject* object)
 {
@@ -475,8 +483,7 @@ void CGroupObject::OnSceneUpdate()
                             it->pObject->m_CO_Flags.set(flObjectInGroup, 		TRUE);
                             it->pObject->m_CO_Flags.set(flObjectInGroupUnique, 	TRUE);
                             if(it->pObject==NULL)
-                                ELog.Msg	(mtError,"Gr%s' has invalid roup 'eference to object '%s'.", GetName(),
-               it->ObjectName.c_str());
+                                ELog.Msg	(mtError,"Gr%s' has invalid roup 'eference to object '%s'.", GetName(), it->ObjectName.c_str());
             */
         }
     }
@@ -487,6 +494,7 @@ void CGroupObject::OnSceneUpdate()
     }
 }
 
+//----------------------------------------------------
 bool CGroupObject::CanUngroup(bool bMsg)
 {
     bool res = true;
@@ -496,8 +504,7 @@ bool CGroupObject::CanUngroup(bool bMsg)
         if (!tool->IsEditable())
         {
             if (bMsg)
-                Msg("!.Can't detach object '%s'. Target '%s' in readonly mode.", it->pObject->GetName(),
-                    tool->ClassDesc());
+                Msg("!.Can't detach object '%s'. Target '%s' in readonly mode.", it->pObject->GetName(), tool->ClassDesc());
             res = false;
         }
     }
