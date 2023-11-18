@@ -7,7 +7,6 @@
 #include "../xrcdb/xrXRC.h"
 #include "../XrAPI/xrGameManager.h"
 #include "securom_api.h"
-#include "..\XrAPI\xrGameManager.h"
 #include "device.h"
 extern xr_token* vid_quality_token;
 
@@ -349,10 +348,10 @@ void CEngineAPI::CreateRendererList()
                 if (!bSupports_r2_5)
                     bBreakLoop = true;
                 break;
-            case 4:   //"renderer_r_dx10"
-                if (xrGameManager::GetGame() != EGame::COP)
-                    bBreakLoop = true;
-                break;
+            case 4:   // "renderer_r_dx10"
+            // if (xrGameManager::GetGame() != EGame::COP)
+            //         bBreakLoop = true;
+            //     break;
                 if (!bSupports_r3)
                     bBreakLoop = true;
                 break;
