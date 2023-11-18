@@ -46,7 +46,12 @@ public:
     }
     virtual LPCSTR EditorDesc()
     {
-        return "Particle Editor";
+        if (xrGameManager::GetGame() == EGame::SHOC)
+            return "Particle Editor [ShoC]";
+        else if (xrGameManager::GetGame() == EGame::CS)
+            return "Particle Editor [CS]";
+        else
+            return "Particle Editor [CoP]";
     }
     HICON EditorIcon() override;
 

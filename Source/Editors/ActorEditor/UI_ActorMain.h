@@ -50,7 +50,12 @@ public:
     }
     virtual LPCSTR EditorDesc()
     {
-        return "Actor Editor";
+        if (xrGameManager::GetGame() == EGame::SHOC)
+            return "Actor Editor [ShoC]";
+        else if (xrGameManager::GetGame() == EGame::CS)
+            return "Actor Editor [CS]";
+        else
+            return "Actor Editor [CoP]";
     }
     HICON EditorIcon() override;
 

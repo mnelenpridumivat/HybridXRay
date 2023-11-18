@@ -101,7 +101,12 @@ public:
     }
     virtual LPCSTR EditorDesc()
     {
-        return "Level Editor";
+        if (xrGameManager::GetGame() == EGame::SHOC)
+            return "Level Editor [ShoC]";
+        else if (xrGameManager::GetGame() == EGame::CS)
+            return "Level Editor [CS]";
+        else
+            return "Level Editor [CoP]";
     }
     virtual HICON EditorIcon() override;
 

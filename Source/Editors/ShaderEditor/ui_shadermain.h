@@ -33,7 +33,12 @@ public:
     }
     virtual LPCSTR EditorDesc()
     {
-        return "Shader Editor";
+        if (xrGameManager::GetGame() == EGame::SHOC)
+            return "Shader Editor [ShoC]";
+        else if (xrGameManager::GetGame() == EGame::CS)
+            return "Shader Editor [CS]";
+        else
+            return "Shader Editor [CoP]";
     }
     HICON EditorIcon() override;
 
