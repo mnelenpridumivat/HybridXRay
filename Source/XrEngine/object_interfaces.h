@@ -16,19 +16,19 @@ public:
     virtual void destroy() = 0;
 };
 
-template <typename _storage_type> class IPureLoadableObject
+template<typename _storage_type> class IPureLoadableObject
 {
 public:
     virtual void load(_storage_type& storage) = 0;
 };
 
-template <typename _storage_type> class IPureSavableObject
+template<typename _storage_type> class IPureSavableObject
 {
 public:
     virtual void save(_storage_type& storage) = 0;
 };
 
-template <typename _storage_type_load, typename _storage_type_save> class IPureSerializeObject:
+template<typename _storage_type_load, typename _storage_type_save> class IPureSerializeObject:
     public IPureLoadableObject<_storage_type_load>,
     public IPureSavableObject<_storage_type_save>
 {

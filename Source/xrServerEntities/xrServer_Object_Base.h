@@ -71,15 +71,7 @@ virtual void OnEvent(NET_Packet& tNetPacket, u16 type, u32 time, ClientID sender
 #ifndef XRGAME_EXPORTS
 virtual void FillProps(LPCSTR pref, PropItemVec& items);
 virtual void FillProp(LPCSTR pref, PropItemVec& items);
-virtual void on_render(
-    CDUInterface*        du,
-    ISE_AbstractLEOwner* owner,
-    bool                 bSelected,
-    const Fmatrix&       parent,
-    int                  priority,
-    bool                 strictB2F)
-{
-}
+virtual void on_render(CDUInterface* du, ISE_AbstractLEOwner* owner, bool bSelected, const Fmatrix& parent, int priority, bool strictB2F) {}
 virtual visual_data* visual_collection() const
 {
     return 0;
@@ -103,6 +95,7 @@ virtual void   set_name(LPCSTR s)
 {
     s_name = s;
 };
+
 virtual void set_name_replace(LPCSTR s)
 {
     xr_free(s_name_replace);
@@ -208,6 +201,7 @@ virtual CSE_ALifeItemPDA* cast_item_pda()
 {
     return 0;
 };
+
 virtual void UPDATE_Read(NET_Packet& tNetPacket);
 virtual void UPDATE_Write(NET_Packet& tNetPacket);
 }

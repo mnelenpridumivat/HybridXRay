@@ -345,7 +345,7 @@ void CEngineAPI::CreateRendererList()
                 if (!bSupports_r2)
                     bBreakLoop = true;
                 break;
-            case 3:   //"renderer_r2.5"
+            case 3:   // "renderer_r2.5"
                 if (!bSupports_r2_5)
                     bBreakLoop = true;
                 break;
@@ -356,11 +356,11 @@ void CEngineAPI::CreateRendererList()
                 if (!bSupports_r3)
                     bBreakLoop = true;
                 break;
-            case 5:   //"renderer_r_dx11"
+            case 5:   // "renderer_r_dx11"
                 if (!bSupports_r4)
                     bBreakLoop = true;
                 break;
-            case 6:   //"renderer_r_dx11"
+            case 6:   // "renderer_r_dx11"
                 if (!bSupports_r5)
                     bBreakLoop = true;
                 break;

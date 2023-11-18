@@ -1503,9 +1503,7 @@ void PATargetColor::Execute(ParticleEffect* effect, const float dt, float& tm_ma
             continue;
 
         c_p.set(m.color);
-        c_t.set(
-            c_p.r + (color.x - c_p.r) * scaleFac, c_p.g + (color.y - c_p.g) * scaleFac,
-            c_p.b + (color.z - c_p.b) * scaleFac, c_p.a + (alpha - c_p.a) * scaleFac);
+        c_t.set(c_p.r + (color.x - c_p.r) * scaleFac, c_p.g + (color.y - c_p.g) * scaleFac, c_p.b + (color.z - c_p.b) * scaleFac, c_p.a + (alpha - c_p.a) * scaleFac);
         m.color = c_t.get();
     }
 }

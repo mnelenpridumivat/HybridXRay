@@ -1,34 +1,39 @@
 ﻿#include "stdafx.h"
 
-#define SPAWNPOINT_CHUNK_VERSION 0xE411
-#define SPAWNPOINT_CHUNK_POSITION 0xE412
-#define SPAWNPOINT_CHUNK_RPOINT 0xE413
-#define SPAWNPOINT_CHUNK_DIRECTION 0xE414
-#define SPAWNPOINT_CHUNK_SQUADID 0xE415
-#define SPAWNPOINT_CHUNK_GROUPID 0xE416
-#define SPAWNPOINT_CHUNK_TYPE 0xE417
-#define SPAWNPOINT_CHUNK_FLAGS 0xE418
+#define SPAWNPOINT_CHUNK_VERSION      0xE411
+#define SPAWNPOINT_CHUNK_POSITION     0xE412
+#define SPAWNPOINT_CHUNK_RPOINT       0xE413
+#define SPAWNPOINT_CHUNK_DIRECTION    0xE414
+#define SPAWNPOINT_CHUNK_SQUADID      0xE415
+#define SPAWNPOINT_CHUNK_GROUPID      0xE416
+#define SPAWNPOINT_CHUNK_TYPE         0xE417
+#define SPAWNPOINT_CHUNK_FLAGS        0xE418
 
-#define SPAWNPOINT_CHUNK_ENTITYREF 0xE419
-#define SPAWNPOINT_CHUNK_SPAWNDATA 0xE420
+#define SPAWNPOINT_CHUNK_ENTITYREF    0xE419
+#define SPAWNPOINT_CHUNK_SPAWNDATA    0xE420
 
 #define SPAWNPOINT_CHUNK_ATTACHED_OBJ 0xE421
 
-#define SPAWNPOINT_CHUNK_ENVMOD 0xE422
-#define SPAWNPOINT_CHUNK_ENVMOD2 0xE423
-#define SPAWNPOINT_CHUNK_ENVMOD3 0xE424
-#define SPAWNPOINT_CHUNK_FLAGS 0xE425
+#define SPAWNPOINT_CHUNK_ENVMOD       0xE422
+#define SPAWNPOINT_CHUNK_ENVMOD2      0xE423
+#define SPAWNPOINT_CHUNK_ENVMOD3      0xE424
+#define SPAWNPOINT_CHUNK_FLAGS        0xE425
 
-const float RPOINT_SIZE = 0.5f;
-const float ENVMOD_SIZE = 0.25f;
-const int   MAX_TEAM    = 32;
+const float RPOINT_SIZE         = 0.5f;
+const float ENVMOD_SIZE         = 0.25f;
+const int   MAX_TEAM            = 32;
 
-const u32 RP_COLORS[MAX_TEAM] = {0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0x00ffff, 0xff00ff, 0xCD5C5C, 0xF08080,
-                                 0xDC143C, 0xB22222, 0x8B0000, 0xFFC0CB, 0xFF69B4, 0xC71585, 0xFF7F50, 0xFF8C00,
-                                 0xFFD700, 0xFFFFE0, 0xFFE4B5, 0xF0E68C, 0xBDB76B, 0xE6E6FA, 0xDDA0DD, 0xEE82EE,
-                                 0xFF00FF, 0xBA55D3, 0x9400D3, 0x4B0082, 0xB8860B, 0x800000, 0x808080, 0x000000};
+const u32   RP_COLORS[MAX_TEAM] =
+{
+    0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0x00ffff, 0xff00ff, 0xCD5C5C, 0xF08080,
+    0xDC143C, 0xB22222, 0x8B0000, 0xFFC0CB, 0xFF69B4, 0xC71585, 0xFF7F50, 0xFF8C00,
+    0xFFD700, 0xFFFFE0, 0xFFE4B5, 0xF0E68C, 0xBDB76B, 0xE6E6FA, 0xDDA0DD, 0xEE82EE,
+    0xFF00FF, 0xBA55D3, 0x9400D3, 0x4B0082, 0xB8860B, 0x800000, 0x808080, 0x000000
+};
 
+//------------------------------------------------------------------------------
 // CLE_Visual
+//------------------------------------------------------------------------------
 CLE_Visual::CLE_Visual(ISE_Visual* src)
 {
     source = src;
@@ -67,10 +72,10 @@ void CLE_Visual::OnChangeVisual()
 
         if (NULL == visual && !g_tmp_lock)
         {
-            xr_string _msg = "Model [" + xr_string(source->visual_name.c_str()) + "] not found. Do you want to select it from library?";
-            int    mr       = ELog.DlgMsg(mtConfirmation, mbYes | mbNo, _msg.c_str());
-            LPCSTR _new_val = 0;
-            g_tmp_lock      = true;
+            xr_string _msg     = "Model [" + xr_string(source->visual_name.c_str()) + "] not found. Do you want to select it from library?";
+            int       mr       = ELog.DlgMsg(mtConfirmation, mbYes | mbNo, _msg.c_str());
+            LPCSTR    _new_val = 0;
+            g_tmp_lock         = true;
             if (mr == mrYes)
             {
                 UIChooseForm::SelectItem(smVisual, 1);
@@ -196,7 +201,9 @@ void CLE_Visual::PauseAnimation()
         K->CalculateBones();
 }
 
+//------------------------------------------------------------------------------
 // CLE_Motion
+//------------------------------------------------------------------------------
 CSpawnPoint::CLE_Motion::CLE_Motion(ISE_Motion* src)
 {
     source   = src;
@@ -220,7 +227,9 @@ void CSpawnPoint::CLE_Motion::PlayMotion()
     if (animator)
         animator->Play(true);
 }
+//------------------------------------------------------------------------------
 // SpawnData
+//------------------------------------------------------------------------------
 void CSpawnPoint::SSpawnData::Create(LPCSTR _entity_ref)
 {
     m_Data = g_SEFactoryManager->create_entity(_entity_ref);
@@ -349,12 +358,13 @@ bool CSpawnPoint::SSpawnData::LoadStream(IReader& F)
     Packet.B.count = F.r_u32();
     F.r(Packet.B.data, Packet.B.count);
     Create(temp);
-    if (Valid())
-        if (!m_Data->Spawn_Read(Packet))
-            Destroy();
+
+    if (Valid() && !m_Data->Spawn_Read(Packet))
+        Destroy();
 
     return Valid();
 }
+
 bool CSpawnPoint::SSpawnData::ExportGame(SExportStreams* F, CSpawnPoint* owner)
 {
     // set params
@@ -364,12 +374,14 @@ bool CSpawnPoint::SSpawnData::ExportGame(SExportStreams* F, CSpawnPoint* owner)
 
     // export cform (if needed)
     ISE_Shape* cform = m_Data->shape();
+
     // SHAPE
     if (cform && !(owner->m_AttachedObject && (owner->m_AttachedObject->FClassID == OBJCLASS_SHAPE)))
     {
         ELog.DlgMsg(mtError, "& Spawn Point: '%s' must contain attached shape.", owner->GetName());
         return false;
     }
+
     if (cform)
     {
         CEditShape* shape = dynamic_cast<CEditShape*>(owner->m_AttachedObject);
@@ -411,7 +423,6 @@ void CSpawnPoint::SSpawnData::PreExportSpawn(CSpawnPoint* owner)
     if (cform && !(owner->m_AttachedObject && (owner->m_AttachedObject->FClassID == OBJCLASS_SHAPE)))
     {
         ELog.DlgMsg(mtError, "& Spawn Point: '%s' must contain attached shape.", owner->GetName());
-        ;
     }
     if (cform)
     {
@@ -564,6 +575,7 @@ void CSpawnPoint::SSpawnData::OnFrame()
     // reset editor flags
     m_Data->m_editor_flags.zero();
 }
+//------------------------------------------------------------------------------
 CSpawnPoint::CSpawnPoint(LPVOID data, LPCSTR name): CCustomObject(data, name), m_SpawnData(this)
 {
     m_rpProfile = "";
@@ -723,6 +735,7 @@ bool CSpawnPoint::CreateSpawnData(LPCSTR entity_ref)
         m_Type = ptSpawnPoint;
     return m_SpawnData.Valid();
 }
+//----------------------------------------------------
 
 bool CSpawnPoint::GetBox(Fbox& box)
 {
@@ -1087,6 +1100,7 @@ bool CSpawnPoint::LoadLTX(CInifile& ini, LPCSTR sect_name)
         ELog.Msg(mtError, "& SPAWNPOINT: Unsupported spawn version.");
         return false;
     }
+
     switch (m_Type)
     {
         case ptSpawnPoint:
@@ -1146,7 +1160,6 @@ bool CSpawnPoint::LoadLTX(CInifile& ini, LPCSTR sect_name)
 void CSpawnPoint::SaveLTX(CInifile& ini, LPCSTR sect_name)
 {
     CCustomObject::SaveLTX(ini, sect_name);
-
     ini.w_u32(sect_name, "version", SPAWNPOINT_VERSION);
 
     // save attachment
@@ -1197,8 +1210,8 @@ void CSpawnPoint::SaveLTX(CInifile& ini, LPCSTR sect_name)
 bool CSpawnPoint::LoadStream(IReader& F)
 {
     u16 version = 0;
-
     R_ASSERT(F.r_chunk(SPAWNPOINT_CHUNK_VERSION, &version));
+
     if (version < 0x0014)
     {
         ELog.Msg(mtError, "& SPAWNPOINT: Unsupported version.");
@@ -1346,9 +1359,7 @@ bool CSpawnPoint::ExportGame(SExportStreams* F)
     if (m_SpawnData.Valid())
     {
         if (m_SpawnData.m_Data->validate())
-        {
             m_SpawnData.ExportGame(F, this);
-        }
         else
         {
             Log("! Invalid spawn data:", GetName());
@@ -1369,7 +1380,7 @@ bool CSpawnPoint::ExportGame(SExportStreams* F)
                 F->rpoint.stream.w_u16(m_GameType.m_GameType.get());
                 F->rpoint.stream.w_stringZ(m_rpProfile);
                 F->rpoint.stream.close_chunk();
-                break;
+            break;
             case ptEnvMod:
                 Fcolor tmp;
                 F->envmodif.stream.open_chunk(F->envmodif.chunk++);
@@ -1384,7 +1395,7 @@ bool CSpawnPoint::ExportGame(SExportStreams* F)
                 F->envmodif.stream.w_fvector3(u32_3f(m_EM_HemiColor));
                 F->envmodif.stream.w_u16(m_EM_Flags.get());
                 F->envmodif.stream.close_chunk();
-                break;
+            break;
             default:
                 THROW;
         }

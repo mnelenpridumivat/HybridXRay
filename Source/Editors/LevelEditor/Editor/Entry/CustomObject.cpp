@@ -1,29 +1,31 @@
 ﻿#include "stdafx.h"
 
-#define CUSTOMOBJECT_CHUNK_PARAMS 0xF900
-#define CUSTOMOBJECT_CHUNK_LOCK 0xF902
-#define CUSTOMOBJECT_CHUNK_TRANSFORM 0xF903
-#define CUSTOMOBJECT_CHUNK_GROUP 0xF904
-#define CUSTOMOBJECT_CHUNK_MOTION 0xF905
-#define CUSTOMOBJECT_CHUNK_FLAGS 0xF906
-#define CUSTOMOBJECT_CHUNK_NAME 0xF907
+#define CUSTOMOBJECT_CHUNK_PARAMS       0xF900
+#define CUSTOMOBJECT_CHUNK_LOCK         0xF902
+#define CUSTOMOBJECT_CHUNK_TRANSFORM    0xF903
+#define CUSTOMOBJECT_CHUNK_GROUP        0xF904
+#define CUSTOMOBJECT_CHUNK_MOTION       0xF905
+#define CUSTOMOBJECT_CHUNK_FLAGS        0xF906
+#define CUSTOMOBJECT_CHUNK_NAME         0xF907
 #define CUSTOMOBJECT_CHUNK_MOTION_PARAM 0xF908
 
 CCustomObject::CCustomObject(LPVOID data, LPCSTR name)
 {
-    save_id  = 0;
-    FClassID = OBJCLASS_DUMMY;
+    save_id      = 0;
+    FClassID     = OBJCLASS_DUMMY;
 
-    FParentTools = 0;
+    FParentTools = nullptr;
+
     if (name)
         FName = name;
+
     m_CO_Flags.assign(0);
     m_RT_Flags.assign(flRT_Valid | flRT_Visible);
     m_pOwnerObject = 0;
     ResetTransform();
     m_RT_Flags.set(flRT_UpdateTransform, TRUE);
-    m_Motion       = NULL;
-    m_MotionParams = NULL;
+    m_Motion       = nullptr;
+    m_MotionParams = nullptr;
 
     FPosition.set(0, 0, 0);
     FScale.set(1, 1, 1);
@@ -35,10 +37,12 @@ CCustomObject::~CCustomObject()
     xr_delete(m_Motion);
     xr_delete(m_MotionParams);
 }
+
 bool CCustomObject::IsRender()
 {
     Fbox bb;
     GetBox(bb);
+
     float distance = 0.f;
     {
         Fvector center;
@@ -53,8 +57,8 @@ bool CCustomObject::IsRender()
 void CCustomObject::OnUpdateTransform()
 {
     m_RT_Flags.set(flRT_UpdateTransform, FALSE);
-    // update transform matrix
 
+    // update transform matrix
     FTransformR.setXYZi(-GetRotation().x, -GetRotation().y, -GetRotation().z);
 
     FTransformS.scale(GetScale());
@@ -146,11 +150,13 @@ bool CCustomObject::LoadStream(IReader& F)
     if (F.find_chunk(CUSTOMOBJECT_CHUNK_MOTION))
     {
         m_Motion = xr_new<COMotion>();
+
         if (!m_Motion->Load(F))
         {
             ELog.Msg(mtError, "! CustomObject: '%s' - motion has different version. Load failed.", GetName());
             xr_delete(m_Motion);
         }
+
         m_MotionParams = xr_new<SAnimParams>();
         m_MotionParams->Set(m_Motion);
         AnimationUpdate(m_MotionParams->Frame());
@@ -161,7 +167,6 @@ bool CCustomObject::LoadStream(IReader& F)
         m_MotionParams->t_current = F.r_float();
         AnimationUpdate(m_MotionParams->Frame());
     }
-
     UpdateTransform();
 
     return true;
@@ -244,9 +249,7 @@ void CCustomObject::Render(int priority, bool strictB2F)
     if ((1 == priority) && (false == strictB2F))
     {
         if (EPrefs->object_flags.is(epoDrawPivot) && Selected())
-        {
             DU_impl.DrawObjectAxis(FTransformRP, 0.1f, Selected());
-        }
         if (m_Motion && Visible() && Selected())
             AnimationDrawPath();
     }
@@ -261,7 +264,7 @@ bool CCustomObject::RaySelect(int flag, const Fvector& start, const Fvector& dir
         return true;
     }
     return false;
-};
+}
 
 bool CCustomObject::FrustumSelect(int flag, const CFrustum& frustum)
 {
@@ -271,7 +274,7 @@ bool CCustomObject::FrustumSelect(int flag, const CFrustum& frustum)
         return true;
     }
     return false;
-};
+}
 
 bool CCustomObject::GetSummaryInfo(SSceneSummary* inf)
 {

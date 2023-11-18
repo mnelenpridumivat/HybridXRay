@@ -11,7 +11,8 @@ using namespace PAPI;
 #define PARTICLE_ACTION_VERSION 0x0001
 //---------------------------------------------------------------------------
 
-xr_token2 actions_token[] = {
+xr_token2 actions_token[] =
+{
     {"Avoid", "Steer particles away from a domain of space.", PAAvoidID},
     {"Bounce", "Bounce particles off a domain of space.", PABounceID},
     {"Copy VertexB", "Set the secondary position from current position.", PACopyVertexBID},
@@ -41,7 +42,8 @@ xr_token2 actions_token[] = {
     {"Target Velocity", "Change velocity of all particles toward the specified velocity.", PATargetVelocityID},
     {"Vortex", "Swirl particles around a vortex.", PAVortexID},
     {"Turbulence", "A Turbulence.", PATurbulenceID},
-    {0, 0}};
+    {0, 0}
+};
 
 EParticleAction* pCreateEActionImpl(PAPI::PActionEnum type)
 {
@@ -1200,6 +1202,7 @@ EPATargetColor::EPATargetColor(): EParticleAction(PAPI::PATargetColorID)
     appendFloat("TimeFrom", 0.0f, 0.0f, 1.0f);
     appendFloat("TimeTo", 1.0f, 0.0f, 1.0f);
 }
+
 void EPATargetColor::Compile(IWriter& F)
 {
     pTargetColor(
@@ -1214,6 +1217,7 @@ EPATargetSize::EPATargetSize(): EParticleAction(PAPI::PATargetSizeID)
     appendVector("Size", PVector::vNum, 2.f, 2.f, 0.001f, EPS_L);
     appendVector("Scale", PVector::vNum, 1.f, 1.f, 0.f);
 }
+
 void EPATargetSize::Compile(IWriter& F)
 {
     pTargetSize(F, _vector("Size").val, _vector("Scale").val);
@@ -1226,6 +1230,7 @@ EPATargetRotate::EPATargetRotate(): EParticleAction(PAPI::PATargetRotateID)
     appendVector("Rotation", PVector::vAngle, 0.f, 0.f, 0.f);
     appendFloat("Scale", 1.f, 0.0f, P_MAXFLOAT);
 }
+
 void EPATargetRotate::Compile(IWriter& F)
 {
     pTargetRotate(F, _vector("Rotation").val, _float("Scale").val);
@@ -1239,6 +1244,7 @@ EPATargetVelocity::EPATargetVelocity(): EParticleAction(PAPI::PATargetVelocityID
     appendFloat("Scale", 1.f, 0.0f, P_MAXFLOAT);
     appendBool("Allow Rotate", TRUE);
 }
+
 void EPATargetVelocity::Compile(IWriter& F)
 {
     pTargetVelocity(F, _vector("Velocity").val, _float("Scale").val, _bool("Allow Rotate").val);
@@ -1255,12 +1261,12 @@ EPAVortex::EPAVortex(): EParticleAction(PAPI::PAVortexID)
     appendFloat("Max Radius", 1.0f, -P_MAXFLOAT, P_MAXFLOAT);
     appendBool("Allow Rotate", TRUE);
 }
+
 void EPAVortex::Compile(IWriter& F)
 {
-    pVortex(
-        F, _vector("Center").val, _vector("Axis").val, _float("Magnitude").val, _float("Epsilon").val,
-        _float("Max Radius").val, _bool("Allow Rotate").val);
+    pVortex(F, _vector("Center").val, _vector("Axis").val, _float("Magnitude").val, _float("Epsilon").val, _float("Max Radius").val, _bool("Allow Rotate").val);
 }
+
 void EPAVortex::Render(const Fmatrix& parent)
 {
     EParticleAction::Render(parent);
@@ -1284,9 +1290,7 @@ static const int detail = 16;
 
 void EPATurbulence::Compile(IWriter& F)
 {
-    pTurbulence(
-        F, _float("Frequency").val, _int("Octaves").val, _float("Magnitude").val, _float("Delta").val,
-        _vector("Movement").val);
+    pTurbulence(F, _float("Frequency").val, _int("Octaves").val, _float("Magnitude").val, _float("Delta").val, _vector("Movement").val);
     if (nval != 0)
     {
         for (int i = 0; i < detail; i++)
@@ -1300,21 +1304,26 @@ void EPATurbulence::Compile(IWriter& F)
         nval = 0;
     }
 }
+
 #include "noise.h"
+
 struct Stp
 {
     Fvector p;
     Fcolor  c;
     Stp(const Fvector& _p, const Fcolor& _c): p(_p), c(_c) {}
 };
+
 DEFINE_VECTOR(Stp, StpVec, StpVecIt);
 static StpVec pts;
-IC bool       sort_tp_pred(const Stp& x, const Stp& y)
+
+IC bool sort_tp_pred(const Stp& x, const Stp& y)
 {
     float a = EDevice->vCameraPosition.distance_to_sqr(x.p);
     float b = EDevice->vCameraPosition.distance_to_sqr(y.p);
     return a > b;
 }
+
 void EPATurbulence::Render(const Fmatrix& parent)
 {
     EParticleAction::Render(parent);
@@ -1362,13 +1371,13 @@ void EPATurbulence::Render(const Fmatrix& parent)
     {
         for (j = 0; j < detail; j++)
         {
-            //			if(1){
+            // if(1){
             kb = 0;
             ke = detail;
-            //      	}else{
-            //				kb = detail/2;
-            //				ke = detail/2+1;
-            //			}
+            // }else{
+            // kb = detail/2;
+            // ke = detail/2+1;
+            // }
             for (k = kb; k < ke; k++)
             {
                 vec[0] = (((float)i / (float)detail) - 0.5) * 2.0 * draw_area;

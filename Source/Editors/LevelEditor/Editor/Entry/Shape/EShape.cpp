@@ -1,15 +1,20 @@
 ﻿#include "stdafx.h"
 
-#define SHAPE_COLOR_TRANSP 0x3C808080
-#define SHAPE_COLOR_EDGE 0xFF202020
+#define SHAPE_COLOR_TRANSP    0x3C808080
+#define SHAPE_COLOR_EDGE      0xFF202020
 
 #define SHAPE_CURRENT_VERSION 0x0002
 
-#define SHAPE_CHUNK_VERSION 0x0000
-#define SHAPE_CHUNK_SHAPES 0x0001
-#define SHAPE_CHUNK_DATA 0x0002
+#define SHAPE_CHUNK_VERSION   0x0000
+#define SHAPE_CHUNK_SHAPES    0x0001
+#define SHAPE_CHUNK_DATA      0x0002
 
-xr_token shape_type_tok[] = {{"common", eShapeCommon}, {"level bound", eShapeLevelBound}, {0, 0}};
+xr_token shape_type_tok[] =
+{
+    {"common", eShapeCommon},
+    {"level bound", eShapeLevelBound},
+    {0, 0}
+};
 
 CEditShape::CEditShape(LPVOID data, LPCSTR name): CCustomObject(data, name)
 {
@@ -40,7 +45,8 @@ void CEditShape::ComputeBounds()
     {
         switch (it->type)
         {
-            case cfSphere: {
+            case cfSphere:
+            {
                 Fsphere& T = it->data.sphere;
                 Fvector  P;
                 P.set(T.P);
@@ -51,7 +57,8 @@ void CEditShape::ComputeBounds()
                 m_Box.modify(P);
             }
             break;
-            case cfBox: {
+            case cfBox:
+            {
                 Fvector  P;
                 Fmatrix& T = it->data.box;
 
@@ -75,7 +82,8 @@ void CEditShape::SetScale(const Fvector& val)
     {
         switch (shapes[0].type)
         {
-            case cfSphere: {
+            case cfSphere:
+            {
                 FScale.set(val.x, val.x, val.x);
             }
             break;
@@ -100,13 +108,15 @@ void CEditShape::ApplyScale()
     {
         switch (it->type)
         {
-            case cfSphere: {
+            case cfSphere:
+            {
                 Fsphere& T = it->data.sphere;
                 FTransformS.transform_tiny(T.P);
                 T.R *= FScale.x;
             }
             break;
-            case cfBox: {
+            case cfBox:
+            {
                 Fmatrix& B = it->data.box;
                 B.mulA_43(FTransformS);
             }
@@ -148,13 +158,15 @@ void CEditShape::Attach(CEditShape* from)
     {
         switch (it->type)
         {
-            case cfSphere: {
+            case cfSphere:
+            {
                 Fsphere& T = it->data.sphere;
                 M.transform_tiny(T.P);
                 add_sphere(T);
             }
             break;
-            case cfBox: {
+            case cfBox:
+            {
                 Fmatrix B = it->data.box;
                 B.mulA_43(M);
                 add_box(B);
@@ -188,7 +200,8 @@ void CEditShape::Detach()
             CEditShape* shape = (CEditShape*)Scene->GetOTool(FClassID)->CreateObject(0, namebuffer);
             switch (it->type)
             {
-                case cfSphere: {
+                case cfSphere:
+                {
                     Fsphere T = it->data.sphere;
                     M.transform_tiny(T.P);
                     shape->SetPosition(T.P);
@@ -196,7 +209,8 @@ void CEditShape::Detach()
                     shape->add_sphere(T);
                 }
                 break;
-                case cfBox: {
+                case cfBox:
+                {
                     Fmatrix B = it->data.box;
                     B.mulA_43(M);
                     shape->SetPosition(B.c);
@@ -237,7 +251,8 @@ bool CEditShape::RayPick(float& distance, const Fvector& start, const Fvector& d
     {
         switch (it->type)
         {
-            case cfSphere: {
+            case cfSphere:
+            {
                 Fvector S, D;
                 Fmatrix M;
                 M.invert(FTransformR);
@@ -253,7 +268,8 @@ bool CEditShape::RayPick(float& distance, const Fvector& start, const Fvector& d
                 T.R = bk_r;
             }
             break;
-            case cfBox: {
+            case cfBox:
+            {
                 Fbox box;
                 box.identity();
                 Fmatrix BI;
@@ -290,7 +306,8 @@ bool CEditShape::FrustumPick(const CFrustum& frustum)
     {
         switch (it->type)
         {
-            case cfSphere: {
+            case cfSphere:
+            {
                 Fvector  C;
                 Fsphere& T = it->data.sphere;
                 M.transform_tiny(C, T.P);
@@ -298,7 +315,8 @@ bool CEditShape::FrustumPick(const CFrustum& frustum)
                     return true;
             }
             break;
-            case cfBox: {
+            case cfBox:
+            {
                 Fbox box;
                 box.identity();
                 Fmatrix B = it->data.box;
@@ -445,8 +463,7 @@ void CEditShape::SaveStream(IWriter& F)
 void CEditShape::FillProp(LPCSTR pref, PropItemVec& values)
 {
     inherited::FillProp(pref, values);
-    PHelper().CreateCaption(
-        values, PrepareKey(pref, "Shape usage"), m_shape_type == eShapeCommon ? "common" : "level bound");
+    PHelper().CreateCaption(values, PrepareKey(pref, "Shape usage"), m_shape_type == eShapeCommon ? "common" : "level bound");
 }
 
 void CEditShape::Render(int priority, bool strictB2F)
@@ -458,15 +475,15 @@ void CEditShape::Render(int priority, bool strictB2F)
         {
             EDevice->SetShader(EDevice->m_WireShader);
             EDevice->SetRS(D3DRS_CULLMODE, D3DCULL_NONE);
-            u32 clr =
-                Selected() ? subst_alpha(m_DrawTranspColor, color_get_A(m_DrawTranspColor) * 2) : m_DrawTranspColor;
+            u32 clr = Selected() ? subst_alpha(m_DrawTranspColor, color_get_A(m_DrawTranspColor) * 2) : m_DrawTranspColor;
 
             Fvector zero = {0.f, 0.f, 0.f};
             for (ShapeIt it = shapes.begin(); it != shapes.end(); ++it)
             {
                 switch (it->type)
                 {
-                    case cfSphere: {
+                    case cfSphere:
+                    {
                         Fsphere& S = it->data.sphere;
                         Fmatrix  B;
                         B.scale(S.R, S.R, S.R);
@@ -478,7 +495,8 @@ void CEditShape::Render(int priority, bool strictB2F)
                         DU_impl.DrawIdentSphere(true, true, clr, m_DrawEdgeColor);
                     }
                     break;
-                    case cfBox: {
+                    case cfBox:
+                    {
                         Fmatrix B = it->data.box;
                         B.mulA_43(_Transform());
                         RCache.set_xform_world(B);

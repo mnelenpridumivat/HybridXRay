@@ -2,11 +2,11 @@
 
 #define SCENEOBJ_CURRENT_VERSION 0x0012
 
-#define SCENEOBJ_CHUNK_VERSION 0x0900
+#define SCENEOBJ_CHUNK_VERSION   0x0900
 #define SCENEOBJ_CHUNK_REFERENCE 0x0902
 #define SCENEOBJ_CHUNK_PLACEMENT 0x0904
-#define SCENEOBJ_CHUNK_FLAGS 0x0905
-#define SCENEOBJ_CHUNK_SURFACE 0x0906
+#define SCENEOBJ_CHUNK_FLAGS     0x0905
+#define SCENEOBJ_CHUNK_SURFACE   0x0906
 bool CSceneObject::LoadLTX(CInifile& ini, LPCSTR sect_name)
 {
     bool bRes = true;
@@ -109,7 +109,8 @@ bool CSceneObject::LoadLTX(CInifile& ini, LPCSTR sect_name)
 
         if (!bRes)
             break;
-    } while (0);
+    }
+    while (0);
 
     return bRes;
 }
@@ -182,8 +183,7 @@ bool CSceneObject::LoadStream(IReader& F)
             if (b_found)
             {
                 xr_string _message;
-                _message = "Object [" + xr_string(buf) + "] not found. Relace it with [" + _new_name +
-                    "] or select other from library?";
+                _message = "Object [" + xr_string(buf) + "] not found. Relace it with [" + _new_name + "] or select other from library?";
                 mr = ELog.DlgMsg(mtConfirmation, mbYes | mbNo, _message.c_str());
                 if (mrYes == mr)
                 {
@@ -202,9 +202,6 @@ bool CSceneObject::LoadStream(IReader& F)
 
             Scene->Modified();
         }
-
-        // if(!CheckVersion())
-        //     ELog.Msg( mtError, "! CSceneObject: '%s' different file version!", buf );
 
         // flags
         if (F.find_chunk(SCENEOBJ_CHUNK_FLAGS))
@@ -255,7 +252,8 @@ bool CSceneObject::LoadStream(IReader& F)
         }
         if (!bRes)
             break;
-    } while (0);
+    }
+    while (0);
 
     return bRes;
 }

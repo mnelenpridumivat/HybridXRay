@@ -1,36 +1,36 @@
 ﻿#include "stdafx.h"
 
 // file: SceneChunks.h
-#define CURRENT_FILE_VERSION 0x00000005
+#define CURRENT_FILE_VERSION       0x00000005
 
-#define CURRENT_LEVELOP_VERSION 0x0000000C
+#define CURRENT_LEVELOP_VERSION    0x0000000C
 // 0x00000008
 
 #define CURRENT_LEVELOP_BP_VERSION 0x00000009
-#define CURRENT_ENV_VERSION 0x00000007
+#define CURRENT_ENV_VERSION        0x00000007
 
-#define CHUNK_VERSION 0x9df3
-#define CHUNK_OBJECT_CLASS 0x7703
-#define CHUNK_OBJECT_LIST 0x7708
-#define CHUNK_CAMERA 0x7709
-#define CHUNK_SNAPOBJECTS 0x7710
-#define CHUNK_LEVELOP 0x7711
-#define CHUNK_OBJECT_COUNT 0x7712
-#define CHUNK_LEVEL_TAG 0x7777
+#define CHUNK_VERSION              0x9df3
+#define CHUNK_OBJECT_CLASS         0x7703
+#define CHUNK_OBJECT_LIST          0x7708
+#define CHUNK_CAMERA               0x7709
+#define CHUNK_SNAPOBJECTS          0x7710
+#define CHUNK_LEVELOP              0x7711
+#define CHUNK_OBJECT_COUNT         0x7712
+#define CHUNK_LEVEL_TAG            0x7777
 
-#define CHUNK_TOOLS_GUID 0x7000
-#define CHUNK_TOOLS_DATA 0x8000
+#define CHUNK_TOOLS_GUID           0x7000
+#define CHUNK_TOOLS_DATA           0x8000
 
 // level options
-#define CHUNK_LO_VERSION 0x7801
-#define CHUNK_LO_NAMES 0x7802
-#define CHUNK_LO_BOP 0x7803
-#define CHUNK_LO_PREFIX 0x7804
-#define CHUNK_LO_BP_VERSION 0x7849
-#define CHUNK_BUILD_PARAMS 0x7850
-#define CHUNK_LIGHT_QUALITY 0x7851
-#define CHUNK_MAP_USAGE 0x7852
-#define CHUNK_LO_MAP_VER 0x7853
+#define CHUNK_LO_VERSION           0x7801
+#define CHUNK_LO_NAMES             0x7802
+#define CHUNK_LO_BOP               0x7803
+#define CHUNK_LO_PREFIX            0x7804
+#define CHUNK_LO_BP_VERSION        0x7849
+#define CHUNK_BUILD_PARAMS         0x7850
+#define CHUNK_LIGHT_QUALITY        0x7851
+#define CHUNK_MAP_USAGE            0x7852
+#define CHUNK_LO_MAP_VER           0x7853
 
 // Level Options
 
@@ -101,7 +101,7 @@ void st_LevelOptions::ReadLTX(CInifile& ini)
 {
     LPCSTR section = "level_options";
 
-    u32 vers_op = ini.r_u32(section, "version");
+    u32    vers_op = ini.r_u32(section, "version");
     if (vers_op < 0x00000008)
     {
         ELog.DlgMsg(mtError, "& Skipping bad version of level options.");
@@ -134,8 +134,8 @@ void st_LevelOptions::ReadLTX(CInifile& ini)
         if (vers_op > 0x00000008)
         {
             m_mapUsage.m_GameType.set(eGameIDCaptureTheArtefact, ini.r_s32(section, "usage_captretheartefact"));
-
             m_mapUsage.m_GameType.set(eGameIDTeamDominationZone, ini.r_s32(section, "usage_team_domination_zone"));
+
             if (vers_op == 0x00000009)
                 m_mapUsage.m_GameType.set(eGameIDDominationZone, ini.r_s32(section, "domination_zone"));
             else
@@ -202,8 +202,9 @@ void st_LevelOptions::Read(IReader& F)
     }
 }
 
+//------------------------------------------------------------------------------------------------
 // Scene
-
+//------------------------------------------------------------------------------------------------
 BOOL EScene::LoadLevelPartLTX(ESceneToolBase* M, LPCSTR mn)
 {
     string_path map_name;
@@ -230,7 +231,7 @@ BOOL EScene::LoadLevelPartLTX(ESceneToolBase* M, LPCSTR mn)
         CInifile ini(map_name);
 
         // check level part GUID
-        xrGUID guid;
+        xrGUID   guid;
         guid.LoadLTX(ini, "guid", "guid");
 
         if (guid != m_GUID)
@@ -341,7 +342,7 @@ void EScene::SaveLTX(LPCSTR map_name, bool bForUndo, bool bForceSaveAll)
 
     xr_string part_prefix;
 
-    bool bSaveMain = true;
+    bool      bSaveMain = true;
 
     if (!bForUndo)
     {
@@ -477,9 +478,9 @@ void EScene::Save(LPCSTR map_name, bool bUndo, bool bForceSaveAll)
 
     xr_string part_prefix;
 
-    bool bSaveMain = true;
+    bool      bSaveMain = true;
 
-    IWriter* F = 0;
+    IWriter*  F         = 0;
 
     if (bSaveMain)
     {
@@ -599,8 +600,8 @@ bool EScene::ReadObjectStream(IReader& F, CCustomObject*& O)
 {
     ObjClassID clsid = OBJCLASS_DUMMY;
     R_ASSERT(F.find_chunk(CHUNK_OBJECT_CLASS));
-    clsid = ObjClassID(F.r_u32());
-    O     = GetOTool(clsid)->CreateObject(0, 0);
+    clsid      = ObjClassID(F.r_u32());
+    O          = GetOTool(clsid)->CreateObject(0, 0);
 
     IReader* S = F.open_chunk(CHUNK_OBJECT_BODY);
     R_ASSERT(S);
@@ -619,7 +620,7 @@ bool EScene::ReadObjectLTX(CInifile& ini, LPCSTR sect_name, CCustomObject*& O)
     clsid            = ObjClassID(ini.r_u32(sect_name, "clsid"));
     O                = GetOTool(clsid)->CreateObject(0, 0);
 
-    bool bRes = O->LoadLTX(ini, sect_name);
+    bool bRes        = O->LoadLTX(ini, sect_name);
 
     if (!bRes)
         xr_delete(O);
@@ -627,12 +628,7 @@ bool EScene::ReadObjectLTX(CInifile& ini, LPCSTR sect_name, CCustomObject*& O)
     return bRes;
 }
 
-bool EScene::ReadObjectsLTX(
-    CInifile&     ini,
-    LPCSTR        sect_name_parent,
-    LPCSTR        sect_name_prefix,
-    TAppendObject on_append,
-    SPBItem*      pb)
+bool EScene::ReadObjectsLTX(CInifile& ini, LPCSTR sect_name_parent, LPCSTR sect_name_prefix, TAppendObject on_append, SPBItem* pb)
 {
     string128 buff;
     R_ASSERT(on_append);
@@ -651,40 +647,44 @@ bool EScene::ReadObjectsLTX(
             CCustomObject* existing = FindObjectByName(obj_name, obj->FClassID);
             if (existing)
             {
-                /*if(g_frmConflictLoadObject->m_result!=2 && g_frmConflictLoadObject->m_result!=4 &&
-                g_frmConflictLoadObject->m_result!=6)
+                /*
+                if (g_frmConflictLoadObject->m_result != 2 && g_frmConflictLoadObject->m_result != 4 && g_frmConflictLoadObject->m_result != 6)
                 {
-                    g_frmConflictLoadObject->m_existing_object 	= existing;
-                    g_frmConflictLoadObject->m_new_object 		= obj;
-                    g_frmConflictLoadObject->Prepare			();
-                    g_frmConflictLoadObject->ShowModal			();
-                }*/
-                /*     switch(g_frmConflictLoadObject->m_result)
-                     {
-                         case 1: //Overwrite
-                         case 2: //Overwrite All
-                         {
-                            bool res = RemoveObject		(existing, true, true);
-                             if(!res)
-                                 Msg("! RemoveObject [%s] failed", existing->GetName());
-                              else
-                                 xr_delete(existing);
-                         }break;
-                         case 3: //Insert new
-                         case 4: //Insert new All
-                         {
-                             string256 				buf;
-                             GenObjectName			(obj->FClassID, buf, obj->GetName());
-                             obj->SetName(buf);
-                         }break;
-                         case 0: //Cancel
-                         case 5: //Skip
-                         case 6: //Skip All
-                         {
-                             xr_delete(obj);
-                         }break;
-                     } //switch
-                 } //if exist*/
+                    g_frmConflictLoadObject->m_existing_object = existing;
+                    g_frmConflictLoadObject->m_new_object      = obj;
+                    g_frmConflictLoadObject->Prepare();
+                    g_frmConflictLoadObject->ShowModal();
+                }
+                switch (g_frmConflictLoadObject->m_result)
+                {
+                    case 1:   //Overwrite
+                    case 2:   //Overwrite All
+                    {
+                        bool res = RemoveObject(existing, true, true);
+                        if (!res)
+                            Msg("! RemoveObject [%s] failed", existing->GetName());
+                        else
+                            xr_delete(existing);
+                    }
+                    break;
+                    case 3:   //Insert new
+                    case 4:   //Insert new All
+                    {
+                        string256 buf;
+                        GenObjectName(obj->FClassID, buf, obj->GetName());
+                        obj->SetName(buf);
+                    }
+                    break;
+                    case 0:   //Cancel
+                    case 5:   //Skip
+                    case 6:   //Skip All
+                    {
+                        xr_delete(obj);
+                    }
+                    break;
+                }   //switch
+                }   //if exist
+                */
                 string256 buf;
                 GenObjectName(obj->FClassID, buf, obj->GetName());
                 obj->SetName(buf);
@@ -719,39 +719,45 @@ bool EScene::ReadObjectsStream(IReader& F, u32 chunk_id, TAppendObject on_append
                 CCustomObject* existing = FindObjectByName(obj_name, obj->FClassID);
                 if (existing)
                 {
-                    /*if(g_frmConflictLoadObject->m_result!=2 && g_frmConflictLoadObject->m_result!=4 &&
-                    g_frmConflictLoadObject->m_result!=6)
+                    /*
+                    if (g_frmConflictLoadObject->m_result != 2 && g_frmConflictLoadObject->m_result != 4 && g_frmConflictLoadObject->m_result != 6)
                     {
-                        g_frmConflictLoadObject->m_existing_object 	= existing;
-                        g_frmConflictLoadObject->m_new_object 		= obj;
-                        g_frmConflictLoadObject->Prepare			();
-                        g_frmConflictLoadObject->ShowModal			();
+                        g_frmConflictLoadObject->m_existing_object = existing;
+                        g_frmConflictLoadObject->m_new_object      = obj;
+                        g_frmConflictLoadObject->Prepare();
+                        g_frmConflictLoadObject->ShowModal();
                     }
-                    switch(g_frmConflictLoadObject->m_result)
+                    switch (g_frmConflictLoadObject->m_result)
                     {
-                        case 1: //Overwrite
-                        case 2: //Overwrite All
+                        case 1:   //Overwrite
+                        case 2:   //Overwrite All
                         {
-                           bool res = RemoveObject		(existing, true, true);
-                            if(!res)
+                            bool res = RemoveObject(existing, true, true);
+                            if (!res)
                                 Msg("! RemoveObject [%s] failed", existing->Name);
-                             else
+                            else
                                 xr_delete(existing);
-                        }break;
-                        case 3: //Insert new
-                        case 4: //Insert new All*/
+                        }
+                        break;
+                        case 3:   //Insert new
+                        case 4:   //Insert new All
+                    */
 
                     string256 buf;
                     GenObjectName(obj->FClassID, buf, obj->GetName());
                     obj->SetName(buf);
-                    /*}break;
-                    case 0: //Cancel
-                    case 5: //Skip
-                    case 6: //Skip All
-                    {
-                        xr_delete(obj);
-                    }break;
-                }*/
+                    /*
+                        }
+                        break;
+                        case 0: //Cancel
+                        case 5: //Skip
+                        case 6: //Skip All
+                        {
+                            xr_delete(obj);
+                        }
+                        break;
+                    }
+                    */
                 }
                 if (obj && !on_append(obj))
                     xr_delete(obj);
@@ -813,8 +819,8 @@ bool EScene::LoadLTX(LPCSTR map_name, bool bUndo)
 
         m_GUID.LoadLTX(ini, "guid", "guid");
 
-        m_OwnerName  = ini.r_string("level_tag", "owner");
-        m_CreateTime = ini.r_u32("level_tag", "create_time");
+        m_OwnerName            = ini.r_string("level_tag", "owner");
+        m_CreateTime           = ini.r_u32("level_tag", "create_time");
 
         SceneToolsMapPairIt _I = m_SceneTools.begin();
         SceneToolsMapPairIt _E = m_SceneTools.end();
@@ -1012,7 +1018,7 @@ void EScene::SaveSelection(ObjClassID classfilter, LPCSTR fname)
     VERIFY(fname);
 
     xr_string full_name;
-    full_name = fname;
+    full_name  = fname;
 
     IWriter* F = FS.w_open(full_name.c_str());
     R_ASSERT(F);

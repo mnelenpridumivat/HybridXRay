@@ -7,12 +7,13 @@
 #include "../XrECore/Editor/ui_main.h"
 #include "../../UI_LevelMain.h"
 
-#define GROUPOBJ_CURRENT_VERSION 0x0012
-
-#define GROUPOBJ_CHUNK_VERSION 0x0000
-#define GROUPOBJ_CHUNK_OBJECT_LIST 0x0001
-#define GROUPOBJ_CHUNK_FLAGS 0x0003
-#define GROUPOBJ_CHUNK_REFERENCE 0x0004
+//----------------------------------------------------
+#define GROUPOBJ_CURRENT_VERSION        0x0012
+//----------------------------------------------------
+#define GROUPOBJ_CHUNK_VERSION          0x0000
+#define GROUPOBJ_CHUNK_OBJECT_LIST      0x0001
+#define GROUPOBJ_CHUNK_FLAGS            0x0003
+#define GROUPOBJ_CHUNK_REFERENCE        0x0004
 #define GROUPOBJ_CHUNK_OPEN_OBJECT_LIST 0x0005
 
 CGroupObject::CGroupObject(LPVOID data, LPCSTR name): CCustomObject(data, name)
@@ -156,8 +157,7 @@ bool CGroupObject::LoadLTX(CInifile& ini, LPCSTR sect_name)
     }
     else
     {
-        Scene->ReadObjectsLTX(
-            ini, sect_name, "ingroup", EScene::TAppendObject(this, &CGroupObject::AppendObjectLoadCB), 0);
+        Scene->ReadObjectsLTX(ini, sect_name, "ingroup", EScene::TAppendObject(this, &CGroupObject::AppendObjectLoadCB), 0);
     }
     VERIFY(m_ObjectsInGroup.size());
 
@@ -232,8 +232,7 @@ bool CGroupObject::LoadStream(IReader& F)
     }
     else
     {
-        Scene->ReadObjectsStream(
-            F, GROUPOBJ_CHUNK_OBJECT_LIST, EScene::TAppendObject(this, &CGroupObject::AppendObjectLoadCB), 0);
+        Scene->ReadObjectsStream(F, GROUPOBJ_CHUNK_OBJECT_LIST, EScene::TAppendObject(this, &CGroupObject::AppendObjectLoadCB), 0);
     }
     VERIFY(m_ObjectsInGroup.size());
 
@@ -413,11 +412,13 @@ void CGroupObject::OnFreezeAllClick(ButtonValue* sender, bool& bModif, bool& bSa
     BOOL         bDoUnique = FALSE;
     switch (V->btn_num)
     {
-        case 0: {
+        case 0:
+        {
             bDoUnique = TRUE;
         }
         break;
-        case 1: {
+        case 1:
+        {
             bDoUnique = FALSE;
         }
         break;

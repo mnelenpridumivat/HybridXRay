@@ -113,17 +113,21 @@
 // 94 - CSE_Abstract					client_data size increased
 // 95 - CSE_ALifeCreatureAbstract		appended with m_killer_id property
 // 96 - CSE_ALifeTraderAbstract			changed m_iCharacterProfile(int) to m_sCharacterProfile(shared_str)
-// 97 - CSE_ALifeItemPDA				changed m_info_portion(int) to m_info_portion(shared_str) +m_specific_character
-// +CSE_ALifeItemDocument m_wDoc (int-> shared_str) 98 - CSE_ALifeItemPDA				changed m_info_portion(int) to
-// m_info_portion(shared_str) +m_specific_character +CSE_ALifeItemDocument m_wDoc (int-> shared_str) 99 -
-// CSE_ALifeObjectClimable			inheritance changed CSE_Abstruct -> CSE_AlifeObject 100 - CSE_ALifeObjectClimable
-// inheritance changed CSE_AlifeObject -> CSE_AlifeDynamicObject 101 - CSE_ALifeCreaturePhantom		new class based on
-// CSE_ALifeCreatureAbstract 102 - CSE_ALifeAnomalousZone			appended m_owner_id 103 - CSE_ALifeCustomZone
-// appended m_owner_id,removed from CSE_ALifeAnomalousZone 104 - CSE_Visual						appended flags 105 -
-// CSE_ALifeTraderAbstract		added full name 106 - CSE_ALifeCustomZone			enabled\disabled time 107 -
-// CSE_ALifeCustomZone			enabled\disabled time extended 108 - CSE_ALifeTraderAbstract		removed property
-// m_tpEvents 109 - CSE_ALifeBaseMonster			added property m_spec_object 110 - CSE_ALifeHumanAbstract
-// removed a lot 111 - CSE_ALifeHumanStalker			removed demo mode
+// 97 - CSE_ALifeItemPDA				changed m_info_portion(int) to m_info_portion(shared_str) +m_specific_character +CSE_ALifeItemDocument m_wDoc (int-> shared_str)
+// 98 - CSE_ALifeItemPDA				changed m_info_portion(int) to m_info_portion(shared_str) +m_specific_character +CSE_ALifeItemDocument m_wDoc (int-> shared_str)
+// 99 - CSE_ALifeObjectClimable			inheritance changed CSE_Abstruct -> CSE_AlifeObject
+// 100 - CSE_ALifeObjectClimable		inheritance changed CSE_AlifeObject -> CSE_AlifeDynamicObject
+// 101 - CSE_ALifeCreaturePhantom		new class based on CSE_ALifeCreatureAbstract
+// 102 - CSE_ALifeAnomalousZone			appended m_owner_id
+// 103 - CSE_ALifeCustomZone			appended m_owner_id,removed from CSE_ALifeAnomalousZone
+// 104 - CSE_Visual						appended flags
+// 105 - CSE_ALifeTraderAbstract		added full name
+// 106 - CSE_ALifeCustomZone			enabled\disabled time
+// 107 - CSE_ALifeCustomZone			enabled\disabled time extended
+// 108 - CSE_ALifeTraderAbstract		removed property m_tpEvents
+// 109 - CSE_ALifeBaseMonster			added property m_spec_object
+// 110 - CSE_ALifeHumanAbstract			removed a lot
+// 111 - CSE_ALifeHumanStalker			removed demo mode
 // 112 - CSE_Abstract					removed all the spawn properties, sad but true
 //	   - CSE_SpawnGroup					is no more
 //	   - CSE_Event						is no more
@@ -168,7 +172,7 @@ void cform_write(NET_Packet& P);
 CSE_Shape();
 virtual ~CSE_Shape();
 virtual ISE_Shape* shape() = 0;
-virtual void       assign_shapes(CShapeData::shape_def* shapes, u32 cnt);
+virtual void assign_shapes(CShapeData::shape_def* shapes, u32 cnt);
 }
 ;
 add_to_type_list(CSE_Shape)
@@ -221,6 +225,7 @@ virtual CSE_Abstract* cast_abstract()
 protected:
 virtual void data_load(NET_Packet& tNetPacket);
 virtual void data_save(NET_Packet& tNetPacket);
+
 public:
 SERVER_ENTITY_DECLARE_END
 add_to_type_list(CSE_PHSkeleton)
@@ -232,7 +237,7 @@ typedef CSE_Visual inherited2;
 CSE_AbstractVisual(LPCSTR caSection);
 virtual ~CSE_AbstractVisual();
 virtual ISE_Visual* visual();
-LPCSTR              getStartupAnimation();
+LPCSTR getStartupAnimation();
 SERVER_ENTITY_DECLARE_END
 add_to_type_list(CSE_AbstractVisual)
 #define script_type_list save_type_list(CSE_AbstractVisual)
@@ -242,10 +247,10 @@ add_to_type_list(CSE_AbstractVisual)
 #endif
 
 /**
-SERVER_ENTITY_DECLARE_BEGIN(CSE_SpawnGroup,CSE_Abstract)
+SERVER_ENTITY_DECLARE_BEGIN(CSE_SpawnGroup, CSE_Abstract)
 public:
-                                    CSE_SpawnGroup	(LPCSTR caSection);
-    virtual							~CSE_SpawnGroup	();
+            CSE_SpawnGroup(LPCSTR caSection);
+    virtual ~CSE_SpawnGroup();
 SERVER_ENTITY_DECLARE_END
 add_to_type_list(CSE_SpawnGroup)
 #define script_type_list save_type_list(CSE_SpawnGroup)
