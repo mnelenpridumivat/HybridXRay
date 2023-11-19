@@ -1,13 +1,14 @@
 ﻿#include "stdafx.h"
 
-#define SECTOR_VERSION 0x0012
+#define SECTOR_VERSION        0x0012
+#define SECTOR_VERSION_SHOC   0x0011
 
-#define SECTOR_CHUNK_VERSION 0xF010
-#define SECTOR_CHUNK_COLOR 0xF020
-#define SECTOR_CHUNK_PRIVATE 0xF025
-#define SECTOR_CHUNK_ITEMS 0xF030
+#define SECTOR_CHUNK_VERSION  0xF010
+#define SECTOR_CHUNK_COLOR    0xF020
+#define SECTOR_CHUNK_PRIVATE  0xF025
+#define SECTOR_CHUNK_ITEMS    0xF030
 #define SECTOR_CHUNK_ONE_ITEM 0xF031
-#define SECTOR_CHUNK_MAP_IDX 0xF032
+#define SECTOR_CHUNK_MAP_IDX  0xF032
 
 CSectorItem::CSectorItem()
 {
@@ -409,8 +410,8 @@ void CSector::GetCounts(int* objects, int* meshes, int* faces)
 
 void CSector::LoadSectorDef(IReader* F)
 {
-    string256 o_name = "";
-    string256 m_name = "";
+    string256   o_name = "";
+    string256   m_name = "";
 
     CSectorItem sitem;
 
@@ -446,8 +447,8 @@ void CSector::LoadSectorDef(IReader* F)
 
 void CSector::LoadSectorDefLTX(CInifile& ini, LPCSTR sect_name, u32 item_idx)
 {
-    LPCSTR o_name = NULL;
-    LPCSTR m_name = NULL;
+    LPCSTR      o_name = NULL;
+    LPCSTR      m_name = NULL;
 
     CSectorItem sitem;
     string512   buff;
@@ -541,7 +542,8 @@ void CSector::SaveLTX(CInifile& ini, LPCSTR sect_name)
         ini.w_string(sect_name, buff, it->mesh->Name().c_str());
         ++count;
     }
-    ini.w_u8(sect_name, "change_map_to_idx", m_map_idx);
+    if (xrGameManager::GetGame() != EGame::SHOC)
+        ini.w_u8(sect_name, "change_map_to_idx", m_map_idx);
 }
 
 bool CSector::LoadStream(IReader& F)
@@ -550,9 +552,9 @@ bool CSector::LoadStream(IReader& F)
 
     char buf[1024];
     R_ASSERT(F.r_chunk(SECTOR_CHUNK_VERSION, &version));
-    if (version != SECTOR_VERSION)
+    if (version < 0x0011)
     {
-        ELog.Msg(mtError, "& CSector: Unsupported version.");
+        ELog.Msg(mtError, "! CSector: Unsupported version.");
         return false;
     }
 
@@ -577,8 +579,11 @@ bool CSector::LoadStream(IReader& F)
         OBJ->close();
     }
 
-    if (F.find_chunk(SECTOR_CHUNK_MAP_IDX))
-        m_map_idx = F.r_u8();
+    if (xrGameManager::GetGame() != EGame::SHOC)
+    {
+        if (F.find_chunk(SECTOR_CHUNK_MAP_IDX))
+            m_map_idx = F.r_u8();
+    }
 
     if (sector_items.empty())
         return false;
@@ -592,7 +597,10 @@ void CSector::SaveStream(IWriter& F)
     CCustomObject::SaveStream(F);
 
     F.open_chunk(SECTOR_CHUNK_VERSION);
-    F.w_u16(SECTOR_VERSION);
+    if (xrGameManager::GetGame() == EGame::SHOC)
+        F.w_u16(SECTOR_VERSION_SHOC);
+    else
+        F.w_u16(SECTOR_VERSION);
     F.close_chunk();
 
     F.w_chunk(SECTOR_CHUNK_COLOR, &sector_color, sizeof(Fcolor));
@@ -615,9 +623,12 @@ void CSector::SaveStream(IWriter& F)
     }
     F.close_chunk();
 
-    F.open_chunk(SECTOR_CHUNK_MAP_IDX);
-    F.w_u8(m_map_idx);
-    F.close_chunk();
+    if (xrGameManager::GetGame() != EGame::SHOC)
+    {
+        F.open_chunk(SECTOR_CHUNK_MAP_IDX);
+        F.w_u8(m_map_idx);
+        F.close_chunk();
+    }
 }
 
 xr_token level_sub_map[] = {{"default", u8(-1)}, {"#0", 0}, {"#1", 1}, {"#2", 2}, {"#3", 3}, {NULL, 4}};
