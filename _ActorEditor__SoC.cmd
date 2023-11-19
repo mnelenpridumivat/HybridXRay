@@ -1,0 +1,1 @@
+start bin\x64\Release\ActorEditor.exe -soc
