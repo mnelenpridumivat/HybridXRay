@@ -217,7 +217,7 @@ bool CGroupObject::LoadStream(IReader& F)
     // objects
     if (tmp_flags.test(1 << 0))   // opened flag, old group format
     {
-        ELog.DlgMsg(mtError, "! Warning! Group has old format. Objects from group will be loaded ungrouped.");
+        ELog.Msg(mtInformation, "~ Warning! Group has old format. Objects from group will be loaded ungrouped.");
         return false;
     }
     else

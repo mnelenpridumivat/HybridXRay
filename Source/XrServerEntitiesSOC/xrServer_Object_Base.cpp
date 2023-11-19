@@ -389,7 +389,7 @@ xr_token game_types[] =
 
 void CSE_Abstract::FillProps(LPCSTR pref, PropItemVec& items)
 {
-#if 0
+#ifdef XRSEFACTORY_EXPORTS
     m_gameType.FillProp(pref, items);
     PHelper().CreateU16(items, PrepareKey(pref, "Respawn Time (s)"), &RespawnTime, 0, 43200);
 
@@ -403,7 +403,7 @@ void CSE_Abstract::FillProps(LPCSTR pref, PropItemVec& items)
     // PHelper().CreateFlag32(items,PrepareKey(pref,*s_name,"Spawn\\spawn infinite count"), &m_spawn_flags, flSpawnInfiniteCount);
     // PHelper().CreateFlag32(items,PrepareKey(pref,*s_name,"Spawn\\auto destroy on spawn"), &m_spawn_flags, flSpawnDestroyOnSpawn);
 #endif   // DEBUG
-#endif   // XRGAME_EXPORTS
+#endif   // XRSEFACTORY_EXPORTS
 }
 
 void CSE_Abstract::FillProp(LPCSTR pref, PropItemVec& items)
