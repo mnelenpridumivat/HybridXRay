@@ -1,4 +1,4 @@
-// PHDynamicData.cpp: implementation of the PHDynamicData class.
+﻿// PHDynamicData.cpp: implementation of the PHDynamicData class.
 //
 //////////////////////////////////////////////////////////////////////
 #include "stdafx.h"
@@ -200,4 +200,4 @@ void PHDynamicData::SetAsZeroRecursive(){
 void PHDynamicData::SetZeroTransform(Fmatrix& aTransform){
 	ZeroTransform.set(aTransform);
 }
-#endif // #if 0
+#endif   // #if 0

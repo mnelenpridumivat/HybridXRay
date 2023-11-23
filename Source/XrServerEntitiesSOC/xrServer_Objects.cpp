@@ -97,9 +97,7 @@ CSE_Temporary::CSE_Temporary(LPCSTR caSection): CSE_Abstract(caSection)
     m_tNodeID = u32(-1);
 }
 
-CSE_Temporary::~CSE_Temporary()
-{
-}
+CSE_Temporary::~CSE_Temporary() {}
 
 void CSE_Temporary::STATE_Read(NET_Packet& tNetPacket, u16 size)
 {
@@ -224,9 +222,7 @@ void CSE_PHSkeleton::UPDATE_Write(NET_Packet& tNetPacket) {}
 void CSE_PHSkeleton::UPDATE_Read(NET_Packet& tNetPacket) {}
 
 #ifndef XRGAME_EXPORTS
-void CSE_PHSkeleton::FillProps(LPCSTR pref, PropItemVec& values)
-{
-}
+void CSE_PHSkeleton::FillProps(LPCSTR pref, PropItemVec& values) {}
 #endif
 
 CSE_AbstractVisual::CSE_AbstractVisual(LPCSTR section): inherited1(section), inherited2(section) {}
@@ -252,8 +248,8 @@ void CSE_AbstractVisual::FillProps(LPCSTR pref, PropItemVec& values)
 }
 #endif
 
-void CSE_AbstractVisual::UPDATE_Read(NET_Packet& tNetPacket) {}
-void CSE_AbstractVisual::UPDATE_Write(NET_Packet& tNetPacket) {}
+void   CSE_AbstractVisual::UPDATE_Read(NET_Packet& tNetPacket) {}
+void   CSE_AbstractVisual::UPDATE_Write(NET_Packet& tNetPacket) {}
 
 LPCSTR CSE_AbstractVisual::getStartupAnimation()
 {

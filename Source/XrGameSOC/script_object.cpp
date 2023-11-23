@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: script_object.cpp
 //	Created 	: 06.10.2003
 //  Modified 	: 14.12.2004
@@ -9,54 +9,47 @@
 #include "stdafx.h"
 #include "script_object.h"
 
-CScriptObject::CScriptObject			()
+CScriptObject::CScriptObject() {}
+
+CScriptObject::~CScriptObject() {}
+
+DLL_Pure* CScriptObject::_construct()
 {
+    CGameObject::_construct();
+    CScriptEntity::_construct();
+    return (this);
 }
 
-CScriptObject::~CScriptObject			()
+void CScriptObject::reinit()
 {
+    CScriptEntity::reinit();
+    CGameObject::reinit();
 }
 
-DLL_Pure *CScriptObject::_construct		()
+BOOL CScriptObject::net_Spawn(CSE_Abstract* DC)
 {
-	CGameObject::_construct			();
-	CScriptEntity::_construct		();
-	return							(this);
+    return (CGameObject::net_Spawn(DC) && CScriptEntity::net_Spawn(DC));
 }
 
-void CScriptObject::reinit				()
+void CScriptObject::net_Destroy()
 {
-	CScriptEntity::reinit			();
-	CGameObject::reinit				();
+    CGameObject::net_Destroy();
+    CScriptEntity::net_Destroy();
 }
 
-BOOL CScriptObject::net_Spawn			(CSE_Abstract* DC)
+BOOL CScriptObject::UsedAI_Locations()
 {
-	return	(
-		CGameObject::net_Spawn(DC) &&
-		CScriptEntity::net_Spawn(DC)
-	);
+    return (FALSE);
 }
 
-void CScriptObject::net_Destroy			()
+void CScriptObject::shedule_Update(u32 DT)
 {
-	CGameObject::net_Destroy		();
-	CScriptEntity::net_Destroy		();
+    CGameObject::shedule_Update(DT);
+    CScriptEntity::shedule_Update(DT);
 }
 
-BOOL CScriptObject::UsedAI_Locations	()
+void CScriptObject::UpdateCL()
 {
-	return							(FALSE);
-}
-
-void CScriptObject::shedule_Update		(u32 DT)
-{
-	CGameObject::shedule_Update		(DT);
-	CScriptEntity::shedule_Update	(DT);
-}
-
-void CScriptObject::UpdateCL			()
-{
-	CGameObject::UpdateCL			();
-	CScriptEntity::UpdateCL			();
+    CGameObject::UpdateCL();
+    CScriptEntity::UpdateCL();
 }

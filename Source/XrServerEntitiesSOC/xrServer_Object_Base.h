@@ -43,15 +43,15 @@ virtual void load(IReader& tFileStream);
 virtual void save(IWriter& tMemoryStream);
 virtual void load(NET_Packet& tNetPacket);
 virtual void save(NET_Packet& tNetPacket);
-};
+}
+;
 
 add_to_type_list(CPureServerObject)
 #define script_type_list save_type_list(CPureServerObject)
 
-SERVER_ENTITY_DECLARE_BEGIN3(CSE_Abstract, ISE_Abstract, CPureServerObject, CScriptValueContainer)
+    SERVER_ENTITY_DECLARE_BEGIN3(CSE_Abstract, ISE_Abstract, CPureServerObject, CScriptValueContainer)
 
-public:
-enum ESpawnFlags
+        public: enum ESpawnFlags
 {
     flSpawnEnabled         = u32(1 << 0),
     flSpawnOnSurgeOnly     = u32(1 << 1),
@@ -60,10 +60,8 @@ enum ESpawnFlags
     flSpawnInfiniteCount   = u32(1 << 4),
     flSpawnDestroyOnSpawn  = u32(1 << 5),
 };
-
 private:
 LPSTR s_name_replace;
-
 public:
 #ifndef XRGAME_EXPORTS
 virtual visual_data* visual_collection() const
@@ -209,7 +207,8 @@ virtual CSE_ALifeItemPDA* cast_item_pda()
 
 virtual void UPDATE_Read(NET_Packet& tNetPacket);
 virtual void UPDATE_Write(NET_Packet& tNetPacket);
-};
+}
+;
 
 add_to_type_list(CSE_Abstract)
 #define script_type_list save_type_list(CSE_Abstract)

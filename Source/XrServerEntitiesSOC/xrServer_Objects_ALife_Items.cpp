@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: xrServer_Objects_ALife_Items.cpp
 //	Created 	: 19.09.2002
 //  Modified 	: 04.06.2003
@@ -200,7 +200,7 @@ u32 CSE_ALifeInventoryItem::update_rate		() const
 ////////////////////////////////////////////////////////////////////////////
 // CSE_ALifeItem
 ////////////////////////////////////////////////////////////////////////////
-CSE_ALifeItem::CSE_ALifeItem				(LPCSTR caSection) : CSE_ALifeDynamicObjectVisual(caSection), CSE_ALifeInventoryItem(caSection)
+CSE_ALifeItem::CSE_ALifeItem(LPCSTR caSection): CSE_ALifeDynamicObjectVisual(caSection), CSE_ALifeInventoryItem(caSection)
 {
 	m_physics_disabled			= false;
 }

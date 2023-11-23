@@ -1,11 +1,11 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "level.h"
 #include "xrserver.h"
 
-void	CLevel::SLS_Default				()					// Default/Editor Load
+void CLevel::SLS_Default()   // Default/Editor Load
 {
-	// Signal main actor spawn
-/*
+    // Signal main actor spawn
+    /*
 	LPCSTR		s_cmd			= Engine.Params;
 	string64	s_name			= "actor";
 	if (strstr(s_cmd,"-actor "))	{
@@ -15,5 +15,6 @@ void	CLevel::SLS_Default				()					// Default/Editor Load
 	}
 	g_cl_Spawn			(s_name, -1, 0, 0, 0);
 */
-	if (Server)	Server->SLS_Default		();
+    if (Server)
+        Server->SLS_Default();
 }

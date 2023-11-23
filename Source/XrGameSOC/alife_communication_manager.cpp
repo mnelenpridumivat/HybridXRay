@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: alife_communication_manager.cpp
 //	Created 	: 03.09.2003
 //  Modified 	: 14.05.2004
@@ -78,17 +78,16 @@ public:
 };
 /**/
 
-CALifeCommunicationManager::CALifeCommunicationManager	(xrServer *server, LPCSTR section) :
-	CALifeSimulatorBase	(server,section)
+CALifeCommunicationManager::CALifeCommunicationManager(xrServer* server, LPCSTR section): CALifeSimulatorBase(server, section)
 {
-//	m_tpItems1.reserve			(MAX_STACK_DEPTH);
-//	m_tpItems2.reserve			(MAX_STACK_DEPTH);
-//	m_tpBlockedItems1.reserve	(MAX_STACK_DEPTH);
-//	m_tpBlockedItems2.reserve	(MAX_STACK_DEPTH);
-//	m_tpTrader1.reserve			(MAX_STACK_DEPTH);
-//	m_tpTrader1.reserve			(MAX_STACK_DEPTH);
-//	m_tpSums1.reserve			(MAX_STACK_DEPTH);
-//	m_tpSums2.reserve			(MAX_STACK_DEPTH);
+    //	m_tpItems1.reserve			(MAX_STACK_DEPTH);
+    //	m_tpItems2.reserve			(MAX_STACK_DEPTH);
+    //	m_tpBlockedItems1.reserve	(MAX_STACK_DEPTH);
+    //	m_tpBlockedItems2.reserve	(MAX_STACK_DEPTH);
+    //	m_tpTrader1.reserve			(MAX_STACK_DEPTH);
+    //	m_tpTrader1.reserve			(MAX_STACK_DEPTH);
+    //	m_tpSums1.reserve			(MAX_STACK_DEPTH);
+    //	m_tpSums2.reserve			(MAX_STACK_DEPTH);
 }
 
 /**

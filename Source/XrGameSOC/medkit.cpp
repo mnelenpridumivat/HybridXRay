@@ -1,6 +1,6 @@
-///////////////////////////////////////////////////////////////
+п»ї///////////////////////////////////////////////////////////////
 // Medkit.cpp
-// Medkit - аптечка, повышающая здоровье
+// Medkit - Р°РїС‚РµС‡РєР°, РїРѕРІС‹С€Р°СЋС‰Р°СЏ Р·РґРѕСЂРѕРІСЊРµ
 ///////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
@@ -8,52 +8,46 @@
 #include "medkit.h"
 #include "PhysicsShell.h"
 
-CMedkit::CMedkit(void) 
+CMedkit::CMedkit(void) {}
+
+CMedkit::~CMedkit(void) {}
+
+BOOL CMedkit::net_Spawn(CSE_Abstract* DC)
 {
+    return (inherited::net_Spawn(DC));
 }
 
-CMedkit::~CMedkit(void) 
+void CMedkit::Load(LPCSTR section)
 {
+    inherited::Load(section);
 }
 
-BOOL CMedkit::net_Spawn(CSE_Abstract* DC) 
+void CMedkit::net_Destroy()
 {
-	return		(inherited::net_Spawn(DC));
+    inherited::net_Destroy();
 }
 
-void CMedkit::Load(LPCSTR section) 
+void CMedkit::shedule_Update(u32 dt)
 {
-	inherited::Load(section);
+    inherited::shedule_Update(dt);
 }
 
-void CMedkit::net_Destroy() 
+void CMedkit::UpdateCL()
 {
-	inherited::net_Destroy();
+    inherited::UpdateCL();
 }
 
-void CMedkit::shedule_Update(u32 dt) 
+void CMedkit::OnH_A_Chield()
 {
-	inherited::shedule_Update(dt);
-
+    inherited::OnH_A_Chield();
 }
 
-void CMedkit::UpdateCL() 
+void CMedkit::OnH_B_Independent(bool just_before_destroy)
 {
-	inherited::UpdateCL();
+    inherited::OnH_B_Independent(just_before_destroy);
 }
 
-
-void CMedkit::OnH_A_Chield() 
+void CMedkit::renderable_Render()
 {
-	inherited::OnH_A_Chield		();
-}
-
-void CMedkit::OnH_B_Independent(bool just_before_destroy) 
-{
-	inherited::OnH_B_Independent(just_before_destroy);
-}
-
-void CMedkit::renderable_Render() 
-{
-	inherited::renderable_Render();
+    inherited::renderable_Render();
 }

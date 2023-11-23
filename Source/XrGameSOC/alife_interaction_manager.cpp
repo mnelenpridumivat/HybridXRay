@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+Ôªø////////////////////////////////////////////////////////////////////////////
 //	Module 		: alife_communication_manager.cpp
 //	Created 	: 03.09.2003
 //  Modified 	: 14.05.2004
@@ -16,12 +16,9 @@
 using namespace ALife;
 
 /**/
-CALifeInteractionManager::CALifeInteractionManager	(xrServer*server, LPCSTR section) : 
-	CALifeCombatManager			(server,section),
-	CALifeCommunicationManager	(server,section),
-	CALifeSimulatorBase			(server,section)
+CALifeInteractionManager::CALifeInteractionManager(xrServer* server, LPCSTR section): CALifeCombatManager(server, section), CALifeCommunicationManager(server, section), CALifeSimulatorBase(server, section)
 {
-/**
+    /**
 	m_inventory_slot_count		= pSettings->r_u32("inventory","slots");
 	m_temp_weapons.resize		(m_inventory_slot_count);
 	m_temp_marks.assign			(u16(-1),false);
@@ -161,9 +158,9 @@ public:
 				break;
 			}
 			case eMeetActionTypeInteract : {
-				R_ASSERT2				(l_tpALifeHumanAbstract,"Non-human objects Òannot communicate with each other");
+				R_ASSERT2				(l_tpALifeHumanAbstract,"Non-human objects —Åannot communicate with each other");
 				CSE_ALifeHumanAbstract	*l_tpALifeHumanAbstract2 = smart_cast<CSE_ALifeHumanAbstract*>(l_tpALifeSchedulable);
-				R_ASSERT2				(l_tpALifeHumanAbstract2,"Non-human objects Òannot communicate with each other");
+				R_ASSERT2				(l_tpALifeHumanAbstract2,"Non-human objects —Åannot communicate with each other");
 #ifdef DEBUG
 				if (psAI_Flags.test(aiALife)) {
 					Msg					("[LSS] %s interacted with %s",manager->m_tpaCombatObjects[l_iGroupIndex]->base()->name_replace(),manager->m_tpaCombatObjects[l_iGroupIndex ^ 1]->base()->name_replace());

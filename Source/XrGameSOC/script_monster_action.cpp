@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: script_monster_action.h
 //	Created 	: 30.09.2003
 //  Modified 	: 29.06.2004
@@ -10,11 +10,9 @@
 #include "script_monster_action.h"
 #include "script_game_object.h"
 
-CScriptMonsterAction::~CScriptMonsterAction	()
-{
-}
+CScriptMonsterAction::~CScriptMonsterAction() {}
 
-void CScriptMonsterAction::SetObject	(CScriptGameObject *tObj)
+void CScriptMonsterAction::SetObject(CScriptGameObject* tObj)
 {
-	m_tObject	= tObj->operator CObject*();
+    m_tObject = tObj->operator CObject*();
 }

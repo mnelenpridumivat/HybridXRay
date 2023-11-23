@@ -1,4 +1,4 @@
-// File:		UITimeWnd.cpp
+﻿// File:		UITimeWnd.cpp
 // Description:	Timer window for Inventory window
 // Created:		01.02.2005
 // Author:		Serge Vynnychenko
@@ -12,10 +12,10 @@
 #include "UITimeWnd.h"
 #include "UIInventoryUtilities.h"
 
-#define TIMER_HEIGHT		37
-#define TIMER_WIDTH			185
-#define CLOCK_FACE_INDENT_X	117
-#define CLOCK_FACE_INDENT_Y	9
+#define TIMER_HEIGHT        37
+#define TIMER_WIDTH         185
+#define CLOCK_FACE_INDENT_X 117
+#define CLOCK_FACE_INDENT_Y 9
 
 CUITimeWnd::CUITimeWnd(){
 	AttachChild(&this->m_staticString);

@@ -1,5 +1,5 @@
-//////////////////////////////////////////////////////////////////////
-// inventory_owner_info.h:	для работы с сюжетной информацией
+п»ї//////////////////////////////////////////////////////////////////////
+// inventory_owner_info.h:	РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ СЃСЋР¶РµС‚РЅРѕР№ РёРЅС„РѕСЂРјР°С†РёРµР№
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -18,155 +18,161 @@
 #include "script_callback_ex.h"
 #include "game_object_space.h"
 
-void  CInventoryOwner::OnEvent (NET_Packet& P, u16 type)
+void CInventoryOwner::OnEvent(NET_Packet& P, u16 type)
 {
-	switch (type)
-	{
-	case GE_INFO_TRANSFER:
-		{
-			u16				id;
-			shared_str		info_id;
-			u8				add_info;
+    switch (type)
+    {
+        case GE_INFO_TRANSFER:
+        {
+            u16        id;
+            shared_str info_id;
+            u8         add_info;
 
-			P.r_u16			(id);				//отправитель
-			P.r_stringZ		(info_id);		//номер полученной информации
-			P.r_u8			(add_info);			//добавление или убирание информации
+            P.r_u16(id);            //РѕС‚РїСЂР°РІРёС‚РµР»СЊ
+            P.r_stringZ(info_id);   //РЅРѕРјРµСЂ РїРѕР»СѓС‡РµРЅРЅРѕР№ РёРЅС„РѕСЂРјР°С†РёРё
+            P.r_u8(add_info);       //РґРѕР±Р°РІР»РµРЅРёРµ РёР»Рё СѓР±РёСЂР°РЅРёРµ РёРЅС„РѕСЂРјР°С†РёРё
 
-			if(add_info)
-				OnReceiveInfo	(info_id);
-			else
-				OnDisableInfo	(info_id);
-		}
-		break;
-	}
+            if (add_info)
+                OnReceiveInfo(info_id);
+            else
+                OnDisableInfo(info_id);
+        }
+        break;
+    }
 }
-
 
 class CFindByIDPred
 {
 public:
-	CFindByIDPred(shared_str element_to_find) {element = element_to_find;}
-	bool operator () (const INFO_DATA& data) const {return data.info_id == element;}
+    CFindByIDPred(shared_str element_to_find)
+    {
+        element = element_to_find;
+    }
+    bool operator()(const INFO_DATA& data) const
+    {
+        return data.info_id == element;
+    }
 private:
-	shared_str element;
+    shared_str element;
 };
-
 
 bool CInventoryOwner::OnReceiveInfo(shared_str info_id) const
 {
-	VERIFY( info_id.size() );
-	//добавить запись в реестр
-	KNOWN_INFO_VECTOR& known_info = m_known_info_registry->registry().objects();
-	KNOWN_INFO_VECTOR_IT it = std::find_if(known_info.begin(), known_info.end(), CFindByIDPred(info_id));
-	if( known_info.end() == it)
-		known_info.push_back(INFO_DATA(info_id, Level().GetGameTime()));
-	else
-		return false;
+    VERIFY(info_id.size());
+    //РґРѕР±Р°РІРёС‚СЊ Р·Р°РїРёСЃСЊ РІ СЂРµРµСЃС‚СЂ
+    KNOWN_INFO_VECTOR&   known_info = m_known_info_registry->registry().objects();
+    KNOWN_INFO_VECTOR_IT it         = std::find_if(known_info.begin(), known_info.end(), CFindByIDPred(info_id));
+    if (known_info.end() == it)
+        known_info.push_back(INFO_DATA(info_id, Level().GetGameTime()));
+    else
+        return false;
 
 #ifdef DEBUG
-	if(psAI_Flags.test(aiInfoPortion))
-		Msg("[%s] Received Info [%s]", Name(), *info_id);
+    if (psAI_Flags.test(aiInfoPortion))
+        Msg("[%s] Received Info [%s]", Name(), *info_id);
 #endif
 
-	//Запустить скриптовый callback
-	const CGameObject* pThisGameObject = smart_cast<const CGameObject*>(this);
-	VERIFY(pThisGameObject);
+    //Р—Р°РїСѓСЃС‚РёС‚СЊ СЃРєСЂРёРїС‚РѕРІС‹Р№ callback
+    const CGameObject* pThisGameObject = smart_cast<const CGameObject*>(this);
+    VERIFY(pThisGameObject);
 
-//	SCRIPT_CALLBACK_EXECUTE_2(*m_pInfoCallback, pThisGameObject->lua_game_object(), info_index);
-//	pThisGameObject->callback(GameObject::eInventoryInfo)(pThisGameObject->lua_game_object(), *info_id);
-	
+    //	SCRIPT_CALLBACK_EXECUTE_2(*m_pInfoCallback, pThisGameObject->lua_game_object(), info_index);
+    //	pThisGameObject->callback(GameObject::eInventoryInfo)(pThisGameObject->lua_game_object(), *info_id);
 
-	CInfoPortion info_portion;
-	info_portion.Load(info_id);
+    CInfoPortion info_portion;
+    info_portion.Load(info_id);
 
-	//запустить скриптовые функции
-	info_portion.RunScriptActions(pThisGameObject);
+    //Р·Р°РїСѓСЃС‚РёС‚СЊ СЃРєСЂРёРїС‚РѕРІС‹Рµ С„СѓРЅРєС†РёРё
+    info_portion.RunScriptActions(pThisGameObject);
 
-	//выкинуть те info portions которые стали неактуальными
-	for(u32 i=0; i<info_portion.DisableInfos().size(); i++)
-		TransferInfo(info_portion.DisableInfos()[i], false);
+    //РІС‹РєРёРЅСѓС‚СЊ С‚Рµ info portions РєРѕС‚РѕСЂС‹Рµ СЃС‚Р°Р»Рё РЅРµР°РєС‚СѓР°Р»СЊРЅС‹РјРё
+    for (u32 i = 0; i < info_portion.DisableInfos().size(); i++)
+        TransferInfo(info_portion.DisableInfos()[i], false);
 
-
-	return true;
+    return true;
 }
 #ifdef DEBUG
 void CInventoryOwner::DumpInfo() const
 {
-	KNOWN_INFO_VECTOR& known_info = m_known_info_registry->registry().objects();
+    KNOWN_INFO_VECTOR& known_info = m_known_info_registry->registry().objects();
 
-	Msg("------------------------------------------");	
-	Msg("Start KnownInfo dump for [%s]",Name());	
-	KNOWN_INFO_VECTOR_IT it = known_info.begin();
-	for(int i=0;it!=known_info.end();++it,++i){
-		Msg("known info[%d]:%s",i,*(*it).info_id);	
-	}
-	Msg("------------------------------------------");	
-
+    Msg("------------------------------------------");
+    Msg("Start KnownInfo dump for [%s]", Name());
+    KNOWN_INFO_VECTOR_IT it = known_info.begin();
+    for (int i = 0; it != known_info.end(); ++it, ++i)
+    {
+        Msg("known info[%d]:%s", i, *(*it).info_id);
+    }
+    Msg("------------------------------------------");
 }
 #endif
 
 void CInventoryOwner::OnDisableInfo(shared_str info_id) const
 {
-	VERIFY( info_id.size() );
-	//удалить запись из реестра
-	
+    VERIFY(info_id.size());
+    //СѓРґР°Р»РёС‚СЊ Р·Р°РїРёСЃСЊ РёР· СЂРµРµСЃС‚СЂР°
+
 #ifdef DEBUG
-	if(psAI_Flags.test(aiInfoPortion))
-		Msg("[%s] Disabled Info [%s]", Name(), *info_id);
+    if (psAI_Flags.test(aiInfoPortion))
+        Msg("[%s] Disabled Info [%s]", Name(), *info_id);
 #endif
 
-	KNOWN_INFO_VECTOR& known_info = m_known_info_registry->registry().objects();
+    KNOWN_INFO_VECTOR&   known_info = m_known_info_registry->registry().objects();
 
-	KNOWN_INFO_VECTOR_IT it = std::find_if(known_info.begin(), known_info.end(), CFindByIDPred(info_id));
-	if( known_info.end() == it)	return;
-	known_info.erase(it);
+    KNOWN_INFO_VECTOR_IT it         = std::find_if(known_info.begin(), known_info.end(), CFindByIDPred(info_id));
+    if (known_info.end() == it)
+        return;
+    known_info.erase(it);
 }
 
 void CInventoryOwner::TransferInfo(shared_str info_id, bool add_info) const
 {
-	VERIFY( info_id.size() );
-	const CObject* pThisObject = smart_cast<const CObject*>(this); VERIFY(pThisObject);
+    VERIFY(info_id.size());
+    const CObject* pThisObject = smart_cast<const CObject*>(this);
+    VERIFY(pThisObject);
 
-	//отправляем от нашему PDA пакет информации с номером
-	NET_Packet		P;
-	CGameObject::u_EventGen(P, GE_INFO_TRANSFER, pThisObject->ID());
-	P.w_u16			(pThisObject->ID());					//отправитель
-	P.w_stringZ		(info_id);							//сообщение
-	P.w_u8			(add_info?1:0);							//добавить/удалить информацию
-	CGameObject::u_EventSend(P);
+    //РѕС‚РїСЂР°РІР»СЏРµРј РѕС‚ РЅР°С€РµРјСѓ PDA РїР°РєРµС‚ РёРЅС„РѕСЂРјР°С†РёРё СЃ РЅРѕРјРµСЂРѕРј
+    NET_Packet P;
+    CGameObject::u_EventGen(P, GE_INFO_TRANSFER, pThisObject->ID());
+    P.w_u16(pThisObject->ID());   //РѕС‚РїСЂР°РІРёС‚РµР»СЊ
+    P.w_stringZ(info_id);         //СЃРѕРѕР±С‰РµРЅРёРµ
+    P.w_u8(add_info ? 1 : 0);     //РґРѕР±Р°РІРёС‚СЊ/СѓРґР°Р»РёС‚СЊ РёРЅС„РѕСЂРјР°С†РёСЋ
+    CGameObject::u_EventSend(P);
 
-	CInfoPortion info_portion;
-	info_portion.Load(info_id);
-	{
-		if(add_info)
-			OnReceiveInfo	(info_id);
-		else
-			OnDisableInfo	(info_id);
-	}
+    CInfoPortion info_portion;
+    info_portion.Load(info_id);
+    {
+        if (add_info)
+            OnReceiveInfo(info_id);
+        else
+            OnDisableInfo(info_id);
+    }
 }
 
 bool CInventoryOwner::HasInfo(shared_str info_id) const
 {
-	VERIFY( info_id.size() );
-	const KNOWN_INFO_VECTOR* known_info = m_known_info_registry->registry().objects_ptr ();
-	if(!known_info) return false;
+    VERIFY(info_id.size());
+    const KNOWN_INFO_VECTOR* known_info = m_known_info_registry->registry().objects_ptr();
+    if (!known_info)
+        return false;
 
-	if(std::find_if(known_info->begin(), known_info->end(), CFindByIDPred(info_id)) == known_info->end())
-		return false;
+    if (std::find_if(known_info->begin(), known_info->end(), CFindByIDPred(info_id)) == known_info->end())
+        return false;
 
-	return true;
+    return true;
 }
 
-bool CInventoryOwner::GetInfo	(shared_str info_id, INFO_DATA& info_data) const
+bool CInventoryOwner::GetInfo(shared_str info_id, INFO_DATA& info_data) const
 {
-	VERIFY( info_id.size() );
-	const KNOWN_INFO_VECTOR* known_info = m_known_info_registry->registry().objects_ptr ();
-	if(!known_info) return false;
+    VERIFY(info_id.size());
+    const KNOWN_INFO_VECTOR* known_info = m_known_info_registry->registry().objects_ptr();
+    if (!known_info)
+        return false;
 
-	KNOWN_INFO_VECTOR::const_iterator it = std::find_if(known_info->begin(), known_info->end(), CFindByIDPred(info_id));
-	if(known_info->end() == it)
-		return false;
+    KNOWN_INFO_VECTOR::const_iterator it = std::find_if(known_info->begin(), known_info->end(), CFindByIDPred(info_id));
+    if (known_info->end() == it)
+        return false;
 
-	info_data = *it;
-	return true;
+    info_data = *it;
+    return true;
 }

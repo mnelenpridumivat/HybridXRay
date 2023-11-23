@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+п»ї////////////////////////////////////////////////////////////////////////////
 //	Module 		: alife_simulator_base.cpp
 //	Created 	: 25.12.2002
 //  Modified 	: 12.05.2004
@@ -92,8 +92,8 @@ CSE_Abstract *CALifeSimulatorBase::spawn_item	(LPCSTR section, const Fvector &po
 	R_ASSERT3					(abstract,"Cannot find item with section",section);
 
 	abstract->s_name			= section;
-	abstract->m_gameType.m_GameType.set(eGameIDSingle, true);
-	abstract->s_RP				= 0xff;
+    abstract->m_gameType.m_GameType.set(eGameIDSingle, true);
+    abstract->s_RP				= 0xff;
 	abstract->ID				= server().PerformIDgen(0xffff);
 	abstract->ID_Parent			= parent_id;
 	abstract->ID_Phantom		= 0xffff;
@@ -115,7 +115,7 @@ CSE_Abstract *CALifeSimulatorBase::spawn_item	(LPCSTR section, const Fvector &po
 	CSE_ALifeDynamicObject		*dynamic_object = smart_cast<CSE_ALifeDynamicObject*>(abstract);
 	VERIFY						(dynamic_object);
 
-	//оружие спавним с полным магазинои
+	//РѕСЂСѓР¶РёРµ СЃРїР°РІРЅРёРј СЃ РїРѕР»РЅС‹Рј РјР°РіР°Р·РёРЅРѕРё
 	CSE_ALifeItemWeapon* weapon = smart_cast<CSE_ALifeItemWeapon*>(dynamic_object);
 	if(weapon)
 		weapon->a_elapsed		= weapon->get_ammo_magsize();

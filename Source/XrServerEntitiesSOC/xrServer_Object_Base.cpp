@@ -320,7 +320,7 @@ void CSE_Abstract::load(NET_Packet& tNetPacket)
     {
 #ifdef DEBUG
         // Msg("SERVER:loading:load:%d bytes:%d:%s",client_data_size,ID,s_name_replace ? s_name_replace : "");
-#endif  // DEBUG
+#endif   // DEBUG
         client_data.resize(client_data_size);
         tNetPacket.r(&*client_data.begin(), client_data_size);
     }
@@ -374,20 +374,12 @@ Flags16& CSE_Abstract::flags()
     return (s_flags);
 }
 
-xr_token game_types[] =
-{
-    {"any_game", eGameIDNoGame},
-    {"single", eGameIDSingle},
-    {"deathmatch", eGameIDDeathmatch},
-    {"team_deathmatch", eGameIDTeamDeathmatch},
-    {"artefacthunt", eGameIDArtefactHunt},
-    {"capture_the_artefact", eGameIDCaptureTheArtefact},
+xr_token game_types[] = {{"any_game", eGameIDNoGame}, {"single", eGameIDSingle}, {"deathmatch", eGameIDDeathmatch}, {"team_deathmatch", eGameIDTeamDeathmatch}, {"artefacthunt", eGameIDArtefactHunt}, {"capture_the_artefact", eGameIDCaptureTheArtefact},
     // eGameIDDominationZone
     // eGameIDTeamDominationZone
-    {0, 0}
-};
+    {0, 0}};
 
-void CSE_Abstract::FillProps(LPCSTR pref, PropItemVec& items)
+void     CSE_Abstract::FillProps(LPCSTR pref, PropItemVec& items)
 {
 #ifdef XRSEFACTORY_EXPORTS
     m_gameType.FillProp(pref, items);
@@ -396,7 +388,7 @@ void CSE_Abstract::FillProps(LPCSTR pref, PropItemVec& items)
 #ifdef DEBUG
     // LPCSTR gcs = pSettings->r_string(s_name,"GroupControlSection");
     // PHelper().CreateChoose(items,PrepareKey(pref,*s_name,"Spawn\\group control"), &m_spawn_control, smSpawnItem, 0, (void*)gcs, 16);
-    PHelper().CreateFlag32(items,PrepareKey(pref,*s_name,"Spawn\\enabled"), &m_spawn_flags, flSpawnEnabled);
+    PHelper().CreateFlag32(items, PrepareKey(pref, *s_name, "Spawn\\enabled"), &m_spawn_flags, flSpawnEnabled);
     // PHelper().CreateFloat(items,PrepareKey(pref,*s_name,"Spawn\\probability"), &m_spawn_probability,	0.f, 1.f);
     // PHelper().CreateFlag32(items,PrepareKey(pref,*s_name,"Spawn\\spawn on surge only"), &m_spawn_flags, flSpawnOnSurgeOnly);
     // PHelper().CreateFlag32(items,PrepareKey(pref,*s_name,"Spawn\\spawn if destroyed only"), &m_spawn_flags, flSpawnIfDestroyedOnly);
