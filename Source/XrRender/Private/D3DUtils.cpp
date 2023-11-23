@@ -44,12 +44,10 @@ static Fvector   boxvert[boxvertcount];
     }
 #else
 #define DU_DRAW_RS RCache.dbg_SetRS
-#define DU_DRAW_SH_C(sh, c)                                                                                         \
-    {                                                                                                               \
-        RCache.set_Shader(sh);                                                                                      \
-        RCache.set_c(                                                                                               \
-            "tfactor", float(color_get_R(c)) / 255.f, float(color_get_G(c)) / 255.f, float(color_get_B(c)) / 255.f, \
-            float(color_get_A(c)) / 255.f);                                                                         \
+#define DU_DRAW_SH_C(sh, c)                                                                                                                                  \
+    {                                                                                                                                                        \
+        RCache.set_Shader(sh);                                                                                                                               \
+        RCache.set_c("tfactor", float(color_get_R(c)) / 255.f, float(color_get_G(c)) / 255.f, float(color_get_B(c)) / 255.f, float(color_get_A(c)) / 255.f); \
     }
 #define DU_DRAW_SH(sh)                       \
     {                                        \
@@ -71,12 +69,8 @@ static Fvector   boxvert[boxvertcount];
 // identity box
 const u32        identboxcolor                   = D3DCOLOR_RGBA(255, 255, 255, 0);
 static const int identboxwirecount               = 24;
-static Fvector   identboxwire[identboxwirecount] = {
-    {-0.5f, -0.5f, -0.5f}, {-0.5f, +0.5f, -0.5f}, {-0.5f, +0.5f, -0.5f}, {+0.5f, +0.5f, -0.5f}, {+0.5f, +0.5f, -0.5f},
-    {+0.5f, -0.5f, -0.5f}, {+0.5f, -0.5f, -0.5f}, {-0.5f, -0.5f, -0.5f}, {-0.5f, +0.5f, +0.5f}, {+0.5f, +0.5f, +0.5f},
-    {+0.5f, +0.5f, +0.5f}, {+0.5f, -0.5f, +0.5f}, {+0.5f, -0.5f, +0.5f}, {-0.5f, -0.5f, +0.5f}, {-0.5f, -0.5f, +0.5f},
-    {-0.5f, +0.5f, +0.5f}, {-0.5f, +0.5f, -0.5f}, {-0.5f, +0.5f, +0.5f}, {+0.5f, +0.5f, -0.5f}, {+0.5f, +0.5f, +0.5f},
-    {+0.5f, -0.5f, -0.5f}, {+0.5f, -0.5f, +0.5f}, {-0.5f, -0.5f, -0.5f}, {-0.5f, -0.5f, +0.5f}};
+static Fvector   identboxwire[identboxwirecount] = {{-0.5f, -0.5f, -0.5f}, {-0.5f, +0.5f, -0.5f}, {-0.5f, +0.5f, -0.5f}, {+0.5f, +0.5f, -0.5f}, {+0.5f, +0.5f, -0.5f}, {+0.5f, -0.5f, -0.5f}, {+0.5f, -0.5f, -0.5f}, {-0.5f, -0.5f, -0.5f}, {-0.5f, +0.5f, +0.5f}, {+0.5f, +0.5f, +0.5f}, {+0.5f, +0.5f, +0.5f}, {+0.5f, -0.5f, +0.5f}, {+0.5f, -0.5f, +0.5f}, {-0.5f, -0.5f, +0.5f}, {-0.5f, -0.5f, +0.5f}, {-0.5f, +0.5f, +0.5f}, {-0.5f, +0.5f, -0.5f}, {-0.5f, +0.5f, +0.5f}, {+0.5f, +0.5f, -0.5f},
+      {+0.5f, +0.5f, +0.5f}, {+0.5f, -0.5f, -0.5f}, {+0.5f, -0.5f, +0.5f}, {-0.5f, -0.5f, -0.5f}, {-0.5f, -0.5f, +0.5f}};
 
 /*
 static const int identboxindexcount = 36;
@@ -110,14 +104,7 @@ u32                m_SelectionRect = D3DCOLOR_RGBA(127, 255, 127, 64);
 
 u32                m_ColorSafeRect = 0xffB040B0;
 
-void               SPrimitiveBuffer::CreateFromData(
-    D3DPRIMITIVETYPE _pt,
-    u32              _p_cnt,
-    u32              FVF,
-    LPVOID           vertices,
-    u32              _v_cnt,
-    u16*             indices,
-    u32              _i_cnt)
+void               SPrimitiveBuffer::CreateFromData(D3DPRIMITIVETYPE _pt, u32 _p_cnt, u32 FVF, LPVOID vertices, u32 _v_cnt, u16* indices, u32 _i_cnt)
 {
 #if defined(USE_DX10) || defined(USE_DX11)
 //	TODO: DX10: Implement SPrimitiveBuffer::CreateFromData for DX10
@@ -141,8 +128,7 @@ void               SPrimitiveBuffer::CreateFromData(
     R_CHK(pVB->Unlock());
     if (i_cnt)
     {
-        R_CHK(HW.pDevice->CreateIndexBuffer(
-            i_cnt * sizeof(u16), D3DUSAGE_WRITEONLY, D3DFMT_INDEX16, D3DPOOL_MANAGED, &pIB, NULL));
+        R_CHK(HW.pDevice->CreateIndexBuffer(i_cnt * sizeof(u16), D3DUSAGE_WRITEONLY, D3DFMT_INDEX16, D3DPOOL_MANAGED, &pIB, NULL));
         HW.stats_manager.increment_stats_ib(pIB);
         R_CHK(pIB->Lock(0, 0, (LPVOID*)&bytes, 0));
         Memory.mem_copy(bytes, indices, i_cnt * sizeof(u16));
@@ -222,36 +208,16 @@ void CDrawUtilities::OnDeviceCreate()
 {
     Device->seqRender.Add(this, REG_PRIORITY_LOW - 1000);
 
-    m_SolidBox.CreateFromData(
-        D3DPT_TRIANGLELIST, DU_BOX_NUMFACES, D3DFVF_XYZ | D3DFVF_DIFFUSE, du_box_vertices, DU_BOX_NUMVERTEX,
-        du_box_faces, DU_BOX_NUMFACES * 3);
-    m_SolidCone.CreateFromData(
-        D3DPT_TRIANGLELIST, DU_CONE_NUMFACES, D3DFVF_XYZ | D3DFVF_DIFFUSE, du_cone_vertices, DU_CONE_NUMVERTEX,
-        du_cone_faces, DU_CONE_NUMFACES * 3);
-    m_SolidSphere.CreateFromData(
-        D3DPT_TRIANGLELIST, DU_SPHERE_NUMFACES, D3DFVF_XYZ | D3DFVF_DIFFUSE, du_sphere_vertices, DU_SPHERE_NUMVERTEX,
-        du_sphere_faces, DU_SPHERE_NUMFACES * 3);
-    m_SolidSpherePart.CreateFromData(
-        D3DPT_TRIANGLELIST, DU_SPHERE_PART_NUMFACES, D3DFVF_XYZ | D3DFVF_DIFFUSE, du_sphere_part_vertices,
-        DU_SPHERE_PART_NUMVERTEX, du_sphere_part_faces, DU_SPHERE_PART_NUMFACES * 3);
-    m_SolidCylinder.CreateFromData(
-        D3DPT_TRIANGLELIST, DU_CYLINDER_NUMFACES, D3DFVF_XYZ | D3DFVF_DIFFUSE, du_cylinder_vertices,
-        DU_CYLINDER_NUMVERTEX, du_cylinder_faces, DU_CYLINDER_NUMFACES * 3);
-    m_WireBox.CreateFromData(
-        D3DPT_LINELIST, DU_BOX_NUMLINES, D3DFVF_XYZ | D3DFVF_DIFFUSE, du_box_vertices, DU_BOX_NUMVERTEX, du_box_lines,
-        DU_BOX_NUMLINES * 2);
-    m_WireCone.CreateFromData(
-        D3DPT_LINELIST, DU_CONE_NUMLINES, D3DFVF_XYZ | D3DFVF_DIFFUSE, du_cone_vertices, DU_CONE_NUMVERTEX,
-        du_cone_lines, DU_CONE_NUMLINES * 2);
-    m_WireSphere.CreateFromData(
-        D3DPT_LINELIST, DU_SPHERE_NUMLINES, D3DFVF_XYZ | D3DFVF_DIFFUSE, du_sphere_verticesl, DU_SPHERE_NUMVERTEXL,
-        du_sphere_lines, DU_SPHERE_NUMLINES * 2);
-    m_WireSpherePart.CreateFromData(
-        D3DPT_LINELIST, DU_SPHERE_PART_NUMLINES, D3DFVF_XYZ | D3DFVF_DIFFUSE, du_sphere_part_vertices,
-        DU_SPHERE_PART_NUMVERTEX, du_sphere_part_lines, DU_SPHERE_PART_NUMLINES * 2);
-    m_WireCylinder.CreateFromData(
-        D3DPT_LINELIST, DU_CYLINDER_NUMLINES, D3DFVF_XYZ | D3DFVF_DIFFUSE, du_cylinder_vertices, DU_CYLINDER_NUMVERTEX,
-        du_cylinder_lines, DU_CYLINDER_NUMLINES * 2);
+    m_SolidBox.CreateFromData(D3DPT_TRIANGLELIST, DU_BOX_NUMFACES, D3DFVF_XYZ | D3DFVF_DIFFUSE, du_box_vertices, DU_BOX_NUMVERTEX, du_box_faces, DU_BOX_NUMFACES * 3);
+    m_SolidCone.CreateFromData(D3DPT_TRIANGLELIST, DU_CONE_NUMFACES, D3DFVF_XYZ | D3DFVF_DIFFUSE, du_cone_vertices, DU_CONE_NUMVERTEX, du_cone_faces, DU_CONE_NUMFACES * 3);
+    m_SolidSphere.CreateFromData(D3DPT_TRIANGLELIST, DU_SPHERE_NUMFACES, D3DFVF_XYZ | D3DFVF_DIFFUSE, du_sphere_vertices, DU_SPHERE_NUMVERTEX, du_sphere_faces, DU_SPHERE_NUMFACES * 3);
+    m_SolidSpherePart.CreateFromData(D3DPT_TRIANGLELIST, DU_SPHERE_PART_NUMFACES, D3DFVF_XYZ | D3DFVF_DIFFUSE, du_sphere_part_vertices, DU_SPHERE_PART_NUMVERTEX, du_sphere_part_faces, DU_SPHERE_PART_NUMFACES * 3);
+    m_SolidCylinder.CreateFromData(D3DPT_TRIANGLELIST, DU_CYLINDER_NUMFACES, D3DFVF_XYZ | D3DFVF_DIFFUSE, du_cylinder_vertices, DU_CYLINDER_NUMVERTEX, du_cylinder_faces, DU_CYLINDER_NUMFACES * 3);
+    m_WireBox.CreateFromData(D3DPT_LINELIST, DU_BOX_NUMLINES, D3DFVF_XYZ | D3DFVF_DIFFUSE, du_box_vertices, DU_BOX_NUMVERTEX, du_box_lines, DU_BOX_NUMLINES * 2);
+    m_WireCone.CreateFromData(D3DPT_LINELIST, DU_CONE_NUMLINES, D3DFVF_XYZ | D3DFVF_DIFFUSE, du_cone_vertices, DU_CONE_NUMVERTEX, du_cone_lines, DU_CONE_NUMLINES * 2);
+    m_WireSphere.CreateFromData(D3DPT_LINELIST, DU_SPHERE_NUMLINES, D3DFVF_XYZ | D3DFVF_DIFFUSE, du_sphere_verticesl, DU_SPHERE_NUMVERTEXL, du_sphere_lines, DU_SPHERE_NUMLINES * 2);
+    m_WireSpherePart.CreateFromData(D3DPT_LINELIST, DU_SPHERE_PART_NUMLINES, D3DFVF_XYZ | D3DFVF_DIFFUSE, du_sphere_part_vertices, DU_SPHERE_PART_NUMVERTEX, du_sphere_part_lines, DU_SPHERE_PART_NUMLINES * 2);
+    m_WireCylinder.CreateFromData(D3DPT_LINELIST, DU_CYLINDER_NUMLINES, D3DFVF_XYZ | D3DFVF_DIFFUSE, du_cylinder_vertices, DU_CYLINDER_NUMVERTEX, du_cylinder_lines, DU_CYLINDER_NUMLINES * 2);
 
     for (int i = 0; i < LINE_DIVISION; i++)
     {
@@ -451,14 +417,7 @@ void CDrawUtilities::DrawEntity(u32 clr, ref_shader s)
     }
 }
 
-void CDrawUtilities::DrawFlag(
-    const Fvector& p,
-    float          heading,
-    float          height,
-    float          sz,
-    float          sz_fl,
-    u32            clr,
-    BOOL           bDrawEntity)
+void CDrawUtilities::DrawFlag(const Fvector& p, float heading, float height, float sz, float sz_fl, u32 clr, BOOL bDrawEntity)
 {
     // fill VB
     _VertexStream* Stream = &RCache.Vertex;
@@ -600,9 +559,7 @@ void CDrawUtilities::DrawIdentCone(BOOL bSolid, BOOL bWire, u32 clr_s, u32 clr_w
     }
     if (bSolid)
     {
-        DU_DRAW_SH_C(
-            color_get_A(clr_s) >= 254 ? dxRenderDeviceRender::Instance().m_WireShader : dxRenderDeviceRender::Instance().m_SelectionShader,
-            clr_s);
+        DU_DRAW_SH_C(color_get_A(clr_s) >= 254 ? dxRenderDeviceRender::Instance().m_WireShader : dxRenderDeviceRender::Instance().m_SelectionShader, clr_s);
         m_SolidCone.Render();
     }
     DU_DRAW_RS(D3DRS_TEXTUREFACTOR, 0xffffffff);
@@ -617,9 +574,7 @@ void CDrawUtilities::DrawIdentSphere(BOOL bSolid, BOOL bWire, u32 clr_s, u32 clr
     }
     if (bSolid)
     {
-        DU_DRAW_SH_C(
-            color_get_A(clr_s) >= 254 ? dxRenderDeviceRender::Instance().m_WireShader : dxRenderDeviceRender::Instance().m_SelectionShader,
-            clr_s);
+        DU_DRAW_SH_C(color_get_A(clr_s) >= 254 ? dxRenderDeviceRender::Instance().m_WireShader : dxRenderDeviceRender::Instance().m_SelectionShader, clr_s);
         m_SolidSphere.Render();
     }
     DU_DRAW_RS(D3DRS_TEXTUREFACTOR, 0xffffffff);
@@ -634,9 +589,7 @@ void CDrawUtilities::DrawIdentSpherePart(BOOL bSolid, BOOL bWire, u32 clr_s, u32
     }
     if (bSolid)
     {
-        DU_DRAW_SH_C(
-            color_get_A(clr_s) >= 254 ? dxRenderDeviceRender::Instance().m_WireShader : dxRenderDeviceRender::Instance().m_SelectionShader,
-            clr_s);
+        DU_DRAW_SH_C(color_get_A(clr_s) >= 254 ? dxRenderDeviceRender::Instance().m_WireShader : dxRenderDeviceRender::Instance().m_SelectionShader, clr_s);
         m_SolidSpherePart.Render();
     }
     DU_DRAW_RS(D3DRS_TEXTUREFACTOR, 0xffffffff);
@@ -651,9 +604,7 @@ void CDrawUtilities::DrawIdentCylinder(BOOL bSolid, BOOL bWire, u32 clr_s, u32 c
     }
     if (bSolid)
     {
-        DU_DRAW_SH_C(
-            color_get_A(clr_s) >= 254 ? dxRenderDeviceRender::Instance().m_WireShader : dxRenderDeviceRender::Instance().m_SelectionShader,
-            clr_s);
+        DU_DRAW_SH_C(color_get_A(clr_s) >= 254 ? dxRenderDeviceRender::Instance().m_WireShader : dxRenderDeviceRender::Instance().m_SelectionShader, clr_s);
         m_SolidCylinder.Render();
     }
     DU_DRAW_RS(D3DRS_TEXTUREFACTOR, 0xffffffff);
@@ -668,9 +619,7 @@ void CDrawUtilities::DrawIdentBox(BOOL bSolid, BOOL bWire, u32 clr_s, u32 clr_w)
     }
     if (bSolid)
     {
-        DU_DRAW_SH_C(
-            color_get_A(clr_s) >= 254 ? dxRenderDeviceRender::Instance().m_WireShader : dxRenderDeviceRender::Instance().m_SelectionShader,
-            clr_s);
+        DU_DRAW_SH_C(color_get_A(clr_s) >= 254 ? dxRenderDeviceRender::Instance().m_WireShader : dxRenderDeviceRender::Instance().m_SelectionShader, clr_s);
         m_SolidBox.Render();
     }
     DU_DRAW_RS(D3DRS_TEXTUREFACTOR, 0xffffffff);
@@ -747,8 +696,7 @@ void CDrawUtilities::dbgDrawPlacement(const Fvector& p, int sz, u32 clr, LPCSTR 
 {
     VERIFY(Device->b_is_Ready);
     Fvector c;
-    float   w = p.x * Device->mFullTransform._14 + p.y * Device->mFullTransform._24 + p.z * Device->mFullTransform._34 +
-        Device->mFullTransform._44;
+    float   w = p.x * Device->mFullTransform._14 + p.y * Device->mFullTransform._24 + p.z * Device->mFullTransform._34 + Device->mFullTransform._44;
     if (w < 0)
         return;   // culling
 
@@ -898,14 +846,7 @@ void CDrawUtilities::DrawOBB(const Fmatrix& parent, const Fobb& box, u32 clr_s, 
 }
 //----------------------------------------------------
 
-void CDrawUtilities::DrawAABB(
-    const Fmatrix& parent,
-    const Fvector& center,
-    const Fvector& size,
-    u32            clr_s,
-    u32            clr_w,
-    BOOL           bSolid,
-    BOOL           bWire)
+void CDrawUtilities::DrawAABB(const Fmatrix& parent, const Fvector& center, const Fvector& size, u32 clr_s, u32 clr_w, BOOL bSolid, BOOL bWire)
 {
     Fmatrix R, S;
     S.scale(size.x * 2.f, size.y * 2.f, size.z * 2.f);
@@ -926,14 +867,7 @@ void CDrawUtilities::DrawAABB(const Fvector& p0, const Fvector& p1, u32 clr_s, u
     DrawIdentBox(bSolid, bWire, clr_s, clr_w);
 }
 
-void CDrawUtilities::DrawSphere(
-    const Fmatrix& parent,
-    const Fvector& center,
-    float          radius,
-    u32            clr_s,
-    u32            clr_w,
-    BOOL           bSolid,
-    BOOL           bWire)
+void CDrawUtilities::DrawSphere(const Fmatrix& parent, const Fvector& center, float radius, u32 clr_s, u32 clr_w, BOOL bSolid, BOOL bWire)
 {
     Fmatrix B;
     B.scale(radius, radius, radius);
@@ -944,14 +878,7 @@ void CDrawUtilities::DrawSphere(
 }
 //----------------------------------------------------
 
-void CDrawUtilities::DrawFace(
-    const Fvector& p0,
-    const Fvector& p1,
-    const Fvector& p2,
-    u32            clr_s,
-    u32            clr_w,
-    BOOL           bSolid,
-    BOOL           bWire)
+void CDrawUtilities::DrawFace(const Fvector& p0, const Fvector& p1, const Fvector& p2, u32 clr_s, u32 clr_w, BOOL bSolid, BOOL bWire)
 {
     _VertexStream* Stream = &RCache.Vertex;
 
@@ -1025,16 +952,7 @@ void CDrawUtilities::DD_DrawFace_end()
 }
 //----------------------------------------------------
 
-void CDrawUtilities::DrawCylinder(
-    const Fmatrix& parent,
-    const Fvector& center,
-    const Fvector& dir,
-    float          height,
-    float          radius,
-    u32            clr_s,
-    u32            clr_w,
-    BOOL           bSolid,
-    BOOL           bWire)
+void CDrawUtilities::DrawCylinder(const Fmatrix& parent, const Fvector& center, const Fvector& dir, float height, float radius, u32 clr_s, u32 clr_w, BOOL bSolid, BOOL bWire)
 {
     Fmatrix mScale;
     mScale.scale(2.f * radius, 2.f * radius, height);
@@ -1070,16 +988,7 @@ void CDrawUtilities::DrawCylinder(
 }
 //----------------------------------------------------
 
-void CDrawUtilities::DrawCone(
-    const Fmatrix& parent,
-    const Fvector& apex,
-    const Fvector& dir,
-    float          height,
-    float          radius,
-    u32            clr_s,
-    u32            clr_w,
-    BOOL           bSolid,
-    BOOL           bWire)
+void CDrawUtilities::DrawCone(const Fmatrix& parent, const Fvector& apex, const Fvector& dir, float height, float radius, u32 clr_s, u32 clr_w, BOOL bSolid, BOOL bWire)
 {
     Fmatrix mScale;
     mScale.scale(2.f * radius, 2.f * radius, height);
@@ -1115,15 +1024,7 @@ void CDrawUtilities::DrawCone(
 }
 //----------------------------------------------------
 
-void CDrawUtilities::DrawPlane(
-    const Fvector&  p,
-    const Fvector&  n,
-    const Fvector2& scale,
-    u32             clr_s,
-    u32             clr_w,
-    BOOL            bCull,
-    BOOL            bSolid,
-    BOOL            bWire)
+void CDrawUtilities::DrawPlane(const Fvector& p, const Fvector& n, const Fvector2& scale, u32 clr_s, u32 clr_w, BOOL bCull, BOOL bSolid, BOOL bWire)
 {
     if (n.square_magnitude() < EPS_S)
         return;
@@ -1199,15 +1100,7 @@ void CDrawUtilities::DrawPlane(
 }
 //----------------------------------------------------
 
-void CDrawUtilities::DrawPlane(
-    const Fvector&  center,
-    const Fvector2& scale,
-    const Fvector&  rotate,
-    u32             clr_s,
-    u32             clr_w,
-    BOOL            bCull,
-    BOOL            bSolid,
-    BOOL            bWire)
+void CDrawUtilities::DrawPlane(const Fvector& center, const Fvector2& scale, const Fvector& rotate, u32 clr_s, u32 clr_w, BOOL bCull, BOOL bSolid, BOOL bWire)
 {
     Fmatrix M;
     M.setHPB(rotate.y, rotate.x, rotate.z);
@@ -1264,14 +1157,7 @@ void CDrawUtilities::DrawPlane(
 }
 //----------------------------------------------------
 
-void CDrawUtilities::DrawRectangle(
-    const Fvector& o,
-    const Fvector& u,
-    const Fvector& v,
-    u32            clr_s,
-    u32            clr_w,
-    BOOL           bSolid,
-    BOOL           bWire)
+void CDrawUtilities::DrawRectangle(const Fvector& o, const Fvector& u, const Fvector& v, u32 clr_s, u32 clr_w, BOOL bSolid, BOOL bWire)
 {
     _VertexStream* Stream = &RCache.Vertex;
 
@@ -1315,16 +1201,7 @@ void CDrawUtilities::DrawRectangle(
 }
 //----------------------------------------------------
 
-void CDrawUtilities::DrawCross(
-    const Fvector& p,
-    float          szx1,
-    float          szy1,
-    float          szz1,
-    float          szx2,
-    float          szy2,
-    float          szz2,
-    u32            clr,
-    BOOL           bRot45)
+void CDrawUtilities::DrawCross(const Fvector& p, float szx1, float szy1, float szz1, float szx2, float szy2, float szz2, u32 clr, BOOL bRot45)
 {
     _VertexStream* Stream = &RCache.Vertex;
     // actual rendering
@@ -1424,8 +1301,7 @@ void CDrawUtilities::DrawObjectAxis(const Fmatrix& T, float sz, BOOL sel)
     VERIFY(Device->b_is_Ready);
     _VertexStream* Stream = &RCache.Vertex;
     Fvector        c, r, n, d;
-    float          w = T.c.x * Device->mFullTransform._14 + T.c.y * Device->mFullTransform._24 +
-        T.c.z * Device->mFullTransform._34 + Device->mFullTransform._44;
+    float          w = T.c.x * Device->mFullTransform._14 + T.c.y * Device->mFullTransform._24 + T.c.z * Device->mFullTransform._34 + Device->mFullTransform._44;
     if (w < 0)
         return;   // culling
 
@@ -1521,14 +1397,7 @@ void CDrawUtilities::DrawSelectionRect(const Ivector2& m_SelStart, const Ivector
     DU_DRAW_RS(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
-void CDrawUtilities::DrawPrimitiveL(
-    D3DPRIMITIVETYPE pt,
-    u32              pc,
-    Fvector*         vertices,
-    int              vc,
-    u32              color,
-    BOOL             bCull,
-    BOOL             bCycle)
+void CDrawUtilities::DrawPrimitiveL(D3DPRIMITIVETYPE pt, u32 pc, Fvector* vertices, int vc, u32 color, BOOL bCull, BOOL bCycle)
 {
     // fill VB
     _VertexStream* Stream = &RCache.Vertex;
@@ -1631,8 +1500,7 @@ void SPrimitiveBuffer::RenderDP() {}
 void CDrawUtilities::OutText(const Fvector& pos, LPCSTR text, u32 color, u32 shadow_color)
 {
     Fvector p;
-    float   w = pos.x * Device->mFullTransform._14 + pos.y * Device->mFullTransform._24 +
-        pos.z * Device->mFullTransform._34 + Device->mFullTransform._44;
+    float   w = pos.x * Device->mFullTransform._14 + pos.y * Device->mFullTransform._24 + pos.z * Device->mFullTransform._34 + Device->mFullTransform._44;
     if (w >= 0)
     {
         Device->mFullTransform.transform(p, pos);
@@ -1645,15 +1513,4 @@ void CDrawUtilities::OutText(const Fvector& pos, LPCSTR text, u32 color, u32 sha
         m_Font->Out(p.x - 1, p.y - 1, (LPSTR)text);
     }
 }
-void CDrawUtilities::DrawIndexedPrimitive(
-    int            prim_type,
-    u32            pc,
-    const Fvector& pos,
-    const Fvector* vb,
-    const u32&     vb_size,
-    const u32*     ib,
-    const u32&     ib_size,
-    const u32&     clr_argb,
-    float          scale)
-{
-}
+void CDrawUtilities::DrawIndexedPrimitive(int prim_type, u32 pc, const Fvector& pos, const Fvector* vb, const u32& vb_size, const u32* ib, const u32& ib_size, const u32& clr_argb, float scale) {}

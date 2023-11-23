@@ -91,15 +91,13 @@ class cl_texgen: public R_constant_setup
         Fmatrix mTexgen;
 
 #if defined(USE_DX10) || defined(USE_DX11)
-        Fmatrix mTexelAdjust = {0.5f, 0.0f, 0.0f, 0.0f, 0.0f, -0.5f, 0.0f, 0.0f,
-                                0.0f, 0.0f, 1.0f, 0.0f, 0.5f, 0.5f,  0.0f, 1.0f};
+        Fmatrix mTexelAdjust = {0.5f, 0.0f, 0.0f, 0.0f, 0.0f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.5f, 0.5f, 0.0f, 1.0f};
 #else    //	USE_DX10
         float   _w           = float(Device->dwWidth);
         float   _h           = float(Device->dwHeight);
         float   o_w          = (.5f / _w);
         float   o_h          = (.5f / _h);
-        Fmatrix mTexelAdjust = {0.5f, 0.0f, 0.0f, 0.0f, 0.0f,       -0.5f,      0.0f, 0.0f,
-                                0.0f, 0.0f, 1.0f, 0.0f, 0.5f + o_w, 0.5f + o_h, 0.0f, 1.0f};
+        Fmatrix mTexelAdjust = {0.5f, 0.0f, 0.0f, 0.0f, 0.0f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.5f + o_w, 0.5f + o_h, 0.0f, 1.0f};
 #endif   //	USE_DX10
 
         mTexgen.mul(mTexelAdjust, RCache.xforms.m_wvp);
@@ -116,15 +114,13 @@ class cl_VPtexgen: public R_constant_setup
         Fmatrix mTexgen;
 
 #if defined(USE_DX10) || defined(USE_DX11)
-        Fmatrix mTexelAdjust = {0.5f, 0.0f, 0.0f, 0.0f, 0.0f, -0.5f, 0.0f, 0.0f,
-                                0.0f, 0.0f, 1.0f, 0.0f, 0.5f, 0.5f,  0.0f, 1.0f};
+        Fmatrix mTexelAdjust = {0.5f, 0.0f, 0.0f, 0.0f, 0.0f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.5f, 0.5f, 0.0f, 1.0f};
 #else    //	USE_DX10
         float   _w           = float(Device->dwWidth);
         float   _h           = float(Device->dwHeight);
         float   o_w          = (.5f / _w);
         float   o_h          = (.5f / _h);
-        Fmatrix mTexelAdjust = {0.5f, 0.0f, 0.0f, 0.0f, 0.0f,       -0.5f,      0.0f, 0.0f,
-                                0.0f, 0.0f, 1.0f, 0.0f, 0.5f + o_w, 0.5f + o_h, 0.0f, 1.0f};
+        Fmatrix mTexelAdjust = {0.5f, 0.0f, 0.0f, 0.0f, 0.0f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.5f + o_w, 0.5f + o_h, 0.0f, 1.0f};
 #endif   //	USE_DX10
 
         mTexgen.mul(mTexelAdjust, RCache.xforms.m_vp);
@@ -334,9 +330,7 @@ static class cl_screen_res: public R_constant_setup
 {
     virtual void setup(R_constant* C)
     {
-        RCache.set_c(
-            C, (float)Device->dwWidth, (float)Device->dwHeight, 1.0f / (float)Device->dwWidth,
-            1.0f / (float)Device->dwHeight);
+        RCache.set_c(C, (float)Device->dwWidth, (float)Device->dwHeight, 1.0f / (float)Device->dwWidth, 1.0f / (float)Device->dwHeight);
     }
 } binder_screen_res;
 

@@ -66,8 +66,7 @@ BOOL CRenderTarget::Create()
 
     if ((rtHeight != Device->dwHeight) || (rtWidth != Device->dwWidth))
     {
-        R_CHK(HW.pDevice->CreateDepthStencilSurface(
-            rtWidth, rtHeight, HW.Caps.fDepth, D3DMULTISAMPLE_NONE, 0, TRUE, &ZB, NULL));
+        R_CHK(HW.pDevice->CreateDepthStencilSurface(rtWidth, rtHeight, HW.Caps.fDepth, D3DMULTISAMPLE_NONE, 0, TRUE, &ZB, NULL));
     }
     else
     {
@@ -76,8 +75,7 @@ BOOL CRenderTarget::Create()
     }
 
     // Temp ZB, used by some of the shadowing code
-    R_CHK(
-        HW.pDevice->CreateDepthStencilSurface(512, 512, HW.Caps.fDepth, D3DMULTISAMPLE_NONE, 0, TRUE, &pTempZB, NULL));
+    R_CHK(HW.pDevice->CreateDepthStencilSurface(512, 512, HW.Caps.fDepth, D3DMULTISAMPLE_NONE, 0, TRUE, &pTempZB, NULL));
 
     //	Igor: TMP
     //	Create an RT for online screenshot makining
@@ -95,8 +93,7 @@ BOOL CRenderTarget::Create()
         if (RImplementation.o.distortion)
             s_postprocess_D[1].create("postprocess_dcm");
     }
-    g_postprocess.create(
-        D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_SPECULAR | D3DFVF_TEX3, RCache.Vertex.Buffer(), RCache.QuadIB);
+    g_postprocess.create(D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_SPECULAR | D3DFVF_TEX3, RCache.Vertex.Buffer(), RCache.QuadIB);
     return RT->valid() && RT_distort->valid();
 }
 
@@ -219,9 +216,7 @@ BOOL CRenderTarget::NeedPostProcess()
 
 BOOL CRenderTarget::Perform()
 {
-    return Available() &&
-        (((BOOL)RImplementation.m_bMakeAsyncSS) || NeedPostProcess() || (ps_r__Supersample > 1) ||
-            (frame_distort == (Device->dwFrame - 1)));
+    return Available() && (((BOOL)RImplementation.m_bMakeAsyncSS) || NeedPostProcess() || (ps_r__Supersample > 1) || (frame_distort == (Device->dwFrame - 1)));
 }
 
 #include <dinput.h>

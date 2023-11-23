@@ -243,17 +243,15 @@ void CROS_impl::update(IRenderable* O)
             float  d = L->position.distance_to(position);
 
 #if RENDER != R_R1
-            float a = (1 / (L->attenuation0 + L->attenuation1 * d + L->attenuation2 * d * d) - d * L->falloff) *
-                (L->flags.bStatic ? 1.f : 2.f);
-            a = (a > 0) ? a : 0.0f;
+            float a = (1 / (L->attenuation0 + L->attenuation1 * d + L->attenuation2 * d * d) - d * L->falloff) * (L->flags.bStatic ? 1.f : 2.f);
+            a       = (a > 0) ? a : 0.0f;
 
             Fvector3 dir;
             dir.sub(L->position, position);
             dir.normalize_safe();
 
             // multiply intensity on attenuation and accumulate result in hemi cube face
-            float koef =
-                (lights[lit].color.r + lights[lit].color.g + lights[lit].color.b) / 3.0f * a * ps_r2_dhemi_light_scale;
+            float koef = (lights[lit].color.r + lights[lit].color.g + lights[lit].color.b) / 3.0f * a * ps_r2_dhemi_light_scale;
 
             accum_hemi(hemi_cube_light, dir, koef);
 #else
@@ -274,8 +272,7 @@ void CROS_impl::update(IRenderable* O)
 
         for (size_t i = 0; i < NUM_FACES; ++i)
         {
-            hemi_cube[i] += hemi_cube_light[i] * (1 - ps_r2_dhemi_light_flow) +
-                ps_r2_dhemi_light_flow * hemi_cube_light[(i + NUM_FACES / 2) % NUM_FACES];
+            hemi_cube[i] += hemi_cube_light[i] * (1 - ps_r2_dhemi_light_flow) + ps_r2_dhemi_light_flow * hemi_cube_light[(i + NUM_FACES / 2) % NUM_FACES];
             hemi_cube[i] = std::max(hemi_cube[i], minHemiValue);
         }
 #endif
@@ -397,10 +394,7 @@ void CROS_impl::calc_sun_value(Fvector& position, CObject* _object)
             result_sun += ::Random.randI(lt_hemisamples / 4, lt_hemisamples / 2);
             Fvector direction;
             direction.set(sun->direction).invert().normalize();
-            sun_value = !(g_pGameLevel->ObjectSpace.RayTest(
-                            position, direction, 500.f, collide::rqtBoth, &cache_sun, _object))
-                ? 1.f
-                : 0.f;
+            sun_value = !(g_pGameLevel->ObjectSpace.RayTest(position, direction, 500.f, collide::rqtBoth, &cache_sun, _object)) ? 1.f : 0.f;
         }
     }
 }
@@ -434,8 +428,7 @@ void CROS_impl::calc_sky_hemi_value(Fvector& position, CObject* _object)
             direction.set(hdir[sample][0], hdir[sample][1], hdir[sample][2]).normalize();
             //.			result[sample]	=
             //! g_pGameLevel->ObjectSpace.RayTest(position,direction,50.f,collide::rqtBoth,&cache[sample],_object);
-            result[sample] = !g_pGameLevel->ObjectSpace.RayTest(
-                position, direction, 50.f, collide::rqtStatic, &cache[sample], _object);
+            result[sample] = !g_pGameLevel->ObjectSpace.RayTest(position, direction, 50.f, collide::rqtStatic, &cache[sample], _object);
             //	Msg				("%d:-- %s",sample,result[sample]?"true":"false");
         }
     }

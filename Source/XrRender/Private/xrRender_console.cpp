@@ -14,41 +14,29 @@ u32      ps_r_sun_shafts     = 2;
 xr_token qsun_shafts_token[] = {{"st_opt_off", 0}, {"st_opt_low", 1}, {"st_opt_medium", 2}, {"st_opt_high", 3}, {0, 0}};
 
 u32      ps_r_ssao           = 3;
-xr_token qssao_token[]       = {
-    {"st_opt_off", 0},
-    {"st_opt_low", 1},
-    {"st_opt_medium", 2},
-    {"st_opt_high", 3},
+xr_token qssao_token[]       = {{"st_opt_off", 0}, {"st_opt_low", 1}, {"st_opt_medium", 2}, {"st_opt_high", 3},
 #if defined(USE_DX10) || defined(USE_DX11)
     {"st_opt_ultra", 4},
 #endif
     {0, 0}};
 
 u32      ps_r_sun_quality     = 1;   //	=	0;
-xr_token qsun_quality_token[] = {
-    {"st_opt_low", 0},
-    {"st_opt_medium", 1},
-    {"st_opt_high", 2},
+xr_token qsun_quality_token[] = {{"st_opt_low", 0}, {"st_opt_medium", 1}, {"st_opt_high", 2},
 #if defined(USE_DX10) || defined(USE_DX11)
-    {"st_opt_ultra", 3},
-    {"st_opt_extreme", 4},
+    {"st_opt_ultra", 3}, {"st_opt_extreme", 4},
 #endif   //	USE_DX10
     {0, 0}};
 
-u32      ps_r3_msaa    = 0;   //	=	0;
-xr_token qmsaa_token[] = {
-    {"st_opt_off", 0},
-    {"2x", 1},
-    {"4x", 2},
-    //	{ "8x",							3												},
-    {0, 0}};
+u32          ps_r3_msaa           = 0;   //	=	0;
+xr_token     qmsaa_token[]        = {{"st_opt_off", 0}, {"2x", 1}, {"4x", 2},
+               //	{ "8x",							3												},
+               {0, 0}};
 
-u32      ps_r3_msaa_atest = 0;   //	=	0;
-xr_token qmsaa__atest_token[] =
-    {{"st_opt_off", 0}, {"st_opt_atest_msaa_dx10_0", 1}, {"st_opt_atest_msaa_dx10_1", 2}, {0, 0}};
+u32          ps_r3_msaa_atest     = 0;   //	=	0;
+xr_token     qmsaa__atest_token[] = {{"st_opt_off", 0}, {"st_opt_atest_msaa_dx10_0", 1}, {"st_opt_atest_msaa_dx10_1", 2}, {0, 0}};
 
-u32          ps_r3_minmax_sm    = 3;   //	=	0;
-xr_token     qminmax_sm_token[] = {{"off", 0}, {"on", 1}, {"auto", 2}, {"autodetect", 3}, {0, 0}};
+u32          ps_r3_minmax_sm      = 3;   //	=	0;
+xr_token     qminmax_sm_token[]   = {{"off", 0}, {"on", 1}, {"auto", 2}, {"autodetect", 3}, {0, 0}};
 
 //	“Off”
 //	“DX10.0 style [Standard]”
@@ -107,18 +95,15 @@ float        ps_r2_ssaLOD_B            = 48.f;
 float        ps_r2_tf_Mipbias          = 0.0f;
 
 // R2-specific
-Flags32      ps_r2_ls_flags            = {
-    R2FLAG_SUN
-    //| R2FLAG_SUN_IGNORE_PORTALS
-    | R2FLAG_EXP_DONT_TEST_UNSHADOWED | R2FLAG_USE_NVSTENCIL | R2FLAG_EXP_SPLIT_SCENE | R2FLAG_EXP_MT_CALC |
-    R3FLAG_DYN_WET_SURF |
-    R3FLAG_VOLUMETRIC_SMOKE
-    //| R3FLAG_MSAA
-    //| R3FLAG_MSAA_OPT
-    | R3FLAG_GBUFFER_OPT | R2FLAG_DETAIL_BUMP | R2FLAG_DOF | R2FLAG_SOFT_PARTICLES | R2FLAG_SOFT_WATER |
-    R2FLAG_STEEP_PARALLAX | R2FLAG_SUN_FOCUS | R2FLAG_SUN_TSM | R2FLAG_TONEMAP | R2FLAG_VOLUMETRIC_LIGHTS};   // r2-only
+Flags32      ps_r2_ls_flags            = {R2FLAG_SUN
+                    //| R2FLAG_SUN_IGNORE_PORTALS
+                    | R2FLAG_EXP_DONT_TEST_UNSHADOWED | R2FLAG_USE_NVSTENCIL | R2FLAG_EXP_SPLIT_SCENE | R2FLAG_EXP_MT_CALC | R3FLAG_DYN_WET_SURF |
+                    R3FLAG_VOLUMETRIC_SMOKE
+                    //| R3FLAG_MSAA
+                    //| R3FLAG_MSAA_OPT
+                    | R3FLAG_GBUFFER_OPT | R2FLAG_DETAIL_BUMP | R2FLAG_DOF | R2FLAG_SOFT_PARTICLES | R2FLAG_SOFT_WATER | R2FLAG_STEEP_PARALLAX | R2FLAG_SUN_FOCUS | R2FLAG_SUN_TSM | R2FLAG_TONEMAP | R2FLAG_VOLUMETRIC_LIGHTS};   // r2-only
 
-Flags32 ps_r2_ls_flags_ext = {
+Flags32      ps_r2_ls_flags_ext        = {
     /*R2FLAGEXT_SSAO_OPT_DATA |*/ R2FLAGEXT_SSAO_HALF_DATA | R2FLAGEXT_ENABLE_TESSELLATION};
 
 float        ps_r2_df_parallax_h         = 0.02f;
@@ -150,20 +135,20 @@ float        ps_r2_sun_tsm_projection    = 0.3f;              // 0.18f
 float        ps_r2_sun_tsm_bias          = -0.01f;            //
 float        ps_r2_sun_near              = 20.f;              // 12.0f
 
-extern float OLES_SUN_LIMIT_27_01_07;                         //	actually sun_far
+extern float OLES_SUN_LIMIT_27_01_07;   //	actually sun_far
 
-float        ps_r2_sun_near_border      = 0.75f;              // 1.0f
-float        ps_r2_sun_depth_far_scale  = 1.00000f;           // 1.00001f
-float        ps_r2_sun_depth_far_bias   = -0.00002f;          // -0.0000f
-float        ps_r2_sun_depth_near_scale = 1.0000f;            // 1.00001f
-float        ps_r2_sun_depth_near_bias  = 0.00001f;           // -0.00005f
-float        ps_r2_sun_lumscale         = 1.0f;               // 1.0f
-float        ps_r2_sun_lumscale_hemi    = 1.0f;               // 1.0f
+float        ps_r2_sun_near_border      = 0.75f;       // 1.0f
+float        ps_r2_sun_depth_far_scale  = 1.00000f;    // 1.00001f
+float        ps_r2_sun_depth_far_bias   = -0.00002f;   // -0.0000f
+float        ps_r2_sun_depth_near_scale = 1.0000f;     // 1.00001f
+float        ps_r2_sun_depth_near_bias  = 0.00001f;    // -0.00005f
+float        ps_r2_sun_lumscale         = 1.0f;        // 1.0f
+float        ps_r2_sun_lumscale_hemi    = 1.0f;        // 1.0f
 float        ps_r2_sun_lumscale_amb     = 1.0f;
-float        ps_r2_gmaterial            = 2.2f;               //
-float        ps_r2_zfill                = 0.25f;              // .1f
+float        ps_r2_gmaterial            = 2.2f;    //
+float        ps_r2_zfill                = 0.25f;   // .1f
 
-float        ps_r2_dhemi_sky_scale      = 0.08f;              // 1.5f
+float        ps_r2_dhemi_sky_scale      = 0.08f;   // 1.5f
 float        ps_r2_dhemi_light_scale    = 0.2f;
 float        ps_r2_dhemi_light_flow     = 0.1f;
 int          ps_r2_dhemi_count          = 5;   // 5
@@ -434,37 +419,25 @@ public:
 
         Msg("memory usage  mb \t \t video    \t managed      \t system \n");
 
-        float vb_video =
-            (float)HW.stats_manager.memory_usage_summary[enum_stats_buffer_type_vertex][D3DPOOL_DEFAULT] / 1024 / 1024;
-        float vb_managed =
-            (float)HW.stats_manager.memory_usage_summary[enum_stats_buffer_type_vertex][D3DPOOL_MANAGED] / 1024 / 1024;
-        float vb_system =
-            (float)HW.stats_manager.memory_usage_summary[enum_stats_buffer_type_vertex][D3DPOOL_SYSTEMMEM] / 1024 /
-            1024;
+        float vb_video   = (float)HW.stats_manager.memory_usage_summary[enum_stats_buffer_type_vertex][D3DPOOL_DEFAULT] / 1024 / 1024;
+        float vb_managed = (float)HW.stats_manager.memory_usage_summary[enum_stats_buffer_type_vertex][D3DPOOL_MANAGED] / 1024 / 1024;
+        float vb_system  = (float)HW.stats_manager.memory_usage_summary[enum_stats_buffer_type_vertex][D3DPOOL_SYSTEMMEM] / 1024 / 1024;
         Msg("vertex buffer      \t \t %f \t %f \t %f ", vb_video, vb_managed, vb_system);
 
-        float ib_video =
-            (float)HW.stats_manager.memory_usage_summary[enum_stats_buffer_type_index][D3DPOOL_DEFAULT] / 1024 / 1024;
-        float ib_managed =
-            (float)HW.stats_manager.memory_usage_summary[enum_stats_buffer_type_index][D3DPOOL_MANAGED] / 1024 / 1024;
-        float ib_system =
-            (float)HW.stats_manager.memory_usage_summary[enum_stats_buffer_type_index][D3DPOOL_SYSTEMMEM] / 1024 / 1024;
+        float ib_video   = (float)HW.stats_manager.memory_usage_summary[enum_stats_buffer_type_index][D3DPOOL_DEFAULT] / 1024 / 1024;
+        float ib_managed = (float)HW.stats_manager.memory_usage_summary[enum_stats_buffer_type_index][D3DPOOL_MANAGED] / 1024 / 1024;
+        float ib_system  = (float)HW.stats_manager.memory_usage_summary[enum_stats_buffer_type_index][D3DPOOL_SYSTEMMEM] / 1024 / 1024;
         Msg("index buffer      \t \t %f \t %f \t %f ", ib_video, ib_managed, ib_system);
 
         float textures_managed = (float)(m_base + m_lmaps) / 1024 / 1024;
         Msg("textures          \t \t %f \t %f \t %f ", 0.f, textures_managed, 0.f);
 
-        float rt_video =
-            (float)HW.stats_manager.memory_usage_summary[enum_stats_buffer_type_rtarget][D3DPOOL_DEFAULT] / 1024 / 1024;
-        float rt_managed =
-            (float)HW.stats_manager.memory_usage_summary[enum_stats_buffer_type_rtarget][D3DPOOL_MANAGED] / 1024 / 1024;
-        float rt_system =
-            (float)HW.stats_manager.memory_usage_summary[enum_stats_buffer_type_rtarget][D3DPOOL_SYSTEMMEM] / 1024 /
-            1024;
+        float rt_video   = (float)HW.stats_manager.memory_usage_summary[enum_stats_buffer_type_rtarget][D3DPOOL_DEFAULT] / 1024 / 1024;
+        float rt_managed = (float)HW.stats_manager.memory_usage_summary[enum_stats_buffer_type_rtarget][D3DPOOL_MANAGED] / 1024 / 1024;
+        float rt_system  = (float)HW.stats_manager.memory_usage_summary[enum_stats_buffer_type_rtarget][D3DPOOL_SYSTEMMEM] / 1024 / 1024;
         Msg("R-Targets         \t \t %f \t %f \t %f ", rt_video, rt_managed, rt_system);
 
-        Msg("\nTotal             \t \t %f \t %f \t %f ", vb_video + ib_video + rt_video,
-            textures_managed + vb_managed + ib_managed + rt_managed, vb_system + ib_system + rt_system);
+        Msg("\nTotal             \t \t %f \t %f \t %f ", vb_video + ib_video + rt_video, textures_managed + vb_managed + ib_managed + rt_managed, vb_system + ib_system + rt_system);
     }
 };
 
@@ -714,7 +687,7 @@ void xrRender_initconsole()
     tw_min.set(EPS, EPS, EPS);
     tw_max.set(2, 2, 2);
     CMD4(CCC_Vector3, "r__d_tree_wave", &ps_r__Tree_Wave, tw_min, tw_max);
-#endif                                                          // DEBUG
+#endif   // DEBUG
 
     CMD2(CCC_tf_Aniso, "r__tf_aniso", &ps_r__tf_Anisotropic);   //	{1..16}
 

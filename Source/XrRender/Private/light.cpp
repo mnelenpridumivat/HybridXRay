@@ -87,12 +87,8 @@ void light::set_texture(LPCSTR name)
 
         for (int i = 0; i < bound; ++i)
         {
-            s_spot_msaa[i].create(
-                RImplementation.Target->b_accum_spot_msaa[i], strconcat(sizeof(temp), temp, "r2\\accum_spot_", name),
-                name);
-            s_volumetric_msaa[i].create(
-                RImplementation.Target->b_accum_volumetric_msaa[i],
-                strconcat(sizeof(temp), temp, "r2\\accum_volumetric_", name), name);
+            s_spot_msaa[i].create(RImplementation.Target->b_accum_spot_msaa[i], strconcat(sizeof(temp), temp, "r2\\accum_spot_", name), name);
+            s_volumetric_msaa[i].create(RImplementation.Target->b_accum_volumetric_msaa[i], strconcat(sizeof(temp), temp, "r2\\accum_volumetric_", name), name);
         }
     }
 #endif   // (RENDER!=R_R3) || (RENDER!=R_R4)
@@ -100,8 +96,7 @@ void light::set_texture(LPCSTR name)
 #endif
 
 #if RENDER == R_R1
-void light::set_texture(LPCSTR name)
-{}
+void light::set_texture(LPCSTR name) {}
 #endif
 
 void light::set_active(bool a)
@@ -325,12 +320,10 @@ void light::xform_calc()
 }
 
 //								+X,				-X,				+Y,				-Y,			+Z,				-Z
-static Fvector cmNorm[6] = {{0.f, 1.f, 0.f}, {0.f, 1.f, 0.f}, {0.f, 0.f, -1.f},
-                            {0.f, 0.f, 1.f}, {0.f, 1.f, 0.f}, {0.f, 1.f, 0.f}};
-static Fvector cmDir[6]  = {{1.f, 0.f, 0.f},  {-1.f, 0.f, 0.f}, {0.f, 1.f, 0.f},
-                            {0.f, -1.f, 0.f}, {0.f, 0.f, 1.f},  {0.f, 0.f, -1.f}};
+static Fvector cmNorm[6] = {{0.f, 1.f, 0.f}, {0.f, 1.f, 0.f}, {0.f, 0.f, -1.f}, {0.f, 0.f, 1.f}, {0.f, 1.f, 0.f}, {0.f, 1.f, 0.f}};
+static Fvector cmDir[6]  = {{1.f, 0.f, 0.f}, {-1.f, 0.f, 0.f}, {0.f, 1.f, 0.f}, {0.f, -1.f, 0.f}, {0.f, 0.f, 1.f}, {0.f, 0.f, -1.f}};
 
-void light::export_(light_Package& package)
+void           light::export_(light_Package& package)
 {
     if (flags.bShadow)
     {

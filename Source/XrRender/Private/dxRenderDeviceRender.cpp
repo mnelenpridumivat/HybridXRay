@@ -107,7 +107,7 @@ void dxRenderDeviceRender::SetupStates()
 #if defined(USE_DX10) || defined(USE_DX11)
     //	TODO: DX10: Implement Resetting of render states into default mode
     // VERIFY(!"dxRenderDeviceRender::SetupStates not implemented.");
-#else    //	USE_DX10
+#else   //	USE_DX10
     for (u32 i = 0; i < HW.Caps.raster.dwStages; i++)
     {
         float fBias = -.5f;
@@ -181,13 +181,7 @@ void dxRenderDeviceRender::OnDeviceCreate(LPCSTR shName)
     // #endif
 }
 
-void dxRenderDeviceRender::Create(
-    HWND   hWnd,
-    u32&   dwWidth,
-    u32&   dwHeight,
-    float& fWidth_2,
-    float& fHeight_2,
-    bool   move_window)
+void dxRenderDeviceRender::Create(HWND hWnd, u32& dwWidth, u32& dwHeight, float& fWidth_2, float& fHeight_2, bool move_window)
 {
 #ifndef REDITOR
     HW.CreateDevice(hWnd, move_window);
@@ -389,11 +383,7 @@ void dxRenderDeviceRender::Clear()
         HW.pContext->ClearRenderTargetView(RCache.get_RT(), ColorRGBA);
     }
 #else    //	USE_DX10
-    CHK_DX(HW.pDevice->Clear(
-        0, 0,
-        D3DCLEAR_ZBUFFER | (psDeviceFlags.test(rsClearBB) ? D3DCLEAR_TARGET : 0) |
-            (HW.Caps.bStencil ? D3DCLEAR_STENCIL : 0),
-        D3DCOLOR_XRGB(0, 0, 0), 1, 0));
+    CHK_DX(HW.pDevice->Clear(0, 0, D3DCLEAR_ZBUFFER | (psDeviceFlags.test(rsClearBB) ? D3DCLEAR_TARGET : 0) | (HW.Caps.bStencil ? D3DCLEAR_STENCIL : 0), D3DCOLOR_XRGB(0, 0, 0), 1, 0));
 #endif   //	USE_DX10
 #endif
 }

@@ -11,38 +11,38 @@
 #define r2_RT_accum             "$user$accum"        // ---	16 bit fp or 16 bit fx
 #define r2_RT_accum_temp        "$user$accum_temp"   // ---	16 bit fp - only for HW which doesn't feature fp16 blend
 
-#define r2_T_envs0              "$user$env_s0"       // ---
-#define r2_T_envs1              "$user$env_s1"       // ---
+#define r2_T_envs0              "$user$env_s0"   // ---
+#define r2_T_envs1              "$user$env_s1"   // ---
 
 #define r2_T_sky0               "$user$sky0"
 #define r2_T_sky1               "$user$sky1"
 
-#define r2_RT_ssao_temp         "$user$ssao_temp"     // temporary rt for ssao calculation
-#define r2_RT_half_depth        "$user$half_depth"    // temporary rt for ssao calculation
+#define r2_RT_ssao_temp         "$user$ssao_temp"    // temporary rt for ssao calculation
+#define r2_RT_half_depth        "$user$half_depth"   // temporary rt for ssao calculation
 
-#define r2_RT_generic0          "$user$generic0"      // ---
-#define r2_RT_generic0_r        "$user$generic0_r"    // ---
-#define r2_RT_generic1          "$user$generic1"      // ---
-#define r2_RT_generic1_r        "$user$generic1_r"    // ---
-#define r2_RT_generic2          "$user$generic2"      // ---	//	Igor: for volumetric lights
-#define r2_RT_generic           "$user$generic"       // ---
+#define r2_RT_generic0          "$user$generic0"     // ---
+#define r2_RT_generic0_r        "$user$generic0_r"   // ---
+#define r2_RT_generic1          "$user$generic1"     // ---
+#define r2_RT_generic1_r        "$user$generic1_r"   // ---
+#define r2_RT_generic2          "$user$generic2"     // ---	//	Igor: for volumetric lights
+#define r2_RT_generic           "$user$generic"      // ---
 
-#define r2_RT_bloom1            "$user$bloom1"        // ---
-#define r2_RT_bloom2            "$user$bloom2"        // ---
+#define r2_RT_bloom1            "$user$bloom1"   // ---
+#define r2_RT_bloom2            "$user$bloom2"   // ---
 
-#define r2_RT_luminance_t64     "$user$lum_t64"       // --- temp
-#define r2_RT_luminance_t8      "$user$lum_t8"        // --- temp
+#define r2_RT_luminance_t64     "$user$lum_t64"   // --- temp
+#define r2_RT_luminance_t8      "$user$lum_t8"    // --- temp
 
 #define r2_RT_luminance_src     "$user$tonemap_src"   // --- prev-frame-result
 #define r2_RT_luminance_cur     "$user$tonemap"       // --- result
 #define r2_RT_luminance_pool    "$user$luminance"     // --- pool
 
-#define r2_RT_smap_surf         "$user$smap_surf"     // --- directional
-#define r2_RT_smap_depth        "$user$smap_depth"    // ---directional
+#define r2_RT_smap_surf         "$user$smap_surf"    // --- directional
+#define r2_RT_smap_depth        "$user$smap_depth"   // ---directional
 #define r2_RT_smap_depth_minmax "$user$smap_depth_minmax"
 
-#define r2_material             "$user$material"        // ---
-#define r2_ds2_fade             "$user$ds2_fade"        // ---
+#define r2_material             "$user$material"   // ---
+#define r2_ds2_fade             "$user$ds2_fade"   // ---
 
 #define r2_jitter               "$user$jitter_"         // --- dither
 #define r2_jitter_mipped        "$user$jitter_mipped"   // --- dither
@@ -60,7 +60,7 @@ const u32   TEX_material_LdotN = 128;   // diffuse,		X, almost linear = small re
 const u32   TEX_material_LdotH = 256;   // specular,	Y
 const u32   TEX_material_Count = 4;     // Number of materials,	Z
 const u32   TEX_jitter         = 64;
-const u32   TEX_jitter_count   = 5;     // for HBAO
+const u32   TEX_jitter_count   = 5;   // for HBAO
 
 const u32   BLOOM_size_X       = 256;
 const u32   BLOOM_size_Y       = 256;

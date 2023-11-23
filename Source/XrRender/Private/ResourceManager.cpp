@@ -170,12 +170,7 @@ void CResourceManager::_DeleteElement(const ShaderElement* S)
     Msg("! ERROR: Failed to find compiled 'shader-element'");
 }
 
-Shader* CResourceManager::_cpp_Create(
-    IBlender* B,
-    LPCSTR    s_shader,
-    LPCSTR    s_textures,
-    LPCSTR    s_constants,
-    LPCSTR    s_matrices)
+Shader* CResourceManager::_cpp_Create(IBlender* B, LPCSTR s_shader, LPCSTR s_textures, LPCSTR s_constants, LPCSTR s_matrices)
 {
     CBlender_Compile C;
     Shader           S;

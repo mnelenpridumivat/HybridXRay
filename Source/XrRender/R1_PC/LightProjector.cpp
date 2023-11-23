@@ -58,8 +58,7 @@ void CLightProjector::set_object(IRenderable* O)
         current = 0;
     else
     {
-        if (!O->renderable_ShadowReceive() || RImplementation.val_bInvisible ||
-            ((CROS_impl*)O->renderable_ROS())->shadow_recv_frame == Device->dwFrame)
+        if (!O->renderable_ShadowReceive() || RImplementation.val_bInvisible || ((CROS_impl*)O->renderable_ROS())->shadow_recv_frame == Device->dwFrame)
         {
             current = 0;
             return;
@@ -292,8 +291,7 @@ void CLightProjector::calculate()
 
         // Clear color to ambience
         Fvector& cap = LT->get_approximate();
-        CHK_DX(HW.pDevice->Clear(
-            0, 0, D3DCLEAR_TARGET, color_rgba_f(cap.x, cap.y, cap.z, (cap.x + cap.y + cap.z) / 4.f), 1, 0));
+        CHK_DX(HW.pDevice->Clear(0, 0, D3DCLEAR_TARGET, color_rgba_f(cap.x, cap.y, cap.z, (cap.x + cap.y + cap.z) / 4.f), 1, 0));
 
         // calculate uv-gen matrix and clamper
         Fmatrix mCombine;
@@ -303,23 +301,7 @@ void CLightProjector::calculate()
         float   fSlotX        = float(s_x * P_o_size) / float(P_rt_size);
         float   fSlotY        = float(s_y * P_o_size) / float(P_rt_size);
         float   fTexelOffs    = (.5f / P_rt_size);
-        Fmatrix m_TexelAdjust = {
-            0.5f /*x-scale*/,
-            0.0f,
-            0.0f,
-            0.0f,
-            0.0f,
-            -0.5f /*y-scale*/,
-            0.0f,
-            0.0f,
-            0.0f,
-            0.0f,
-            1.0f /*z-range*/,
-            0.0f,
-            0.5f /*x-bias*/,
-            0.5f + fTexelOffs /*y-bias*/,
-            0.0f /*z-bias*/,
-            1.0f};
+        Fmatrix m_TexelAdjust = {0.5f /*x-scale*/, 0.0f, 0.0f, 0.0f, 0.0f, -0.5f /*y-scale*/, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f /*z-range*/, 0.0f, 0.5f /*x-bias*/, 0.5f + fTexelOffs /*y-bias*/, 0.0f /*z-bias*/, 1.0f};
         R.UVgen.mul(m_TexelAdjust, mCombine);
         mTemp.scale(fSlotSize, fSlotSize, 1);
         R.UVgen.mulA_44(mTemp);

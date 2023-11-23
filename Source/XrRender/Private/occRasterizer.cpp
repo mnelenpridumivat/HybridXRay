@@ -59,8 +59,7 @@ occRasterizer::occRasterizer()
     :
     dbg_HOM_draw_initialized(false)
 #endif
-{
-}
+{}
 
 occRasterizer::~occRasterizer() {}
 
@@ -161,12 +160,8 @@ void occRasterizer::on_dbg_render()
                 Device->mProject;
 
                 float z = -Device->mProject._43 / (float)(Device->mProject._33 - quad.z);
-                left_top.set(
-                    quad.x * z / Device->mProject._11 / (occ_dim_0 / 2.f),
-                    quad.y * z / Device->mProject._22 / (occ_dim_0 / 2.f), z);
-                right_bottom.set(
-                    (quad.x + 1) * z / Device->mProject._11 / (occ_dim_0 / 2.f),
-                    (quad.y + 1) * z / Device->mProject._22 / (occ_dim_0 / 2.f), z);
+                left_top.set(quad.x * z / Device->mProject._11 / (occ_dim_0 / 2.f), quad.y * z / Device->mProject._22 / (occ_dim_0 / 2.f), z);
+                right_bottom.set((quad.x + 1) * z / Device->mProject._11 / (occ_dim_0 / 2.f), (quad.y + 1) * z / Device->mProject._22 / (occ_dim_0 / 2.f), z);
 
                 box_center.set((right_bottom.x + left_top.x) / 2, (right_bottom.y + left_top.y) / 2, z);
                 box_r = right_bottom;
@@ -196,9 +191,7 @@ void occRasterizer::on_dbg_render()
             Device->SetNearer(TRUE);
 
             RCache.set_Shader(dxRenderDeviceRender::Instance().m_SelectionShader);
-            RCache.dbg_DrawOBB(
-                Transform, tmp.radius,
-                D3DCOLOR_XRGB(u32(255 * pow(tmp.z, 20.f)), u32(255 * (1 - pow(tmp.z, 20.f))), 0));
+            RCache.dbg_DrawOBB(Transform, tmp.radius, D3DCOLOR_XRGB(u32(255 * pow(tmp.z, 20.f)), u32(255 * (1 - pow(tmp.z, 20.f))), 0));
             Device->SetNearer(FALSE);
         }
     }

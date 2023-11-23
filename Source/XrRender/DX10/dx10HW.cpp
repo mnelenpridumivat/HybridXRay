@@ -337,10 +337,8 @@ void CHW::CreateDevice(HWND m_hWnd, bool move_window)
         //        D3D_FEATURE_LEVEL_10_0,
     };
 
-    R = D3D11CreateDeviceAndSwapChain(
-        0,   // m_pAdapter,//What wrong with adapter??? We should use another version of DXGI?????
-        m_DriverType, NULL, createDeviceFlags, pFeatureLevels, sizeof(pFeatureLevels) / sizeof(pFeatureLevels[0]),
-        D3D11_SDK_VERSION, &sd, &m_pSwapChain, &pDevice, &FeatureLevel, &pContext);
+    R = D3D11CreateDeviceAndSwapChain(0,   // m_pAdapter,//What wrong with adapter??? We should use another version of DXGI?????
+        m_DriverType, NULL, createDeviceFlags, pFeatureLevels, sizeof(pFeatureLevels) / sizeof(pFeatureLevels[0]), D3D11_SDK_VERSION, &sd, &m_pSwapChain, &pDevice, &FeatureLevel, &pContext);
     if (GDebugRender)
     {
         ID3D11InfoQueue* InfoQueue = nullptr;
@@ -405,9 +403,7 @@ void CHW::CreateDevice(HWND m_hWnd, bool move_window)
             "CreateDevice returned 0x%08x",
             R);
         FlushLog();
-        MessageBox(
-            NULL, "Failed to initialize graphics hardware.\nPlease try to restart the game.", "Error!",
-            MB_OK | MB_ICONERROR);
+        MessageBox(NULL, "Failed to initialize graphics hardware.\nPlease try to restart the game.", "Error!", MB_OK | MB_ICONERROR);
         TerminateProcess(GetCurrentProcess(), 0);
     };
     R_CHK(R);
@@ -527,8 +523,7 @@ void CHW::Reset(HWND hwnd)
     _RELEASE(pBaseZB);
     _RELEASE(pBaseRT);
 
-    CHK_DX(m_pSwapChain->ResizeBuffers(
-        cd.BufferCount, desc.Width, desc.Height, desc.Format, DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH));
+    CHK_DX(m_pSwapChain->ResizeBuffers(cd.BufferCount, desc.Width, desc.Height, desc.Format, DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH));
 
     UpdateViews();
 
@@ -762,9 +757,7 @@ void CHW::updateWindowProps(HWND m_hWnd)
             if (strstr(Core.Params, "-no_dialog_header"))
                 SetWindowLong(m_hWnd, GWL_STYLE, dwWindowStyle = (WS_BORDER | WS_VISIBLE));
             else
-                SetWindowLong(
-                    m_hWnd, GWL_STYLE,
-                    dwWindowStyle = (WS_BORDER | WS_DLGFRAME | WS_VISIBLE | WS_SYSMENU | WS_MINIMIZEBOX));
+                SetWindowLong(m_hWnd, GWL_STYLE, dwWindowStyle = (WS_BORDER | WS_DLGFRAME | WS_VISIBLE | WS_SYSMENU | WS_MINIMIZEBOX));
             // When moving from fullscreen to windowed mode, it is important to
             // adjust the window size after recreating the device rather than
             // beforehand to ensure that you get the window size you want.  For
@@ -785,11 +778,7 @@ void CHW::updateWindowProps(HWND m_hWnd)
 
                 GetClientRect(GetDesktopWindow(), &DesktopRect);
 
-                SetRect(
-                    &m_rcWindowBounds, (DesktopRect.right - m_ChainDesc.BufferDesc.Width) / 2,
-                    (DesktopRect.bottom - m_ChainDesc.BufferDesc.Height) / 2,
-                    (DesktopRect.right + m_ChainDesc.BufferDesc.Width) / 2,
-                    (DesktopRect.bottom + m_ChainDesc.BufferDesc.Height) / 2);
+                SetRect(&m_rcWindowBounds, (DesktopRect.right - m_ChainDesc.BufferDesc.Width) / 2, (DesktopRect.bottom - m_ChainDesc.BufferDesc.Height) / 2, (DesktopRect.right + m_ChainDesc.BufferDesc.Width) / 2, (DesktopRect.bottom + m_ChainDesc.BufferDesc.Height) / 2);
             }
             else
             {
@@ -798,10 +787,7 @@ void CHW::updateWindowProps(HWND m_hWnd)
 
             AdjustWindowRect(&m_rcWindowBounds, dwWindowStyle, FALSE);
 
-            SetWindowPos(
-                m_hWnd, HWND_NOTOPMOST, m_rcWindowBounds.left, m_rcWindowBounds.top,
-                (m_rcWindowBounds.right - m_rcWindowBounds.left), (m_rcWindowBounds.bottom - m_rcWindowBounds.top),
-                SWP_SHOWWINDOW | SWP_NOCOPYBITS | SWP_DRAWFRAME);
+            SetWindowPos(m_hWnd, HWND_NOTOPMOST, m_rcWindowBounds.left, m_rcWindowBounds.top, (m_rcWindowBounds.right - m_rcWindowBounds.left), (m_rcWindowBounds.bottom - m_rcWindowBounds.top), SWP_SHOWWINDOW | SWP_NOCOPYBITS | SWP_DRAWFRAME);
         }
     }
     else
@@ -815,8 +801,7 @@ void CHW::updateWindowProps(HWND m_hWnd)
 
 struct _uniq_mode
 {
-    _uniq_mode(LPCSTR v):
-        _val(v) {}
+    _uniq_mode(LPCSTR v): _val(v) {}
     LPCSTR _val;
     bool   operator()(LPCSTR _other)
     {
@@ -1048,10 +1033,9 @@ void CHW::UpdateViews()
     descDepth.BindFlags          = D3D_BIND_DEPTH_STENCIL;
     descDepth.CPUAccessFlags     = 0;
     descDepth.MiscFlags          = 0;
-    R                            = pDevice->CreateTexture2D(
-        &descDepth,        // Texture desc
-        NULL,              // Initial data
-        &pDepthStencil);   // [out] Texture
+    R                            = pDevice->CreateTexture2D(&descDepth,   // Texture desc
+                                   NULL,                                  // Initial data
+                                   &pDepthStencil);                       // [out] Texture
     R_CHK(R);
 
     //	Create Depth/stencil view

@@ -88,12 +88,7 @@ void dx10SamplerStateCache::ClearStateArray()
     m_StateArray.clear_not_free();
 }
 
-void dx10SamplerStateCache::PrepareSamplerStates(
-    HArray&           samplers,
-    ID3DSamplerState* pSS[D3D_COMMONSHADER_SAMPLER_SLOT_COUNT],
-    SHandle           pCurrentState[D3D_COMMONSHADER_SAMPLER_SLOT_COUNT],
-    u32&              uiMin,
-    u32&              uiMax) const
+void dx10SamplerStateCache::PrepareSamplerStates(HArray& samplers, ID3DSamplerState* pSS[D3D_COMMONSHADER_SAMPLER_SLOT_COUNT], SHandle pCurrentState[D3D_COMMONSHADER_SAMPLER_SLOT_COUNT], u32& uiMin, u32& uiMax) const
 {
     //	It seems that sizeof pSS is 4 wor win32!
     ZeroMemory(pSS, sizeof(pSS[0]) * D3D_COMMONSHADER_SAMPLER_SLOT_COUNT);

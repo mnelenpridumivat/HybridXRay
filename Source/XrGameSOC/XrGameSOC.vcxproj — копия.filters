@@ -2670,7 +2670,7 @@
     <ClInclude Include="sound_collection_storage_inline.h">
       <Filter>AI\AComponents\SoundPlayer\sound_collection_storage</Filter>
     </ClInclude>
-    <ClInclude Include="restriction_space.h">
+    <ClInclude Include="..\XrServerEntitiesSOC\restriction_space.h">
       <Filter>AI\AComponents\SpaceRestrictionManager</Filter>
     </ClInclude>
     <ClInclude Include="space_restriction_manager.h">

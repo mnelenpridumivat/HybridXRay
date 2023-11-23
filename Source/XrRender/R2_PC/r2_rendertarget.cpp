@@ -35,13 +35,7 @@ void CRenderTarget::u_setrt(const ref_rt& _1, const ref_rt& _2, const ref_rt& _3
     //	RImplementation.rmNormal				();
 }
 
-void CRenderTarget::u_setrt(
-    u32                W,
-    u32                H,
-    IDirect3DSurface9* _1,
-    IDirect3DSurface9* _2,
-    IDirect3DSurface9* _3,
-    IDirect3DSurface9* zb)
+void CRenderTarget::u_setrt(u32 W, u32 H, IDirect3DSurface9* _1, IDirect3DSurface9* _2, IDirect3DSurface9* _3, IDirect3DSurface9* zb)
 {
     VERIFY(_1);
     dwWidth  = W;
@@ -88,8 +82,7 @@ void CRenderTarget::u_compute_texgen_screen(Fmatrix& m_Texgen)
     float   _h            = float(Device->dwHeight);
     float   o_w           = (.5f / _w);
     float   o_h           = (.5f / _h);
-    Fmatrix m_TexelAdjust = {0.5f, 0.0f, 0.0f, 0.0f, 0.0f, -0.5f, 0.0f, 0.0f,
-        0.0f, 0.0f, 1.0f, 0.0f, 0.5f + o_w, 0.5f + o_h, 0.0f, 1.0f};
+    Fmatrix m_TexelAdjust = {0.5f, 0.0f, 0.0f, 0.0f, 0.0f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.5f + o_w, 0.5f + o_h, 0.0f, 1.0f};
     m_Texgen.mul(m_TexelAdjust, RCache.xforms.m_wvp);
 }
 
@@ -97,8 +90,7 @@ void CRenderTarget::u_compute_texgen_screen(Fmatrix& m_Texgen)
 void CRenderTarget::u_compute_texgen_jitter(Fmatrix& m_Texgen_J)
 {
     // place into	0..1 space
-    Fmatrix m_TexelAdjust = {0.5f, 0.0f, 0.0f, 0.0f, 0.0f, -0.5f, 0.0f, 0.0f,
-        0.0f, 0.0f, 1.0f, 0.0f, 0.5f, 0.5f, 0.0f, 1.0f};
+    Fmatrix m_TexelAdjust = {0.5f, 0.0f, 0.0f, 0.0f, 0.0f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.5f, 0.5f, 0.0f, 1.0f};
     m_Texgen_J.mul(m_TexelAdjust, RCache.xforms.m_wvp);
 
     // rescale - tile it
@@ -309,8 +301,7 @@ CRenderTarget::CRenderTarget()
         u32 size = RImplementation.o.smapsize;
         rt_smap_surf.create(r2_RT_smap_surf, size, size, D3DFMT_R32F);
         rt_smap_depth = NULL;
-        R_CHK(HW.pDevice->CreateDepthStencilSurface(
-            size, size, D3DFMT_D24X8, D3DMULTISAMPLE_NONE, 0, TRUE, &rt_smap_ZB, NULL));
+        R_CHK(HW.pDevice->CreateDepthStencilSurface(size, size, D3DFMT_D24X8, D3DMULTISAMPLE_NONE, 0, TRUE, &rt_smap_ZB, NULL));
         s_accum_mask.create(b_accum_mask, "r2\\accum_mask");
         s_accum_direct.create(b_accum_direct, "r2\\accum_direct");
         s_accum_direct_cascade.create(b_accum_direct_cascade, "r2\\accum_direct_cascade");
@@ -361,11 +352,8 @@ CRenderTarget::CRenderTarget()
     {
         D3DFORMAT fmt = D3DFMT_A8R8G8B8;   //;		// D3DFMT_X8R8G8B8
         u32       w = BLOOM_size_X, h = BLOOM_size_Y;
-        u32       fvf_build = D3DFVF_XYZRHW | D3DFVF_TEX4 | D3DFVF_TEXCOORDSIZE2(0) | D3DFVF_TEXCOORDSIZE2(1) |
-            D3DFVF_TEXCOORDSIZE2(2) | D3DFVF_TEXCOORDSIZE2(3);
-        u32 fvf_filter = (u32)D3DFVF_XYZRHW | D3DFVF_TEX8 | D3DFVF_TEXCOORDSIZE4(0) | D3DFVF_TEXCOORDSIZE4(1) |
-            D3DFVF_TEXCOORDSIZE4(2) | D3DFVF_TEXCOORDSIZE4(3) | D3DFVF_TEXCOORDSIZE4(4) | D3DFVF_TEXCOORDSIZE4(5) |
-            D3DFVF_TEXCOORDSIZE4(6) | D3DFVF_TEXCOORDSIZE4(7);
+        u32       fvf_build  = D3DFVF_XYZRHW | D3DFVF_TEX4 | D3DFVF_TEXCOORDSIZE2(0) | D3DFVF_TEXCOORDSIZE2(1) | D3DFVF_TEXCOORDSIZE2(2) | D3DFVF_TEXCOORDSIZE2(3);
+        u32       fvf_filter = (u32)D3DFVF_XYZRHW | D3DFVF_TEX8 | D3DFVF_TEXCOORDSIZE4(0) | D3DFVF_TEXCOORDSIZE4(1) | D3DFVF_TEXCOORDSIZE4(2) | D3DFVF_TEXCOORDSIZE4(3) | D3DFVF_TEXCOORDSIZE4(4) | D3DFVF_TEXCOORDSIZE4(5) | D3DFVF_TEXCOORDSIZE4(6) | D3DFVF_TEXCOORDSIZE4(7);
         rt_Bloom_1.create(r2_RT_bloom1, w, h, fmt);
         rt_Bloom_2.create(r2_RT_bloom2, w, h, fmt);
         g_bloom_build.create(fvf_build, RCache.Vertex.Buffer(), RCache.QuadIB);
@@ -429,11 +417,8 @@ CRenderTarget::CRenderTarget()
 
     // COMBINE
     {
-        static D3DVERTEXELEMENT9 dwDecl[] = {
-            {0, 0, D3DDECLTYPE_FLOAT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0},   // pos+uv
-            {0, 16, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_COLOR, 0},
-            {0, 20, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0},
-            D3DDECL_END()};
+        static D3DVERTEXELEMENT9 dwDecl[] = {{0, 0, D3DDECLTYPE_FLOAT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0},   // pos+uv
+            {0, 16, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_COLOR, 0}, {0, 20, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0}, D3DDECL_END()};
         s_combine.create(b_combine, "r2\\combine");
         s_combine_volumetric.create("combine_volumetric");
         s_combine_dbg_0.create("effects\\screen_set", r2_RT_smap_surf);
@@ -444,13 +429,10 @@ CRenderTarget::CRenderTarget()
         g_combine_2UV.create(FVF::F_TL2uv, RCache.Vertex.Buffer(), RCache.QuadIB);
         g_combine_cuboid.create(FVF::F_L, RCache.Vertex.Buffer(), RCache.Index.Buffer());
 
-        u32 fvf_aa_blur = D3DFVF_XYZRHW | D3DFVF_TEX4 | D3DFVF_TEXCOORDSIZE2(0) | D3DFVF_TEXCOORDSIZE2(1) |
-            D3DFVF_TEXCOORDSIZE2(2) | D3DFVF_TEXCOORDSIZE2(3);
+        u32 fvf_aa_blur = D3DFVF_XYZRHW | D3DFVF_TEX4 | D3DFVF_TEXCOORDSIZE2(0) | D3DFVF_TEXCOORDSIZE2(1) | D3DFVF_TEXCOORDSIZE2(2) | D3DFVF_TEXCOORDSIZE2(3);
         g_aa_blur.create(fvf_aa_blur, RCache.Vertex.Buffer(), RCache.QuadIB);
 
-        u32 fvf_aa_AA = D3DFVF_XYZRHW | D3DFVF_TEX7 | D3DFVF_TEXCOORDSIZE2(0) | D3DFVF_TEXCOORDSIZE2(1) |
-            D3DFVF_TEXCOORDSIZE2(2) | D3DFVF_TEXCOORDSIZE2(3) | D3DFVF_TEXCOORDSIZE2(4) | D3DFVF_TEXCOORDSIZE4(5) |
-            D3DFVF_TEXCOORDSIZE4(6);
+        u32 fvf_aa_AA = D3DFVF_XYZRHW | D3DFVF_TEX7 | D3DFVF_TEXCOORDSIZE2(0) | D3DFVF_TEXCOORDSIZE2(1) | D3DFVF_TEXCOORDSIZE2(2) | D3DFVF_TEXCOORDSIZE2(3) | D3DFVF_TEXCOORDSIZE2(4) | D3DFVF_TEXCOORDSIZE4(5) | D3DFVF_TEXCOORDSIZE4(6);
         g_aa_AA.create(fvf_aa_AA, RCache.Vertex.Buffer(), RCache.QuadIB);
 
         t_envmap_0.create(r2_T_envs0);
@@ -462,9 +444,7 @@ CRenderTarget::CRenderTarget()
         // Build material(s)
         {
             // Surface
-            R_CHK(D3DXCreateVolumeTexture(
-                HW.pDevice, TEX_material_LdotN, TEX_material_LdotH, 4, 1, 0, D3DFMT_A8L8, D3DPOOL_MANAGED,
-                &t_material_surf));
+            R_CHK(D3DXCreateVolumeTexture(HW.pDevice, TEX_material_LdotN, TEX_material_LdotH, 4, 1, 0, D3DFMT_A8L8, D3DPOOL_MANAGED, &t_material_surf));
             t_material = dxRenderDeviceRender::Instance().Resources->_CreateTexture(r2_material);
             t_material->surface_set(t_material_surf);
 
@@ -542,8 +522,7 @@ CRenderTarget::CRenderTarget()
             {
                 string_path name;
                 xr_sprintf(name, "%s%d", r2_jitter, it1);
-                R_CHK(D3DXCreateTexture(
-                    HW.pDevice, TEX_jitter, TEX_jitter, 1, 0, D3DFMT_Q8W8V8U8, D3DPOOL_MANAGED, &t_noise_surf[it1]));
+                R_CHK(D3DXCreateTexture(HW.pDevice, TEX_jitter, TEX_jitter, 1, 0, D3DFMT_Q8W8V8U8, D3DPOOL_MANAGED, &t_noise_surf[it1]));
                 t_noise[it1] = dxRenderDeviceRender::Instance().Resources->_CreateTexture(name);
                 t_noise[it1]->surface_set(t_noise_surf[it1]);
                 R_CHK(t_noise_surf[it1]->LockRect(0, &R[it1], 0, 0));
@@ -573,8 +552,7 @@ CRenderTarget::CRenderTarget()
             int         it = TEX_jitter_count - 1;
             string_path name;
             xr_sprintf(name, "%s%d", r2_jitter, it);
-            R_CHK(D3DXCreateTexture(
-                HW.pDevice, TEX_jitter, TEX_jitter, 1, 0, D3DFMT_A32B32G32R32F, D3DPOOL_MANAGED, &t_noise_surf[it]));
+            R_CHK(D3DXCreateTexture(HW.pDevice, TEX_jitter, TEX_jitter, 1, 0, D3DFMT_A32B32G32R32F, D3DPOOL_MANAGED, &t_noise_surf[it]));
             t_noise[it] = dxRenderDeviceRender::Instance().Resources->_CreateTexture(name);
             t_noise[it]->surface_set(t_noise_surf[it]);
             R_CHK(t_noise_surf[it]->LockRect(0, &R[it], 0, 0));
@@ -616,8 +594,7 @@ CRenderTarget::CRenderTarget()
 
     // PP
     s_postprocess.create("postprocess");
-    g_postprocess.create(
-        D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_SPECULAR | D3DFVF_TEX3, RCache.Vertex.Buffer(), RCache.QuadIB);
+    g_postprocess.create(D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_SPECULAR | D3DFVF_TEX3, RCache.Vertex.Buffer(), RCache.QuadIB);
 
     // Menu
     s_menu.create("distort");
@@ -630,8 +607,7 @@ CRenderTarget::CRenderTarget()
     // HW.pDevice->CreateOffscreenPlainSurface(Device->dwWidth,Device->dwHeight,rt_Color->fmt,D3DPOOL_SYSTEMMEM,&pFB,NULL);
     D3DSURFACE_DESC desc;
     HW.pBaseRT->GetDesc(&desc);
-    HW.pDevice->CreateOffscreenPlainSurface(
-        Device->dwWidth, Device->dwHeight, desc.Format, D3DPOOL_SYSTEMMEM, &pFB, NULL);
+    HW.pDevice->CreateOffscreenPlainSurface(Device->dwWidth, Device->dwHeight, desc.Format, D3DPOOL_SYSTEMMEM, &pFB, NULL);
 
     //
     dwWidth  = Device->dwWidth;
@@ -728,8 +704,7 @@ void CRenderTarget::reset_light_marker(bool bResetStencil)
         RCache.Vertex.Unlock(4, g_combine->vb_stride);
         RCache.set_CullMode(CULL_NONE);
         //	Clear everything except last bit
-        RCache.set_Stencil(
-            TRUE, D3DCMP_ALWAYS, dwLightMarkerID, 0x00, 0xFE, D3DSTENCILOP_ZERO, D3DSTENCILOP_ZERO, D3DSTENCILOP_ZERO);
+        RCache.set_Stencil(TRUE, D3DCMP_ALWAYS, dwLightMarkerID, 0x00, 0xFE, D3DSTENCILOP_ZERO, D3DSTENCILOP_ZERO, D3DSTENCILOP_ZERO);
         // RCache.set_Stencil	(TRUE,D3DCMP_ALWAYS,dwLightMarkerID,0x00,0xFF, D3DSTENCILOP_ZERO, D3DSTENCILOP_ZERO,
         // D3DSTENCILOP_ZERO);
         RCache.set_Element(s_occq->E[1]);

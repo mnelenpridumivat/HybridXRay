@@ -10,7 +10,6 @@ class CGammaControl
     float  fBrightness;
     float  fContrast;
     Fcolor cBalance;
-
 public:
     CGammaControl(): fGamma(1.f)
     {

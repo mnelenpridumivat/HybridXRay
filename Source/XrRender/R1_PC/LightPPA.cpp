@@ -17,7 +17,7 @@ const float SSM_tex_size   = 32.f;
 //////////////////////////////////////////////////////////////////////////
 // binders for lighting
 //////////////////////////////////////////////////////////////////////////
-void cl_light_PR::setup(R_constant* C)
+void        cl_light_PR::setup(R_constant* C)
 {
     Fvector& P = RImplementation.r1_dlight_light->position;
     float    R = RImplementation.r1_dlight_light->range;
@@ -185,16 +185,7 @@ void CLightR_Manager::render_point(u32 _priority)
         float   fTexelOffs    = (.5f / SSM_tex_size);
         float   fRange        = 1.f / L->range;
         float   fBias         = 0.f;
-        Fmatrix m_TexelAdjust =
-        {
-            0.5f, 0.0f, 0.0f,
-            0.0f, 0.0f, -0.5f,
-            0.0f, 0.0f, 0.0f,
-            0.0f, fRange, 0.0f,
-            0.5f + fTexelOffs,
-            0.5f + fTexelOffs,
-            fBias, 1.0f
-        };
+        Fmatrix m_TexelAdjust = {0.5f, 0.0f, 0.0f, 0.0f, 0.0f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, fRange, 0.0f, 0.5f + fTexelOffs, 0.5f + fTexelOffs, fBias, 1.0f};
         Fmatrix L_texgen;
         L_texgen.mul(m_TexelAdjust, L_combine);
 
@@ -268,16 +259,7 @@ void CLightR_Manager::render_spot(u32 _priority)
         float   fTexelOffs    = (.5f / SSM_tex_size);
         float   fRange        = 1.f / L->range;
         float   fBias         = 0.f;
-        Fmatrix m_TexelAdjust =
-        {
-            0.5f, 0.0f, 0.0f,
-            0.0f, 0.0f, -0.5f,
-            0.0f, 0.0f, 0.0f,
-            0.0f, fRange, 0.0f,
-            0.5f + fTexelOffs,
-            0.5f + fTexelOffs,
-            fBias, 1.0f
-        };
+        Fmatrix m_TexelAdjust = {0.5f, 0.0f, 0.0f, 0.0f, 0.0f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, fRange, 0.0f, 0.5f + fTexelOffs, 0.5f + fTexelOffs, fBias, 1.0f};
         Fmatrix L_texgen;
         L_texgen.mul(m_TexelAdjust, L_combine);
 
@@ -292,8 +274,7 @@ void CLightR_Manager::render_spot(u32 _priority)
         if (_priority == 1)
             RImplementation.r_pmask(false, true);
 
-        RImplementation.r_dsgraph_render_subspace(
-            L->spatial.sector, L_combine, L_pos, TRUE,
+        RImplementation.r_dsgraph_render_subspace(L->spatial.sector, L_combine, L_pos, TRUE,
             TRUE   // precise portals
         );
 

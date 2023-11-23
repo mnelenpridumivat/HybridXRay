@@ -22,7 +22,7 @@ void CRenderTarget::accum_reflected(light* L)
     // Select shader (front or back-faces), *** back, if intersect near plane
     RCache.set_ColorWriteEnable();
     if (bIntersect)
-        RCache.set_CullMode(CULL_CW);    // back
+        RCache.set_CullMode(CULL_CW);   // back
     else
         RCache.set_CullMode(CULL_CCW);   // front
 
@@ -33,8 +33,7 @@ void CRenderTarget::accum_reflected(light* L)
         float   _h            = float(Device->dwHeight);
         float   o_w           = (.5f / _w);
         float   o_h           = (.5f / _h);
-        Fmatrix m_TexelAdjust = {0.5f, 0.0f, 0.0f, 0.0f, 0.0f,       -0.5f,      0.0f, 0.0f,
-                                 0.0f, 0.0f, 1.0f, 0.0f, 0.5f + o_w, 0.5f + o_h, 0.0f, 1.0f};
+        Fmatrix m_TexelAdjust = {0.5f, 0.0f, 0.0f, 0.0f, 0.0f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.5f + o_w, 0.5f + o_h, 0.0f, 1.0f};
         m_Texgen.mul(m_TexelAdjust, RCache.xforms.m_wvp);
     }
 
@@ -74,7 +73,7 @@ void CRenderTarget::accum_reflected(light* L)
                 RCache.set_Shader(shader_msaa[0]);
                 RCache.set_Stencil(TRUE, D3DCMP_EQUAL, 0x81, 0x81, 0x00);
                 if (bIntersect)
-                    RCache.set_CullMode(CULL_CW);    // back
+                    RCache.set_CullMode(CULL_CW);   // back
                 else
                     RCache.set_CullMode(CULL_CCW);   // front
                 draw_volume(L);
@@ -86,7 +85,7 @@ void CRenderTarget::accum_reflected(light* L)
                     RCache.set_Shader(shader_msaa[i]);
                     RCache.set_Stencil(TRUE, D3DCMP_EQUAL, 0x81, 0x81, 0x00);
                     if (bIntersect)
-                        RCache.set_CullMode(CULL_CW);    // back
+                        RCache.set_CullMode(CULL_CW);   // back
                     else
                         RCache.set_CullMode(CULL_CCW);   // front
                     StateManager.SetSampleMask(u32(1) << i);

@@ -3,77 +3,26 @@
 
 #include "ETextureParams.h"
 
-xr_token tparam_token[] =
-{
-    { "Advanced",  STextureParams::kMIPFilterAdvanced },
+xr_token tparam_token[] = {{"Advanced", STextureParams::kMIPFilterAdvanced},
 
-    { "Point",     STextureParams::kMIPFilterPoint },
-    { "Box",       STextureParams::kMIPFilterBox },
-    { "Triangle",  STextureParams::kMIPFilterTriangle },
-    { "Quadratic", STextureParams::kMIPFilterQuadratic },
-    { "Cubic",     STextureParams::kMIPFilterCubic },
+    {"Point", STextureParams::kMIPFilterPoint}, {"Box", STextureParams::kMIPFilterBox}, {"Triangle", STextureParams::kMIPFilterTriangle}, {"Quadratic", STextureParams::kMIPFilterQuadratic}, {"Cubic", STextureParams::kMIPFilterCubic},
 
-    { "Catrom",    STextureParams::kMIPFilterCatrom },
-    { "Mitchell",  STextureParams::kMIPFilterMitchell },
+    {"Catrom", STextureParams::kMIPFilterCatrom}, {"Mitchell", STextureParams::kMIPFilterMitchell},
 
-    { "Gaussian",  STextureParams::kMIPFilterGaussian },
-    { "Sinc",      STextureParams::kMIPFilterSinc },
-    { "Bessel",    STextureParams::kMIPFilterBessel },
+    {"Gaussian", STextureParams::kMIPFilterGaussian}, {"Sinc", STextureParams::kMIPFilterSinc}, {"Bessel", STextureParams::kMIPFilterBessel},
 
-    { "Hanning",   STextureParams::kMIPFilterHanning },
-    { "Hamming",   STextureParams::kMIPFilterHamming },
-    { "Blackman",  STextureParams::kMIPFilterBlackman },
-    { "Kaiser",    STextureParams::kMIPFilterKaiser },
-    { 0, 0 }
-};
+    {"Hanning", STextureParams::kMIPFilterHanning}, {"Hamming", STextureParams::kMIPFilterHamming}, {"Blackman", STextureParams::kMIPFilterBlackman}, {"Kaiser", STextureParams::kMIPFilterKaiser}, {0, 0}};
 
-xr_token ttype_token[] =
-{
-    { "2D Texture", STextureParams::ttImage },
-    { "Cube Map",   STextureParams::ttCubeMap },
-    { "Bump Map",   STextureParams::ttBumpMap },
-    { "Normal Map", STextureParams::ttNormalMap },
-    { "Terrain",    STextureParams::ttTerrain },
-    { 0, 0 }
-};
+xr_token ttype_token[]  = {{"2D Texture", STextureParams::ttImage}, {"Cube Map", STextureParams::ttCubeMap}, {"Bump Map", STextureParams::ttBumpMap}, {"Normal Map", STextureParams::ttNormalMap}, {"Terrain", STextureParams::ttTerrain}, {0, 0}};
 
-xr_token tfmt_token[] =
-{
-    { "DXT1", STextureParams::tfDXT1 },
-    { "DXT1 Alpha", STextureParams::tfADXT1 },
-    { "DXT3", STextureParams::tfDXT3 },
-    { "DXT5", STextureParams::tfDXT5 },
-    { "BC4", STextureParams::tfBC4 },
-    { "BC5", STextureParams::tfBC5 },
-    { "BC6", STextureParams::tfBC6 },
-    { "BC7", STextureParams::tfBC7 },
-    { "16 bit (1:5:5:5)", STextureParams::tf1555 },
-    { "16 bit (5:6:5)", STextureParams::tf565 },
-    { "32 bit (8:8:8:8)", STextureParams::tfRGBA },
-    { "8 bit (alpha)", STextureParams::tfA8 },
-    { "8 bit (luminance)", STextureParams::tfL8 },
-    { "16 bit (alpha:luminance)", STextureParams::tfA8L8 },
-    { 0, 0 }
-};
+xr_token tfmt_token[]   = {{"DXT1", STextureParams::tfDXT1}, {"DXT1 Alpha", STextureParams::tfADXT1}, {"DXT3", STextureParams::tfDXT3}, {"DXT5", STextureParams::tfDXT5}, {"BC4", STextureParams::tfBC4}, {"BC5", STextureParams::tfBC5}, {"BC6", STextureParams::tfBC6}, {"BC7", STextureParams::tfBC7}, {"16 bit (1:5:5:5)", STextureParams::tf1555}, {"16 bit (5:6:5)", STextureParams::tf565}, {"32 bit (8:8:8:8)", STextureParams::tfRGBA}, {"8 bit (alpha)", STextureParams::tfA8},
+      {"8 bit (luminance)", STextureParams::tfL8}, {"16 bit (alpha:luminance)", STextureParams::tfA8L8}, {0, 0}};
 
-xr_token tmtl_token[] =
-{
-    { "OrenNayar <-> Blin", STextureParams::tmOrenNayar_Blin },
-    { "Blin <-> Phong", STextureParams::tmBlin_Phong },
-    { "Phong <-> Metal", STextureParams::tmPhong_Metal },
-    { "Metal <-> OrenNayar", STextureParams::tmMetal_OrenNayar },
-    { 0, 0 }
-};
+xr_token tmtl_token[]   = {{"OrenNayar <-> Blin", STextureParams::tmOrenNayar_Blin}, {"Blin <-> Phong", STextureParams::tmBlin_Phong}, {"Phong <-> Metal", STextureParams::tmPhong_Metal}, {"Metal <-> OrenNayar", STextureParams::tmMetal_OrenNayar}, {0, 0}};
 
-xr_token tbmode_token[] =
-{
-    { "None", STextureParams::tbmNone },
-    { "Use", STextureParams::tbmUse },
-    { "Use parallax", STextureParams::tbmUseParallax },
-    { 0, 0 }
-};
+xr_token tbmode_token[] = {{"None", STextureParams::tbmNone}, {"Use", STextureParams::tbmUse}, {"Use parallax", STextureParams::tbmUseParallax}, {0, 0}};
 
-void STextureParams::Load(IReader& F, const char* dbg_name)
+void     STextureParams::Load(IReader& F, const char* dbg_name)
 {
     R_ASSERT(F.find_chunk_thm(THM_CHUNK_TEXTUREPARAM, dbg_name));
     F.r(&fmt, sizeof(ETFormat));
@@ -175,29 +124,13 @@ void STextureParams::OnTypeChange(PropValue* prop)
             flags.set(flGenerateMipMaps, FALSE);
             break;
         case ttNormalMap:
-            flags.set(flImplicitLighted |
-                flBinaryAlpha |
-                flAlphaBorder |
-                flColorBorder |
-                flFadeToColor |
-                flFadeToAlpha |
-                flDitherColor |
-                flDitherEachMIPLevel |
-                flBumpDetail, FALSE);
+            flags.set(flImplicitLighted | flBinaryAlpha | flAlphaBorder | flColorBorder | flFadeToColor | flFadeToAlpha | flDitherColor | flDitherEachMIPLevel | flBumpDetail, FALSE);
             flags.set(flGenerateMipMaps, TRUE);
             mip_filter = kMIPFilterKaiser;
-            fmt = tfRGBA;
+            fmt        = tfRGBA;
             break;
         case ttTerrain:
-            flags.set(flGenerateMipMaps |
-                flBinaryAlpha |
-                flAlphaBorder |
-                flColorBorder |
-                flFadeToColor |
-                flFadeToAlpha |
-                flDitherColor |
-                flDitherEachMIPLevel |
-                flBumpDetail, FALSE);
+            flags.set(flGenerateMipMaps | flBinaryAlpha | flAlphaBorder | flColorBorder | flFadeToColor | flFadeToAlpha | flDitherColor | flDitherEachMIPLevel | flBumpDetail, FALSE);
             flags.set(flImplicitLighted, TRUE);
             fmt = tfDXT1;
             break;
@@ -288,7 +221,7 @@ void STextureParams::FillProp(LPCSTR base_name, PropItemVec& items, PropValue::T
 
 BOOL STextureParams::similar(STextureParams& tp1, xr_vector<xr_string>& sel_params)
 {
-    BOOL res = TRUE;
+    BOOL                           res  = TRUE;
 
     xr_vector<xr_string>::iterator it   = sel_params.begin();
     xr_vector<xr_string>::iterator it_e = sel_params.end();

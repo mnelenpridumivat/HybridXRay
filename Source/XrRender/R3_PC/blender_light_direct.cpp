@@ -375,9 +375,7 @@ void CBlender_accum_direct_volumetric_sun_msaa::Compile(CBlender_Compile& C)
     switch (C.iElement)
     {
         case 0:   // near pass - enable Z-test to perform depth-clipping
-            C.r_Pass(
-                "accum_sun", "accum_volumetric_sun_msaa", false, false, false, true, D3DBLEND_ONE, D3DBLEND_ONE, false,
-                0);
+            C.r_Pass("accum_sun", "accum_volumetric_sun_msaa", false, false, false, true, D3DBLEND_ONE, D3DBLEND_ONE, false, 0);
             C.r_dx10Texture("s_smap", r2_RT_smap_depth);
             C.r_dx10Texture("s_position", r2_RT_P);
             jitter(C);

@@ -60,8 +60,8 @@ extern ECORE_API float    ps_r1_pps_u;
 extern ECORE_API float    ps_r1_pps_v;
 
 // R1-specific
-extern ECORE_API int      ps_r1_GlowsPerFrame;      // r1-only
-extern ECORE_API Flags32  ps_r1_flags;              // r1-only
+extern ECORE_API int      ps_r1_GlowsPerFrame;   // r1-only
+extern ECORE_API Flags32  ps_r1_flags;           // r1-only
 
 extern ECORE_API float    ps_r1_fog_luminance;      // 1.f r1-only
 extern ECORE_API int      ps_r1_SoftwareSkinning;   // r1-only
@@ -77,7 +77,7 @@ extern ECORE_API float    ps_r2_ssaLOD_B;
 extern ECORE_API float    ps_r2_tf_Mipbias;
 
 // R2-specific
-extern ECORE_API Flags32  ps_r2_ls_flags;                // r2-only
+extern ECORE_API Flags32  ps_r2_ls_flags;   // r2-only
 extern ECORE_API Flags32  ps_r2_ls_flags_ext;
 extern ECORE_API float    ps_r2_df_parallax_h;           // r2-only
 extern ECORE_API float    ps_r2_df_parallax_range;       // r2-only
@@ -118,17 +118,17 @@ extern ECORE_API float    ps_r2_sun_lumscale_hemi;       // 1.0f
 extern ECORE_API float    ps_r2_sun_lumscale_amb;        // 1.0f
 extern ECORE_API float    ps_r2_zfill;                   // .1f
 
-extern ECORE_API float    ps_r2_dhemi_sky_scale;         // 1.5f
-extern ECORE_API float    ps_r2_dhemi_light_scale;       // 1.f
-extern ECORE_API float    ps_r2_dhemi_light_flow;        // .1f
-extern ECORE_API int      ps_r2_dhemi_count;             // 5
-extern ECORE_API float    ps_r2_slight_fade;             // 1.f
+extern ECORE_API float    ps_r2_dhemi_sky_scale;     // 1.5f
+extern ECORE_API float    ps_r2_dhemi_light_scale;   // 1.f
+extern ECORE_API float    ps_r2_dhemi_light_flow;    // .1f
+extern ECORE_API int      ps_r2_dhemi_count;         // 5
+extern ECORE_API float    ps_r2_slight_fade;         // 1.f
 extern ECORE_API int      ps_r2_wait_sleep;
 
 //	x - min (0), y - focus (1.4), z - max (100)
 extern ECORE_API Fvector3 ps_r2_dof;
-extern ECORE_API float    ps_r2_dof_sky;               //	distance to sky
-extern ECORE_API float    ps_r2_dof_kernel_size;       //	7.0f
+extern ECORE_API float    ps_r2_dof_sky;           //	distance to sky
+extern ECORE_API float    ps_r2_dof_kernel_size;   //	7.0f
 
 extern ECORE_API float    ps_r3_dyn_wet_surf_near;     // 10.0f
 extern ECORE_API float    ps_r3_dyn_wet_surf_far;      // 30.0f

@@ -53,23 +53,17 @@ void CRenderTarget::accum_spot(light* L)
         // backfaces: if (stencil>=1 && zfail)			stencil = light_id
         RCache.set_CullMode(CULL_CW);
         if (!RImplementation.o.dx10_msaa)
-            RCache.set_Stencil(
-                TRUE, D3DCMP_LESSEQUAL, dwLightMarkerID, 0x01, 0xff, D3DSTENCILOP_KEEP, D3DSTENCILOP_KEEP,
-                D3DSTENCILOP_REPLACE);
+            RCache.set_Stencil(TRUE, D3DCMP_LESSEQUAL, dwLightMarkerID, 0x01, 0xff, D3DSTENCILOP_KEEP, D3DSTENCILOP_KEEP, D3DSTENCILOP_REPLACE);
         else
-            RCache.set_Stencil(
-                TRUE, D3DCMP_LESSEQUAL, dwLightMarkerID, 0x01, 0x7f, D3DSTENCILOP_KEEP, D3DSTENCILOP_KEEP,
-                D3DSTENCILOP_REPLACE);
+            RCache.set_Stencil(TRUE, D3DCMP_LESSEQUAL, dwLightMarkerID, 0x01, 0x7f, D3DSTENCILOP_KEEP, D3DSTENCILOP_KEEP, D3DSTENCILOP_REPLACE);
         draw_volume(L);
 
         // frontfaces: if (stencil>=light_id && zfail)	stencil = 0x1
         RCache.set_CullMode(CULL_CCW);
         if (!RImplementation.o.dx10_msaa)
-            RCache.set_Stencil(
-                TRUE, D3DCMP_LESSEQUAL, 0x01, 0xff, 0xff, D3DSTENCILOP_KEEP, D3DSTENCILOP_KEEP, D3DSTENCILOP_REPLACE);
+            RCache.set_Stencil(TRUE, D3DCMP_LESSEQUAL, 0x01, 0xff, 0xff, D3DSTENCILOP_KEEP, D3DSTENCILOP_KEEP, D3DSTENCILOP_REPLACE);
         else
-            RCache.set_Stencil(
-                TRUE, D3DCMP_LESSEQUAL, 0x01, 0x7f, 0x7f, D3DSTENCILOP_KEEP, D3DSTENCILOP_KEEP, D3DSTENCILOP_REPLACE);
+            RCache.set_Stencil(TRUE, D3DCMP_LESSEQUAL, 0x01, 0x7f, 0x7f, D3DSTENCILOP_KEEP, D3DSTENCILOP_KEEP, D3DSTENCILOP_REPLACE);
         draw_volume(L);
     }
 
@@ -98,23 +92,7 @@ void CRenderTarget::accum_spot(light* L)
         float   view_sy       = float(L->X.S.posY + 1) / smapsize;
         float   fRange        = float(1.f) * ps_r2_ls_depth_scale;
         float   fBias         = ps_r2_ls_depth_bias;
-        Fmatrix m_TexelAdjust = {
-            view_dim / 2.f,
-            0.0f,
-            0.0f,
-            0.0f,
-            0.0f,
-            -view_dim / 2.f,
-            0.0f,
-            0.0f,
-            0.0f,
-            0.0f,
-            fRange,
-            0.0f,
-            view_dim / 2.f + view_sx + fTexelOffs,
-            view_dim / 2.f + view_sy + fTexelOffs,
-            fBias,
-            1.0f};
+        Fmatrix m_TexelAdjust = {view_dim / 2.f, 0.0f, 0.0f, 0.0f, 0.0f, -view_dim / 2.f, 0.0f, 0.0f, 0.0f, 0.0f, fRange, 0.0f, view_dim / 2.f + view_sx + fTexelOffs, view_dim / 2.f + view_sy + fTexelOffs, fBias, 1.0f};
 
         // compute xforms
         Fmatrix xf_world;
@@ -129,23 +107,7 @@ void CRenderTarget::accum_spot(light* L)
         view_dim               = 1.f;
         view_sx                = 0.f;
         view_sy                = 0.f;
-        Fmatrix m_TexelAdjust2 = {
-            view_dim / 2.f,
-            0.0f,
-            0.0f,
-            0.0f,
-            0.0f,
-            -view_dim / 2.f,
-            0.0f,
-            0.0f,
-            0.0f,
-            0.0f,
-            fRange,
-            0.0f,
-            view_dim / 2.f + view_sx + fTexelOffs,
-            view_dim / 2.f + view_sy + fTexelOffs,
-            fBias,
-            1.0f};
+        Fmatrix m_TexelAdjust2 = {view_dim / 2.f, 0.0f, 0.0f, 0.0f, 0.0f, -view_dim / 2.f, 0.0f, 0.0f, 0.0f, 0.0f, fRange, 0.0f, view_dim / 2.f + view_sx + fTexelOffs, view_dim / 2.f + view_sy + fTexelOffs, fBias, 1.0f};
 
         // compute xforms
         xf_project.mul(m_TexelAdjust2, L->X.S.project);
@@ -352,23 +314,7 @@ void CRenderTarget::accum_volumetric(light* L)
         float   view_sy       = float(L->X.S.posY + 1) / smapsize;
         float   fRange        = float(1.f) * ps_r2_ls_depth_scale;
         float   fBias         = ps_r2_ls_depth_bias;
-        Fmatrix m_TexelAdjust = {
-            view_dim / 2.f,
-            0.0f,
-            0.0f,
-            0.0f,
-            0.0f,
-            -view_dim / 2.f,
-            0.0f,
-            0.0f,
-            0.0f,
-            0.0f,
-            fRange,
-            0.0f,
-            view_dim / 2.f + view_sx + fTexelOffs,
-            view_dim / 2.f + view_sy + fTexelOffs,
-            fBias,
-            1.0f};
+        Fmatrix m_TexelAdjust = {view_dim / 2.f, 0.0f, 0.0f, 0.0f, 0.0f, -view_dim / 2.f, 0.0f, 0.0f, 0.0f, 0.0f, fRange, 0.0f, view_dim / 2.f + view_sx + fTexelOffs, view_dim / 2.f + view_sy + fTexelOffs, fBias, 1.0f};
 
         // compute xforms
         Fmatrix xf_world;
@@ -383,23 +329,7 @@ void CRenderTarget::accum_volumetric(light* L)
         view_dim               = 1.f;
         view_sx                = 0.f;
         view_sy                = 0.f;
-        Fmatrix m_TexelAdjust2 = {
-            view_dim / 2.f,
-            0.0f,
-            0.0f,
-            0.0f,
-            0.0f,
-            -view_dim / 2.f,
-            0.0f,
-            0.0f,
-            0.0f,
-            0.0f,
-            fRange,
-            0.0f,
-            view_dim / 2.f + view_sx + fTexelOffs,
-            view_dim / 2.f + view_sy + fTexelOffs,
-            fBias,
-            1.0f};
+        Fmatrix m_TexelAdjust2 = {view_dim / 2.f, 0.0f, 0.0f, 0.0f, 0.0f, -view_dim / 2.f, 0.0f, 0.0f, 0.0f, 0.0f, fRange, 0.0f, view_dim / 2.f + view_sx + fTexelOffs, view_dim / 2.f + view_sy + fTexelOffs, fBias, 1.0f};
 
         // compute xforms
         xf_project.mul(m_TexelAdjust2, L->X.S.project);

@@ -58,8 +58,7 @@ static void draw_obb(const Fmatrix& matrix, const u32& color)
 
     u16 aabb_id[12 * 2] = {0, 1, 1, 2, 2, 3, 3, 0, 4, 5, 5, 6, 6, 7, 7, 4, 1, 5, 2, 6, 3, 7, 0, 4};
 
-    rdebug_render->add_lines(
-        aabb, sizeof(aabb) / sizeof(Fvector), &aabb_id[0], sizeof(aabb_id) / (2 * sizeof(u16)), color);
+    rdebug_render->add_lines(aabb, sizeof(aabb) / sizeof(Fvector), &aabb_id[0], sizeof(aabb_id) / (2 * sizeof(u16)), color);
 }
 
 bool det_render_debug = false;
@@ -143,17 +142,13 @@ void CDetailManager::cache_Decompress(Slot* S)
             selected.clear();
 
 #ifndef DBG_SWITCHOFF_RANDOMIZE
-            if ((DS.id0 != DetailSlot::ID_Empty) &&
-                InterpolateAndDither(alpha255[0], x, z, shift_x, shift_z, d_size, dither))
+            if ((DS.id0 != DetailSlot::ID_Empty) && InterpolateAndDither(alpha255[0], x, z, shift_x, shift_z, d_size, dither))
                 selected.push_back(0);
-            if ((DS.id1 != DetailSlot::ID_Empty) &&
-                InterpolateAndDither(alpha255[1], x, z, shift_x, shift_z, d_size, dither))
+            if ((DS.id1 != DetailSlot::ID_Empty) && InterpolateAndDither(alpha255[1], x, z, shift_x, shift_z, d_size, dither))
                 selected.push_back(1);
-            if ((DS.id2 != DetailSlot::ID_Empty) &&
-                InterpolateAndDither(alpha255[2], x, z, shift_x, shift_z, d_size, dither))
+            if ((DS.id2 != DetailSlot::ID_Empty) && InterpolateAndDither(alpha255[2], x, z, shift_x, shift_z, d_size, dither))
                 selected.push_back(2);
-            if ((DS.id3 != DetailSlot::ID_Empty) &&
-                InterpolateAndDither(alpha255[3], x, z, shift_x, shift_z, d_size, dither))
+            if ((DS.id3 != DetailSlot::ID_Empty) && InterpolateAndDither(alpha255[3], x, z, shift_x, shift_z, d_size, dither))
                 selected.push_back(3);
 #else
             if ((DS.id0 != DetailSlot::ID_Empty))

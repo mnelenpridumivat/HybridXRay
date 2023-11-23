@@ -219,14 +219,11 @@ SVS* CResourceManager::_CreateVS(LPCSTR _name)
             c_entry  = "main_vs_2_0";
         }
 
-        HRESULT const _hr = ::Render->shader_compile(
-            name, (DWORD const*)data, size, c_entry, c_target, D3D10_SHADER_PACK_MATRIX_ROW_MAJOR, (void*&)_vs);
+        HRESULT const _hr = ::Render->shader_compile(name, (DWORD const*)data, size, c_entry, c_target, D3D10_SHADER_PACK_MATRIX_ROW_MAJOR, (void*&)_vs);
 
         VERIFY(SUCCEEDED(_hr));
 
-        CHECK_OR_EXIT(
-            !FAILED(_hr),
-            make_string("Your video card doesn't meet game requirements.\n\nTry to lower game settings."));
+        CHECK_OR_EXIT(!FAILED(_hr), make_string("Your video card doesn't meet game requirements.\n\nTry to lower game settings."));
 
         return _vs;
     }
@@ -357,14 +354,11 @@ SPS* CResourceManager::_CreatePS(LPCSTR _name)
             c_entry  = "main_ps_2_0";
         }
 
-        HRESULT const _hr = ::Render->shader_compile(
-            name, (DWORD const*)data, size, c_entry, c_target, D3D10_SHADER_PACK_MATRIX_ROW_MAJOR, (void*&)_ps);
+        HRESULT const _hr = ::Render->shader_compile(name, (DWORD const*)data, size, c_entry, c_target, D3D10_SHADER_PACK_MATRIX_ROW_MAJOR, (void*&)_ps);
 
         VERIFY(SUCCEEDED(_hr));
 
-        CHECK_OR_EXIT(
-            !FAILED(_hr),
-            make_string("Your video card doesn't meet game requirements.\n\nTry to lower game settings."));
+        CHECK_OR_EXIT(!FAILED(_hr), make_string("Your video card doesn't meet game requirements.\n\nTry to lower game settings."));
 
         return _ps;
     }
@@ -428,17 +422,13 @@ SGS* CResourceManager::_CreateGS(LPCSTR name)
         LPCSTR        c_target = "gs_4_0";
         LPCSTR        c_entry  = "main";
 
-        HRESULT const _hr      = ::Render->shader_compile(
-            name, (DWORD const*)file->pointer(), file->length(), c_entry, c_target, D3D10_SHADER_PACK_MATRIX_ROW_MAJOR,
-            (void*&)_gs);
+        HRESULT const _hr      = ::Render->shader_compile(name, (DWORD const*)file->pointer(), file->length(), c_entry, c_target, D3D10_SHADER_PACK_MATRIX_ROW_MAJOR, (void*&)_gs);
 
         VERIFY(SUCCEEDED(_hr));
 
         FS.r_close(file);
 
-        CHECK_OR_EXIT(
-            !FAILED(_hr),
-            make_string("Your video card doesn't meet game requirements.\n\nTry to lower game settings."));
+        CHECK_OR_EXIT(!FAILED(_hr), make_string("Your video card doesn't meet game requirements.\n\nTry to lower game settings."));
 
         return _gs;
     }
@@ -918,8 +908,7 @@ SInputSignature* CResourceManager::_CreateInputSignature(ID3DBlob* pBlob)
     for (u32 it = 0; it < v_input_signature.size(); it++)
     {
         SInputSignature* sign = v_input_signature[it];
-        if ((pBlob->GetBufferSize() == sign->signature->GetBufferSize()) &&
-            (!(memcmp(pBlob->GetBufferPointer(), sign->signature->GetBufferPointer(), pBlob->GetBufferSize()))))
+        if ((pBlob->GetBufferSize() == sign->signature->GetBufferSize()) && (!(memcmp(pBlob->GetBufferPointer(), sign->signature->GetBufferPointer(), pBlob->GetBufferSize()))))
         {
             return sign;
         }

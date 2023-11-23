@@ -157,9 +157,7 @@ void CRender::ScreenshotImpl(ScreenshotMode mode, LPCSTR name, CMemoryWriter* me
         {
             string64    t_stemp;
             string_path buf;
-            xr_sprintf(
-                buf, sizeof(buf), "ss_%s_%s_(%s).jpg", Core.UserName, timestamp(t_stemp),
-                (g_pGameLevel) ? g_pGameLevel->name().c_str() : "mainmenu");
+            xr_sprintf(buf, sizeof(buf), "ss_%s_%s_(%s).jpg", Core.UserName, timestamp(t_stemp), (g_pGameLevel) ? g_pGameLevel->name().c_str() : "mainmenu");
             ID3DBlob* saved = 0;
 #ifdef USE_DX11
             CHK_DX(D3DX11SaveTextureToMemory(HW.pContext, pSrcTexture, D3DX11_IFF_JPG, &saved, 0));
@@ -174,9 +172,7 @@ void CRender::ScreenshotImpl(ScreenshotMode mode, LPCSTR name, CMemoryWriter* me
 
             if (strstr(Core.Params, "-ss_tga"))
             {   // hq
-                xr_sprintf(
-                    buf, sizeof(buf), "ssq_%s_%s_(%s).tga", Core.UserName, timestamp(t_stemp),
-                    (g_pGameLevel) ? g_pGameLevel->name().c_str() : "mainmenu");
+                xr_sprintf(buf, sizeof(buf), "ssq_%s_%s_(%s).tga", Core.UserName, timestamp(t_stemp), (g_pGameLevel) ? g_pGameLevel->name().c_str() : "mainmenu");
                 ID3DBlob* saved = 0;
 #ifdef USE_DX11
                 CHK_DX(D3DX11SaveTextureToMemory(HW.pContext, pSrcTexture, D3DX11_IFF_BMP, &saved, 0));
@@ -233,7 +229,7 @@ void CRender::ScreenshotImpl(ScreenshotMode mode, LPCSTR name, CMemoryWriter* me
     _RELEASE(pSrcTexture);
 }
 
-#else    //	USE_DX10
+#else   //	USE_DX10
 
 void CRender::ScreenshotImpl(ScreenshotMode mode, LPCSTR name, CMemoryWriter* memory_writer)
 {
@@ -252,8 +248,7 @@ void CRender::ScreenshotImpl(ScreenshotMode mode, LPCSTR name, CMemoryWriter* me
     IDirect3DSurface9* pFB;
     D3DLOCKED_RECT     D;
     HRESULT            hr;
-    hr = HW.pDevice->CreateOffscreenPlainSurface(
-        Device->dwWidth, Device->dwHeight, D3DFMT_A8R8G8B8, D3DPOOL_SYSTEMMEM, &pFB, NULL);
+    hr = HW.pDevice->CreateOffscreenPlainSurface(Device->dwWidth, Device->dwHeight, D3DFMT_A8R8G8B8, D3DPOOL_SYSTEMMEM, &pFB, NULL);
     if (hr != D3D_OK)
         return;
 
@@ -305,8 +300,7 @@ void CRender::ScreenshotImpl(ScreenshotMode mode, LPCSTR name, CMemoryWriter* me
         {
             // texture
             ID3DTexture2D* texture = NULL;
-            hr                     = D3DXCreateTexture(
-                HW.pDevice, GAMESAVE_SIZE, GAMESAVE_SIZE, 1, 0, D3DFMT_DXT1, D3DPOOL_SCRATCH, &texture);
+            hr                     = D3DXCreateTexture(HW.pDevice, GAMESAVE_SIZE, GAMESAVE_SIZE, 1, 0, D3DFMT_DXT1, D3DPOOL_SCRATCH, &texture);
             if (hr != D3D_OK)
                 goto _end_;
             if (NULL == texture)
@@ -345,8 +339,7 @@ void CRender::ScreenshotImpl(ScreenshotMode mode, LPCSTR name, CMemoryWriter* me
         {
             // texture
             ID3DTexture2D* texture = NULL;
-            hr                     = D3DXCreateTexture(
-                HW.pDevice, SM_FOR_SEND_WIDTH, SM_FOR_SEND_HEIGHT, 1, 0, D3DFMT_R8G8B8, D3DPOOL_SCRATCH, &texture);
+            hr                     = D3DXCreateTexture(HW.pDevice, SM_FOR_SEND_WIDTH, SM_FOR_SEND_HEIGHT, 1, 0, D3DFMT_R8G8B8, D3DPOOL_SCRATCH, &texture);
             if (hr != D3D_OK)
                 goto _end_;
             if (NULL == texture)
@@ -393,9 +386,7 @@ void CRender::ScreenshotImpl(ScreenshotMode mode, LPCSTR name, CMemoryWriter* me
         {
             string64    t_stemp;
             string_path buf;
-            xr_sprintf(
-                buf, sizeof(buf), "ss_%s_%s_(%s).jpg", Core.UserName, timestamp(t_stemp),
-                (g_pGameLevel) ? g_pGameLevel->name().c_str() : "mainmenu");
+            xr_sprintf(buf, sizeof(buf), "ss_%s_%s_(%s).jpg", Core.UserName, timestamp(t_stemp), (g_pGameLevel) ? g_pGameLevel->name().c_str() : "mainmenu");
             ID3DBlob* saved = 0;
             CHK_DX(D3DXSaveSurfaceToFileInMemory(&saved, D3DXIFF_JPG, pFB, 0, 0));
             IWriter* fs = FS.w_open("$screenshots$", buf);
@@ -405,9 +396,7 @@ void CRender::ScreenshotImpl(ScreenshotMode mode, LPCSTR name, CMemoryWriter* me
             _RELEASE(saved);
             if (strstr(Core.Params, "-ss_tga"))
             {   // hq
-                xr_sprintf(
-                    buf, sizeof(buf), "ssq_%s_%s_(%s).tga", Core.UserName, timestamp(t_stemp),
-                    (g_pGameLevel) ? g_pGameLevel->name().c_str() : "mainmenu");
+                xr_sprintf(buf, sizeof(buf), "ssq_%s_%s_(%s).tga", Core.UserName, timestamp(t_stemp), (g_pGameLevel) ? g_pGameLevel->name().c_str() : "mainmenu");
                 ID3DBlob* saved = 0;
                 CHK_DX(D3DXSaveSurfaceToFileInMemory(&saved, D3DXIFF_TGA, pFB, 0, 0));
                 IWriter* fs = FS.w_open("$screenshots$", buf);
@@ -441,9 +430,7 @@ void CRender::ScreenshotImpl(ScreenshotMode mode, LPCSTR name, CMemoryWriter* me
 
             // save
             u32* data = (u32*)xr_malloc(Device->dwHeight * Device->dwHeight * 4);
-            imf_Process(
-                data, Device->dwHeight, Device->dwHeight, (u32*)D.pBits, Device->dwWidth, Device->dwHeight,
-                imf_lanczos3);
+            imf_Process(data, Device->dwHeight, Device->dwHeight, (u32*)D.pBits, Device->dwWidth, Device->dwHeight, imf_lanczos3);
             p.scanlenght = Device->dwHeight * 4;
             p.width      = Device->dwHeight;
             p.height     = Device->dwHeight;
@@ -543,17 +530,17 @@ void CRender::ScreenshotAsyncEnd(CMemoryWriter& memory_writer)
         return;
 
 #if RENDER == R_R1
-    u32  rtWidth  = Target->get_rtwidth();
-    u32  rtHeight = Target->get_rtheight();
+    u32 rtWidth  = Target->get_rtwidth();
+    u32 rtHeight = Target->get_rtheight();
 #else    //	RENDER != R_R1
     u32 rtWidth  = Device->dwWidth;
     u32 rtHeight = Device->dwHeight;
 #endif   //	RENDER != R_R1
 
     // Image processing (gamma-correct)
-    u32* pPixel   = (u32*)D.pBits;
-    u32* pOrigin  = pPixel;
-    u32* pEnd     = pPixel + (rtWidth * rtHeight);
+    u32* pPixel  = (u32*)D.pBits;
+    u32* pOrigin = pPixel;
+    u32* pEnd    = pPixel + (rtWidth * rtHeight);
 
     //	Kill alpha
 #if RENDER != R_R1

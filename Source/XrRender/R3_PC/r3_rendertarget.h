@@ -65,9 +65,9 @@ public:
     ref_rt         rt_Generic_0_r;   // MRT generic 0
     ref_rt         rt_Generic_1_r;   // MRT generic 1
     ref_rt         rt_Generic;
-    ref_rt         rt_Position;      // 64bit,	fat	(x,y,z,?)				(eye-space)
-    ref_rt         rt_Normal;        // 64bit,	fat	(x,y,z,hemi)			(eye-space)
-    ref_rt         rt_Color;         // 64/32bit,fat	(r,g,b,specular-gloss)	(or decompressed MET-8-8-8-8)
+    ref_rt         rt_Position;   // 64bit,	fat	(x,y,z,?)				(eye-space)
+    ref_rt         rt_Normal;     // 64bit,	fat	(x,y,z,hemi)			(eye-space)
+    ref_rt         rt_Color;      // 64/32bit,fat	(r,g,b,specular-gloss)	(or decompressed MET-8-8-8-8)
 
     //
     ref_rt         rt_Accumulator;        // 64bit		(r,g,b,specular)
@@ -75,11 +75,11 @@ public:
     ref_rt         rt_Generic_0;          // 32bit		(r,g,b,a)				// post-process, intermidiate results, etc.
     ref_rt         rt_Generic_1;          // 32bit		(r,g,b,a)				// post-process, intermidiate results, etc.
     //	Igor: for volumetric lights
-    ref_rt         rt_Generic_2;                         // 32bit		(r,g,b,a)				// post-process, intermidiate results, etc.
-    ref_rt         rt_Bloom_1;                           // 32bit, dim/4	(r,g,b,?)
-    ref_rt         rt_Bloom_2;                           // 32bit, dim/4	(r,g,b,?)
-    ref_rt         rt_LUM_64;                            // 64bit, 64x64,	log-average in all components
-    ref_rt         rt_LUM_8;                             // 64bit, 8x8,		log-average in all components
+    ref_rt         rt_Generic_2;   // 32bit		(r,g,b,a)				// post-process, intermidiate results, etc.
+    ref_rt         rt_Bloom_1;     // 32bit, dim/4	(r,g,b,?)
+    ref_rt         rt_Bloom_2;     // 32bit, dim/4	(r,g,b,?)
+    ref_rt         rt_LUM_64;      // 64bit, 64x64,	log-average in all components
+    ref_rt         rt_LUM_8;       // 64bit, 8x8,		log-average in all components
 
     ref_rt         rt_LUM_pool[CHWCaps::MAX_GPUS * 2];   // 1xfp32,1x1,		exp-result -> scaler
     ref_texture    t_LUM_src;                            // source
@@ -219,28 +219,22 @@ private:
 public:
     CRenderTarget();
     ~CRenderTarget();
-    void accum_point_geom_create();
-    void accum_point_geom_destroy();
-    void accum_omnip_geom_create();
-    void accum_omnip_geom_destroy();
-    void accum_spot_geom_create();
-    void accum_spot_geom_destroy();
+    void         accum_point_geom_create();
+    void         accum_point_geom_destroy();
+    void         accum_omnip_geom_create();
+    void         accum_omnip_geom_destroy();
+    void         accum_spot_geom_create();
+    void         accum_spot_geom_destroy();
     //	Igor: used for volumetric lights
-    void accum_volumetric_geom_create();
-    void accum_volumetric_geom_destroy();
+    void         accum_volumetric_geom_create();
+    void         accum_volumetric_geom_destroy();
 
-    void u_stencil_optimize(eStencilOptimizeMode eSOM = SO_Light);
-    void u_compute_texgen_screen(Fmatrix& dest);
-    void u_compute_texgen_jitter(Fmatrix& dest);
-    void u_setrt(const ref_rt& _1, const ref_rt& _2, const ref_rt& _3, ID3DDepthStencilView* zb);
-    void u_setrt(const ref_rt& _1, const ref_rt& _2, ID3DDepthStencilView* zb);
-    void u_setrt(
-        u32                   W,
-        u32                   H,
-        ID3DRenderTargetView* _1,
-        ID3DRenderTargetView* _2,
-        ID3DRenderTargetView* _3,
-        ID3DDepthStencilView* zb);
+    void         u_stencil_optimize(eStencilOptimizeMode eSOM = SO_Light);
+    void         u_compute_texgen_screen(Fmatrix& dest);
+    void         u_compute_texgen_jitter(Fmatrix& dest);
+    void         u_setrt(const ref_rt& _1, const ref_rt& _2, const ref_rt& _3, ID3DDepthStencilView* zb);
+    void         u_setrt(const ref_rt& _1, const ref_rt& _2, ID3DDepthStencilView* zb);
+    void         u_setrt(u32 W, u32 H, ID3DRenderTargetView* _1, ID3DRenderTargetView* _2, ID3DRenderTargetView* _3, ID3DDepthStencilView* zb);
     void         u_calc_tc_noise(Fvector2& p0, Fvector2& p1);
     void         u_calc_tc_duality_ss(Fvector2& r0, Fvector2& r1, Fvector2& l0, Fvector2& l1);
     BOOL         u_need_PP();
@@ -381,8 +375,7 @@ public:
         dbg_planes.push_back(P0);
     }
 #else
-    IC void dbg_addline(Fvector& P0, Fvector& P1, u32 c)
-    {}
+    IC void dbg_addline(Fvector& P0, Fvector& P1, u32 c) {}
     IC void dbg_addplane(Fplane& P0, u32 c) {}
 #endif
 };

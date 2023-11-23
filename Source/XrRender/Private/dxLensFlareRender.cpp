@@ -54,21 +54,13 @@ void dxLensFlareRender::Render(CLensFlare& owner, BOOL bSun, BOOL bFlares, BOOL 
                 color.set(dwLight);
             color.a *= owner.m_StateBlend;
             u32 c = color.get();
-            pv->set(
-                owner.vecLight.x + vecSx.x - vecSy.x, owner.vecLight.y + vecSx.y - vecSy.y,
-                owner.vecLight.z + vecSx.z - vecSy.z, c, 0, 0);
+            pv->set(owner.vecLight.x + vecSx.x - vecSy.x, owner.vecLight.y + vecSx.y - vecSy.y, owner.vecLight.z + vecSx.z - vecSy.z, c, 0, 0);
             pv++;
-            pv->set(
-                owner.vecLight.x + vecSx.x + vecSy.x, owner.vecLight.y + vecSx.y + vecSy.y,
-                owner.vecLight.z + vecSx.z + vecSy.z, c, 0, 1);
+            pv->set(owner.vecLight.x + vecSx.x + vecSy.x, owner.vecLight.y + vecSx.y + vecSy.y, owner.vecLight.z + vecSx.z + vecSy.z, c, 0, 1);
             pv++;
-            pv->set(
-                owner.vecLight.x - vecSx.x - vecSy.x, owner.vecLight.y - vecSx.y - vecSy.y,
-                owner.vecLight.z - vecSx.z - vecSy.z, c, 1, 0);
+            pv->set(owner.vecLight.x - vecSx.x - vecSy.x, owner.vecLight.y - vecSx.y - vecSy.y, owner.vecLight.z - vecSx.z - vecSy.z, c, 1, 0);
             pv++;
-            pv->set(
-                owner.vecLight.x - vecSx.x + vecSy.x, owner.vecLight.y - vecSx.y + vecSy.y,
-                owner.vecLight.z - vecSx.z + vecSy.z, c, 1, 1);
+            pv->set(owner.vecLight.x - vecSx.x + vecSy.x, owner.vecLight.y - vecSx.y + vecSy.y, owner.vecLight.z - vecSx.z + vecSy.z, c, 1, 1);
             pv++;
             _2render.push_back(((dxFlareRender*)&*owner.m_Current->m_Source.m_pRender)->hShader);
         }
@@ -81,8 +73,7 @@ void dxLensFlareRender::Render(CLensFlare& owner, BOOL bSun, BOOL bFlares, BOOL 
             vecDy.crossproduct(vecDx, owner.vecDir);
             if (owner.m_Current->m_Flags.is(CLensFlareDescriptor::flFlare))
             {
-                for (CLensFlareDescriptor::FlareIt it = owner.m_Current->m_Flares.begin();
-                     it != owner.m_Current->m_Flares.end(); it++)
+                for (CLensFlareDescriptor::FlareIt it = owner.m_Current->m_Flares.begin(); it != owner.m_Current->m_Flares.end(); it++)
                 {
                     CLensFlareDescriptor::SFlare& F = *it;
                     vec.mul(owner.vecAxis, F.fPosition);
@@ -117,21 +108,13 @@ void dxLensFlareRender::Render(CLensFlare& owner, BOOL bSun, BOOL bFlares, BOOL 
                 color.mul_rgba(owner.fGradientValue * owner.m_StateBlend);
 
                 u32 c = color.get();
-                pv->set(
-                    owner.vecLight.x + vecSx.x - vecSy.x, owner.vecLight.y + vecSx.y - vecSy.y,
-                    owner.vecLight.z + vecSx.z - vecSy.z, c, 0, 0);
+                pv->set(owner.vecLight.x + vecSx.x - vecSy.x, owner.vecLight.y + vecSx.y - vecSy.y, owner.vecLight.z + vecSx.z - vecSy.z, c, 0, 0);
                 pv++;
-                pv->set(
-                    owner.vecLight.x + vecSx.x + vecSy.x, owner.vecLight.y + vecSx.y + vecSy.y,
-                    owner.vecLight.z + vecSx.z + vecSy.z, c, 0, 1);
+                pv->set(owner.vecLight.x + vecSx.x + vecSy.x, owner.vecLight.y + vecSx.y + vecSy.y, owner.vecLight.z + vecSx.z + vecSy.z, c, 0, 1);
                 pv++;
-                pv->set(
-                    owner.vecLight.x - vecSx.x - vecSy.x, owner.vecLight.y - vecSx.y - vecSy.y,
-                    owner.vecLight.z - vecSx.z - vecSy.z, c, 1, 0);
+                pv->set(owner.vecLight.x - vecSx.x - vecSy.x, owner.vecLight.y - vecSx.y - vecSy.y, owner.vecLight.z - vecSx.z - vecSy.z, c, 1, 0);
                 pv++;
-                pv->set(
-                    owner.vecLight.x - vecSx.x + vecSy.x, owner.vecLight.y - vecSx.y + vecSy.y,
-                    owner.vecLight.z - vecSx.z + vecSy.z, c, 1, 1);
+                pv->set(owner.vecLight.x - vecSx.x + vecSy.x, owner.vecLight.y - vecSx.y + vecSy.y, owner.vecLight.z - vecSx.z + vecSy.z, c, 1, 1);
                 pv++;
                 _2render.push_back(((dxFlareRender*)&*owner.m_Current->m_Gradient.m_pRender)->hShader);
             }

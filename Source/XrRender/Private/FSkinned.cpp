@@ -58,17 +58,12 @@ float errN(Fvector3 v, u8* qv)
 }
 #endif
 
-static D3DVERTEXELEMENT9 dwDecl_01W[] =   // 24bytes
-    {{0, 0, D3DDECLTYPE_SHORT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION,
-         0},                              // : P						: 2	: -12..+12
-        {0, 8, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL,
-            0},                           // : N, w=index(RC, 0..1)	: 1	:  -1..+1
-        {0, 12, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TANGENT,
-            0},                           // : T						: 1	:  -1..+1
-        {0, 16, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_BINORMAL,
-            0},                           // : B						: 1	:  -1..+1
-        {0, 20, D3DDECLTYPE_SHORT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD,
-            0},                           // : tc						: 1	: -16..+16
+static D3DVERTEXELEMENT9 dwDecl_01W[] =                                                   // 24bytes
+    {{0, 0, D3DDECLTYPE_SHORT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0},         // : P						: 2	: -12..+12
+        {0, 8, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL, 0},      // : N, w=index(RC, 0..1)	: 1	:  -1..+1
+        {0, 12, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TANGENT, 0},    // : T						: 1	:  -1..+1
+        {0, 16, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_BINORMAL, 0},   // : B						: 1	:  -1..+1
+        {0, 20, D3DDECLTYPE_SHORT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0},     // : tc						: 1	: -16..+16
         D3DDECL_END()};
 struct vertHW_1W
 {
@@ -110,17 +105,12 @@ struct vertHW_1W
     }
 };
 
-static D3DVERTEXELEMENT9 dwDecl_2W[] =   // 28bytes
-    {{0, 0, D3DDECLTYPE_SHORT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION,
-         0},                             // : p					: 2	: -12..+12
-        {0, 8, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL,
-            0},                          // : n.xyz, w = weight	: 1	:  -1..+1, w=0..1
-        {0, 12, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TANGENT,
-            0},                          // : T						: 1	:  -1..+1
-        {0, 16, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_BINORMAL,
-            0},                          // : B						: 1	:  -1..+1
-        {0, 20, D3DDECLTYPE_SHORT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD,
-            0},                          // : xy(tc), zw(indices): 2	: -16..+16, zw[0..32767]
+static D3DVERTEXELEMENT9 dwDecl_2W[] =                                                    // 28bytes
+    {{0, 0, D3DDECLTYPE_SHORT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0},         // : p					: 2	: -12..+12
+        {0, 8, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL, 0},      // : n.xyz, w = weight	: 1	:  -1..+1, w=0..1
+        {0, 12, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TANGENT, 0},    // : T						: 1	:  -1..+1
+        {0, 16, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_BINORMAL, 0},   // : B						: 1	:  -1..+1
+        {0, 20, D3DDECLTYPE_SHORT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0},     // : xy(tc), zw(indices): 2	: -16..+16, zw[0..32767]
         D3DDECL_END()};
 struct vertHW_2W
 {
@@ -172,36 +162,21 @@ struct vertHW_2W
         p.lerp(P0, P1, get_weight());
     }
 };
-static D3DVERTEXELEMENT9 dwDecl_3W[] =   // 28bytes
-    {{0, 0, D3DDECLTYPE_SHORT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION,
-         0},                             // : p					: 2	: -12..+12
-        {0, 8, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL,
-            0},                          // : n.xyz, w = weight0	: 1	:  -1..+1, w=0..1
-        {0, 12, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TANGENT,
-            0},                          // : T.xyz, w = weight1	: 1	:  -1..+1, w=0..1
-        {0, 16, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_BINORMAL,
-            0},                          // : B.xyz,	w = index2	: 1	:  -1..+1, w=0..255
-        {0, 20, D3DDECLTYPE_SHORT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD,
-            0},                          // : xy(tc), zw(indices): 2	: -16..+16, zw[0..32767]
+static D3DVERTEXELEMENT9 dwDecl_3W[] =                                                    // 28bytes
+    {{0, 0, D3DDECLTYPE_SHORT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0},         // : p					: 2	: -12..+12
+        {0, 8, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL, 0},      // : n.xyz, w = weight0	: 1	:  -1..+1, w=0..1
+        {0, 12, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TANGENT, 0},    // : T.xyz, w = weight1	: 1	:  -1..+1, w=0..1
+        {0, 16, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_BINORMAL, 0},   // : B.xyz,	w = index2	: 1	:  -1..+1, w=0..255
+        {0, 20, D3DDECLTYPE_SHORT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0},     // : xy(tc), zw(indices): 2	: -16..+16, zw[0..32767]
         D3DDECL_END()};
 struct vertHW_3W
 {
-    s16 _P[4];
-    u32 _N_w;
-    u32 _T_w;
-    u32 _B_i;
-    s16 _tc_i[4];
-    void
-        set(Fvector3& P,
-            Fvector3  N,
-            Fvector3  T,
-            Fvector3  B,
-            Fvector2& tc,
-            int       index0,
-            int       index1,
-            int       index2,
-            float     w0,
-            float     w1)
+    s16  _P[4];
+    u32  _N_w;
+    u32  _T_w;
+    u32  _B_i;
+    s16  _tc_i[4];
+    void set(Fvector3& P, Fvector3 N, Fvector3 T, Fvector3 B, Fvector2& tc, int index0, int index1, int index2, float w0, float w1)
     {
         N.normalize_safe();
         T.normalize_safe();
@@ -269,39 +244,22 @@ struct vertHW_3W
 };
 
 static D3DVERTEXELEMENT9 dwDecl_4W[] =                                                    // 28bytes
-    {{0, 0, D3DDECLTYPE_SHORT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION,
-         0},                                                                              // : p					: 2	: -12..+12
-        {0, 8, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL,
-            0},                                                                           // : n.xyz, w = weight0	: 1	:  -1..+1, w=0..1
-        {0, 12, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TANGENT,
-            0},                                                                           // : T.xyz, w = weight1	: 1	:  -1..+1, w=0..1
-        {0, 16, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_BINORMAL,
-            0},                                                                           // : B.xyz,	w = weight2	: 1	:  -1..+1, w=0..1
-        {0, 20, D3DDECLTYPE_SHORT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD,
-            0},                                                                           // : xy(tc)				: 2	: -16..+16
+    {{0, 0, D3DDECLTYPE_SHORT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0},         // : p					: 2	: -12..+12
+        {0, 8, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL, 0},      // : n.xyz, w = weight0	: 1	:  -1..+1, w=0..1
+        {0, 12, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TANGENT, 0},    // : T.xyz, w = weight1	: 1	:  -1..+1, w=0..1
+        {0, 16, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_BINORMAL, 0},   // : B.xyz,	w = weight2	: 1	:  -1..+1, w=0..1
+        {0, 20, D3DDECLTYPE_SHORT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0},     // : xy(tc)				: 2	: -16..+16
         {0, 24, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 1},   // : indices			: 1	: 0..255
         D3DDECL_END()};
 struct vertHW_4W
 {
-    s16 _P[4];
-    u32 _N_w;
-    u32 _T_w;
-    u32 _B_w;
-    s16 _tc[2];
-    u32 _i;
-    void
-        set(Fvector3& P,
-            Fvector3  N,
-            Fvector3  T,
-            Fvector3  B,
-            Fvector2& tc,
-            int       index0,
-            int       index1,
-            int       index2,
-            int       index3,
-            float     w0,
-            float     w1,
-            float     w2)
+    s16  _P[4];
+    u32  _N_w;
+    u32  _T_w;
+    u32  _B_w;
+    s16  _tc[2];
+    u32  _i;
+    void set(Fvector3& P, Fvector3 N, Fvector3 T, Fvector3 B, Fvector2& tc, int index0, int index1, int index2, int index3, float w0, float w1, float w2)
     {
         N.normalize_safe();
         T.normalize_safe();
@@ -586,9 +544,7 @@ void CSkeletonX_ext::_Load_hw(Fvisual& V, void* _verts_)
             {
                 Fvector2 uv;
                 uv.set(src->u, src->v);
-                dst->set(
-                    src->P, src->N, src->T, src->B, uv, int(src->m[0]) * 3, int(src->m[1]) * 3, int(src->m[2]) * 3,
-                    src->w[0], src->w[1]);
+                dst->set(src->P, src->N, src->T, src->B, uv, int(src->m[0]) * 3, int(src->m[1]) * 3, int(src->m[2]) * 3, src->w[0], src->w[1]);
                 dst++;
                 src++;
             }
@@ -635,9 +591,7 @@ void CSkeletonX_ext::_Load_hw(Fvisual& V, void* _verts_)
             {
                 Fvector2 uv;
                 uv.set(src->u, src->v);
-                dst->set(
-                    src->P, src->N, src->T, src->B, uv, int(src->m[0]) * 3, int(src->m[1]) * 3, int(src->m[2]) * 3,
-                    int(src->m[3]) * 3, src->w[0], src->w[1], src->w[2]);
+                dst->set(src->P, src->N, src->T, src->B, uv, int(src->m[0]) * 3, int(src->m[1]) * 3, int(src->m[2]) * 3, int(src->m[3]) * 3, src->w[0], src->w[1], src->w[2]);
                 dst++;
                 src++;
             }
@@ -729,9 +683,7 @@ void CSkeletonX_ext::_Load_hw(Fvisual& V, void* _verts_)
             {
                 Fvector2 uv;
                 uv.set(src->u, src->v);
-                dst->set(
-                    src->P, src->N, src->T, src->B, uv, int(src->m[0]) * 3, int(src->m[1]) * 3, int(src->m[2]) * 3,
-                    src->w[0], src->w[1]);
+                dst->set(src->P, src->N, src->T, src->B, uv, int(src->m[0]) * 3, int(src->m[1]) * 3, int(src->m[2]) * 3, src->w[0], src->w[1]);
                 dst++;
                 src++;
             }
@@ -755,9 +707,7 @@ void CSkeletonX_ext::_Load_hw(Fvisual& V, void* _verts_)
             {
                 Fvector2 uv;
                 uv.set(src->u, src->v);
-                dst->set(
-                    src->P, src->N, src->T, src->B, uv, int(src->m[0]) * 3, int(src->m[1]) * 3, int(src->m[2]) * 3,
-                    int(src->m[3]) * 3, src->w[0], src->w[1], src->w[2]);
+                dst->set(src->P, src->N, src->T, src->B, uv, int(src->m[0]) * 3, int(src->m[1]) * 3, int(src->m[2]) * 3, int(src->m[3]) * 3, src->w[0], src->w[1], src->w[2]);
                 dst++;
                 src++;
             }
@@ -776,15 +726,7 @@ void CSkeletonX_ext::_Load_hw(Fvisual& V, void* _verts_)
 
 #ifdef DEBUG
 
-template<typename vertex_type> static void verify_vertex(
-    const vertex_type& v,
-    const Fvisual*     V,
-    const CKinematics* Parent,
-    u32                iBase,
-    u32                iCount,
-    const u16*         indices,
-    u32                vertex_idx,
-    u32                idx)
+template<typename vertex_type> static void verify_vertex(const vertex_type& v, const Fvisual* V, const CKinematics* Parent, u32 iBase, u32 iCount, const u16* indices, u32 vertex_idx, u32 idx)
 {
     VERIFY(Parent);
 #ifndef REDITOR
@@ -793,10 +735,8 @@ template<typename vertex_type> static void verify_vertex(
         {
             Msg("v.get_bone_id(i): %d, Parent->LL_BoneCount() %d ", v.get_bone_id(i), Parent->LL_BoneCount());
             Msg("&v: %p, &V: %p, indices: %p", &v, V, indices);
-            Msg(" iBase: %d, iCount: %d, V->iBase %d, V->iCount %d, V->vBase: %d,  V->vCount  %d, vertex_idx: %d, idx: %d",
-                iBase, iCount, V->iBase, V->iCount, V->vBase, V->vCount, vertex_idx, idx);
-            Msg(" v.P: %s , v.N: %s, v.T: %s, v.B: %s", get_string(v.P).c_str(), get_string(v.N).c_str(),
-                get_string(v.T).c_str(), get_string(v.B).c_str());
+            Msg(" iBase: %d, iCount: %d, V->iBase %d, V->iCount %d, V->vBase: %d,  V->vCount  %d, vertex_idx: %d, idx: %d", iBase, iCount, V->iBase, V->iCount, V->vBase, V->vCount, vertex_idx, idx);
+            Msg(" v.P: %s , v.N: %s, v.T: %s, v.B: %s", get_string(v.P).c_str(), get_string(v.N).c_str(), get_string(v.T).c_str(), get_string(v.B).c_str());
             Msg("Parent->dbg_name: %s ", Parent->dbg_name.c_str());
             FlushLog();
             FATAL("v.get_bone_id(i) >= Parent->LL_BoneCount()");
@@ -984,48 +924,20 @@ template<typename T> IC void get_pos_bones(const T& v, Fvector& p, CKinematics* 
     v.get_pos_bones(p, Parent);
 }
 
-BOOL CSkeletonX_ext::_PickBoneHW1W(
-    IKinematics::pick_result& r,
-    float                     dist,
-    const Fvector&            S,
-    const Fvector&            D,
-    Fvisual*                  V,
-    u16*                      indices,
-    CBoneData::FacesVec&      faces)
+BOOL CSkeletonX_ext::_PickBoneHW1W(IKinematics::pick_result& r, float dist, const Fvector& S, const Fvector& D, Fvisual* V, u16* indices, CBoneData::FacesVec& faces)
 {
     return pick_bone<vertHW_1W>(Parent, r, dist, S, D, V, indices, faces);
 }
-BOOL CSkeletonX_ext::_PickBoneHW2W(
-    IKinematics::pick_result& r,
-    float                     dist,
-    const Fvector&            S,
-    const Fvector&            D,
-    Fvisual*                  V,
-    u16*                      indices,
-    CBoneData::FacesVec&      faces)
+BOOL CSkeletonX_ext::_PickBoneHW2W(IKinematics::pick_result& r, float dist, const Fvector& S, const Fvector& D, Fvisual* V, u16* indices, CBoneData::FacesVec& faces)
 {
     return pick_bone<vertHW_2W>(Parent, r, dist, S, D, V, indices, faces);
 }
 
-BOOL CSkeletonX_ext::_PickBoneHW3W(
-    IKinematics::pick_result& r,
-    float                     dist,
-    const Fvector&            S,
-    const Fvector&            D,
-    Fvisual*                  V,
-    u16*                      indices,
-    CBoneData::FacesVec&      faces)
+BOOL CSkeletonX_ext::_PickBoneHW3W(IKinematics::pick_result& r, float dist, const Fvector& S, const Fvector& D, Fvisual* V, u16* indices, CBoneData::FacesVec& faces)
 {
     return pick_bone<vertHW_3W>(Parent, r, dist, S, D, V, indices, faces);
 }
-BOOL CSkeletonX_ext::_PickBoneHW4W(
-    IKinematics::pick_result& r,
-    float                     dist,
-    const Fvector&            S,
-    const Fvector&            D,
-    Fvisual*                  V,
-    u16*                      indices,
-    CBoneData::FacesVec&      faces)
+BOOL CSkeletonX_ext::_PickBoneHW4W(IKinematics::pick_result& r, float dist, const Fvector& S, const Fvector& D, Fvisual* V, u16* indices, CBoneData::FacesVec& faces)
 {
     return pick_bone<vertHW_4W>(Parent, r, dist, S, D, V, indices, faces);
 }
@@ -1134,15 +1046,7 @@ indices, CBoneData::FacesVec& faces)
 }
 */
 
-BOOL CSkeletonX_ext::_PickBone(
-    IKinematics::pick_result& r,
-    float                     dist,
-    const Fvector&            start,
-    const Fvector&            dir,
-    Fvisual*                  V,
-    u16                       bone_id,
-    u32                       iBase,
-    u32                       iCount)
+BOOL CSkeletonX_ext::_PickBone(IKinematics::pick_result& r, float dist, const Fvector& start, const Fvector& dir, Fvisual* V, u16 bone_id, u32 iBase, u32 iCount)
 {
     VERIFY(Parent && (ChildIDX != u16(-1)));
     CBoneData&           BD      = Parent->LL_GetData(bone_id);
@@ -1194,21 +1098,11 @@ CHK_DX(V->p_rm_Indices->Unlock());
 
 return result;
 }
-BOOL CSkeletonX_ST::PickBone(
-    IKinematics::pick_result& r,
-    float                     dist,
-    const Fvector&            start,
-    const Fvector&            dir,
-    u16                       bone_id)
+BOOL CSkeletonX_ST::PickBone(IKinematics::pick_result& r, float dist, const Fvector& start, const Fvector& dir, u16 bone_id)
 {
     return inherited2::_PickBone(r, dist, start, dir, this, bone_id, iBase, iCount);
 }
-BOOL CSkeletonX_PM::PickBone(
-    IKinematics::pick_result& r,
-    float                     dist,
-    const Fvector&            start,
-    const Fvector&            dir,
-    u16                       bone_id)
+BOOL CSkeletonX_PM::PickBone(IKinematics::pick_result& r, float dist, const Fvector& start, const Fvector& dir, u16 bone_id)
 {
     FSlideWindow& SW = nSWI.sw[0];
     return inherited2::_PickBone(r, dist, start, dir, this, bone_id, iBase + SW.offset, SW.num_tris * 3);
@@ -1227,58 +1121,28 @@ void CSkeletonX_PM::EnumBoneVertices(SEnumVerticesCallback& C, u16 bone_id)
 
 #if defined(USE_DX10) || defined(USE_DX11)
 
-void CSkeletonX_ext::_FillVerticesHW1W(
-    const Fmatrix&       view,
-    CSkeletonWallmark&   wm,
-    const Fvector&       normal,
-    float                size,
-    Fvisual*             V,
-    u16*                 indices,
-    CBoneData::FacesVec& faces)
+void CSkeletonX_ext::_FillVerticesHW1W(const Fmatrix& view, CSkeletonWallmark& wm, const Fvector& normal, float size, Fvisual* V, u16* indices, CBoneData::FacesVec& faces)
 {
     R_ASSERT2(0, "CSkeletonX_ext::_FillVerticesHW1W not implemented");
 }
-void CSkeletonX_ext::_FillVerticesHW2W(
-    const Fmatrix&       view,
-    CSkeletonWallmark&   wm,
-    const Fvector&       normal,
-    float                size,
-    Fvisual*             V,
-    u16*                 indices,
-    CBoneData::FacesVec& faces)
+void CSkeletonX_ext::_FillVerticesHW2W(const Fmatrix& view, CSkeletonWallmark& wm, const Fvector& normal, float size, Fvisual* V, u16* indices, CBoneData::FacesVec& faces)
 {
     R_ASSERT2(0, "CSkeletonX_ext::_FillVerticesHW2W not implemented");
 }
 
-void CSkeletonX_ext::_FillVerticesHW3W(
-    const Fmatrix&       view,
-    CSkeletonWallmark&   wm,
-    const Fvector&       normal,
-    float                size,
-    Fvisual*             V,
-    u16*                 indices,
-    CBoneData::FacesVec& faces)
+void CSkeletonX_ext::_FillVerticesHW3W(const Fmatrix& view, CSkeletonWallmark& wm, const Fvector& normal, float size, Fvisual* V, u16* indices, CBoneData::FacesVec& faces)
 {
     R_ASSERT2(0, "CSkeletonX_ext::_FillVerticesHW3W not implemented");
 }
 
-void CSkeletonX_ext::_FillVerticesHW4W(
-    const Fmatrix&       view,
-    CSkeletonWallmark&   wm,
-    const Fvector&       normal,
-    float                size,
-    Fvisual*             V,
-    u16*                 indices,
-    CBoneData::FacesVec& faces)
+void CSkeletonX_ext::_FillVerticesHW4W(const Fmatrix& view, CSkeletonWallmark& wm, const Fvector& normal, float size, Fvisual* V, u16* indices, CBoneData::FacesVec& faces)
 {
     R_ASSERT2(0, "CSkeletonX_ext::_FillVerticesHW4W not implemented");
 }
 
 #else    //	USE_DX10
 
-    void CSkeletonX_ext::_FillVerticesHW1W(
-        const Fmatrix& view, CSkeletonWallmark& wm, const Fvector& normal, float size, Fvisual* V, u16* indices,
-        CBoneData::FacesVec& faces)
+    void CSkeletonX_ext::_FillVerticesHW1W(const Fmatrix& view, CSkeletonWallmark& wm, const Fvector& normal, float size, Fvisual* V, u16* indices, CBoneData::FacesVec& faces)
     {
         vertHW_1W* vertices;
         CHK_DX(V->p_rm_Vertices->Lock(V->vBase, V->vCount, (void**)&vertices, D3DLOCK_READONLY));
@@ -1317,9 +1181,7 @@ void CSkeletonX_ext::_FillVerticesHW4W(
         }
         CHK_DX(V->p_rm_Vertices->Unlock());
     }
-    void CSkeletonX_ext::_FillVerticesHW2W(
-        const Fmatrix& view, CSkeletonWallmark& wm, const Fvector& normal, float size, Fvisual* V, u16* indices,
-        CBoneData::FacesVec& faces)
+    void CSkeletonX_ext::_FillVerticesHW2W(const Fmatrix& view, CSkeletonWallmark& wm, const Fvector& normal, float size, Fvisual* V, u16* indices, CBoneData::FacesVec& faces)
     {
         vertHW_2W* vertices;
         CHK_DX(V->p_rm_Vertices->Lock(V->vBase, V->vCount, (void**)&vertices, D3DLOCK_READONLY));
@@ -1366,30 +1228,18 @@ void CSkeletonX_ext::_FillVerticesHW4W(
         CHK_DX(V->p_rm_Vertices->Unlock());
     }
 
-    void CSkeletonX_ext::_FillVerticesHW3W(
-        const Fmatrix& view, CSkeletonWallmark& wm, const Fvector& normal, float size, Fvisual* V, u16* indices,
-        CBoneData::FacesVec& faces)
+    void CSkeletonX_ext::_FillVerticesHW3W(const Fmatrix& view, CSkeletonWallmark& wm, const Fvector& normal, float size, Fvisual* V, u16* indices, CBoneData::FacesVec& faces)
     {
         R_ASSERT2(0, "CSkeletonX_ext::_FillVerticesHW3W not implemented");
     }
 
-    void CSkeletonX_ext::_FillVerticesHW4W(
-        const Fmatrix& view, CSkeletonWallmark& wm, const Fvector& normal, float size, Fvisual* V, u16* indices,
-        CBoneData::FacesVec& faces)
+    void CSkeletonX_ext::_FillVerticesHW4W(const Fmatrix& view, CSkeletonWallmark& wm, const Fvector& normal, float size, Fvisual* V, u16* indices, CBoneData::FacesVec& faces)
     {
         R_ASSERT2(0, "CSkeletonX_ext::_FillVerticesHW4W not implemented");
     }
 #endif   //	USE_DX10
 
-void CSkeletonX_ext::_FillVertices(
-    const Fmatrix&     view,
-    CSkeletonWallmark& wm,
-    const Fvector&     normal,
-    float              size,
-    Fvisual*           V,
-    u16                bone_id,
-    u32                iBase,
-    u32                iCount)
+void CSkeletonX_ext::_FillVertices(const Fmatrix& view, CSkeletonWallmark& wm, const Fvector& normal, float size, Fvisual* V, u16 bone_id, u32 iBase, u32 iCount)
 {
     R_ASSERT2(0, "CSkeletonX_ext::_FillVertices not implemented");
 }
@@ -1420,21 +1270,11 @@ Fvisual* V, u16 bone_id, u32 iBase, u32 iCount)
 }
 */
 
-void CSkeletonX_ST::FillVertices(
-    const Fmatrix&     view,
-    CSkeletonWallmark& wm,
-    const Fvector&     normal,
-    float              size,
-    u16                bone_id)
+void CSkeletonX_ST::FillVertices(const Fmatrix& view, CSkeletonWallmark& wm, const Fvector& normal, float size, u16 bone_id)
 {
     inherited2::_FillVertices(view, wm, normal, size, this, bone_id, iBase, iCount);
 }
-void CSkeletonX_PM::FillVertices(
-    const Fmatrix&     view,
-    CSkeletonWallmark& wm,
-    const Fvector&     normal,
-    float              size,
-    u16                bone_id)
+void CSkeletonX_PM::FillVertices(const Fmatrix& view, CSkeletonWallmark& wm, const Fvector& normal, float size, u16 bone_id)
 {
     FSlideWindow& SW = nSWI.sw[0];
     inherited2::_FillVertices(view, wm, normal, size, this, bone_id, iBase + SW.offset, SW.num_tris * 3);
@@ -1497,8 +1337,7 @@ SEnumVerticesCallback &C ) const
 }
 */
 
-template<typename vertex_buffer_type> IC void
-    TEnumBoneVertices(vertex_buffer_type vertices, u16* indices, CBoneData::FacesVec& faces, SEnumVerticesCallback& C)
+template<typename vertex_buffer_type> IC void TEnumBoneVertices(vertex_buffer_type vertices, u16* indices, CBoneData::FacesVec& faces, SEnumVerticesCallback& C)
 {
     for (CBoneData::FacesVecIt it = faces.begin(); it != faces.end(); it++)
     {

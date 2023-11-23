@@ -395,7 +395,7 @@ IC void i_section(int Sect, BOOL bMiddle)
 
     // Now scan all lines in this section
     float lhx = left_dX / 2;
-    leftX += lhx;    // half pixel
+    leftX += lhx;   // half pixel
     float rhx = right_dX / 2;
     rightX += rhx;   // half pixel
     for (; startY <= endY; startY++)

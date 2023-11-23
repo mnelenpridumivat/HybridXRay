@@ -45,8 +45,7 @@ void R_dsgraph_structure::r_dsgraph_render_lods(bool _setup_zb, bool _clear)
         const u32  iBatchSize = _min(lstLODs.size() - i, uiImpostersFit);
         int        cur_count  = 0;
         u32        vOffset;
-        FLOD::_hw* V =
-            (FLOD::_hw*)RCache.Vertex.Lock(iBatchSize * uiVertexPerImposter, firstV->geom->vb_stride, vOffset);
+        FLOD::_hw* V = (FLOD::_hw*)RCache.Vertex.Lock(iBatchSize * uiVertexPerImposter, firstV->geom->vb_stride, vOffset);
 
         for (u32 j = 0; j < iBatchSize; ++j, ++i)
         {

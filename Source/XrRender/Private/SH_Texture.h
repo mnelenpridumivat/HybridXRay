@@ -14,7 +14,7 @@ public:
     //	distance between enum values should be at leas 128
     enum ResourceShaderType   //	Don't change this since it's hardware-dependent
     {
-        rstPixel    = 0,      //	Default texture offset
+        rstPixel    = 0,   //	Default texture offset
         rstVertex   = D3DVERTEXTEXTURESAMPLER0,
         rstGeometry = rstVertex + 256,
         rstHull     = rstGeometry + 256,

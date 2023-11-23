@@ -265,8 +265,7 @@ void         CSector::traverse(CFrustum& F, _scissor& R_scissor)
                     continue;
 
                 // Cull by HOM (faster algo)
-                if ((PortalTraverser.i_options & CPortalTraverser::VQ_HOM) &&
-                    (!RImplementation.HOM.visible(scissor, depth)))
+                if ((PortalTraverser.i_options & CPortalTraverser::VQ_HOM) && (!RImplementation.HOM.visible(scissor, depth)))
                     continue;
             }
         }

@@ -10,9 +10,8 @@ const int                quant    = 16384;
 const int                c_hdr    = 10;
 const int                c_size   = 4;
 
-static D3DVERTEXELEMENT9 dwDecl[] = {
-    {0, 0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0},    // pos
-    {0, 12, D3DDECLTYPE_SHORT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0},   // uv
+static D3DVERTEXELEMENT9 dwDecl[] = {{0, 0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0},   // pos
+    {0, 12, D3DDECLTYPE_SHORT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0},                                   // uv
     D3DDECL_END()};
 
 #pragma pack(push, 1)
@@ -99,12 +98,7 @@ void CDetailManager::hw_Render()
     hw_Render_dump(consts, wave.div(PI_MUL_2), dir2, 0, 1);
 }
 
-void CDetailManager::hw_Render_dump(
-    const Fvector4& consts,
-    const Fvector4& wave,
-    const Fvector4& wind,
-    u32             var_id,
-    u32             lod_id)
+void CDetailManager::hw_Render_dump(const Fvector4& consts, const Fvector4& wave, const Fvector4& wind, u32 var_id, u32 lod_id)
 {
     static shared_str strConsts("consts");
     static shared_str strWave("wave");

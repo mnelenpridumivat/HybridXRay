@@ -34,6 +34,6 @@ namespace dx10StateUtils
     void                     ValidateState(D3D_DEPTH_STENCIL_DESC& desc);
     void                     ValidateState(D3D_BLEND_DESC& desc);
     void                     ValidateState(D3D_SAMPLER_DESC& desc);
-};       // namespace dx10StateUtils
+};   // namespace dx10StateUtils
 
 #endif   //	dx10StateUtils_included

@@ -49,12 +49,7 @@ private:
     void    CreateState(StateDecs desc, IDeviceState** ppIState);
     SHandle FindState(const StateDecs& desc, u32 StateCRC);
 
-    void    PrepareSamplerStates(
-           HArray&           samplers,
-           ID3DSamplerState* pSS[D3D_COMMONSHADER_SAMPLER_SLOT_COUNT],
-           SHandle           pCurrentState[D3D_COMMONSHADER_SAMPLER_SLOT_COUNT],
-           u32&              uiMin,
-           u32&              uiMax) const;
+    void    PrepareSamplerStates(HArray& samplers, ID3DSamplerState* pSS[D3D_COMMONSHADER_SAMPLER_SLOT_COUNT], SHandle pCurrentState[D3D_COMMONSHADER_SAMPLER_SLOT_COUNT], u32& uiMin, u32& uiMax) const;
 
     //	Private data
 private:

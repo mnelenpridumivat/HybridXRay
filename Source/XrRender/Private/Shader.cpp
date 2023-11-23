@@ -82,7 +82,7 @@ BOOL SPass::equal(const SPass& other)
     if (cs != other.cs)
         return FALSE;
 #endif
-#endif                  //	USE_DX10
+#endif   //	USE_DX10
     if (constants != other.constants)
         return FALSE;   // is this nessesary??? (ps+vs already combines)
 
@@ -139,8 +139,7 @@ BOOL ShaderElement::equal(ShaderElement* S)
 //
 BOOL Shader::equal(Shader& S)
 {
-    return E[0]->equal(&*S.E[0]) && E[1]->equal(&*S.E[1]) && E[2]->equal(&*S.E[2]) && E[3]->equal(&*S.E[3]) &&
-        E[4]->equal(&*S.E[4]);
+    return E[0]->equal(&*S.E[0]) && E[1]->equal(&*S.E[1]) && E[2]->equal(&*S.E[2]) && E[3]->equal(&*S.E[3]) && E[4]->equal(&*S.E[4]);
 }
 BOOL Shader::equal(Shader* S)
 {

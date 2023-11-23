@@ -36,8 +36,7 @@ namespace
     shared_str strDiffuseLight("DiffuseLight");
 }   // namespace
 
-LPCSTR dx103DFluidRenderer::m_pRTNames[RRT_NumRT] = {
-    "$user$rayDataTex", "$user$rayDataTexSmall", "$user$rayCastTex", "$user$edgeTex"};
+LPCSTR dx103DFluidRenderer::m_pRTNames[RRT_NumRT]         = {"$user$rayDataTex", "$user$rayDataTexSmall", "$user$rayCastTex", "$user$edgeTex"};
 
 LPCSTR dx103DFluidRenderer::m_pResourceRTNames[RRT_NumRT] = {"rayDataTex", "rayDataTexSmall", "rayCastTex", "edgeTex"};
 
@@ -167,8 +166,7 @@ void dx103DFluidRenderer::CreateGridBox()
     // Create index buffer
     // DWORD indices[] =
     // DWORD indices[] =
-    u16 indices[]     = {0, 4, 1, 1, 4, 5, 0, 1, 2, 2, 1, 3, 4, 6, 5, 6, 7, 5,
-                         2, 3, 6, 3, 7, 6, 1, 5, 3, 3, 5, 7, 0, 2, 4, 2, 6, 4};
+    u16 indices[]     = {0, 4, 1, 1, 4, 5, 0, 1, 2, 2, 1, 3, 4, 6, 5, 6, 7, 5, 2, 3, 6, 3, 7, 6, 1, 5, 3, 3, 5, 7, 0, 2, 4, 2, 6, 4};
     m_iGridBoxFaceNum = (sizeof(indices) / sizeof(indices[0])) / 3;
 
     // bd.Usage = D3D_USAGE_DEFAULT;
@@ -188,8 +186,7 @@ void dx103DFluidRenderer::CreateGridBox()
     //	{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3Dxx_INPUT_PER_VERTEX_DATA, 0 },
     //};
     // UINT numElements = sizeof(layout)/sizeof(layout[0]);
-    static D3DVERTEXELEMENT9 layout[] = {
-        {0, 0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0}, D3DDECL_END()};
+    static D3DVERTEXELEMENT9 layout[] = {{0, 0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0}, D3DDECL_END()};
 
     // Create the input layout
     // D3Dxx_PASS_DESC PassDesc;
@@ -209,8 +206,7 @@ void dx103DFluidRenderer::CreateScreenQuad()
     //};
     // UINT numElements = sizeof(quadlayout)/sizeof(quadlayout[0]);
 
-    static D3DVERTEXELEMENT9 quadlayout[] = {
-        {0, 0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0}, D3DDECL_END()};
+    static D3DVERTEXELEMENT9 quadlayout[] = {{0, 0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0}, D3DDECL_END()};
 
     // Create the input layout
     // D3Dxx_PASS_DESC PassDesc;
@@ -219,7 +215,7 @@ void dx103DFluidRenderer::CreateScreenQuad()
     // PassDesc.IAInputSignatureSize, &pQuadLayout ) );
 
     // Create a screen quad for all render to texture operations
-    VsInput svQuad[4];
+    VsInput                  svQuad[4];
     svQuad[0].pos = D3DXVECTOR3(-1.0f, 1.0f, 0.0f);
     svQuad[1].pos = D3DXVECTOR3(1.0f, 1.0f, 0.0f);
     svQuad[2].pos = D3DXVECTOR3(-1.0f, -1.0f, 0.0f);
@@ -700,7 +696,7 @@ void dx103DFluidRenderer::Draw(const dx103DFluidData& FluidData)
     // m_pD3DDevice->OMSetRenderTargets( 1, &pRTV , pDSV );
     //	Restore render state
     if (!RImplementation.o.dx10_msaa)
-        pTarget->u_setrt(pTarget->rt_Generic_0, 0, 0, HW.pBaseZB);                      // LDR RT
+        pTarget->u_setrt(pTarget->rt_Generic_0, 0, 0, HW.pBaseZB);   // LDR RT
     else
         pTarget->u_setrt(pTarget->rt_Generic_0_r, 0, 0, pTarget->rt_MSAADepth->pZRT);   // LDR RT
 
@@ -719,9 +715,7 @@ void dx103DFluidRenderer::Draw(const dx103DFluidData& FluidData)
     // pRTHeightVar->SetFloat((float)g_Height);
     RCache.set_c(strRTHeight, (float)Device->dwHeight);
 
-    RCache.set_c(
-        strDiffuseLight, LightData.m_vLightIntencity.x, LightData.m_vLightIntencity.y, LightData.m_vLightIntencity.z,
-        1.0f);
+    RCache.set_c(strDiffuseLight, LightData.m_vLightIntencity.x, LightData.m_vLightIntencity.y, LightData.m_vLightIntencity.z, 1.0f);
 
     // pRayCastVar->SetResource(pRayCastSRV);
     // pEdgeVar->SetResource(pEdgeSRV);
@@ -861,8 +855,7 @@ void dx103DFluidRenderer::CalculateLighting(const dx103DFluidData& FluidData, Fo
     box.getradius(size);
 
     // Traverse object database
-    g_SpatialSpace->q_box(
-        m_lstRenderables,
+    g_SpatialSpace->q_box(m_lstRenderables,
         0,   // ISpatial_DB::O_ORDERED,
         STYPE_LIGHTSOURCE, center, size);
 

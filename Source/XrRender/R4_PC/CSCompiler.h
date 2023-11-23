@@ -32,6 +32,6 @@ private:
     xr_vector<ID3D11SamplerState*>        m_Samplers;
     xr_vector<ID3D11ShaderResourceView*>  m_Textures;
     xr_vector<ID3D11UnorderedAccessView*> m_Outputs;
-};       // class CSCompiler
+};   // class CSCompiler
 
 #endif   // #ifndef CSCOMPILER_H_INCLUDED

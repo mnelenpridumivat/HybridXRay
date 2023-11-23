@@ -24,8 +24,7 @@ void CRender::render_main(Fmatrix& m_ViewProjection, bool _fportals)
         //!!!
         {
             // Traverse object database
-            g_SpatialSpace->q_frustum(
-                lstRenderables, ISpatial_DB::O_ORDERED, STYPE_RENDERABLE + STYPE_LIGHTSOURCE, ViewBase);
+            g_SpatialSpace->q_frustum(lstRenderables, ISpatial_DB::O_ORDERED, STYPE_RENDERABLE + STYPE_LIGHTSOURCE, ViewBase);
 
             // (almost) Exact sorting order (front-to-back)
             std::sort(lstRenderables.begin(), lstRenderables.end(), pred_sp_sort);
@@ -64,9 +63,7 @@ void CRender::render_main(Fmatrix& m_ViewProjection, bool _fportals)
         }
 
         // Traverse sector/portal structure
-        PortalTraverser.traverse(
-            pLastSector, ViewBase, Device->vCameraPosition, m_ViewProjection,
-            CPortalTraverser::VQ_HOM + CPortalTraverser::VQ_SSA + CPortalTraverser::VQ_FADE
+        PortalTraverser.traverse(pLastSector, ViewBase, Device->vCameraPosition, m_ViewProjection, CPortalTraverser::VQ_HOM + CPortalTraverser::VQ_SSA + CPortalTraverser::VQ_FADE
             //. disabled scissoring (HW.Caps.bScissor?CPortalTraverser::VQ_SCISSOR:0)	// generate scissoring info
         );
 
@@ -168,7 +165,7 @@ void CRender::render_menu()
     {
         Target->u_setrt(Target->rt_Generic_1, 0, 0, HW.pBaseZB);   // Now RT is a distortion mask
         CHK_DX(HW.pDevice->Clear(0L, NULL, D3DCLEAR_TARGET, color_rgba(127, 127, 0, 127), 1.0f, 0L));
-        g_pGamePersistent->OnRenderPPUI_PP();                      // PP-UI
+        g_pGamePersistent->OnRenderPPUI_PP();   // PP-UI
     }
 
     // Actual Display
@@ -249,9 +246,7 @@ void       CRender::Render()
         Device->Statistic->RenderCALC.Begin();
         float   z_distance = ps_r2_zfill;
         Fmatrix m_zfill, m_project;
-        m_project.build_projection(
-            deg2rad(Device->fFOV /* *Device->fASPECT*/), Device->fASPECT, VIEWPORT_NEAR,
-            z_distance * g_pGamePersistent->Environment().CurrentEnv->far_plane);
+        m_project.build_projection(deg2rad(Device->fFOV /* *Device->fASPECT*/), Device->fASPECT, VIEWPORT_NEAR, z_distance * g_pGamePersistent->Environment().CurrentEnv->far_plane);
         m_zfill.mul(m_project, Device->mView);
         r_pmask(true, false);   // enable priority "0"
         set_Recorder(NULL);
@@ -466,8 +461,7 @@ void       CRender::Render()
         RCache.set_xform_project(Device->mProject);
         RCache.set_xform_view(Device->mView);
         // Stencil - write 0x1 at pixel pos -
-        RCache.set_Stencil(
-            TRUE, D3DCMP_ALWAYS, 0x01, 0xff, 0xff, D3DSTENCILOP_KEEP, D3DSTENCILOP_REPLACE, D3DSTENCILOP_KEEP);
+        RCache.set_Stencil(TRUE, D3DCMP_ALWAYS, 0x01, 0xff, 0xff, D3DSTENCILOP_KEEP, D3DSTENCILOP_REPLACE, D3DSTENCILOP_KEEP);
         // RCache.set_Stencil
         // (TRUE,D3DCMP_ALWAYS,0x00,0xff,0xff,D3DSTENCILOP_KEEP,D3DSTENCILOP_REPLACE,D3DSTENCILOP_KEEP);
         RCache.set_CullMode(CULL_CCW);
@@ -502,7 +496,7 @@ void CRender::render_forward()
     //.todo: should be done inside "combine" with estimation of of luminance, tone-mapping, etc.
     {
         // level
-        r_pmask(false, true);                         // enable priority "1"
+        r_pmask(false, true);   // enable priority "1"
         phase = PHASE_NORMAL;
         render_main(Device->mFullTransform, false);   //
         //	Igor: we don't want to render old lods on next frame.

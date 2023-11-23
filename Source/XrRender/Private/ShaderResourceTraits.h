@@ -127,8 +127,7 @@ template<typename T> inline T* CResourceManager::CreateShader(const char* name)
 
         // Open file
         string_path cname;
-        strconcat(
-            sizeof(cname), cname, ::Render->getShaderPath(), /*name*/ shName, ShaderTypeTraits<T>::GetShaderExt());
+        strconcat(sizeof(cname), cname, ::Render->getShaderPath(), /*name*/ shName, ShaderTypeTraits<T>::GetShaderExt());
         FS.update_path(cname, "$game_shaders$", cname);
 
         // duplicate and zero-terminate
@@ -140,17 +139,13 @@ template<typename T> inline T* CResourceManager::CreateShader(const char* name)
         LPCSTR        c_entry  = "main";
 
         // Compile
-        HRESULT const _hr      = ::Render->shader_compile(
-            name, (DWORD const*)file->pointer(), file->length(), c_entry, c_target, D3D10_SHADER_PACK_MATRIX_ROW_MAJOR,
-            (void*&)sh);
+        HRESULT const _hr      = ::Render->shader_compile(name, (DWORD const*)file->pointer(), file->length(), c_entry, c_target, D3D10_SHADER_PACK_MATRIX_ROW_MAJOR, (void*&)sh);
 
         FS.r_close(file);
 
         VERIFY(SUCCEEDED(_hr));
 
-        CHECK_OR_EXIT(
-            !FAILED(_hr),
-            make_string("Your video card doesn't meet game requirements.\n\nTry to lower game settings."));
+        CHECK_OR_EXIT(!FAILED(_hr), make_string("Your video card doesn't meet game requirements.\n\nTry to lower game settings."));
 
         return sh;
     }

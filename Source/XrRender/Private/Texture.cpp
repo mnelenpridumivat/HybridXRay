@@ -21,9 +21,7 @@
 void fix_texture_name(LPSTR fn)
 {
     LPSTR _ext = strext(fn);
-    if (_ext &&
-        (0 == stricmp(_ext, ".tga") || 0 == stricmp(_ext, ".dds") || 0 == stricmp(_ext, ".bmp") ||
-            0 == stricmp(_ext, ".ogm")))
+    if (_ext && (0 == stricmp(_ext, ".tga") || 0 == stricmp(_ext, ".dds") || 0 == stricmp(_ext, ".bmp") || 0 == stricmp(_ext, ".ogm")))
         *_ext = 0;
 }
 
@@ -138,8 +136,7 @@ void TW_Save(ID3DTexture2D* T, LPCSTR name, LPCSTR prefix, LPCSTR postfix)
     R_CHK(D3DXSaveTextureToFile(fn2, D3DXIFF_DDS, T, 0));
 }
 
-ID3DTexture2D*
-    TW_LoadTextureFromTexture(ID3DTexture2D* t_from, D3DFORMAT& t_dest_fmt, int levels_2_skip, u32& w, u32& h)
+ID3DTexture2D* TW_LoadTextureFromTexture(ID3DTexture2D* t_from, D3DFORMAT& t_dest_fmt, int levels_2_skip, u32& w, u32& h)
 {
     // Calculate levels & dimensions
     ID3DTexture2D*  t_dest = NULL;
@@ -210,8 +207,7 @@ template<class _It> IC void TW_Iterate_1OP(ID3DTexture2D* t_dst, ID3DTexture2D* 
         t_src->UnlockRect(i);
     }
 }
-template<class _It>
-IC void TW_Iterate_2OP(ID3DTexture2D* t_dst, ID3DTexture2D* t_src0, ID3DTexture2D* t_src1, const _It pred)
+template<class _It> IC void TW_Iterate_2OP(ID3DTexture2D* t_dst, ID3DTexture2D* t_src0, ID3DTexture2D* t_src1, const _It pred)
 {
     DWORD mips = t_dst->GetLevelCount();
     R_ASSERT(mips == t_src0->GetLevelCount());
@@ -261,24 +257,21 @@ IC u32 it_gloss_rev_base(u32 d, u32 s)
 }
 IC u32 it_difference(u32 d, u32 orig, u32 ucomp)
 {
-    return color_rgba(
-        128 + (int(color_get_R(orig)) - int(color_get_R(ucomp))) * 2,    // R-error
-        128 + (int(color_get_G(orig)) - int(color_get_G(ucomp))) * 2,    // G-error
-        128 + (int(color_get_B(orig)) - int(color_get_B(ucomp))) * 2,    // B-error
-        128 + (int(color_get_A(orig)) - int(color_get_A(ucomp))) * 2);   // A-error
+    return color_rgba(128 + (int(color_get_R(orig)) - int(color_get_R(ucomp))) * 2,   // R-error
+        128 + (int(color_get_G(orig)) - int(color_get_G(ucomp))) * 2,                 // G-error
+        128 + (int(color_get_B(orig)) - int(color_get_B(ucomp))) * 2,                 // B-error
+        128 + (int(color_get_A(orig)) - int(color_get_A(ucomp))) * 2);                // A-error
 }
 IC u32 it_height_rev(u32 d, u32 s)
 {
-    return color_rgba(
-        color_get_A(d),    // diff x
-        color_get_B(d),    // diff y
-        color_get_G(d),    // diff z
-        color_get_R(s));   // height
+    return color_rgba(color_get_A(d),   // diff x
+        color_get_B(d),                 // diff y
+        color_get_G(d),                 // diff z
+        color_get_R(s));                // height
 }
 IC u32 it_height_rev_base(u32 d, u32 s)
 {
-    return color_rgba(
-        color_get_A(d),                                            // diff x
+    return color_rgba(color_get_A(d),                              // diff x
         color_get_B(d),                                            // diff y
         color_get_G(d),                                            // diff z
         (color_get_R(s) + color_get_G(s) + color_get_B(s)) / 3);   // height
@@ -436,21 +429,16 @@ Load:
     {
         R_ASSERT(IsBump == false);
         Format = Convert(Image.GetFormat(), Image);
-        R_CHK(HW.pDevice->CreateCubeTexture(
-            Image.GetWidth(), Image.GetMips(), 0, Format, D3DPOOL_MANAGED, &TextureCUBE, 0));
+        R_CHK(HW.pDevice->CreateCubeTexture(Image.GetWidth(), Image.GetMips(), 0, Format, D3DPOOL_MANAGED, &TextureCUBE, 0));
         {
-            size_t SizeImg = RedImageTool::RedTextureUtils::GetSizeInMemory(
-                Image.GetWidth(), Image.GetHeight(), Image.GetMips(), Image.GetFormat());
+            size_t SizeImg = RedImageTool::RedTextureUtils::GetSizeInMemory(Image.GetWidth(), Image.GetHeight(), Image.GetMips(), Image.GetFormat());
             for (size_t a = 0; a < 6; a++)
             {
                 D3DLOCKED_RECT Rect;
                 for (size_t i = 0; i < Image.GetMips(); i++)
                 {
                     R_CHK(TextureCUBE->LockRect((D3DCUBEMAP_FACES)a, i, &Rect, 0, 0));
-                    u8* Source = reinterpret_cast<u8*>(*Image) +
-                        RedImageTool::RedTextureUtils::GetSizeInMemory(
-                            Image.GetWidth(), Image.GetHeight(), i, Image.GetFormat()) +
-                        SizeImg * a;
+                    u8* Source = reinterpret_cast<u8*>(*Image) + RedImageTool::RedTextureUtils::GetSizeInMemory(Image.GetWidth(), Image.GetHeight(), i, Image.GetFormat()) + SizeImg * a;
                     u32 Width  = RedImageTool::RedTextureUtils::GetMip(Image.GetWidth(), i);
                     u32 Height = RedImageTool::RedTextureUtils::GetMip(Image.GetHeight(), i);
                     Height     = RedImageTool::RedTextureUtils::GetCountBlock(Height, Image.GetFormat());
@@ -473,17 +461,14 @@ Load:
     else
     {
         Format      = Convert(Image.GetFormat(), Image);
-        HRESULT hr1 = HW.pDevice->CreateTexture(
-            Image.GetWidth(), Image.GetHeight(), Image.GetMips(), 0, Format, D3DPOOL_MANAGED, &Texture2D, 0);
+        HRESULT hr1 = HW.pDevice->CreateTexture(Image.GetWidth(), Image.GetHeight(), Image.GetMips(), 0, Format, D3DPOOL_MANAGED, &Texture2D, 0);
         R_CHK(hr1);
         {
             D3DLOCKED_RECT Rect;
             for (size_t i = 0; i < Image.GetMips(); i++)
             {
                 R_CHK(Texture2D->LockRect(i, &Rect, 0, 0));
-                u8* Source = reinterpret_cast<u8*>(*Image) +
-                    RedImageTool::RedTextureUtils::GetSizeInMemory(
-                        Image.GetWidth(), Image.GetHeight(), i, Image.GetFormat());
+                u8* Source = reinterpret_cast<u8*>(*Image) + RedImageTool::RedTextureUtils::GetSizeInMemory(Image.GetWidth(), Image.GetHeight(), i, Image.GetFormat());
                 u32 Width  = RedImageTool::RedTextureUtils::GetMip(Image.GetWidth(), i);
                 u32 Height = RedImageTool::RedTextureUtils::GetMip(Image.GetHeight(), i);
                 Height     = RedImageTool::RedTextureUtils::GetCountBlock(Height, Image.GetFormat());
@@ -502,11 +487,8 @@ Load:
         if (IsBump)
         {
             ID3DTexture2D* T_normal_1 = 0;
-            R_CHK(D3DXCreateTexture(
-                HW.pDevice, Image.GetWidth(), Image.GetHeight(), D3DX_DEFAULT, 0, D3DFMT_A8R8G8B8, D3DPOOL_SYSTEMMEM,
-                &T_normal_1));
-            R_CHK(D3DXComputeNormalMap(
-                T_normal_1, Texture2D, 0, D3DX_NORMALMAP_COMPUTE_OCCLUSION, D3DX_CHANNEL_LUMINANCE, _BUMPHEIGH));
+            R_CHK(D3DXCreateTexture(HW.pDevice, Image.GetWidth(), Image.GetHeight(), D3DX_DEFAULT, 0, D3DFMT_A8R8G8B8, D3DPOOL_SYSTEMMEM, &T_normal_1));
+            R_CHK(D3DXComputeNormalMap(T_normal_1, Texture2D, 0, D3DX_NORMALMAP_COMPUTE_OCCLUSION, D3DX_CHANNEL_LUMINANCE, _BUMPHEIGH));
 
             // Transfer gloss-map
             TW_Iterate_1OP(T_normal_1, Texture2D, it_gloss_rev_base);
@@ -607,8 +589,7 @@ _DDS:
 
 _DDS_CUBE:
 {
-    result = D3DXCreateCubeTextureFromFileInMemoryEx(HW.pDevice, S->pointer(), S->length(), D3DX_DEFAULT,
-        IMG.MipLevels, 0, IMG.Format, D3DPOOL_MANAGED, D3DX_DEFAULT, D3DX_DEFAULT, 0, &IMG, 0, &pTextureCUBE);
+    result = D3DXCreateCubeTextureFromFileInMemoryEx(HW.pDevice, S->pointer(), S->length(), D3DX_DEFAULT, IMG.MipLevels, 0, IMG.Format, D3DPOOL_MANAGED, D3DX_DEFAULT, D3DX_DEFAULT, 0, &IMG, 0, &pTextureCUBE);
     FS.r_close(S);
 
     if (FAILED(result))
@@ -634,9 +615,7 @@ _DDS_2D:
     strlwr(fn);
     // Load   SYS-MEM-surface, bound to device restrictions
     ID3DTexture2D* T_sysmem;
-    HRESULT const  result =
-        D3DXCreateTextureFromFileInMemoryEx(HW.pDevice, S->pointer(), S->length(), D3DX_DEFAULT, D3DX_DEFAULT,
-            IMG.MipLevels, 0, IMG.Format, D3DPOOL_SYSTEMMEM, D3DX_DEFAULT, D3DX_DEFAULT, 0, &IMG, 0, &T_sysmem);
+    HRESULT const  result = D3DXCreateTextureFromFileInMemoryEx(HW.pDevice, S->pointer(), S->length(), D3DX_DEFAULT, D3DX_DEFAULT, IMG.MipLevels, 0, IMG.Format, D3DPOOL_SYSTEMMEM, D3DX_DEFAULT, D3DX_DEFAULT, 0, &IMG, 0, &T_sysmem);
     FS.r_close(S);
 
     if (FAILED(result))
@@ -767,17 +746,13 @@ _BUMP_from_base:
     S        = FS.r_open(fn);
     img_size = S->length();
     ID3DTexture2D* T_base;
-    R_CHK2(D3DXCreateTextureFromFileInMemoryEx(HW.pDevice, S->pointer(), S->length(), D3DX_DEFAULT, D3DX_DEFAULT,
-               D3DX_DEFAULT, 0, D3DFMT_A8R8G8B8, D3DPOOL_SYSTEMMEM, D3DX_DEFAULT, D3DX_DEFAULT, 0, &IMG, 0, &T_base),
-        fn);
+    R_CHK2(D3DXCreateTextureFromFileInMemoryEx(HW.pDevice, S->pointer(), S->length(), D3DX_DEFAULT, D3DX_DEFAULT, D3DX_DEFAULT, 0, D3DFMT_A8R8G8B8, D3DPOOL_SYSTEMMEM, D3DX_DEFAULT, D3DX_DEFAULT, 0, &IMG, 0, &T_base), fn);
     FS.r_close(S);
 
     // Create HW-surface
     ID3DTexture2D* T_normal_1 = 0;
-    R_CHK(D3DXCreateTexture(
-        HW.pDevice, IMG.Width, IMG.Height, D3DX_DEFAULT, 0, D3DFMT_A8R8G8B8, D3DPOOL_SYSTEMMEM, &T_normal_1));
-    R_CHK(D3DXComputeNormalMap(
-        T_normal_1, T_base, 0, D3DX_NORMALMAP_COMPUTE_OCCLUSION, D3DX_CHANNEL_LUMINANCE, _BUMPHEIGH));
+    R_CHK(D3DXCreateTexture(HW.pDevice, IMG.Width, IMG.Height, D3DX_DEFAULT, 0, D3DFMT_A8R8G8B8, D3DPOOL_SYSTEMMEM, &T_normal_1));
+    R_CHK(D3DXComputeNormalMap(T_normal_1, T_base, 0, D3DX_NORMALMAP_COMPUTE_OCCLUSION, D3DX_CHANNEL_LUMINANCE, _BUMPHEIGH));
 
     // Transfer gloss-map
     TW_Iterate_1OP(T_normal_1, T_base, it_gloss_rev_base);
@@ -795,8 +770,7 @@ _BUMP_from_base:
 
     // Calculate difference
     ID3DTexture2D* T_normal_1D = 0;
-    R_CHK(D3DXCreateTexture(HW.pDevice, dwWidth, dwHeight, T_normal_1U->GetLevelCount(), 0, D3DFMT_A8R8G8B8,
-        D3DPOOL_SYSTEMMEM, &T_normal_1D));
+    R_CHK(D3DXCreateTexture(HW.pDevice, dwWidth, dwHeight, T_normal_1U->GetLevelCount(), 0, D3DFMT_A8R8G8B8, D3DPOOL_SYSTEMMEM, &T_normal_1D));
     TW_Iterate_2OP(T_normal_1D, T_normal_1, T_normal_1U, it_difference);
 
     // Reverse channels back + transfer heightmap

@@ -147,8 +147,7 @@ IC void CBackend::set_Scissor(Irect* R)
     }
 }
 
-IC void
-    CBackend::set_Stencil(u32 _enable, u32 _func, u32 _ref, u32 _mask, u32 _writemask, u32 _fail, u32 _pass, u32 _zfail)
+IC void CBackend::set_Stencil(u32 _enable, u32 _func, u32 _ref, u32 _mask, u32 _writemask, u32 _fail, u32 _pass, u32 _zfail)
 {
     // Simple filter
     if (stencil_enable != _enable)

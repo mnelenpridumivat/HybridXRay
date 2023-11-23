@@ -220,18 +220,14 @@ SVS* CResourceManager::_CreateVS(LPCSTR _name)
         }
 
         Msg("compiling shader %s", name);
-        HRESULT const _hr = ::Render->shader_compile(
-            name, (DWORD const*)data, size, c_entry, c_target, D3DXSHADER_DEBUG | D3DXSHADER_PACKMATRIX_ROWMAJOR,
-            (void*&)_vs);
+        HRESULT const _hr = ::Render->shader_compile(name, (DWORD const*)data, size, c_entry, c_target, D3DXSHADER_DEBUG | D3DXSHADER_PACKMATRIX_ROWMAJOR, (void*&)_vs);
 
         if (FAILED(_hr))
         {
             FlushLog();
         }
 
-        CHECK_OR_EXIT(
-            !FAILED(_hr),
-            make_string("Your video card doesn't meet game requirements.\n\nTry to lower game settings."));
+        CHECK_OR_EXIT(!FAILED(_hr), make_string("Your video card doesn't meet game requirements.\n\nTry to lower game settings."));
 
         return _vs;
     }
@@ -316,18 +312,14 @@ SPS* CResourceManager::_CreatePS(LPCSTR name)
         }
 
         Msg("compiling shader %s", name);
-        HRESULT const _hr = ::Render->shader_compile(
-            name, (DWORD const*)data, size, c_entry, c_target, D3DXSHADER_DEBUG | D3DXSHADER_PACKMATRIX_ROWMAJOR,
-            (void*&)_ps);
+        HRESULT const _hr = ::Render->shader_compile(name, (DWORD const*)data, size, c_entry, c_target, D3DXSHADER_DEBUG | D3DXSHADER_PACKMATRIX_ROWMAJOR, (void*&)_ps);
 
         if (FAILED(_hr))
         {
             FlushLog();
         }
 
-        CHECK_OR_EXIT(
-            !FAILED(_hr),
-            make_string("Your video card doesn't meet game requirements.\n\nTry to lower game settings."));
+        CHECK_OR_EXIT(!FAILED(_hr), make_string("Your video card doesn't meet game requirements.\n\nTry to lower game settings."));
 
         return _ps;
     }
@@ -730,12 +722,7 @@ void CResourceManager::_DeleteConstantList(const SConstantList* L)
 class includer: public ID3DXInclude
 {
 public:
-    HRESULT __stdcall Open(
-        D3DXINCLUDE_TYPE IncludeType,
-        LPCSTR           pFileName,
-        LPCVOID          pParentData,
-        LPCVOID*         ppData,
-        UINT*            pBytes)
+    HRESULT __stdcall Open(D3DXINCLUDE_TYPE IncludeType, LPCSTR pFileName, LPCVOID pParentData, LPCVOID* ppData, UINT* pBytes)
     {
         string_path pname;
         strconcat(sizeof(pname), pname, ::Render->getShaderPath(), pFileName);
@@ -838,10 +825,7 @@ SVS* CResourceManager::_CreateVS(LPCSTR _name)
 
         // vertex
         R_ASSERT2(fs, cname);
-        _hr = ::RImplementation.shader_compile(
-            name, LPCSTR(fs->pointer()), fs->length(), NULL, &Includer, c_entry, c_target,
-            D3DXSHADER_DEBUG | D3DXSHADER_PACKMATRIX_ROWMAJOR /*| D3DXSHADER_PREFER_FLOW_CONTROL*/, &pShaderBuf,
-            &pErrorBuf, NULL);
+        _hr = ::RImplementation.shader_compile(name, LPCSTR(fs->pointer()), fs->length(), NULL, &Includer, c_entry, c_target, D3DXSHADER_DEBUG | D3DXSHADER_PACKMATRIX_ROWMAJOR /*| D3DXSHADER_PREFER_FLOW_CONTROL*/, &pShaderBuf, &pErrorBuf, NULL);
         //		_hr = D3DXCompileShader		(LPCSTR(fs->pointer()),fs->length(), NULL, &Includer, "main", target,
         // D3DXSHADER_DEBUG | D3DXSHADER_PACKMATRIX_ROWMAJOR, &pShaderBuf, &pErrorBuf, NULL);
         FS.r_close(fs);
@@ -854,8 +838,7 @@ SVS* CResourceManager::_CreateVS(LPCSTR _name)
                 if (SUCCEEDED(_hr))
                 {
                     LPCVOID data = NULL;
-                    _hr          = D3DXFindShaderComment(
-                        (DWORD*)pShaderBuf->GetBufferPointer(), MAKEFOURCC('C', 'T', 'A', 'B'), &data, NULL);
+                    _hr          = D3DXFindShaderComment((DWORD*)pShaderBuf->GetBufferPointer(), MAKEFOURCC('C', 'T', 'A', 'B'), &data, NULL);
                     if (SUCCEEDED(_hr) && data)
                     {
                         pConstants = LPD3DXSHADER_CONSTANTTABLE(data);
@@ -894,9 +877,7 @@ SVS* CResourceManager::_CreateVS(LPCSTR _name)
         _RELEASE(pErrorBuf);
         pConstants = NULL;
 
-        CHECK_OR_EXIT(
-            !FAILED(_hr),
-            make_string("Your video card doesn't meet game requirements.\n\nTry to lower game settings."));
+        CHECK_OR_EXIT(!FAILED(_hr), make_string("Your video card doesn't meet game requirements.\n\nTry to lower game settings."));
 
         return _vs;
     }
@@ -970,9 +951,7 @@ SPS* CResourceManager::_CreatePS(LPCSTR name)
         LPD3DXBUFFER               pErrorBuf  = NULL;
         LPD3DXSHADER_CONSTANTTABLE pConstants = NULL;
         HRESULT                    _hr        = S_OK;
-        _hr                                   = ::RImplementation.shader_compile(
-            name, data, size, NULL, &Includer, c_entry, c_target, D3DXSHADER_DEBUG | D3DXSHADER_PACKMATRIX_ROWMAJOR,
-            &pShaderBuf, &pErrorBuf, NULL);
+        _hr                                   = ::RImplementation.shader_compile(name, data, size, NULL, &Includer, c_entry, c_target, D3DXSHADER_DEBUG | D3DXSHADER_PACKMATRIX_ROWMAJOR, &pShaderBuf, &pErrorBuf, NULL);
         //_hr = D3DXCompileShader		(text,text_size, NULL, &Includer, c_entry, c_target, D3DXSHADER_DEBUG |
         // D3DXSHADER_PACKMATRIX_ROWMAJOR, &pShaderBuf, &pErrorBuf, NULL);
         xr_free(data);
@@ -985,8 +964,7 @@ SPS* CResourceManager::_CreatePS(LPCSTR name)
                 if (SUCCEEDED(_hr))
                 {
                     LPCVOID data = NULL;
-                    _hr          = D3DXFindShaderComment(
-                        (DWORD*)pShaderBuf->GetBufferPointer(), MAKEFOURCC('C', 'T', 'A', 'B'), &data, NULL);
+                    _hr          = D3DXFindShaderComment((DWORD*)pShaderBuf->GetBufferPointer(), MAKEFOURCC('C', 'T', 'A', 'B'), &data, NULL);
                     if (SUCCEEDED(_hr) && data)
                     {
                         pConstants = LPD3DXSHADER_CONSTANTTABLE(data);
@@ -1025,9 +1003,7 @@ SPS* CResourceManager::_CreatePS(LPCSTR name)
         _RELEASE(pErrorBuf);
         pConstants = NULL;
 
-        CHECK_OR_EXIT(
-            !FAILED(_hr),
-            make_string("Your video card doesn't meet game requirements.\n\nTry to lower game settings."));
+        CHECK_OR_EXIT(!FAILED(_hr), make_string("Your video card doesn't meet game requirements.\n\nTry to lower game settings."));
 
         return _ps;
     }

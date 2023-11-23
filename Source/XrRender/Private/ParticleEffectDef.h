@@ -18,11 +18,8 @@ namespace PS
 {
     class CParticleEffect;
 
-    typedef BOOL (*CollisionCallback)(
-        CParticleEffect* E,
-        PAPI::Particle&  P,
-        const Fvector&   pt,
-        const Fvector&   norm);   // TRUE-continue collision exec
+    typedef BOOL (*CollisionCallback)(CParticleEffect* E, PAPI::Particle& P, const Fvector& pt,
+        const Fvector& norm);   // TRUE-continue collision exec
     typedef void (*DestroyCallback)(CParticleEffect* E, PAPI::Particle& P);
 
     class PFunction;
@@ -98,12 +95,7 @@ namespace PS
         BOOL LoadActionList(IReader& F);
         // execute
         void ExecuteAnimate(PAPI::Particle* particles, u32 p_cnt, float dt);
-        void ExecuteCollision(
-            PAPI::Particle*   particles,
-            u32               p_cnt,
-            float             dt,
-            CParticleEffect*  owner,
-            CollisionCallback cb);
+        void ExecuteCollision(PAPI::Particle* particles, u32 p_cnt, float dt, CParticleEffect* owner, CollisionCallback cb);
     public:
         CPEDef();
         ~CPEDef();

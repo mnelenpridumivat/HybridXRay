@@ -92,9 +92,7 @@ void CBlender_Model::Compile(CBlender_Compile& C)
         else if (C.iElement == 1)
         {
             if (oBlend.value)
-                C.r_Pass(
-                    "model_def_hq", "model_def_hq", FALSE, TRUE, TRUE, TRUE, D3DBLEND_SRCALPHA, D3DBLEND_INVSRCALPHA,
-                    TRUE, oAREF.value);
+                C.r_Pass("model_def_hq", "model_def_hq", FALSE, TRUE, TRUE, TRUE, D3DBLEND_SRCALPHA, D3DBLEND_INVSRCALPHA, TRUE, oAREF.value);
             else
                 C.r_Pass("model_def_hq", "model_def_hq", FALSE);
             C.r_Sampler("s_base", C.L_textures[0]);
@@ -110,9 +108,7 @@ void CBlender_Model::Compile(CBlender_Compile& C)
             case SE_R1_NORMAL_HQ:
                 vsname = psname = "model_def_hq";
                 if (oBlend.value)
-                    C.r_Pass(
-                        vsname, psname, TRUE, TRUE, TRUE, TRUE, D3DBLEND_SRCALPHA, D3DBLEND_INVSRCALPHA, TRUE,
-                        oAREF.value);
+                    C.r_Pass(vsname, psname, TRUE, TRUE, TRUE, TRUE, D3DBLEND_SRCALPHA, D3DBLEND_INVSRCALPHA, TRUE, oAREF.value);
                 else
                     C.r_Pass(vsname, psname, TRUE);
                 C.r_Sampler("s_base", C.L_textures[0]);
@@ -122,9 +118,7 @@ void CBlender_Model::Compile(CBlender_Compile& C)
             case SE_R1_NORMAL_LQ:
                 vsname = psname = "model_def_lq";
                 if (oBlend.value)
-                    C.r_Pass(
-                        vsname, psname, TRUE, TRUE, TRUE, TRUE, D3DBLEND_SRCALPHA, D3DBLEND_INVSRCALPHA, TRUE,
-                        oAREF.value);
+                    C.r_Pass(vsname, psname, TRUE, TRUE, TRUE, TRUE, D3DBLEND_SRCALPHA, D3DBLEND_INVSRCALPHA, TRUE, oAREF.value);
                 else
                     C.r_Pass(vsname, psname, TRUE);
                 C.r_Sampler("s_base", C.L_textures[0]);

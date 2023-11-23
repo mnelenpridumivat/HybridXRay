@@ -175,8 +175,8 @@ private:
 
     BOOL add_Dynamic(dxRender_Visual* pVisual, u32 planes);   // normal processing
     void add_Static(dxRender_Visual* pVisual, u32 planes);
-    void add_leafs_Dynamic(dxRender_Visual* pVisual);         // if detected node's full visibility
-    void add_leafs_Static(dxRender_Visual* pVisual);          // if detected node's full visibility
+    void add_leafs_Dynamic(dxRender_Visual* pVisual);   // if detected node's full visibility
+    void add_leafs_Static(dxRender_Visual* pVisual);    // if detected node's full visibility
 public:
     IRender_Sector* rimp_detectSector(Fvector& P, Fvector& D);
     void            render_main(Fmatrix& mCombined, bool _fportals);
@@ -248,12 +248,8 @@ public:
             mtl = ps_r2_gmaterial;
 #endif
         RCache.hemi.set_material(o_hemi, o_sun, 0, (mtl + .5f) / 4.f);
-        RCache.hemi.set_pos_faces(
-            o_hemi_cube[CROS_impl::CUBE_FACE_POS_X], o_hemi_cube[CROS_impl::CUBE_FACE_POS_Y],
-            o_hemi_cube[CROS_impl::CUBE_FACE_POS_Z]);
-        RCache.hemi.set_neg_faces(
-            o_hemi_cube[CROS_impl::CUBE_FACE_NEG_X], o_hemi_cube[CROS_impl::CUBE_FACE_NEG_Y],
-            o_hemi_cube[CROS_impl::CUBE_FACE_NEG_Z]);
+        RCache.hemi.set_pos_faces(o_hemi_cube[CROS_impl::CUBE_FACE_POS_X], o_hemi_cube[CROS_impl::CUBE_FACE_POS_Y], o_hemi_cube[CROS_impl::CUBE_FACE_POS_Z]);
+        RCache.hemi.set_neg_faces(o_hemi_cube[CROS_impl::CUBE_FACE_NEG_X], o_hemi_cube[CROS_impl::CUBE_FACE_NEG_Y], o_hemi_cube[CROS_impl::CUBE_FACE_NEG_Z]);
     }
 public:
     // feature level
@@ -281,54 +277,35 @@ public:
     virtual void     level_Unload();
 
     ID3DBaseTexture* texture_load(LPCSTR fname, u32& msize, bool bStaging = false);
-    virtual HRESULT  shader_compile(
-         LPCSTR       name,
-         DWORD const* pSrcData,
-         UINT         SrcDataLen,
-         LPCSTR       pFunctionName,
-         LPCSTR       pTarget,
-         DWORD        Flags,
-         void*&       result);
+    virtual HRESULT  shader_compile(LPCSTR name, DWORD const* pSrcData, UINT SrcDataLen, LPCSTR pFunctionName, LPCSTR pTarget, DWORD Flags, void*& result);
 
     // Information
-    virtual void   Statistics(CGameFont* F);
-    virtual LPCSTR getShaderPath()
+    virtual void     Statistics(CGameFont* F);
+    virtual LPCSTR   getShaderPath()
     {
         return "r3\\";
     }
-    virtual ref_shader      getShader(int id);
-    virtual IRender_Sector* getSector(int id);
-    virtual IRenderVisual*  getVisual(int id);
-    virtual IRender_Sector* detectSector(const Fvector& P);
-    virtual IRender_Target* getTarget();
+    virtual ref_shader              getShader(int id);
+    virtual IRender_Sector*         getSector(int id);
+    virtual IRenderVisual*          getVisual(int id);
+    virtual IRender_Sector*         detectSector(const Fvector& P);
+    virtual IRender_Target*         getTarget();
 
     // Main
-    virtual void            flush();
-    virtual void            set_Object(IRenderable* O);
-    virtual void            add_Occluder(Fbox2& bb_screenspace);   // mask screen region as oclluded
-    virtual void            add_Visual(IRenderVisual* V);          // add visual leaf	(no culling performed at all)
-    virtual void            add_Geometry(IRenderVisual* V);        // add visual(s)	(all culling performed)
+    virtual void                    flush();
+    virtual void                    set_Object(IRenderable* O);
+    virtual void                    add_Occluder(Fbox2& bb_screenspace);   // mask screen region as oclluded
+    virtual void                    add_Visual(IRenderVisual* V);          // add visual leaf	(no culling performed at all)
+    virtual void                    add_Geometry(IRenderVisual* V);        // add visual(s)	(all culling performed)
 
     // wallmarks
-    virtual void            add_StaticWallmark(ref_shader& S, const Fvector& P, float s, CDB::TRI* T, Fvector* V);
-    virtual void            add_StaticWallmark(IWallMarkArray* pArray, const Fvector& P, float s, CDB::TRI* T, Fvector* V);
-    virtual void            add_StaticWallmark(const wm_shader& S, const Fvector& P, float s, CDB::TRI* T, Fvector* V);
-    virtual void            clear_static_wallmarks();
-    virtual void            add_SkeletonWallmark(intrusive_ptr<CSkeletonWallmark> wm);
-    virtual void            add_SkeletonWallmark(
-                   const Fmatrix* xf,
-                   CKinematics*   obj,
-                   ref_shader&    sh,
-                   const Fvector& start,
-                   const Fvector& dir,
-                   float          size);
-    virtual void add_SkeletonWallmark(
-        const Fmatrix*  xf,
-        IKinematics*    obj,
-        IWallMarkArray* pArray,
-        const Fvector&  start,
-        const Fvector&  dir,
-        float           size);
+    virtual void                    add_StaticWallmark(ref_shader& S, const Fvector& P, float s, CDB::TRI* T, Fvector* V);
+    virtual void                    add_StaticWallmark(IWallMarkArray* pArray, const Fvector& P, float s, CDB::TRI* T, Fvector* V);
+    virtual void                    add_StaticWallmark(const wm_shader& S, const Fvector& P, float s, CDB::TRI* T, Fvector* V);
+    virtual void                    clear_static_wallmarks();
+    virtual void                    add_SkeletonWallmark(intrusive_ptr<CSkeletonWallmark> wm);
+    virtual void                    add_SkeletonWallmark(const Fmatrix* xf, CKinematics* obj, ref_shader& sh, const Fvector& start, const Fvector& dir, float size);
+    virtual void                    add_SkeletonWallmark(const Fmatrix* xf, IKinematics* obj, IWallMarkArray* pArray, const Fvector& start, const Fvector& dir, float size);
 
     //
     virtual IBlender*               blender_create(CLASS_ID cls);

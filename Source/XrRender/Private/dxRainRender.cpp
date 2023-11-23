@@ -133,8 +133,7 @@ void dxRainRender::Render(CEffect_Rain& owner)
                         }
                         else
                         {
-                            owner.RenewItem(
-                                one, height - _sqrt(dist_sqr),
+                            owner.RenewItem(one, height - _sqrt(dist_sqr),
                                 TRUE);   // fly to point
                                          //							Log("2",height-dist);
                         }
@@ -225,9 +224,8 @@ void dxRainRender::Render(CEffect_Rain& owner)
         u32                                v_offset, i_offset;
         u32                                vCount_Lock = particles_cache * DM_Drop->number_vertices;
         u32                                iCount_Lock = particles_cache * DM_Drop->number_indices;
-        IRender_DetailModel::fvfVertexOut* v_ptr =
-            (IRender_DetailModel::fvfVertexOut*)RCache.Vertex.Lock(vCount_Lock, hGeom_Drops->vb_stride, v_offset);
-        u16* i_ptr = _IS.Lock(iCount_Lock, i_offset);
+        IRender_DetailModel::fvfVertexOut* v_ptr       = (IRender_DetailModel::fvfVertexOut*)RCache.Vertex.Lock(vCount_Lock, hGeom_Drops->vb_stride, v_offset);
+        u16*                               i_ptr       = _IS.Lock(iCount_Lock, i_offset);
         while (P)
         {
             CEffect_Rain::Particle* next = P->next;
@@ -265,8 +263,7 @@ void dxRainRender::Render(CEffect_Rain& owner)
                     RCache.set_Geometry(hGeom_Drops);
                     RCache.Render(D3DPT_TRIANGLELIST, v_offset, 0, vCount_Lock, i_offset, dwNumPrimitives);
 
-                    v_ptr = (IRender_DetailModel::fvfVertexOut*)RCache.Vertex.Lock(
-                        vCount_Lock, hGeom_Drops->vb_stride, v_offset);
+                    v_ptr  = (IRender_DetailModel::fvfVertexOut*)RCache.Vertex.Lock(vCount_Lock, hGeom_Drops->vb_stride, v_offset);
                     i_ptr  = _IS.Lock(iCount_Lock, i_offset);
 
                     pcount = 0;

@@ -26,8 +26,7 @@ public:
         {
             _poly& P = light_cuboid_polys[it];
 
-            P.plane.build(
-                light_cuboid_points[P.points[0]], light_cuboid_points[P.points[2]], light_cuboid_points[P.points[1]]);
+            P.plane.build(light_cuboid_points[P.points[0]], light_cuboid_points[P.points[2]], light_cuboid_points[P.points[1]]);
 
             // verify
             if (_debug)
@@ -49,11 +48,7 @@ public:
         }
     }
 
-    void compute_caster_model_fixed(
-        xr_vector<Fplane>& dest,
-        Fvector3&          translation,
-        float              map_size,
-        bool               clip_by_view_near)
+    void compute_caster_model_fixed(xr_vector<Fplane>& dest, Fvector3& translation, float map_size, bool clip_by_view_near)
     {
         translation.set(0.f, 0.f, 0.f);
 
@@ -307,12 +302,10 @@ public:
             return p0 == E.p0 && p1 == E.p1;
         }
     };
-
 public:
     xr_vector<Fvector3> points;
     xr_vector<_poly>    polys;
     xr_vector<_edge>    edges;
-
 public:
     void compute_planes()
     {

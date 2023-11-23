@@ -341,8 +341,7 @@ IC void q_scale_vs_basem(Fmatrix& m_res, const Fquaternion& q, const Fquaternion
     q_scalem(m_res, scale_factor);
 }
 
-IC void
-    q_add_scaled_basem(Fquaternion& q, const Fquaternion& base, const Fquaternion& q0, const Fquaternion& q1, float v1)
+IC void q_add_scaled_basem(Fquaternion& q, const Fquaternion& base, const Fquaternion& q0, const Fquaternion& q1, float v1)
 {
     // VERIFY(0.f =< v && 1.f >= v );
     Fmatrix m0;
@@ -356,9 +355,7 @@ IC void
 
 IC float DET(const Fmatrix& a)
 {
-    return (
-        (a._11 * (a._22 * a._33 - a._23 * a._32) - a._12 * (a._21 * a._33 - a._23 * a._31) +
-            a._13 * (a._21 * a._32 - a._22 * a._31)));
+    return ((a._11 * (a._22 * a._33 - a._23 * a._32) - a._12 * (a._21 * a._33 - a._23 * a._31) + a._13 * (a._21 * a._32 - a._22 * a._31)));
 }
 
 IC bool check_scale(const Fmatrix& m)
@@ -392,12 +389,7 @@ IC void MixAdd(CKey& Result, const CKey* R, const float* BA, int b_count)
     key_identity(Result);
     MixinAdd(Result, R, BA, b_count);
 }
-IC void process_single_channel(
-    CKey&                         Result,
-    const animation::channel_def& ch,
-    const CKey*                   R,
-    const CBlend* const           BA[MAX_BLENDED],
-    int                           b_count)
+IC void process_single_channel(CKey& Result, const animation::channel_def& ch, const CKey* R, const CBlend* const BA[MAX_BLENDED], int b_count)
 {
     MixInterlerp(Result, R, BA, b_count);
     VERIFY(_valid(Result.T));

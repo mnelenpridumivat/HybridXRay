@@ -170,10 +170,9 @@ void CTexture::ProcessStaging()
 
             T                      = 0;
 
-            CHK_DX(HW.pDevice->CreateTexture2D(
-                &TexDesc,   // Texture desc
-                NULL,       // Initial data
-                &T));       // [out] Texture
+            CHK_DX(HW.pDevice->CreateTexture2D(&TexDesc,   // Texture desc
+                NULL,                                      // Initial data
+                &T));                                      // [out] Texture
 
             pTargetSurface = T;
         }
@@ -189,10 +188,9 @@ void CTexture::ProcessStaging()
 
             T                      = 0;
 
-            CHK_DX(HW.pDevice->CreateTexture3D(
-                &TexDesc,   // Texture desc
-                NULL,       // Initial data
-                &T));       // [out] Texture
+            CHK_DX(HW.pDevice->CreateTexture3D(&TexDesc,   // Texture desc
+                NULL,                                      // Initial data
+                &T));                                      // [out] Texture
 
             pTargetSurface = T;
         }

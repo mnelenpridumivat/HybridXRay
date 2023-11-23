@@ -5,15 +5,9 @@
 
 namespace
 {
-    const xr_token simulation_type_token[] = {
-        {"Fog", dx103DFluidData::ST_FOG},
-        {"Fire", dx103DFluidData::ST_FIRE},
-        {0, 0}};
+    const xr_token simulation_type_token[] = {{"Fog", dx103DFluidData::ST_FOG}, {"Fire", dx103DFluidData::ST_FIRE}, {0, 0}};
 
-    const xr_token emitter_type_token[] = {
-        {"SimpleGaussian", dx103DFluidEmitters::ET_SimpleGausian},
-        {"SimpleDraught", dx103DFluidEmitters::ET_SimpleDraught},
-        {0, 0}};
+    const xr_token emitter_type_token[]    = {{"SimpleGaussian", dx103DFluidEmitters::ET_SimpleGausian}, {"SimpleDraught", dx103DFluidEmitters::ET_SimpleDraught}, {0, 0}};
 }   // namespace
 
 DXGI_FORMAT dx103DFluidData::m_VPRenderTargetFormats[VP_NUM_TARGETS] = {
@@ -136,9 +130,7 @@ void dx103DFluidData::ParseProfile(const xr_string& Profile)
         // Translate.translate(0.5, 0.5, 0.5);
         // It seems that y axis is inverted in fluid simulation, so shange maths a bit
         Fvector vGridDim;
-        vGridDim.set(
-            (float)FluidManager.GetTextureWidth(), (float)FluidManager.GetTextureHeight(),
-            (float)FluidManager.GetTextureDepth());
+        vGridDim.set((float)FluidManager.GetTextureWidth(), (float)FluidManager.GetTextureHeight(), (float)FluidManager.GetTextureDepth());
         Scale.scale(vGridDim.x - 1, -(vGridDim.y - 1), vGridDim.z - 1);
         Translate.translate(0.5, -0.5, 0.5);
         //	Actually it is mul(Translate, Scale).

@@ -145,7 +145,7 @@ void GenerateStrips(const u16* in_indices, const s32 in_numIndices, xr_vector<Pr
         // convert to output format
         int numGroups = u16(numSeparateStrips);   // for the strips
         if (tempFaces.size() != 0)
-            numGroups++;                          // we've got a list as well, increment
+            numGroups++;   // we've got a list as well, increment
         primGroups.resize(numGroups);
 
         // first, the strips
@@ -230,10 +230,7 @@ void GenerateStrips(const u16* in_indices, const s32 in_numIndices, xr_vector<Pr
 // Note that, according to the remapping handed back to you, you must reorder your
 //  vertex buffer.
 //
-void RemapIndices(
-    const xr_vector<PrimitiveGroup>& in_primGroups,
-    const u16                        numVerts,
-    xr_vector<PrimitiveGroup>&       remappedGroups)
+void RemapIndices(const xr_vector<PrimitiveGroup>& in_primGroups, const u16 numVerts, xr_vector<PrimitiveGroup>& remappedGroups)
 {
     int numGroups = in_primGroups.size();
     remappedGroups.resize(numGroups);

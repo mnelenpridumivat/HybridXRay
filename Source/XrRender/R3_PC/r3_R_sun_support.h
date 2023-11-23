@@ -26,8 +26,7 @@ public:
         {
             _poly& P = light_cuboid_polys[it];
 
-            P.plane.build(
-                light_cuboid_points[P.points[0]], light_cuboid_points[P.points[2]], light_cuboid_points[P.points[1]]);
+            P.plane.build(light_cuboid_points[P.points[0]], light_cuboid_points[P.points[2]], light_cuboid_points[P.points[1]]);
 
             // verify
             if (_debug)
@@ -49,11 +48,7 @@ public:
         }
     }
 
-    void compute_caster_model_fixed(
-        xr_vector<Fplane>& dest,
-        Fvector3&          translation,
-        float              map_size,
-        bool               clip_by_view_near)
+    void compute_caster_model_fixed(xr_vector<Fplane>& dest, Fvector3& translation, float map_size, bool clip_by_view_near)
     {
         translation.set(0.f, 0.f, 0.f);
 
@@ -297,8 +292,7 @@ public:
     {
         int p0, p1;
         int counter;
-        _edge(int _p0, int _p1, int m):
-            p0(_p0), p1(_p1), counter(m)
+        _edge(int _p0, int _p1, int m): p0(_p0), p1(_p1), counter(m)
         {
             if (p0 > p1)
                 swap(p0, p1);

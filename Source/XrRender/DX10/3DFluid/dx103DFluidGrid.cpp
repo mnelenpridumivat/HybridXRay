@@ -33,8 +33,7 @@ namespace
 #define VERTICES_PER_LINE  2
 #define LINES_PER_SLICE    4
 
-dx103DFluidGrid::dx103DFluidGrid()
-{}
+dx103DFluidGrid::dx103DFluidGrid() {}
 
 dx103DFluidGrid::~dx103DFluidGrid()
 {
@@ -63,10 +62,7 @@ void dx103DFluidGrid::CreateVertexBuffers()
     //	{ "TEXCOORD", 0, DXGI_FORMAT_R32G32B32_FLOAT,       0,12, D3Dxx_INPUT_PER_VERTEX_DATA, 0 },
     //};
 
-    static D3DVERTEXELEMENT9 layoutDesc[] = {
-        {0, 0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0},
-        {0, 12, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0},
-        D3DDECL_END()};
+    static D3DVERTEXELEMENT9  layoutDesc[]   = {{0, 0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0}, {0, 12, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0}, D3DDECL_END()};
 
     u32                       vSize          = D3DXGetDeclVertexSize(layoutDesc, 0);
 
@@ -122,8 +118,7 @@ void dx103DFluidGrid::CreateVertexBuffers()
     VERIFY(index == m_iNumVerticesBoundarySlices);
     // V_RETURN(CreateVertexBuffer(sizeof(VS_INPUT_FLUIDSIM_STRUCT)*numVerticesBoundarySlices,
     //	D3Dxx_BIND_VERTEX_BUFFER, &boundarySlicesBuffer, boundarySlices, numVerticesBoundarySlices));
-    CHK_DX(dx10BufferUtils::CreateVertexBuffer(
-        &m_pBoundarySlicesBuffer, boundarySlices, vSize * m_iNumVerticesBoundarySlices));
+    CHK_DX(dx10BufferUtils::CreateVertexBuffer(&m_pBoundarySlicesBuffer, boundarySlices, vSize * m_iNumVerticesBoundarySlices));
     m_GeomBoundarySlices.create(layoutDesc, m_pBoundarySlicesBuffer, 0);
 
     //   ( 4 * "m_vDim[2]" ) boundary lines
@@ -132,8 +127,7 @@ void dx103DFluidGrid::CreateVertexBuffers()
     VERIFY(index == m_iNumVerticesBoundaryLines);
     // V_RETURN(CreateVertexBuffer(sizeof(VS_INPUT_FLUIDSIM_STRUCT)*numVerticesBoundaryLines,
     //	D3Dxx_BIND_VERTEX_BUFFER, &boundaryLinesBuffer, boundaryLines, numVerticesBoundaryLines));
-    CHK_DX(dx10BufferUtils::CreateVertexBuffer(
-        &m_pBoundaryLinesBuffer, boundaryLines, vSize * m_iNumVerticesBoundaryLines));
+    CHK_DX(dx10BufferUtils::CreateVertexBuffer(&m_pBoundaryLinesBuffer, boundaryLines, vSize * m_iNumVerticesBoundaryLines));
     m_GeomBoundaryLines.create(layoutDesc, m_pBoundaryLinesBuffer, 0);
 
     // cleanup:
@@ -171,13 +165,13 @@ void dx103DFluidGrid::InitScreenSlice(VS_INPUT_FLUIDSIM_STRUCT** vertices, int z
     tempVertex1.Pos                 = D3DXVECTOR3(px * 2.0f / Width - 1.0f, -(py * 2.0f / Height) + 1.0f, 0.0f);
     tempVertex1.Tex                 = D3DXVECTOR3(0, 0, float(z));
 
-    tempVertex2.Pos                 = D3DXVECTOR3((px + w) * 2.0f / Width - 1.0f, -((py)*2.0f / Height) + 1.0f, 0.0f);
+    tempVertex2.Pos                 = D3DXVECTOR3((px + w) * 2.0f / Width - 1.0f, -((py) * 2.0f / Height) + 1.0f, 0.0f);
     tempVertex2.Tex                 = D3DXVECTOR3(w, 0, float(z));
 
     tempVertex3.Pos                 = D3DXVECTOR3((px + w) * 2.0f / Width - 1.0f, -((py + h) * 2.0f / Height) + 1.0f, 0.0f);
     tempVertex3.Tex                 = D3DXVECTOR3(w, h, float(z));
 
-    tempVertex4.Pos                 = D3DXVECTOR3((px)*2.0f / Width - 1.0f, -((py + h) * 2.0f / Height) + 1.0f, 0.0f);
+    tempVertex4.Pos                 = D3DXVECTOR3((px) * 2.0f / Width - 1.0f, -((py + h) * 2.0f / Height) + 1.0f, 0.0f);
     tempVertex4.Tex                 = D3DXVECTOR3(0, h, float(z));
 
     (*vertices)[index++]            = tempVertex1;
@@ -218,14 +212,7 @@ void dx103DFluidGrid::InitSlice(int z, VS_INPUT_FLUIDSIM_STRUCT** vertices, int&
     (*vertices)[index++]       = tempVertex4;
 }
 
-void dx103DFluidGrid::InitLine(
-    float                      x1,
-    float                      y1,
-    float                      x2,
-    float                      y2,
-    int                        z,
-    VS_INPUT_FLUIDSIM_STRUCT** vertices,
-    int&                       index)
+void dx103DFluidGrid::InitLine(float x1, float y1, float x2, float y2, int z, VS_INPUT_FLUIDSIM_STRUCT** vertices, int& index)
 {
     VS_INPUT_FLUIDSIM_STRUCT tempVertex;
     int                      w = m_vDim[0];

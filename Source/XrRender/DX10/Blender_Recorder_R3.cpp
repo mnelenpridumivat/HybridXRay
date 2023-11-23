@@ -186,18 +186,7 @@ u32 CBlender_Compile::r_dx10Sampler(LPCSTR ResourceName)
     return stage;
 }
 
-void CBlender_Compile::r_Pass(
-    LPCSTR   _vs,
-    LPCSTR   _gs,
-    LPCSTR   _ps,
-    bool     bFog,
-    BOOL     bZtest,
-    BOOL     bZwrite,
-    BOOL     bABlend,
-    D3DBLEND abSRC,
-    D3DBLEND abDST,
-    BOOL     aTest,
-    u32      aRef)
+void CBlender_Compile::r_Pass(LPCSTR _vs, LPCSTR _gs, LPCSTR _ps, bool bFog, BOOL bZtest, BOOL bZwrite, BOOL bABlend, D3DBLEND abSRC, D3DBLEND abDST, BOOL aTest, u32 aRef)
 {
     RS.Invalidate();
     ctable.clear();
@@ -235,20 +224,7 @@ void CBlender_Compile::r_Pass(
 }
 
 #ifdef USE_DX11
-void CBlender_Compile::r_TessPass(
-    LPCSTR   vs,
-    LPCSTR   hs,
-    LPCSTR   ds,
-    LPCSTR   gs,
-    LPCSTR   ps,
-    bool     bFog,
-    BOOL     bZtest,
-    BOOL     bZwrite,
-    BOOL     bABlend,
-    D3DBLEND abSRC,
-    D3DBLEND abDST,
-    BOOL     aTest,
-    u32      aRef)
+void CBlender_Compile::r_TessPass(LPCSTR vs, LPCSTR hs, LPCSTR ds, LPCSTR gs, LPCSTR ps, bool bFog, BOOL bZtest, BOOL bZwrite, BOOL bABlend, D3DBLEND abSRC, D3DBLEND abDST, BOOL aTest, u32 aRef)
 {
     r_Pass(vs, gs, ps, bFog, bZtest, bZwrite, bABlend, abSRC, abDST, aTest, aRef);
 

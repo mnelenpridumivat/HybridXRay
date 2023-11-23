@@ -30,11 +30,10 @@ struct v_filter
 // Gauss filtering coeffs
 // Samples:			0-central, -1, -2,..., -7, 1, 2,... 7
 //
-void CalcGauss_k7(
-    Fvector4& w0,             // weight
-    Fvector4& w1,             // weight
-    float     r     = 3.3f,   // gaussian radius
-    float     s_out = 1.f     // resulting magnitude
+void CalcGauss_k7(Fvector4& w0,             // weight
+    Fvector4&               w1,             // weight
+    float                   r     = 3.3f,   // gaussian radius
+    float                   s_out = 1.f     // resulting magnitude
 )
 {
     float W[8];
@@ -44,7 +43,7 @@ void CalcGauss_k7(
     for (int i = -7; i <= 0; i++)
         W[-i] = expf(-float(i * i) / (2 * r * r));   // weight
     for (int i = 0; i < 8; i++)
-        mag += i ? 2 * W[i] : W[i];                  // symmetrical weight
+        mag += i ? 2 * W[i] : W[i];   // symmetrical weight
     for (int i = 0; i < 8; i++)
         W[i] = s_out * W[i] / mag;
 
@@ -52,12 +51,11 @@ void CalcGauss_k7(
     w0.set(W[1], W[2], W[3], W[4]);   // -1, -2, -3, -4
     w1.set(W[5], W[6], W[7], W[0]);   // -5, -6, -7, 0
 }
-void CalcGauss_wave(
-    Fvector4& w0,                // weight
-    Fvector4& w1,                // weight
-    float     r_base   = 3.3f,   // gaussian radius
-    float     r_detail = 1.0f,   // gaussian radius
-    float     s_out    = 1.f     // resulting magnitude
+void CalcGauss_wave(Fvector4& w0,                // weight
+    Fvector4&                 w1,                // weight
+    float                     r_base   = 3.3f,   // gaussian radius
+    float                     r_detail = 1.0f,   // gaussian radius
+    float                     s_out    = 1.f     // resulting magnitude
 )
 {
     Fvector4 t0, t1;

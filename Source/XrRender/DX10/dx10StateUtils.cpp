@@ -478,8 +478,7 @@ namespace dx10StateUtils
             Hash.AddData(&desc.RenderTarget[i].DestBlendAlpha, sizeof(desc.RenderTarget[i].DestBlendAlpha));
             Hash.AddData(&desc.RenderTarget[i].BlendOpAlpha, sizeof(desc.RenderTarget[i].BlendOpAlpha));
             Hash.AddData(&desc.RenderTarget[i].BlendEnable, sizeof(desc.RenderTarget[i].BlendEnable));
-            Hash.AddData(
-                &desc.RenderTarget[i].RenderTargetWriteMask, sizeof(desc.RenderTarget[i].RenderTargetWriteMask));
+            Hash.AddData(&desc.RenderTarget[i].RenderTargetWriteMask, sizeof(desc.RenderTarget[i].RenderTargetWriteMask));
         }
 
         return Hash.GetHash();
@@ -699,8 +698,7 @@ namespace dx10StateUtils
 
     void ValidateState(D3D_SAMPLER_DESC& desc)
     {
-        if ((desc.AddressU != D3D_TEXTURE_ADDRESS_BORDER) && (desc.AddressV != D3D_TEXTURE_ADDRESS_BORDER) &&
-            (desc.AddressW != D3D_TEXTURE_ADDRESS_BORDER))
+        if ((desc.AddressU != D3D_TEXTURE_ADDRESS_BORDER) && (desc.AddressV != D3D_TEXTURE_ADDRESS_BORDER) && (desc.AddressW != D3D_TEXTURE_ADDRESS_BORDER))
         {
             for (int i = 0; i < 4; ++i)
             {

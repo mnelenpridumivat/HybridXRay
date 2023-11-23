@@ -108,7 +108,7 @@ void R_dsgraph_structure::r_dsgraph_insert_dynamic(dxRender_Visual* pVisual, Fve
                 N->val.Matrix     = *RI.val_pTransform;
                 N->val.se         = &*pVisual->shader->E[4];   // 4=L_special
             }
-#endif                                                         //	RENDER!=R_R1
+#endif   //	RENDER!=R_R1
             return;
         }
     }
@@ -476,11 +476,9 @@ void CRender::add_leafs_Dynamic(dxRender_Visual* pVisual)
                 PS::CParticleGroup::SItem& I = *i_it;
                 if (I._effect)
                     add_leafs_Dynamic(I._effect);
-                for (xr_vector<dxRender_Visual*>::iterator pit = I._children_related.begin();
-                     pit != I._children_related.end(); pit++)
+                for (xr_vector<dxRender_Visual*>::iterator pit = I._children_related.begin(); pit != I._children_related.end(); pit++)
                     add_leafs_Dynamic(*pit);
-                for (xr_vector<dxRender_Visual*>::iterator pit = I._children_free.begin();
-                     pit != I._children_free.end(); pit++)
+                for (xr_vector<dxRender_Visual*>::iterator pit = I._children_free.begin(); pit != I._children_free.end(); pit++)
                     add_leafs_Dynamic(*pit);
             }
         }
@@ -556,11 +554,9 @@ void CRender::add_leafs_Static(dxRender_Visual* pVisual)
                 PS::CParticleGroup::SItem& I = *i_it;
                 if (I._effect)
                     add_leafs_Dynamic(I._effect);
-                for (xr_vector<dxRender_Visual*>::iterator pit = I._children_related.begin();
-                     pit != I._children_related.end(); pit++)
+                for (xr_vector<dxRender_Visual*>::iterator pit = I._children_related.begin(); pit != I._children_related.end(); pit++)
                     add_leafs_Dynamic(*pit);
-                for (xr_vector<dxRender_Visual*>::iterator pit = I._children_free.begin();
-                     pit != I._children_free.end(); pit++)
+                for (xr_vector<dxRender_Visual*>::iterator pit = I._children_free.begin(); pit != I._children_free.end(); pit++)
                     add_leafs_Dynamic(*pit);
             }
         }
@@ -661,22 +657,18 @@ BOOL CRender::add_Dynamic(dxRender_Visual* pVisual, u32 planes)
                 {
                     if (I._effect)
                         add_Dynamic(I._effect, planes);
-                    for (xr_vector<dxRender_Visual*>::iterator pit = I._children_related.begin();
-                         pit != I._children_related.end(); pit++)
+                    for (xr_vector<dxRender_Visual*>::iterator pit = I._children_related.begin(); pit != I._children_related.end(); pit++)
                         add_Dynamic(*pit, planes);
-                    for (xr_vector<dxRender_Visual*>::iterator pit = I._children_free.begin();
-                         pit != I._children_free.end(); pit++)
+                    for (xr_vector<dxRender_Visual*>::iterator pit = I._children_free.begin(); pit != I._children_free.end(); pit++)
                         add_Dynamic(*pit, planes);
                 }
                 else
                 {
                     if (I._effect)
                         add_leafs_Dynamic(I._effect);
-                    for (xr_vector<dxRender_Visual*>::iterator pit = I._children_related.begin();
-                         pit != I._children_related.end(); pit++)
+                    for (xr_vector<dxRender_Visual*>::iterator pit = I._children_related.begin(); pit != I._children_related.end(); pit++)
                         add_leafs_Dynamic(*pit);
-                    for (xr_vector<dxRender_Visual*>::iterator pit = I._children_free.begin();
-                         pit != I._children_free.end(); pit++)
+                    for (xr_vector<dxRender_Visual*>::iterator pit = I._children_free.begin(); pit != I._children_free.end(); pit++)
                         add_leafs_Dynamic(*pit);
                 }
             }
@@ -777,22 +769,18 @@ void CRender::add_Static(dxRender_Visual* pVisual, u32 planes)
                 {
                     if (I._effect)
                         add_Dynamic(I._effect, planes);
-                    for (xr_vector<dxRender_Visual*>::iterator pit = I._children_related.begin();
-                         pit != I._children_related.end(); pit++)
+                    for (xr_vector<dxRender_Visual*>::iterator pit = I._children_related.begin(); pit != I._children_related.end(); pit++)
                         add_Dynamic(*pit, planes);
-                    for (xr_vector<dxRender_Visual*>::iterator pit = I._children_free.begin();
-                         pit != I._children_free.end(); pit++)
+                    for (xr_vector<dxRender_Visual*>::iterator pit = I._children_free.begin(); pit != I._children_free.end(); pit++)
                         add_Dynamic(*pit, planes);
                 }
                 else
                 {
                     if (I._effect)
                         add_leafs_Dynamic(I._effect);
-                    for (xr_vector<dxRender_Visual*>::iterator pit = I._children_related.begin();
-                         pit != I._children_related.end(); pit++)
+                    for (xr_vector<dxRender_Visual*>::iterator pit = I._children_related.begin(); pit != I._children_related.end(); pit++)
                         add_leafs_Dynamic(*pit);
-                    for (xr_vector<dxRender_Visual*>::iterator pit = I._children_free.begin();
-                         pit != I._children_free.end(); pit++)
+                    for (xr_vector<dxRender_Visual*>::iterator pit = I._children_free.begin(); pit != I._children_free.end(); pit++)
                         add_leafs_Dynamic(*pit);
                 }
             }

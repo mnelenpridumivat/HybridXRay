@@ -72,7 +72,7 @@ struct DetailPalette
     u16 a2:4;
     u16 a3:4;
 };
-struct DetailSlot                // was(4+4+3*4+2 = 22b), now(8+2*4=16b)
+struct DetailSlot   // was(4+4+3*4+2 = 22b), now(8+2*4=16b)
 {
     u32           y_base  :12;   // 11	// 1 unit = 20 cm, low = -200m, high = 4096*20cm - 200 = 619.2m
     u32           y_height:8;    // 20	// 1 unit = 10 cm, low = 0,     high = 256*10 ~= 25.6m

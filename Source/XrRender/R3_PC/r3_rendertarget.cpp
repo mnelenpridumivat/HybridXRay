@@ -107,13 +107,7 @@ void CRenderTarget::u_setrt(const ref_rt& _1, const ref_rt& _2, ID3DDepthStencil
     //	RImplementation.rmNormal				();
 }
 
-void CRenderTarget::u_setrt(
-    u32                   W,
-    u32                   H,
-    ID3DRenderTargetView* _1,
-    ID3DRenderTargetView* _2,
-    ID3DRenderTargetView* _3,
-    ID3DDepthStencilView* zb)
+void CRenderTarget::u_setrt(u32 W, u32 H, ID3DRenderTargetView* _1, ID3DRenderTargetView* _2, ID3DRenderTargetView* _3, ID3DDepthStencilView* zb)
 {
     // VERIFY									(_1);
     dwWidth  = W;
@@ -173,8 +167,7 @@ void CRenderTarget::u_compute_texgen_screen(Fmatrix& m_Texgen)
     // float	_h						= float(Device->dwHeight);
     // float	o_w						= (.5f / _w);
     // float	o_h						= (.5f / _h);
-    Fmatrix m_TexelAdjust = {
-        0.5f, 0.0f, 0.0f, 0.0f, 0.0f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+    Fmatrix m_TexelAdjust = {0.5f, 0.0f, 0.0f, 0.0f, 0.0f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,
         //	Removing half pixel offset
         // 0.5f + o_w,			0.5f + o_h,			0.0f,			1.0f
         0.5f, 0.5f, 0.0f, 1.0f};
@@ -185,8 +178,7 @@ void CRenderTarget::u_compute_texgen_screen(Fmatrix& m_Texgen)
 void CRenderTarget::u_compute_texgen_jitter(Fmatrix& m_Texgen_J)
 {
     // place into	0..1 space
-    Fmatrix m_TexelAdjust = {0.5f, 0.0f, 0.0f, 0.0f, 0.0f, -0.5f, 0.0f, 0.0f,
-                             0.0f, 0.0f, 1.0f, 0.0f, 0.5f, 0.5f,  0.0f, 1.0f};
+    Fmatrix m_TexelAdjust = {0.5f, 0.0f, 0.0f, 0.0f, 0.0f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.5f, 0.5f, 0.0f, 1.0f};
     m_Texgen_J.mul(m_TexelAdjust, RCache.xforms.m_wvp);
 
     // rescale - tile it
@@ -358,13 +350,11 @@ CRenderTarget::CRenderTarget()
             b_accum_reflected_msaa[i]         = xr_new<CBlender_accum_reflected_msaa>();
             b_ssao_msaa[i]                    = xr_new<CBlender_SSAO_MSAA>();
             static_cast<CBlender_accum_direct_mask_msaa*>(b_accum_mask_msaa[i])->SetDefine("ISAMPLE", SampleDefs[i]);
-            static_cast<CBlender_accum_direct_volumetric_msaa*>(b_accum_direct_volumetric_msaa[i])
-                ->SetDefine("ISAMPLE", SampleDefs[i]);
+            static_cast<CBlender_accum_direct_volumetric_msaa*>(b_accum_direct_volumetric_msaa[i])->SetDefine("ISAMPLE", SampleDefs[i]);
             // static_cast<CBlender_accum_direct_volumetric_sun_msaa*>(b_accum_direct_volumetric_sun_msaa[i])->SetDefine(
             // "ISAMPLE", SampleDefs[i]);
             static_cast<CBlender_accum_direct_msaa*>(b_accum_direct_msaa[i])->SetDefine("ISAMPLE", SampleDefs[i]);
-            static_cast<CBlender_accum_volumetric_msaa*>(b_accum_volumetric_msaa[i])
-                ->SetDefine("ISAMPLE", SampleDefs[i]);
+            static_cast<CBlender_accum_volumetric_msaa*>(b_accum_volumetric_msaa[i])->SetDefine("ISAMPLE", SampleDefs[i]);
             static_cast<CBlender_accum_spot_msaa*>(b_accum_spot_msaa[i])->SetDefine("ISAMPLE", SampleDefs[i]);
             static_cast<CBlender_accum_point_msaa*>(b_accum_point_msaa[i])->SetDefine("ISAMPLE", SampleDefs[i]);
             static_cast<CBlender_accum_reflected_msaa*>(b_accum_reflected_msaa[i])->SetDefine("ISAMPLE", SampleDefs[i]);
@@ -482,10 +472,7 @@ CRenderTarget::CRenderTarget()
 
             if (RImplementation.o.dx10_msaa)
             {
-                static LPCSTR snames[] = {"accum_volumetric_sun_msaa0", "accum_volumetric_sun_msaa1",
-                    "accum_volumetric_sun_msaa2", "accum_volumetric_sun_msaa3",
-                    "accum_volumetric_sun_msaa4", "accum_volumetric_sun_msaa5",
-                    "accum_volumetric_sun_msaa6", "accum_volumetric_sun_msaa7"};
+                static LPCSTR snames[] = {"accum_volumetric_sun_msaa0", "accum_volumetric_sun_msaa1", "accum_volumetric_sun_msaa2", "accum_volumetric_sun_msaa3", "accum_volumetric_sun_msaa4", "accum_volumetric_sun_msaa5", "accum_volumetric_sun_msaa6", "accum_volumetric_sun_msaa7"};
                 int           bound    = RImplementation.o.dx10_msaa_samples;
 
                 if (RImplementation.o.dx10_msaa_opt)
@@ -594,11 +581,8 @@ CRenderTarget::CRenderTarget()
     {
         D3DFORMAT fmt = D3DFMT_A8R8G8B8;   //;		// D3DFMT_X8R8G8B8
         u32       w = BLOOM_size_X, h = BLOOM_size_Y;
-        u32       fvf_build = D3DFVF_XYZRHW | D3DFVF_TEX4 | D3DFVF_TEXCOORDSIZE2(0) | D3DFVF_TEXCOORDSIZE2(1) |
-            D3DFVF_TEXCOORDSIZE2(2) | D3DFVF_TEXCOORDSIZE2(3);
-        u32 fvf_filter = (u32)D3DFVF_XYZRHW | D3DFVF_TEX8 | D3DFVF_TEXCOORDSIZE4(0) | D3DFVF_TEXCOORDSIZE4(1) |
-            D3DFVF_TEXCOORDSIZE4(2) | D3DFVF_TEXCOORDSIZE4(3) | D3DFVF_TEXCOORDSIZE4(4) | D3DFVF_TEXCOORDSIZE4(5) |
-            D3DFVF_TEXCOORDSIZE4(6) | D3DFVF_TEXCOORDSIZE4(7);
+        u32       fvf_build  = D3DFVF_XYZRHW | D3DFVF_TEX4 | D3DFVF_TEXCOORDSIZE2(0) | D3DFVF_TEXCOORDSIZE2(1) | D3DFVF_TEXCOORDSIZE2(2) | D3DFVF_TEXCOORDSIZE2(3);
+        u32       fvf_filter = (u32)D3DFVF_XYZRHW | D3DFVF_TEX8 | D3DFVF_TEXCOORDSIZE4(0) | D3DFVF_TEXCOORDSIZE4(1) | D3DFVF_TEXCOORDSIZE4(2) | D3DFVF_TEXCOORDSIZE4(3) | D3DFVF_TEXCOORDSIZE4(4) | D3DFVF_TEXCOORDSIZE4(5) | D3DFVF_TEXCOORDSIZE4(6) | D3DFVF_TEXCOORDSIZE4(7);
         rt_Bloom_1.create(r2_RT_bloom1, w, h, fmt);
         rt_Bloom_2.create(r2_RT_bloom2, w, h, fmt);
         g_bloom_build.create(fvf_build, RCache.Vertex.Buffer(), RCache.QuadIB);
@@ -679,8 +663,7 @@ CRenderTarget::CRenderTarget()
 
     // COMBINE
     {
-        static D3DVERTEXELEMENT9 dwDecl[] = {
-            {0, 0, D3DDECLTYPE_FLOAT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0},   // pos+uv
+        static D3DVERTEXELEMENT9 dwDecl[] = {{0, 0, D3DDECLTYPE_FLOAT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0},   // pos+uv
             D3DDECL_END()};
         s_combine.create(b_combine, "r2\\combine");
         s_combine_volumetric.create("combine_volumetric");
@@ -692,13 +675,10 @@ CRenderTarget::CRenderTarget()
         g_combine_2UV.create(FVF::F_TL2uv, RCache.Vertex.Buffer(), RCache.QuadIB);
         g_combine_cuboid.create(dwDecl, RCache.Vertex.Buffer(), RCache.Index.Buffer());
 
-        u32 fvf_aa_blur = D3DFVF_XYZRHW | D3DFVF_TEX4 | D3DFVF_TEXCOORDSIZE2(0) | D3DFVF_TEXCOORDSIZE2(1) |
-            D3DFVF_TEXCOORDSIZE2(2) | D3DFVF_TEXCOORDSIZE2(3);
+        u32 fvf_aa_blur = D3DFVF_XYZRHW | D3DFVF_TEX4 | D3DFVF_TEXCOORDSIZE2(0) | D3DFVF_TEXCOORDSIZE2(1) | D3DFVF_TEXCOORDSIZE2(2) | D3DFVF_TEXCOORDSIZE2(3);
         g_aa_blur.create(fvf_aa_blur, RCache.Vertex.Buffer(), RCache.QuadIB);
 
-        u32 fvf_aa_AA = D3DFVF_XYZRHW | D3DFVF_TEX7 | D3DFVF_TEXCOORDSIZE2(0) | D3DFVF_TEXCOORDSIZE2(1) |
-            D3DFVF_TEXCOORDSIZE2(2) | D3DFVF_TEXCOORDSIZE2(3) | D3DFVF_TEXCOORDSIZE2(4) | D3DFVF_TEXCOORDSIZE4(5) |
-            D3DFVF_TEXCOORDSIZE4(6);
+        u32 fvf_aa_AA = D3DFVF_XYZRHW | D3DFVF_TEX7 | D3DFVF_TEXCOORDSIZE2(0) | D3DFVF_TEXCOORDSIZE2(1) | D3DFVF_TEXCOORDSIZE2(2) | D3DFVF_TEXCOORDSIZE2(3) | D3DFVF_TEXCOORDSIZE2(4) | D3DFVF_TEXCOORDSIZE4(5) | D3DFVF_TEXCOORDSIZE4(6);
         g_aa_AA.create(fvf_aa_AA, RCache.Vertex.Buffer(), RCache.QuadIB);
 
         t_envmap_0.create(r2_T_envs0);
@@ -763,8 +743,7 @@ CRenderTarget::CRenderTarget()
                 {
                     for (u32 x = 0; x < TEX_material_LdotN; x++)
                     {
-                        u16* p =
-                            (u16*)(LPBYTE(subData.pSysMem) + slice * subData.SysMemSlicePitch + y * subData.SysMemPitch + x * 2);
+                        u16*  p  = (u16*)(LPBYTE(subData.pSysMem) + slice * subData.SysMemSlicePitch + y * subData.SysMemPitch + x * 2);
                         float ld = float(x) / float(TEX_material_LdotN - 1);
                         float ls = float(y) / float(TEX_material_LdotH - 1) + EPS_S;
                         ls *= powf(ld, 1 / 32.f);
@@ -948,12 +927,11 @@ CRenderTarget::CRenderTarget()
                     float  angle = 2 * PI * ::Random.randF(0.0f, 1.0f) / numDir;
                     float  dist  = ::Random.randF(0.0f, 1.0f);
 
-                    float* p =
-                        (float*)(LPBYTE(subData[it].pSysMem) + y * subData[it].SysMemPitch + x * 4 * sizeof(float));
-                    *p       = (float)(_cos(angle));
-                    *(p + 1) = (float)(_sin(angle));
-                    *(p + 2) = (float)(dist);
-                    *(p + 3) = 0;
+                    float* p     = (float*)(LPBYTE(subData[it].pSysMem) + y * subData[it].SysMemPitch + x * 4 * sizeof(float));
+                    *p           = (float)(_cos(angle));
+                    *(p + 1)     = (float)(_sin(angle));
+                    *(p + 2)     = (float)(dist);
+                    *(p + 3)     = 0;
                 }
             }
 
@@ -984,8 +962,7 @@ CRenderTarget::CRenderTarget()
 
     // PP
     s_postprocess.create("postprocess");
-    g_postprocess.create(
-        D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_SPECULAR | D3DFVF_TEX3, RCache.Vertex.Buffer(), RCache.QuadIB);
+    g_postprocess.create(D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_SPECULAR | D3DFVF_TEX3, RCache.Vertex.Buffer(), RCache.QuadIB);
 
     // Menu
     s_menu.create("distort");

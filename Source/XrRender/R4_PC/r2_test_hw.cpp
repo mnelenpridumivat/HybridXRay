@@ -5,21 +5,9 @@ LRESULT CALLBACK RWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
-typedef HRESULT (*FuncPtrD3D11CreateDeviceAndSwapChain)(
-    IDXGIAdapter*               pAdapter,
-    D3D_DRIVER_TYPE             DriverType,
-    HMODULE                     Software,
-    UINT                        Flags,
-    CONST D3D_FEATURE_LEVEL*    pFeatureLevels,
-    UINT                        FeatureLevels,
-    UINT                        SDKVersion,
-    CONST DXGI_SWAP_CHAIN_DESC* pSwapChainDesc,
-    IDXGISwapChain**            ppSwapChain,
-    ID3D11Device**              ppDevice,
-    D3D_FEATURE_LEVEL*          pFeatureLevel,
-    ID3D11DeviceContext**       ppImmediateContext);
+typedef HRESULT (*FuncPtrD3D11CreateDeviceAndSwapChain)(IDXGIAdapter* pAdapter, D3D_DRIVER_TYPE DriverType, HMODULE Software, UINT Flags, CONST D3D_FEATURE_LEVEL* pFeatureLevels, UINT FeatureLevels, UINT SDKVersion, CONST DXGI_SWAP_CHAIN_DESC* pSwapChainDesc, IDXGISwapChain** ppSwapChain, ID3D11Device** ppDevice, D3D_FEATURE_LEVEL* pFeatureLevel, ID3D11DeviceContext** ppImmediateContext);
 
-bool TestDX11Present()
+bool            TestDX11Present()
 {
     HMODULE hD3D11 = LoadLibrary("d3d11.dll");
 
@@ -29,8 +17,7 @@ bool TestDX11Present()
         return false;
     }
 
-    FuncPtrD3D11CreateDeviceAndSwapChain pD3D11CreateDeviceAndSwapChain =
-        (FuncPtrD3D11CreateDeviceAndSwapChain)GetProcAddress(hD3D11, "D3D11CreateDeviceAndSwapChain");
+    FuncPtrD3D11CreateDeviceAndSwapChain pD3D11CreateDeviceAndSwapChain = (FuncPtrD3D11CreateDeviceAndSwapChain)GetProcAddress(hD3D11, "D3D11CreateDeviceAndSwapChain");
 
     if (!pD3D11CreateDeviceAndSwapChain)
     {
@@ -52,9 +39,7 @@ bool TestDX11Present()
     }
 
     // Create window
-    HWND hWnd = CreateWindow(
-        "TestDX11WindowClass", "", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
-        NULL, NULL, NULL, NULL);
+    HWND                 hWnd = CreateWindow("TestDX11WindowClass", "", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, NULL, NULL, NULL, NULL);
 
     DXGI_SWAP_CHAIN_DESC sd;
 
@@ -86,9 +71,7 @@ bool TestDX11Present()
     ID3D11DeviceContext* pContext   = NULL;
     IDXGISwapChain*      pSwapChain = NULL;
 
-    hr                              = pD3D11CreateDeviceAndSwapChain(
-        NULL, D3D_DRIVER_TYPE_HARDWARE, NULL, 0, pFeatureLevels, 1, D3D11_SDK_VERSION, &sd, &pSwapChain, &pd3dDevice,
-        &FeatureLevel, &pContext);
+    hr                              = pD3D11CreateDeviceAndSwapChain(NULL, D3D_DRIVER_TYPE_HARDWARE, NULL, 0, pFeatureLevels, 1, D3D11_SDK_VERSION, &sd, &pSwapChain, &pd3dDevice, &FeatureLevel, &pContext);
 
     if (FAILED(hr))
         Msg("* D3D11: device creation failed with hr=0x%08x", hr);

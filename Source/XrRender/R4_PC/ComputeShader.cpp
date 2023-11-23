@@ -7,12 +7,7 @@
 #include "stdafx.h"
 #include "ComputeShader.h"
 
-void ComputeShader::Construct(
-    ID3D11ComputeShader*                   cs,
-    ref_ctable                             ctable,
-    xr_vector<ID3D11SamplerState*>&        Samplers,
-    xr_vector<ID3D11ShaderResourceView*>&  Textures,
-    xr_vector<ID3D11UnorderedAccessView*>& Outputs)
+void ComputeShader::Construct(ID3D11ComputeShader* cs, ref_ctable ctable, xr_vector<ID3D11SamplerState*>& Samplers, xr_vector<ID3D11ShaderResourceView*>& Textures, xr_vector<ID3D11UnorderedAccessView*>& Outputs)
 {
     m_cs     = cs;
     m_ctable = ctable;

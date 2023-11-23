@@ -5,21 +5,22 @@
 //////////////////////////////////////////////////////////////////////////
 // tables to calculate view-frustum bounds in world space
 // note: D3D uses [0..1] range for Z
-static Fvector3 corners[8] =
-{
-    {-1, -1, 0.7}, {-1, -1, +1},  {-1, +1, +1}, {-1, +1, 0.7},
-    {+1, +1, +1},  {+1, +1, 0.7}, {+1, -1, +1}, {+1, -1, 0.7}
-};
-static u16 facetable[16][3] =
-{
-    {3, 2, 1}, {3, 1, 0},
-    {7, 6, 5}, {5, 6, 4},
-    {3, 5, 2}, {4, 2, 5},
-    {1, 6, 7}, {7, 0, 1},
+static Fvector3 corners[8]       = {{-1, -1, 0.7}, {-1, -1, +1}, {-1, +1, +1}, {-1, +1, 0.7}, {+1, +1, +1}, {+1, +1, 0.7}, {+1, -1, +1}, {+1, -1, 0.7}};
+static u16      facetable[16][3] = {
+    {3, 2, 1},
+    {3, 1, 0},
+    {7, 6, 5},
+    {5, 6, 4},
+    {3, 5, 2},
+    {4, 2, 5},
+    {1, 6, 7},
+    {7, 0, 1},
 
-    {5, 3, 0}, {7, 5, 0},
+    {5, 3, 0},
+    {7, 5, 0},
 
-    {1, 4, 6}, {2, 4, 1},
+    {1, 4, 6},
+    {2, 4, 1},
 };
 
 void CRenderTarget::accum_direct(u32 sub_phase)
@@ -79,9 +80,7 @@ void CRenderTarget::accum_direct(u32 sub_phase)
 
         // if (stencil>=1 && aref_pass)	stencil = light_id
         RCache.set_ColorWriteEnable(FALSE);
-        RCache.set_Stencil(
-            TRUE, D3DCMP_LESSEQUAL, dwLightMarkerID, 0x01, 0xff, D3DSTENCILOP_KEEP, D3DSTENCILOP_REPLACE,
-            D3DSTENCILOP_KEEP);
+        RCache.set_Stencil(TRUE, D3DCMP_LESSEQUAL, dwLightMarkerID, 0x01, 0xff, D3DSTENCILOP_KEEP, D3DSTENCILOP_REPLACE, D3DSTENCILOP_KEEP);
         RCache.Render(D3DPT_TRIANGLELIST, Offset, 0, 4, 0, 2);
     }
 
@@ -108,16 +107,7 @@ void CRenderTarget::accum_direct(u32 sub_phase)
         // (SE_SUN_NEAR==sub_phase)?ps_r2_sun_depth_near_bias:ps_r2_sun_depth_far_bias; 	Use this when triangle culling
         //is not inverted.
         float   fBias         = (SE_SUN_NEAR == sub_phase) ? (-ps_r2_sun_depth_near_bias) : ps_r2_sun_depth_far_bias;
-        Fmatrix m_TexelAdjust =
-        {
-            0.5f, 0.0f, 0.0f,
-            0.0f, 0.0f, -0.5f,
-            0.0f, 0.0f, 0.0f,
-            0.0f, fRange, 0.0f,
-            0.5f + fTexelOffs,
-            0.5f + fTexelOffs,
-            fBias, 1.0f
-        };
+        Fmatrix m_TexelAdjust = {0.5f, 0.0f, 0.0f, 0.0f, 0.0f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, fRange, 0.0f, 0.5f + fTexelOffs, 0.5f + fTexelOffs, fBias, 1.0f};
 
         // compute xforms
         FPU::m64r();
@@ -310,9 +300,7 @@ void CRenderTarget::accum_direct_cascade(u32 sub_phase, Fmatrix& xform, Fmatrix&
 
         // if (stencil>=1 && aref_pass)	stencil = light_id
         RCache.set_ColorWriteEnable(FALSE);
-        RCache.set_Stencil(
-            TRUE, D3DCMP_LESSEQUAL, dwLightMarkerID, 0x01, 0xff, D3DSTENCILOP_KEEP, D3DSTENCILOP_REPLACE,
-            D3DSTENCILOP_KEEP);
+        RCache.set_Stencil(TRUE, D3DCMP_LESSEQUAL, dwLightMarkerID, 0x01, 0xff, D3DSTENCILOP_KEEP, D3DSTENCILOP_REPLACE, D3DSTENCILOP_KEEP);
         RCache.Render(D3DPT_TRIANGLELIST, Offset, 0, 4, 0, 2);
     }
 
@@ -341,16 +329,7 @@ void CRenderTarget::accum_direct_cascade(u32 sub_phase, Fmatrix& xform, Fmatrix&
         //is not inverted.
         //		float			fBias				=
         //(SE_SUN_NEAR==sub_phase)?(-ps_r2_sun_depth_near_bias):ps_r2_sun_depth_far_bias;
-        Fmatrix m_TexelAdjust =
-        {
-            0.5f, 0.0f, 0.0f,
-            0.0f, 0.0f, -0.5f,
-            0.0f, 0.0f, 0.0f,
-            0.0f, fRange, 0.0f,
-            0.5f + fTexelOffs,
-            0.5f + fTexelOffs,
-            fBias, 1.0f
-        };
+        Fmatrix m_TexelAdjust = {0.5f, 0.0f, 0.0f, 0.0f, 0.0f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, fRange, 0.0f, 0.5f + fTexelOffs, 0.5f + fTexelOffs, fBias, 1.0f};
 
         // compute xforms
         FPU::m64r();
@@ -515,9 +494,7 @@ void CRenderTarget::accum_direct_cascade(u32 sub_phase, Fmatrix& xform, Fmatrix&
 
         // setup stencil
         if (SE_SUN_NEAR == sub_phase || sub_phase == SE_SUN_MIDDLE /*|| SE_SUN_FAR==sub_phase*/)
-            RCache.set_Stencil(
-                TRUE, D3DCMP_LESSEQUAL, dwLightMarkerID, 0xff, 0xFE, D3DSTENCILOP_KEEP, D3DSTENCILOP_ZERO,
-                D3DSTENCILOP_KEEP);
+            RCache.set_Stencil(TRUE, D3DCMP_LESSEQUAL, dwLightMarkerID, 0xff, 0xFE, D3DSTENCILOP_KEEP, D3DSTENCILOP_ZERO, D3DSTENCILOP_KEEP);
         else
             RCache.set_Stencil(TRUE, D3DCMP_LESSEQUAL, dwLightMarkerID, 0xff, 0x00);
 
@@ -639,9 +616,7 @@ void CRenderTarget::accum_direct_f(u32 sub_phase)
 
         // if (stencil>=1 && aref_pass)	stencil = light_id
         RCache.set_ColorWriteEnable(FALSE);
-        RCache.set_Stencil(
-            TRUE, D3DCMP_LESSEQUAL, dwLightMarkerID, 0x01, 0xff, D3DSTENCILOP_KEEP, D3DSTENCILOP_REPLACE,
-            D3DSTENCILOP_KEEP);
+        RCache.set_Stencil(TRUE, D3DCMP_LESSEQUAL, dwLightMarkerID, 0x01, 0xff, D3DSTENCILOP_KEEP, D3DSTENCILOP_REPLACE, D3DSTENCILOP_KEEP);
         RCache.Render(D3DPT_TRIANGLELIST, Offset, 0, 4, 0, 2);
     }
 
@@ -665,16 +640,7 @@ void CRenderTarget::accum_direct_f(u32 sub_phase)
         float   fTexelOffs    = (.5f / float(RImplementation.o.smapsize));
         float   fRange        = (SE_SUN_NEAR == sub_phase) ? ps_r2_sun_depth_near_scale : ps_r2_sun_depth_far_scale;
         float   fBias         = (SE_SUN_NEAR == sub_phase) ? ps_r2_sun_depth_near_bias : ps_r2_sun_depth_far_bias;
-        Fmatrix m_TexelAdjust =
-        {
-            0.5f, 0.0f, 0.0f,
-            0.0f, 0.0f, -0.5f,
-            0.0f, 0.0f, 0.0f,
-            0.0f, fRange, 0.0f,
-            0.5f + fTexelOffs,
-            0.5f + fTexelOffs,
-            fBias, 1.0f
-        };
+        Fmatrix m_TexelAdjust = {0.5f, 0.0f, 0.0f, 0.0f, 0.0f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, fRange, 0.0f, 0.5f + fTexelOffs, 0.5f + fTexelOffs, fBias, 1.0f};
 
         // compute xforms
         Fmatrix m_shadow;
@@ -963,8 +929,7 @@ void CRenderTarget::accum_direct_volumetric(u32 sub_phase, const u32 Offset, con
             if (ps_r2_ls_flags_ext.is(R2FLAGEXT_SUN_OLD))
                 zMin = ps_r2_sun_near;
             else
-                zMin =
-                    0;   /////*****************************************************************************************
+                zMin = 0;   /////*****************************************************************************************
 
             zMax = OLES_SUN_LIMIT_27_01_07;
         }

@@ -131,17 +131,14 @@ void CHWCaps::Update()
     raster_major            = u16(u32(u32(caps.PixelShaderVersion) & u32(0xf << 8ul)) >> 8);
     raster_minor            = u16(u32(u32(caps.PixelShaderVersion) & u32(0xf)));
     raster.dwStages         = caps.MaxSimultaneousTextures;
-    raster.bNonPow2         = ((caps.TextureCaps & D3DPTEXTURECAPS_NONPOW2CONDITIONAL) != 0) ||
-        ((caps.TextureCaps & D3DPTEXTURECAPS_POW2) == 0);
-    raster.bCubemap       = (caps.TextureCaps & D3DPTEXTURECAPS_CUBEMAP) != 0;
-    raster.dwMRT_count    = (caps.NumSimultaneousRTs);
-    raster.b_MRT_mixdepth = (caps.PrimitiveMiscCaps & D3DPMISCCAPS_MRTINDEPENDENTBITDEPTHS) != 0;
-    raster.dwInstructions = (caps.PS20Caps.NumInstructionSlots);
+    raster.bNonPow2         = ((caps.TextureCaps & D3DPTEXTURECAPS_NONPOW2CONDITIONAL) != 0) || ((caps.TextureCaps & D3DPTEXTURECAPS_POW2) == 0);
+    raster.bCubemap         = (caps.TextureCaps & D3DPTEXTURECAPS_CUBEMAP) != 0;
+    raster.dwMRT_count      = (caps.NumSimultaneousRTs);
+    raster.b_MRT_mixdepth   = (caps.PrimitiveMiscCaps & D3DPMISCCAPS_MRTINDEPENDENTBITDEPTHS) != 0;
+    raster.dwInstructions   = (caps.PS20Caps.NumInstructionSlots);
 
     // ***************** Info
-    Msg("* GPU shading: vs(%x/%d.%d/%d), ps(%x/%d.%d/%d)", caps.VertexShaderVersion, geometry_major, geometry_minor,
-        CAP_VERSION(geometry_major, geometry_minor), caps.PixelShaderVersion, raster_major, raster_minor,
-        CAP_VERSION(raster_major, raster_minor));
+    Msg("* GPU shading: vs(%x/%d.%d/%d), ps(%x/%d.%d/%d)", caps.VertexShaderVersion, geometry_major, geometry_minor, CAP_VERSION(geometry_major, geometry_minor), caps.PixelShaderVersion, raster_major, raster_minor, CAP_VERSION(raster_major, raster_minor));
 
     // *******1********** Vertex cache
     ID3DQuery*        q_vc;
@@ -205,8 +202,7 @@ void CHWCaps::Update()
 
     // Stencil relative caps
     u32 dwStencilCaps = caps.StencilCaps;
-    if ((!(dwStencilCaps & D3DSTENCILCAPS_INCR) && !(dwStencilCaps & D3DSTENCILCAPS_INCRSAT)) ||
-        (!(dwStencilCaps & D3DSTENCILCAPS_DECR) && !(dwStencilCaps & D3DSTENCILCAPS_DECRSAT)))
+    if ((!(dwStencilCaps & D3DSTENCILCAPS_INCR) && !(dwStencilCaps & D3DSTENCILCAPS_INCRSAT)) || (!(dwStencilCaps & D3DSTENCILCAPS_DECR) && !(dwStencilCaps & D3DSTENCILCAPS_DECRSAT)))
     {
         soDec = soInc     = D3DSTENCILOP_KEEP;
         dwMaxStencilValue = 0;
@@ -251,9 +247,7 @@ void CHWCaps::Update()
     raster.dwInstructions   = 256;
 
     // ***************** Info
-    Msg("* GPU shading: vs(%x/%d.%d/%d), ps(%x/%d.%d/%d)", 0, geometry_major, geometry_minor,
-        CAP_VERSION(geometry_major, geometry_minor), 0, raster_major, raster_minor,
-        CAP_VERSION(raster_major, raster_minor));
+    Msg("* GPU shading: vs(%x/%d.%d/%d), ps(%x/%d.%d/%d)", 0, geometry_major, geometry_minor, CAP_VERSION(geometry_major, geometry_minor), 0, raster_major, raster_minor, CAP_VERSION(raster_major, raster_minor));
 
     // *******1********** Vertex cache
     //	TODO: DX10: Find a way to detect cache size

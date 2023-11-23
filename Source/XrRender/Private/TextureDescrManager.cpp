@@ -10,8 +10,7 @@ class cl_dt_scaler: public R_constant_setup
 public:
     float scale;
 
-    cl_dt_scaler(float s):
-        scale(s){};
+    cl_dt_scaler(float s): scale(s){};
     virtual void setup(R_constant* C)
     {
         RCache.set_c(C, scale, scale, scale, 1 / r__dtex_range);
@@ -21,9 +20,7 @@ public:
 void fix_texture_thm_name(LPSTR fn)
 {
     LPSTR _ext = strext(fn);
-    if (_ext &&
-        (0 == stricmp(_ext, ".tga") || 0 == stricmp(_ext, ".thm") || 0 == stricmp(_ext, ".dds") ||
-            0 == stricmp(_ext, ".bmp") || 0 == stricmp(_ext, ".ogm")))
+    if (_ext && (0 == stricmp(_ext, ".tga") || 0 == stricmp(_ext, ".thm") || 0 == stricmp(_ext, ".dds") || 0 == stricmp(_ext, ".bmp") || 0 == stricmp(_ext, ".ogm")))
         *_ext = 0;
 }
 
@@ -50,14 +47,12 @@ void CTextureDescrMngr::LoadTHM(LPCSTR initial)
         tp.Clear();
         tp.Load(*F, fn);
         FS.r_close(F);
-        if (STextureParams::ttImage == tp.type || STextureParams::ttTerrain == tp.type ||
-            STextureParams::ttNormalMap == tp.type)
+        if (STextureParams::ttImage == tp.type || STextureParams::ttTerrain == tp.type || STextureParams::ttNormalMap == tp.type)
         {
             texture_desc&  desc = m_texture_details[fn];
             cl_dt_scaler*& dts  = m_detail_scalers[fn];
 
-            if (tp.detail_name.size() &&
-                tp.flags.is_any(STextureParams::flDiffuseDetail | STextureParams::flBumpDetail))
+            if (tp.detail_name.size() && tp.flags.is_any(STextureParams::flDiffuseDetail | STextureParams::flBumpDetail))
             {
                 if (desc.m_assoc)
                     xr_delete(desc.m_assoc);

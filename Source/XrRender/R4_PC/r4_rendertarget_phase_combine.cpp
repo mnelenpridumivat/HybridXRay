@@ -144,16 +144,12 @@ void CRenderTarget::phase_combine()
         m_v2w.invert(Device->mView);
         IEnvDescriptorMixer& envdesc = *g_pGamePersistent->Environment().CurrentEnv;
         const float          minamb  = 0.001f;
-        Fvector4             ambclr  = {
-            _max(envdesc.ambient.x * 2, minamb), _max(envdesc.ambient.y * 2, minamb),
-            _max(envdesc.ambient.z * 2, minamb), 0};
+        Fvector4             ambclr  = {_max(envdesc.ambient.x * 2, minamb), _max(envdesc.ambient.y * 2, minamb), _max(envdesc.ambient.z * 2, minamb), 0};
         ambclr.mul(ps_r2_sun_lumscale_amb);
 
         //.		Fvector4	envclr			= { envdesc.sky_color.x*2+EPS,	envdesc.sky_color.y*2+EPS,
         //envdesc.sky_color.z*2+EPS,	envdesc.weight					};
-        Fvector4 envclr = {
-            envdesc.hemi_color.x * 2 + EPS, envdesc.hemi_color.y * 2 + EPS, envdesc.hemi_color.z * 2 + EPS,
-            envdesc.weight};
+        Fvector4 envclr = {envdesc.hemi_color.x * 2 + EPS, envdesc.hemi_color.y * 2 + EPS, envdesc.hemi_color.z * 2 + EPS, envdesc.weight};
 
         Fvector4 fogclr = {envdesc.fog_color.x, envdesc.fog_color.y, envdesc.fog_color.z, 0};
         envclr.x *= 2 * ps_r2_sun_lumscale_hemi;
@@ -279,7 +275,7 @@ void CRenderTarget::phase_combine()
     {
         PIX_EVENT(Forward_rendering);
         if (!RImplementation.o.dx10_msaa)
-            u_setrt(rt_Generic_0, 0, 0, HW.pBaseZB);                                     // LDR RT
+            u_setrt(rt_Generic_0, 0, 0, HW.pBaseZB);   // LDR RT
         else
             u_setrt(rt_Generic_0_r, 0, 0, RImplementation.Target->rt_MSAADepth->pZRT);   // LDR RT
         RCache.set_CullMode(CULL_CCW);
@@ -303,12 +299,8 @@ void CRenderTarget::phase_combine()
     if (RImplementation.o.dx10_msaa)
     {
         // we need to resolve rt_Generic_1 into rt_Generic_1_r
-        HW.pContext->ResolveSubresource(
-            rt_Generic_1->pTexture->surface_get(), 0, rt_Generic_1_r->pTexture->surface_get(), 0,
-            DXGI_FORMAT_R8G8B8A8_UNORM);
-        HW.pContext->ResolveSubresource(
-            rt_Generic_0->pTexture->surface_get(), 0, rt_Generic_0_r->pTexture->surface_get(), 0,
-            DXGI_FORMAT_R8G8B8A8_UNORM);
+        HW.pContext->ResolveSubresource(rt_Generic_1->pTexture->surface_get(), 0, rt_Generic_1_r->pTexture->surface_get(), 0, DXGI_FORMAT_R8G8B8A8_UNORM);
+        HW.pContext->ResolveSubresource(rt_Generic_0->pTexture->surface_get(), 0, rt_Generic_0_r->pTexture->surface_get(), 0, DXGI_FORMAT_R8G8B8A8_UNORM);
     }
 
     // for msaa we need a resolved color buffer - Holger
@@ -333,8 +325,7 @@ void CRenderTarget::phase_combine()
             }
             else
             {
-                u_setrt(
-                    rt_Generic_1_r, 0, 0, RImplementation.Target->rt_MSAADepth->pZRT);   // Now RT is a distortion mask
+                u_setrt(rt_Generic_1_r, 0, 0, RImplementation.Target->rt_MSAADepth->pZRT);   // Now RT is a distortion mask
                 HW.pContext->ClearRenderTargetView(rt_Generic_1_r->pRT, ColorRGBA);
             }
             RCache.set_CullMode(CULL_CCW);
