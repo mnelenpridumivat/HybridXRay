@@ -447,6 +447,7 @@ void CreateTreeBranch(shared_str nesting, shared_str leafName, CUIListWnd* pList
     private:
         CGameFont* pRootFnt;
         u32        rootItemColor;
+
     public:
         AddTreeTail_(CGameFont* f, u32 cl): pRootFnt(f), rootItemColor(cl) {}
 

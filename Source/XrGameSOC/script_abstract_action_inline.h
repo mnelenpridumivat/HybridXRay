@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: script_abstract_action_inline.h
 //	Created 	: 30.09.2003
 //  Modified 	: 29.06.2004
@@ -8,7 +8,7 @@
 
 #pragma once
 
-IC	CScriptAbstractAction::CScriptAbstractAction	()
+IC CScriptAbstractAction::CScriptAbstractAction()
 {
-	m_bCompleted		= true;
+    m_bCompleted = true;
 }

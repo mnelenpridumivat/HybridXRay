@@ -32,6 +32,7 @@ class CSwitchPredicate
 {
 private:
     CALifeSwitchManager* m_switch_manager;
+
 public:
     IC CSwitchPredicate(CALifeSwitchManager* switch_manager)
     {

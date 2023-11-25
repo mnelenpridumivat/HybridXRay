@@ -22,6 +22,7 @@
 class CSE_ALifeItemAmmo;
 
 SERVER_ENTITY_DECLARE_BEGIN0(CSE_ALifeInventoryItem)
+
 public:
 enum
 {
@@ -39,6 +40,7 @@ union mask_num_items
     };
     u8 common;
 };
+
 public:
 float            m_fCondition;
 float            m_fMass;

@@ -15,6 +15,7 @@ class CSmartCastStats
 {
 private:
     static CSmartCastStats* m_instance;
+
 private:
     struct CStats
     {
@@ -37,14 +38,18 @@ private:
             return (_1.m_count < _2.m_count);
         }
     };
+
 private:
     typedef xr_set<CStats> STATS;
+
 private:
     STATS             m_stats;
     xr_vector<CStats> m_temp;
+
 public:
     IC static CSmartCastStats* instance();
     IC static void             _release();
+
 public:
     IC void add(LPCSTR from, LPCSTR to);
     IC void clear();

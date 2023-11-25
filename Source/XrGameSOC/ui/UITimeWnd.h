@@ -1,4 +1,4 @@
-// File:		UITimeWnd.h
+﻿// File:		UITimeWnd.h
 // Description:	Timer window for Inventory window
 // Created:		01.02.2005
 // Author:		Serge Vynnychenko

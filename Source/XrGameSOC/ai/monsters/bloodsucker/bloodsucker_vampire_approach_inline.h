@@ -1,39 +1,32 @@
-#pragma once
+ï»¿#pragma once
 
-#define TEMPLATE_SPECIALIZATION template <\
-	typename _Object\
->
+#define TEMPLATE_SPECIALIZATION                  template<typename _Object>
 
 #define CStateBloodsuckerVampireApproachAbstract CStateBloodsuckerVampireApproach<_Object>
 
 TEMPLATE_SPECIALIZATION
-CStateBloodsuckerVampireApproachAbstract::CStateBloodsuckerVampireApproach(_Object *obj) : inherited(obj)
-{
-}
+CStateBloodsuckerVampireApproachAbstract::CStateBloodsuckerVampireApproach(_Object* obj): inherited(obj) {}
 
 TEMPLATE_SPECIALIZATION
-CStateBloodsuckerVampireApproachAbstract::~CStateBloodsuckerVampireApproach()
-{
-}
+CStateBloodsuckerVampireApproachAbstract::~CStateBloodsuckerVampireApproach() {}
 
 TEMPLATE_SPECIALIZATION
 void CStateBloodsuckerVampireApproachAbstract::initialize()
 {
-	inherited::initialize();
-	object->path().prepare_builder	();	
+    inherited::initialize();
+    object->path().prepare_builder();
 }
 
 TEMPLATE_SPECIALIZATION
 void CStateBloodsuckerVampireApproachAbstract::execute()
 {
-	// óñòàíîâêà ïàðàìåòðîâ ôóíêöèîíàëüíûõ áëîêîâ
-	object->set_action								(ACT_RUN);
-	object->anim().accel_activate					(eAT_Aggressive);
-	object->anim().accel_set_braking				(false);
-	object->path().set_target_point					(object->EnemyMan.get_enemy()->Position(), object->EnemyMan.get_enemy()->ai_location().level_vertex_id());
-	object->path().set_rebuild_time					(object->get_attack_rebuild_time());
-	object->path().set_use_covers					(false);
-	object->path().set_distance_to_end				(0.1f);
-	object->set_state_sound							(MonsterSound::eMonsterSoundAggressive);
+    // ÑƒÑÑ‚Ð°Ð½Ð¾Ð²ÐºÐ° Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€Ð¾Ð² Ñ„ÑƒÐ½ÐºÑ†Ð¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ñ… Ð±Ð»Ð¾ÐºÐ¾Ð²
+    object->set_action(ACT_RUN);
+    object->anim().accel_activate(eAT_Aggressive);
+    object->anim().accel_set_braking(false);
+    object->path().set_target_point(object->EnemyMan.get_enemy()->Position(), object->EnemyMan.get_enemy()->ai_location().level_vertex_id());
+    object->path().set_rebuild_time(object->get_attack_rebuild_time());
+    object->path().set_use_covers(false);
+    object->path().set_distance_to_end(0.1f);
+    object->set_state_sound(MonsterSound::eMonsterSoundAggressive);
 }
-

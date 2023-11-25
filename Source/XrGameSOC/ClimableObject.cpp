@@ -50,6 +50,7 @@ IC void            OrientToNorm(const Fvector& normal, Fmatrix& form, Fobb& box)
 class CPHLeaderGeomShell: public CPHStaticGeomShell
 {
     CClimableObject* m_pClimable;
+
 public:
     CPHLeaderGeomShell(CClimableObject* climable);
     void near_callback(CPHObject* obj);

@@ -60,8 +60,10 @@ add_to_type_list(CPureServerObject)
     flSpawnInfiniteCount   = u32(1 << 4),
     flSpawnDestroyOnSpawn  = u32(1 << 5),
 };
+
 private:
 LPSTR s_name_replace;
+
 public:
 #ifndef XRGAME_EXPORTS
 virtual visual_data* visual_collection() const

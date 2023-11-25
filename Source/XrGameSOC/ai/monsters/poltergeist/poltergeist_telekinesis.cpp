@@ -104,6 +104,7 @@ class best_object_predicate
 {
     Fvector enemy_pos;
     Fvector monster_pos;
+
 public:
     best_object_predicate(const Fvector& m_pos, const Fvector& pos)
     {
@@ -125,6 +126,7 @@ class best_object_predicate2
 {
     Fvector enemy_pos;
     Fvector monster_pos;
+
 public:
     typedef CObject* CObject_ptr;
 

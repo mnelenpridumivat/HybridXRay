@@ -514,6 +514,7 @@ public:
     bool         m_can_kill_enemy;
     bool         m_can_kill_member;
     float        m_pick_distance;
+
 public:
     IC ray_query_param(const CAI_Stalker* holder, float power_threshold, float distance)
     {

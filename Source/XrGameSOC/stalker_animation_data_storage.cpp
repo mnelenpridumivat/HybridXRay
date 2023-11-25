@@ -18,6 +18,7 @@ class data_predicate
 {
 private:
     IKinematicsAnimated* m_object;
+
 public:
     IC data_predicate(IKinematicsAnimated* skeleton_animated)
     {

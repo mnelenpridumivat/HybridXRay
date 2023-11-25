@@ -155,6 +155,7 @@
 #define SPAWN_VERSION u16(119)
 
 SERVER_ENTITY_DECLARE_BEGIN(CSE_Shape, ISE_Shape)
+
 public:
 void cform_read(NET_Packet& P);
 void cform_write(NET_Packet& P);
@@ -211,9 +212,11 @@ virtual CSE_Abstract* cast_abstract()
 {
     return 0;
 }
+
 protected:
 virtual void data_load(NET_Packet& tNetPacket);
 virtual void data_save(NET_Packet& tNetPacket);
+
 public:
 SERVER_ENTITY_DECLARE_END
 add_to_type_list(CSE_PHSkeleton)

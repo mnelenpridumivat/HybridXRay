@@ -1,59 +1,79 @@
-#pragma once
+ï»¿#pragma once
 
-class CEnergyHolder {
+class CEnergyHolder
+{
+    // ÑÐ½ÐµÑ€Ð³Ð¸Ñ
+    float m_value;                    // Ñ‚ÐµÐºÑƒÑ‰ÐµÐµ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ ÑÐ½ÐµÑ€Ð³Ð¸Ð¸
+    float m_restore_vel;              // ÑÐºÐ¾Ñ€Ð¾ÑÑ‚ÑŒ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ñ (ltx-param)
+    float m_decline_vel;              // ÑÐºÐ¾Ñ€Ð¾ÑÑ‚ÑŒ ÑƒÐ¼ÐµÐ½ÑŒÑˆÐµÐ½Ð¸Ñ ÑÐ½ÐµÑ€Ð³Ð¸Ð¸ Ð² Ð°ÐºÑ‚Ð¸Ð²Ð½Ð¾Ð¼ ÑÐ¾ÑÑ‚Ð¾ÑÐ½Ð¸Ð¸ (ltx-param)
+    float m_critical_value;           // ÐºÑ€Ð¸Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¾Ðµ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ ÑÐ½ÐµÑ€Ð³Ð¸Ð¸, Ð¼ÐµÐ½ÑŒÑˆÐµ ÐºÐ¾Ñ‚Ð¾Ñ€Ð¾Ð³Ð¾ Ð°ÐºÑ‚Ð¸Ð²Ð½Ð¾ÑÑ‚ÑŒ Ð±ÑƒÐ´ÐµÑ‚ Ð¾Ñ‚ÐºÐ»ÑŽÑ‡ÐµÐ½Ð° (ltx-param)
+    float m_activate_value;           // Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ ÑÐ½ÐµÑ€Ð³Ð¸Ð¸, Ð±Ð¾Ð»ÑŒÑˆÐµ ÐºÐ¾Ñ‚Ð¾Ñ€Ð¾Ð³Ð¾ Ð°ÐºÑ‚Ð¸Ð²Ð½Ð¾ÑÑ‚ÑŒ Ð¼Ð¾Ð¶ÐµÑ‚ Ð±Ñ‹Ñ‚ÑŒ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð° (ltx-param)
+    u32   m_time_last_update;         // Ð²Ñ€ÐµÐ¼Ñ Ð¿Ð¾ÑÐ»ÐµÐ´Ð½ÐµÐ³Ð¾ Ð¾Ð±Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ñ ÑÐ½ÐµÑ€Ð³Ð¸Ð¸
+    float m_aggressive_restore_vel;   // ÑÐºÐ¾Ñ€Ð¾ÑÑ‚ÑŒ Ð°Ð³Ñ€ÐµÑÑÐ¸Ð²Ð½Ð¾Ð³Ð¾ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ñ (ltx-param)
 
-	// ýíåðãèÿ
-	float		m_value;			// òåêóùåå çíà÷åíèå ýíåðãèè
-	float		m_restore_vel;		// ñêîðîñòü âîññòàíîâëåíèÿ (ltx-param)
-	float		m_decline_vel;		// ñêîðîñòü óìåíüøåíèÿ ýíåðãèè â àêòèâíîì ñîñòîÿíèè (ltx-param)	
-	float		m_critical_value;	// êðèòè÷åñêîå çíà÷åíèå ýíåðãèè, ìåíüøå êîòîðîãî àêòèâíîñòü áóäåò îòêëþ÷åíà (ltx-param)
-	float		m_activate_value;	// çíà÷åíèå ýíåðãèè, áîëüøå êîòîðîãî àêòèâíîñòü ìîæåò áûòü âîññòàíîâëåíà (ltx-param)
-	u32			m_time_last_update;	// âðåìÿ ïîñëåäíåãî îáíîâëåíèÿ ýíåðãèè
-	float		m_aggressive_restore_vel; // ñêîðîñòü àãðåññèâíîãî âîññòàíîâëåíèÿ (ltx-param)
-	
-	// àêòèâíîñòü
-	bool		m_active;
+    // Ð°ÐºÑ‚Ð¸Ð²Ð½Ð¾ÑÑ‚ÑŒ
+    bool  m_active;
 
-	// àâòîìàòè÷åñêàÿ àêòèâàöèÿ/äåàêòèâàöèÿ
-	bool		m_auto_activate;
-	bool		m_auto_deactivate;
+    // Ð°Ð²Ñ‚Ð¾Ð¼Ð°Ñ‚Ð¸Ñ‡ÐµÑÐºÐ°Ñ Ð°ÐºÑ‚Ð¸Ð²Ð°Ñ†Ð¸Ñ/Ð´ÐµÐ°ÐºÑ‚Ð¸Ð²Ð°Ñ†Ð¸Ñ
+    bool  m_auto_activate;
+    bool  m_auto_deactivate;
 
-	// îáíîâëåíå ýíåðãèè ðàçðåøåíî
-	bool		m_enable;
+    // Ð¾Ð±Ð½Ð¾Ð²Ð»ÐµÐ½Ðµ ÑÐ½ÐµÑ€Ð³Ð¸Ð¸ Ñ€Ð°Ð·Ñ€ÐµÑˆÐµÐ½Ð¾
+    bool  m_enable;
 
-	// ñîñòîÿíèå àãðåññèâíîñòè
-	bool		m_aggressive;
+    // ÑÐ¾ÑÑ‚Ð¾ÑÐ½Ð¸Ðµ Ð°Ð³Ñ€ÐµÑÑÐ¸Ð²Ð½Ð¾ÑÑ‚Ð¸
+    bool  m_aggressive;
 
 public:
-					CEnergyHolder			();
-	virtual			~CEnergyHolder			();
+    CEnergyHolder();
+    virtual ~CEnergyHolder();
 
-	virtual	void	reinit					();
-	virtual	void	reload					(LPCSTR section, LPCSTR prefix = "", LPCSTR suffix = "");
+    virtual void reinit();
+    virtual void reload(LPCSTR section, LPCSTR prefix = "", LPCSTR suffix = "");
 
-	virtual	void	schedule_update			();
+    virtual void schedule_update();
 
-	virtual	void	on_activate				() {};
-	virtual	void	on_deactivate			() {};
+    virtual void on_activate(){};
+    virtual void on_deactivate(){};
 
-			// àêòèâíîñòü ïîëÿ
-			void	activate				();
-			void	deactivate				();
-	IC		bool	is_active				(){return m_active;}
-	IC		bool	can_activate			(){return (m_value > m_activate_value);}
-	IC		bool	should_deactivate		(){return (m_value < m_critical_value);}
-	IC		void	set_auto_activate		(bool b_auto = true)  {m_auto_activate = b_auto;}
-	IC		void	set_auto_deactivate		(bool b_auto = true)  {m_auto_deactivate = b_auto;}
+    // Ð°ÐºÑ‚Ð¸Ð²Ð½Ð¾ÑÑ‚ÑŒ Ð¿Ð¾Ð»Ñ
+    void         activate();
+    void         deactivate();
+    IC bool      is_active()
+    {
+        return m_active;
+    }
+    IC bool can_activate()
+    {
+        return (m_value > m_activate_value);
+    }
+    IC bool should_deactivate()
+    {
+        return (m_value < m_critical_value);
+    }
+    IC void set_auto_activate(bool b_auto = true)
+    {
+        m_auto_activate = b_auto;
+    }
+    IC void set_auto_deactivate(bool b_auto = true)
+    {
+        m_auto_deactivate = b_auto;
+    }
 
-			void	enable					();
-	IC		void	disable					(){m_enable = false;}
+    void    enable();
+    IC void disable()
+    {
+        m_enable = false;
+    }
 
-	IC		void	set_aggressive			(bool b_val = true) {m_aggressive = b_val;}
+    IC void set_aggressive(bool b_val = true)
+    {
+        m_aggressive = b_val;
+    }
 
-
-	// DEBUG
-	IC		float	get_value				() {return m_value;}
+    // DEBUG
+    IC float get_value()
+    {
+        return m_value;
+    }
 };
-
-
-

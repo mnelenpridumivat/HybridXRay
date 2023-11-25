@@ -1,20 +1,21 @@
-///////////////////////////////////////////////////////////////
+п»ї///////////////////////////////////////////////////////////////
 // GalantineArtifact.h
-// GalantineArtefact - артефакт ведбмин студень
+// GalantineArtefact - Р°СЂС‚РµС„Р°РєС‚ РІРµРґР±РјРёРЅ СЃС‚СѓРґРµРЅСЊ
 ///////////////////////////////////////////////////////////////
 
 #pragma once
 #include "artifact.h"
 
-class CGalantineArtefact : public CArtefact 
+class CGalantineArtefact: public CArtefact
 {
 private:
-	typedef CArtefact inherited;
-public:
-	CGalantineArtefact(void);
-	virtual ~CGalantineArtefact(void);
+    typedef CArtefact inherited;
 
-	virtual void Load				(LPCSTR section);
+public:
+    CGalantineArtefact(void);
+    virtual ~CGalantineArtefact(void);
+
+    virtual void Load(LPCSTR section);
 
 protected:
 };

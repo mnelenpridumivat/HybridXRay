@@ -13,6 +13,7 @@ class CSomeMapAction: public WORLD_OPERATOR
 {
 private:
     typedef WORLD_OPERATOR inherited;
+
 public:
     CSomeMapAction(LPCSTR action_name): inherited((CUIMapWnd*)NULL, action_name) {}
     virtual void initialize()
@@ -33,12 +34,14 @@ class CMapActionZoomControl: public CSomeMapAction
 {
 private:
     typedef CSomeMapAction inherited;
+
 protected:
     float m_endMovingTime;
     float m_targetZoom;
     Frect m_desiredMapRect;
     void  init_internal();
     void  update_target_state();
+
 public:
     CMapActionZoomControl(LPCSTR action_name): inherited(action_name) {}
     virtual void execute();
@@ -50,6 +53,7 @@ class CMapActionResize: public CMapActionZoomControl
 {
 private:
     typedef CMapActionZoomControl inherited;
+
 public:
     CMapActionResize(LPCSTR action_name): inherited(action_name) {}
     virtual void initialize();
@@ -60,6 +64,7 @@ class CMapActionMinimize: public CMapActionZoomControl
 {
 private:
     typedef CMapActionZoomControl inherited;
+
 public:
     CMapActionMinimize(LPCSTR action_name): inherited(action_name) {}
     virtual void initialize();
@@ -70,6 +75,7 @@ class CMapActionIdle: public CSomeMapAction
 {
 private:
     typedef CSomeMapAction inherited;
+
 public:
     CMapActionIdle(LPCSTR action_name): inherited(action_name) {}
     virtual void initialize();
@@ -82,6 +88,7 @@ class CSomeMapEvaluator: public CPropertyEvaluator<CUIMapWnd>
 {
 private:
     typedef CPropertyEvaluator<CUIMapWnd> inherited;
+
 public:
     CSomeMapEvaluator(LPCSTR evaluator_name): inherited((CUIMapWnd*)NULL, evaluator_name) {}
     virtual ~CSomeMapEvaluator(){};
@@ -91,6 +98,7 @@ class CEvaluatorTargetMapShown: public CSomeMapEvaluator
 {
 private:
     typedef CSomeMapEvaluator inherited;
+
 public:
     CEvaluatorTargetMapShown(LPCSTR evaluator_name = 0): inherited(evaluator_name){};
     virtual bool evaluate();
@@ -100,6 +108,7 @@ class CEvaluatorMapMinimized: public CSomeMapEvaluator
 {
 private:
     typedef CSomeMapEvaluator inherited;
+
 public:
     CEvaluatorMapMinimized(LPCSTR evaluator_name = 0): inherited(evaluator_name){};
     virtual bool evaluate();
@@ -109,6 +118,7 @@ class CEvaluatorMapResized: public CSomeMapEvaluator
 {
 private:
     typedef CSomeMapEvaluator inherited;
+
 public:
     CEvaluatorMapResized(LPCSTR evaluator_name = 0): inherited(evaluator_name){};
     virtual bool evaluate();
@@ -119,6 +129,7 @@ class CEvaluatorMapConst: public CSomeMapEvaluator
 private:
     typedef CSomeMapEvaluator inherited;
     bool                      ret_value;
+
 public:
     CEvaluatorMapConst(bool val = false, LPCSTR evaluator_name = 0): inherited(evaluator_name)
     {

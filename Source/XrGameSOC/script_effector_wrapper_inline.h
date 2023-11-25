@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: script_effector_wrapper_inline.h
 //	Created 	: 06.02.2004
 //  Modified 	: 06.02.2004
@@ -8,7 +8,4 @@
 
 #pragma once
 
-IC	CScriptEffectorWrapper::CScriptEffectorWrapper	(int iType, float fTime) :
-	CScriptEffector	(iType, fTime)
-{
-}
+IC CScriptEffectorWrapper::CScriptEffectorWrapper(int iType, float fTime): CScriptEffector(iType, fTime) {}

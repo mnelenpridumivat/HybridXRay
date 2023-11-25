@@ -53,6 +53,7 @@ private:
 
     typedef typename TList::Head Head;
     typedef typename TList::Tail Tail;
+
 public:
     template<typename _1> IC static void go_process(T1* self, T2 p1)
     {

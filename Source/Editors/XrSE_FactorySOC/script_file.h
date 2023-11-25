@@ -39,6 +39,7 @@ public:
 	CString GetOutputNameExt() { return GetName()+".out"; }
 	CString GetOutputPathNameExt();
 */
+
 protected:
     //	CString m_strPathName, m_strRelPathName;
     string_path                         m_strPathName;

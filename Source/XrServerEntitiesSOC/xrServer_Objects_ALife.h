@@ -174,6 +174,7 @@ add_to_type_list(CSE_ALifeGroupAbstract)
 {
     typedef __A                    inherited1;
     typedef CSE_ALifeGroupAbstract inherited2;
+
 public:
     CSE_ALifeGroupTemplate(LPCSTR caSection): __A(pSettings->line_exist(caSection, "monster_section") ? pSettings->r_string(caSection, "monster_section") : caSection), CSE_ALifeGroupAbstract(caSection){};
 
@@ -329,6 +330,7 @@ virtual CSE_Abstract* cast_abstract()
 {
     return this;
 }
+
 public:
 SERVER_ENTITY_DECLARE_END
 add_to_type_list(CSE_ALifePHSkeletonObject)
@@ -547,6 +549,7 @@ virtual CSE_Abstract* cast_abstract()
 {
     return this;
 }
+
 protected:
 virtual void data_load(NET_Packet& tNetPacket);
 virtual void data_save(NET_Packet& tNetPacket);

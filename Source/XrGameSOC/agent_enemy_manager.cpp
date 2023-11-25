@@ -651,6 +651,7 @@ class find_wounded_predicate
 {
 private:
     const CEntityAlive* m_object;
+
 public:
     IC find_wounded_predicate(const CEntityAlive* object)
     {

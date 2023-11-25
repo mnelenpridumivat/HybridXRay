@@ -14,6 +14,7 @@ class CAI_Space
 {
 private:
     CScriptEngine* m_script_engine;
+
 public:
     CAI_Space();
     virtual ~CAI_Space();

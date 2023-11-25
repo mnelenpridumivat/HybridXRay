@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "uiwindow.h"
 #include "uilistitem.h"
 #include "uiscrollbar.h"
@@ -7,158 +7,204 @@
 
 #define DEFAULT_ITEM_HEIGHT 30
 
-
-DEF_LIST (LIST_ITEM_LIST, CUIListItem*);
+DEF_LIST(LIST_ITEM_LIST, CUIListItem*);
 class CUIScrollBar;
 class CUIFrameLineWnd;
 
-class CUIListWnd :public CUIWindow
+class CUIListWnd: public CUIWindow
 {
 private:
-	typedef			CUIWindow inherited;
-	friend class	CUIGameLog;
+    typedef CUIWindow inherited;
+    friend class CUIGameLog;
 
-	shared_str		m_scrollbar_profile;
-	void			DrawActiveBackFrame		(const Frect& rect, CUIListItem * itm);
+    shared_str m_scrollbar_profile;
+    void       DrawActiveBackFrame(const Frect& rect, CUIListItem* itm);
+
 public:
-					CUIListWnd				();
-	virtual			~CUIListWnd				();
+    CUIListWnd();
+    virtual ~CUIListWnd();
 
-	virtual void	 Init					(float x, float y, float width, float height);
-	virtual void	 Init					(float x, float y, float width, float height, float item_height);
+    virtual void Init(float x, float y, float width, float height);
+    virtual void Init(float x, float y, float width, float height, float item_height);
 
-	virtual bool	 OnMouse				(float x, float y, EUIMessages mouse_action);
-	virtual bool	 OnKeyboard				(int dik, EUIMessages keyboard_action);
+    virtual bool OnMouse(float x, float y, EUIMessages mouse_action);
+    virtual bool OnKeyboard(int dik, EUIMessages keyboard_action);
 
-	virtual void	 SendMessage			(CUIWindow *pWnd, s16 msg, void* pData);
-	virtual void	 Draw					();
-	virtual void	 Update					();
-	virtual void	 DetachChild			(CUIWindow* pChild);
-			void	SetScrollBarProfile		(LPCSTR profile)		{m_scrollbar_profile=profile;};
+    virtual void SendMessage(CUIWindow* pWnd, s16 msg, void* pData);
+    virtual void Draw();
+    virtual void Update();
+    virtual void DetachChild(CUIWindow* pChild);
+    void         SetScrollBarProfile(LPCSTR profile)
+    {
+        m_scrollbar_profile = profile;
+    };
 
-	// ���������� ��������� � ��������
-	template <class Element>
-	bool			 AddItem				(const char*  str, const float shift = 0.0f, void* pData = NULL,
-											int value = 0, int insertBeforeIdx = -1);
+    // ���������� ��������� � ��������
+    template<class Element> bool AddItem(const char* str, const float shift = 0.0f, void* pData = NULL, int value = 0, int insertBeforeIdx = -1);
 
-	virtual bool	AddItem_script			(CUIListItem* item);
+    virtual bool                 AddItem_script(CUIListItem* item);
 
-	template <class Element>
-	bool			AddItem					(Element* pItem, int insertBeforeIdx = -1);
-	
-	void 			RemoveItem				(int index);
-	void 			RemoveAll				();
-	//������� ������ ������� � �������� pData, ����� -1
-	int 			FindItem				(void* pData);
-	int 			FindItemWithValue		(int iValue);
-	CUIListItem*	GetItem					(int index);
-	// �������� ������ �������� �� ������. ���� -1 ���� ��� ������
-	int				GetItemPos				(CUIListItem *pItem);
+    template<class Element> bool AddItem(Element* pItem, int insertBeforeIdx = -1);
 
-	void			SetItemWidth			(float iItemWidth);
-	float			GetItemWidth			()							{return m_iItemWidth;}
+    void                         RemoveItem(int index);
+    void                         RemoveAll();
+    //������� ������ ������� � �������� pData, ����� -1
+    int                          FindItem(void* pData);
+    int                          FindItemWithValue(int iValue);
+    CUIListItem*                 GetItem(int index);
+    // �������� ������ �������� �� ������. ���� -1 ���� ��� ������
+    int                          GetItemPos(CUIListItem* pItem);
 
-	void			SetItemHeight			(float iItemHeight); 
-	float			GetItemHeight			()							{return m_iItemHeight;}
-    virtual void	SetHeight				(float height);
+    void                         SetItemWidth(float iItemWidth);
+    float                        GetItemWidth()
+    {
+        return m_iItemWidth;
+    }
 
-	void			SetAlwaysShowScroll		(bool flag = true)			{m_bAlwaysShowScroll = flag;}
-	void			EnableAlwaysShowScroll	(bool flag)					{m_bAlwaysShowScroll_enable = flag;}
+    void  SetItemHeight(float iItemHeight);
+    float GetItemHeight()
+    {
+        return m_iItemHeight;
+    }
+    virtual void SetHeight(float height);
 
+    void         SetAlwaysShowScroll(bool flag = true)
+    {
+        m_bAlwaysShowScroll = flag;
+    }
+    void EnableAlwaysShowScroll(bool flag)
+    {
+        m_bAlwaysShowScroll_enable = flag;
+    }
 
-	int				GetItemsCount			()							{return m_ItemList.size();}
+    int GetItemsCount()
+    {
+        return m_ItemList.size();
+    }
 
-	//����������� ��� �������� ������
-	void 			Reset					();
+    //����������� ��� �������� ������
+    void    Reset();
 
-	void 			EnableScrollBar			(bool enable);
-	bool 			IsScrollBarEnabled		();
-	void 			UpdateScrollBar			();
+    void    EnableScrollBar(bool enable);
+    bool    IsScrollBarEnabled();
+    void    UpdateScrollBar();
 
-	void 			ScrollToBegin			();
-	void 			ScrollToEnd				();
-	void 			ScrollToPos				(int position);
-	
-	IC bool			IsActiveBackgroundEnabled()								{return m_bActiveBackground;}
-	void			EnableActiveBackground	(bool enable);
+    void    ScrollToBegin();
+    void    ScrollToEnd();
+    void    ScrollToPos(int position);
 
-	virtual void	SetWidth				(float width);
+    IC bool IsActiveBackgroundEnabled()
+    {
+        return m_bActiveBackground;
+    }
+    void         EnableActiveBackground(bool enable);
 
-	void			SetTextColor			(u32 color)						{m_dwFontColor = color;} 
-	u32				GetTextColor			()								{return m_dwFontColor;}
+    virtual void SetWidth(float width);
 
-	//������ ��������� (��� ������) �������� ������
-	void 			ActivateList			(bool activity);
-	bool 			IsListActive			()								{return m_bListActivity;}
+    void         SetTextColor(u32 color)
+    {
+        m_dwFontColor = color;
+    }
+    u32 GetTextColor()
+    {
+        return m_dwFontColor;
+    }
 
-	void 			SetVertFlip				(bool vert_flip)				{m_bVertFlip = vert_flip;}
-	bool 			GetVertFlip				() {return m_bVertFlip;}
+    //������ ��������� (��� ������) �������� ������
+    void ActivateList(bool activity);
+    bool IsListActive()
+    {
+        return m_bListActivity;
+    }
 
-	// �������������� ��������� ������
-	void			SetFocusedItem			(int iNewFocusedItem);
-	int				GetFocusedItem			()								{ return m_iFocusedItem; }
-	int				GetSelectedItem			()								{ return m_iSelectedItem; }
-	void			SetSelectedItem			(int sel)						{m_iSelectedItem = sel;}
-	void			ShowSelectedItem		(bool show = true);
-	
-	void			ResetFocusCapture		()								{ m_bForceFocusedItem = false; }
+    void SetVertFlip(bool vert_flip)
+    {
+        m_bVertFlip = vert_flip;
+    }
+    bool GetVertFlip()
+    {
+        return m_bVertFlip;
+    }
 
-	int				GetListPosition			() const						{ return m_iFirstShownIndex; }
+    // �������������� ��������� ������
+    void SetFocusedItem(int iNewFocusedItem);
+    int  GetFocusedItem()
+    {
+        return m_iFocusedItem;
+    }
+    int GetSelectedItem()
+    {
+        return m_iSelectedItem;
+    }
+    void SetSelectedItem(int sel)
+    {
+        m_iSelectedItem = sel;
+    }
+    void ShowSelectedItem(bool show = true);
 
+    void ResetFocusCapture()
+    {
+        m_bForceFocusedItem = false;
+    }
+
+    int GetListPosition() const
+    {
+        return m_iFirstShownIndex;
+    }
 
 protected:
-	void			create_active_back		();
-	void			destroy_active_back		();
+    void             create_active_back();
+    void             destroy_active_back();
 
-	CUIScrollBar*	m_ScrollBar;
+    CUIScrollBar*    m_ScrollBar;
 
-	//���������� ��������� ������, ���������
-	//���� ��������� ���������
-	void			UpdateList				();
+    //���������� ��������� ������, ���������
+    //���� ��������� ���������
+    void             UpdateList();
 
-	//������ ��������� �����
-	LIST_ITEM_LIST	m_ItemList; 
+    //������ ��������� �����
+    LIST_ITEM_LIST   m_ItemList;
 
-	//������� �������� ������
-	float		m_iItemHeight;
-	float		m_iItemWidth;
+    //������� �������� ������
+    float            m_iItemHeight;
+    float            m_iItemWidth;
 
-	//���������� ����� ��� ���������
-	int		m_iRowNum;
-	
-	//������ ������� ����������� ��������
-	int		m_iFirstShownIndex;
+    //���������� ����� ��� ���������
+    int              m_iRowNum;
 
-	//������� ��� ������� ������ � ������ ������ ��� -1, ���� ������ ���
-	int		m_iFocusedItem;
-	int		m_iFocusedItemGroupID;
-	int     m_iSelectedItem;
-	int     m_iSelectedItemGroupID;
+    //������ ������� ����������� ��������
+    int              m_iFirstShownIndex;
 
-	bool	m_bShowSelectedItem;
-	bool	m_bAlwaysShowScroll_enable;
-	bool	m_bAlwaysShowScroll;
-	bool	m_bActiveBackground;
-	// ���� ����� ������������� ���������� �����, �� ������� ���� ����
-	bool	m_bForceFocusedItem;
+    //������� ��� ������� ������ � ������ ������ ��� -1, ���� ������ ���
+    int              m_iFocusedItem;
+    int              m_iFocusedItemGroupID;
+    int              m_iSelectedItem;
+    int              m_iSelectedItemGroupID;
 
-	//��������� ��������� ��������
-	CUIFrameLineWnd*	m_ActiveBackgroundFrame;
+    bool             m_bShowSelectedItem;
+    bool             m_bAlwaysShowScroll_enable;
+    bool             m_bAlwaysShowScroll;
+    bool             m_bActiveBackground;
+    // ���� ����� ������������� ���������� �����, �� ������� ���� ����
+    bool             m_bForceFocusedItem;
 
-	//������� ���� ������
-	u32		m_dwFontColor;
-	bool	m_bListActivity;
+    //��������� ��������� ��������
+    CUIFrameLineWnd* m_ActiveBackgroundFrame;
 
-	//��������� ������ �� ���������
-	bool	m_bVertFlip;
-	
-	// ������� ����, ��� ���� ���������
-	bool	m_bUpdateMouseMove;
+    //������� ���� ������
+    u32              m_dwFontColor;
+    bool             m_bListActivity;
 
-	// ������� ���������� �������������
-	int		m_iLastUniqueID;
+    //��������� ������ �� ���������
+    bool             m_bVertFlip;
 
-	DECLARE_SCRIPT_REGISTER_FUNCTION
+    // ������� ����, ��� ���� ���������
+    bool             m_bUpdateMouseMove;
+
+    // ������� ���������� �������������
+    int              m_iLastUniqueID;
+
+    DECLARE_SCRIPT_REGISTER_FUNCTION
 };
 
 #include "UIListWnd_inline.h"

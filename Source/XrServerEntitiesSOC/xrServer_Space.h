@@ -26,6 +26,7 @@
     class __A: public __B                     \
     {                                         \
         typedef __B inherited;                \
+                                              \
     public:                                   \
         SERVER_ENTITY_SCRIPT_METHODS
 #define SERVER_ENTITY_DECLARE_BEGIN2(__A, __B, __C) \
@@ -33,6 +34,7 @@
     {                                               \
         typedef __B inherited1;                     \
         typedef __C inherited2;                     \
+                                                    \
     public:                                         \
         SERVER_ENTITY_SCRIPT_METHODS
 #define SERVER_ENTITY_DECLARE_BEGIN3(__A, __B, __C, __D) \
@@ -41,6 +43,7 @@
         typedef __B inherited1;                          \
         typedef __C inherited2;                          \
         typedef __D inherited3;                          \
+                                                         \
     public:                                              \
         SERVER_ENTITY_SCRIPT_METHODS
 #define SERVER_ENTITY_DECLARE_BEGIN4(__A, __B, __C, __D, __E) \
@@ -50,10 +53,12 @@
         typedef __C inherited2;                               \
         typedef __D inherited3;                               \
         typedef __E inherited4;                               \
+                                                              \
     public:                                                   \
         SERVER_ENTITY_SCRIPT_METHODS
 
 #define SERVER_ENTITY_DECLARE_END                     \
+                                                      \
 public:                                               \
     virtual void UPDATE_Read(NET_Packet& P);          \
     virtual void UPDATE_Write(NET_Packet& P);         \

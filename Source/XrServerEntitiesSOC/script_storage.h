@@ -30,23 +30,28 @@ private:
     BOOL           m_jit;
 
 #ifdef DEBUG
+
 public:
     bool m_stack_is_ready;
 #endif
 
 #ifdef DEBUG
+
 protected:
     CMemoryWriter m_output;
 #endif   // DEBUG
+
 protected:
     static int vscript_log(ScriptStorage::ELuaMessageType tLuaMessageType, LPCSTR caFormat, va_list marker);
     bool       parse_namespace(LPCSTR caNamespaceName, LPSTR b, LPSTR c);
     bool       do_file(LPCSTR caScriptName, LPCSTR caNameSpaceName);
     void       reinit();
+
 public:
 #ifdef DEBUG
     void print_stack();
 #endif
+
 public:
     CScriptStorage();
     virtual ~CScriptStorage();
@@ -64,6 +69,7 @@ public:
     static void print_error(lua_State* L, int iErrorCode);
 
 #ifdef DEBUG
+
 public:
     void flush_log();
 #endif   // DEBUG

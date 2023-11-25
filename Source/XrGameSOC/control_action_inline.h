@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: control_action_inline.h
 //	Created 	: 05.04.2004
 //  Modified 	: 05.04.2004
@@ -8,44 +8,34 @@
 
 #pragma once
 
-IC	CControlAction::CControlAction		()
+IC      CControlAction::CControlAction() {}
+
+IC void CControlAction::set_object(CAI_Stalker* object)
 {
+    VERIFY(object);
+    m_object = object;
 }
 
-IC	void CControlAction::set_object		(CAI_Stalker *object)
+IC bool CControlAction::applicable() const
 {
-	VERIFY				(object);
-	m_object			= object;
+    return (true);
 }
 
-IC	bool CControlAction::applicable		() const
+IC bool CControlAction::completed() const
 {
-	return				(true);
+    return (true);
 }
 
-IC	bool CControlAction::completed		() const
+IC void         CControlAction::initialize() {}
+
+IC void         CControlAction::execute() {}
+
+IC void         CControlAction::finalize() {}
+
+IC CAI_Stalker& CControlAction::object() const
 {
-	return				(true);
+    VERIFY(m_object);
+    return (*m_object);
 }
 
-IC	void CControlAction::initialize		()
-{
-}
-
-IC	void CControlAction::execute		()
-{
-}
-
-IC	void CControlAction::finalize		()
-{
-}
-
-IC	CAI_Stalker &CControlAction::object	() const
-{
-	VERIFY				(m_object);
-	return				(*m_object);
-}
-
-IC	void CControlAction::remove_links	(CObject *object)
-{
-}
+IC void CControlAction::remove_links(CObject* object) {}

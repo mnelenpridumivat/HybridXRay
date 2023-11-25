@@ -15,6 +15,7 @@ using namespace luabind;
 struct lanim_wrapper
 {
     CLAItem* item;
+
 public:
     lanim_wrapper(LPCSTR name)
     {

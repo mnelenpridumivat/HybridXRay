@@ -14,8 +14,10 @@ template<typename _type> class CScriptValueWrapperImpl: public CScriptValue
 {
 private:
     typedef CScriptValue inherited;
+
 protected:
     _type m_value;
+
 public:
     IC             CScriptValueWrapperImpl(luabind::object object, LPCSTR name);
     virtual void   assign();
@@ -26,6 +28,7 @@ template<typename _type> class CScriptValueWrapper: public CScriptValueWrapperIm
 {
 private:
     typedef CScriptValueWrapperImpl<_type> inherited;
+
 public:
     IC CScriptValueWrapper(luabind::object object, LPCSTR name);
 };
@@ -34,8 +37,10 @@ template<> class CScriptValueWrapperImpl<bool>: public CScriptValue
 {
 private:
     typedef CScriptValue inherited;
+
 protected:
     BOOL m_value;
+
 public:
     IC CScriptValueWrapperImpl(luabind::object object, LPCSTR name): inherited(object, name)
     {
@@ -57,8 +62,10 @@ template<> class CScriptValueWrapperImpl<shared_str>: public CScriptValue
 {
 private:
     typedef CScriptValue inherited;
+
 protected:
     shared_str m_value;
+
 public:
     IC CScriptValueWrapperImpl(luabind::object object, LPCSTR name): inherited(object, name)
     {

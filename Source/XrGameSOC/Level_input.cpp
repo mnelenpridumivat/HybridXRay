@@ -95,6 +95,7 @@ void CLevel::IR_OnMouseMove(int dx, int dy)
 class vtune_
 {
     BOOL enabled_;
+
 public:
     vtune_()
     {

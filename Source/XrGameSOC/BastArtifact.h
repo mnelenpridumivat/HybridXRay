@@ -1,4 +1,4 @@
-///////////////////////////////////////////////////////////////
+﻿///////////////////////////////////////////////////////////////
 // BastArtifact.h
 // BastArtefact - �������� �������
 ///////////////////////////////////////////////////////////////
@@ -10,71 +10,70 @@
 #include "entity_alive.h"
 
 class SGameMtl;
-struct	dContact;
+struct dContact;
 
-DEFINE_VECTOR (CEntityAlive*, ALIVE_LIST, ALIVE_LIST_it);
+DEFINE_VECTOR(CEntityAlive*, ALIVE_LIST, ALIVE_LIST_it);
 
-
-class CBastArtefact : public CArtefact,
-					  public Feel::Touch
+class CBastArtefact: public CArtefact, public Feel::Touch
 {
 private:
-	typedef CArtefact inherited;
+    typedef CArtefact inherited;
+
 public:
-	CBastArtefact(void);
-	virtual ~CBastArtefact(void);
+    CBastArtefact(void);
+    virtual ~CBastArtefact(void);
 
-	virtual void Load				(LPCSTR section);
-	virtual void shedule_Update		(u32 dt);
-	
-	virtual BOOL net_Spawn			(CSE_Abstract* DC);
-	virtual void net_Destroy		();
+    virtual void Load(LPCSTR section);
+    virtual void shedule_Update(u32 dt);
 
-	virtual	void Hit				(SHit* pHDS);
+    virtual BOOL net_Spawn(CSE_Abstract* DC);
+    virtual void net_Destroy();
 
-	virtual bool Useful() const;
+    virtual void Hit(SHit* pHDS);
 
+    virtual bool Useful() const;
 
-	virtual void feel_touch_new	(CObject* O);
-	virtual void feel_touch_delete	(CObject* O);
-	virtual BOOL feel_touch_contact	(CObject* O);
+    virtual void feel_touch_new(CObject* O);
+    virtual void feel_touch_delete(CObject* O);
+    virtual BOOL feel_touch_contact(CObject* O);
 
-	bool IsAttacking() {return NULL!=m_AttakingEntity;}
+    bool         IsAttacking()
+    {
+        return NULL != m_AttakingEntity;
+    }
 
 protected:
-	virtual void	UpdateCLChild	();
+    virtual void  UpdateCLChild();
 
-	static	void	ObjectContactCallback(bool& do_colide,bool bo1,dContact& c,SGameMtl * /*material_1*/,SGameMtl * /*material_2*/);
-	//������������ ������� � ���������
-	void BastCollision(CEntityAlive* pEntityAlive);
+    static void   ObjectContactCallback(bool& do_colide, bool bo1, dContact& c, SGameMtl* /*material_1*/, SGameMtl* /*material_2*/);
+    //������������ ������� � ���������
+    void          BastCollision(CEntityAlive* pEntityAlive);
 
+    //��������� ���������
 
-	//��������� ���������
-	
-	//��������� �������� �������� ����� ��������� 
-	//�������� �������� ��������������
-	float m_fImpulseThreshold;
-	
-	float m_fEnergy;
-	float m_fEnergyMax;
-	float m_fEnergyDecreasePerTime;
-	shared_str	m_sParticleName;
+    //��������� �������� �������� ����� ���������
+    //�������� �������� ��������������
+    float         m_fImpulseThreshold;
 
+    float         m_fEnergy;
+    float         m_fEnergyMax;
+    float         m_fEnergyDecreasePerTime;
+    shared_str    m_sParticleName;
 
-	float m_fRadius;
-	float m_fStrikeImpulse;
+    float         m_fRadius;
+    float         m_fStrikeImpulse;
 
-	//����, ���� ��� �������� ������� ��� 
-	//� ������ ����� ��������� ������
-	bool m_bStrike;	
+    //����, ���� ��� �������� ������� ���
+    //� ������ ����� ��������� ������
+    bool          m_bStrike;
 
-	//������ ����� ������� � ���� ������������ ���������
-	ALIVE_LIST m_AliveList;
-	//��, ��� �� �������
-	CEntityAlive* m_pHitedEntity; 
-	//�� ��� �������
-	CEntityAlive* m_AttakingEntity;
+    //������ ����� ������� � ���� ������������ ���������
+    ALIVE_LIST    m_AliveList;
+    //��, ��� �� �������
+    CEntityAlive* m_pHitedEntity;
+    //�� ��� �������
+    CEntityAlive* m_AttakingEntity;
 
 public:
-	virtual	void setup_physic_shell	();
+    virtual void setup_physic_shell();
 };

@@ -23,6 +23,7 @@ class CPHParticlesPlayCall: public CPHAction
 {
     LPCSTR       ps_name;
     dContactGeom c;
+
 public:
     CPHParticlesPlayCall(const dContactGeom& contact, bool invert_n, LPCSTR psn)
     {
@@ -59,6 +60,7 @@ class CPHWallMarksCall: public CPHAction
     wm_shader pWallmarkShader;
     Fvector   pos;
     CDB::TRI* T;
+
 public:
     CPHWallMarksCall(const Fvector& p, CDB::TRI* Tri, wm_shader s)
     {

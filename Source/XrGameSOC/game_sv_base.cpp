@@ -227,6 +227,7 @@ class EventDeleterPredicate
 {
 private:
     u16 id_entity_victim;
+
 public:
     EventDeleterPredicate()
     {

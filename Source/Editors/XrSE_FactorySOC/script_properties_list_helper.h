@@ -32,6 +32,7 @@ public:
     bool NameAfterEdit(PropValue* sender, LPCSTR& edit_val);
     void NameBeforeEdit(PropValue* sender, LPCSTR& edit_val);
     //			void 				NameDraw			(PropValue* sender,  LPCSTR& draw_val);
+
 public:
     CaptionValue* CreateCaption(PropItemVec* items, LPCSTR key, LPCSTR val);
     CanvasValue*  CreateCanvas(PropItemVec* items, LPCSTR key, LPCSTR val, int height);

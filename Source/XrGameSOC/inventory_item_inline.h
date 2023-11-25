@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: inventory_item_inline.h
 //	Created 	: 24.03.2003
 //  Modified 	: 29.01.2004
@@ -8,7 +8,7 @@
 
 #pragma once
 
-IC	bool CInventoryItem::useful_for_NPC					() const
+IC bool CInventoryItem::useful_for_NPC() const
 {
-	return				(Useful() && m_flags.test(Fuseful_for_NPC));
+    return (Useful() && m_flags.test(Fuseful_for_NPC));
 }

@@ -17,8 +17,10 @@ class collection_predicate
 private:
     typedef CSoundCollectionStorage::CSoundCollectionParams CSoundCollectionParams;
     typedef CSoundCollectionStorage::SOUND_COLLECTION_PAIR  SOUND_COLLECTION_PAIR;
+
 private:
     const CSoundCollectionParams* m_params;
+
 public:
     IC collection_predicate(const CSoundCollectionParams& params)
     {

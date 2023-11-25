@@ -1,56 +1,55 @@
-#pragma once
+п»ї#pragma once
 #include "../state.h"
 
+template<typename _Object> class CStateBurerAttackTele: public CState<_Object>
+{
+    typedef CState<_Object>         inherited;
 
-template<typename _Object>
-class CStateBurerAttackTele : public CState<_Object> {
-	typedef CState<_Object> inherited;	
+    xr_vector<CPhysicsShellHolder*> tele_objects;
+    CPhysicsShellHolder*            selected_object;
+    xr_vector<CObject*>             m_nearest;
 
-	xr_vector<CPhysicsShellHolder *>	tele_objects;
-	CPhysicsShellHolder					*selected_object;
-	xr_vector<CObject*>					m_nearest;
-	
-	u32									time_started;
+    u32                             time_started;
 
-	enum {
-		ACTION_TELE_STARTED,
-		ACTION_TELE_CONTINUE,
-		ACTION_TELE_FIRE,
-		ACTION_WAIT_TRIPLE_END,
-		ACTION_COMPLETED,
-	} m_action;
+    enum
+    {
+        ACTION_TELE_STARTED,
+        ACTION_TELE_CONTINUE,
+        ACTION_TELE_FIRE,
+        ACTION_WAIT_TRIPLE_END,
+        ACTION_COMPLETED,
+    } m_action;
 
 public:
-						CStateBurerAttackTele	(_Object *obj);
+    CStateBurerAttackTele(_Object* obj);
 
-	virtual	void		initialize				();
-	virtual	void		execute					();
-	virtual void		finalize				();
-	virtual void		critical_finalize		();
+    virtual void initialize();
+    virtual void execute();
+    virtual void finalize();
+    virtual void critical_finalize();
 
-	virtual bool		check_start_conditions	();
-	virtual bool		check_completion		();
-
+    virtual bool check_start_conditions();
+    virtual bool check_completion();
 
 private:
-			// Поиск объектов для телекинеза	
-			void		FindObjects				();
+    // РџРѕРёСЃРє РѕР±СЉРµРєС‚РѕРІ РґР»СЏ С‚РµР»РµРєРёРЅРµР·Р°
+    void FindObjects();
 
-			// выполнять состояние
-			void		ExecuteTeleStart		();
-			void		ExecuteTeleContinue		();
-			void		ExecuteTeleFire			();
+    // РІС‹РїРѕР»РЅСЏС‚СЊ СЃРѕСЃС‚РѕСЏРЅРёРµ
+    void ExecuteTeleStart();
+    void ExecuteTeleContinue();
+    void ExecuteTeleFire();
 
-			// Проверка, есть ли хоть один объект под контролем
-			bool		IsActiveObjects			();
+    // РџСЂРѕРІРµСЂРєР°, РµСЃС‚СЊ Р»Рё С…РѕС‚СЊ РѕРґРёРЅ РѕР±СЉРµРєС‚ РїРѕРґ РєРѕРЅС‚СЂРѕР»РµРј
+    bool IsActiveObjects();
 
-			// Проверить, может ли стартовать телекинез
-			bool		CheckTeleStart			();
-			// Выбор подходящих объектов для телекинеза
-			void		SelectObjects			();
+    // РџСЂРѕРІРµСЂРёС‚СЊ, РјРѕР¶РµС‚ Р»Рё СЃС‚Р°СЂС‚РѕРІР°С‚СЊ С‚РµР»РµРєРёРЅРµР·
+    bool CheckTeleStart();
+    // Р’С‹Р±РѕСЂ РїРѕРґС…РѕРґСЏС‰РёС… РѕР±СЉРµРєС‚РѕРІ РґР»СЏ С‚РµР»РµРєРёРЅРµР·Р°
+    void SelectObjects();
 
-			// internal for FindObjects
-			void		FindFreeObjects			(xr_vector<CObject*> &tpObjects, const Fvector &pos);
+    // internal for FindObjects
+    void FindFreeObjects(xr_vector<CObject*>& tpObjects, const Fvector& pos);
 
 private:
 };

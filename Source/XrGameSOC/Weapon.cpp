@@ -300,9 +300,9 @@ void CWeapon::Load(LPCSTR section)
     iMagazineSize = pSettings->r_s32(section, "ammo_mag_size");
 
     ////////////////////////////////////////////////////
-    // ��������� ��������
+    // дисперсия стрельбы
 
-    //������������� ������ �� ����� ������
+    // подбрасывание камеры во время отдачи
     camMaxAngle   = pSettings->r_float(section, "cam_max_angle");
     camMaxAngle   = deg2rad(camMaxAngle);
     camRelaxSpeed = pSettings->r_float(section, "cam_relax_speed");
@@ -317,8 +317,8 @@ void CWeapon::Load(LPCSTR section)
         camRelaxSpeed_AI = camRelaxSpeed;
     }
 
-    //	camDispersion		= pSettings->r_float		(section,"cam_dispersion"	);
-    //	camDispersion		= deg2rad					(camDispersion);
+    // camDispersion = pSettings->r_float(section,"cam_dispersion");
+    // camDispersion = deg2rad(camDispersion);
 
     camMaxAngleHorz               = pSettings->r_float(section, "cam_max_angle_horz");
     camMaxAngleHorz               = deg2rad(camMaxAngleHorz);
@@ -355,7 +355,7 @@ void CWeapon::Load(LPCSTR section)
     m_fMinRadius             = pSettings->r_float(section, "min_radius");
     m_fMaxRadius             = pSettings->r_float(section, "max_radius");
 
-    // ���������� � ��������� ��������� � �� ������������ � ���������
+    // информация о возможных апгрейдах и их визуализации в инвентаре
     m_eScopeStatus           = (ALife::EWeaponAddonStatus)pSettings->r_s32(section, "scope_status");
     m_eSilencerStatus        = (ALife::EWeaponAddonStatus)pSettings->r_s32(section, "silencer_status");
     m_eGrenadeLauncherStatus = (ALife::EWeaponAddonStatus)pSettings->r_s32(section, "grenade_launcher_status");
@@ -389,7 +389,7 @@ void CWeapon::Load(LPCSTR section)
     InitAddons();
 
     //////////////////////////////////////
-    //����� �������� ������ � ������
+    // время убирания оружия с уровня
     if (pSettings->line_exist(section, "weapon_remove_time"))
         m_dwWeaponRemoveTime = pSettings->r_u32(section, "weapon_remove_time");
     else
@@ -447,16 +447,16 @@ void CWeapon::LoadZoomOffset(LPCSTR section, LPCSTR prefix)
 /*
 void CWeapon::animGet	(MotionSVec& lst, LPCSTR prefix)
 {
-	const MotionID		&M = m_pHUD->animGet(prefix);
-	if (M)				lst.push_back(M);
-	for (int i=0; i<MAX_ANIM_COUNT; ++i)
-	{
-		string128		sh_anim;
-		sprintf_s			(sh_anim,"%s%d",prefix,i);
-		const MotionID	&M = m_pHUD->animGet(sh_anim);
-		if (M)			lst.push_back(M);
-	}
-	R_ASSERT2			(!lst.empty(),prefix);
+    const MotionID		&M = m_pHUD->animGet(prefix);
+    if (M)				lst.push_back(M);
+    for (int i=0; i<MAX_ANIM_COUNT; ++i)
+    {
+        string128		sh_anim;
+        sprintf_s			(sh_anim,"%s%d",prefix,i);
+        const MotionID	&M = m_pHUD->animGet(sh_anim);
+        if (M)			lst.push_back(M);
+    }
+    R_ASSERT2			(!lst.empty(),prefix);
 }
 */
 
@@ -496,7 +496,7 @@ void CWeapon::net_Destroy()
 {
     inherited::net_Destroy();
 
-    //������� ������� ���������
+    // удалить объекты партиклов
     StopFlameParticles();
     StopFlameParticles2();
     StopLight();
@@ -650,8 +650,8 @@ void CWeapon::OnEvent(NET_Packet& P, u16 type)
 void CWeapon::shedule_Update(u32 dT)
 {
     // Queue shrink
-    //	u32	dwTimeCL		= Level().timeServer()-NET_Latency;
-    //	while ((NET.size()>2) && (NET[1].dwTimeStamp<dwTimeCL)) NET.pop_front();
+    // u32 dwTimeCL = Level().timeServer()-NET_Latency;
+    // while ((NET.size()>2) && (NET[1].dwTimeStamp<dwTimeCL)) NET.pop_front();
 
     // Inherited
     inherited::shedule_Update(dT);
@@ -666,7 +666,7 @@ void CWeapon::OnH_B_Independent(bool just_before_destroy)
     if (m_pHUD)
         m_pHUD->Hide();
 
-    //��������� ������������� ��� �������� ��� ���
+    // завершить принудительно все процессы что шли
     FireEnd();
     m_bPending = false;
     SwitchState(eIdle);
@@ -694,7 +694,7 @@ void CWeapon::OnH_A_Chield()
 void CWeapon::OnActiveItem()
 {
     inherited::OnActiveItem();
-    //���� �� ����������� � ������ ���� � �����
+    // если мы загружаемся и оружие было в руках
     SetState(eIdle);
     SetNextState(eIdle);
     if (m_pHUD)
@@ -724,10 +724,10 @@ void CWeapon::UpdateCL()
 {
     inherited::UpdateCL();
     UpdateHUDAddonsVisibility();
-    //��������� �� ��������
+    // подсветка от выстрела
     UpdateLight();
 
-    //���������� ��������
+    // нарисовать партиклы
     UpdateFlameParticles();
     UpdateFlameParticles2();
 
@@ -741,11 +741,10 @@ void CWeapon::renderable_Render()
 {
     UpdateXForm();
 
-    //���������� ���������
-
+    // нарисовать подсветку
     RenderLight();
 
-    //���� �� � ������ ���������, �� ��� HUD �������� �� ����
+    // если мы в режиме снайперки, то сам HUD рисовать не надо
     if (IsZoomed() && !IsRotatingToZoom() && ZoomTexture())
         m_bRenderHud = false;
     else
@@ -790,7 +789,7 @@ bool CWeapon::Action(s32 cmd, u32 flags)
     {
         case kWPN_FIRE:
         {
-            //���� ������ ���-�� ������, �� ������ �� ������
+            // если оружие чем-то занято, то ничего не делать
             {
                 if (flags & CMD_START)
                 {
@@ -825,13 +824,13 @@ bool CWeapon::Action(s32 cmd, u32 flags)
                 if (l_newType != m_ammoType)
                 {
                     m_set_next_ammoType_on_reload = l_newType;
-                    /*						m_ammoType = l_newType;
-						m_pAmmo = NULL;
-						if (unlimited_ammo())
-						{
-							m_DefaultCartridge.Load(*m_ammoTypes[m_ammoType], u8(m_ammoType));
-						};							
-*/
+                    /*  m_ammoType = l_newType;
+                        m_pAmmo = NULL;
+                        if (unlimited_ammo())
+                        {
+                            m_DefaultCartridge.Load(*m_ammoTypes[m_ammoType], u8(m_ammoType));
+                        };
+                    */
                     if (OnServer())
                         Reload();
                 }
@@ -931,7 +930,7 @@ int CWeapon::GetAmmoCurrent(bool use_item_to_spawn) const
     if (!m_pCurrentInventory)
         return l_count;
 
-    //���� �� ������ ������ ����������
+    // чтоб не делать лишних пересчетов
     if (m_pCurrentInventory->ModifyFrame() <= m_dwAmmoCurrentCalcFrame)
         return l_count + iAmmoCurrent;
 
@@ -1047,12 +1046,12 @@ LPCSTR wpn_grenade_launcher = "wpn_grenade_launcher";
 LPCSTR wpn_launcher         = "wpn_launcher";
 
 void   CWeapon::UpdateHUDAddonsVisibility()
-{   //actor only
+{   // actor only
     if (H_Parent() != Level().CurrentEntity())
         return;
     if (m_pHUD->IsHidden())
         return;
-    //	if(IsZoomed() && )
+    // if (IsZoomed() && )
 
     IKinematics* pHudVisual = smart_cast<IKinematics*>(m_pHUD->Visual());
     VERIFY(pHudVisual);
@@ -1500,7 +1499,7 @@ void CWeapon::OnDrawUI()
             ZoomTexture()->SetRect(0, 0, UI_BASE_WIDTH, UI_BASE_HEIGHT);
             ZoomTexture()->Render();
 
-            //			m_UILens.Draw();
+            // m_UILens.Draw();
         }
     }
 }
@@ -1573,7 +1572,7 @@ bool CWeapon::show_indicators()
 
 float CWeapon::GetConditionToShow() const
 {
-    return (GetCondition());   //powf(GetCondition(),4.0f));
+    return (GetCondition());   // powf(GetCondition(),4.0f));
 }
 
 BOOL CWeapon::ParentMayHaveAimBullet()

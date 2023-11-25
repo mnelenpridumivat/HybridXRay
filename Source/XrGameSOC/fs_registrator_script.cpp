@@ -24,6 +24,7 @@ LPCSTR update_path_script(CLocatorAPI* fs, LPCSTR initial, LPCSTR src)
 class FS_file_list
 {
     xr_vector<LPSTR>* m_p;
+
 public:
     FS_file_list(xr_vector<LPSTR>* p): m_p(p) {}
     u32 Size()
@@ -100,6 +101,7 @@ template<bool b> bool nameSorter(const FS_item& itm1, const FS_item& itm2)
 class FS_file_list_ex
 {
     xr_vector<FS_item> m_file_items;
+
 public:
     enum
     {

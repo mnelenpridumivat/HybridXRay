@@ -86,7 +86,7 @@ void CLevel::g_sv_Spawn(CSE_Abstract* E)
         E_mem             = Memory.mem_usage();
         Memory.stat_calls = 0;
     }
-#endif   // DEBUG_MEMORY_MANAGER
+#endif   // DEBUG_MEMORY_MANAGER \
          //-----------------------------------------------------------------
     //	CTimer		T(false);
 

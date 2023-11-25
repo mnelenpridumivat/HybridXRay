@@ -21,6 +21,7 @@ class CAlienEffectorPP: public CEffectorPP
     SPPInfo             state;
     float               factor;
     float               target_factor;
+
 public:
     CAlienEffectorPP(const SPPInfo& ppi, EEffectorPPType type);
     virtual ~CAlienEffectorPP();
@@ -30,6 +31,7 @@ public:
         factor = new_factor;
     }
     void Destroy();
+
 private:
     virtual BOOL Process(SPPInfo& pp);
 };
@@ -84,6 +86,7 @@ class CAlienEffector: public CEffectorCam
     float                m_current_fov;
     Fmatrix              m_prev_eye_matrix;
     float                m_inertion;
+
 public:
     CAlienEffector(ECamEffectorType type, CAI_Bloodsucker* obj);
     virtual BOOL Process(Fvector& p, Fvector& d, Fvector& n, float& fFov, float& fFar, float& fAspect);

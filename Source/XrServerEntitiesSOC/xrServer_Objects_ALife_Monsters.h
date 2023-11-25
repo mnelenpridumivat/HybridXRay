@@ -64,6 +64,7 @@ shared_str            m_SpecificCharacter;
 //�������� ������ ����������� ����������
 xr_vector<shared_str> m_CheckedCharacters;
 xr_vector<shared_str> m_DefaultCharacters;
+
 public:
 CSE_ALifeTraderAbstract(LPCSTR caSection);
 virtual ~CSE_ALifeTraderAbstract();
@@ -296,6 +297,7 @@ bool                               m_task_reached;
 int                                m_rank;
 
 ALife::_TIME_ID                    m_stay_after_death_time_interval;
+
 public:
 CSE_ALifeMonsterAbstract(LPCSTR caSection);
 virtual ~CSE_ALifeMonsterAbstract();
@@ -350,8 +352,10 @@ virtual Fvector                 draw_level_position() const;
 virtual bool                    redundant() const;
 #endif
 virtual bool need_update(CSE_ALifeDynamicObject* object);
+
 private:
 CALifeMonsterBrain* m_brain;
+
 public:
 SERVER_ENTITY_DECLARE_END
 add_to_type_list(CSE_ALifeMonsterAbstract)
@@ -499,6 +503,7 @@ add_to_type_list(CSE_ALifePsyDogPhantom)
 
     //-------------------------------
     SERVER_ENTITY_DECLARE_BEGIN2(CSE_ALifeHumanAbstract, CSE_ALifeTraderAbstract, CSE_ALifeMonsterAbstract) public: ALife::_OBJECT_ID m_group_id;
+
 public:
 CSE_ALifeHumanAbstract(LPCSTR caSection);
 virtual ~CSE_ALifeHumanAbstract();
@@ -548,6 +553,7 @@ virtual void                    on_unregister();
 virtual void                    add_online(const bool& update_registries);
 virtual void                    add_offline(const xr_vector<ALife::_OBJECT_ID>& saved_children, const bool& update_registries);
 #endif
+
 private:
 CALifeHumanBrain* m_brain;
 
@@ -585,17 +591,22 @@ virtual CSE_ALifeOnlineOfflineGroup* cast_online_offline_group()
 {
     return this;
 };
+
 public:
 typedef CSE_ALifeHumanStalker                          MEMBER;
 typedef associative_vector<ALife::_OBJECT_ID, MEMBER*> MEMBERS;
+
 private:
 MEMBERS m_members;
 
 #ifdef XRGAME_EXPORTS
+
 private:
 CALifeOnlineOfflineGroupBrain* m_brain;
+
 public:
 IC CALifeOnlineOfflineGroupBrain& brain() const;
+
 public:
 virtual CSE_ALifeItemWeapon*    tpfGetBestWeapon(ALife::EHitType& tHitType, float& fHitPower);
 virtual ALife::EMeetActionType  tfGetActionType(CSE_ALifeSchedulable* tpALifeSchedulable, int iGroupIndex, bool bMutualDetection);

@@ -40,22 +40,27 @@ public:
     typedef CScriptStorage                                         inherited;
     typedef ScriptEngine::EScriptProcessors                        EScriptProcessors;
     typedef associative_vector<EScriptProcessors, CScriptProcess*> CScriptProcessStorage;
+
 private:
     bool m_reload_modules;
+
 protected:
     CScriptProcessStorage m_script_processes;
     int                   m_stack_level;
     shared_str            m_class_registrators;
+
 protected:
 #ifdef USE_DEBUGGER
     CScriptDebugger* m_scriptDebugger;
 #endif
+
 private:
     string128 m_last_no_file;
     u32       m_last_no_file_length;
 
     bool      no_file_exists(LPCSTR file_name, u32 string_length);
     void      add_no_file(LPCSTR file_name, u32 string_length);
+
 public:
     CScriptEngine();
     virtual ~CScriptEngine();

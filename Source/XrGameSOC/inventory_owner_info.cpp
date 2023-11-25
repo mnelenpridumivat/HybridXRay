@@ -52,6 +52,7 @@ public:
     {
         return data.info_id == element;
     }
+
 private:
     shared_str element;
 };

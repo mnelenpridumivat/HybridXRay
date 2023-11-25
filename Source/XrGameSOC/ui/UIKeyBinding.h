@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "UIWindow.h"
 #include "UILabel.h"
 #include "UIListWnd.h"
@@ -8,19 +8,20 @@
 class CUIXml;
 class CUIScrollView;
 
-class CUIKeyBinding : public CUIWindow 
+class CUIKeyBinding: public CUIWindow
 {
 public:
-					CUIKeyBinding			();
-	void			InitFromXml				(CUIXml& xml_doc, LPCSTR path);
+    CUIKeyBinding();
+    void InitFromXml(CUIXml& xml_doc, LPCSTR path);
 #ifdef DEBUG
-	void			CheckStructure			(CUIXml& xml_doc);
-	bool			IsActionExist			(LPCSTR action, CUIXml& xml_doc);
+    void CheckStructure(CUIXml& xml_doc);
+    bool IsActionExist(LPCSTR action, CUIXml& xml_doc);
 #endif
-protected:
-	void			FillUpList				(CUIXml& xml_doc, LPCSTR path);
 
-	CUILabel		m_header[3];
-	CUIFrameWindow	m_frame;
-	CUIScrollView*	m_scroll_wnd;
+protected:
+    void           FillUpList(CUIXml& xml_doc, LPCSTR path);
+
+    CUILabel       m_header[3];
+    CUIFrameWindow m_frame;
+    CUIScrollView* m_scroll_wnd;
 };

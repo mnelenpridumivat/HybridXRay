@@ -1,10 +1,10 @@
-#pragma once
+п»ї#pragma once
 
 #include "PHShell.h"
 
-class CPhysicsShellAnimatorBoneData//Содержит информацию об целевой матрице анимации
+class CPhysicsShellAnimatorBoneData   //РЎРѕРґРµСЂР¶РёС‚ РёРЅС„РѕСЂРјР°С†РёСЋ РѕР± С†РµР»РµРІРѕР№ РјР°С‚СЂРёС†Рµ Р°РЅРёРјР°С†РёРё
 {
-	friend class CPhysicsShellAnimator;	
-	dJointID					m_anim_fixed_dJointID;
-	CPHElement*					m_element;
+    friend class CPhysicsShellAnimator;
+    dJointID    m_anim_fixed_dJointID;
+    CPHElement* m_element;
 };

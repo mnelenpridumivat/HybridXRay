@@ -108,12 +108,15 @@ ObjectContactCallbackFun* TestFootDepthCallback = &TTestDepthCallback<STestFootC
 class CVelocityLimiter: public CPHUpdateObject
 {
     dBodyID m_body;
+
 public:
     float l_limit;
     float y_limit;
+
 private:
     dVector3 m_safe_velocity;
     dVector3 m_safe_position;
+
 public:
     CVelocityLimiter(dBodyID b, float l, float yl)
     {
@@ -197,6 +200,7 @@ class CGetContactForces: public CPHUpdateObject
 
     float   m_max_force_others;
     float   m_max_torque_others;
+
 public:
     CGetContactForces(dBodyID b)
     {
@@ -229,6 +233,7 @@ public:
     {
         return m_max_force_self_sd;
     }
+
 protected:
     virtual void PhTune(dReal step)
     {
@@ -288,6 +293,7 @@ protected:
             }
         }
     }
+
 private:
     void InitValues()
     {

@@ -1,4 +1,4 @@
-// File:		UI_IB_Static.h
+﻿// File:		UI_IB_Static.h
 // Description:	Inheritance of UIInteractiveBackground template class with some
 //				CUIStatic features
 // Created:		09.02.2005
@@ -12,7 +12,8 @@
 #include "UIInteractiveBackground.h"
 #include "UIStatic.h"
 
-class CUI_IB_Static : public CUIInteractiveBackground<CUIStatic> {
+class CUI_IB_Static: public CUIInteractiveBackground<CUIStatic>
+{
 public:
-	virtual void SetTextureOffset(float x, float y);
+    virtual void SetTextureOffset(float x, float y);
 };

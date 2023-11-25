@@ -670,6 +670,7 @@ class CCC_Net_CL_InputUpdateRate: public CCC_Integer
 {
 protected:
     int* value_blin;
+
 public:
     CCC_Net_CL_InputUpdateRate(LPCSTR N, int* V, int _min = 0, int _max = 999): CCC_Integer(N, V, _min, _max), value_blin(V){};
 
@@ -912,8 +913,8 @@ public:
     {
         typedef CSafeMapIterator<ALife::_OBJECT_ID, CSE_ALifeDynamicObject>::_REGISTRY::const_iterator const_iterator;
 
-        const_iterator I = ai().alife().graph().level().objects().begin();
-        const_iterator E = ai().alife().graph().level().objects().end();
+        const_iterator                                                                                 I = ai().alife().graph().level().objects().begin();
+        const_iterator                                                                                 E = ai().alife().graph().level().objects().end();
         for (; I != E; ++I)
         {
             CSE_ALifeCreatureAbstract* obj = smart_cast<CSE_ALifeCreatureAbstract*>(I->second);
@@ -1241,6 +1242,7 @@ class CCC_RadioGroupMask2;
 class CCC_RadioMask: public CCC_Mask
 {
     CCC_RadioGroupMask2* group;
+
 public:
     CCC_RadioMask(LPCSTR N, Flags32* V, u32 M): CCC_Mask(N, V, M)
     {
@@ -1262,6 +1264,7 @@ class CCC_RadioGroupMask2
 {
     CCC_RadioMask* mask0;
     CCC_RadioMask* mask1;
+
 public:
     CCC_RadioGroupMask2(CCC_RadioMask* m0, CCC_RadioMask* m1)
     {
@@ -1505,6 +1508,7 @@ class CCC_Net_SV_GuaranteedPacketMode: public CCC_Integer
 {
 protected:
     int* value_blin;
+
 public:
     CCC_Net_SV_GuaranteedPacketMode(LPCSTR N, int* V, int _min = 0, int _max = 2): CCC_Integer(N, V, _min, _max), value_blin(V){};
 

@@ -19,6 +19,7 @@ template<typename _unknown_type, bool _client_type> class CObjectItemSingle: pub
 protected:
     typedef CObjectItemAbstract inherited;
     typedef _unknown_type       SERVER_TYPE;
+
 public:
     IC CObjectItemSingle(const CLASS_ID& clsid, LPCSTR script_clsid);
 #ifndef NO_XR_GAME
@@ -33,6 +34,7 @@ template<typename _unknown_type> class CObjectItemSingle<_unknown_type, true>: p
 protected:
     typedef CObjectItemAbstract inherited;
     typedef _unknown_type       CLIENT_TYPE;
+
 public:
     IC                                        CObjectItemSingle(const CLASS_ID& clsid, LPCSTR script_clsid);
     virtual ObjectFactory::CLIENT_BASE_CLASS* client_object() const;

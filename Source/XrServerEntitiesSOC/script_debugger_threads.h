@@ -8,6 +8,7 @@ struct lua_State;
 class CDbgScriptThreads
 {
     xr_vector<SScriptThread> m_threads;
+
 public:
     CScriptDebugger* m_debugger;
     CDbgScriptThreads(CScriptDebugger* d): m_debugger(d){};

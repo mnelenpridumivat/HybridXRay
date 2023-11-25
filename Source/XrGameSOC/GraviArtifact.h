@@ -1,25 +1,26 @@
-///////////////////////////////////////////////////////////////
+п»ї///////////////////////////////////////////////////////////////
 // GraviArtifact.h
-// GraviArtefact - гравитационный артефакт, прыгает на месте
-// и парит над землей
+// GraviArtefact - РіСЂР°РІРёС‚Р°С†РёРѕРЅРЅС‹Р№ Р°СЂС‚РµС„Р°РєС‚, РїСЂС‹РіР°РµС‚ РЅР° РјРµСЃС‚Рµ
+// Рё РїР°СЂРёС‚ РЅР°Рґ Р·РµРјР»РµР№
 ///////////////////////////////////////////////////////////////
 
 #pragma once
 #include "artifact.h"
 
-class CGraviArtefact : public CArtefact 
+class CGraviArtefact: public CArtefact
 {
 private:
-	typedef CArtefact inherited;
-public:
-	CGraviArtefact(void);
-	virtual ~CGraviArtefact(void);
+    typedef CArtefact inherited;
 
-	virtual void Load				(LPCSTR section);
+public:
+    CGraviArtefact(void);
+    virtual ~CGraviArtefact(void);
+
+    virtual void Load(LPCSTR section);
 
 protected:
-	virtual void	UpdateCLChild	();
-	//параметры артефакта
-	float m_fJumpHeight;
-	float m_fEnergy;
+    virtual void UpdateCLChild();
+    //РїР°СЂР°РјРµС‚СЂС‹ Р°СЂС‚РµС„Р°РєС‚Р°
+    float        m_fJumpHeight;
+    float        m_fEnergy;
 };

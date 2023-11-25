@@ -100,11 +100,13 @@ private:
     friend CInventoryOwner;
     friend CCharacterInfo;
     friend CSE_ALifeTraderAbstract;
+
 public:
     CSpecificCharacter();
     ~CSpecificCharacter();
 
     virtual void Load(shared_str id);
+
 protected:
     const SSpecificCharacterData* data() const
     {
@@ -122,6 +124,7 @@ protected:
     static void  InitXmlIdToIndex();
 
     shared_str   m_OwnId;
+
 public:
 #ifdef XRGAME_EXPORTS
     LPCSTR                             Name() const;

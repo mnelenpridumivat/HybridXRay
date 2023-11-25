@@ -19,6 +19,7 @@ class CMemberPredicate2
 {
 protected:
     ALife::_OBJECT_ID m_object_id;
+
 public:
     IC CMemberPredicate2(const ALife::_OBJECT_ID& object_id)
     {

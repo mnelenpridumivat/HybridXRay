@@ -256,6 +256,7 @@ BOOL            bRemapped = FALSE;
 class CCC_Bind: public IConsole_Command
 {
     int m_work_idx;
+
 public:
     CCC_Bind(LPCSTR N, int idx): IConsole_Command(N), m_work_idx(idx){};
 
@@ -332,6 +333,7 @@ public:
 class CCC_UnBind: public IConsole_Command
 {
     int m_work_idx;
+
 public:
     CCC_UnBind(LPCSTR N, int idx): IConsole_Command(N), m_work_idx(idx)
     {

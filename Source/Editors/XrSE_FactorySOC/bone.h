@@ -193,10 +193,12 @@ class ECORE_API CBone
     Fmatrix    last_transform;
 
     Fmatrix    render_transform;
+
 public:
     int     SelfID;
     CBone*  parent;
     BoneVec children;
+
 public:
     // editor part
     Flags8 flags;
@@ -210,6 +212,7 @@ public:
 
     float        mass;
     Fvector      center_of_mass;
+
 public:
     CBone();
     virtual ~CBone();

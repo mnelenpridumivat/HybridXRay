@@ -26,6 +26,7 @@ class CMailSlotMsg
         m_pos += sz;
         m_len = m_pos;
     };
+
 public:
     CMailSlotMsg()
     {

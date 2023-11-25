@@ -1,94 +1,96 @@
-#pragma once
+п»ї#pragma once
 #include "inventory_item_object.h"
 #include "../XrEngine/feel_touch.h"
 #include "hudsound.h"
 
 class CCustomZone;
-//описание типа зоны
+//РѕРїРёСЃР°РЅРёРµ С‚РёРїР° Р·РѕРЅС‹
 struct ZONE_TYPE
 {
-	//интервал частот отыгрывания звука
-	float		min_freq;
-	float		max_freq;
-	//звук реакции детектора на конкретную зону
-//	ref_sound	detect_snd;
-	HUD_SOUND	detect_snds;
+    //РёРЅС‚РµСЂРІР°Р» С‡Р°СЃС‚РѕС‚ РѕС‚С‹РіСЂС‹РІР°РЅРёСЏ Р·РІСѓРєР°
+    float      min_freq;
+    float      max_freq;
+    //Р·РІСѓРє СЂРµР°РєС†РёРё РґРµС‚РµРєС‚РѕСЂР° РЅР° РєРѕРЅРєСЂРµС‚РЅСѓСЋ Р·РѕРЅСѓ
+    //	ref_sound	detect_snd;
+    HUD_SOUND  detect_snds;
 
-	shared_str	zone_map_location;
+    shared_str zone_map_location;
 };
 
-//описание зоны, обнаруженной детектором
+//РѕРїРёСЃР°РЅРёРµ Р·РѕРЅС‹, РѕР±РЅР°СЂСѓР¶РµРЅРЅРѕР№ РґРµС‚РµРєС‚РѕСЂРѕРј
 struct ZONE_INFO
 {
-	u32								snd_time;
-	//текущая частота работы датчика
-	float							cur_freq;
-	//particle for night-vision mode
-	CParticlesObject*				pParticle;
+    u32               snd_time;
+    //С‚РµРєСѓС‰Р°СЏ С‡Р°СЃС‚РѕС‚Р° СЂР°Р±РѕС‚С‹ РґР°С‚С‡РёРєР°
+    float             cur_freq;
+    //particle for night-vision mode
+    CParticlesObject* pParticle;
 
-	ZONE_INFO	();
-	~ZONE_INFO	();
+    ZONE_INFO();
+    ~ZONE_INFO();
 };
 
 class CInventoryOwner;
 
-class CCustomDetector :
-	public CInventoryItemObject,
-	public Feel::Touch
+class CCustomDetector: public CInventoryItemObject, public Feel::Touch
 {
-	typedef	CInventoryItemObject	inherited;
-public:
-	CCustomDetector(void);
-	virtual ~CCustomDetector(void);
-
-	virtual BOOL net_Spawn			(CSE_Abstract* DC);
-	virtual void Load				(LPCSTR section);
-
-	virtual void OnH_A_Chield		();
-	virtual void OnH_B_Independent	(bool just_before_destroy);
-
-	virtual void shedule_Update		(u32 dt);
-	virtual void UpdateCL			();
-
-	virtual void feel_touch_new		(CObject* O);
-	virtual void feel_touch_delete	(CObject* O);
-	virtual BOOL feel_touch_contact	(CObject* O);
-
-			void TurnOn				();
-			void TurnOff			();
-			bool IsWorking			() {return m_bWorking;}
-
-	virtual void OnMoveToSlot		();
-	virtual void OnMoveToRuck		();
-	virtual void OnMoveToBelt		();
-
-protected:
-	void StopAllSounds				();
-	void UpdateMapLocations			();
-	void AddRemoveMapSpot			(CCustomZone* pZone, bool bAdd);
-	void UpdateNightVisionMode		();
-
-	bool m_bWorking;
-
-	float m_fRadius;
-
-	//если хозяин текущий актер
-	CActor*				m_pCurrentActor;
-	CInventoryOwner*	m_pCurrentInvOwner;
-
-	//информация об онаруживаемых зонах
-	DEFINE_MAP(CLASS_ID, ZONE_TYPE, ZONE_TYPE_MAP, ZONE_TYPE_MAP_IT);
-	ZONE_TYPE_MAP m_ZoneTypeMap;
-	
-	//список обнаруженных зон и информация о них
-	DEFINE_MAP(CCustomZone*, ZONE_INFO, ZONE_INFO_MAP, ZONE_INFO_MAP_IT);
-	ZONE_INFO_MAP m_ZoneInfoMap;
-	
-	shared_str						m_nightvision_particle;
-
-protected:
-	u32					m_ef_detector_type;
+    typedef CInventoryItemObject inherited;
 
 public:
-	virtual u32			ef_detector_type	() const;
+    CCustomDetector(void);
+    virtual ~CCustomDetector(void);
+
+    virtual BOOL net_Spawn(CSE_Abstract* DC);
+    virtual void Load(LPCSTR section);
+
+    virtual void OnH_A_Chield();
+    virtual void OnH_B_Independent(bool just_before_destroy);
+
+    virtual void shedule_Update(u32 dt);
+    virtual void UpdateCL();
+
+    virtual void feel_touch_new(CObject* O);
+    virtual void feel_touch_delete(CObject* O);
+    virtual BOOL feel_touch_contact(CObject* O);
+
+    void         TurnOn();
+    void         TurnOff();
+    bool         IsWorking()
+    {
+        return m_bWorking;
+    }
+
+    virtual void OnMoveToSlot();
+    virtual void OnMoveToRuck();
+    virtual void OnMoveToBelt();
+
+protected:
+    void             StopAllSounds();
+    void             UpdateMapLocations();
+    void             AddRemoveMapSpot(CCustomZone* pZone, bool bAdd);
+    void             UpdateNightVisionMode();
+
+    bool             m_bWorking;
+
+    float            m_fRadius;
+
+    //РµСЃР»Рё С…РѕР·СЏРёРЅ С‚РµРєСѓС‰РёР№ Р°РєС‚РµСЂ
+    CActor*          m_pCurrentActor;
+    CInventoryOwner* m_pCurrentInvOwner;
+
+    //РёРЅС„РѕСЂРјР°С†РёСЏ РѕР± РѕРЅР°СЂСѓР¶РёРІР°РµРјС‹С… Р·РѕРЅР°С…
+    DEFINE_MAP(CLASS_ID, ZONE_TYPE, ZONE_TYPE_MAP, ZONE_TYPE_MAP_IT);
+    ZONE_TYPE_MAP m_ZoneTypeMap;
+
+    //СЃРїРёСЃРѕРє РѕР±РЅР°СЂСѓР¶РµРЅРЅС‹С… Р·РѕРЅ Рё РёРЅС„РѕСЂРјР°С†РёСЏ Рѕ РЅРёС…
+    DEFINE_MAP(CCustomZone*, ZONE_INFO, ZONE_INFO_MAP, ZONE_INFO_MAP_IT);
+    ZONE_INFO_MAP m_ZoneInfoMap;
+
+    shared_str    m_nightvision_particle;
+
+protected:
+    u32 m_ef_detector_type;
+
+public:
+    virtual u32 ef_detector_type() const;
 };

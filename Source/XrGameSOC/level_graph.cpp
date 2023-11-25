@@ -14,6 +14,7 @@ struct SOCNodeCompressed
 {
 public:
     u8 data[12];
+
 private:
     ICF void link(u8 link_index, u32 value)
     {
@@ -55,6 +56,7 @@ private:
         data[11] &= 0x0f;
         data[11] |= value << 4;
     }
+
 public:
     u16          cover0:4;
     u16          cover1:4;

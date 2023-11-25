@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 
 #include "script_space_forward.h"
 
@@ -7,19 +7,20 @@ class CGameObject;
 class CUsableScriptObject
 {
 public:
-							CUsableScriptObject		();
-							~CUsableScriptObject	();
-		virtual bool		use						(CGameObject* who_use);
-	
-		//строчка появляющаяся при наведении на объект (если NULL, то нет)
-		virtual LPCSTR		tip_text				();
-		void				set_tip_text			(LPCSTR new_text);
-		virtual void		set_tip_text_default	();
+    CUsableScriptObject();
+    ~CUsableScriptObject();
+    virtual bool   use(CGameObject* who_use);
 
-		//можно ли использовать объект стандартным (не скриптовым) образом
-		bool				nonscript_usable		();
-		void				set_nonscript_usable	(bool usable);
+    //СЃС‚СЂРѕС‡РєР° РїРѕСЏРІР»СЏСЋС‰Р°СЏСЃСЏ РїСЂРё РЅР°РІРµРґРµРЅРёРё РЅР° РѕР±СЉРµРєС‚ (РµСЃР»Рё NULL, С‚Рѕ РЅРµС‚)
+    virtual LPCSTR tip_text();
+    void           set_tip_text(LPCSTR new_text);
+    virtual void   set_tip_text_default();
+
+    //РјРѕР¶РЅРѕ Р»Рё РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ РѕР±СЉРµРєС‚ СЃС‚Р°РЅРґР°СЂС‚РЅС‹Рј (РЅРµ СЃРєСЂРёРїС‚РѕРІС‹Рј) РѕР±СЂР°Р·РѕРј
+    bool           nonscript_usable();
+    void           set_nonscript_usable(bool usable);
+
 private:
-		shared_str			m_sTipText;
-		bool				m_bNonscriptUsable;
+    shared_str m_sTipText;
+    bool       m_bNonscriptUsable;
 };

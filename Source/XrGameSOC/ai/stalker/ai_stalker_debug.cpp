@@ -966,6 +966,7 @@ public:
     Fvector         m_start_position;
     Fvector         m_direction;
     COLLIDE_POINTS* m_points;
+
 public:
     IC ray_query_param(CCustomMonster* holder, float power_threshold, float distance, const Fvector& start_position, const Fvector& direction, COLLIDE_POINTS& points)
     {
