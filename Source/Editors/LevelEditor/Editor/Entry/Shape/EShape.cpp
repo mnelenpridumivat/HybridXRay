@@ -1,13 +1,15 @@
 ﻿#include "stdafx.h"
 
-#define SHAPE_COLOR_TRANSP    0x3C808080
-#define SHAPE_COLOR_EDGE      0xFF202020
+#define SHAPE_COLOR_TRANSP         0x3C808080
+#define SHAPE_COLOR_EDGE           0xFF202020
+#define SHAPE_COLOR_TRANSP_SHOC    0x1800FF00
 
-#define SHAPE_CURRENT_VERSION 0x0002
+#define SHAPE_CURRENT_VERSION_SHOC 0x0001
+#define SHAPE_CURRENT_VERSION      0x0002
 
-#define SHAPE_CHUNK_VERSION   0x0000
-#define SHAPE_CHUNK_SHAPES    0x0001
-#define SHAPE_CHUNK_DATA      0x0002
+#define SHAPE_CHUNK_VERSION        0x0000
+#define SHAPE_CHUNK_SHAPES         0x0001
+#define SHAPE_CHUNK_DATA           0x0002
 
 xr_token shape_type_tok[] =
 {
@@ -26,7 +28,10 @@ CEditShape::~CEditShape() {}
 void CEditShape::Construct(LPVOID data)
 {
     FClassID          = OBJCLASS_SHAPE;
-    m_DrawTranspColor = SHAPE_COLOR_TRANSP;
+    if (xrGameManager::GetGame() == EGame::SHOC)
+        m_DrawTranspColor = SHAPE_COLOR_TRANSP_SHOC;
+    else
+        m_DrawTranspColor = SHAPE_COLOR_TRANSP;
     m_DrawEdgeColor   = SHAPE_COLOR_EDGE;
     m_shape_type      = eShapeCommon;
     m_Box.invalidate();
@@ -239,7 +244,10 @@ void CEditShape::OnDetach()
 {
     inherited::OnDetach();
 
-    m_DrawTranspColor = SHAPE_COLOR_TRANSP;
+    if (xrGameManager::GetGame() == EGame::SHOC)
+        m_DrawTranspColor = SHAPE_COLOR_TRANSP_SHOC;
+    else
+        m_DrawTranspColor = SHAPE_COLOR_TRANSP;
     m_DrawEdgeColor   = SHAPE_COLOR_EDGE;
 }
 
@@ -260,7 +268,7 @@ bool CEditShape::RayPick(float& distance, const Fvector& start, const Fvector& d
                 FITransform.transform_tiny(S, start);
                 Fsphere& T    = it->data.sphere;
                 float    bk_r = T.R;
-                //            T.R					= FScale.x;
+                // T.R = FScale.x;
                 T.intersect(S, D, dist);
                 if (dist <= 0.f)
                     dist = distance;
@@ -435,8 +443,11 @@ bool CEditShape::LoadStream(IReader& F)
     shapes.resize(F.r_u32());
     F.r(shapes.data(), shapes.size() * sizeof(shape_def));
 
-    if (F.find_chunk(SHAPE_CHUNK_DATA))
-        m_shape_type = F.r_u8();
+    if (xrGameManager::GetGame() != EGame::SHOC)
+    {
+        if (F.find_chunk(SHAPE_CHUNK_DATA))
+            m_shape_type = F.r_u8();
+    }
 
     ComputeBounds();
     return true;
@@ -448,7 +459,7 @@ void CEditShape::SaveStream(IWriter& F)
 
     F.open_chunk(SHAPE_CHUNK_VERSION);
     if (xrGameManager::GetGame() == EGame::SHOC)
-        F.w_u16(SHAPE_CURRENT_VERSION - 1);
+        F.w_u16(SHAPE_CURRENT_VERSION_SHOC);
     else
         F.w_u16(SHAPE_CURRENT_VERSION);
     F.close_chunk();
