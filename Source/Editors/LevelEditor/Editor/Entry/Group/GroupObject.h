@@ -7,6 +7,7 @@ class CGroupObject: public CCustomObject
     struct SGroupObjectItem
     {
         CCustomObject* pObject;
+        shared_str     ObjectName;   // (old, for loading opened group only)
         SGroupObjectItem(): pObject(NULL) {}
 
         bool operator==(const CCustomObject* obj)
@@ -17,12 +18,12 @@ class CGroupObject: public CCustomObject
     typedef xr_list<SGroupObjectItem> ObjectsInGroup;
     ObjectsInGroup                    m_ObjectsInGroup;
 
-    bool       LL_AppendObject(CCustomObject* object);
-    bool       AppendObjectLoadCB(CCustomObject* object);
-    shared_str m_ReferenceName_;
-    void       ReferenceChange(PropValue* sender);
-    void       OnFreezeAllClick(ButtonValue* sender, bool& bModif, bool& bSafe);
-    void       ClearInternal(ObjectsInGroup& v);
+    bool                              LL_AppendObject(CCustomObject* object);
+    bool                              AppendObjectLoadCB(CCustomObject* object);
+    shared_str                        m_ReferenceName_;
+    void                              ReferenceChange(PropValue* sender);
+    void                              OnFreezeAllClick(ButtonValue* sender, bool& bModif, bool& bSafe);
+    void                              ClearInternal(ObjectsInGroup& v);
 
 public:
     void Clear1()
@@ -44,7 +45,7 @@ public:
         return m_ObjectsInGroup.size();
     }
 
-    bool           SetReference(LPCSTR nm);
+    bool SetReference(LPCSTR nm);
     virtual LPCSTR RefName()
     {
         return m_ReferenceName_.size() ? m_ReferenceName_.c_str() : "group";

@@ -138,20 +138,21 @@ bool CGroupObject::LoadLTX(CInifile& ini, LPCSTR sect_name)
 
     // objects
     if (/*IsOpened()*/ tmp_flags.test((1 << 0)))
-    {   // old opened group save format
+    {
+        // old opened group save format
         ELog.DlgMsg(mtError, "! old opened group save format");
         return false;
         /*
-                u32 cnt 	= ini.r_u32			(sect_name, "objects_in_group_count");
-                shared_str 		tmp;
-                string128		buff;
+        u32 cnt = ini.r_u32(sect_name, "objects_in_group_count");
+        shared_str tmp;
+        string128  buff;
 
-                for (u32 k=0; k<cnt; ++k)
-                {
-                    m_ObjectsInGroup.resize				(m_ObjectsInGroup.size()+1);
-                    sprintf								(buff,"objects_in_group_%d",k);
-                    m_ObjectsInGroup.back().ObjectName	= ini.r_string(sect_name, buff);
-                }
+        for (u32 k = 0; k < cnt; ++k)
+        {
+            m_ObjectsInGroup.resize(m_ObjectsInGroup.size() + 1);
+            sprintf(buff, "objects_in_group_%d", k);
+            m_ObjectsInGroup.back().ObjectName = ini.r_string(sect_name, buff);
+        }
         */
     }
     else
@@ -197,6 +198,7 @@ void CGroupObject::SaveLTX(CInifile& ini, LPCSTR sect_name)
     ini.w_string(sect_name, "ref_name", m_ReferenceName_.c_str());
 }
 
+//------------------------------------------------------------------------------
 bool CGroupObject::LoadStream(IReader& F)
 {
     u16 version = 0;
@@ -215,14 +217,36 @@ bool CGroupObject::LoadStream(IReader& F)
         F.r_chunk(GROUPOBJ_CHUNK_FLAGS, &tmp_flags);
 
     // objects
-    if (tmp_flags.test(1 << 0))   // opened flag, old group format
+    if (xrGameManager::GetGame() == EGame::SHOC)
     {
-        ELog.Msg(mtInformation, "~ Warning! Group has old format. Objects from group will be loaded ungrouped.");
-        return false;
+        if (tmp_flags.test(1 << 0))   // opened flag, old group format
+        {
+            // m_PObjects = xr_new<SStringVec>();
+            R_ASSERT(F.find_chunk(GROUPOBJ_CHUNK_OPEN_OBJECT_LIST));
+            u32 cnt = F.r_u32();
+            xr_string tmp;
+            for (u32 k = 0; k < cnt; k++)
+            {
+                m_ObjectsInGroup.resize(m_ObjectsInGroup.size() + 1);
+                F.r_stringZ(m_ObjectsInGroup.back().ObjectName);
+            }
+        }
+        else
+        {
+            Scene->ReadObjectsStream(F, GROUPOBJ_CHUNK_OBJECT_LIST, EScene::TAppendObject(this, &CGroupObject::AppendObjectLoadCB), 0);
+        }
     }
     else
     {
-        Scene->ReadObjectsStream(F, GROUPOBJ_CHUNK_OBJECT_LIST, EScene::TAppendObject(this, &CGroupObject::AppendObjectLoadCB), 0);
+        if (tmp_flags.test(1 << 0))   // opened flag, old group format
+        {
+            ELog.Msg(mtInformation, "~ Warning! Group has old format. Objects from group will be loaded ungrouped.");
+            return false;
+        }
+        else
+        {
+            Scene->ReadObjectsStream(F, GROUPOBJ_CHUNK_OBJECT_LIST, EScene::TAppendObject(this, &CGroupObject::AppendObjectLoadCB), 0);
+        }
     }
     VERIFY(m_ObjectsInGroup.size());
 
@@ -251,7 +275,6 @@ void CGroupObject::SaveStream(IWriter& F)
     CCustomObject::SaveStream(F);
 
     F.open_chunk(GROUPOBJ_CHUNK_VERSION);
-
     if (xrGameManager::GetGame() == EGame::SHOC)
     {
         F.w_u16(GROUPOBJ_CURRENT_VERSION_SOC);
@@ -454,6 +477,7 @@ void CGroupObject::OnObjectRemove(const CCustomObject* object)
 
     m_ObjectsInGroup.erase(it);
 }
+//----------------------------------------------------
 
 void CGroupObject::OnSceneUpdate()
 {
@@ -463,28 +487,32 @@ void CGroupObject::OnSceneUpdate()
     {
         if (it->pObject == NULL)
         {
-            R_ASSERT(0);
-            /*
-                            R_ASSERT(it->ObjectName.size());
-                            CCustomObject* CO 	= Scene->FindObjectByName(it->ObjectName.c_str(), (CCustomObject*)0);
+            if (xrGameManager::GetGame() == EGame::SHOC)
+            {
+                R_ASSERT(it->ObjectName.size());
+                CCustomObject* CO = Scene->FindObjectByName(it->ObjectName.c_str(), (CCustomObject*)0);
 
-                            R_ASSERT2			(!CO->m_CO_Flags.test(flObjectInGroup), it->ObjectName.c_str());
-                            it->pObject			= CO;
+                R_ASSERT2(!CO->m_CO_Flags.test(flObjectInGroup), it->ObjectName.c_str());
+                it->pObject = CO;
 
-                            string256 			buf;
-                            Scene->GenObjectName(CO->ClassID, buf, CO->GetName());
-                            if (CO->GetName()!=buf)
-                            {
-                                Msg("OG name changed from[%s] to[%s]",CO->GetName(), buf);
-                                CO->GetName()		= buf;
-                                it->ObjectName	= buf;
-                            }
+                /*
+                string256 buf;
+                Scene->GenObjectName(CO->FClassID, buf, CO->GetName());
+                if (CO->GetName() != buf)
+                {
+                    Msg("# OG name changed from[%s] to[%s]", CO->GetName(), buf);
+                    CO->FName = buf;
+                    it->ObjectName = buf;
+                }
+                */
 
-                            it->pObject->m_CO_Flags.set(flObjectInGroup, 		TRUE);
-                            it->pObject->m_CO_Flags.set(flObjectInGroupUnique, 	TRUE);
-                            if(it->pObject==NULL)
-                                ELog.Msg	(mtError,"Gr%s' has invalid roup 'eference to object '%s'.", GetName(), it->ObjectName.c_str());
-            */
+                it->pObject->m_CO_Flags.set(flObjectInGroup, TRUE);
+                it->pObject->m_CO_Flags.set(flObjectInGroupUnique, TRUE);
+                if (it->pObject == NULL)
+                    ELog.Msg(mtError, "Group '%s' has invalid reference to object '%s'.", GetName(), it->ObjectName.c_str());
+            }
+            else
+                R_ASSERT(0);
         }
     }
     if (m_ObjectsInGroup.empty())
