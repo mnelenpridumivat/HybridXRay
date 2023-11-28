@@ -1,7 +1,7 @@
 [build_params]
-        light_jitter_samples             = 4
-        light_pixel_per_meter            = 2.000000
-        light_quality                    = 2
+        light_jitter_samples             = 1
+        light_pixel_per_meter            = 0.100000
+        light_quality                    = 0
         light_quality_reserved           = 31868
         light_rms                        = 1
         light_rms_zero                   = 1
@@ -15,8 +15,8 @@
         weld_distance                    = 0.005000
  
 [camera]
-        hpb                              = 2.488712, -0.381114, 0.000000
-        pos                              = 17.583138, 10.195760, 23.953531
+        hpb                              = 2.762312, -0.462955, 0.000000
+        pos                              = 10.784919, 12.499763, 23.406645
  
 [guid]
         guid_g0                          = 5730902926000145350
@@ -27,8 +27,8 @@
         game_type                        = 1
         level_path                       = map_test
         level_prefix                     = test
-        light_hemi_quality               = 1
-        light_sun_quality                = 1
+        light_hemi_quality               = 0
+        light_sun_quality                = 0
         map_version                      = 1.0
         version                          = 12
         version_bp                       = 9

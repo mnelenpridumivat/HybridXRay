@@ -305,9 +305,16 @@
         version                          = 18
  
 [object_23]
+        000001                           = 1
+        000002                           = "balls_"
+        000003                           = "def_shaders\def_vertex"
+        000004                           = "def_shaders\def_vertex"
+        000005                           = "materials\metal"
+        000006                           = "mtl\mtl_bochka_01"
+        000007                           = "Texture"
         clsid                            = 2
         co_flags                         = 0
-        flags                            = 0
+        flags                            = 1
         name                             = statics\user\user_shaderbox_kub_00
         position                         = 0.602974, 1.000000, 1.515122
         reference_name                   = statics\user\user_shaderbox_kub
