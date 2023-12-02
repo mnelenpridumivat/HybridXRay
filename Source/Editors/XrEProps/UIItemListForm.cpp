@@ -511,7 +511,7 @@ bool UIItemListForm::IsFolderSelected(Node* Node)
 {
     if (m_Flags.test(fMultiSelect))
     {
-        return Node->Object->selected;
+        return Node->Object && Node->Object->selected;
     }
     else if (m_SelectedItems.size() && m_SelectedItems.back() == Node->Object)
     {
