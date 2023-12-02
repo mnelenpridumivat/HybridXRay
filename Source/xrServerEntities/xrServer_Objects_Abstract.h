@@ -6,7 +6,6 @@
 //	Description : Server objects
 ////////////////////////////////////////////////////////////////////////////
 #pragma once
-#pragma pack(push, 4)
 #include "xrServer_Space.h"
 #include "../xrCDB/xrCDB.h"
 #include "../../XrEngine/xrISEAbstract.h"
@@ -32,5 +31,3 @@ class CDUInterface;
 
 #include "xrServer_Objects_Abstract_Base.h"
 #pragma warning(pop)
-
-#pragma pack(pop)

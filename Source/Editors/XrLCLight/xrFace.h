@@ -5,7 +5,7 @@
 
 #include "tcf.h"
 #include "base_face.h"
-
+#include "xrUVpoint.h"
 #include "MeshStructure.h"
 #include "serialize.h"
 
@@ -78,7 +78,7 @@ namespace detail
     typedef xr_vector<Vertex>::iterator dummy_compiler_treatment;
 }   // namespace detail
 
-#include "xrUVpoint.h"
+
 
 #include "xrFaceInline.h"
 

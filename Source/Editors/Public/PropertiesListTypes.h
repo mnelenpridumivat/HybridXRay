@@ -4,6 +4,7 @@
 
 #include "..\..\XrEngine\gametype_chooser.h"
 #include "..\XrEUI\localization_types.h"
+#include "..\..\xrcore/ChooseTypes.H"
 #include "WaveForm.H"
 
 #pragma pack(push, 1)
@@ -46,7 +47,7 @@ class PropItem;
 DEFINE_VECTOR(PropItem*, PropItemVec, PropItemIt);
 
 //------------------------------------------------------------------------------
-#include "../../xrcore/ChooseTypes.H"
+
 //------------------------------------------------------------------------------
 typedef fastdelegate::FastDelegate2<PropValue*, xr_string&> TOnDrawTextEvent;
 typedef fastdelegate::FastDelegate1<PropItem*>              TOnClick;

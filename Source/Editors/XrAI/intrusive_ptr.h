@@ -94,6 +94,8 @@ IC bool operator>(intrusive_ptr<object_type, base_type> const& a, intrusive_ptr<
 template<typename object_type, typename base_type>
 IC void swap(intrusive_ptr<object_type, base_type>& lhs, intrusive_ptr<object_type, base_type>& rhs);
 
+#pragma pack(pop)
+
 #include "intrusive_ptr_inline.h"
 
-#pragma pack(pop)
+

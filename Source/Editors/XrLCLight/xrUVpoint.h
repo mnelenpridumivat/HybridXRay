@@ -1,5 +1,5 @@
 #pragma once
-
+#pragma pack(push, 4)
 struct UVpoint {
 	float u,v;
 
@@ -35,4 +35,4 @@ struct UVpoint {
 	
 	IC Fvector2& conv()	{ return *( (Fvector2*)this ); };
 };
-
+#pragma pack(pop)

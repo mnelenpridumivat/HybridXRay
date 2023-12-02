@@ -1,6 +1,6 @@
 #ifndef ChooseTypesH
 #define ChooseTypesH
-
+#pragma pack(push, 1)
 enum EChooseMode{
     smCustom = 0,
     smSoundSource,
@@ -75,6 +75,7 @@ struct SChooseEvents{
         flags.assign	(fl);
     }
 };
+#pragma pack(pop)
 
 #define NONE_CAPTION "<none>"
 
