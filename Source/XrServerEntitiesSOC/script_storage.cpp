@@ -251,7 +251,7 @@ int CScriptStorage::vscript_log(ScriptStorage::ELuaMessageType tLuaMessageType, 
 #endif
 }
 
-#ifdef DEBUG
+// #ifdef DEBUG
 void CScriptStorage::print_stack()
 {
     if (!m_stack_is_ready)
@@ -272,7 +272,6 @@ void CScriptStorage::print_stack()
             script_log(ScriptStorage::eLuaMessageTypeError, "%2d : [%s] %s(%d) : %s", i, l_tDebugInfo.what, l_tDebugInfo.short_src, l_tDebugInfo.currentline, l_tDebugInfo.name);
     }
 }
-#endif
 
 int __cdecl CScriptStorage::script_log(ScriptStorage::ELuaMessageType tLuaMessageType, LPCSTR caFormat, ...)
 {
