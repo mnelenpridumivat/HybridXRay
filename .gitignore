@@ -19,7 +19,6 @@ rawdata/textures/
 rawdata/*.dti
 rawdata_cs/
 rawdata_soc/backup/
-rawdata_soc/levels/
 rawdata_soc/objects/
 rawdata_soc/particles/
 rawdata_soc/sounds/
