@@ -23,12 +23,12 @@ int WINAPI               wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, 
     splash::update_progress(5);
     const char* FSName = "fs.ltx";
     {
-        if (strstr(GetCommandLine(), "-soc_14") || strstr(GetCommandLine(), "-soc_10004") || strstr(GetCommandLine(), "-soc"))
+        if(xrGameManager::GetGame() == EGame::SHOC)
         {
             FSName = "fs_soc.ltx";
             Core._initialize("Actor_Editor_ShoC", ELogCallback, 1, FSName, true);
         }
-        else if (strstr(GetCommandLine(), "-cs"))
+        else if (xrGameManager::GetGame() == EGame::CS)
         {
             FSName = "fs_cs.ltx";
             Core._initialize("Actor_Editor_CS", ELogCallback, 1, FSName, true);

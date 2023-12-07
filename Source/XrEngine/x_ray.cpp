@@ -779,14 +779,19 @@ ENGINE_API int EngineLaunch()
 
     SetThreadAffinityMask(GetCurrentThread(), 1);
 
-    int _STARTUP = IDD_STARTUP_COP;
-    if (strstr(GetCommandLine(), "-soc_14") || strstr(GetCommandLine(), "-soc_10004") || strstr(GetCommandLine(), "-soc"))
+    int _STARTUP;
+
+    if (xrGameManager::GetGame() == EGame::SHOC)
     {
         _STARTUP = IDD_STARTUP_SHOC;
     }
-    else if (strstr(GetCommandLine(), "-cs"))
+    else if (xrGameManager::GetGame() == EGame::CS)
     {
         _STARTUP = IDD_STARTUP_CS;
+    }
+    else
+    {
+        _STARTUP = IDD_STARTUP_COP;
     }
     // Title window
     logoWindow       = CreateDialog(GetModuleHandle(NULL), MAKEINTRESOURCE(_STARTUP), 0, logDlgProc);
