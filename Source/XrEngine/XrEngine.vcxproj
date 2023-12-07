@@ -86,6 +86,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\xrHybridXRay\resources\resource.h" />
     <ClInclude Include="ai_script_lua_extension.h" />
     <ClInclude Include="ai_script_lua_space.h" />
     <ClInclude Include="ai_script_space.h" />
@@ -283,7 +284,6 @@
     <ClInclude Include="xr_object_list.h" />
     <ClInclude Include="x_ray.h" />
     <ClInclude Include="_d3d_extensions.h" />
-    <ClInclude Include="..\Xr3DA_COP\resources\resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ai_script_lua_debug.cpp" />
@@ -431,13 +431,6 @@
     <ClCompile Include="_scripting.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\Xr3DA_COP\resources\resource.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\Xr3DA_COP\resources\Splash_CoP.bmp" />
-    <Image Include="..\Xr3DA_COP\resources\Icon_CoP.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="My Amplifier Results\r000hs\r000hs.ampl" />
     <None Include="My Amplifier Results\r001hs\r001hs.ampl" />
     <None Include="My Amplifier Results\r002cc\r002cc.ampl" />
@@ -476,6 +469,18 @@
     <ProjectReference Include="..\XrSound\XrSound.vcxproj">
       <Project>{57601b62-902a-4ec8-bcc7-b6a2e30b0676}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\xrHybridXRay\resources\Icon_CoP.ico" />
+    <Image Include="..\xrHybridXRay\resources\Icon_CS.ico" />
+    <Image Include="..\xrHybridXRay\resources\Icon_HybridXRay.ico" />
+    <Image Include="..\xrHybridXRay\resources\Icon_ShoC.ico" />
+    <Image Include="..\xrHybridXRay\resources\Splash_CoP.bmp" />
+    <Image Include="..\xrHybridXRay\resources\Splash_CS.bmp" />
+    <Image Include="..\xrHybridXRay\resources\Splash_ShoC.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\xrHybridXRay\resources\resource.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
